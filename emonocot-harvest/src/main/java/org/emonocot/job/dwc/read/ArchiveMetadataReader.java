@@ -375,7 +375,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         }
         
         if((maxIndex + 1) > totalColumns) {
-        	throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + maxIndex + " columns but the first data line in the file has only " + totalColumns + " values");
+        	throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + (maxIndex + 1) + " columns but the first data line in the file has only " + totalColumns + " values");
         }
 
         executionContext.put("dwca." + prefix + ".totalColumns", totalColumns);

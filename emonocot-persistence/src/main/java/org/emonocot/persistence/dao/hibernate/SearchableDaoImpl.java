@@ -366,7 +366,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 	 * @param selectedFacets
 	 * @return A {@link SolrQuery} that can be customised before passing to a {@link SolrServer}  
 	 */
-    protected SolrQuery prepareQuery(String query, String sort, Integer pageSize, Integer pageNumber, Map<String,String> selectedFacets){ SolrQuery solrQuery = new SolrQuery();
+    protected SolrQuery prepareQuery(String query, String sort, Integer pageSize, Integer pageNumber, Map<String,String> selectedFacets){
+        SolrQuery solrQuery = new SolrQuery();
         
         if (query != null && !query.trim().equals("")) {
             String searchString = null;

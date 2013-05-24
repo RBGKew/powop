@@ -7,6 +7,13 @@
 	xmlns:tiles="http://tiles.apache.org/tags-tiles">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
+	<script>
+		$("document").ready(function(){
+			$("ul.dropdown-menu > li > a ").hover(function(){
+				$(this).find('i').toggleClass('white');
+			});
+		});
+	</script>
 	<div class="navbar-inner">
 		<div class="container">
 			<c:url value="/" var="brandUrl"/>
@@ -93,7 +100,7 @@
 							<c:url value="/classification" var="classifyUrl"/>
 							<li><a href="${classifyUrl}"><i class="halflings-icon classify">&#160;</i>&#160;<spring:message code="classification"/></a></li>
 							<c:url value="/phylo/1" var="phylogenyUrl"/>
-							<li><a href="${phylogenyUrl}"><i class="halflings-icon phylogeny">&#160;</i><spring:message code="phylogeny.title"/></a></li>
+							<li><a href="${phylogenyUrl}"><i class="halflings-icon phylogeny">&#160;</i>&#160;<spring:message code="phylogeny.title"/></a></li>
 						</ul>
 					</li>
 					<li class="dropdown searchOverlay" id="menuExplore">

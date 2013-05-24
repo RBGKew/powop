@@ -8,7 +8,8 @@
     <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
 	<style name="SubDetail" fontSize="8"/>
 	<field name="scientificName" class="java.lang.String"/>
-	<field name="scientificNameAuthorship" class="java.lang.String"/>
+    <field name="scientificNameAuthorship" class="java.lang.String"/>
+    <field name="namePublishedInString" class="java.lang.String"/>
 	<field name="taxonomicStatus" class="org.gbif.ecat.voc.TaxonomicStatus"/>
 	<detail>
 		<band height="25">
@@ -22,7 +23,10 @@
 				<reportElement style="Detail" x="0" y="5" width="450" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[org.gbif.ecat.voc.TaxonomicStatus.Accepted == $F{taxonomicStatus} ?
-                    "" : " = " + $F{scientificName} + ($F{scientificNameAuthorship} != null ? " " + $F{scientificNameAuthorship} : "")]]></textFieldExpression>
+                    "" : " = " + $F{scientificName}
+                    + ($F{scientificNameAuthorship} != null ? " " + $F{scientificNameAuthorship} : "")
+                    + ($F{namePublishedInString} != null ? " " + $F{namePublishedInString} : "")
+                ]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -31,7 +35,9 @@
             <textField isStretchWithOverflow="true">
                 <reportElement x="50" y="5" width="400" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA["" + $V{REPORT_COUNT} + " synonyms."]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT} == 1
+                    ? "" + $V{REPORT_COUNT} + " synonym."
+                    : "" + $V{REPORT_COUNT} + " synonyms."]]></textFieldExpression>
             </textField>
         </band>
     </summary>
