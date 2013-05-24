@@ -940,10 +940,11 @@ public class Taxon extends SearchableObject {
         Rank rank = Rank.FAMILY; 
         if(rank == getTaxonRank() && getFamily() == null) {
             addField(sid,"taxon.family_ns", getScientificName());
+            addField(sid,"taxon.family_ss", getScientificName());
         } else {
             addField(sid,"taxon.family_ns", getFamily());
+            addField(sid,"taxon.family_ss", getFamily());
         }
-        addField(sid,"taxon.family_ss", getFamily());
         if(getAcceptedNameUsage() != null) {
             addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
         }
