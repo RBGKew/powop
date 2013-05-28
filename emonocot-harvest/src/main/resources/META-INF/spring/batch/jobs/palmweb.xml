@@ -279,7 +279,7 @@
 	 <property name="delimiter" value="	"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
-	     <property name="names" value="taxonID,modified,created,identifier,title"/>
+	     <property name="names" value="taxonID,modified,created,identifier,title,format"/>
 	   </bean>
 	 </property>
 	</bean>
@@ -287,15 +287,15 @@
 	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
 		<property name="archiveFile" value="palmweb"/>		
 		<property name="taxonFields" value="taxonID,scientificName,scientificNameAuthorship,taxonRank,taxonomicStatus,acceptedNameUsageID,genus,subgenus,specificEpithet,infraspecificEpithet,source,modified,created,parentNameUsageID,namePublishedIn,namePublishedInID,nomenclaturalStatus"/>
-		<property name="taxonDefaultValues" value="bibliographicCitation=Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011.,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License,kingdom=Plantae,phylum=Magnoliophyta,class=Commelinids,order=Arecales,family=Arecaceae,nomenclaturalCode=ICBN,license=http://creativecommons.org/licenses/by-nc-sa/3.0/"/>
+		<property name="taxonDefaultValues" value="bibliographicCitation=Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011.,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License,kingdom=Plantae,phylum=Magnoliophyta,class=Commelinids,order=Arecales,family=Arecaceae,nomenclaturalCode=ICBN,license=http://creativecommons.org/licenses/by-nc-sa/3.0"/>
 		<property name="descriptionFields" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
-	    <property name="descriptionDefaultValues" value="license=http://creativecommons.org/licenses/by-nc-sa/3.0/,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License,language=EN,bibliographicCitation=Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 21/04/2013."/>
+	    <property name="descriptionDefaultValues" value="license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License,language=EN,bibliographicCitation=Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 21/04/2013."/>
 	    <property name="imageFields" value="taxonID,identifier,title,creator,modified,created"/>
-	    <property name="imageDefaultValues" value="format=image/jpeg,license=http://creativecommons.org/licenses/by-nc-sa/3.0/,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
+	    <property name="imageDefaultValues" value="format=image/jpeg,license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
 	    <property name="referenceFields" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
-	    <property name="referenceDefaultValues" value="type=publication,license=http://creativecommons.org/licenses/by-nc-sa/3.0/,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
+	    <property name="referenceDefaultValues" value="type=publication,license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
 	    <property name="identifierFields" value="taxonID,modified,created,identifier,title,format"/>
-	    <property name="identifierDefaultValues" value="license=http://creativecommons.org/licenses/by-nc-sa/3.0/,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
+	    <property name="identifierDefaultValues" value="license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
 		<property name="delimiter" value="	"/>
 		<property name="quoteCharacter" value="&quot;"/>
 		<property name="outputDirectory" value="./"/>
