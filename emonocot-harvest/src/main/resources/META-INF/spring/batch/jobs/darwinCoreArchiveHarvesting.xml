@@ -58,7 +58,8 @@
 			<batch:next on="CHECK_TAXA" to="markTaxonRecords" />
 			<batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
 			<batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
-			<batch:next on="SKIP_TAXA" to="markTaxonRecordsForSkipping" />
+            <batch:next on="SKIP_TAXA" to="markTaxonRecordsForSkipping" />
+            <!-- <batch:next on="SKIP_WITH_ERROR" to="ignoreTaxonFile" /> -->
 		</batch:decision>
 		<batch:step id="markTaxonRecordsForSkipping">
 			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
@@ -160,7 +161,8 @@
 		</batch:step>
 		<batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
 			<batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
-			<batch:next on="SKIP_DESCRIPTIONS" to="checkImageProcessingMode" />
+            <batch:next on="SKIP_DESCRIPTIONS" to="checkImageProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkImageProcessingMode" />
 		</batch:decision>
 		<batch:step id="markDescriptionRecords">
 			<batch:description>Mark the description records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -210,7 +212,8 @@
 		<batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
 			<batch:next on="IMPORT_IMAGES" to="markImageRecords" />
 			<batch:next on="IMPORT_IMAGES_DONT_DELETE_GLOBAL" to="markRelatedImageRecords" />
-			<batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
+            <batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkReferenceProcessingMode" />
 		</batch:decision>
 		<batch:step id="markImageRecords">
 			<batch:description>Mark the image records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -294,7 +297,8 @@
 		<batch:decision decider="referenceProcessingModeDecider" id="checkReferenceProcessingMode">
 			<batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
 			<batch:next on="IMPORT_REFERENCES_DONT_DELETE_GLOBAL" to="markRelatedReferenceRecords" />
-			<batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
+            <batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkIdentifierProcessingMode" />
 		</batch:decision>
 		<batch:step id="markReferenceRecords">
 			<batch:description>Mark the reference records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -350,7 +354,8 @@
 		</batch:step>
 		<batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
 			<batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
-			<batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
+            <batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkDistributionProcessingMode" />
 		</batch:decision>
 		<batch:step id="markIdentifierRecords">
 			<batch:description>Mark the identifier records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -399,7 +404,8 @@
 		</batch:step>
 		<batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
 			<batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
-			<batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
+            <batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkMeasurementOrFactProcessingMode" />
 		</batch:decision>
 		<batch:step id="markDistributionRecords">
 			<batch:description>Mark the distribution records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -449,7 +455,8 @@
 		</batch:step>
 		<batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
 			<batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
-			<batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
+            <batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkVernacularNameProcessingMode" />
 		</batch:decision>
 		<batch:step id="markMeasurementOrFactRecords">
 			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -497,7 +504,8 @@
 		</batch:step>
 		<batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
 			<batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
-			<batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
+            <batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkTypeAndSpecimenProcessingMode" />
 		</batch:decision>
 		<batch:step id="markVernacularNameRecords">
 			<batch:description>Mark the vernacular name records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -545,7 +553,8 @@
 		<batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
 			<batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_GLOBAL" to="markRelatedTypeAndSpecimenRecords" />
-			<batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
+            <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
+			<batch:next on="SKIP_WITH_ERROR" to="calculateDerivedProperties" />
 		</batch:decision>
 		<batch:step id="markTypeAndSpecimenRecords">
 			<batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -744,7 +753,9 @@
 		</property>
 	</bean>
 
-	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader" />
+	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader" scope="step">
+        <property name="failOnError" value="#{jobParameters['meta.errors.fail']}" />
+    </bean>
 
 	<!-- Taxa -->
 

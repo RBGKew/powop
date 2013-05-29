@@ -22,6 +22,9 @@
     <parameter name="dateFormat" class="java.lang.String" isForPrompting="false">
         <defaultValueExpression><![CDATA["yyyy-MM-dd"]]></defaultValueExpression>
     </parameter>
+    <parameter name="license" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["http://creativecommons.org/licenses/by-nc-sa/3.0"]]></defaultValueExpression>
+    </parameter>
     <field name="family" class="java.lang.String"/>
     <field name="scientificName" class="java.lang.String"/>
     <field name="scientificNameAuthorship" class="java.lang.String"/>
@@ -100,12 +103,13 @@
     <summary>
         <band height="50">
             <textField isStretchWithOverflow="true">
-                <reportElement style="Footer" x="50" y="5" width="400" height="20"/>
+                <reportElement style="Footer" x="50" y="0" width="400" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results."]]></textFieldExpression>
+                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results. They are licenced as following: " + 
+                    $P{license}]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true">
-                <reportElement style="Secondary" x="0" y="30" width="500" height="10"/>
+                <reportElement style="Secondary" x="0" y="40" width="500" height="10"/>
                 <textElement/>
                 <textFieldExpression><![CDATA["The results were found using '" + $P{searchDefinition} +
                     "' on " + (new java.text.SimpleDateFormat($P{dateFormat})).format(new java.util.Date())]]></textFieldExpression>
