@@ -14,9 +14,9 @@
 		<div class="span4">
 			<div class="inner">
 				<div id="identify-box" class="box">
-					<c:url var="identifyUrl" value="/tour#identify"/>
+					<c:url var="identifyUrl" value="/tour"/>
 					<c:url value="/css/images/identify.png" var="identifyImg"/>
-					<a href="${identifyUrl}"><img src="${identifyImg}" height="160" width="260" alt="Identify"/></a>
+					<a href="${identifyUrl}#identify"><img src="${identifyImg}" height="160" width="260" alt="Identify"/></a>
 					<h2><spring:message code="identify.title"/></h2>
 					<p><spring:message code="identify.message"/></p>
 				</div>
@@ -26,8 +26,8 @@
 			<div class="inner">
 				<div id="classify-box" class="box">
 					<c:url value="/css/images/classify.png" var="classifyImg"/>
-					<c:url var="classifyUrl" value="/tour#classify"/>
-					<a href="${classifyUrl}"><img src="${classifyImg}" height="160" width="260" alt="Classify"/></a>
+					<c:url var="classifyUrl" value="/tour"/>
+					<a href="${classifyUrl}#classify"><img src="${classifyImg}" height="160" width="260" alt="Classify"/></a>
 					<h2><spring:message code="classify.title"/></h2>
 					<p><spring:message code="classify.message"/></p>
 				</div>
@@ -37,8 +37,8 @@
 			<div class="inner">
 				<div id="explore-box" class="box">
 					<c:url value="/css/images/explore.png" var="exploreImg"/>
-					<c:url var="exploreUrl" value="/tour#explore"/>
-					<a href="${exploreUrl}"><img src="${exploreImg}" height="160" width="260" alt="Explore"/></a>
+					<c:url var="exploreUrl" value="/tour"/>
+					<a href="${exploreUrl}#explore"><img src="${exploreImg}" height="160" width="260" alt="Explore"/></a>
 					<h2><spring:message code="explore.title"/></h2>
 					<p><spring:message code="explore.message"/></p>
 				</div>
