@@ -49,7 +49,7 @@ public class CheckingProcessor extends AuthorityAware implements ItemProcessor<T
      */
     public final Annotation process(final Taxon taxon) throws Exception {
         logger.info("Processing " + taxon.getIdentifier());
-        if (taxon.getIdentifier() == null) {
+        if (taxon.getIdentifier() == null || taxon.getIdentifier().isEmpty()) {
             throw new NoIdentifierException(taxon);
         }
         Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());

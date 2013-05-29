@@ -30,7 +30,7 @@
                                   </a>
                                   <spring:message var="circularPhylogramTitle" code="circular.phylogram"/>
 								  <a id="circular-phylogram" title="${circularPhylogramTitle}" class="btn">
-			                        <i class="halflings-icon circular-phylogram">&amp;nbsp;</i>
+			                        <i class="halflings-icon phylogeny_circle">&amp;nbsp;</i>
                                   </a>
 								</div>
 							</div>

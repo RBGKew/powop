@@ -4352,4 +4352,8 @@
            referencedTableName="PhylogeneticTree" referencedColumnNames="id"
         />
     </changeSet>
+    <changeSet id="2013-05-28_01" author="ben">
+      <comment>BUG 493: download function not workind.</comment>
+      <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Identifier), 'Identifier');</sql>
+    </changeSet>
 </databaseChangeLog>
