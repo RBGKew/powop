@@ -18,7 +18,7 @@
 					<c:url value="/css/images/identify.png" var="identifyImg"/>
 					<a href="${identifyUrl}#identify"><img src="${identifyImg}" height="160" width="260" alt="Identify"/></a>
 					<h2><spring:message code="identify.title"/></h2>
-					<p><spring:message code="identify.message"/></p>
+					<p><spring:message code="identify.message" arguments="${identifyUrl}"/></p>
 				</div>
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 					<c:url var="classifyUrl" value="/tour"/>
 					<a href="${classifyUrl}#classify"><img src="${classifyImg}" height="160" width="260" alt="Classify"/></a>
 					<h2><spring:message code="classify.title"/></h2>
-					<p><spring:message code="classify.message"/></p>
+					<p><spring:message code="classify.message" arguments="${classifyUrl}"/></p>
 				</div>
 			</div>
 		</div>
@@ -40,7 +40,7 @@
 					<c:url var="exploreUrl" value="/tour"/>
 					<a href="${exploreUrl}#explore"><img src="${exploreImg}" height="160" width="260" alt="Explore"/></a>
 					<h2><spring:message code="explore.title"/></h2>
-					<p><spring:message code="explore.message"/></p>
+					<p><spring:message code="explore.message" arguments="${exploreUrl}"/></p>
 				</div>
 			</div>
 		</div>
