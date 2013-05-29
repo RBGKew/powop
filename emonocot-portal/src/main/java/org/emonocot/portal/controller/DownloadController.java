@@ -1,9 +1,10 @@
 package org.emonocot.portal.controller;
 
+import java.io.ByteArrayInputStream;
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -13,14 +14,14 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.UserService;
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.api.job.JobLaunchRequest;
-import org.emonocot.api.job.JobLauncher;
+import org.emonocot.model.PhylogeneticTree;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.auth.Permission;
 import org.emonocot.model.auth.User;
@@ -29,6 +30,12 @@ import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.service.DownloadService;
+import org.forester.io.parsers.PhylogenyParser;
+import org.forester.io.parsers.phyloxml.PhyloXmlParser;
+import org.forester.io.writers.PhylogenyWriter;
+import org.forester.io.writers.PhylogenyWriter.FORMAT;
+import org.forester.phylogeny.Phylogeny;
+import org.forester.phylogeny.PhylogenyNode.NH_CONVERSION_SUPPORT_VALUE_STYLE;
 import org.gbif.dwc.terms.DwcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +49,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,6 +80,8 @@ public class DownloadController {
 	private MessageSource messageSource;
 	
 	private DownloadService downloadService;
+	
+	private PhylogeneticTreeService phylogeneticTreeService;
 
     @Autowired
     public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
@@ -101,6 +111,11 @@ public class DownloadController {
     @Autowired
     public void setDownloadService(DownloadService downloadService) {
         this.downloadService = downloadService;
+    }
+    
+    @Autowired
+    public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
+    	this.phylogeneticTreeService = phylogeneticTreeService;
     }
     /**
     *
@@ -332,5 +347,54 @@ public class DownloadController {
 		}
 		return jobExecutionInfo;
 	}  
+	
+	@RequestMapping(value = "/phylo", params = {"!format"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    public String getDownloadPage(@RequestParam(value = "id", required = true) Long id, Model model) {
+        PhylogeneticTree tree = phylogeneticTreeService.load(id);
+        model.addAttribute(tree); 
+        model.addAttribute("formats", Arrays.asList(FORMAT.values()));
+        return "phylo/download";
+    }
+    
+    @RequestMapping(value = "/phylo", params = {"format!=PHYLO_XML"}, method = RequestMethod.POST, produces = "text/plain")
+    public @ResponseBody String getDownload(@RequestParam(value = "id", required = true) Long id,
+    		                                @RequestParam(value = "format", required = false, defaultValue = "NH") FORMAT format,
+    		                                @RequestParam(value = "purpose", required = false) String purpose,
+    		                                Model model) throws Exception {
+        PhylogeneticTree tree = phylogeneticTreeService.load(id);        
+        String output = null;
+        PhylogenyParser parser = new PhyloXmlParser();
+		parser.setSource(new ByteArrayInputStream(tree.getPhylogeny().getBytes()));
+		Phylogeny phylogeny = parser.parse()[0];
+    	PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
+    	StringBuffer stringBuffer = null;
+        switch (format) {
+        case NEXUS:        	
+    		stringBuffer = phylogenyWriter.toNexus(phylogeny, NH_CONVERSION_SUPPORT_VALUE_STYLE.IN_SQUARE_BRACKETS);
+    		output = stringBuffer.toString();
+        	break;
+        case NHX:
+        	stringBuffer = phylogenyWriter.toNewHampshireX(phylogeny);
+    		output = stringBuffer.toString();
+        	break;
+        case NH:
+        default:
+    		stringBuffer = phylogenyWriter.toNewHampshire(phylogeny, false, tree.getHasBranchLengths());
+    		output = stringBuffer.toString();        	
+        	break;        
+        }
+        queryLog.info("DownloadPhylogeny: \'{}\', format: {}, purpose: {}", new Object[] {id, format, purpose});
+        return output;
+    }
+    
+    @RequestMapping(value = "/phylo", params = {"format=PHYLO_XML"}, method = RequestMethod.POST, produces = "application/xml")
+    public @ResponseBody String getDownloadPhyloXml(@RequestParam(value = "id", required = true) Long id,
+    		                                @RequestParam(value = "format", required = false, defaultValue = "NH") FORMAT format,
+    		                                @RequestParam(value = "purpose", required = false) String purpose,
+    		                                Model model) throws Exception {
+        PhylogeneticTree tree = phylogeneticTreeService.load(id);
+        queryLog.info("DownloadPhylogeny: \'{}\', format: {}, purpose: {}", new Object[] {id, format, purpose});
+        return tree.getPhylogeny();
+    }
 
 }

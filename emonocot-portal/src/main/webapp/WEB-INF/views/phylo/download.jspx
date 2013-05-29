@@ -29,8 +29,8 @@
 					    <h2>
 							<spring:message code="download_format_title" />
 						</h2>
-						<c:url var="downloadUrl" value="/phylo/${phylogeneticTree.id}">
-							<c:param name="download" value="true" />
+						<c:url var="downloadUrl" value="/download/phylo">
+						    <c:param name="id" value="${phylogeneticTree.id}" />
 						</c:url>
 						<form class="form-horizontal" action="${downloadUrl}" method="POST">
 						    <div class="control-group">

@@ -49,8 +49,8 @@
 							<div class="pull-right">
 							    <c:choose>
 							      <c:when test="${not empty phylogeneticTree.license}">
-							        <c:url var="downloadUrl" value="/phylo/${phylogeneticTree.id}">
-							          <c:param name="download" value="true" />
+							        <c:url var="downloadUrl" value="/download/phylo">
+							          <c:param name="id" value="${phylogeneticTree.id}" />
 						            </c:url>
 							        <a href="${downloadUrl}" class="btn"><i class="halflings-icon download-alt"><!--  --></i> <spring:message code="download"/></a>
 							      </c:when>
