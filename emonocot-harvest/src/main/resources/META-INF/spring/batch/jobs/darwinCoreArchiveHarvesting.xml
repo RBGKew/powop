@@ -748,14 +748,12 @@
 			<list>
 				<value>#{jobExecutionContext['unpack.directory.name']}</value>
 				<value>#{jobParameters['authority.name']}</value>
-				<value>#{jobParameters['taxon.processing.mode']}</value>
+				<value>#{jobParameters['meta.errors.fail']}</value>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader" scope="step">
-        <property name="failOnError" value="#{jobParameters['meta.errors.fail']}" />
-    </bean>
+	<bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader"/>
 
 	<!-- Taxa -->
 

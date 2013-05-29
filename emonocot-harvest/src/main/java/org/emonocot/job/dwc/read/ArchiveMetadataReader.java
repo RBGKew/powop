@@ -73,7 +73,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     /**
      * 
      */
-    private Boolean failOnError;
+    private Boolean failOnError = Boolean.TRUE;
 
     /**
      * @param sourceService the sourceService to set
@@ -92,13 +92,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     }
 
     /**
-     * @param failOnError the failOnError to set
-     */
-    public void setFailOnError(Boolean failOnError) {
-        this.failOnError = failOnError;
-    }
-
-    /**
      *
      * @param archiveDirectoryName
      *            The directory where the DwC Archive has been unpacked to
@@ -108,8 +101,11 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *         failed
      */
     public final ExitStatus readMetadata(final String archiveDirectoryName,
-            final String sourceName, final String taxonProcessingMode) {
+            final String sourceName, final Boolean failOnError) {
         this.sourceName = sourceName;
+        if(failOnError != null) {
+            this.failOnError = failOnError;
+        }
         try {
         	File archiveDirectory = new File(archiveDirectoryName);
         	File metaDir = getMetaDirectory(archiveDirectory);
