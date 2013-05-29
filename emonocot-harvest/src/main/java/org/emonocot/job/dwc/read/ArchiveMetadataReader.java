@@ -69,6 +69,11 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *
      */
     private Validator validator;
+    
+    /**
+     * 
+     */
+    private Boolean failOnError;
 
     /**
      * @param sourceService the sourceService to set
@@ -84,6 +89,13 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     @Autowired
     public final void setValidator(Validator validator) {
         this.validator = validator;
+    }
+
+    /**
+     * @param failOnError the failOnError to set
+     */
+    public void setFailOnError(Boolean failOnError) {
+        this.failOnError = failOnError;
     }
 
     /**
@@ -375,7 +387,16 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         }
         
         if((maxIndex + 1) > totalColumns) {
-        	throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + (maxIndex + 1) + " columns but the first data line in the file has only " + totalColumns + " values");
+        	if(Boolean.FALSE.equals(failOnError)) {
+                logger.error("Error reading metadata", new RuntimeException("Metadata for " + archiveFile.getRowType() +
+                        " indicates that there should be at least " + (maxIndex + 1) +
+                        " columns but the first data line in the file has only "+ totalColumns + " values"));
+
+                executionContext.put(prefix + ".processing.mode", "SKIP_WITH_ERROR");
+                return;
+        	} else {
+                throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + (maxIndex + 1) + " columns but the first data line in the file has only " + totalColumns + " values");
+            }
         }
 
         executionContext.put("dwca." + prefix + ".totalColumns", totalColumns);

@@ -82,6 +82,7 @@
                 <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
                 <entry key="username" value="#{jobParameters['download.user.displayName']}" />
                 <entry key="nameListReport" value-ref="nameList" />
+                <entry key="license" value="#{jobParameters['download.license'] ?: 'http://creativecommons.org/licenses/by-nc-sa/3.0'}" />
             </map>
         </property>
     </bean>
