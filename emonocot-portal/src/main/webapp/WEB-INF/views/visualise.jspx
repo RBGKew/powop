@@ -235,7 +235,7 @@
 				</div>
 				<div class="inner tourHelp" data-tour-title="Data table" data-tour-content="Table containing counts of the data in the portal." data-tour-placement="top" data-tour-prev="3" data-tour-next="5">
 					<div class="box">
-						<div class="tourHelp" data-tour-title="Table dimensions" data-tour-content="Choose the first dimention to define the rows of the table. By default Taxonomy is selected. You also have the option to include a second dimension by choosing the columns of the table." data-tour-placement="left" data-tour-prev="4" data-tour-next="6">
+						<div class="tourHelp" data-tour-title="Table dimensions" data-tour-content="Choose the first dimension to define the rows of the table. By default Taxonomy is selected. You also have the option to include a second dimension by choosing the columns of the table." data-tour-placement="left" data-tour-prev="4" data-tour-next="6">
 						<div class="row">
 							<div class="span9">
 								<div class="btn-group">

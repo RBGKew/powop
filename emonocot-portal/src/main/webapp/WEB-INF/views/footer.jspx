@@ -60,7 +60,7 @@
 								<c:url value="/organisation" var="organisationUrl" />
 								<a href="${organisationUrl}"><spring:message code="organisations.title" /></a>
 							</li>
-							<li class="contactLinkOverlay">
+							<li>
 								<c:url value="/resource" var="resourceUrl" />
 								<a href="${resourceUrl}"><spring:message code="resources.title" /></a>
 							</li>
