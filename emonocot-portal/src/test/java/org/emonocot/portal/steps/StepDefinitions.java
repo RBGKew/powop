@@ -1183,6 +1183,7 @@ public class StepDefinitions {
     public void iSelectLink(String text) {
         currentPage = portal.selectLink(text);
     }
+    
 
     /*@When("^I select the \"([^\"]+)\" link in the page$")
     public void iSelectPageLink(String text) {

@@ -64,7 +64,7 @@ public class PageObject {
      */
     public final Identify selectIdentifyLink() {
         return openAs(
-        		identifyBox.findElement(By.linkText("Identify")).getAttribute("href"),
+        		identifyBox.findElement(By.linkText("identification features")).getAttribute("href"),
                 Identify.class);
     }
     
@@ -73,7 +73,7 @@ public class PageObject {
      */
     public final Identify selectClassifyLink() {
         return openAs(
-        		classifyBox.findElement(By.linkText("Classify")).getAttribute("href"),
+        		classifyBox.findElement(By.linkText("classification features")).getAttribute("href"),
                 Identify.class);
     }
 

@@ -36,21 +36,50 @@
 				</a>
 			</div>
 			<div class="row">
-				<ul class="nav no-print">
+				<ul class="span12 nav no-print">
 					<li>
-						<c:url value="/about" var="aboutUrl" />
-						<a href="${aboutUrl}"><spring:message code="about.title" /></a>
+						<ul class="footerColumn span3">
+							<li>
+								<c:url value="/about" var="aboutUrl" />
+								<a href="${aboutUrl}"><spring:message code="about.title" /></a>
+							</li>
+							<li class="contactLinkOverlay">
+								<c:url value="/contact" var="contactUrl" />
+								<a href="${contactUrl}"><spring:message code="contact.title" /></a>
+							</li>
+							<li>
+								<c:url value="/termsOfUse" var="termsOfUseUrl" />
+								<a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
+							</li>
+						</ul>
 					</li>
-					<li class="contactLinkOverlay">
-						<c:url value="/contact" var="contactUrl" />
-						<a href="${contactUrl}"><spring:message code="contact.title" /></a>
+					
+					<li>
+						<ul class="footerColumn span3">
+							<li>
+								<c:url value="/organisation" var="organisationUrl" />
+								<a href="${organisationUrl}"><spring:message code="organisations.title" /></a>
+							</li>
+							<li class="contactLinkOverlay">
+								<c:url value="/resource" var="resourceUrl" />
+								<a href="${resourceUrl}"><spring:message code="resources.title" /></a>
+							</li>
+							<li>
+								<c:url value="/group" var="groupUrl" />
+								<a href="${groupUrl}"><spring:message code="group.title" /></a>
+							</li>
+						</ul>
 					</li>
 					<li>
-						<c:url value="/termsOfUse" var="termsOfUseUrl" />
-						<a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
-					</li>
-					<li class="helpLinkOverlay">
-						<a href="http://families.e-monocot.org/emonocot-guide"><spring:message code="help.title" /></a>
+						<ul class="footerColumn span3">
+							<li class="helpLinkOverlay">
+								<a href="http://families.e-monocot.org/emonocot-guide"><spring:message code="help.title" /></a>
+							</li>
+							<li>
+								<c:url value="/tour" var="tourUrl" />
+								<a href="${tourUrl}"><spring:message code="eMonocot.tools" /></a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</div>

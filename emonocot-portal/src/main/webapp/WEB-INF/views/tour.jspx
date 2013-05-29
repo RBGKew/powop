@@ -11,165 +11,351 @@
 	</tags:pageheader>
 
 	<div class="container">
-		<div class="row">
-			<div class="span12">
-				<div class="inner">
-					<div class="box">
-						<div class="pull-right">
-							<c:url value="/css/images/identify.png" var="identifyImg" />
-							<img src="${identifyImg}" height="160" width="260" alt="Identify" />
-						</div>
-						<h1 id="identify">
-							<spring:message code="identification.tools" />
-						</h1>
-						<p class="justified">Use the illustrated, multi-access
-							identification keys to identify species. You can select
-							characters in any order (unlike traditional identification keys).
+	
+		<header class="subhead clearfix" id="overview">
+			<div class="subnav no-print">
+				<ul class="nav nav-pills">
+					<li><a href="#identify"><spring:message code="identification.tools" /></a></li>
+					<li><a href="#classify"><spring:message code="classify.header" /></a></li>
+					<li><a href="#explore"><spring:message code="search.tools" /></a></li>
+					<li><a href="#videoGallery"><spring:message code="videos" /></a></li>
+				</ul>
+			</div>
+		</header>
+		
+		<div class="container">
+			
+			
+			<div class="row">
+				<div class="span12">
+					<div class="inner">
+						<div class="box">
+							<div class="pull-right">
+								<c:url value="/css/images/identify.png" var="identifyImg" />
+								<img src="${identifyImg}" height="160" width="260" alt="Identify" />
+							</div>
+							<h1 id="identify">
+								<spring:message code="identification.tools" />
+							</h1>
+							<p class="justified">The eMonocot portal offers different tools and functionalities to help you to identify monocot plants. 
+							Use the illustrated, multi-access identification keys to identify specimens to family or species level. 
+							You can select characters in any order (unlike traditional identification keys). 
 							Browse for images and view them in a grid or an image gallery.
-						</p>
-						<table class="table">
-							<tr>
-                                <td class="span6">
-                                    <c:url value="/key/2" var="familyKeyUrl" />
-                                    <a href="${familyKeyUrl}">Key to Monocot Familes</a>
-                                </td>
-                                <td class="span4">
-                                    <span class="label label-success">
-									    <spring:message code="tool.implemented" />
-								    </span>
-                                </td>
-                            </tr>
-							<tr>
-                                <td class="span6">
-								    <c:url var="keySearchUrl" value="/search">
+							</p>
+							
+							<hr/>
+							
+							<h2>
+								<spring:message code="family.key.title"/>
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url value="/key/2" var="familyKeyUrl" />
+									<a href="${familyKeyUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="keyTour.message" /></p>
+								</dd>
+							</dl>
+							<hr/>
+							<h2>
+								<spring:message code="search.for.keys"/>
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url var="keySearchUrl" value="/search">
 										<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey" />
 									</c:url>
-                                    <a href="${keySearchUrl}">Search for Keys</a>
-                                </td>
-                                <td class="span4">
-	                                <span class="label label-success">
-	                                    <spring:message code="tool.implemented" />
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td class="span6">
-								    <c:url var="imageSearchUrl" value="/search">
+									<a href="${keySearchUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="searchKeyTour.message" /></p>
+								</dd>
+							</dl>
+							<hr/>
+							<h2>
+								<spring:message code="browse.images"/>
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url var="imageSearchUrl" value="/search">
 										<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 									</c:url>
-								    <a href="${imageSearchUrl}">Browse Images</a>
-                                </td>
-                                <td class="span4">
-                                    <span class="label label-success">
-                                        <spring:message code="tool.implemented" />
-                                    </span>
-                                </td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="inner">
-					<div class="box">
-						<div class="pull-right">
-							<c:url value="/css/images/classify.png" var="classifyImg" />
-							<img src="${classifyImg}" height="160" width="260" alt="Classify" />
+									<a href="${imageSearchUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="browseImagesTour.message" /></p>
+								</dd>
+							</dl>
 						</div>
-						<h1 id="classify">
-							<spring:message code="classify.header" />
-						</h1>
-						<p class="justified">The taxa presented in eMonocot are
-							organised according to a dynamic, consensus classification. This
-							classification is based on the opinions of the taxonomic
-							communities contributing to eMonocot and is updated regularly as
-							new information becomes available.
-						</p>
-						<table class="table">
-							<tr>
-                                <td class="span6">
-                                    <c:url value="/classification" var="classificationUrl" />
-								    <a class="classification-link" href="${classificationUrl}">Dynamic, Consensus Taxonomic Classification</a>
-                                </td>
-                                <td class="span4">
-                                    <span class="label label-success">
-                                        <spring:message code="tool.implemented" />
-                                    </span>
-                                </td>
-							</tr>
-							<tr>
-								<td class="span6">
-                                    <a href="http://build.e-monocot.org/mocks/phylogeny.html">Phylogeny Browser</a>
-                                </td>
-                                <td class="span4">
-									<span class="label label-warning">
-										<spring:message code="tool.mocked" />
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-                                    <a href="http://build.e-monocot.org/mocks/match.html">Checklist Validator</a>
-                                </td>
-                                <td>
-                                    <span class="label label-warning">
-                                        <spring:message code="tool.mocked" />
-                                    </span>
-                                </td>
-							</tr>
-						</table>
 					</div>
-				</div>
-				<div class="inner">
-					<div class="box">
-						<div class="pull-right">
-							<c:url value="/css/images/explore.png" var="exploreImg" />
-							<img src="${exploreImg}" height="160" width="260" alt="Explore" />
+					<div class="inner">
+						<div class="box">
+							<div class="pull-right">
+								<c:url value="/css/images/classify.png" var="classifyImg" />
+								<img src="${classifyImg}" height="160" width="260" alt="Classify" />
+							</div>
+							<h1 id="classify">
+								<spring:message code="classify.header" />
+							</h1>
+							<p class="justified">The taxa presented in eMonocot are
+								organised according to a dynamic, consensus classification. This
+								classification is based on the opinions of the taxonomic
+								communities contributing to eMonocot and is updated regularly as
+								new information becomes available.
+							</p>
+							
+							<hr/>
+							<h2>
+								Dynamic, Consensus Taxonomic Classification
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url value="/classification" var="classificationUrl" />
+									<a class="classification-link" href="${classificationUrl}">
+										<span id="classificationTag" class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="classificationTour.message" /></p>
+								</dd>
+							</dl>
+							<hr/>
+							<h2>
+								Phylogeny Browser
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url value="/phylo/1" var="phylogenyUrl"/>
+									<a href="${phylogenyUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="phylogenyTour.message" /></p>
+								</dd>
+							</dl>
+							<hr/>
+							<h2>
+								Checklist Validator
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<a href="http://build.e-monocot.org/mocks/match.html">
+										<span class="label label-warning">
+											<spring:message code="tool.mocked" />
+										</span>
+									</a>
+								</dt>
+							</dl>
 						</div>
-						<h1 id="explore">
-							<spring:message code="search.tools" />
-						</h1>
-						<p class="justified">Search across all taxon pages, images and
-							keys using keywords including wildcards and fuzzy queries.
-							Restrict results by taxonomic group, status, rank, geographical
-							area, conservation status and other properties.</p>
-						<p class="justified">Perform aggregate queries across the
-							whole database to identify the number of species in a particular
-							family or found in a particular area, or to display the different
-							life-form or habitat types of your chosen taxa.</p>
-						<table class="table">
-							<tr>
-							    <td class="span6">
-                                    <c:url value="/search" var="searchUrl" />
-								    <a href="${searchUrl}">Powerful Search and Faceting</a>
-                                </td>
-                                <td class="span4">
-                                    <span class="label label-success">
-                                        <spring:message code="tool.implemented" />
-                                    </span>
-                                </td>
-							</tr>
-							<tr>
-                                <td class="span6">
-    							    <c:url value="/spatial" var="spatialUrl" />
-                                    <a href="${spatialUrl}">Map-Based Searching</a>
-                                </td>
-                                <td class="span4">
-                                    <span class="label label-success">
-                                        <spring:message code="tool.implemented" />
-                                    </span>
-                                </td>
-							</tr>
-							<tr>
-								<td class="span6">
-								     <c:url value="/visualise" var="visualiseUrl" />
-									<a href="${visualiseUrl}">Ad-hoc analysis and visualization</a>
-                                </td>
-                                <td class="span4">
-                                    <span class="label label-success">
-                                        <spring:message code="tool.implemented" />
-                                    </span>
-                                </td>
-							</tr>
-						</table>
+					</div>
+					<div class="inner">
+						<div class="box">
+							<div class="pull-right">
+								<c:url value="/css/images/explore.png" var="exploreImg" />
+								<img src="${exploreImg}" height="160" width="260" alt="Explore" />
+							</div>
+							<h1 id="explore">
+								<spring:message code="search.tools" />
+							</h1>
+							<p class="justified">Search across all taxon pages, images and
+								keys using keywords including wildcards and fuzzy queries.
+								Restrict results by taxonomic group, status, rank, geographical
+								area, conservation status and other properties.</p>
+							<p class="justified">Perform aggregate queries across the
+								whole database to identify the number of species in a particular
+								family or found in a particular area, or to display the different
+								life-form or habitat types of your chosen taxa.</p>
+								
+							<hr/>
+							<h2>
+								Powerful Search and Faceting
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url value="/search" var="searchUrl" />
+									<a href="${searchUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="searchTour.message" /></p>
+								</dd>
+							</dl>
+							<hr/>
+							<h2>
+								Map-Based Searching
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url value="/spatial" var="spatialUrl" />
+									<a href="${spatialUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="mapSearchTour.message" /></p>
+								</dd>
+							</dl>
+							<hr/>
+							<h2>
+								Ad-hoc analysis and visualization
+							</h2>
+							<dl class="dl-horizontal">
+								<dt>
+									<c:url value="/visualise" var="visualiseUrl" />
+									<a href="${visualiseUrl}">
+										<span class="label label-success">
+											<spring:message code="tool.implemented" />
+										</span>
+									</a>
+								</dt>
+								<dd>
+									<p><spring:message code="visualisationTour.message" /></p>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="inner">
+						<div class="box">
+							<h1 id="videoGallery">
+								<spring:message code="videos" />
+							</h1>
+							<div data-target="#modal-gallery" data-toggle="modal-gallery" id="videoGallery">
+								<div class="row">
+									<div id="carousel" class="carousel slide span11">
+										<div class="carousel-inner">
+											<div class="item active">
+												<ul class="thumbnails videoGallery">
+													<li>
+														<c:url value="/css/images/videoPoster/keyPlayerPoster.png" var="keyPlayerPoster"/>
+														<a class="thumbnail" href="#keyPlayerVideo" role="button" data-toggle="modal">
+															<img class="img-polaroid thumbnail videoThumb" rel="gallery" src="${keyPlayerPoster}"/>
+															<div class="caption videoCaption"><h4>Key player</h4><p>Show how to use the identification key player.</p></div>
+														</a>
+													</li>
+													<li>
+														<c:url value="/css/images/videoPoster/searchPoster.png" var="searchPoster"/>
+														<a class="thumbnail" href="#searchVideo" role="button" data-toggle="modal">
+															<img class="img-polaroid thumbnail videoThumb" rel="gallery" src="${searchPoster}"/>
+															<div class="caption videoCaption"><h4>Search</h4><p>Explain how to use the search.</p></div>
+														</a>
+													</li>
+													<li>
+														<c:url value="/css/images/videoPoster/mapSearchPoster.png" var="mapSearchPoster"/>
+														<a class="thumbnail" href="#mapSearchVideo" role="button" data-toggle="modal">
+															<img class="img-polaroid thumbnail videoThumb" rel="gallery" src="${mapSearchPoster}"/>
+															<div class="caption videoCaption"><h4>Map Search</h4><p>Show how to use the spatial search.</p></div>
+														</a>
+													</li>
+													<li>
+														<c:url value="/css/images/videoPoster/visualisePoster.png" var="visualisePoster"/>
+														<a class="thumbnail" href="#visualiseVideo" role="button" data-toggle="modal">
+															<img class="img-polaroid thumbnail videoThumb" rel="gallery" src="${visualisePoster}"/>
+															<div class="caption videoCaption"><h4>Visualise</h4><p>Explain how to use the data visualisation tool.</p></div>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+				
+							<div id="keyPlayerVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#120;</button>
+									<h3 id="myModalLabel">Key player Tutorial</h3>
+								</div>
+								<div class="modal-body">
+									<c:url value="/css/video/keyTutorial.mp4" var="mp4" />
+									<c:url value="/css/video/keyTutorial.ogv" var="ogg" />
+									<c:url value="/css/video/keyTutorial.webm" var="webm" />
+									<video width="100%" controls="true">
+										<source src="${mp4}" type="video/mp4"><!--  --></source>
+										<source src="${ogg}" type="video/ogg"><!--  --></source>
+										<source src="${webm}" type="video/webm"><!--  --></source>
+										Your browser does not support the video tag.
+									</video>
+								</div>
+							</div>
+							
+							<div id="searchVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#120;</button>
+									<h3 id="myModalLabel">Search Tutorial</h3>
+								</div>
+								<div class="modal-body">
+									<c:url value="/css/video/searchTutorial.mp4" var="mp4" />
+									<c:url value="/css/video/eMonocotFamiliesKey.ogv" var="ogg" />
+									<c:url value="/css/video/eMonocotFamiliesKey.webm" var="webm" />
+									<video width="100%" controls="true">
+										<source src="${mp4}" type="video/mp4"><!--  --></source>
+										<source src="${ogg}" type="video/ogg"><!--  --></source>
+										<source src="${webm}" type="video/webm"><!--  --></source>
+										Your browser does not support the video tag.
+									</video>
+								</div>
+							</div>
+							
+							<div id="mapSearchVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#120;</button>
+									<h3 id="myModalLabel">Map search Tutorial</h3>
+								</div>
+								<div class="modal-body">
+									<c:url value="/css/video/mapSearchTutorial.mp4" var="mp4" />
+									<c:url value="/css/video/mapSearchTutorial.ogv" var="ogg" />
+									<c:url value="/css/video/mapSearchTutorial.webm" var="webm" />
+									<video width="100%" controls="true">
+										<source src="${mp4}" type="video/mp4"><!--  --></source>
+										<source src="${ogg}" type="video/ogg"><!--  --></source>
+										<source src="${webm}" type="video/webm"><!--  --></source>
+										Your browser does not support the video tag.
+									</video>
+								</div>
+							</div>
+							
+							<div id="visualiseVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#120;</button>
+									<h3 id="myModalLabel">Visualise Data Tutorial</h3>
+								</div>
+								<div class="modal-body">
+									<c:url value="/css/video/visualiseTutorial.mp4" var="mp4" />
+									<c:url value="/css/video/visualiseTutorial.ogv" var="ogg" />
+									<c:url value="/css/video/visualiseTutorial.webm" var="webm" />
+									<video width="100%" controls="true">
+										<source src="${mp4}" type="video/mp4"><!--  --></source>
+										<source src="${ogg}" type="video/ogg"><!--  --></source>
+										<source src="${webm}" type="video/webm"><!--  --></source>
+										Your browser does not support the video tag.
+									</video>
+								</div>
+							</div>
+							
+						</div>
 					</div>
 				</div>
 			</div>

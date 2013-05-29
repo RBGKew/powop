@@ -10,10 +10,10 @@ Scenario: View the Classify overview page
   And I select the classify link on the home page
   Then I should be on the emonocot features page
 
-Scenario: View the classification page
-  When I am on the portal features page
-  And I select the "Dynamic, Consensus Taxonomic Classification" link in the page
-  Then I should be on the "classification" page
+#Scenario: View the classification page
+#  When I am on the portal features page
+#  And I select the classification tag
+#  Then I should be on the "classification" page
   
 Scenario: Identify Page
   As a biodiversity scientist, I want to get a quick overview of the identification
