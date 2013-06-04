@@ -1,0 +1,2 @@
+Image used under http://creativecommons.org/licenses/by-nc-sa/2.0/ 
+http://www.flickr.com/photos/wader/9353697/in/photolist-PWwD-2uCij-3DNbh-4dwSU-4ipUM-4Ucjg-a757D-dSPGm-eoGEx-icLP2-ifsdA-kNtvu-mts25-rSopb-rSoqZ-soBvn-xQz3x-AqAMF-CrQgX-CtCwB-H84ck-Hxm3L-HzXqY-KhCoR-KL9vZ-PhY1A-24qB3P-24uZ9J-2g56ar-2sxTiu-2vRFV6-2wkPJE-2EAyrM-2GvZA3-2MMV4D-31McTo-4d5HQS-4dFzoR-4mdCmS-4pp35E-4tgPa3-4wVQJ8-4CPNBc-4CPNVX-4N5Wmn-4NsaKt-4P8nHm-4YSutM-4ZJPEv-52ZtJd-55k7p7/
