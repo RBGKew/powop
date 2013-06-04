@@ -88,7 +88,7 @@
                             $(document).ready(function() {
                             	var data = {
                             			<c:forEach var="leaf" items="${phylogeneticTree.leaves}" varStatus="status">
-                            			  "${baseUrl}/taxon/${leaf.identifier}" : {
+                            			  "${baseUrl}taxon/${leaf.identifier}" : {
                             				  "order" : "${leaf.order}",
                             				  "family" : "${leaf.family}",
                             				  "genus" : "${leaf.genus}"

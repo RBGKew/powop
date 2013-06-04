@@ -1500,8 +1500,7 @@
 				<cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>tomcat</cargo.remote.password>
-				<cargo.context.path>emonocot-harvester</cargo.context.path>
-				<cargo.context.docBase>emonocot-harvester</cargo.context.docBase>
+				<cargo.context.path>emonocot-harvester</cargo.context.path>				
 				<http.proxyHost />
 				<http.proxyPort />
 				<logging.level>WARN</logging.level>

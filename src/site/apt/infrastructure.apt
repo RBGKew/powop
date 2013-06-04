@@ -9,7 +9,9 @@ Infrastructure
 
  The current eMonocot infrastructure consists of
 
- * {{{http://build.e-monocot.org}build.e-monocot.org}} - the SCM / CI / UAT server
+ * {{{http://build.e-monocot.org}build.e-monocot.org}} - the SCM / CI server
+ 
+ * {{{http://zoo-bclark05.zoo.ox.ac.uk}zoo-bclark.zoo.ox.ac.uk}} - the UAT server
  
  * {{{http://zoo-bclark01.zoo.ox.ac.uk}zoo-bclark01.zoo.ox.ac.uk}} Web server and frontend load balancer for the two application servers
  
@@ -23,10 +25,12 @@ Infrastructure
  
 Bare Metal install using KickStart
 
- * Mount the installation image found {{{http://mirror.ox.ac.uk/sites/mirror.centos.org/6/isos/x86_64/CentOS-6.3-x86_64-netinstall.iso}here}} on the server
+ * Mount the installation image found {{{http://mirror.ox.ac.uk/sites/mirror.centos.org/5/isos/x86_64/CentOS-5.9-x86_64-netinstall.iso}here}} on the server
  
- * On first boot, select to boot from the cdrom and at the prompt press <<<TAB>>> to edit the boot configuration and append <<< ks=http://build.e-monocot.org/ks/name-of-server.cfg>>> to 
-   the command to use the kickstart file to configure the server 
+ * On first boot, boot from the cdrom and at the prompt type <<<linux text ks=http://build.e-monocot.org/ks/name-of-server.cfg>>> to use the kickstart file to
+   configure the server
+   
+ * Depending on whether the networking uses DHCP or a manually assigned IP address, you may need to configure the network details, anaconda will prompt you to do so.
  
  * Once the operating system has been installed and the server has restarted, on the puppetmaster ({{{http://build.e-monocot.org/}build.e-monocot.org}}) check for the
    certificate signing request from the newly installed server <<<sudo puppet cert --list>>>
@@ -34,6 +38,8 @@ Bare Metal install using KickStart
  * The puppet certificate authority should list the names of servers which have made new certificate requests
  
  * Now  sign the certificate <<<sudo puppet cert sign nameofserver>>>
+ 
+ * Your server needs to be added to /etc/puppet/auth.conf in order to be able to access some files stored on the puppetmaster
  
  * Either wait for the puppet changes to propagate or run <<<sudo puppet agent --test>>> on the server to see the changes applied instantly.
 
@@ -57,14 +63,14 @@ Restoring data from backup
 
    []
 
- * Restore the images from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
+ * Restore the images from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}}
  
     * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/snapshots/daily.0/zoo-bclark02/var/lib/emonocot/images /var/lib/emonocot/>>>  
  
     []
  [] 
  
- * Restore the indexes from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as the user <tomcat>
+ * Restore the indexes from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}}
    
     * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/data /mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/>>>
  
