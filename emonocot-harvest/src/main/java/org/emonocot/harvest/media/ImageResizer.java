@@ -20,7 +20,7 @@ public class ImageResizer implements ItemProcessor<Image, Image> {
 
     private Logger logger = LoggerFactory.getLogger(ImageResizer.class);
 
-    private final Double MAX_IMAGE_DIMENSION = 1200D;
+    private final Integer MAX_IMAGE_DIMENSION = 1000;
 
     private String searchPath;
 
@@ -48,8 +48,8 @@ public class ImageResizer implements ItemProcessor<Image, Image> {
         } else {
             try {
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
-                Double width = new Double(imageInfo.getWidth());
-                Double height = new Double(imageInfo.getHeight());
+                Integer width = new Integer(imageInfo.getWidth());
+                Integer height = new Integer(imageInfo.getHeight());
                 logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
 
                 if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
@@ -67,7 +67,7 @@ public class ImageResizer implements ItemProcessor<Image, Image> {
                     mogrify.run(resize);
 
                 } else {
-                    logger.info("No need to resize image as it is smaller than 1200px x 1200px");
+                    logger.info("No need to resize image as it is smaller than " + MAX_IMAGE_DIMENSION + "px x " + MAX_IMAGE_DIMENSION + "px");
                 }
             } catch (Exception e) {
                 logger.error(e.toString());
