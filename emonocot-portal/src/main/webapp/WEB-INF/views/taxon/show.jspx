@@ -231,7 +231,7 @@
 						</c:forEach>
 					</section>
 				</c:if>
-
+				
 				<c:if test="${not empty em:regions(taxon)}">
 					<spring:message code="distribution.map" var="messageDistribution"/>
 					<section id="distribution.map" class="section-box">
@@ -251,7 +251,12 @@
 									<c:if test="${em:hasLevel3Features(taxon)}">
 										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}" />
 									</c:if>
+									<c:if test="${not empty taxon.typesAndSpecimens}">
+									    <geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
+									</c:if>
 								</geo:map>
+								
+								
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
 										<li id="distribution-list">
