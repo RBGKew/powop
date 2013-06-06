@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:directive.attribute name="name" type="java.lang.String" required="true" />
+	<jsp:directive.attribute name="typesAndSpecimens" type="java.util.Collection" required="true" />
+		
+	// Define three colors that will be used to style the cluster features
+	// depending on the number of features they contain.
+	var colors = {
+		point: "rgb(255,210,54)",
+		cluster: "rgb(154,100,237)"
+	};
+	
+	// Define three rules to style the cluster features.
+	var pointRule = new OpenLayers.Rule({
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.EQUAL_TO,
+			property: "count",
+			value: 1}),
+		symbolizer: {
+			fillColor: colors.point,
+			fillOpacity: 0.9, 
+			strokeColor: colors.point,
+			strokeOpacity: 0.5,
+			//strokeWidth: 6,
+			pointRadius: 3,
+			labelOutlineWidth: 1,
+			fontColor: "#ffffff",
+			fontOpacity: 0.8,
+			fontSize: "8px"
+		}
+	});
+	
+	var clusterRule = new OpenLayers.Rule({
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.GREATER_THAN,
+			property: "count",
+			value: 1
+		}),
+		symbolizer: {
+			fillColor: colors.cluster,
+			fillOpacity: 0.5,
+			strokeColor: colors.cluster,
+			strokeOpacity: 0.9,
+			strokeWidth: 3,
+			pointRadius: 10,
+			label: "${count}",
+			labelOutlineWidth: 1,
+			fontColor: "#000000",
+			fontOpacity: 0.8,
+			fontSize: "8px"
+		}
+	});
+	
+	// Create a Style that uses the three previous rules
+	var style = new OpenLayers.Style(null, {
+		rules: [pointRule, clusterRule]
+	});
+	
+	var strategy = new OpenLayers.Strategy.Cluster();
+	var ${name} = new OpenLayers.Layer.Vector("${name}", {
+		strategies: [strategy], styleMap:new OpenLayers.StyleMap(style)});
+	map.addLayer(${name});
+	
+	var featurecollection = {
+		"type": "FeatureCollection",
+		"features": [
+			<c:forEach var="specimen" varStatus="status" items="${typesAndSpecimens}">
+				<c:if test="${not empty specimen.decimalLatitude and not empty specimen.decimalLongitude}">
+					{"type":"Feature",
+					"properties":{"catalogNumber":"${specimen.catalogNumber}"},
+					"geometry":{
+						"type":"Point",
+						"coordinates":[${specimen.decimalLongitude},${specimen.decimalLatitude}]
+						}
+					}
+					<c:if test="${not status.last}">,</c:if>
+				</c:if>
+			</c:forEach>
+		]
+	};
+	var geojson_format = new OpenLayers.Format.GeoJSON({"internalProjection": new OpenLayers.Projection("EPSG:3857"),
+		"externalProjection": new OpenLayers.Projection("EPSG:4326")});
+
+	var select, selectedFeature;
+
+	${name}.addFeatures(geojson_format.read(featurecollection));
+
+	function onPopupClose(evt) {
+		select.unselect(selectedFeature);
+	}
+	
+	function onFeatureSelect(feature) {
+		selectedFeature = feature;
+		
+		if(feature.cluster.length == 1) {
+			popup = new OpenLayers.Popup.FramedCloud(
+				"specimenPopup",
+				feature.geometry.getBounds().getCenterLonLat(),
+				null,
+				"<dl><dt>Catalog Number:</dt><dd>" + feature.cluster[0].attributes.catalogNumber + "</dd>"
+				+ "<dt>Collection Code:</dt><dd>" + feature.cluster[0].attributes.collectionCode + "</dd>"
+				+ "<dt>Institution Code:</dt><dd>" + feature.cluster[0].attributes.institutionCode + "</dd>"
+				+ "<dt>Locality:</dt><dd>" + feature.cluster[0].attributes.locality + "</dd>"
+				+ "<dt>Source Link:</dt><dd>&lt;a href='" + feature.cluster[0].attributes.source + "'&gt;" + feature.cluster[0].attributes.source + "&lt;/a&gt;</dd></dl>",
+				null,
+				true,
+				onPopupClose);
+		} else {
+			popup = new OpenLayers.Popup.FramedCloud(
+				"specimenPopup",
+				feature.geometry.getBounds().getCenterLonLat(),
+				null,
+				"<div>" + feature.cluster.length + " specimens</div>",
+				null,
+				true,
+				onPopupClose);
+		}
+		
+		feature.popup = popup;
+		map.addPopup(popup);
+	}
+
+	function onFeatureUnselect(feature) {
+		map.removePopup(feature.popup);
+		feature.popup.destroy();
+		feature.popup = null;
+	}
+	
+	select = new OpenLayers.Control.SelectFeature(${name}, {onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
+	
+	map.addControl(select);
+	select.activate();
+	
+</jsp:root>

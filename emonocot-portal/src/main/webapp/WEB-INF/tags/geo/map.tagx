@@ -176,9 +176,15 @@
 			});
 			
 			map.addControl(overview);
+			
+			
+			
+			
 			<jsp:doBody />
 			
+			
 		map.zoomToExtent(originalExtent);
+	
 	});
 		
 	</script>
