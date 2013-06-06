@@ -57,6 +57,104 @@ function writeNode(key, node) {
    return html;
 }
 
+function characterModal(characterId, key) {
+    var character = key.getCharacter(event.target.id);
+    $('#characterModal .modal-header h3').html(character.name);
+    var body = "";
+    switch(character.type) {
+      case Key.Categorical:
+      body += "<ul class='unstyled'>";
+      var imageIndex = 0;
+      for(var i = 0; i < character.states.length; i++) {
+        var state = character.states[i];
+        if(!Key.isUndefined(state.images) && state.images.length > 0) {
+            var image = state.images[0];
+            body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
+            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
+            for(var j =0; j < state.images.length; j++) {
+           	 imageIndex++;
+            }
+        } else {
+            body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
+        }
+      }
+      body += "</ul>";
+      $('#characterModal .modal-body').html(body);
+      $('#save').unbind("click");
+      $('#save').click(function() {
+        var s = 1;
+        var selectedValues = [];
+        $('#characterModal .modal-body input').each(function() {
+          if($(this).is(':checked')) {
+            selectedValues.push(s);
+          }
+          s++;
+        });
+        key.selectCharacter(character.id,selectedValues);
+        key.calculate();             
+        $('#characterModal').modal('hide');
+        return false;
+      });
+      $("#characterModal").after("<div id='modal-gallery' class='modal modal-gallery hide fade modal-fullscreen'><div class='modal-header'><a class='close' data-dismiss='modal'>&#215;</a></div><div class='modal-body'><div class='modal-image'></div><div class='carousel-caption'><a class='modal-title'></a></div></div></div>");
+      var galleryBody = "";
+      for (var i=0; i< character.states.length; i++){
+        var state = character.states[i];
+        if(!Key.isUndefined(state.images) && state.images.length > 0) {
+           for(var j = 0; j < state.images.length; j++) {
+              //body = "<img src='" + key.getImagePath() +  character.states[i].images[j].href + "'/>";
+              galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' rel='gallery' title='" + state.name + "'>" + state.name + "</a>";
+           }
+        }
+      }
+      
+      //var title = event.target.title;
+      $('#gallery').html(galleryBody);
+
+      $("#characterModal .thumbnail").click(function(event) {
+         var id = event.target.id;
+         var temp = new Array();
+         temp = id.split('-');
+         var characterId = temp[0].substring(9);
+         
+         var stateIndex = temp[1];
+         var imageIndex = temp[2];
+         var character = key.getCharacter(characterId);
+         
+         $('#characterModal').modal('hide');
+         
+         var options = {target:"#modal-gallery", slideshow:"5000", selector:"#gallery a[rel=gallery]", index: imageIndex};
+         var modal = $('#modal-gallery');
+         
+         options = jQuery.extend(modal.data(), options);
+         
+         modal.on('hidden', function() {
+       	  $('#characterModal').modal('show');
+         });
+
+         modal.modal(options);
+         return false;
+       });
+      
+       $('#characterModal').modal({});
+       break;
+       default:
+       // Continuous
+       body += "<div class='row'><label class='span3' for='quantitative'>Enter a value between " + character.min + " and " + character.max + "</label>"   
+       body += "<input name='quantitative' type='text' class='span3' placeholder='Type something'/><span class='help-inline'>" + character.unit + "</span></div>";
+       $('#characterModal .modal-body').html(body);
+       $('#save').unbind("click");
+       $('#save').click(function() {
+          var value = $('#characterModal .modal-body input').val();
+          key.selectCharacter(character.id,value);
+          key.calculate();
+          $('#characterModal').modal('hide');
+          return false;
+       });
+       $('#characterModal').modal({});
+       break;
+     }
+}
+
 function updateUI(key) {
       var selectedCharacters = key.getSelectedCharacters();
       var unselectedCharacters = key.getUnselectedCharacters();
@@ -106,102 +204,8 @@ function updateUI(key) {
 	  $("#unselectedCharacters").html("<li class='nav-header'>Features Available: " + nonRedundant + "</li>" + unSelected);	  
       
       $("#unselectedCharacters li.character a").click(function(event) {
-         var character = key.getCharacter(event.target.id);
-         $('#characterModal .modal-header h3').html(character.name);
-         var body = "";
-         switch(character.type) {
-           case Key.Categorical:
-           body += "<ul class='unstyled'>";
-           var imageIndex = 0;
-           for(var i = 0; i < character.states.length; i++) {
-             var state = character.states[i];
-             if(!Key.isUndefined(state.images) && state.images.length > 0) {
-                 var image = state.images[0];
-                 body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
-                 body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
-                 for(var j =0; j < state.images.length; j++) {
-                	 imageIndex++;
-                 }
-             } else {
-                 body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
-             }
-           }
-           body += "</ul>";
-           $('#characterModal .modal-body').html(body);
-           $('#save').unbind("click");
-           $('#save').click(function() {
-             var s = 1;
-             var selectedValues = [];
-             $('#characterModal .modal-body input').each(function() {
-               if($(this).is(':checked')) {
-                 selectedValues.push(s);
-               }
-               s++;
-             });
-             key.selectCharacter(character.id,selectedValues);
-             key.calculate();             
-             $('#characterModal').modal('hide');
-             return false;
-           });
-           $("#characterModal").after("<div id='modal-gallery' class='modal modal-gallery hide fade modal-fullscreen'><div class='modal-header'><a class='close' data-dismiss='modal'>&#215;</a></div><div class='modal-body'><div class='modal-image'></div><div class='carousel-caption'><a class='modal-title'></a></div></div></div>");
-           var galleryBody = "";
-           for (var i=0; i< character.states.length; i++){
-             var state = character.states[i];
-             if(!Key.isUndefined(state.images) && state.images.length > 0) {
-                for(var j = 0; j < state.images.length; j++) {
-                   //body = "<img src='" + key.getImagePath() +  character.states[i].images[j].href + "'/>";
-                   galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' rel='gallery' title='" + state.name + "'>" + state.name + "</a>";
-                }
-             }
-           }
-           
-           //var title = event.target.title;
-           $('#gallery').html(galleryBody);
-
-           $("#characterModal .thumbnail").click(function(event) {
-              var id = event.target.id;
-              var temp = new Array();
-              temp = id.split('-');
-              var characterId = temp[0].substring(9);
-              
-              var stateIndex = temp[1];
-              var imageIndex = temp[2];
-              var character = key.getCharacter(characterId);
-              
-              $('#characterModal').modal('hide');
-              
-              var options = {target:"#modal-gallery", slideshow:"5000", selector:"#gallery a[rel=gallery]", index: imageIndex};
-              var modal = $('#modal-gallery');
-              
-              options = jQuery.extend(modal.data(), options);
-              
-              modal.on('hidden', function() {
-            	  $('#characterModal').modal('show');
-              });
-
-              modal.modal(options);
-              return false;
-            });
-           
-            $('#characterModal').modal({});
-            break;
-            default:
-            // Continuous
-            body += "<div class='row'><label class='span3' for='quantitative'>Enter a value between " + character.min + " and " + character.max + "</label>"   
-            body += "<input name='quantitative' type='text' class='span3' placeholder='Type something'/><span class='help-inline'>" + character.unit + "</span></div>";
-            $('#characterModal .modal-body').html(body);
-            $('#save').unbind("click");
-            $('#save').click(function() {
-               var value = $('#characterModal .modal-body input').val();
-               key.selectCharacter(character.id,value);
-               key.calculate();
-               $('#characterModal').modal('hide');
-               return false;
-            });
-            $('#characterModal').modal({});
-            break;
-          }
-       });
+          characterModal(event.target.id, key); 
+      });
       
       $(".thumbnail").click(function(event) {
 

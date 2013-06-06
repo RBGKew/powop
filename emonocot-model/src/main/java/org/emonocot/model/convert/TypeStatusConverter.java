@@ -7,7 +7,7 @@ public class TypeStatusConverter implements Converter<String, TypeStatus> {
 
 	@Override
 	public TypeStatus convert(String source) {
-		if(source == null || source.trim().isEmpty()) {
+		if(source == null || source.isEmpty()) {
 			return null;
 		} else {
 			return TypeStatus.valueOf(source.toLowerCase());

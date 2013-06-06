@@ -182,6 +182,13 @@
 					  <value>totalMatched</value>
 					  <value>totalReturned</value>
 					</list>
+				</entry>
+				<entry>
+					<key><value>org.emonocot.job.gbif.TaxonOccurrence</value></key>
+					<list>
+					  <value>gbifKey</value>
+					  <value>about</value>
+					</list>
 				</entry>					
 			</map>
 		</property>

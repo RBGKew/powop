@@ -65,4 +65,10 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public User getUserByApiKey(String apiKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

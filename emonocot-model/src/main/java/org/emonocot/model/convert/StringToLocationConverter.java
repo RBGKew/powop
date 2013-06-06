@@ -25,7 +25,7 @@ public class StringToLocationConverter implements
      * @return a geographical region
      */
     public final Location convert(final String identifier) {
-        if (identifier == null) {
+        if (identifier == null || identifier.isEmpty()) {
             return null;
         }
         if (identifier.startsWith(StringToLocationConverter.TDWG_VOCABULARY_PREFIX)) {

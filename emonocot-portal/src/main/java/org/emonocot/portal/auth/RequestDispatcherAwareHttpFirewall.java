@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.FirewalledRequest;
-import org.springframework.security.web.firewall.RequestRejectedException;
 
 /**
  *

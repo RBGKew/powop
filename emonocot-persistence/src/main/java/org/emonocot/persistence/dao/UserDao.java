@@ -9,4 +9,6 @@ import org.emonocot.model.auth.User;
  */
 public interface UserDao extends SearchableDao<User> {
 
+	User getUserByApiKey(String apiKey);
+
 }

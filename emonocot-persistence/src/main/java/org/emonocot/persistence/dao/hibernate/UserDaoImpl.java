@@ -7,7 +7,9 @@ import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.UserDao;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -90,5 +92,14 @@ public class UserDaoImpl extends SearchableDaoImpl<User> implements UserDao {
     @Override
     protected boolean isSearchableObject() {
 		return false;
+	}
+
+	@Override
+	public User getUserByApiKey(String apiKey) {
+		Criteria criteria = getSession().createCriteria(type).add(
+                Restrictions.eq("apiKey", apiKey));
+		User user = (User) criteria.uniqueResult();
+        initializeUserPermissions(user);
+        return user;
 	}
 }

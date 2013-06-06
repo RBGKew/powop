@@ -50,6 +50,10 @@
 									<th><spring:message code="username" /></th>
 									<td id="username">${user.username}</td>
 								</tr>
+								<tr>
+									<th><spring:message code="apiKey" /></th>
+									<td id="apiKey">${user.apiKey}</td>
+								</tr>
 							  </c:if>
 								<tr>
 									<th><spring:message code="name" /></th>
