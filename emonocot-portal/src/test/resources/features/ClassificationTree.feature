@@ -25,6 +25,7 @@ Scenario: Browse taxonomic hierarchy
   a taxonomic name should take me to the taxon page
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=78
   When I am on the classification page
+  And I wait for 2 seconds
   Then the following nodes should be displayed:
   | page                     | text      |
   | urn:kew.org:wcs:family:2 | Acorales  |
