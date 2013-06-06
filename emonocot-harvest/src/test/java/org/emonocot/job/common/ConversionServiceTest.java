@@ -43,7 +43,7 @@ public class ConversionServiceTest {
     @Test
     public final void convertValidString() {
         assertEquals("Conversion Service should convert valid strings properly",
-                conversionService.convert("http://e-monocot.org/TaxonomicStatus#synonym",
+                conversionService.convert("synonym",
                         TaxonomicStatus.class), TaxonomicStatus.Synonym);
     }
 
