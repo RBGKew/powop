@@ -66,7 +66,7 @@
 				<div id="plus">
 					<div class="btn-group">
 						<c:url var="nextBestImage" value="/css/images/glyphicons/halfsize/glyphicons_009_magic.png"/>
-						<button class="btn disabled tourHelp" id="nextBest" title="Next best" data-tour-title="Next Best Character" data-tour-content="Suggests the feature that will best discriminate between the results." data-tour-placement="top" data-tour-prev="0" data-tour-next="2"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
+						<button class="btn tourHelp" id="nextBest" title="Next best" data-tour-title="Next Best Character" data-tour-content="Suggests the feature that will best discriminate between the results." data-tour-placement="top" data-tour-prev="0" data-tour-next="2"><img class="small-icon" src="${nextBestImage}" /> <spring:message code="next.best"/></button>
 						<c:url var="pruneRedundantImage" value="/css/images/glyphicons/halfsize/glyphicons_288_scissors.png"/>
 						<button class="btn tourHelp" id="prune" title="Prune" data-tour-title="Prune redundant characters" data-tour-content="Deletes any remaining features that are not useful for discriminating between the results." data-tour-placement="top" data-tour-prev="1" data-tour-next="3"><img class="small-icon" src="${pruneRedundantImage}" /> <spring:message code="prune.redundant"/></button>
 					</div>
@@ -194,6 +194,10 @@
 				$("#prune").click(function(event) {
 					key.pruneRedundants();
 				});
+				$("#nextBest").click(function(event) {
+                    var nextBest = key.nextBest();
+                    characterModal(nextBest, key);
+                });
 				$("#listView").click(function(event) {
 					Key.prototype.setView(Key.ListView);
 					key.calculate();

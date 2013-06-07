@@ -5,6 +5,7 @@ import java.util.List;
 import org.emonocot.model.SecuredObject;
 import org.emonocot.model.auth.User;
 import org.springframework.security.acls.model.Permission;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.GroupManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,4 +68,6 @@ public interface UserService extends SearchableService<User>, UserDetailsManager
 	void changePasswordForUser(String username, String password);
 	
 	String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws Exception;
+	
+	UserDetails getUserByApiKey(String apiKey);
 }

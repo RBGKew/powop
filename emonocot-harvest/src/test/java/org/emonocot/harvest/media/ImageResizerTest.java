@@ -6,6 +6,7 @@ package org.emonocot.harvest.media;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.Properties;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
@@ -14,6 +15,8 @@ import org.emonocot.model.constants.ImageFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  * @author jk00kg
@@ -38,12 +41,12 @@ public class ImageResizerTest {
     public void setUp() throws Exception {
         resizer = new ImageResizer();
         resizer.setImageDirectory(TEST_IMAGE_DIRECTORY);
-        String imHome = System.getenv("MAGICK_HOME");
-        if(imHome != null) {
-            resizer.setImageMagickSearchPath(imHome);
-        } else {
-            resizer.setImageMagickSearchPath("/usr/bin");
-        }
+        Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+        Properties properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
+        String imageMagickSearchPath = properties.getProperty("harvester.imagemagick.path", "/usr/bin");
+        resizer.setImageMagickSearchPath(imageMagickSearchPath);
+        
     }
 
     /**

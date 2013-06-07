@@ -4356,4 +4356,98 @@
       <comment>BUG 493: download function not workind.</comment>
       <sql>insert into hibernate_sequences (sequence_next_hi_value,sequence_name) values ((select IFNULL(((max(id) DIV (128 + 1)) + 1),1) from Identifier), 'Identifier');</sql>
     </changeSet>
+    <changeSet author="ben" id="2013-06-05_1">
+      <comment>Add apiKey column to principal table.</comment>
+      <addColumn tableName="Principal">
+        <column name="apiKey" type="varchar(255)"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2013-06-05_2" author="ben">
+      <comment>Add apiKey column to principal table.</comment>
+      <sql>update principal set apiKey = UUID() where DTYPE = 'User';</sql>
+    </changeSet>
+    <changeSet id="2013-06-05_3" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="22"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_4" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="23"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_5" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="24"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_6" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="25"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_7" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="26"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_8" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="27"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_9" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="28"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_10" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="29"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_11" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="30"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_12" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="31"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_13" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="32"/>
+      </insert>
+    </changeSet>
+    <changeSet id="2013-06-05_14" author="ben">
+      <comment>Add permissions for other object types.</comment>
+      <insert tableName="Group_permissions">
+        <column name="Group_id" valueNumeric="1"/>
+        <column name="permissions" valueNumeric="33"/>
+      </insert>
+    </changeSet>
 </databaseChangeLog>

@@ -623,6 +623,7 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
         User user = new User();
         user.setUsername(username);
         user.setEmailAddress(businessEmail);
+        user.setApiKey(UUID.randomUUID().toString());
         this.createUser(user);
         return username;
     }
@@ -782,5 +783,11 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
 
 	public void setUserProfilesFolder(FileSystemResource userProfilesFolder) {
 		this.userProfilesFolder = userProfilesFolder;
+	}
+
+	@Override
+	@Transactional
+	public UserDetails getUserByApiKey(String apiKey) {
+		return this.dao.getUserByApiKey(apiKey);
 	}
 }

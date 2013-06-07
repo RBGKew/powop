@@ -74,8 +74,8 @@ public class User extends Principal implements UserDetails {
     private String homepage;
 
 	private boolean notifyByEmail;
-    
-    
+	
+	private String apiKey;
 
     /**
 	 * @return the imgFile
@@ -386,7 +386,15 @@ public class User extends Principal implements UserDetails {
 		this.notifyByEmail = notifyByEmail;
 	}
 
-    @Transient
+    public String getApiKey() {
+		return apiKey;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
+	}
+
+	@Transient
     @JsonIgnore
     public String getClassName() {
         return getClass().getSimpleName();
