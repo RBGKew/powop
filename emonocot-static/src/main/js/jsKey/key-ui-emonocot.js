@@ -58,7 +58,7 @@ function writeNode(key, node) {
 }
 
 function characterModal(characterId, key) {
-    var character = key.getCharacter(event.target.id);
+    var character = key.getCharacter(characterId);
     $('#characterModal .modal-header h3').html(character.name);
     var body = "";
     switch(character.type) {
@@ -210,12 +210,12 @@ function updateUI(key) {
       $(".thumbnail").click(function(event) {
 
           if(event.target.id.indexOf("character") == 0){
-            var title = event.target.title;
+  
             var character = key.getCharacter(event.target.id.substring(9));
-           
+
             var body = "";
             for(var i=0; i< character.images.length; i++){
-              body += "<a href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + title +"'>" + title +"</a>";
+              body += "<a data-icon='icon-white icon-picture' href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + character.images[i].caption +"'>" + character.images[i].caption +"</a>";
             }
             
             $('#gallery').html(body);
@@ -227,7 +227,7 @@ function updateUI(key) {
 
             var body = "";
             for(var i=0; i< descriptiveConcept.images.length; i++){
-              body += "<a href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + title + "'>" + title +"</a>";
+              body += "<a data-icon='icon-white icon-picture' href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + descriptiveConcept.images[i].caption + "'>" + descriptiveConcept.images[i].caption +"</a>";
             }
             $('#gallery').html(body);
             

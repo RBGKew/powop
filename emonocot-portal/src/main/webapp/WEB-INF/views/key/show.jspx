@@ -209,7 +209,45 @@
 				key.setUpdateUI(updateUI);
 				key.calculate();
 			</script>
-		
+			<script type="text/javascript">
+			  $(document).ready(function(){
+				$('#clickMe').toggle(
+					function(){
+						$('#textBox').hide();
+						$('#clickMe').text('Show details');
+					},
+					function(){
+						$('#textBox').show();
+						$('#clickMe').text('Hide details');
+					});
+			  });
+		    </script>
+		    <div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+			  <div class="modal-header">
+				<a class="close" data-dismiss="modal">&#215;</a>
+			  </div>
+			  <div class="modal-body">
+				<div class="modal-image"><!--  --></div>
+				<div class="carousel-caption modal-title">
+					<label id="clickMe" class="pull-right">Hide details</label>
+					<ul id="textBox" class="unstyled" style="text-align:left;">
+						<li>
+							<a class="modal-download">
+								<i class="modal-icon">&#160;</i>
+								<span class="modal-caption">&#160;</span>
+							</a>
+						</li>
+						<li>
+							<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
+						</li>
+						<li>
+							<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
+							<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
+						</li>
+					</ul>
+				</div>
+			  </div>
+		    </div>
 			<div id="characterModal" class="modal hide fade">
 				<div class="modal-header">
 					<a class="close" data-dismiss="modal" ><i class="icon-remove"><!--  --></i></a>
