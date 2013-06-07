@@ -48,8 +48,8 @@
 								<a href="${contactUrl}"><spring:message code="contact.title" /></a>
 							</li>
 							<li>
-								<c:url value="/termsOfUse" var="termsOfUseUrl" />
-								<a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
+								<c:url var="twitterImageUrl" value="/css/images/glyphicons_white_twitter.png"/>
+								<a href="https://twitter.com/eMonocot" alt="eMonocot twitter"> <spring:message code="twitter.title" /><img src="${twitterImageUrl}"/></a>
 							</li>
 						</ul>
 					</li>
@@ -58,11 +58,11 @@
 						<ul class="footerColumn span3">
 							<li>
 								<c:url value="/organisation" var="organisationUrl" />
-								<a href="${organisationUrl}"><spring:message code="organisations.title" /></a>
+								<a href="${organisationUrl}"><spring:message code="organisations.title" />&#160;<i class="halflings-icon white user"><!--  --></i></a>
 							</li>
 							<li>
 								<c:url value="/resource" var="resourceUrl" />
-								<a href="${resourceUrl}"><spring:message code="resources.title" /></a>
+								<a href="${resourceUrl}"><spring:message code="resources.title" />&#160;<i class="halflings-icon white file"><!--  --></i></a>
 							</li>
 							<li>
 								<c:url value="/group" var="groupUrl" />
@@ -78,6 +78,10 @@
 							<li>
 								<c:url value="/tour" var="tourUrl" />
 								<a href="${tourUrl}"><spring:message code="eMonocot.tools" /></a>
+							</li>
+							<li>
+								<c:url value="/termsOfUse" var="termsOfUseUrl" />
+								<a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
 							</li>
 						</ul>
 					</li>
