@@ -4,267 +4,270 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
-    xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags">
 
 	<tags:pageheader>
-			<h2 id="page-title"><i class="glyphicons-icon picture"><!--  --></i> ${image.title}</h2>
-        <div class="span1">
-            <tags:feedbackLink selector="${image.title}" dataName="${image.title}" />
-        </div>
-	</tags:pageheader>    
+		<h2 id="page-title"><i class="glyphicons-icon picture"><!--  --></i> ${image.title}</h2>
+		<div class="span1 pull-right">
+			<tags:feedbackLink selector="${image.title}" dataName="${image.title}" />
+		</div>
+	</tags:pageheader>
 	<div class="container">
 	<div class="row">
 		<div class="span9">
-	        <tags:info />
-	        <tags:error />
+			<tags:info />
+			<tags:error />
 			<div class="centeredImage section-box">
 				<div class="inner">
 					<div class="box">
 						<c:url value="/images/fullsize/${image.id}.${image.format}" var="imageUrl"/>
 						<img id="main-img" class="imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
-				  </div>
-				</div>
-		   </div>
-		   <section class="section-box">
-					<div class="inner">
-						<div class="box">
-							<table class="table" id="image-properties">
-								<tbody>
-								    <tr>
-										<th><spring:message code="image.title"/></th>
-										<td>${image.title}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.creator"/></th>
-										<td>${image.creator}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.contributor"/></th>
-										<td>${image.contributor}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.publisher"/></th>
-										<td>${image.publisher}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.audience"/></th>
-										<td>${image.audience}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.taxon"/></th>
-										<td>
-										  <c:if test="${not empty image.taxon.scientificName}">
-				                            <c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
-					                        <a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>					
-			                              </c:if>
-			                            </td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.description"/></th>
-										<td>${image.description}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.license"/></th>
-										<td>
-											<c:choose>
-												<c:when test="${not empty image.license}">${image.license}</c:when>
-												<c:otherwise><spring:message code="allRightsReserved" /></c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.spatial"/></th>
-										<td>${image.spatial}</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.location"/></th>
-										<td>
-										  <c:if test="${not empty image.latitude and not empty image.longitude}">
-										  ${image.latitude} &#176; W ${image.longitude} &#176; N
-										  </c:if>
-										</td>
-									</tr>
-									<tr>
-										<th><spring:message code="image.subject"/></th>
-										<td id="keywords">
-											<c:if test="${not empty image.subject}">
-												<c:forEach var="keyword" items="${em:split(image.subject,',')}" varStatus="status">
-													<c:url var="keywordUrl" value="/search">
-														<c:param name="query" value="${keyword}"/>
-														<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
-													</c:url>
-													<c:choose>
-														<c:when test="${status.last}">
-															<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>
-														</c:when>
-														<c:otherwise>
-															<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>,&#160;
-														</c:otherwise>
-													</c:choose>
-												</c:forEach>
-											</c:if>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
 					</div>
-				</section>
-				<c:if test="${not empty image.taxon.images}">
-					<div class="container">
-						<h2 class="no-print"><spring:message code="related.images"/></h2>
-						<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
-							<div class="row">
-								<div class="carousel slide span12" id="carousel">
-									<div class="carousel-inner">
-										<c:forEach var="i" items="${image.taxon.images}" step="6" varStatus="status">
-											<c:choose>
-												<c:when test="${status.index == 0}">
-													<c:set var="active" value="active"/>
-												</c:when>
-												<c:otherwise>
-													<c:set var="active" value=""/>
-												</c:otherwise>
-											</c:choose>
-											<div class="item ${active}">
-												<ul class="thumbnails">	
-													<c:forEach var="image" items="${image.taxon.images}" begin="${status.index}" end="${status.index + 5}">
-														<li>
-															<c:choose>
-																<c:when test="${not empty image.license}">
-																	<c:set var="imageLicense" value="${image.license}" />
-																</c:when>
-																<c:otherwise>
-																	<c:set var="imageLicense" value="All right reserved" />
-																</c:otherwise>
-															</c:choose>
-															<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
-															<c:url var="imageUrl" value="/image/${image.id}"/>
-															<a class="slideshow" href="${fullsize}" 
-																data-link="${imageUrl}" data-icon="icon-white icon-picture" 
-																data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
-																<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
-																<img class="thumbnail pull-right" src="${thumbnail}" title="${em:stripXml(image.title)}"/>
-															</a>
-														</li>
-													</c:forEach>
-												</ul>
-											</div>
-										</c:forEach>
-									</div>	
-									<c:if test="${fn:length(image.taxon.images) > 6 }">
-										<a data-slide="prev" href="#carousel" class="left carousel-control">&#8249;</a>
-										<a data-slide="next" href="#carousel" class="right carousel-control">&#8250;</a>
-									</c:if>
+				</div>
+			</div>
+			<section class="section-box">
+				<div class="inner">
+					<div class="box">
+						<table class="table" id="image-properties">
+							<tbody>
+								<tr>
+									<th><spring:message code="image.title"/></th>
+									<td>${image.title}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.creator"/></th>
+									<td>${image.creator}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.contributor"/></th>
+									<td>${image.contributor}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.publisher"/></th>
+									<td>${image.publisher}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.audience"/></th>
+									<td>${image.audience}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.taxon"/></th>
+									<td>
+										<c:if test="${not empty image.taxon.scientificName}">
+											<c:url value="/taxon/${image.taxon.identifier}"  var="taxonUrl"/>
+											<a href="${taxonUrl}"><em>${image.taxon.scientificName}</em> ${image.taxon.scientificNameAuthorship}</a>
+										</c:if>
+									</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.description"/></th>
+									<td>${image.description}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.license"/></th>
+									<td>
+										<c:choose>
+											<c:when test="${not empty image.license}">${image.license}</c:when>
+											<c:otherwise><spring:message code="allRightsReserved" /></c:otherwise>
+										</c:choose>
+									</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.spatial"/></th>
+									<td>${image.spatial}</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.location"/></th>
+									<td>
+										<c:if test="${not empty image.latitude and not empty image.longitude}">
+											${image.latitude} &#176; W ${image.longitude} &#176; N
+										</c:if>
+									</td>
+								</tr>
+								<tr>
+									<th><spring:message code="image.subject"/></th>
+									<td id="keywords">
+										<c:if test="${not empty image.subject}">
+											<c:forEach var="keyword" items="${em:split(image.subject,',')}" varStatus="status">
+												<c:url var="keywordUrl" value="/search">
+													<c:param name="query" value="${keyword}"/>
+													<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
+												</c:url>
+												<c:choose>
+													<c:when test="${status.last}">
+														<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>
+													</c:when>
+													<c:otherwise>
+														<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>,&#160;
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</c:if>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			
+			<c:set var="provenance" value="${em:provenance(image)}" />
+			<section id="sources" class="section-box">
+				<div class="inner">
+					<div class="box clearfix">
+						<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
+						<dl>
+							<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
+								<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
+							</c:forEach>
+						</dl>
+					</div>
+				</div>
+			</section>
+			
+			<c:if test="${not empty image.taxon.images}">
+				<div class="container">
+					<h2 class="no-print"><spring:message code="related.images"/></h2>
+					<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
+						<div class="row">
+							<div class="carousel slide span12" id="carousel">
+								<div class="carousel-inner">
+									<c:forEach var="i" items="${image.taxon.images}" step="6" varStatus="status">
+										<c:choose>
+											<c:when test="${status.index == 0}">
+												<c:set var="active" value="active"/>
+											</c:when>
+											<c:otherwise>
+												<c:set var="active" value=""/>
+											</c:otherwise>
+										</c:choose>
+										<div class="item ${active}">
+											<ul class="thumbnails">	
+												<c:forEach var="image" items="${image.taxon.images}" begin="${status.index}" end="${status.index + 5}">
+													<li>
+														<c:choose>
+															<c:when test="${not empty image.license}">
+																<c:set var="imageLicense" value="${image.license}" />
+															</c:when>
+															<c:otherwise>
+																<c:set var="imageLicense" value="All right reserved" />
+															</c:otherwise>
+														</c:choose>
+														<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
+														<c:url var="imageUrl" value="/image/${image.id}"/>
+														<a class="slideshow" href="${fullsize}" 
+															data-link="${imageUrl}" data-icon="icon-white icon-picture" 
+															data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
+															<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
+															<img class="thumbnail pull-right" src="${thumbnail}" title="${em:stripXml(image.title)}"/>
+														</a>
+													</li>
+												</c:forEach>
+											</ul>
+										</div>
+									</c:forEach>
 								</div>
+								<c:if test="${fn:length(image.taxon.images) > 6 }">
+									<a data-slide="prev" href="#carousel" class="left carousel-control">&#8249;</a>
+									<a data-slide="next" href="#carousel" class="right carousel-control">&#8250;</a>
+								</c:if>
 							</div>
 						</div>
 					</div>
-				</c:if>
-				<script type="text/javascript">
-					$(document).ready(function(){
-						$('#clickMe').toggle(
-								function(){
-									$('#textBox').hide();
-									$('#clickMe').text('Show details');
-								},
-								function(){
-									$('#textBox').show();
-									$('#clickMe').text('Hide details');
-								});
+				</div>
+			</c:if>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$('#clickMe').toggle(
+							function(){
+								$('#textBox').hide();
+								$('#clickMe').text('Show details');
+							},
+							function(){
+								$('#textBox').show();
+								$('#clickMe').text('Hide details');
+							});
 						});
-				</script>
-				<c:set var="provenance" value="${em:provenance(image)}" />
-                <section id="sources" class="section-box">
-					<div class="inner">
-						<div class="box clearfix">
-							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
-							<dl>
-								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
-									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
-								</c:forEach>
-							</dl>
-						</div>
-					</div>
-				</section>
-				<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
-					<div class="modal-header">
-						<a class="close" data-dismiss="modal">&#215;</a>
-					</div>
-					<div class="modal-body">
-						<div class="modal-image"><!--  --></div>
-						<div class="carousel-caption modal-title">
-							<label id="clickMe" class="pull-right">Hide details</label>
-							<ul id="textBox" class="unstyled" style="text-align:left;">
-								<li>
-									<a class="modal-download">
-										<i class="modal-icon">&#160;</i>
-										<span class="modal-caption">&#160;</span>
-									</a>
-								</li>
-								<li>
-									<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
-								</li>
-								<li>
-									<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
-									<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
-								</li>
-							</ul>
-						</div>
+			</script>
+			
+			<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">&#215;</a>
+				</div>
+				<div class="modal-body">
+					<div class="modal-image"><!--  --></div>
+					<div class="carousel-caption modal-title">
+						<label id="clickMe" class="pull-right">Hide details</label>
+						<ul id="textBox" class="unstyled" style="text-align:left;">
+							<li>
+								<a class="modal-download">
+									<i class="modal-icon">&#160;</i>
+									<span class="modal-caption">&#160;</span>
+								</a>
+							</li>
+							<li>
+								<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
+							</li>
+							<li>
+								<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
+								<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
+							</li>
+						</ul>
 					</div>
 				</div>
-				<br />
-	            <div id="feedbackModal" class="modal hide fade">
-	                <div class="modal-header">
-	                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
-	                    <h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
-	                </div>
-	                <c:url value="/comment" var="commentUrl" />
-	                <form class="modal-form" action="${commentUrl}" method="post">
-	                    <input type="hidden" name="commentPageIdentifier" value="${image.identifier}"/> 
-	                    <div class="modal-body">
-	                        <div class="control-group">
-	                            <security:authorize access="isAnonymous()">
-	                                <span class="label label-important"><spring:message code="feedback.login.needed" /></span>
-	                            </security:authorize>
-	                            <label class="control-label" for="select01"><spring:message code="feedback.topic.option" /> ${image.title}</label>
-	                            <div class="controls">
-	                                <input type="hidden" name="aboutData" value="${image.identifier}" />
-	                            </div>
-	                        </div>
-	                        <div class="control-group">
-	                            <div class="controls">
-	                                <textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="modal-footer">
-	                        <button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
-	                        <button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
-	                    </div>
-	                </form>
-	            </div>
 			</div>
-			<div id="sidebar" class="span3 sidebar">
-				<c:if test="${not empty image.comments}">
-					<div class="inner">
-						<div class="box">
-							<section class="sidebarBox" id="comments">
-								<h2>
-									<i class="glyphicons-icon comments"><!-- --></i>
-									<spring:message code="comments.title"/>
-								</h2>
-								<ul class="media-list">
-								  <c:forEach var="comment" items="${image.comments}" end="5">
+			<br />
+			<div id="feedbackModal" class="modal hide fade">
+				<div class="modal-header">
+					<button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
+					<h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>
+				</div>
+				<c:url value="/comment" var="commentUrl" />
+				<form class="modal-form" action="${commentUrl}" method="post">
+					<input type="hidden" name="commentPageIdentifier" value="${image.identifier}"/>
+					<div class="modal-body">
+						<div class="control-group">
+							<security:authorize access="isAnonymous()">
+								<span class="label label-important"><spring:message code="feedback.login.needed" /></span>
+							</security:authorize>
+							<label class="control-label" for="select01"><spring:message code="feedback.topic.option" /> ${image.title}</label>
+							<div class="controls">
+								<input type="hidden" name="aboutData" value="${image.identifier}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<textarea class="input-xlarge" name="comment" rows="3"><!--  --></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal"><spring:message code="button.close" /></button>
+						<button type="submit" class="btn btn-primary"><spring:message code="button.submit" /></button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="sidebar" class="span3 sidebar">
+			<c:if test="${not empty image.comments}">
+				<div class="inner">
+					<div class="box">
+						<section class="sidebarBox" id="comments">
+							<h2>
+								<i class="glyphicons-icon comments"><!-- --></i>
+								<spring:message code="comments.title"/>
+							</h2>
+							<ul class="media-list">
+								<c:forEach var="comment" items="${image.comments}" end="5">
 									<tags:comment comment="${comment}"/>
-								  </c:forEach>
-								</ul>
-								<div>
-									<c:url var="commentsUrl" value="/comment"/>
-							        <a href="${commentsUrl}">
-								      <spring:message code="more.comments"/>
-							        </a>
+								</c:forEach>
+							</ul>
+							<div>
+								<c:url var="commentsUrl" value="/comment"/>
+									<a href="${commentsUrl}">
+										<spring:message code="more.comments"/>
+									</a>
 								</div>
 							</section>
 						</div>

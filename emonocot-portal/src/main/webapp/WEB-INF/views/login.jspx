@@ -5,6 +5,7 @@
 	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
 	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	
 	<tags:pageheader>
 		<h2>
 			<spring:message code="login" />
@@ -19,11 +20,9 @@
 					<div class="alert alert-error error" data-dismiss="alert">
 						<a class="close" href="#"><i class="halflings-icon remove"><!--  --></i></a>
 						<p>
-							<strong><i
-								class="glyphicons-icon circle_exclamation_mark">
-									<!--  -->
-							</i> <spring:message
-									code="${SPRING_SECURITY_LAST_EXCEPTION.getClass().getName()}"
+							<strong>
+								<i class="glyphicons-icon circle_exclamation_mark"><!--  --></i> 
+								<spring:message code="${SPRING_SECURITY_LAST_EXCEPTION.getClass().getName()}"
 									var="securityException" /> <spring:message
 									code="login.unsuccessful" arguments="${securityException}" />
 							</strong>
@@ -39,7 +38,7 @@
 			<div class="span6">
 				<div class="inner">
 					<div class="box">
-					    <h2><spring:message code="login"/></h2>
+						<h2><spring:message code="login"/></h2>
 						<form:create modelAttribute="loginForm" path="/process_login" btnCss="btn-primary btn-large">
 							<field:input field="j_username" label="username" fieldClass="span4" />
 							<field:input field="j_password" label="password" fieldClass="span4" type="password" />
@@ -47,21 +46,21 @@
 						</form:create>
 						<c:url value="/recovery" var="recoveryUrl" />
 						<a href="${recoveryUrl}"> 
-						        <spring:message	code="cannot.access.your.account" /> 
-						</a>						
+							<spring:message	code="cannot.access.your.account" /> 
+						</a>
 					</div>
 				</div>
 			</div>
 			<div class="span6">
 				<div class="inner">
 					<div class="box">
-					    <h2><spring:message code="why.register"/></h2>
-					    <p><spring:message code="registration.benefits"/></p>
+						<h2><spring:message code="why.register"/></h2>
+						<p><spring:message code="registration.benefits"/></p>
 						<c:url value="/register" var="registerUrl" />
 						<div class="form-actions">
-						    <a class="btn btn-success btn-large" href="${registerUrl}">
-						        <spring:message code="create.a.new.account" />
-						    </a>
+							<a class="btn btn-success btn-large" href="${registerUrl}">
+								<spring:message code="create.a.new.account" />
+							</a>
 						</div>
 					</div>
 				</div>

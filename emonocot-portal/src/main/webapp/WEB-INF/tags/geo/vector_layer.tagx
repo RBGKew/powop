@@ -12,10 +12,14 @@
 	// depending on the number of features they contain.
 	var colors = {
 		point: "rgb(255,210,54)",
-		cluster: "rgb(154,100,237)"
+		cluster10: "rgb(255,210,54)",
+		cluster100: "rgb(255,150,64)",
+		cluster250: "rgb(255,119,0)",
+		cluster1000: "rgb(254,58,177)",
+		clusterBig: "rgb(213,12,84)"
 	};
 	
-	// Define three rules to style the cluster features.
+	// Define rules to style the cluster features.
 	var pointRule = new OpenLayers.Rule({
 		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Comparison.EQUAL_TO,
@@ -35,19 +39,103 @@
 		}
 	});
 	
-	var clusterRule = new OpenLayers.Rule({
+	var clusterRule10 = new OpenLayers.Rule({
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.BETWEEN,
+			property: "count",
+			lowerBoundary: 2,
+			upperBoundary: 10
+		}),
+		symbolizer: {
+			fillColor: colors.cluster10,
+			fillOpacity: 0.4,
+			strokeColor: colors.cluster10,
+			strokeOpacity: 0.9,
+			strokeWidth: 2,
+			pointRadius: 6,
+			label: "${count}",
+			labelOutlineWidth: 1,
+			fontColor: "#000000",
+			fontOpacity: 0.8,
+			fontSize: "8px"
+		}
+	});
+	var clusterRule100 = new OpenLayers.Rule({
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.BETWEEN,
+			property: "count",
+			lowerBoundary: 11,
+			upperBoundary: 100
+		}),
+		symbolizer: {
+			fillColor: colors.cluster100,
+			fillOpacity: 0.5,
+			strokeColor: colors.cluster100,
+			strokeOpacity: 0.9,
+			strokeWidth: 2,
+			pointRadius: 12,
+			label: "${count}",
+			labelOutlineWidth: 1,
+			fontColor: "#000000",
+			fontOpacity: 0.8,
+			fontSize: "8px"
+		}
+	});
+	var clusterRule250 = new OpenLayers.Rule({
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.BETWEEN,
+			property: "count",
+			lowerBoundary: 101,
+			upperBoundary: 250
+		}),
+		symbolizer: {
+			fillColor: colors.cluster250,
+			fillOpacity: 0.5,
+			strokeColor: colors.cluster250,
+			strokeOpacity: 0.9,
+			strokeWidth: 2,
+			pointRadius: 20,
+			label: "${count}",
+			labelOutlineWidth: 1,
+			fontColor: "#000000",
+			fontOpacity: 0.8,
+			fontSize: "8px"
+		}
+	});
+	var clusterRule1000 = new OpenLayers.Rule({
+		filter: new OpenLayers.Filter.Comparison({
+			type: OpenLayers.Filter.Comparison.BETWEEN,
+			property: "count",
+			lowerBoundary: 251,
+			upperBoundary: 1000
+		}),
+		symbolizer: {
+			fillColor: colors.cluster1000,
+			fillOpacity: 0.5,
+			strokeColor: colors.cluster1000,
+			strokeOpacity: 0.9,
+			strokeWidth: 2,
+			pointRadius: 24,
+			label: "${count}",
+			labelOutlineWidth: 1,
+			fontColor: "#000000",
+			fontOpacity: 0.8,
+			fontSize: "8px"
+		}
+	});
+	var clusterRuleBig = new OpenLayers.Rule({
 		filter: new OpenLayers.Filter.Comparison({
 			type: OpenLayers.Filter.Comparison.GREATER_THAN,
 			property: "count",
-			value: 1
+			value: 1001
 		}),
 		symbolizer: {
-			fillColor: colors.cluster,
+			fillColor: colors.clusterBig,
 			fillOpacity: 0.5,
-			strokeColor: colors.cluster,
+			strokeColor: colors.clusterBig,
 			strokeOpacity: 0.9,
-			strokeWidth: 3,
-			pointRadius: 10,
+			strokeWidth: 2,
+			pointRadius: 30,
 			label: "${count}",
 			labelOutlineWidth: 1,
 			fontColor: "#000000",
@@ -58,7 +146,7 @@
 	
 	// Create a Style that uses the three previous rules
 	var style = new OpenLayers.Style(null, {
-		rules: [pointRule, clusterRule]
+		rules: [pointRule, clusterRule10, clusterRule100, clusterRule250, clusterRule1000, clusterRuleBig]
 	});
 	
 	var strategy = new OpenLayers.Strategy.Cluster();
@@ -72,7 +160,13 @@
 			<c:forEach var="specimen" varStatus="status" items="${typesAndSpecimens}">
 				<c:if test="${not empty specimen.decimalLatitude and not empty specimen.decimalLongitude}">
 					{"type":"Feature",
-					"properties":{"catalogNumber":"${specimen.catalogNumber}"},
+					"properties":{
+						"catalogNumber":"${specimen.catalogNumber}",
+						"collectionCode":"${specimen.collectionCode}",
+						"institutionCode":"${specimen.institutionCode}",
+						"locality":"${specimen.locality}",
+						"source":"${specimen.source}"
+					},
 					"geometry":{
 						"type":"Point",
 						"coordinates":[${specimen.decimalLongitude},${specimen.decimalLatitude}]

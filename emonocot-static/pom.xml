@@ -167,6 +167,7 @@
                           <include>${basedir}/src/main/js/jsKey/keys.js</include>
                           <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
                           <include>${basedir}/src/main/js/jquery.cookie.js</include>
+                          <include>${basedir}/src/main/js/jquery.zrssfeed.min.js</include>
                         </includes>
                       </aggregation>
                     </aggregations>

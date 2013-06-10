@@ -8,20 +8,21 @@
 	<jsp:directive.attribute name="multipart" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if this is a multipart form (default: false)" />
 	<jsp:directive.attribute name="btnCss" type="java.lang.String" required="false" rtexprvalue="true" description="Set the css of the submit button (default: btn-primary)" />
 	<jsp:directive.attribute name="path" type="java.lang.String" required="true" rtexprvalue="true" description="Specify the relative URL path (wit leading /)" />
+	
 	<spring:url value="${path}" var="form_url" />
 	<c:set var="enctype" value="application/x-www-form-urlencoded"/>
 	<c:if test="${empty btnCss}">
-	  <c:set var="btnCss" value="btn-primary"/>
+		<c:set var="btnCss" value="btn-primary"/>
 	</c:if>
-    <c:if test="${multipart}">
-      <c:set var="enctype" value="multipart/form-data"/>
-    </c:if>
+	<c:if test="${multipart}">
+		<c:set var="enctype" value="multipart/form-data"/>
+	</c:if>
 	<form:form commandName="${modelAttribute}" enctype="${enctype}" action="${form_url}">
-	  <form:errors element="div" cssClass="alert alert-error"/>
-	  <jsp:doBody />
-	  <div class="form-actions">	    
-	        <spring:message var="submitMessage" code="submit"/>
+		<form:errors element="div" cssClass="alert alert-error"/>
+		<jsp:doBody />
+		<div class="form-actions">
+			<spring:message var="submitMessage" code="Sign In"/>
 			<input class="btn ${btnCss}" type="submit" value="${submitMessage}"/>
-      </div>
+		</div>
 	</form:form>
 </jsp:root>
