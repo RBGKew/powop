@@ -52,7 +52,7 @@
 		  <c:when test="${comment.commentPage.className == 'IdentificationKey'}">
 			<c:url var="pageUrl" value="/key/${comment.commentPage.id}" />
 			<c:set var="pageTitle" value="${comment.commentPage.title}" />
-			<c:set var="pageIcon" value="icon-keys" />
+			<c:set var="pageIcon" value="keys" />
 		  </c:when>
 		  <c:otherwise>
 			<c:url var="pageUrl" value="/image/${comment.commentPage.id}" />
