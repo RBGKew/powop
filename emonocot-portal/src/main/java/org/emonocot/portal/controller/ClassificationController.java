@@ -47,8 +47,7 @@ public class ClassificationController {
     /**
      * @return the list of nodes
      */
-    @RequestMapping(value = "/taxonTree", method = RequestMethod.GET,
-                    produces = "application/json")
+    @RequestMapping(value = "/taxonTree", method = RequestMethod.GET, produces = "application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
         List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");

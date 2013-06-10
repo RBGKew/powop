@@ -23,9 +23,7 @@
 					<span class="icon-search icon-white">&#160;</span>
 				</button>
 			</form>
-			<c:url value="/comment" var="autocompleteUrl">
-			  <c:param name="autocomplete" value="true"/>
-			</c:url>
+			<c:url value="/autocomplete/comment" var="autocompleteUrl"/>
 			<script type="text/javascript">
               $(document).ready(function() {
                 $("#mainQuery").autocomplete({
