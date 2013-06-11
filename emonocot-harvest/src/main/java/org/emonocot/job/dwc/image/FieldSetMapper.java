@@ -39,16 +39,16 @@ public class FieldSetMapper extends
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
             case audience:
-            	object.setAudience(value);
+            	object.setAudience(htmlSanitizer.sanitize(value));
             	break;
             case contributor:
-            	object.setContributor(value);
+            	object.setContributor(htmlSanitizer.sanitize(value));
             	break;
             case creator:
-                object.setCreator(value);
+                object.setCreator(htmlSanitizer.sanitize(value));
                 break;
             case description:
-            	object.setDescription(value);
+            	object.setDescription(htmlSanitizer.sanitize(value));
             	break;
             case format:
                 object.setFormat(conversionService.convert(value, ImageFormat.class));
@@ -57,16 +57,16 @@ public class FieldSetMapper extends
                 object.setIdentifier(value);                
                 break;
             case publisher:
-                object.setPublisher(value);                
+                object.setPublisher(htmlSanitizer.sanitize(value));                
                 break;
             case references:
                 object.setReferences(value);
                 break;
             case spatial:
-                object.setSpatial(value);                
+                object.setSpatial(htmlSanitizer.sanitize(value));                
                 break;
             case subject:
-                object.setSubject(value);                
+                object.setSubject(htmlSanitizer.sanitize(value));                
                 break;
             case title:
                 object.setTitle(htmlSanitizer.sanitize(value));

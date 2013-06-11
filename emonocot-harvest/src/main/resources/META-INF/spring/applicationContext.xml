@@ -212,6 +212,7 @@
 	
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
+      <property name="sanitizer" ref="htmlSanitizer" />
 	</bean>
 	
 	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
