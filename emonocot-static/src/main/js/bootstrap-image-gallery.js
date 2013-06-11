@@ -78,20 +78,40 @@
             }
         },
         getUrl: function (element) {
-            return element.href || $(element).data('href');
+        	if(typeof element === 'undefined') {
+        	    return null;	
+        	} else {
+                return element.href || $(element).data('href');
+        	}
         },
         /* Begin eMonocot */
         getLink: function (element) {
+        	if(typeof element === 'undefined') {
+        	    return null;	
+        	} else {
               return $(element).data('link');
+        	}
         },
         getCreator: function (element) {
+        	if(typeof element === 'undefined') {
+        	    return null;	
+        	} else {
         	  return $(element).data('creator');
+        	}
         },
         getLicense: function (element) {
+        	if(typeof element === 'undefined') {
+        	    return null;	
+        	} else {
         	  return $(element).data('license');
+        	}
         },
         getIcon: function (element) {
+        	if(typeof element === 'undefined') {
+        	    return null;	
+        	} else {
         	  return $(element).data('icon');
+        	}
         },
         /* eMonocot End*/
         getDownloadUrl: function (element) {
@@ -139,6 +159,7 @@
                 modal = this.$element,
                 index = this.options.index,
                 url = this.getUrl(this.$links[index]),
+                title = this.$links[index].title,
                 link = this.getLink(this.$links[index]), // eMonocot
                 creator = this.getCreator(this.$links[index]),  // eMonocot
                 license = this.getLicense(this.$links[index]),  // eMonocot
@@ -157,7 +178,7 @@
             window.setTimeout(function () {
                 oldImg.remove();
             }, 3000);
-            modal.find('.modal-caption').text(this.$links[index].title);        // eMonocot
+            modal.find('.modal-caption').text(title);        // eMonocot
             modal.find('.modal-creator').text(creator);                         // eMonocot
             modal.find('.modal-license').text(license);                         // eMonocot
             modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      // eMonocot
@@ -265,6 +286,12 @@
                 e.preventDefault();
                 this.next();
                 break;
+            // eMonocot Addition - leave the modal by pressing esc
+            case 27:
+            	e.preventDefault();
+            	this.hide();
+            	break;
+            // end eMonocot Addition
             }
         },
         wheelHandler: function (e) {
