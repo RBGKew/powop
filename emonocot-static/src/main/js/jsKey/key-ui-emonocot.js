@@ -221,18 +221,18 @@ function updateUI(key) {
       $("#pages").html(matchedTaxa.length + " taxa remaining");
       
       var unSelected = "";
-      var nonRedundant = 0;
+      var available = 0;
       for(var i = 0; i < unselectedCharacters.length; i++) {
         var character = unselectedCharacters[i];
-        if(!character.isRedundant) {
-            nonRedundant++;
+        if(!character.isRedundant && !key.isExcluded(character)) {
+        	available++;
         }
       }
       for(var i = 0; i < characterTree.length; i++) {
          unSelected += writeNode(key, characterTree[i]);
       }
       
-	  $("#unselectedCharacters").html("<li class='nav-header'>Features Available: " + nonRedundant + "</li>" + unSelected);
+	  $("#unselectedCharacters").html("<li class='nav-header'>Features Available: " + available + "</li>" + unSelected);
       
       $("#unselectedCharacters li.character a").click(function(event) {
           characterModal(event.target.id, key); 

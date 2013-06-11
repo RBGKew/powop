@@ -18,6 +18,7 @@ function Key(data) {
 	  if(charNode.type == "Character") {
 		  if(!Key.isUndefined(charNode.inapplicableIf) || !Key.isUndefined(charNode.onlyApplicableIf)) {
 			  var character = this.getCharacter(charNode.character);
+			  character.charNode = i;
 			  character.inapplicableIf = charNode.inapplicableIf;
 			  character.onlyApplicableIf = charNode.onlyApplicableIf;
 		  }
@@ -188,6 +189,10 @@ Key.prototype.setUpdateUI = function(updateFunction) {
 Key.prototype.getDescriptiveConcept = function(descriptiveConceptId) {
     var descriptiveConcept = this.data.descriptiveConcepts[descriptiveConceptId];
     return descriptiveConcept;
+};
+
+Key.prototype.isExcluded = function(character) {
+	this.characterTree[character.charNode].isExcluded;
 };
 
 Key.prototype.getCharacter = function(characterId) {
