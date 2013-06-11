@@ -10,7 +10,11 @@
    font-weight: bold;
    text-decoration: underline;
    }
-   
+
+.print{
+	display:block;
+}
+
 .no-print{
 	display:none;
 }
@@ -80,3 +84,63 @@ list-style: none;
 float: left;
 margin: 0 0 18px 20px;
 }
+
+
+section#bibliography ul {
+	list-style: none;
+}
+section#bibliography ul	li a:before {
+			content: "[";
+		}
+section#bibliography ul	li a:after {
+			content: "]";
+		}
+
+section#sources dl dd ul {
+	list-style: none;
+}
+section#sources dl dd ul li a:before {
+			content: "[";
+		}
+
+section#sources dl dd ul li a:after {
+			content: "]";
+}
+ul.citations {
+	list-style: none;
+	margin: 0px;
+	float: right;
+}	
+ul.citations:before {
+		content: "[";
+	}
+	
+ul.citations:after {
+		content: "]";
+	}
+	
+ul.citations li {
+		display: inline;
+}	
+ul.citations li:last-child:after {
+				content: "";
+			}
+ul.citations li:after {
+			content: ",";
+		}
+
+ul.citations li:before {
+			content: "";
+		}
+
+
+.cclogos {
+	height: 20px;
+}
+
+ul#taxonHierarchy,
+ul#taxonHierarchy ul {
+  list-style-type: none;
+  margin: 0 0 10px 15px !important;
+}
+

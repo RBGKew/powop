@@ -30,6 +30,26 @@
 		</h2>
 	</tags:pageheader>
 	
+	<section id="printHeader" class="hide print">
+		<h2 id="page-title">
+			<i class="glyphicons-icon leaf"><!--  --></i> <em class="taxonName">${taxon.scientificName}</em>&#160;<span>${taxon.scientificNameAuthorship}</span>
+			<ul class="unstyled">
+				<li>
+					<small>
+						<span id="protologue">${taxon.namePublishedInString}</span>
+						<c:if test="${not empty taxon.nomenclaturalStatus}">&#160;<span ><spring:message code="nomenclatural_status_abbreviation_${taxon.nomenclaturalStatus}" text="${taxon.nomenclaturalStatus}"/></span></c:if>
+					</small>
+				</li>
+				<li>
+					<c:set var="preferred" value="${em:getPreferred(taxon)}" />
+					<c:if test="${not empty preferred}">
+							<small>${preferred.vernacularName}</small>
+					</c:if>
+				</li>
+			</ul>
+		</h2>
+	</section>
+	
 	<div class="container">
 		<c:set var="bibliography" value="${em:bibliography(taxon)}" />
 		<c:set var="provenance" value="${em:provenance(taxon)}" />
@@ -119,8 +139,8 @@
 								</c:forEach>
 							</div>
 							<c:if test="${fn:length(taxon.images) > 6 }">
-								<a data-slide="prev" href="#carousel" class="left carousel-control">&#8249;</a>
-								<a data-slide="next" href="#carousel" class="right carousel-control">&#8250;</a>
+								<a data-slide="prev" href="#carousel" class="left carousel-control no-print">&#8249;</a>
+								<a data-slide="next" href="#carousel" class="right carousel-control no-print">&#8250;</a>
 							</c:if>
 						</div>
 					</div>
@@ -142,7 +162,7 @@
 			});
 		</script>
 
-		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen no-print">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">&#215;</a>
 			</div>
@@ -170,6 +190,7 @@
 		</div>
 		<br />
 		<div id="taxonomicStatus">
+		<section>
 			<c:choose>
 				<c:when test="${em:isSynonym(taxon) and taxon.acceptedNameUsage != null}">
 					<spring:message code="isSynonymOf" />
@@ -192,6 +213,7 @@
 					<a href="${organisationUrl}">${taxon.authority.title}</a>
 				</c:when>
 			</c:choose>
+		</section>
 		</div>
 		<c:if test="${not empty taxon.taxonRemarks}">
 			<div id="taxonRemarks">
@@ -252,7 +274,7 @@
 										<geo:layer name="level3" layer="tdwg:level3" style="eMonocot" featureId="${em:getLevel3Features(taxon)}" />
 									</c:if>
 									<c:if test="${not empty taxon.typesAndSpecimens}">
-									    <geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
+										<geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
 									</c:if>
 								</geo:map>
 								
@@ -481,6 +503,7 @@
 						</div>
 					</div>
 				</c:if>
+				
 				<c:if test="${not empty taxon.comments}">
 					<div class="inner">
 						<div class="box">
@@ -660,7 +683,7 @@
 					</div>
 				</div>
 				
-				<div class="inner">
+				<div class="inner no-print">
 					<div class="box linksBox">
 						<section class="sidebarBox" id="externalLinks">
 							<h2>
@@ -689,7 +712,7 @@
 		</div>
 	</div>
 	
-	<div id="feedbackModal" class="modal hide fade">
+	<div id="feedbackModal" class="modal hide fade no-print">
 		<div class="modal-header">
 			<button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
 			<h3><i class="glyphicons-icon comments"><!--  --></i><spring:message code="feedbackTitle" /></h3>

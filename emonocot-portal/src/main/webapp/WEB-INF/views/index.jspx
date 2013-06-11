@@ -54,8 +54,9 @@
 					
 					<script type="text/javascript">
 						$(document).ready(function () {
-							$('#testNews').rssfeed('http://families.e-monocot.org/taxonomy/term/1392/feed', {
-								limit: 5
+							$('#testNews').rssfeed('http://families.e-monocot.org/taxonomy/term/1392/feed',{
+								limit:5,
+								historical: true
 							});
 						});
 					</script>
