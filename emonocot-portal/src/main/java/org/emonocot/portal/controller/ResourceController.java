@@ -12,7 +12,6 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
-import org.emonocot.api.autocomplete.Match;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
@@ -230,7 +229,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = {"!form", "!autocomplete"})
+	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = {"!form"})
 	public String list(Model model,
 			@RequestParam(value = "query", required = false) String query,
 		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
@@ -259,11 +258,6 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		model.addAttribute("result", result);
 		return "resource/list";
 	}
-	
-	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {    	
-        return getService().autocomplete(term, 10, null);
-    }
 
 	/**
 	 * @param organisationId

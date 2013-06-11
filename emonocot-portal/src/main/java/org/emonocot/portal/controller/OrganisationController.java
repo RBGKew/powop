@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
-import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -80,7 +78,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the offset
 	 * @return the name of the view
 	 */
-	@RequestMapping(method = RequestMethod.GET, params = {"!form","!autocomplete"}, produces = "text/html")
+	@RequestMapping(method = RequestMethod.GET, params = {"!form"}, produces = "text/html")
 	public String list(
 			Model model,
 			@RequestParam(value = "query", required = false) String query,
@@ -104,11 +102,6 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		result.putParam("query", query);
 		return "organisation/list";
 	}
-	
-	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {    	
-        return getService().autocomplete(term, 10, null);
-    }
 
 	/**
 	 * 

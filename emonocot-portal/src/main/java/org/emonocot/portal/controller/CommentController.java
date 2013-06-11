@@ -23,7 +23,6 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.Service;
 import org.emonocot.api.UserService;
 import org.emonocot.api.VernacularNameService;
-import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
@@ -256,7 +255,7 @@ public class CommentController extends GenericController<Comment, CommentService
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = {"!autocomplete"}, produces = "text/html")
+    @RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String list(
 			Model model,
 			@RequestParam(value = "query", required = false) String query,
@@ -281,10 +280,4 @@ public class CommentController extends GenericController<Comment, CommentService
 		result.putParam("query", query);
 		return "comment/list";
 	}
-	
-	@RequestMapping(params = "autocomplete", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {    	
-        return getService().autocomplete(term, 10, null);
-    }
-
 }

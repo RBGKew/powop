@@ -70,9 +70,9 @@ Restoring data from backup
     []
  [] 
  
- * Restore the indexes from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}}
+ * Restore the indexes from backup by executing the following on the master application server {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} as root
    
-    * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/data /mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/>>>
+    * <<<rsync -avr username@build.e-monocot.org:/mnt/shared/indexes/daily.0/zoo-bclark03/usr/local/solr/solr/collection1/data /usr/local/solr/solr/collection1/>>>
  
     []
  [] 

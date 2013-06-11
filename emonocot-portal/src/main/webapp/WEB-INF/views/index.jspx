@@ -49,7 +49,7 @@
 		<div class="span8">
 			<div class="inner">
 				<div class="box">
-					<h2><i class="glyphicons-icon rss"><!--  --></i> <spring:message code="news.title"/></h2>
+					<h2><a href="http://families.e-monocot.org/taxonomy/term/1392/feed"><i class="glyphicons-icon rss"><!--  --></i></a> <spring:message code="news.title"/></h2>
 					<div id="testNews"><!--  --></div>
 					
 					<script type="text/javascript">

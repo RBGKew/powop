@@ -1,6 +1,7 @@
 package org.emonocot.job.dwc.media;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Properties;
@@ -91,13 +92,13 @@ public class ImageFileProcessingTest {
         Image i = imageFileProcessor.process(image);
         imageMetadataExtractor.process(i);
         assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
-        // assertEquals("Male inflorescences", i.getDescription());
-        // assertEquals("William J. Baker", i.getCreator());
+        assertTrue(i.getDescription().contains("Male inflorescences"));
+        assertEquals("William J. Baker", i.getCreator());
         assertEquals(
                 "ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
                 i.getSubject());
-        assertEquals("Path to Little island, Lord Howe Island, Australia",
-                i.getSpatial());
+        //assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
+        assertEquals("Path to Little island", i.getSpatial());
     }
 
 }

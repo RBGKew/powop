@@ -26,13 +26,13 @@ function writeNode(key, node) {
 	  if(children.length == 0) {
 		 return "";
       }
-      html += "<li class='descriptiveConcept'><div data-toggle='collapse' data-target='#node" + node.id +"'>";
+      html += "<li class='descriptiveConcept'><div class='collapsed' data-toggle='collapse' data-target='#node" + node.id +"'>";
       if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
          html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
-         html += "<a class='pull-left'>" + node.concept + "</a>";   
+         html += "<a class='pull-left'><i class='halflings-icon plus'></i>" + node.concept + "</a>";   
      } else {
-         html += "<a >" + node.concept + "</a>";
+         html += "<a ><i class='halflings-icon plus'></i>" + node.concept + "</a>";
      }
      html += "</div>";
      html += "<div id='node" + node.id + "' class='collapse'><ul class='unstyled'>";
@@ -45,11 +45,11 @@ function writeNode(key, node) {
        html += "<li class='character'>";
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
-         html  += "<a class='pull-left' id='" + character.id + "'>" + character.name + "</a></br>";
+         html  += "<a class='pull-left' id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a></br>";
          html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + character.name + "'/>";
          
        } else {
-         html  += "<a id='" + character.id + "'>" + character.name + "</a>";
+         html  += "<a id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a>";
        }
        html += "</li>";
      }
@@ -58,7 +58,7 @@ function writeNode(key, node) {
 }
 
 function characterModal(characterId, key) {
-    var character = key.getCharacter(event.target.id);
+    var character = key.getCharacter(characterId);
     $('#characterModal .modal-header h3').html(character.name);
     var body = "";
     switch(character.type) {
@@ -70,7 +70,7 @@ function characterModal(characterId, key) {
         if(!Key.isUndefined(state.images) && state.images.length > 0) {
             var image = state.images[0];
             body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
-            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
+            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
             for(var j =0; j < state.images.length; j++) {
            	 imageIndex++;
             }
@@ -94,20 +94,17 @@ function characterModal(characterId, key) {
         key.calculate();             
         $('#characterModal').modal('hide');
         return false;
-      });
-      $("#characterModal").after("<div id='modal-gallery' class='modal modal-gallery hide fade modal-fullscreen'><div class='modal-header'><a class='close' data-dismiss='modal'>&#215;</a></div><div class='modal-body'><div class='modal-image'></div><div class='carousel-caption'><a class='modal-title'></a></div></div></div>");
+      });      
       var galleryBody = "";
       for (var i=0; i< character.states.length; i++){
         var state = character.states[i];
         if(!Key.isUndefined(state.images) && state.images.length > 0) {
            for(var j = 0; j < state.images.length; j++) {
-              //body = "<img src='" + key.getImagePath() +  character.states[i].images[j].href + "'/>";
-              galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' rel='gallery' title='" + state.name + "'>" + state.name + "</a>";
+              galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' data-icon='icon-white icon-picture' rel='gallery' title='" + state.name + "'>" + state.name + "</a>";
            }
         }
       }
       
-      //var title = event.target.title;
       $('#gallery').html(galleryBody);
 
       $("#characterModal .thumbnail").click(function(event) {
@@ -129,17 +126,28 @@ function characterModal(characterId, key) {
          
          modal.on('hidden', function() {
        	  $('#characterModal').modal('show');
+       	  $('#modal-gallery').data('modal', null);
          });
 
          modal.modal(options);
          return false;
        });
       
+       $('body').keydown(function(e) {    	   
+    	   if(e.which == 27) {
+    		   e.preventDefault();
+    		   var func = arguments.callee;
+               $('body').unbind("keydown",func);
+    	       $('#characterModal').modal('hide');
+    	       return false;
+    	   }
+       });
+      
        $('#characterModal').modal({});
        break;
        default:
        // Continuous
-       body += "<div class='row'><label class='span3' for='quantitative'>Enter a value between " + character.min + " and " + character.max + "</label>"   
+       body += "<div class='row'><label class='span2' for='quantitative'>Enter a value between " + character.min + " and " + character.max + "</label>"   
        body += "<input name='quantitative' type='text' class='span3' placeholder='Type something'/><span class='help-inline'>" + character.unit + "</span></div>";
        $('#characterModal .modal-body').html(body);
        $('#save').unbind("click");
@@ -150,6 +158,29 @@ function characterModal(characterId, key) {
           $('#characterModal').modal('hide');
           return false;
        });
+       
+       $('body').keydown(function(e) {
+    	   if(e.which == 27) {
+    		   e.preventDefault();
+    		   var func = arguments.callee;
+               $('body').unbind("keydown",func);
+    	       $('#characterModal').modal('hide');
+    	       return false;
+    	   }
+       });
+       $('#characterModal .modal-body input').unbind('keydown');
+       $('#characterModal .modal-body input').keydown(function (e) {
+    	   if (e.which == 13) {
+    		   e.preventDefault();
+    		   var value = $('#characterModal .modal-body input').val();
+               key.selectCharacter(character.id,value);
+               key.calculate();     
+               var func = arguments.callee;
+               $('#characterModal .modal-body input').unbind("keydown",func);
+               $('#characterModal').modal('hide');
+               return false;
+    	   }
+    	 });
        $('#characterModal').modal({});
        break;
      }
@@ -168,7 +199,7 @@ function updateUI(key) {
         var taxon = matchedTaxa[i];
         matched += "<tr>";
         matched +="<td><img src=\"../css/images/glyphicons/halfsize/glyphicons_001_leaf.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
-        if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
+        if(!Key.isUndefined(taxon.links) && taxon.links.length > 0 && taxon.links[0].href != "") {
             var link = taxon.links[0];
             matched += "<td><a href='" + key.getTaxonPath() + link.href + "' title='" + link.title + "'><h4>" + taxon.name + "</h4></a></td>";
         } else {
@@ -190,18 +221,18 @@ function updateUI(key) {
       $("#pages").html(matchedTaxa.length + " taxa remaining");
       
       var unSelected = "";
-      var nonRedundant = 0;
+      var available = 0;
       for(var i = 0; i < unselectedCharacters.length; i++) {
         var character = unselectedCharacters[i];
-        if(!character.isRedundant) {
-            nonRedundant++;
+        if(!character.isRedundant && !key.isExcluded(character)) {
+        	available++;
         }
       }
       for(var i = 0; i < characterTree.length; i++) {
          unSelected += writeNode(key, characterTree[i]);
       }
       
-	  $("#unselectedCharacters").html("<li class='nav-header'>Features Available: " + nonRedundant + "</li>" + unSelected);	  
+	  $("#unselectedCharacters").html("<li class='nav-header'>Features Available: " + available + "</li>" + unSelected);
       
       $("#unselectedCharacters li.character a").click(function(event) {
           characterModal(event.target.id, key); 
@@ -210,12 +241,12 @@ function updateUI(key) {
       $(".thumbnail").click(function(event) {
 
           if(event.target.id.indexOf("character") == 0){
-            var title = event.target.title;
+  
             var character = key.getCharacter(event.target.id.substring(9));
-           
+
             var body = "";
             for(var i=0; i< character.images.length; i++){
-              body += "<a href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + title +"'>" + title +"</a>";
+              body += "<a data-icon='icon-white icon-picture' href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + character.images[i].caption +"'>" + character.images[i].caption +"</a>";
             }
             
             $('#gallery').html(body);
@@ -227,7 +258,7 @@ function updateUI(key) {
 
             var body = "";
             for(var i=0; i< descriptiveConcept.images.length; i++){
-              body += "<a href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + title + "'>" + title +"</a>";
+              body += "<a data-icon='icon-white icon-picture' href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + descriptiveConcept.images[i].caption + "'>" + descriptiveConcept.images[i].caption +"</a>";
             }
             $('#gallery').html(body);
             
@@ -246,7 +277,7 @@ function updateUI(key) {
         for(var i = 0; i < selectedCharacters.length; i++) {
           var character = selectedCharacters[i];
           if(!Key.isUndefined(character)) {
-             selected += "<li class='selectedCharacter'><h4 id='" + character.id + "'>"  + character.name + "</h4>";
+             selected += "<li class='selectedCharacter'><a id='" + character.id + "'><i class='halflings-icon check'></i>"  + character.name + ": ";
              switch(character.type) {
                 case Key.Categorical:
                    var values;
@@ -270,11 +301,11 @@ function updateUI(key) {
                     selected += character.selectedValues + " " + character.unit;
                     break;
                   }
-                  selected += "</li>";
+                  selected += "</a></li>";
                }
            }      
           $("#selectedCharacters").html("<li class='nav-header'>Features Chosen: " + selectedCharacters.length + "</li>" + selected);
-          $("#selectedCharacters li h4").click(function(event) {
+          $("#selectedCharacters li.selectedCharacter a").click(function(event) {
           key.unselectCharacter(event.target.id);
           key.calculate();
       });

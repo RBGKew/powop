@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.emonocot.api.CommentService;
+import org.emonocot.api.OrganisationService;
+import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
@@ -20,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,16 +47,31 @@ public class SearchController {
 			.getLogger(SearchController.class);
 
 	private SearchableObjectService searchableObjectService;
-
-	/**
-	 * 
-	 * @param newSearchableObjectService
-	 *            set the service to search across all 'searchable' objects
-	 */
+	
+	private CommentService commentService;
+	
+	private OrganisationService organisationService;
+	
+	private ResourceService resourceService;
+	
 	@Autowired
-	public void setSearchableObjectService(
-			SearchableObjectService newSearchableObjectService) {
-		this.searchableObjectService = newSearchableObjectService;
+	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
+		this.searchableObjectService = searchableObjectService;
+	}
+	
+	@Autowired
+	public void setCommentService(CommentService commentService) {
+		this.commentService = commentService;
+	}
+	
+    @Autowired
+	public void setOrganisationService(OrganisationService organisationService) {
+		this.organisationService = organisationService;
+	}
+
+    @Autowired
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
 	}
 
 	/**
@@ -391,11 +408,26 @@ public class SearchController {
 	 *            The term to search for
 	 * @return A list of terms to serialize
 	 */
-	@RequestMapping(value = "/autocomplete", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/autocomplete",   method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {
 		return searchableObjectService.autocomplete(term, 10, null);
 	}
+	
+	@RequestMapping(value = "/autocomplete/comment", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Match> autocompleteComments(@RequestParam(required = true) String term) throws SolrServerException {    	
+        return commentService.autocomplete(term, 10, null);
+    }
+	
+	@RequestMapping(value = "/autocomplete/organisation", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Match> autocompleteOrganisations(@RequestParam(required = true) String term) throws SolrServerException {    	
+        return organisationService.autocomplete(term, 10, null);
+    }
+	
+	@RequestMapping(value = "/autocomplete/resource", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Match> autocompleteResources(@RequestParam(required = true) String term) throws SolrServerException {    	
+        return resourceService.autocomplete(term, 10, null);
+    }
 	
 	@ExceptionHandler(SolrServerException.class)
 	@ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)

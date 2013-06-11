@@ -25,5 +25,11 @@ public class HtmlSanitizerTest {
 		assertEquals("Linder, H.P., 2013. Delta database to Restionaceae",htmlSanitizer.sanitize("<div style=\"  text-indent: -25px; padding-left: 25px;\"><span class=\"biblio-authors\"><a href=\"/biblio?f[author]=1\" rel=\"nofollow\">Linder, H.P.</a></span>, 2013. <a href=\"/node/1\"><span class=\"biblio-title\">Delta database to Restionaceae"));
 	}
 	
+	@Test
+	public void testControlCharacter() throws Exception {
+        assertEquals("William J. Baker", htmlSanitizer.sanitize("William J. Baker" + ((char) 0)));
+        assertEquals("William J. Baker says hi!", htmlSanitizer.sanitize("William J. Baker" + ((char) 0) + " says hi!"));
+	}
+	
 
 }
