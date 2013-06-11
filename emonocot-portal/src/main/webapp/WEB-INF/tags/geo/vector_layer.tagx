@@ -73,7 +73,7 @@
 			strokeColor: colors.cluster100,
 			strokeOpacity: 0.9,
 			strokeWidth: 2,
-			pointRadius: 12,
+			pointRadius: 9,
 			label: "${count}",
 			labelOutlineWidth: 1,
 			fontColor: "#000000",
@@ -94,7 +94,7 @@
 			strokeColor: colors.cluster250,
 			strokeOpacity: 0.9,
 			strokeWidth: 2,
-			pointRadius: 20,
+			pointRadius: 12,
 			label: "${count}",
 			labelOutlineWidth: 1,
 			fontColor: "#000000",
@@ -115,7 +115,7 @@
 			strokeColor: colors.cluster1000,
 			strokeOpacity: 0.9,
 			strokeWidth: 2,
-			pointRadius: 24,
+			pointRadius: 15,
 			label: "${count}",
 			labelOutlineWidth: 1,
 			fontColor: "#000000",
@@ -135,7 +135,7 @@
 			strokeColor: colors.clusterBig,
 			strokeOpacity: 0.9,
 			strokeWidth: 2,
-			pointRadius: 30,
+			pointRadius: 20,
 			label: "${count}",
 			labelOutlineWidth: 1,
 			fontColor: "#000000",
@@ -214,7 +214,7 @@
 				true,
 				onPopupClose);
 		}
-		
+		popup.closeOnMove = true;
 		feature.popup = popup;
 		map.addPopup(popup);
 	}

@@ -277,8 +277,20 @@
 										<geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
 									</c:if>
 								</geo:map>
-								
-								
+								<div>
+									<c:if test="${not empty taxon.typesAndSpecimens}">
+										<div class="paddingTop40 paddingLeft8">
+											<span class=""><spring:message code="specimenMessage" /></span>
+											<ul class="citations">
+												<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.typesAndSpecimens)}">
+													<li>
+														<a href="#${provenanceHolder}">${provenanceHolder}</a>
+													</li>
+												</c:forEach>
+											</ul>
+										</div>
+									</c:if>
+								</div>
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
 										<li id="distribution-list">
