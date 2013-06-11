@@ -199,7 +199,7 @@ function updateUI(key) {
         var taxon = matchedTaxa[i];
         matched += "<tr>";
         matched +="<td><img src=\"../css/images/glyphicons/halfsize/glyphicons_001_leaf.png\" alt=\"Taxon\" style=\"width:20px ; height:20px\"/></td>";
-        if(!Key.isUndefined(taxon.links) && taxon.links.length > 0) {
+        if(!Key.isUndefined(taxon.links) && taxon.links.length > 0 && taxon.links[0].href != "") {
             var link = taxon.links[0];
             matched += "<td><a href='" + key.getTaxonPath() + link.href + "' title='" + link.title + "'><h4>" + taxon.name + "</h4></a></td>";
         } else {

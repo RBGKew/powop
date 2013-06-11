@@ -16,9 +16,10 @@ function Key(data) {
   for(var i = 0; i < this.characterTree.length; i++) {
 	  var charNode = this.characterTree[i];
 	  if(charNode.type == "Character") {
+		  var character = this.getCharacter(charNode.character);
+		  character.charNode = i;
 		  if(!Key.isUndefined(charNode.inapplicableIf) || !Key.isUndefined(charNode.onlyApplicableIf)) {
-			  var character = this.getCharacter(charNode.character);
-			  character.charNode = i;
+			  
 			  character.inapplicableIf = charNode.inapplicableIf;
 			  character.onlyApplicableIf = charNode.onlyApplicableIf;
 		  }
@@ -192,7 +193,11 @@ Key.prototype.getDescriptiveConcept = function(descriptiveConceptId) {
 };
 
 Key.prototype.isExcluded = function(character) {
-	this.characterTree[character.charNode].isExcluded;
+	if(Key.isUndefined(character.charNode)) {
+		return false;
+	} else {
+	    return this.characterTree[character.charNode].isExcluded;
+	}
 };
 
 Key.prototype.getCharacter = function(characterId) {
