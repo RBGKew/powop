@@ -6,6 +6,7 @@ public enum EmonocotTerm implements ConceptTerm {
   subfamily,
   tribe,
   subtribe,
+  acceptedNameUsageFamily,
   SRLI;
 
   public static final String NS = "http://e-monocot.org/";

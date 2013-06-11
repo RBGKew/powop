@@ -43,6 +43,7 @@ public class DarwinCorePropertyMap {
    	taxonTerms.put(DwcTerm.taxonID, "identifier");
    	taxonTerms.put(DwcTerm.acceptedNameUsage,"acceptedNameUsage.scientificName");
    	taxonTerms.put(DwcTerm.acceptedNameUsageID,"acceptedNameUsage.identifier");
+   	taxonTerms.put(EmonocotTerm.acceptedNameUsageFamily,"acceptedNameUsage.family");
    	taxonTerms.put(DcTerm.bibliographicCitation,"bibliographicCitation");
    	taxonTerms.put(DwcTerm.classs,"clazz");
    	taxonTerms.put(DwcTerm.family,"family");

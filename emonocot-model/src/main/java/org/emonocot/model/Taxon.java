@@ -937,8 +937,22 @@ public class Taxon extends SearchableObject {
         sid.addField("searchable.label_sort", getScientificName());
         addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
         addField(sid,"taxon.clazz_s", getClazz());
-        Rank rank = Rank.FAMILY; 
-        if(rank == getTaxonRank() && getFamily() == null) {
+        
+        StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
+        .append(getClazz()).append(" ").append(getFamily()).append(" ")
+        .append(getGenus()).append(" ").append(getKingdom()).append(" ")
+        .append(getNamePublishedInString()).append(" ")
+        .append(getNamePublishedInYear()).append(" ")
+        .append(getNomenclaturalStatus()).append(" ").append(getOrder()).append(" ")
+        .append(getPhylum()).append(" ").append(getScientificName()).append(" ")
+        .append(getScientificNameAuthorship()).append(" ")
+        .append(getSource()).append(" ").append(getSpecificEpithet()).append(" ")
+        .append(getSubfamily()).append(" ").append(getSubgenus()).append(" ")
+        .append(getSubtribe()).append(" ").append(getTaxonomicStatus()).append(" ")
+        .append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
+        .append(getTribe()).append(" ").append(getVerbatimTaxonRank());
+
+        if(Rank.FAMILY == getTaxonRank() && getFamily() == null) {
             addField(sid,"taxon.family_ns", getScientificName());
             addField(sid,"taxon.family_ss", getScientificName());
         } else {
@@ -947,10 +961,11 @@ public class Taxon extends SearchableObject {
         }
         if(getAcceptedNameUsage() != null) {
             addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
+            summary.append(" ").append(getAcceptedNameUsage().getFamily());
         }
         addField(sid,"taxon.genus_s", getGenus());
-        rank = Rank.GENUS;
-        if(rank == getTaxonRank() && getGenus() == null) {
+        
+        if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
             addField(sid,"taxon.genus_ns", getScientificName());
         } else {
             addField(sid,"taxon.genus_ns", getGenus());
@@ -977,20 +992,6 @@ public class Taxon extends SearchableObject {
         addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
         addField(sid,"taxon.tribe_s", getTribe());
         addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
-        
-        StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
-        .append(getClazz()).append(" ").append(getFamily()).append(" ")
-        .append(getGenus()).append(" ").append(getKingdom()).append(" ")
-        .append(getNamePublishedInString()).append(" ")
-        .append(getNamePublishedInYear()).append(" ")
-        .append(getNomenclaturalStatus()).append(" ").append(getOrder()).append(" ")
-        .append(getPhylum()).append(" ").append(getScientificName()).append(" ")
-        .append(getScientificNameAuthorship()).append(" ")
-        .append(getSource()).append(" ").append(getSpecificEpithet()).append(" ")
-        .append(getSubfamily()).append(" ").append(getSubgenus()).append(" ")
-        .append(getSubtribe()).append(" ").append(getTaxonomicStatus()).append(" ")
-        .append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
-        .append(getTribe()).append(" ").append(getVerbatimTaxonRank());
         
         if(getDescriptions().isEmpty()) {
             sid.addField("taxon.descriptions_not_empty_b", false);

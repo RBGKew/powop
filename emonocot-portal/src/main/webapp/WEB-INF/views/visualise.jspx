@@ -246,7 +246,7 @@
 											<li>
 												<c:choose>
 													<c:when test="${cellSet.rows.dimension ne dimension}">
-														<analyse:cubeUrl url="/visualise" cellSet="${cellSet}" rows="${dimension.levels[0]}" columns="${cellSet.count}" filters="${cellSet.emptyFilters}">
+														<analyse:cubeUrl url="/visualise" cellSet="${cellSet}" rows="${dimension.levels[0]}" columns="${cellSet.count}"> <!-- filters="${cellSet.emptyFilters}" -->
 															<spring:message code="dimension_${dimension.name}_title" text="${dimension.name}" />
 														</analyse:cubeUrl>
 													</c:when>
