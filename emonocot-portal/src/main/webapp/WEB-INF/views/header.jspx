@@ -18,7 +18,7 @@
 		<div class="container">
 			<c:url value="/" var="brandUrl"/>
 			<a href="${brandUrl}" class="brand"><span>eMonocot</span></a>
-			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<button type="button" class="btn btn-navbar no-print" data-toggle="collapse" data-target=".nav-collapse">
 				<span class="icon-bar"><!--  --></span>
 				<span class="icon-bar"><!--  --></span>
 				<span class="icon-bar"><!--  --></span>
