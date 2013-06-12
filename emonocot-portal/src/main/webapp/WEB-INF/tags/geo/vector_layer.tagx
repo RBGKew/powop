@@ -31,7 +31,7 @@
 			strokeColor: colors.point,
 			strokeOpacity: 0.5,
 			//strokeWidth: 6,
-			pointRadius: 3,
+			pointRadius: 4,
 			labelOutlineWidth: 1,
 			fontColor: "#ffffff",
 			fontOpacity: 0.8,
@@ -220,7 +220,7 @@
 	}
 
 	function onFeatureUnselect(feature) {
-		map.removePopup(feature.popup);
+		
 		feature.popup.destroy();
 		feature.popup = null;
 	}
