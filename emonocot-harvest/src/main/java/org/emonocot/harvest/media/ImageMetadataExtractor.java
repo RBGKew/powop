@@ -3,11 +3,14 @@ package org.emonocot.harvest.media;
 import java.io.File;
 import java.io.StringReader;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jempbox.xmp.XMPMetadata;
 import org.apache.jempbox.xmp.XMPSchema;
-import org.apache.jempbox.xmp.XMPSchemaBasicJobTicket;
 import org.apache.jempbox.xmp.XMPSchemaDublinCore;
 import org.apache.jempbox.xmp.XMPSchemaIptc4xmpCore;
 import org.apache.jempbox.xmp.XMPSchemaPhotoshop;
@@ -19,10 +22,13 @@ import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
 import org.apache.sanselan.formats.tiff.TiffImageMetadata;
 import org.apache.sanselan.formats.tiff.constants.TiffConstants;
 import org.emonocot.harvest.common.HtmlSanitizer;
+import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.model.Image;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.InputSource;
 
 /**
@@ -32,22 +38,14 @@ import org.xml.sax.InputSource;
  */
 public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
 
-    /**
-    *
-    */
     private Logger logger = LoggerFactory
             .getLogger(ImageMetadataExtractor.class);
 
-    
-    /**
-     * 
-     */
     private HtmlSanitizer sanitizer;
     
-    /**
-     *
-     */
     private String imageDirectory;
+    
+    private Validator validator;
 
     
     /**
@@ -59,8 +57,14 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
     /**
      * @param sanitizer the sanitizer to set
      */
+    @Autowired
     public void setSanitizer(HtmlSanitizer sanitizer) {
         this.sanitizer = sanitizer;
+    }
+    
+    @Autowired
+    public void setValidator(Validator validator) {
+    	this.validator = validator;
     }
 
     /**
@@ -103,37 +107,56 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
 
         
         String xmpXml = Sanselan.getXmpXml(file);
-        logger.debug("Attempting to extract metadata from xmp-xml:\n" + xmpXml);
-        XMPMetadata xmp = XMPMetadata.load(new InputSource(new StringReader(xmpXml)));
-        for(Class schemaClass : schemas) {
-            XMPSchema schema = xmp.getSchemaByClass(schemaClass);
-            if(schema instanceof XMPSchemaIptc4xmpCore){
-                XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
-                metadataUpdated = addIptcProperies(iptcSchema, image) || metadataUpdated;
-                logger.debug("Known schema that will be added:" + schema.toString() +
-                        "\n" + schema.getElement().getTextContent());
-            } else if (schema instanceof XMPSchemaDublinCore) {
-                XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
-                metadataUpdated = addDcProperies(dcSchema, image) || metadataUpdated;
-                logger.debug("Known schema that will be added:" + schema.toString() +
-                        "\n" + schema.getElement().getTextContent());
-            } else if (schema instanceof XMPSchemaRightsManagement) {
-                XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
-                metadataUpdated = addRightsProprties(rightsSchema, image) || metadataUpdated;
-                logger.debug("Known schema that will be added:" + schema.toString() +
-                        "\n" + schema.getElement().getTextContent());
-            } else if(schema instanceof XMPSchemaPhotoshop) {
-                XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
-                metadataUpdated = addPhotoshopProperties(photoshopSchema, image) || metadataUpdated;
-                logger.debug("Known schema that will be added:" + schema.toString() +
-                        "\n" + schema.getElement().getTextContent());
-            } else {
-                logger.warn("Unknown schema that will be skipped:" + schema.toString() +
-                        "\n" + schema.getElement().getTextContent());
-            }
-        }
-//        XMPSchemaBasicJobTicket bjtSchema = xmp.getBasicJobTicketSchema();
-//        addBjtSchema(bjtSchema, image);
+		if (xmpXml != null && !xmpXml.isEmpty()) {
+			logger.debug("Attempting to extract metadata from xmp-xml:\n"
+					+ xmpXml);
+			XMPMetadata xmp = XMPMetadata.load(new InputSource(
+					new StringReader(xmpXml)));
+			for (Class schemaClass : schemas) {
+				XMPSchema schema = xmp.getSchemaByClass(schemaClass);
+				if (schema instanceof XMPSchemaIptc4xmpCore) {
+					XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
+					metadataUpdated = addIptcProperies(iptcSchema, image)
+							|| metadataUpdated;
+					logger.debug("Known schema that will be added:"
+							+ schema.toString() + "\n"
+							+ schema.getElement().getTextContent());
+				} else if (schema instanceof XMPSchemaDublinCore) {
+					XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
+					metadataUpdated = addDcProperies(dcSchema, image)
+							|| metadataUpdated;
+					logger.debug("Known schema that will be added:"
+							+ schema.toString() + "\n"
+							+ schema.getElement().getTextContent());
+				} else if (schema instanceof XMPSchemaRightsManagement) {
+					XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
+					metadataUpdated = addRightsProprties(rightsSchema, image)
+							|| metadataUpdated;
+					logger.debug("Known schema that will be added:"
+							+ schema.toString() + "\n"
+							+ schema.getElement().getTextContent());
+				} else if (schema instanceof XMPSchemaPhotoshop) {
+					XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
+					metadataUpdated = addPhotoshopProperties(photoshopSchema,
+							image) || metadataUpdated;
+					logger.debug("Known schema that will be added:"
+							+ schema.toString() + "\n"
+							+ schema.getElement().getTextContent());
+				} else {
+					if(schema != null && schema.getElement() != null) {
+					    logger.warn("Unknown schema that will be skipped:"
+							+ schema.toString() + "\n"
+							+ schema.getElement().getTextContent());
+					}
+				}
+			}
+			// XMPSchemaBasicJobTicket bjtSchema =
+			// xmp.getBasicJobTicketSchema();
+			// addBjtSchema(bjtSchema, image);
+		} else {
+			logger.debug("Image " + file + " does not contain embedded XMP metadata");
+		}
+
         
 
         ////////////////////////////////////////
@@ -144,11 +167,25 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
         
         
         if(metadataUpdated) {
+        	validate(image);
             return image;
         } else {
         	logger.debug("No metadata was updated, skipping");
         	return null;
         }
+    }
+    
+    protected void validate(Image image) {
+    	Set<ConstraintViolation<Image>> violations = validator.validate(image);
+    	if(!violations.isEmpty()) {
+    		 RecordType recordType = RecordType.Image;
+    		 StringBuffer stringBuffer = new StringBuffer();
+    		 stringBuffer.append(violations.size()).append(" constraint violations:");
+    		for(ConstraintViolation<Image> violation : violations) {			
+    			stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
+    		}
+    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  -1);    		
+    	}
     }
 
     /**

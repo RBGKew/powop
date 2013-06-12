@@ -1,9 +1,16 @@
 package org.emonocot.job.dwc.read;
 
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
+import org.emonocot.job.dwc.DwCProcessingExceptionProcessListener;
 import org.emonocot.job.dwc.exception.DarwinCoreProcessingException;
+import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.job.dwc.exception.OutOfScopeTaxonException;
 import org.emonocot.job.dwc.exception.RequiredFieldException;
 import org.emonocot.model.Annotated;
@@ -16,6 +23,7 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,6 +36,8 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
         ItemProcessor<T, T> {
 
     private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
+    
+    private Validator validator;
 
     private TaxonService taxonService;
     
@@ -40,6 +50,11 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     private String subtribe;
     
     protected Boolean skipUnmodified = Boolean.TRUE;
+    
+    @Autowired
+    public void setValidator(Validator validator) {
+    	this.validator = validator;
+    }
     
     public void setSkipUnmodified(Boolean skipUnmodified) {
     	if(skipUnmodified != null) {
@@ -148,6 +163,20 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      */
     public TaxonService getTaxonService() {
         return taxonService;
+    }
+    
+    protected void validate(T t) {
+    	Set<ConstraintViolation<T>> violations = validator.validate(t);
+    	if(!violations.isEmpty()) {
+    		 StepExecution stepExecution = this.getStepExecution();
+    		 RecordType recordType = DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
+    		 StringBuffer stringBuffer = new StringBuffer();
+    		 stringBuffer.append(violations.size()).append(" constraint violations:");
+    		for(ConstraintViolation<T> violation : violations) {			
+    			stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
+    		}
+    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  stepExecution.getReadCount());    		
+    	}
     }
 
     /**

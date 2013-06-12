@@ -65,9 +65,10 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
             }
         	
             if (persisted == null) {
-                bind(t);
                 doPersist(t);
-                t.setAuthority(getSource());
+                validate(t);
+                bind(t);
+                t.setAuthority(getSource());                
                 Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
                 t.getAnnotations().add(annotation);
                 logger.info("Adding object " + t.getIdentifier());
@@ -107,6 +108,8 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                     if(taxon != null) {
                         ((NonOwned)persisted).getTaxa().add(taxon);
                     }
+                    validate(t);
+                    
                     bind(persisted);
                     replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
                     logger.info("Overwriting object " + t.getIdentifier());

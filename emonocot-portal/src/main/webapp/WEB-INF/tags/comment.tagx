@@ -54,6 +54,11 @@
 			<c:set var="pageTitle" value="${comment.commentPage.title}" />
 			<c:set var="pageIcon" value="keys" />
 		  </c:when>
+		  <c:when test="${comment.commentPage.className == 'PhylogeneticTree'}">
+			<c:url var="pageUrl" value="/phylo/${comment.commentPage.id}" />
+			<c:set var="pageTitle" value="${comment.commentPage.title}" />
+			<c:set var="pageIcon" value="phylogeny" />
+		  </c:when>
 		  <c:otherwise>
 			<c:url var="pageUrl" value="/image/${comment.commentPage.id}" />
 			<c:set var="pageTitle" value="${comment.commentPage.title}" />

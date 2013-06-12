@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  *
@@ -48,8 +49,12 @@ public class ReferenceProcessingTest {
         referenceService = EasyMock.createMock(ReferenceService.class);
         taxonService = EasyMock.createMock(TaxonService.class);
         sourceService = EasyMock.createMock(OrganisationService.class);
+        
+        LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
+        validatorFactory.afterPropertiesSet();        
 
         referenceValidator = new Processor();
+        referenceValidator.setValidator(validatorFactory.getValidator());
         referenceValidator.setReferenceService(referenceService);
         referenceValidator.setOrganisationService(sourceService);
         referenceValidator.setTaxonService(taxonService);

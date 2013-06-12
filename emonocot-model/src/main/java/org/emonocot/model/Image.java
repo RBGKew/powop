@@ -20,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -89,6 +90,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
     
     private List<Comment> comments = new ArrayList<Comment>();
 
+    @Size(max = 255)
 	public String getCreator() {
 		return creator;
 	}
@@ -102,6 +104,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
 	 * @return the references
 	 */
 	@Column(name = "source")
+	@Size(max = 255)
 	public String getReferences() {
 		return references;
 	}
@@ -124,6 +127,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
     * @return the location as a string
     */
    @Column(name = "locality")
+   @Size(max = 255)
    public String getSpatial() {
        return spatial;
    }
@@ -141,6 +145,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
        this.format = format;
    }
 
+   @Size(max = 255)
    public String getSubject() {
        return subject;
    }
@@ -169,6 +174,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
         return id;
     }
 
+    @Size(max = 255)
     public String getTitle() {
         return title;
     }
@@ -177,6 +183,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
         this.title = title;
     }
 
+    @Size(max = 255)
 	public String getContributor() {
 		return contributor;
 	}
@@ -204,6 +211,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
 		this.contributor = contributor;
 	}
 
+	@Size(max = 255)
 	public String getPublisher() {
 		return publisher;
 	}
@@ -212,6 +220,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
 		this.publisher = publisher;
 	}
 
+	@Size(max = 255)
 	public String getAudience() {
 		return audience;
 	}

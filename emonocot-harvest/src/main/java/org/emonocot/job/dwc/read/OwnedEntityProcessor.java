@@ -43,8 +43,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
                 logger.info("Skipping " + t);
                 replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
                 return persisted;
-            } else {
-            	replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
+            } else {            	
                 persisted.setTaxon(t.getTaxon());
                 persisted.setAccessRights(t.getAccessRights());
                 persisted.setCreated(t.getCreated());
@@ -53,15 +52,18 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
                 persisted.setRights(t.getRights());
                 persisted.setRightsHolder(t.getRightsHolder());
                 doUpdate(persisted, t);
-         
+                validate(t);
+                
+                replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
                 logger.info("Updating " + t);
                 return persisted;
             }
         } else {
+        	doCreate(t);
+        	validate(t);
             Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
             t.getAnnotations().add(annotation);
-            t.setAuthority(getSource());
-            doCreate(t);
+            t.setAuthority(getSource());            
             return t;
         }
 	}	
