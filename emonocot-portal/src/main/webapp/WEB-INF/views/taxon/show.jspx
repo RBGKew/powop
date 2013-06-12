@@ -32,7 +32,7 @@
 	
 	<section id="printHeader" class="hide print">
 		<h2 id="page-title">
-			<i class="glyphicons-icon leaf"><!--  --></i> <em class="taxonName">${taxon.scientificName}</em>&#160;<span>${taxon.scientificNameAuthorship}</span>
+			<i class="glyphicons-icon leaf"><!--  --></i> <em>${taxon.scientificName}</em>&#160;<span>${taxon.scientificNameAuthorship}</span>
 			<ul class="unstyled">
 				<li>
 					<small>
@@ -277,8 +277,20 @@
 										<geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
 									</c:if>
 								</geo:map>
-								
-								
+								<div>
+									<c:if test="${not empty taxon.typesAndSpecimens}">
+										<div class="paddingTop40 paddingLeft8">
+											<span class=""><spring:message code="specimenMessage" /></span>
+											<ul class="citations">
+												<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.typesAndSpecimens)}">
+													<li>
+														<a href="#${provenanceHolder}">${provenanceHolder}</a>
+													</li>
+												</c:forEach>
+											</ul>
+										</div>
+									</c:if>
+								</div>
 								<ul id="distribution-textual" class="paddingTop20">
 									<c:forEach var="region" items="${em:regions(taxon)}">
 										<li id="distribution-list">
@@ -691,8 +703,8 @@
 								<spring:message code="external.links"/>
 							</h2>
 							<ul class="unstyled">
-								<li><a id="NCBILink"><spring:message code="ncbi"/></a></li>
-								<li><a id="boldLink"><spring:message code="boldSystems"/></a></li>
+								<li><a id="NCBILink"><spring:message code="ncbi"/><!--  --></a></li>
+								<li><a id="boldLink"><spring:message code="boldSystems"/><!--  --></a></li>
 							</ul>
 						</section>
 					</div>
