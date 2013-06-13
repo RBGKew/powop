@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  *
@@ -50,6 +51,11 @@ public class ImageFileProcessingTest {
      */
     @Before
     public final void setUp() throws Exception {
+    	LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
+    	validatorFactory.afterPropertiesSet();
+    	
+    	
+    	
         image.setIdentifier("http://build.e-monocot.org/test/test.jpg");
         image.setFormat(ImageFormat.jpg);
         GetResourceClient getResourceClient = new GetResourceClient();
@@ -60,6 +66,7 @@ public class ImageFileProcessingTest {
         imagesDirectory.mkdir();
         imagesDirectory.deleteOnExit();
         imageMetadataExtractor.setImageDirectory(imagesDirectoryName);
+        imageMetadataExtractor.setValidator(validatorFactory.getValidator());
         imageFileProcessor.setImageDirectory(imagesDirectoryName);
         String thumbnailDirectoryName = System.getProperty("java.io.tmpdir")
                 + File.separatorChar + "thumbnails";
