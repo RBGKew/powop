@@ -89,28 +89,35 @@
         	if(typeof element === 'undefined') {
         	    return null;	
         	} else {
-              return $(element).data('link');
+              return !Key.isUndefined($(element).data('link')) ? $(element).data('link') : '';
         	}
         },
         getCreator: function (element) {
         	if(typeof element === 'undefined') {
         	    return null;	
         	} else {
-        	  return $(element).data('creator');
+        	  return !Key.isUndefined($(element).data('creator')) ? $(element).data('creator') : '';
         	}
         },
         getLicense: function (element) {
         	if(typeof element === 'undefined') {
         	    return null;	
         	} else {
-        	  return $(element).data('license');
+        	  return !Key.isUndefined($(element).data('license')) ? $(element).data('license') : '';
         	}
         },
         getIcon: function (element) {
         	if(typeof element === 'undefined') {
         	    return null;	
         	} else {
-        	  return $(element).data('icon');
+        	  return !Key.isUndefined($(element).data('icon')) ? $(element).data('icon') : '';
+        	}
+        },
+        getDescription: function (element) {
+        	if(typeof element === 'undefined') {
+        	    return null;	
+        	} else {
+        	  return !Key.isUndefined($(element).data('description')) ? $(element).data('description') : '';
         	}
         },
         /* eMonocot End*/
@@ -163,6 +170,7 @@
                 link = this.getLink(this.$links[index]), // eMonocot
                 creator = this.getCreator(this.$links[index]),  // eMonocot
                 license = this.getLicense(this.$links[index]),  // eMonocot
+                description = this.getDescription(this.$links[index]),  // eMonocot
                 icon = this.getIcon(this.$links[index]),        // eMonocot
                 oldImg;
             this.abortLoad();
@@ -182,6 +190,7 @@
             modal.find('.modal-creator').text(creator);                         // eMonocot
             modal.find('.modal-license').text(license);                         // eMonocot
             modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      // eMonocot
+            modal.find('.modal-description').text(description);      // eMonocot
             modal.find('.modal-download').prop('href',link);                    // eMonocot
             this._loadingImage = loadImage(
                 url,

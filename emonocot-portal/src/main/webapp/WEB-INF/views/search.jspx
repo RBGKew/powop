@@ -44,14 +44,14 @@
 					<span class="icon-search icon-white">&#160;</span>
 				</button>
 			</form>
-		
-			<c:url var="resetUrl" value="/search"/>
-			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
+		</div>
+		<div class="row">
+			  <c:url var="resetUrl" value="/search"/>
+			  <a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
-			</a>
-			
-		</div>
+			  </a>
+			</div>
 		<div class="row">
 			<tags:overlayHelp >
 				t.addStep({
@@ -131,21 +131,20 @@
 				<div class="inner">
 					<div class="box">
 						<div class="row no-print">
-							<div id="viewIcons" class="span3">
+							<div id="viewIcons" class="span4">
 								<tags:view url="/search" result="${result}" />
 							</div>
-							<tags:sort url="/search" result="${result}" spanClass="span1 offset4" />
-						</div>
-						<br/>
+							<tags:sort url="/search" result="${result}" spanClass="offset3" />
+						</div>					
 						<div class="row">
-							<div id="pages" class="span4 pull-left">
+							<div id="pages" class="span4">
 								<tags:results pager="${result}" />
 							</div>
-							<div class="pull-right tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="3" data-tour-next="5">
+							<div class="offset7 tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="3" data-tour-next="5">
 								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>
-
+                        <tags:didyoumean url="/search" pager="${result}" />
 						<div id="results" class="row no-margin-left" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
 							<c:set var="classFacet" value="${result.selectedFacets['base.class_s']}"/>
 							<c:choose>

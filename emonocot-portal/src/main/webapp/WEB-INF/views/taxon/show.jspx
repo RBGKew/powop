@@ -455,7 +455,7 @@
 			</div>
 
 			<div id="sidebar" class="span4 sidebar">
-				<c:if test="${taxon.acceptedNameUsage == null}">
+				<c:if test="${taxon.parentNameUsage != null}">
 					<div class="inner">
 						<div id="classificationBox" class="box">
 							<section class="sidebarBox" id="taxonomicTree">

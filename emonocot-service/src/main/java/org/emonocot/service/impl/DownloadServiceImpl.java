@@ -151,7 +151,7 @@ public class DownloadServiceImpl implements DownloadService {
         jobParametersMap.put("download.fieldsTerminatedBy", "\t");
         jobParametersMap.put("download.fieldsEnclosedBy", "\"");
         jobParametersMap.put("download.user.displayName", requestingUser.getAccountName());
-        if(requestingUser.getPermissions().contains(Permission.PERMISSION_ADMINISTRATE.name())) {
+        if(requestingUser.getPermissions().contains(Permission.PERMISSION_ADMINISTRATE)) {
             jobParametersMap.put("download.limit", Integer.toString(Integer.MAX_VALUE)); 
         } else {
             jobParametersMap.put("download.limit", "" + Integer.toString(getDownloadLimit()));

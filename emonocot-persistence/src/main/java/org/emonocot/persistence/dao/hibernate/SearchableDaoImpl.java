@@ -9,6 +9,8 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.Group;
+import org.apache.solr.client.solrj.response.GroupCommand;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
@@ -86,6 +88,10 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
             final String sort, final String fetch) throws SolrServerException {
         SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
+        solrQuery.set("spellcheck", "true");
+        solrQuery.set("spellcheck.collate", "true");
+        solrQuery.set("spellcheck.count", "1");
+        
         
         // Filter the searchable objects out
         solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
@@ -169,18 +175,24 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         solrQuery.set("hl.fl", "autocomplete");
         solrQuery.set("hl.snippets",3);
         solrQuery.setHighlightSimplePre("<b>");
-        solrQuery.setHighlightSimplePost("</b>");       
+        solrQuery.setHighlightSimplePost("</b>");
+        solrQuery.set("group","true");
+        solrQuery.set("group.field", "autocomplete");
         
         QueryResponse queryResponse = solrServer.query(solrQuery);		
         
         List<Match> results = new ArrayList<Match>();
         Map<String,Match> matchMap = new HashMap<String,Match>();
-        for(SolrDocument solrDocument : queryResponse.getResults()) {
-        	Match match = new Match();
-        	match.setLabel((String)solrDocument.get("autocomplete"));
-        	match.setValue((String)solrDocument.get("autocomplete"));
-        	matchMap.put((String)solrDocument.get("id"), match);
-        	results.add(match);
+        for(GroupCommand groupCommand : queryResponse.getGroupResponse().getValues()) {
+			for (Group group : groupCommand.getValues()) {
+				for (SolrDocument solrDocument : group.getResult()) {
+					Match match = new Match();
+					match.setLabel((String) solrDocument.get("autocomplete"));
+					match.setValue((String) solrDocument.get("autocomplete"));
+					matchMap.put((String) solrDocument.get("id"), match);
+					results.add(match);
+				}
+			}
         }
         for(String documentId : matchMap.keySet()) {
         	if(queryResponse.getHighlighting().containsKey(documentId)) {

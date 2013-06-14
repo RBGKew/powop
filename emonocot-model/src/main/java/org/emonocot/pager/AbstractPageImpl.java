@@ -549,4 +549,26 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 	public void setIndices(ArrayList<Integer> indices) {
 		this.indices = indices;
 	}
+	
+	public String getSuggestedSpelling() {
+		if(this.queryResponse.getSpellCheckResponse() != null) {
+			if(this.queryResponse.getSpellCheckResponse().getCollatedResults() == null || 
+					this.queryResponse.getSpellCheckResponse().getCollatedResults().size() == 0) {
+			    return null;
+			} else {
+			    return this.queryResponse.getSpellCheckResponse().getCollatedResults().get(0).getCollationQueryString();
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	public boolean getCorrectlySpelled() {
+		if(this.queryResponse.getSpellCheckResponse() != null) {
+		    return this.queryResponse.getSpellCheckResponse().isCorrectlySpelled();
+		} else {
+			return true;
+		}
+	}
+	
 }
