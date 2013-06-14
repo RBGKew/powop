@@ -189,8 +189,8 @@
 	}
 	
 	function onFeatureSelect(feature) {
+	
 		selectedFeature = feature;
-		
 		if(feature.cluster.length == 1) {
 			popup = new OpenLayers.Popup.FramedCloud(
 				"specimenPopup",
