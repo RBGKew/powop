@@ -551,7 +551,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 	}
 	
 	public String getSuggestedSpelling() {
-		if(this.queryResponse.getSpellCheckResponse() != null) {
+		if(this.queryResponse != null && this.queryResponse.getSpellCheckResponse() != null) {
 			if(this.queryResponse.getSpellCheckResponse().getCollatedResults() == null || 
 					this.queryResponse.getSpellCheckResponse().getCollatedResults().size() == 0) {
 			    return null;
@@ -564,7 +564,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 	}
 	
 	public boolean getCorrectlySpelled() {
-		if(this.queryResponse.getSpellCheckResponse() != null) {
+		if(this.queryResponse != null && this.queryResponse.getSpellCheckResponse() != null) {
 		    return this.queryResponse.getSpellCheckResponse().isCorrectlySpelled();
 		} else {
 			return true;
