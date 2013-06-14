@@ -716,7 +716,7 @@
 						var obj = $('.taxonName').text();
 						var boldUrl = 'http://www.boldsystems.org/index.php/Taxbrowser_Taxonpage?taxon=' + obj;
 						var ncbiUrl = 'http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi?term=' + obj;
-						var GBIFUrl = 'http://data.gbif.org/occurrences/search.htm?c[0].s=0&amp;c[0].p=0&amp;c[0].o=' + obj;
+						var GBIFUrl = 'http://data.gbif.org/species/' + obj;
 						$('#boldLink').attr("href", boldUrl);
 						$('#NCBILink').attr("href", ncbiUrl);
 						$('#GBIFLink').attr("href", GBIFUrl);
