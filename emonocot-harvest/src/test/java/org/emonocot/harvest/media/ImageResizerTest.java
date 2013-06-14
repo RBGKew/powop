@@ -10,6 +10,10 @@ import java.util.Properties;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
+import org.apache.sanselan.common.IImageMetadata;
+import org.apache.sanselan.common.ImageMetadata;
+import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
+import org.apache.xpath.compiler.Keywords;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.ImageFormat;
 import org.junit.After;

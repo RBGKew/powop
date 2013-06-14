@@ -56,6 +56,7 @@
 						$(document).ready(function () {
 							$('#testNews').rssfeed('http://families.e-monocot.org/taxonomy/term/1394/feed',{
 								limit:5,
+								dateformat: 'date',
 								historical: true
 							});
 						});

@@ -29,7 +29,8 @@ function writeNode(key, node) {
       html += "<li class='descriptiveConcept'><div class='collapsed' data-toggle='collapse' data-target='#node" + node.id +"'>";
       if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
-         html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
+         var imageId = image.href.substring(0,image.href.indexOf('.'));
+         html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' data-link='" + key.getImagePath() + imageId + "' class='thumbnail' src='" + key.getThumbnailImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
          html += "<a class='pull-left'><i class='halflings-icon plus'></i>" + node.concept + "</a>";   
      } else {
          html += "<a ><i class='halflings-icon plus'></i>" + node.concept + "</a>";
@@ -45,8 +46,9 @@ function writeNode(key, node) {
        html += "<li class='character'>";
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
+         var imageId = image.href.substring(0,image.href.indexOf('.'));
          html  += "<a class='pull-left' id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a></br>";
-         html  += "<img id='character" + character.id + "' class='thumbnail' src='" + key.getImagePath() +  image.href + "' title='" + character.name + "'/>";
+         html  += "<img id='character" + character.id + "' data-link='" + key.getImagePath() + imageId + "' class='thumbnail' src='" + key.getThumbnailImagePath() +  image.href + "' title='" + character.name + "'/>";
          
        } else {
          html  += "<a id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a>";
@@ -55,6 +57,21 @@ function writeNode(key, node) {
      }
    }
    return html;
+}
+
+function makeTitle(caption, description) {
+	var title;
+	
+	if(typeof description === 'undefined') {
+		title = caption;
+	} else {
+		title = caption + " - " + description;
+	}
+	
+	if(title.length > 100) {
+		title = title.substring(0,99) + "…";
+	} 
+	return title;
 }
 
 function characterModal(characterId, key) {
@@ -69,8 +86,9 @@ function characterModal(characterId, key) {
         var state = character.states[i];
         if(!Key.isUndefined(state.images) && state.images.length > 0) {
             var image = state.images[0];
+            var imageId = image.href.substring(0,image.href.indexOf('.'));
             body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
-            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getImagePath() +  image.href + "'title='" + state.name + "'/></a></li><br/>";
+            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + makeTitle(image.caption, image.description) + "'/></a></li><br/>";
             for(var j =0; j < state.images.length; j++) {
            	 imageIndex++;
             }
@@ -100,7 +118,8 @@ function characterModal(characterId, key) {
         var state = character.states[i];
         if(!Key.isUndefined(state.images) && state.images.length > 0) {
            for(var j = 0; j < state.images.length; j++) {
-              galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' data-icon='icon-white icon-picture' rel='gallery' title='" + state.name + "'>" + state.name + "</a>";
+               var imageId = state.images[j].href.substring(0,state.images[j].href.indexOf('.'));
+                galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' data-link='" + key.getImagePath() +  imageId + "' data-icon='icon-white icon-picture' rel='gallery' title='" + makeTitle(state.images[j].caption, state.images[j].description) + "'>" + state.name + "</a>";
            }
         }
       }
@@ -128,7 +147,7 @@ function characterModal(characterId, key) {
        	  $('#characterModal').modal('show');
        	  $('#modal-gallery').data('modal', null);
          });
-
+         modal.find('.modal-slideshow').find('i').removeClass('icon-play').addClass('icon-pause');
          modal.modal(options);
          return false;
        });
@@ -208,7 +227,7 @@ function updateUI(key) {
         if(key.getView() == Key.ListView ) {
             if (!Key.isUndefined(taxon.images) && taxon.images.length > 0){
                var image = taxon.images[0];
-               matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getImagePath() +  image.href + "'/></a></td>";
+               matched += "<td><a class='pull-right' href='#'><img class='thumbnail' src='" + key.getThumbnailImagePath() +  image.href + "'/></a></td>";
         	} else{
         		matched += "<td><img class='thumbnail pull-right' src=\"../css/images/no_image.jpg\"/></td>";
         	}
@@ -246,7 +265,9 @@ function updateUI(key) {
 
             var body = "";
             for(var i=0; i< character.images.length; i++){
-              body += "<a data-icon='icon-white icon-picture' href='" + key.getFullsizeImagePath() +  character.images[i].href + "' rel='gallery' title='" + character.images[i].caption +"'>" + character.images[i].caption +"</a>";
+                var image = character.images[i];
+                var imageId = image.href.substring(0,image.href.indexOf('.'));
+                body += "<a data-icon='icon-white icon-picture' data-link='" + key.getImagePath() +  imageId + "' href='" + key.getFullsizeImagePath() +  image.href + "' rel='gallery' title='" + makeTitle(image.caption, image.description) +"'>" + image.caption +"</a>";
             }
             
             $('#gallery').html(body);
@@ -258,7 +279,9 @@ function updateUI(key) {
 
             var body = "";
             for(var i=0; i< descriptiveConcept.images.length; i++){
-              body += "<a data-icon='icon-white icon-picture' href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + descriptiveConcept.images[i].caption + "'>" + descriptiveConcept.images[i].caption +"</a>";
+                var image = descriptiveConcept.images[i];
+                var imageId = image.href.substring(0,image.href.indexOf('.'));
+                body += "<a data-icon='icon-white icon-picture' data-link='" + key.getImagePath() +  imageId + "' href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + makeTitle(image.caption, image.description) + "'>" + image.caption +"</a>";
             }
             $('#gallery').html(body);
             

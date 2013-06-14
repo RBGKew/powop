@@ -25,9 +25,9 @@ public class HasMoreRecords implements StepExecutionListener {
 	
 	public ExitStatus execute(String temporaryFileName) throws Exception {
         try {
-            StaxEventItemReader<Header> staxEventItemReader = new StaxEventItemReader<Header>();
+            StaxEventItemReader<GbifResponse> staxEventItemReader = new StaxEventItemReader<GbifResponse>();
             staxEventItemReader.setFragmentRootElementName(
-                    "{http://portal.gbif.org/ws/response/gbif}header");
+                    "{http://portal.gbif.org/ws/response/gbif}gbifResponse");
             staxEventItemReader.setUnmarshaller(unmarshaller);
             staxEventItemReader.setResource(new FileSystemResource(
                     temporaryFileName));
@@ -35,15 +35,17 @@ public class HasMoreRecords implements StepExecutionListener {
             staxEventItemReader.afterPropertiesSet();
             staxEventItemReader.open(stepExecution.getExecutionContext());
 
-            Header header = staxEventItemReader.read();
+            GbifResponse gbifResponse = staxEventItemReader.read();
             staxEventItemReader.close();
-            if (header == null) {
+            if(gbifResponse.getExceptionReport() != null) {
+            	return new ExitStatus("SERVER_ERROR").addExitDescription(gbifResponse.getExceptionReport());
+            } else if (gbifResponse.getHeader() == null) {
                 logger.info("Header Not Found");                
                 return new ExitStatus("NO_MORE_RECORDS");
             } else {
-                if(header.getSummary().getNext() != null){
+                if(gbifResponse.getHeader().getSummary().getNext() != null){
 					stepExecution.getJobExecution().getExecutionContext().remove("startindex");
-					stepExecution.getJobExecution().getExecutionContext().put("startindex", header.getSummary().getNext());
+					stepExecution.getJobExecution().getExecutionContext().put("startindex", gbifResponse.getHeader().getSummary().getNext());
                     return new ExitStatus("HAS_MORE_RECORDS");
 				} else {
 					return new ExitStatus("NO_MORE_RECORDS");

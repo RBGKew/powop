@@ -55,14 +55,17 @@ public class DwCProcessingExceptionProcessListener extends
             super.annotate(annotation);
         }
     }
+    
+    private RecordType getRecordType() {
+    	return DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
+    }
 
     /**
      *
      * @return the record type we are currently processing
      */
-    private RecordType getRecordType() {
-        String stepName = stepExecution.getStepName();
-        switch(stepExecution.getStepName()) {
+    public static RecordType stepNameToRecordType(String stepName) {
+        switch(stepName) {
         case "processCoreFile":
             return RecordType.Taxon;
         case "processDescriptionFile":
@@ -70,6 +73,7 @@ public class DwCProcessingExceptionProcessListener extends
         case "processIdentifierFile":
             return RecordType.Identifier;
         case "processImageFile":
+        case "handleBinaryImages":
             return RecordType.Image;
         case "processReferenceFile":
             return RecordType.Reference;

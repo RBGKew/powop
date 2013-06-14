@@ -68,6 +68,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		if (persisted == null) {
 			// Taxon is new
 			bindRelationships(t,t);
+			validate(t);
 			Annotation annotation = createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
 			t.getAnnotations().add(annotation);
 			t.setAuthority(getSource());
@@ -117,6 +118,8 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 					persisted.setTaxonRemarks(t.getTaxonRemarks());
 					persisted.setTribe(t.getTribe());
 					persisted.setTaxonRank(t.getTaxonRank());
+					validate(t);
+					
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);					
 				}				
 

@@ -35,8 +35,7 @@
 
 	<tx:annotation-driven />
 
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
@@ -44,12 +43,16 @@
 			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
 			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
 			    <bean class="org.emonocot.model.convert.RankConverter" />
+			    <bean class="org.emonocot.model.convert.RankToStringConverter" />
 			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
 			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
 			    <bean class="org.emonocot.model.convert.NomenclaturalCodeConverter" />
+			    <bean class="org.emonocot.model.convert.NomenclaturalCodeToStringConverter" />
 			    <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
+			    <bean class="org.emonocot.model.convert.NomenclaturalStatusToStringConverter" />
 			    <bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
 			    <bean class="org.emonocot.model.convert.TaxonomicStatusConverter" />
+			    <bean class="org.emonocot.model.convert.TaxonomicStatusToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
@@ -213,6 +216,7 @@
 	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
       <property name="sanitizer" ref="htmlSanitizer" />
+      <property name="validator" ref="validator"/>
 	</bean>
 	
 	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />

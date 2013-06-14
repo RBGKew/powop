@@ -177,14 +177,16 @@
 				</div>
 			</c:if>
 			<c:url value="/taxon/" var="taxonPath"/>
-			<c:url value="/images/thumbnails/" var="imagePath"/>
+			<c:url value="/image/" var="imagePath"/>
 			<spring:message code="portal.baseUrl" var="baseUrl"/>
+			<c:url value="/images/thumbnails/" var="thumbnailImagePath"/>			
 			<c:url value="${baseUrl}/images/fullsize/" var="fullsizeImagePath"/>
 		
 			<script language="javascript">
 				var data = ${identificationKey.matrix};
 				var key = new Key(data);
 				key.setTaxonPath("${taxonPath}");
+				key.setThumbnailImagePath("${thumbnailImagePath}");
 				key.setImagePath("${imagePath}");
 				key.setFullsizeImagePath("${fullsizeImagePath}");
 				$("#reset").click(function(event) {

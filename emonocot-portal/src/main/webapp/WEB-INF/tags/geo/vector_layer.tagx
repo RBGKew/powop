@@ -164,7 +164,7 @@
 						"catalogNumber":"${specimen.catalogNumber}",
 						"collectionCode":"${specimen.collectionCode}",
 						"institutionCode":"${specimen.institutionCode}",
-						"locality":"${specimen.locality}",
+						"locality":"${em:escape(specimen.locality)}",
 						"source":"${specimen.source}"
 					},
 					"geometry":{

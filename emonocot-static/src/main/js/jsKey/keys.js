@@ -8,6 +8,7 @@ function Key(data) {
   this.characterTree = this.data.characterTree;
   this.descriptiveConcepts = this.data.descriptiveConcepts;
   this.imagePath = data.imagePath;
+  this.thumbnailImagePath = data.thumbnailImagePath;
   this.fullsizeImagePath = data.fullsizeImagePath;
   this.taxonPath = data.taxonPath;
   this.updateUI = function(key) { };
@@ -47,6 +48,10 @@ Key.prototype.setImagePath = function(imagePath) {
     this.imagePath = imagePath;
 };
 
+Key.prototype.setThumbnailImagePath = function(thumbnailImagePath) {
+    this.thumbnailImagePath = thumbnailImagePath;
+};
+
 Key.prototype.setFullsizeImagePath = function(fullsizeImagePath) {
     this.fullsizeImagePath = fullsizeImagePath;
 };
@@ -61,6 +66,10 @@ Key.prototype.getImagePath = function() {
 
 Key.prototype.getFullsizeImagePath = function() {
     return this.fullsizeImagePath;
+};
+
+Key.prototype.getThumbnailImagePath = function() {
+    return this.thumbnailImagePath;
 };
 
 Key.prototype.getTaxonPath = function() {

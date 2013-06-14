@@ -22,6 +22,12 @@
     #set($objectId = "${comment.commentPage.identifier}")
     #set($contributingOrg = $comment.commentPage.authority)
     #set($about = "${comment.aboutData}")
+#elseif($commentPage == "PhylogeneticTree")
+    #set($pageTitle = "${comment.commentPage.title}")
+    #set($pageUrl = "/phylo/${comment.commentPage.id}")
+    #set($objectId = "${comment.commentPage.identifier}")
+    #set($contributingOrg = $comment.commentPage.authority)
+    #set($about = "${comment.aboutData}")
 #end
 
 #if(! ${contributingOrg.publisherEmail})
