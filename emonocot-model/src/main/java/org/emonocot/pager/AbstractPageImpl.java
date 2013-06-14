@@ -23,102 +23,49 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 
-    /**
-     *
-     */
     private static long serialVersionUID = 3235700796905201107L;
 
-    /**
-     *
-     */
     protected static Integer MAX_PAGE_LABELS = 3;
 
-    /**
-     *
-     */
     protected static String LABEL_DIVIDER = " - ";
 
-    /**
-     *
-     */
     private static Logger logger = LoggerFactory
             .getLogger(AbstractPageImpl.class);
 
-    /**
-     *
-     */
     private Map<String, Object> parameters = new HashMap<String, Object>();
 
-    /**
-     *
-     */
     private Integer pagesAvailable;
 
-    /**
-     *
-     */
     private Integer prevIndex;
 
-    /**
-     *
-     */
     private Integer nextIndex;
 
-    /**
-     *
-     */
     private Integer currentIndex;
 
-    /**
-     *
-     */
     private Integer firstRecord;
 
-    /**
-     *
-     */
     private Integer lastRecord;
 
-    /**
-     *
-     */
     private Integer size;
 
-    /**
-     *
-     */
     private List<T> records;
 
-    /**
-     *
-     */
     private Integer pageSize;
 
-    /**
-     *
-     */
     private QueryResponse queryResponse = null;
 
-    /**
-     *
-     */
     private Map<Integer, String> pageNumbers;
 
-    /**
-     *
-     */
     private ArrayList<Integer> indices;
 
-    /**
-     *
-     */
     private Map<String, String> selectedFacets
         = new HashMap<String, String>();
 
-    /**
-     *
-     */
     private String sort;
+    
+    private String suggestedSpelling = null;
+    
+    private boolean correctlySpelled = true;
 
     /**
      * Constructor.
@@ -240,6 +187,17 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 
         this.size = count;
         this.records = newRecords;
+        
+        if(this.queryResponse != null && this.queryResponse.getSpellCheckResponse() != null) {
+			if(this.queryResponse.getSpellCheckResponse().getCollatedResults() != null && 
+					this.queryResponse.getSpellCheckResponse().getCollatedResults().size() != 0) {
+			    this.suggestedSpelling = this.queryResponse.getSpellCheckResponse().getCollatedResults().get(0).getCollationQueryString();
+		    }
+        }
+        
+        if(this.queryResponse != null && this.queryResponse.getSpellCheckResponse() != null) {
+		    this.correctlySpelled = this.queryResponse.getSpellCheckResponse().isCorrectlySpelled();
+		}
     }
 
     /**
@@ -549,4 +507,21 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 	public void setIndices(ArrayList<Integer> indices) {
 		this.indices = indices;
 	}
+	
+	public String getSuggestedSpelling() {
+		return this.suggestedSpelling;
+	}
+	
+	public boolean getCorrectlySpelled() {
+		return this.correctlySpelled;
+	}
+	
+	public void setCorrectlySpelled(boolean correctlySpelled) {
+		this.correctlySpelled = correctlySpelled;
+	}
+	
+	public void setSuggestedSpelling(String suggestedSpelling) {
+		this.suggestedSpelling = suggestedSpelling;
+	}
+	
 }

@@ -179,4 +179,16 @@ public interface Page<T> {
    * @param newSort set the sorting
    */
   void setSort(String newSort);
+  
+  /**
+   * Do we think that the query was correctly spelled?
+   * @return
+   */
+  public boolean getCorrectlySpelled();
+  
+  /**
+   * Suggest a query which will return results
+   * @return
+   */
+  public String getSuggestedSpelling();
 }

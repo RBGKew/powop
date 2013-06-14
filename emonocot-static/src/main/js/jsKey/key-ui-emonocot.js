@@ -59,21 +59,6 @@ function writeNode(key, node) {
    return html;
 }
 
-function makeTitle(caption, description) {
-	var title;
-	
-	if(typeof description === 'undefined') {
-		title = caption;
-	} else {
-		title = caption + " - " + description;
-	}
-	
-	if(title.length > 100) {
-		title = title.substring(0,99) + "…";
-	} 
-	return title;
-}
-
 function characterModal(characterId, key) {
     var character = key.getCharacter(characterId);
     $('#characterModal .modal-header h3').html(character.name);
@@ -88,7 +73,8 @@ function characterModal(characterId, key) {
             var image = state.images[0];
             var imageId = image.href.substring(0,image.href.indexOf('.'));
             body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
-            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + makeTitle(image.caption, image.description) + "'/></a></li><br/>";
+            var description = !Key.isUndefined(image.description) ? image.description : '';
+            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + image.caption + "' data-description='" + description + "'/></a></li><br/>";
             for(var j =0; j < state.images.length; j++) {
            	 imageIndex++;
             }
@@ -119,7 +105,8 @@ function characterModal(characterId, key) {
         if(!Key.isUndefined(state.images) && state.images.length > 0) {
            for(var j = 0; j < state.images.length; j++) {
                var imageId = state.images[j].href.substring(0,state.images[j].href.indexOf('.'));
-                galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' data-link='" + key.getImagePath() +  imageId + "' data-icon='icon-white icon-picture' rel='gallery' title='" + makeTitle(state.images[j].caption, state.images[j].description) + "'>" + state.name + "</a>";
+               var description = !Key.isUndefined(state.images[j].description) ? state.images[j].description : '';
+               galleryBody += "<a href='" + key.getFullsizeImagePath() +  state.images[j].href + "' data-link='" + key.getImagePath() +  imageId + "' data-icon='icon-white icon-picture' rel='gallery' title='" + state.images[j].caption + "' data-description='" + description + "'>" + state.name + "</a>";
            }
         }
       }
@@ -267,7 +254,8 @@ function updateUI(key) {
             for(var i=0; i< character.images.length; i++){
                 var image = character.images[i];
                 var imageId = image.href.substring(0,image.href.indexOf('.'));
-                body += "<a data-icon='icon-white icon-picture' data-link='" + key.getImagePath() +  imageId + "' href='" + key.getFullsizeImagePath() +  image.href + "' rel='gallery' title='" + makeTitle(image.caption, image.description) +"'>" + image.caption +"</a>";
+                var description = !Key.isUndefined(image.description) ? image.description : '';
+                body += "<a data-icon='icon-white icon-picture' data-link='" + key.getImagePath() +  imageId + "' href='" + key.getFullsizeImagePath() +  image.href + "' rel='gallery' title='" + image.caption +"' data-description='" + description + "'>" + image.caption +"</a>";
             }
             
             $('#gallery').html(body);
@@ -281,7 +269,8 @@ function updateUI(key) {
             for(var i=0; i< descriptiveConcept.images.length; i++){
                 var image = descriptiveConcept.images[i];
                 var imageId = image.href.substring(0,image.href.indexOf('.'));
-                body += "<a data-icon='icon-white icon-picture' data-link='" + key.getImagePath() +  imageId + "' href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + makeTitle(image.caption, image.description) + "'>" + image.caption +"</a>";
+                var description = !Key.isUndefined(image.description) ? image.description : '';
+                body += "<a data-icon='icon-white icon-picture' data-link='" + key.getImagePath() +  imageId + "' href='" + key.getFullsizeImagePath() +  descriptiveConcept.images[i].href + "' rel='gallery' title='" + image.caption + "' data-description='" + description + "'>" + image.caption +"</a>";
             }
             $('#gallery').html(body);
             
