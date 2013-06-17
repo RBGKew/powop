@@ -197,7 +197,7 @@
 		<property name="cacheProducers" value="false" />
 	</bean>
 	
-	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
@@ -213,7 +213,7 @@
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
 	
-	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
+	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor" init-method="afterPropertiesSet">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
       <property name="sanitizer" ref="htmlSanitizer" />
       <property name="validator" ref="validator"/>
