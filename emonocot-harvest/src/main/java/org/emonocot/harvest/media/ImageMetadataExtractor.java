@@ -261,8 +261,13 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             //TODO Match Taxon?
         }
         if(image.getCreated() == null && photoshopSchema.getDateCreated() != null) {
-            DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
-            image.setCreated(dateCreated);
+            try{
+                DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
+                image.setCreated(dateCreated);
+            } catch (IllegalArgumentException e) {
+                //TODO annotate?
+                logger.warn("Unable to set the Date Created for image" + image.getId() + " identifier: " + image.getIdentifier(), e);
+            }
         }
         return isSomethingDifferent;
     }
