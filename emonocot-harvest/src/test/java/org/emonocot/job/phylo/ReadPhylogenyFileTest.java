@@ -20,7 +20,6 @@ import org.springframework.core.io.Resource;
 public class ReadPhylogenyFileTest {
 
 	Resource tree = new ClassPathResource("/org/emonocot/job/phylo/test.nwk");
-	Resource nexusTree = new ClassPathResource("/org/emonocot/job/phylo/test.nex");
 
 	@Test
 	public void readFile() throws Exception {
@@ -56,30 +55,6 @@ public class ReadPhylogenyFileTest {
 		for(PhylogenyNode descendant : node.getDescendants()) {
 			addBranchLengths(descendant);
 		}
-	}
-	
-	@Test
-	public void readNHX() throws Exception {
-		File treefile = nexusTree.getFile();
-		PhylogenyParser parser = ParserUtils.createParserDependingFileContents(treefile, true);
-		System.out.println(parser.getClass());
-		Phylogeny[] phylogenies = PhylogenyMethods.readPhylogenies(parser, treefile);
-		Phylogeny phylogeny = phylogenies[0];
-		
-		
-		PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
-		PhylogenyNode node = phylogeny.getRoot();		
-		Annotation annotation = new Annotation();
-		annotation.setDesc("Base of many coffees");
-		List<Uri> uris = new ArrayList<Uri>();
-		uris.add(new Uri("http://en.wikipedia.org/wiki/Espresso",null,null));
-		annotation.setUris(uris);
-		node.getNodeData().addAnnotation(annotation);
-		addBranchLengths(phylogeny.getRoot());
-		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
-		System.out.println(stringBuffer.toString().replaceAll("\r\n", ""));
-		
-		System.out.println(phylogeny.getNumberOfExternalNodes() + " " + phylogeny.getHeight());
 	}
 
 }
