@@ -132,8 +132,7 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
 	                logger.debug("Known schema that will be added:" + schema.toString() +
 	                        "\n" + schema.getElement().getTextContent());
 	            } else {
-	                logger.warn("Unknown schema that will be skipped:" + schema.toString() +
-	                        "\n" + schema.getElement().getTextContent());
+	                logger.info("Unable to process a schema of: " + schemaClass);
 	            }
 	        }
 			// XMPSchemaBasicJobTicket bjtSchema =
