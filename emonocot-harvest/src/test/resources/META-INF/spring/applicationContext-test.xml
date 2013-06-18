@@ -103,7 +103,7 @@
 
 	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 	
-	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>

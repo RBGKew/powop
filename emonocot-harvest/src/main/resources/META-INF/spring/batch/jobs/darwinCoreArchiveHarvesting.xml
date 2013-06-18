@@ -1106,9 +1106,9 @@
 		class="org.springframework.batch.item.support.CompositeItemProcessor">
 		<property name="delegates">
 			<list>
-				<ref bean="imageFileProcessor" />
+				<ref bean="imageFetchingProcessor" />
+                <ref bean="imageResizer"/>
 				<ref bean="imageThumbnailProcessor"/>
-				<ref bean="imageResizer"/>
 				<ref bean="imageMetadataProcessor" />
 			</list>
 		</property>
@@ -1710,6 +1710,16 @@
 	</bean>
 
 	<!-- Writing -->
+    <bean id="imageDeletingWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
+        <property name="delegates">
+            <list>
+                <ref local="deletingWriter"/>
+                <bean id="imageResourceDeletingWriter" class="org.emonocot.harvest.job.dwc.image.ImageFileDeletingWriter">
+                    <property name="imageDirectory" value="${harvester.image.directory}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
 	<bean id="processingExceptionProcessListener"
 		class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener"
 		scope="step">
