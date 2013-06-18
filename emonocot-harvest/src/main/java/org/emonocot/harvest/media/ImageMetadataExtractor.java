@@ -42,8 +42,7 @@ import org.xml.sax.InputSource;
  */
 public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
 
-    private Logger logger = LoggerFactory
-            .getLogger(ImageMetadataExtractor.class);
+    private Logger logger = LoggerFactory.getLogger(ImageMetadataExtractor.class);
 
     private HtmlSanitizer sanitizer;
     
@@ -143,9 +142,12 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
 		}
         
         IImageMetadata metadata = Sanselan.getMetadata(new File(imageFileName));
-        logger.debug("The metadata visible to Sanselan is: "
-                + metadata.toString("*"));
-        metadataUpdated = addSanselanProperties(metadata, image) || metadataUpdated;
+        if(metadata != null) {
+             logger.debug("The metadata visible to Sanselan is: " +  metadata.toString("*"));
+             metadataUpdated = addSanselanProperties(metadata, image) || metadataUpdated;
+        } else {
+        	logger.debug("There is no metadata available from Sanselan");
+        }
         
         if(metadataUpdated) {
         	validate(image);

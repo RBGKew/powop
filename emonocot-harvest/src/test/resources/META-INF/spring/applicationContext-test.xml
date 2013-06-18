@@ -48,6 +48,14 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="notifyingJobStatusListener" class="org.emonocot.harvest.integration.NotifyingJobStatusListener">
+        <property name="systemUser" value="${email.fromAddress}"/>
+        <property name="resourceService" ref="resourceServiceImpl"/>
+        <property name="userService" ref="userServiceImpl"/>
+        <property name="commentService" ref="commentServiceImpl"/>
+        <property name="annotationService" ref="annotationServiceImpl"/>
+    </bean>
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
