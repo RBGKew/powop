@@ -1106,8 +1106,8 @@
 		<property name="delegates">
 			<list>
 				<ref bean="imageFetchingProcessor" />
+                <ref bean="imageResizer"/>
 				<ref bean="imageThumbnailProcessor"/>
-				<ref bean="imageResizer"/>
 				<ref bean="imageMetadataProcessor" />
 			</list>
 		</property>

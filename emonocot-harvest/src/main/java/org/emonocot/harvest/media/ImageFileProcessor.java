@@ -75,7 +75,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
             } else if ("NOT_MODIFIED".equals(status.getExitCode())) {
                 logger.info("The image is already up to date");
                 //TODO annotate?
-                return null;
+                return image;
             }
         } else {
             try {
