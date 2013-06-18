@@ -184,6 +184,7 @@
        <property name="templates">
             <map>
                  <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
+                 <entry key="resource" value="org/emonocot/integration/comment/ResourceEmail.vm" />
                  <entry key="reply" value="org/emonocot/integration/comment/ReplyEmail.vm" />
             </map>
        </property>

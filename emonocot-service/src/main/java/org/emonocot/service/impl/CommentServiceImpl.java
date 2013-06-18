@@ -14,6 +14,7 @@ import org.emonocot.model.Comment;
 import org.emonocot.model.NonOwned;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.auth.User;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.dao.CommentDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +38,7 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
     @Autowired
     public void setCommentDao(CommentDao commentDao) {
         super.dao = commentDao;
-    }
-    
-    
+    }    
     
     @Override
     @Transactional(readOnly = false)
@@ -47,8 +46,6 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
 	public void delete(String identifier) {
 		super.delete(identifier);
 	}
-
-
 
 	private Collection<String> getDestinations(BaseData baseData) {
     	 Set<String> orgs = new HashSet<String>();
@@ -116,7 +113,9 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
         } else if(about != null) {
         	if(about instanceof BaseData) {
         		return this.getDestinations((BaseData) about);
-        	} else {
+        	} else if(about instanceof Resource) {
+        		return this.getDestinations((Resource) about);
+        	}else {
         		logger.error("about is not an instance of BaseData - we can't cope with it at the moment");
         		throw new IllegalArgumentException("Cannot cope with instance of " + about.getClass());
         	}
@@ -125,5 +124,18 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
         }
        
     }
+
+	private Collection<String> getDestinations(Base commentPage) {
+		Set<String> orgs = new HashSet<String>();
+		return orgs;
+	}
+
+
+
+	private Collection<String> getDestinations(Resource about) {
+		Set<String> orgs = new HashSet<String>();
+		orgs.add(about.getOrganisation().getCommentsEmailedTo());
+		return orgs;
+	}
 
 }

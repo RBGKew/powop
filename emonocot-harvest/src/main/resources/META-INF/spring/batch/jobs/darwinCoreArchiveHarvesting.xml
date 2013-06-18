@@ -686,6 +686,7 @@
 			</batch:listeners>
 		</batch:step>
 		<batch:listeners>
+		    <batch:listener ref="notifyingJobStatusListener" />
 			<batch:listener ref="jobStatusListener" />
 		</batch:listeners>
 	</batch:job>

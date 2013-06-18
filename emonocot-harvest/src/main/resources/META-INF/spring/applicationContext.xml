@@ -251,6 +251,14 @@
         </property>
     </bean>
     
+    <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.integration.NotifyingJobStatusListener">
+        <property name="systemUser" value="${email.fromAddress}"/>
+        <property name="resourceService" ref="resourceServiceImpl"/>
+        <property name="userService" ref="userServiceImpl"/>
+        <property name="commentService" ref="commentServiceImpl"/>
+        <property name="annotationService" ref="annotationServiceImpl"/>
+    </bean>
+    
     <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
         <property name="username" value="${email.smtp.username}" />
         <property name="password" value="${email.smtp.password}" />

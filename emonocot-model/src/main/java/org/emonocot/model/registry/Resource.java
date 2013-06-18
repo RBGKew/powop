@@ -505,7 +505,7 @@ public class Resource extends Base implements Searchable {
 
 	@Transient
     @JsonIgnore
-	private String getClassName() {
+	public String getClassName() {
 		return "Resource";
 	}
 

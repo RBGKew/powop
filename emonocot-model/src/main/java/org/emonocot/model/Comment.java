@@ -72,7 +72,7 @@ public class Comment extends Base implements Searchable {
     /**
      * The object (page) on which this comment should appear
      */
-    private BaseData commentPage;
+    private Base commentPage;
 
     public String getSubject() {
 		return subject;
@@ -106,7 +106,7 @@ public class Comment extends Base implements Searchable {
             fetch = FetchType.LAZY, metaDef = "CommentMetaDef")
     @JoinColumn(name = "commentPage_id", nullable = true)
     @JsonSerialize(using = AnnotatableObjectSerializer.class)
-	public BaseData getCommentPage() {
+	public Base getCommentPage() {
 		return commentPage;
 	}
 
@@ -114,7 +114,7 @@ public class Comment extends Base implements Searchable {
 	 * @param commentPage the commentPage to set
 	 */
     @JsonDeserialize(using = AnnotatableObjectDeserializer.class)
-	public void setCommentPage(BaseData commentPage) {
+	public void setCommentPage(Base commentPage) {
 		this.commentPage = commentPage;
 	}
 
