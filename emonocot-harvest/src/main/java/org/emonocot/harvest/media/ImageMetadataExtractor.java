@@ -261,7 +261,7 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             //TODO Match Taxon?
         }
         if(image.getCreated() == null && photoshopSchema.getDateCreated() != null) {
-            DateTime dateCreated = ISODateTimeFormat.dateParser().parseDateTime(photoshopSchema.getDateCreated());
+            DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
             image.setCreated(dateCreated);
         }
         return isSomethingDifferent;
