@@ -278,7 +278,7 @@
 		<batch:step id="deleteAbsentImages">
 			<batch:description>Delete the images which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="deleteImagesReader" writer="deletingWriter" commit-interval="10" />
+                <batch:chunk reader="deleteImagesReader" writer="imageDeletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexImages" />
 			<batch:listeners>
