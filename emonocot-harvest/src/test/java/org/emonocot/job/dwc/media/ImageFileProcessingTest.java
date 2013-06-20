@@ -107,8 +107,7 @@ public class ImageFileProcessingTest {
         assertEquals(
                 "ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
                 i.getSubject());
-        //assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
-        assertEquals("Path to Little island", i.getSpatial());
+        assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
         assertEquals("www.creativecommons.org#Creative Commons Attribution-Non-Commercial-Share Alike 3.0 Unported Licence", i.getLicense());
     }
 

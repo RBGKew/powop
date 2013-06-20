@@ -38,7 +38,19 @@ public class ImageFileDeletingWriter implements ItemWriter<Image> {
     @Override
     public void write(List<? extends Image> items) throws Exception {
         for(Image i : items) {
-            File file = new File(imageDirectory + i.getId() + "." + i.getFormat());
+            File file = new File(imageDirectory + File.separator + i.getId() + "." + i.getFormat());
+            if(!file.exists()){
+                logger.warn("Tried to delete non-existent file" + file.getCanonicalPath()
+                    + " for image" + i);
+            } else {
+                try{
+                    file.delete(); //Don't worry about successfulness
+                } catch (SecurityException e) {
+                    logger.error("The file " + file + " cannot be deleted.");
+                    throw e;
+                }
+            }
+            file = new File(imageDirectory + File.separator + "thumbnails" + File.separator + i.getId() + "." + i.getFormat());
             if(!file.exists()){
                 logger.warn("Tried to delete non-existent file" + file.getCanonicalPath()
                     + " for image" + i);
