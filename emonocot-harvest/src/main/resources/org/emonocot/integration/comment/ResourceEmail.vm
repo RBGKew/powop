@@ -1,9 +1,9 @@
 <html>
     <body>
         <p>Hi,</p>
-        <p>The eMonocot Portal just attempted to harvest ${comment.about.title} (found at ${comment.about.uri}). The job ${comment.about.exitCode}, with the following information:</p>
-        <p>${comment.about.exitDescription}</p>
-        <p>You can view more information about this job <a href="http://e-monocot.org/resource/${comment.about.id}">here</a>, and view individual issues <a href="http://e-monocot.org/resource/${comment.about.id}/output">here</a></p>
+        <p>The eMonocot Portal just attempted to harvest ${comment.aboutData.title} (found at ${comment.aboutData.uri}). The job ${comment.aboutData.exitCode}, with the following information:</p>
+        <p>${comment.aboutData.exitDescription}</p>
+        <p>You can view more information about this job <a href="http://e-monocot.org/resource/${comment.aboutData.id}">here</a>, and view individual issues <a href="http://e-monocot.org/resource/${comment.aboutData.id}/output">here</a></p>
         <p>Kind Regards,<br />
             The eMonocot Portal</p>
         <p>This email was generated automatically by the eMonocot Portal. Please do not reply to this email.</p>

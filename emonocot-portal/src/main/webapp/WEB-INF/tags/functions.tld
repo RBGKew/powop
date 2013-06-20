@@ -96,7 +96,7 @@
     <function>
         <name>regions</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List regions(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.util.List regions(java.util.Collection)</function-signature>
     </function>
     <function>
         <name>region</name>
@@ -246,7 +246,7 @@
     <function>
         <name>boundingBox</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String boundingBox(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.String boundingBox(org.emonocot.model.Taxon, org.gbif.ecat.voc.OccurrenceStatus)</function-signature>
     </function>
     <function>
         <name>escapeHtmlIdentifier</name>
@@ -261,31 +261,41 @@
     <function>
         <name>hasLevel1Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
         <name>getLevel1Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel1Features(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.String getLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
         <name>hasLevel2Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
         <name>getLevel2Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel2Features(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.String getLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
         <name>hasLevel3Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
         <name>getLevel3Features</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel3Features(org.emonocot.model.Taxon)</function-signature>
+        <function-signature>java.lang.String getLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+    </function>
+    <function>
+        <name>hasDistribution</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean hasDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+    </function>
+    <function>
+        <name>getDistribution</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.util.Collection getDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>    
 </taglib>
