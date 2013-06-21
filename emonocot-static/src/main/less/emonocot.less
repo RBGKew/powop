@@ -6,6 +6,32 @@ body{
 	padding-top: @navbarHeight;
 }
 
+
+/**
+ * cookiebar customisation
+ */
+ #cookie-bar a.cb-enable:active {
+	color: rgba(255,255,255,.75) !important;
+}
+
+#cookie-bar a.link {
+	color: @linkColor;
+	text-decoration: none !important;
+}
+#cookie-bar a.link:hover,
+a:focus {
+	color: @linkColorHover !important;
+	text-decoration: underline !important;
+}
+
+#cookie-bar .cb2-enable {
+	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+}
+#cookie-bar .cb2-enable:hover {
+	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+}
+
+
 /**
  * BUG # 301: As a user of eMonocot I do not expect there to be gaps where it looks like there are missing images when looking at the images in a grid
  * Explicitly set the width and height of thumbnails to avoid the odd 

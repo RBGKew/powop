@@ -30,7 +30,10 @@
 	&lt;![endif]--&gt;
 	<link rel="stylesheet" type="text/css" media="print" href="${baseUrl}/css/print.css"/>
 	
+	
 	<script type="text/javascript" src="${baseUrl}/js/header.js">/* */</script>
+	
+
 	<c:if test="${not empty googleAnalyticsId}">
 	
 		<script type="text/javascript">
