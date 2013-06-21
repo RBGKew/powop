@@ -330,7 +330,7 @@
 								      <ul class="distribution-textual">								        
 									    <c:forEach var="distribution" items="${em:getDistribution(taxon,present,nativ)}" varStatus="distributionStatus">
 										  <li>
-										      <c:if test="${distributionStatus.first}"><spring:message code="present.native"/>:&#160;</c:if>
+										      <c:if test="${distributionStatus.first}"><strong><spring:message code="present.native"/>:</strong>&#160;</c:if>
 											  <spring:message code="${distribution.location.toString()}" />
 											  <c:if test="${not empty distribution.occurrenceStatus and distribution.occurrenceStatus ne present}">
 											  (<spring:message code="${distribution.occurrenceStatus}" text="${distribution.occurrenceStatus}"/>)
@@ -343,7 +343,7 @@
 								      <ul class="distribution-textual">								        
 									    <c:forEach var="distribution" items="${em:getDistribution(taxon,present,introduced)}" varStatus="distributionStatus">
 										  <li>
-										      <c:if test="${distributionStatus.first}"><spring:message code="present.introduced"/>:&#160;</c:if>
+										      <c:if test="${distributionStatus.first}"><strong><spring:message code="present.introduced"/>:</strong>&#160;</c:if>
 											  <spring:message code="${distribution.location.toString()}" />
 											  <c:if test="${not empty distribution.occurrenceStatus and distribution.occurrenceStatus ne present}">
 											  (<spring:message code="${distribution.occurrenceStatus}" text="${distribution.occurrenceStatus}"/>)
@@ -356,9 +356,9 @@
 								      <ul class="distribution-textual">								        
 									    <c:forEach var="distribution" items="${em:getDistribution(taxon,absent,nativ)}" varStatus="distributionStatus">
 										  <li>
-										      <c:if test="${distributionStatus.first}"><spring:message code="absent.native"/>:&#160;</c:if>
+										      <c:if test="${distributionStatus.first}"><strong><spring:message code="absent.native"/>:</strong>&#160;</c:if>
 											  <spring:message code="${distribution.location.toString()}" />
-											  <c:if test="${not empty distribution.occurrenceStatus and distribution.occurrenceStatus ne present}">
+											  <c:if test="${not empty distribution.occurrenceStatus and distribution.occurrenceStatus ne absent}">
 											  (<spring:message code="${distribution.occurrenceStatus}" text="${distribution.occurrenceStatus}"/>)
 											  </c:if>
 										  </li>
