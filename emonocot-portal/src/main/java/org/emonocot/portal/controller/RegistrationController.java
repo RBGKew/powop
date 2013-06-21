@@ -2,6 +2,7 @@ package org.emonocot.portal.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -88,6 +89,7 @@ public class RegistrationController {
         user.setHomepage(form.getHomepage());
         user.setOrganization(form.getOrganization());
         user.setTopicInterest(form.getTopicInterest());
+        user.setApiKey(UUID.randomUUID().toString());
         try {
             user.setImg(service.makeProfileThumbnail(form.getImg(), null));
         } catch(UnsupportedOperationException uoe) {

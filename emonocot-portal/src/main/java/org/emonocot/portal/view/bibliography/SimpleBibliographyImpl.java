@@ -32,8 +32,11 @@ public class SimpleBibliographyImpl implements Bibliography {
         SortedSet<Reference> refs = new TreeSet<Reference>(
                 new ReferenceComparator());
         refs.addAll(taxon.getReferences());
-        for (Description t : taxon.getDescriptions()) {
-            refs.addAll(t.getReferences());
+        for (Description d : taxon.getDescriptions()) {
+            refs.addAll(d.getReferences());
+        }
+        for (Distribution d : taxon.getDistribution()) {
+            refs.addAll(d.getReferences());
         }
         references.addAll(refs);
     }

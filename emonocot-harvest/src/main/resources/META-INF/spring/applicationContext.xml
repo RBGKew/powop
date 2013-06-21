@@ -197,7 +197,7 @@
 		<property name="cacheProducers" value="false" />
 	</bean>
 	
-	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
@@ -213,7 +213,7 @@
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>
 	
-	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor">
+	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor" init-method="afterPropertiesSet">
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
       <property name="sanitizer" ref="htmlSanitizer" />
       <property name="validator" ref="validator"/>
@@ -249,6 +249,14 @@
             class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
         </value>
         </property>
+    </bean>
+    
+    <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.integration.NotifyingJobStatusListener">
+        <property name="systemUser" value="${email.fromAddress}"/>
+        <property name="resourceService" ref="resourceServiceImpl"/>
+        <property name="userService" ref="userServiceImpl"/>
+        <property name="commentService" ref="commentServiceImpl"/>
+        <property name="annotationService" ref="annotationServiceImpl"/>
     </bean>
     
     <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >

@@ -149,8 +149,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
     	SolrQuery solrQuery = new SolrQuery();        
 
         if (query != null && !query.trim().equals("")) {
-        	String searchString = query.trim().replace(" ", "+");            
-            solrQuery.setQuery(searchString);
+        	//String searchString = query.trim().replace(" ", "+");            
+            solrQuery.setQuery(query);
         } else {
             return new ArrayList<Match>();
         }

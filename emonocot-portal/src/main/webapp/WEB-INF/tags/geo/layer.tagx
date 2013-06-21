@@ -15,7 +15,8 @@
 			layers : "${layer}",
 			transparent : "true",
 			format : "image/png",
-			tiled: 'true'
+			tiled: "yes",
+			tilesorigin: [map.maxExtent.left, map.maxExtent.bottom]
 		},
 		{
 			isBaseLayer : false,

@@ -2,6 +2,8 @@ package org.emonocot.portal.controller;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
+import org.gbif.ecat.voc.EstablishmentMeans;
+import org.gbif.ecat.voc.OccurrenceStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,10 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public String show(@PathVariable String identifier, Model model) {
         model.addAttribute(getService().load(identifier));
+        model.addAttribute("present", OccurrenceStatus.Present);
+        model.addAttribute("absent", OccurrenceStatus.Absent);
+        model.addAttribute("nativ", EstablishmentMeans.Native); // native is a keyword in java so we can't use it as a JSP variable, at least in tomcat 
+        model.addAttribute("introduced", EstablishmentMeans.Introduced);
         queryLog.info("Taxon: \'{}\'", new Object[] {identifier});
         return "taxon/show";
     }

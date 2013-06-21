@@ -67,6 +67,7 @@ public class ImageFileProcessingTest {
         imagesDirectory.deleteOnExit();
         imageMetadataExtractor.setImageDirectory(imagesDirectoryName);
         imageMetadataExtractor.setValidator(validatorFactory.getValidator());
+        imageMetadataExtractor.afterPropertiesSet();
         imageFileProcessor.setImageDirectory(imagesDirectoryName);
         String thumbnailDirectoryName = System.getProperty("java.io.tmpdir")
                 + File.separatorChar + "thumbnails";
@@ -87,6 +88,8 @@ public class ImageFileProcessingTest {
                 null));
         getResourceClient.setProxyPort(properties.getProperty("http.proxyPort",
                 null));
+        String imageFileName = imagesDirectoryName + File.separatorChar  + image.getId() + '.' + image.getFormat();
+        (new File(imageFileName)).delete();
     }
 
 
@@ -99,13 +102,13 @@ public class ImageFileProcessingTest {
         Image i = imageFileProcessor.process(image);
         imageMetadataExtractor.process(i);
         assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
-        assertTrue(i.getDescription().contains("Male inflorescences"));
+        assertEquals("Male inflorescences", i.getDescription());
         assertEquals("William J. Baker", i.getCreator());
         assertEquals(
                 "ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
                 i.getSubject());
-        //assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
-        assertEquals("Path to Little island", i.getSpatial());
+        assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
+        assertEquals("www.creativecommons.org#Creative Commons Attribution-Non-Commercial-Share Alike 3.0 Unported Licence", i.getLicense());
     }
 
 }

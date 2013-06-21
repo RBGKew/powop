@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -25,6 +27,12 @@ import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.retry.RetryCallback;
+import org.springframework.batch.retry.RetryContext;
+import org.springframework.batch.retry.RetryListener;
+import org.springframework.batch.retry.backoff.FixedBackOffPolicy;
+import org.springframework.batch.retry.policy.SimpleRetryPolicy;
+import org.springframework.batch.retry.support.RetryTemplate;
 
 /**
  *
@@ -32,32 +40,36 @@ import org.springframework.batch.core.ExitStatus;
  *
  */
 public class GetResourceClient {
-   /**
-    *
-    */
+
     static final int BUFFER = 2048;
 
-    /**
-     *
-     */
     private Logger logger = LoggerFactory.getLogger(GetResourceClient.class);
 
-    /**
-     *
-     */
     private HttpClient httpClient = new DefaultHttpClient();
 
-    /**
-     *
-     */
     private String proxyHost;
 
-    /**
-     *
-     */
     private Integer proxyPort;
+    
+    private Long backoffPeriod = 3000L;
 
-    /**
+	private int retryAttempts = 3;
+	
+	private RetryListener[] retryListeners = new RetryListener[] {};
+
+    public void setRetryListeners(RetryListener[] retryListeners) {
+		this.retryListeners = retryListeners;
+	}
+
+	public void setBackoffPeriod(Long backoffPeriod) {
+		this.backoffPeriod = backoffPeriod;
+	}
+
+	public void setRetryAttempts(int retryAttempts) {
+		this.retryAttempts = retryAttempts;
+	}
+
+	/**
      *
      * @param newProxyHost Set the proxy host
      */
@@ -121,88 +133,121 @@ public class GetResourceClient {
                 .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
         }
 
-        httpClient.getParams().setParameter("http.useragent",
-                "org.emonocot.ws.GetResourceClient");
-        InputStreamReader inputStreamReader = null;
-        OutputStreamWriter outputStreamWriter = null;
-
-        HttpGet httpGet = new HttpGet(authorityURI);
-        httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
-                .formatDate(new Date(Long.parseLong(dateLastHarvested)))));
+        httpClient.getParams().setParameter("http.useragent", "org.emonocot.ws.GetResourceClient");
+        RetryTemplate retryTemplate = new RetryTemplate();
+        
+        FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+        backOffPolicy.setBackOffPeriod(backoffPeriod);
+        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+        retryPolicy.setMaxAttempts(retryAttempts);
+        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>(); 
+        retryableExceptions.put(ClientProtocolException.class, Boolean.TRUE);
+        retryableExceptions.put(IOException.class, Boolean.TRUE);
+        retryPolicy.setRetryableExceptions(retryableExceptions);
+        
+        retryTemplate.setListeners(retryListeners);
+        retryTemplate.setBackOffPolicy(backOffPolicy);
+        retryTemplate.setRetryPolicy(retryPolicy);
+        
         try {
-            HttpResponse httpResponse = httpClient.execute(httpGet);
+			return retryTemplate.execute(new RetryCallback<ExitStatus> () {
 
-            switch(httpResponse.getStatusLine().getStatusCode()) {
-              case HttpURLConnection.HTTP_NOT_MODIFIED:
-                  return new ExitStatus("NOT_MODIFIED");
-              case HttpURLConnection.HTTP_OK:
-                  HttpEntity entity = httpResponse.getEntity();
-                  if (entity != null) {
-                    inputStreamReader = new InputStreamReader(
-                        new BufferedInputStream(entity.getContent()),
-                        "UTF-8");
-                    outputStreamWriter = new OutputStreamWriter(
-                        new BufferedOutputStream(new FileOutputStream(
-                            new File(temporaryFileName))), "UTF-8");
-                    int count;
-                    char[] data = new char[BUFFER];
-                    while ((count
-                          = inputStreamReader.read(data, 0, BUFFER)) != -1) {
-                          outputStreamWriter.write(data, 0, count);
-                    }
-                    outputStreamWriter.flush();
-                    outputStreamWriter.close();
-                    inputStreamReader.close();
-                  } else {
-                    logger.info("Server returned "
-                            + httpResponse.getStatusLine()
-                            + " but HttpEntity is null");
-                      return ExitStatus.FAILED;
-                  }
-                  return ExitStatus.COMPLETED;
-              default:
-                logger.info("Server returned unexpected status code "
-                        + httpResponse.getStatusLine() + " for document "
-                        + authorityURI); // This is not an error in this
-                                         // application but a server side error
-                  return ExitStatus.FAILED;
-            }
+				@Override
+				public ExitStatus doWithRetry(RetryContext context)
+						throws Exception {
+					InputStreamReader inputStreamReader = null;
+			        OutputStreamWriter outputStreamWriter = null;
 
-        } catch (ClientProtocolException cpe) {
-        	if(cpe instanceof HttpResponseException) {
-        		HttpResponseException hre = (HttpResponseException) cpe;
-        		logger.error("HttpResponse Exception getting document "
-                        + authorityURI + " " + hre.getMessage()
-                        + " with status code " + hre.getStatusCode());
-        	} else {
-                logger.error("Client Protocol Exception getting document "
-                    + authorityURI + " " + cpe.getMessage());
-        	}
-            return ExitStatus.FAILED;
-        } catch (IOException ioe) {
-            logger.error("Input Output Exception getting document "
-                    + authorityURI + " " + ioe.getLocalizedMessage());
-            return ExitStatus.FAILED;
-        } finally {
-            if (inputStreamReader != null) {
-                try {
-                    inputStreamReader.close();
-                } catch (IOException ioe) {
-                    logger.error(
-                            "Input Output Exception closing inputStream for "
-                            + authorityURI + " " + ioe.getLocalizedMessage());
-                }
-            }
-            if (outputStreamWriter != null) {
-                try {
-                     outputStreamWriter.close();
-                } catch (IOException ioe) {
-                    logger.error(
-                            "Input Output Exception closing outputStream for "
-                            + authorityURI + " " + ioe.getLocalizedMessage());
-                }
-            }
-        }
+			        HttpGet httpGet = new HttpGet(authorityURI);			        
+			        httpGet.setHeader("If-Modified-Since", DateUtils
+			                .formatDate(new Date(Long.parseLong(dateLastHarvested))));
+			        try {
+			            HttpResponse httpResponse = httpClient.execute(httpGet);			           
+
+			            switch(httpResponse.getStatusLine().getStatusCode()) {
+			              case HttpURLConnection.HTTP_NOT_MODIFIED:
+			                  return new ExitStatus("NOT_MODIFIED");
+			              case HttpURLConnection.HTTP_OK:
+			                  HttpEntity entity = httpResponse.getEntity();
+			                  if (entity != null) {
+			                    inputStreamReader = new InputStreamReader(
+			                        new BufferedInputStream(entity.getContent()),
+			                        "UTF-8");
+			                    outputStreamWriter = new OutputStreamWriter(
+			                        new BufferedOutputStream(new FileOutputStream(
+			                            new File(temporaryFileName))), "UTF-8");
+			                    int count;
+			                    char[] data = new char[BUFFER];
+			                    while ((count
+			                          = inputStreamReader.read(data, 0, BUFFER)) != -1) {
+			                          outputStreamWriter.write(data, 0, count);
+			                    }
+			                    outputStreamWriter.flush();
+			                    outputStreamWriter.close();
+			                    inputStreamReader.close();
+			                  } else {
+			                    logger.warn("Server returned "
+			                            + httpResponse.getStatusLine()
+			                            + " but HttpEntity is null");
+			                    throw new IOException("Server returned "
+			                            + httpResponse.getStatusLine()
+			                            + " but HttpEntity is null");
+			                  }
+			                  return ExitStatus.COMPLETED;
+			              default:
+			                logger.warn("Server returned unexpected status code "
+			                        + httpResponse.getStatusLine() + " for document "
+			                        + authorityURI); // This is not an error in this
+			                                         // application but a server side error
+			                throw new IOException("Server returned unexpected status code "
+			                        + httpResponse.getStatusLine() + " for document "
+			                        + authorityURI);
+			            }
+
+			        } catch (ClientProtocolException cpe) {
+			        	if(cpe instanceof HttpResponseException) {
+			        		HttpResponseException hre = (HttpResponseException) cpe;
+			        		logger.error("HttpResponse Exception getting document "
+			                        + authorityURI + " " + hre.getMessage()
+			                        + " with status code " + hre.getStatusCode());
+			        	} else {
+			                logger.error("Client Protocol Exception getting document "
+			                    + authorityURI + " " + cpe.getMessage());
+			        	}
+			            throw cpe;
+			        } catch (IOException ioe) {
+			            logger.error("Input Output Exception getting document "
+			                    + authorityURI + " " + ioe.getLocalizedMessage());
+			            throw ioe;
+			        } finally {
+			            if (inputStreamReader != null) {
+			                try {
+			                    inputStreamReader.close();
+			                } catch (IOException ioe) {
+			                    logger.error(
+			                            "Input Output Exception closing inputStream for "
+			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                }
+			            }
+			            if (outputStreamWriter != null) {
+			                try {
+			                     outputStreamWriter.close();
+			                } catch (IOException ioe) {
+			                    logger.error(
+			                            "Input Output Exception closing outputStream for "
+			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                }
+			            }
+			        }
+				}
+				
+			});
+		} catch (Exception e) {
+			logger.error("Retry processing failed " + e.getMessage());
+			return ExitStatus.FAILED;
+		}
+        
+        
     }
 
     /**
@@ -237,99 +282,129 @@ public class GetResourceClient {
                 .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
         }
 
-        httpClient.getParams().setParameter("http.useragent",
-                "org.emonocot.ws.GetResourceClient");
-        BufferedInputStream bufferedInputStream = null;
-        BufferedOutputStream bufferedOutputStream = null;
-
-        HttpGet httpGet = new HttpGet(authorityURI.replace(" ", "%20"));
-        httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
-                .formatDate(new Date(Long.parseLong(dateLastHarvested)))));
+        httpClient.getParams().setParameter("http.useragent", "org.emonocot.ws.GetResourceClient");
+        RetryTemplate retryTemplate = new RetryTemplate();
+        retryTemplate.setListeners(retryListeners);
+        FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+        backOffPolicy.setBackOffPeriod(backoffPeriod);
+        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+        retryPolicy.setMaxAttempts(retryAttempts);
+        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>(); 
+        retryableExceptions.put(ClientProtocolException.class, Boolean.TRUE);
+        retryableExceptions.put(IOException.class, Boolean.TRUE);
+        retryPolicy.setRetryableExceptions(retryableExceptions);
+        
+        retryTemplate.setBackOffPolicy(backOffPolicy);
+        retryTemplate.setRetryPolicy(retryPolicy);
         try {
-            HttpResponse httpResponse = httpClient.execute(httpGet);
+			return retryTemplate.execute(new RetryCallback<ExitStatus> () {
 
-            switch(httpResponse.getStatusLine().getStatusCode()) {
-              case HttpURLConnection.HTTP_NOT_MODIFIED:
-                  return new ExitStatus("NOT_MODIFIED");
-              case HttpURLConnection.HTTP_OK:
-                  HttpEntity entity = httpResponse.getEntity();
-                  if (entity != null) {
-                      bufferedInputStream =
-                          new BufferedInputStream(entity.getContent());
-                      bufferedOutputStream =
-                          new BufferedOutputStream(new FileOutputStream(
-                            new File(temporaryFileName)));
-                    int count;
-                    byte[] data = new byte[BUFFER];
-                    while ((count
-                          = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
-                        bufferedOutputStream.write(data, 0, count);
-                    }
-                    bufferedOutputStream.flush();
-                    bufferedOutputStream.close();
-                    bufferedInputStream.close();
-                  } else {
-                    logger.info("Server returned "
-                            + httpResponse.getStatusLine()
-                            + " but HttpEntity is null");
-                      return ExitStatus.FAILED;
-                  }
-                  return ExitStatus.COMPLETED;
-            default:
-                logger.info("Server returned unexpected status code "
-                        + httpResponse.getStatusLine() + " for document "
-                        + authorityURI); // This is not an error in this
-                                         // application but a server side error
-                BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
-                        httpResponse.getEntity());
-                InputStreamReader reader = new InputStreamReader(
-                        bufferedEntity.getContent());
-                StringBuffer stringBuffer = new StringBuffer();
-                int count;
-                char[] content = new char[BUFFER];
-                while ((count = reader.read(content, 0, BUFFER)) != -1) {
-                    stringBuffer.append(content);
-                }
-                logger.info("Server Response was: " + stringBuffer.toString());
-                httpGet.abort();
-                return ExitStatus.FAILED;
-            }
+				@Override
+				public ExitStatus doWithRetry(RetryContext context)
+						throws Exception {
+					BufferedInputStream bufferedInputStream = null;
+			        BufferedOutputStream bufferedOutputStream = null;
 
-        } catch (ClientProtocolException cpe) {
-        	if(cpe instanceof HttpResponseException) {
-        		HttpResponseException hre = (HttpResponseException) cpe;
-        		logger.error("HttpResponse Exception getting document "
-                        + authorityURI + " " + hre.getMessage()
-                        + " with status code " + hre.getStatusCode());
-        	} else {
-                logger.error("Client Protocol Exception getting document "
-                    + authorityURI + " " + cpe.getMessage());
-        	}
-            return ExitStatus.FAILED;
-        } catch (IOException ioe) {
-            logger.error("Input Output Exception getting document "
-                    + authorityURI + " " + ioe.getLocalizedMessage());
-            return ExitStatus.FAILED;
-        } finally {
-            if (bufferedInputStream != null) {
-                try {
-                    bufferedInputStream.close();
-                } catch (IOException ioe) {
-                    logger.error(
-                            "Input Output Exception closing inputStream for "
-                            + authorityURI + " " + ioe.getLocalizedMessage());
-                }
-            }
-            if (bufferedOutputStream != null) {
-                try {
-                    bufferedOutputStream.close();
-                } catch (IOException ioe) {
-                    logger.error(
-                            "Input Output Exception closing outputStream for "
-                            + authorityURI + " " + ioe.getLocalizedMessage());
-                }
-            }
-        }
+			        HttpGet httpGet = new HttpGet(authorityURI.replace(" ", "%20"));
+			        httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
+			                .formatDate(new Date(Long.parseLong(dateLastHarvested)))));
+			        try {
+			            HttpResponse httpResponse = httpClient.execute(httpGet);
+
+			            switch(httpResponse.getStatusLine().getStatusCode()) {
+			              case HttpURLConnection.HTTP_NOT_MODIFIED:
+			                  return new ExitStatus("NOT_MODIFIED");
+			              case HttpURLConnection.HTTP_OK:
+			                  HttpEntity entity = httpResponse.getEntity();
+			                  if (entity != null) {
+			                      bufferedInputStream =
+			                          new BufferedInputStream(entity.getContent());
+			                      bufferedOutputStream =
+			                          new BufferedOutputStream(new FileOutputStream(
+			                            new File(temporaryFileName)));
+			                    int count;
+			                    byte[] data = new byte[BUFFER];
+			                    while ((count
+			                          = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
+			                        bufferedOutputStream.write(data, 0, count);
+			                    }
+			                    bufferedOutputStream.flush();
+			                    bufferedOutputStream.close();
+			                    bufferedInputStream.close();
+			                  } else {
+			                    logger.warn("Server returned "
+			                            + httpResponse.getStatusLine()
+			                            + " but HttpEntity is null");
+			                      throw new IOException("Server returned "
+				                            + httpResponse.getStatusLine()
+				                            + " but HttpEntity is null");
+			                  }
+			                  return ExitStatus.COMPLETED;
+			            default:
+			                logger.warn("Server returned unexpected status code "
+			                        + httpResponse.getStatusLine() + " for document "
+			                        + authorityURI); // This is not an error in this
+			                                         // application but a server side error
+			                BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
+			                        httpResponse.getEntity());
+			                InputStreamReader reader = new InputStreamReader(
+			                        bufferedEntity.getContent());
+			                StringBuffer stringBuffer = new StringBuffer();
+			                int count;
+			                char[] content = new char[BUFFER];
+			                while ((count = reader.read(content, 0, BUFFER)) != -1) {
+			                    stringBuffer.append(content);
+			                }
+			                logger.warn("Server Response was: " + stringBuffer.toString());
+			                httpGet.abort();
+			                throw new IOException("Server returned unexpected status code "
+			                        + httpResponse.getStatusLine() + " for document "
+			                        + authorityURI);
+			            }
+
+			        } catch (ClientProtocolException cpe) {
+			        	if(cpe instanceof HttpResponseException) {
+			        		HttpResponseException hre = (HttpResponseException) cpe;
+			        		logger.error("HttpResponse Exception getting document "
+			                        + authorityURI + " " + hre.getMessage()
+			                        + " with status code " + hre.getStatusCode());
+			        	} else {
+			                logger.error("Client Protocol Exception getting document "
+			                    + authorityURI + " " + cpe.getMessage());
+			        	}
+			            throw cpe;
+			        } catch (IOException ioe) {
+			            logger.error("Input Output Exception getting document "
+			                    + authorityURI + " " + ioe.getLocalizedMessage());
+			            throw ioe;
+			        } finally {
+			            if (bufferedInputStream != null) {
+			                try {
+			                    bufferedInputStream.close();
+			                } catch (IOException ioe) {
+			                    logger.error(
+			                            "Input Output Exception closing inputStream for "
+			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                }
+			            }
+			            if (bufferedOutputStream != null) {
+			                try {
+			                    bufferedOutputStream.close();
+			                } catch (IOException ioe) {
+			                    logger.error(
+			                            "Input Output Exception closing outputStream for "
+			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                }
+			            }
+			        }
+				}
+				
+			});
+		} catch (Exception e) {
+			logger.error("Retry processing failed " + e.getMessage());
+			return ExitStatus.FAILED;
+			
+		}
+        
     }
-
 }

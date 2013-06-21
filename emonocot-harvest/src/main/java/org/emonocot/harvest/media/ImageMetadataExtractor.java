@@ -2,6 +2,8 @@ package org.emonocot.harvest.media;
 
 import java.io.File;
 import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +26,10 @@ import org.apache.sanselan.formats.tiff.constants.TiffConstants;
 import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.model.Image;
+import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.constants.RecordType;
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -38,8 +43,7 @@ import org.xml.sax.InputSource;
  */
 public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
 
-    private Logger logger = LoggerFactory
-            .getLogger(ImageMetadataExtractor.class);
+    private Logger logger = LoggerFactory.getLogger(ImageMetadataExtractor.class);
 
     private HtmlSanitizer sanitizer;
     
@@ -91,10 +95,6 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
      *             if there is a problem processing the image
      */
     public final Image process(final Image image) throws Exception {
-        if (sanitizer == null) {
-            sanitizer = new HtmlSanitizer();
-            sanitizer.afterPropertiesSet();
-        }
         String imageFileName = imageDirectory + File.separatorChar + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
@@ -103,71 +103,53 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             //TODO error annotation
             return null;
         }
-        boolean metadataUpdated = false;
-
-        
+        boolean metadataFound = false;
+        //Search for additional metadata
+        Image embeddedMetadata = new Image();
         String xmpXml = Sanselan.getXmpXml(file);
 		if (xmpXml != null && !xmpXml.isEmpty()) {
-			logger.debug("Attempting to extract metadata from xmp-xml:\n"
-					+ xmpXml);
-			XMPMetadata xmp = XMPMetadata.load(new InputSource(
-					new StringReader(xmpXml)));
-			for (Class schemaClass : schemas) {
-				XMPSchema schema = xmp.getSchemaByClass(schemaClass);
-				if (schema instanceof XMPSchemaIptc4xmpCore) {
-					XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
-					metadataUpdated = addIptcProperies(iptcSchema, image)
-							|| metadataUpdated;
-					logger.debug("Known schema that will be added:"
-							+ schema.toString() + "\n"
-							+ schema.getElement().getTextContent());
-				} else if (schema instanceof XMPSchemaDublinCore) {
-					XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
-					metadataUpdated = addDcProperies(dcSchema, image)
-							|| metadataUpdated;
-					logger.debug("Known schema that will be added:"
-							+ schema.toString() + "\n"
-							+ schema.getElement().getTextContent());
-				} else if (schema instanceof XMPSchemaRightsManagement) {
-					XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
-					metadataUpdated = addRightsProprties(rightsSchema, image)
-							|| metadataUpdated;
-					logger.debug("Known schema that will be added:"
-							+ schema.toString() + "\n"
-							+ schema.getElement().getTextContent());
-				} else if (schema instanceof XMPSchemaPhotoshop) {
-					XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
-					metadataUpdated = addPhotoshopProperties(photoshopSchema,
-							image) || metadataUpdated;
-					logger.debug("Known schema that will be added:"
-							+ schema.toString() + "\n"
-							+ schema.getElement().getTextContent());
-				} else {
-					if(schema != null && schema.getElement() != null) {
-					    logger.warn("Unknown schema that will be skipped:"
-							+ schema.toString() + "\n"
-							+ schema.getElement().getTextContent());
-					}
-				}
-			}
-			// XMPSchemaBasicJobTicket bjtSchema =
-			// xmp.getBasicJobTicketSchema();
-			// addBjtSchema(bjtSchema, image);
+		    logger.debug("Attempting to extract metadata from xmp-xml:\n" + xmpXml);
+	        XMPMetadata xmp = XMPMetadata.load(new InputSource(new StringReader(xmpXml)));
+	        for(Class schemaClass : schemas) {
+	            XMPSchema schema = xmp.getSchemaByClass(schemaClass);
+	            if(schema instanceof XMPSchemaIptc4xmpCore){
+	                XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
+	                metadataFound = addIptcProperies(iptcSchema, embeddedMetadata) || metadataFound;
+	                logger.debug("Known schema that will be added:" + schema.toString() +
+	                        "\n" + schema.getElement().getTextContent());
+	            } else if (schema instanceof XMPSchemaDublinCore) {
+	                XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
+	                metadataFound = addDcProperies(dcSchema, embeddedMetadata) || metadataFound;
+	                logger.debug("Known schema that will be added:" + schema.toString() +
+	                        "\n" + schema.getElement().getTextContent());
+	            } else if (schema instanceof XMPSchemaRightsManagement) {
+	                XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
+	                metadataFound = addRightsProprties(rightsSchema, embeddedMetadata) || metadataFound;
+	                logger.debug("Known schema that will be added:" + schema.toString() +
+	                        "\n" + schema.getElement().getTextContent());
+	            } else if(schema instanceof XMPSchemaPhotoshop) {
+	                XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
+	                metadataFound = addPhotoshopProperties(photoshopSchema, embeddedMetadata) || metadataFound;
+	                logger.debug("Known schema that will be added:" + schema.toString() +
+	                        "\n" + schema.getElement().getTextContent());
+	            } else {
+	                logger.info("Unable to process a schema of: " + schemaClass);
+	            }
+	        }
 		} else {
 			logger.debug("Image " + file + " does not contain embedded XMP metadata");
 		}
-
         
-
-        ////////////////////////////////////////
         IImageMetadata metadata = Sanselan.getMetadata(new File(imageFileName));
-        metadataUpdated = addSanselanProperties(metadata, image) || metadataUpdated;
-        ////////////////////////////////////////
-        
-        
-        
-        if(metadataUpdated) {
-        	validate(image);
+        if(metadata != null) {
+             logger.debug("The metadata visible to Sanselan is: " +  metadata.toString("*"));
+             metadataFound = addSanselanProperties(metadata, embeddedMetadata) || metadataFound;
+        } else {
+        	logger.debug("There is no metadata available from Sanselan");
+        }
+        //Apply any supplementary metadata
+        if(metadataFound && update(image, embeddedMetadata)) {
+            validate(image);
             return image;
         } else {
         	logger.debug("No metadata was updated, skipping");
@@ -175,6 +157,72 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
         }
     }
     
+    /**
+     * @param image The persisted image to update
+     * @param embeddedMetadata The image containing supplementary values
+     * @return Whether any metadata was updated on the persisted image
+     */
+    private boolean update(Image image, Image embeddedMetadata) {
+        boolean updated = false;
+        if(image.getTitle() == null && embeddedMetadata.getTitle() != null) {
+            image.setTitle(embeddedMetadata.getTitle());
+            updated = true;
+        }
+        if(image.getDescription() == null && embeddedMetadata.getDescription() != null) {
+            image.setDescription(embeddedMetadata.getDescription());
+            updated = true;
+        }
+        if(embeddedMetadata.getSubject() != null) {
+            if(image.getSubject() == null) {
+                image.setSubject(embeddedMetadata.getSubject());
+                updated = true;
+            } else {
+                StringBuffer newSubject = new StringBuffer();
+                newSubject.append(image.getSubject());
+                for(String subject : embeddedMetadata.getSubject().split(",")) {
+                    if(!newSubject.toString().contains(subject.trim())) {
+                        newSubject.append(", " + subject.trim());
+                    }
+                }
+                image.setSubject(newSubject.toString());
+                updated = true; //Not strictly always true
+            }
+        }
+        if(image.getCreator() == null && embeddedMetadata.getCreator() != null) {
+            image.setCreator(embeddedMetadata.getCreator());
+            updated = true;
+        }
+        if(image.getFormat() == null && embeddedMetadata.getFormat() != null) {
+            image.setFormat(embeddedMetadata.getFormat());
+            updated = true;
+        }
+        if(image.getSpatial() == null && embeddedMetadata.getSpatial() != null) {
+            image.setSpatial(embeddedMetadata.getSpatial());
+            updated = true;
+        }
+        if(image.getCreated() == null && embeddedMetadata.getCreated() != null) {
+            image.setCreated(embeddedMetadata.getCreated());
+            updated = true;
+        }
+        if(image.getRights() == null && embeddedMetadata.getRights() != null) {
+            image.setRights(embeddedMetadata.getRights());
+            updated = true;
+        }
+        if(image.getRightsHolder() == null && embeddedMetadata.getRightsHolder() != null) {
+            image.setRightsHolder(embeddedMetadata.getRightsHolder());
+            updated = true;
+        }
+        if(image.getLicense() == null && embeddedMetadata.getLicense() != null) {
+            image.setLicense(embeddedMetadata.getLicense());
+            updated = true;
+        }
+        if(image.getLocation() == null && embeddedMetadata.getLocation() != null) {
+            image.setLocation(embeddedMetadata.getLocation());
+            updated = true;
+        }
+        return updated;
+    }
+
     protected void validate(Image image) {
     	Set<ConstraintViolation<Image>> violations = validator.validate(image);
     	if(!violations.isEmpty()) {
@@ -204,21 +252,23 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             isSomethingDifferent = true;
         }
         //N.B. Additional subjects are currently added rather than being ignored or overwriting
-        if(dcSchema.getSubjects() != null && dcSchema.getSubjects().size() > 0) {
+        List<String> subjects = dcSchema.getSubjects();
+        if(subjects != null && subjects.size() > 0) {
             StringBuffer uncleanSubject = new StringBuffer();
+            int startAt = 0;
             if(image.getSubject() != null) {
                 uncleanSubject.append(image.getSubject());
+            } else {
+                uncleanSubject.append(sanitizer.sanitize(subjects.get(startAt++)));
             }
-            for (String subject : dcSchema.getSubjects()) {
+            for (int i = startAt; i < subjects.size(); i++) {
+                String subject = sanitizer.sanitize(subjects.get(i)); //We need to check the sanitized string
                 if(StringUtils.isNotBlank(subject) && !uncleanSubject.toString().contains(subject)) {
-                    if(uncleanSubject.length() > 0) {
-                        uncleanSubject.append(", ");
-                    }
-                    uncleanSubject.append(subject);
+                    uncleanSubject.append(", " + subject);
                 }
             }
             if(image.getSubject() == null || uncleanSubject.length() > image.getSubject().length()) {
-                image.setSubject(sanitizer.sanitize(uncleanSubject.toString()));
+                image.setSubject(uncleanSubject.toString()); //Sanitized earlier
                 isSomethingDifferent = true;
             }
         }
@@ -231,6 +281,19 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             }
             image.setCreator(sanitizer.sanitize(uncleanCreator.toString()));
             isSomethingDifferent = true;
+        }
+        if(image.getFormat() == null && StringUtils.isNotBlank(dcSchema.getFormat())) {
+            String format = dcSchema.getFormat();
+            if(format.contains("gif")) {
+                image.setFormat(ImageFormat.gif);
+                isSomethingDifferent = true;
+            } else if(format.contains("jpeg")) {
+                image.setFormat(ImageFormat.jpg);
+                isSomethingDifferent = true;
+            } else if(format.contains("png")) {
+                image.setFormat(ImageFormat.png);
+                isSomethingDifferent = true;
+            }
         }
         return isSomethingDifferent;
     }
@@ -257,21 +320,39 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
     private boolean addPhotoshopProperties(XMPSchemaPhotoshop photoshopSchema,
             Image image) {
         boolean isSomethingDifferent = false;
-        if(image.getSpatial() == null) {
-            StringBuffer uncleanSpatial = new StringBuffer();
-            if(StringUtils.isNotBlank(photoshopSchema.getState())) {
-                uncleanSpatial.append(photoshopSchema.getState());
+        StringBuffer newSpatial = new StringBuffer();
+        if(StringUtils.isNotBlank(image.getSpatial())) {
+            newSpatial.append(image.getSpatial());
+        }
+        if(StringUtils.isNotBlank(photoshopSchema.getState())) {
+            if(newSpatial.length() > 0 ) {
+                newSpatial.append(", ");
             }
-            if(StringUtils.isNotBlank(photoshopSchema.getCountry())) {
-                if(uncleanSpatial.length() > 0 ) {
-                    uncleanSpatial.append(", ");
-                }
-                uncleanSpatial.append(photoshopSchema.getCountry());
+            newSpatial.append(sanitizer.sanitize(photoshopSchema.getState()));
+        }
+        if(StringUtils.isNotBlank(photoshopSchema.getCountry())) {
+            if(newSpatial.length() > 0 ) {
+                newSpatial.append(", ");
             }
+            newSpatial.append(sanitizer.sanitize(photoshopSchema.getCountry()));
+        }
+        if(!newSpatial.toString().equals(image.getSpatial())) {
+            image.setSpatial(newSpatial.toString());
+            isSomethingDifferent = true;
         }
         if(StringUtils.isNotBlank(photoshopSchema.getInstructions())) {
             //N.B. We could try and use the taxon matcher to associate an additional taxon (or multiple taxa if we are clear about the separator)
-            logger.info("I found photoshop/scratchpad instruction: " + photoshopSchema.getInstructions());
+            logger.info("Photoshop instruction found: " + photoshopSchema.getInstructions());
+            //TODO Match Taxon?
+        }
+        if(image.getCreated() == null && photoshopSchema.getDateCreated() != null) {
+            try{
+                DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
+                image.setCreated(dateCreated);
+            } catch (IllegalArgumentException e) {
+                //TODO annotate?
+                logger.warn("Unable to set the Date Created for image" + image.getId() + " identifier: " + image.getIdentifier(), e);
+            }
         }
         return isSomethingDifferent;
     }
@@ -298,24 +379,34 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             image.setRightsHolder(sanitizer.sanitize(ownerList.toString()));
             isSomethingDifferent = true;
         }
-        
-        //The webstatement/license needs to come from several fields
-        logger.debug("URL: " + rightsSchema.getWebStatement() + "for Usage terms/License: " + rightsSchema.getUsageTerms());
+        logger.debug("URL: " + rightsSchema.getWebStatement() + "for Usage terms/License: "
+                + rightsSchema.getUsageTerms());
         if(image.getLicense() == null) {
-            StringBuffer license = new StringBuffer();
-            if(StringUtils.isNotBlank(rightsSchema.getWebStatement())) {
-                //Create an warning annotation if the image has an invalid web statement? http://wiki.creativecommons.org/WebStatement seems strict
-                license.append(rightsSchema.getWebStatement());
+            StringBuffer uncleanLicense = new StringBuffer();
+            URI licenseURI = null;
+            try {
+                licenseURI = new URI(rightsSchema.getUsageTerms());
+            } catch (NullPointerException e) {
+                logger.debug(rightsSchema.getUsageTerms() + " is not a valid URI");
+            } catch (URISyntaxException e) {
+                logger.debug(rightsSchema.getUsageTerms() + " is not a valid URI");
             }
-            if(StringUtils.isNotBlank(rightsSchema.getUsageTerms())) {
-                if(license.length() > 0) {
-                    license.append("#");
+            if(licenseURI != null) {
+                uncleanLicense.append(rightsSchema.getUsageTerms());
+            } else {
+                if(StringUtils.isNotBlank(rightsSchema.getWebStatement())) {
+                    uncleanLicense.append(rightsSchema.getWebStatement());
                 }
-                license.append(rightsSchema.getUsageTerms());
+                if(StringUtils.isNotBlank(rightsSchema.getUsageTerms())) {
+                    if(uncleanLicense.length() > 0) {
+                        uncleanLicense.append("#");
+                    }
+                    uncleanLicense.append(rightsSchema.getUsageTerms());
+                }
             }
-            String cleanedLicense = sanitizer.sanitize(license.toString());
-            if(StringUtils.isNotBlank(cleanedLicense)) {
-                image.setLicense(cleanedLicense);
+            String license = sanitizer.sanitize(uncleanLicense.toString());
+            if(StringUtils.isNotBlank(license)) {
+                image.setLicense(license);
                 isSomethingDifferent = true;
             }
         }
@@ -390,9 +481,15 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
                     isSomethingDifferent = true;
                 }
             }
-        }//TODO Other image types I'd think
+        }
         return isSomethingDifferent ;
     }
 
-    
+    public void afterPropertiesSet() throws Exception {
+        assert imageDirectory != null;
+        if (sanitizer == null) {
+            sanitizer = new HtmlSanitizer();
+            sanitizer.afterPropertiesSet();
+        }
+    }
 }

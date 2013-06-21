@@ -7,21 +7,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.message.BasicStatusLine;
-import org.apache.http.params.BasicHttpParams;
-import org.easymock.EasyMock;
 import org.emonocot.harvest.common.GetResourceClient;
+import org.joda.time.DateTime;
+import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.batch.retry.RetryCallback;
+import org.springframework.batch.retry.RetryContext;
+import org.springframework.batch.retry.RetryListener;
 import org.xml.sax.SAXException;
 
 /**
@@ -29,36 +23,16 @@ import org.xml.sax.SAXException;
  * @author ben
  *
  */
-public class GetResourceClientTest {
+public class GetResourceClientIntegrationTest {
+	
+    private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
-    /**
-     *
-     */
-    private GetResourceClient getResourceClient = new GetResourceClient();
-    /**
-     *
-     */
-    private HttpClient httpClient = EasyMock.createMock(HttpClient.class);
-    /**
-     *
-     */
-    private BasicHttpResponse httpResponse = new BasicHttpResponse(
-            new BasicStatusLine(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "OK"));
-    /**
-     *
-     */
-    private Resource content = new ClassPathResource(
-            "/org/emonocot/job/dwc/test.zip");
-    /**
-     *
-     * @throws IOException
-     *             if the test file cannot be found
-     */
+    private GetResourceClient getResourceClient;
+
     @Before
-    public final void setUp() throws IOException {
-        getResourceClient.setHttpClient(httpClient);
-        httpResponse.setEntity(new FileEntity(content.getFile(),
-                "application/zip"));
+    public final void setUp() throws IOException {    	
+        getResourceClient = new GetResourceClient();
+        
     }
 
     /**
@@ -75,19 +49,11 @@ public class GetResourceClientTest {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
 
-        EasyMock.expect(httpClient.getParams())
-                .andReturn(new BasicHttpParams());
-        EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse);
-        EasyMock.replay(httpClient);
-
         ExitStatus exitStatus = getResourceClient
                 .getResource("http://build.e-monocot.org/",
                         "http://build.e-monocot.org/test/test.zip",
-                        Long.toString(new Date().getTime()),
+                        Long.toString(PAST_DATETIME.getMillis()),
                         tempFile.getAbsolutePath());
-
-        EasyMock.verify(httpClient);
 
         assertNotNull("ExitStatus should not be null", exitStatus);
         assertEquals("ExitStatus should be COMPLETED", exitStatus,
@@ -104,22 +70,13 @@ public class GetResourceClientTest {
     public final void testGetResourceNotModified() throws IOException {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
-        httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
-                HttpStatus.SC_NOT_MODIFIED, "Not Modified"));
-
-        EasyMock.expect(httpClient.getParams())
-                .andReturn(new BasicHttpParams());
-        EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse);
-        EasyMock.replay(httpClient);
+        
 
         ExitStatus exitStatus = getResourceClient
                 .getResource("http://build.e-monocot.org/",
                         "http://build.e-monocot.org/test/test.zip",
-                        Long.toString(new Date().getTime()),
+                        Long.toString(new Date().getTime() - 60000L),
                         tempFile.getAbsolutePath());
-
-        EasyMock.verify(httpClient);
 
         assertNotNull("ExitStatus should not be null", exitStatus);
         assertEquals("ExitStatus should be NOT_MODIFIED",
@@ -134,27 +91,50 @@ public class GetResourceClientTest {
      */
     @Test
     public final void testGetDocumentAnyOtherStatus() throws IOException {
+    	AttemptCountingRetryListener retryListener = new AttemptCountingRetryListener();
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
-        httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
-                HttpStatus.SC_BAD_REQUEST, "Bad Request"));
-
-        EasyMock.expect(httpClient.getParams())
-                .andReturn(new BasicHttpParams());
-        EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse).anyTimes();
-        EasyMock.replay(httpClient);
+        getResourceClient.setRetryListeners(new RetryListener[] {
+        		retryListener
+        });
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/",
-                        "http://build.e-monocot.org/test/test.zip",
+                .getResource("http://example.com/",
+                        "http://example.com/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
-
-        EasyMock.verify(httpClient);
 
         assertNotNull("ExitStatus should not be null", exitStatus);
         assertEquals("ExitStatus should be FAILED", exitStatus,
                 ExitStatus.FAILED);
+        assertEquals("There should be three retry attempts",3,retryListener.getErrors());
     }
+    
+    class AttemptCountingRetryListener implements RetryListener {
+    	
+    	private int errors = 0;
+    	
+    	public int getErrors() {
+    		return errors;
+    	}
+
+		@Override
+		public <T> boolean open(RetryContext context, RetryCallback<T> callback) {			
+			return true;
+		}
+
+		@Override
+		public <T> void close(RetryContext context, RetryCallback<T> callback,
+				Throwable throwable) {
+			
+		}
+
+		@Override
+		public <T> void onError(RetryContext context,
+				RetryCallback<T> callback, Throwable throwable) {
+			errors++;
+		}
+    	
+    }
+
 }

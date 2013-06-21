@@ -110,7 +110,8 @@ public class ResourceDaoImpl extends SearchableDaoImpl<Resource> implements Reso
 		Criteria criteria = getSession().createCriteria(type);
 		criteria.add(Restrictions.isNotNull("resourceType"));
 		criteria.add(Restrictions.in("status", Arrays.asList(new BatchStatus[] {BatchStatus.COMPLETED, BatchStatus.FAILED,BatchStatus.ABANDONED, BatchStatus.STOPPED})));
-		criteria.add(Restrictions.lt("nextAvailableDate", now));
+		criteria.add(Restrictions.eq("scheduled", Boolean.TRUE));
+		criteria.add(Restrictions.disjunction().add(Restrictions.lt("nextAvailableDate", now)).add(Restrictions.isNull("nextAvailableDate")));
 
         if (limit != null) {
             criteria.setMaxResults(limit);

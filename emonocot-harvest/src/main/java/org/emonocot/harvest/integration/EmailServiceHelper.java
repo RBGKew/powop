@@ -23,6 +23,7 @@ import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
 import org.emonocot.model.auth.User;
+import org.emonocot.model.registry.Resource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -196,8 +197,10 @@ public class EmailServiceHelper {
 			String templateName = null;
 			if(((Comment) payload).getInResponseTo() != null) {
 				templateName = "reply";
-			}else if (about instanceof BaseData) {
+			} else if (about instanceof BaseData) {
 				templateName = "comment";
+			} else if (about instanceof Resource) {
+				templateName = "resource";
 			}
 			if (templateName != null) {
 				headers.put(HEADER_TEMPLATE_NAME, templates.get(templateName));

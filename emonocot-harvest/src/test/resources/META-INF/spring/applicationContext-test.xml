@@ -48,6 +48,14 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="notifyingJobStatusListener" class="org.emonocot.harvest.integration.NotifyingJobStatusListener">
+        <property name="systemUser" value="${email.fromAddress}"/>
+        <property name="resourceService" ref="resourceServiceImpl"/>
+        <property name="userService" ref="userServiceImpl"/>
+        <property name="commentService" ref="commentServiceImpl"/>
+        <property name="annotationService" ref="annotationServiceImpl"/>
+    </bean>
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
@@ -103,7 +111,7 @@
 
 	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 	
-	<bean id="imageFileProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
+	<bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
 	  <property name="getResourceClient" ref="getResourceClient" />
 	  <property name="imageDirectory" value="${harvester.image.directory}"/>
 	</bean>

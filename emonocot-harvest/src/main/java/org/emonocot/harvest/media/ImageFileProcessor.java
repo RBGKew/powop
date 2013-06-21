@@ -6,6 +6,7 @@ import org.emonocot.harvest.common.GetResourceClient;
 import org.emonocot.model.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.item.ItemProcessor;
 
 /**
@@ -63,7 +64,19 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
         if (file.exists()) {
-            logger.info("File exists in image directory, skipping");
+            System.out.println(imageDirectory);
+            System.out.println(image.getId());
+            System.out.println(image.getFormat());
+            logger.info("File exists in image directory, issuing a conditional GET");
+            ExitStatus status = getResourceClient.getBinaryResource("", image.getIdentifier(), Long.toString(file.lastModified()), imageFileName);
+            if(status == null || ExitStatus.FAILED.equals(status)) {
+                logger.error("There was a problem trying to get " + image.getIdentifier());
+                return null;
+            } else if ("NOT_MODIFIED".equals(status.getExitCode())) {
+                logger.info("The image is already up to date");
+                //TODO annotate?
+                return image;
+            }
         } else {
             try {
                 getResourceClient.getBinaryResource("",
@@ -79,7 +92,7 @@ public class ImageFileProcessor implements ItemProcessor<Image, Image> {
                     logger.error(ste.toString());
                 }
             }
-        }        
+        }
         return image;
     }
 
