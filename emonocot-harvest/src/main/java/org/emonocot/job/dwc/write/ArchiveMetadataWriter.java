@@ -20,6 +20,9 @@ import org.gbif.dwc.text.MetaDescriptorWriter;
 import org.gbif.metadata.eml.Agent;
 import org.gbif.metadata.eml.Eml;
 import org.gbif.metadata.eml.EmlWriter;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -30,6 +33,8 @@ import freemarker.template.TemplateException;
 
 
 public class ArchiveMetadataWriter implements Tasklet {
+	
+	private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYYY");
 	
 	private TermFactory termFactory = new TermFactory();
 	
@@ -317,6 +322,11 @@ public class ArchiveMetadataWriter implements Tasklet {
 	
 	private Eml getEml() {
 		Eml eml = new Eml();
+		if(citationString != null) {
+		    DateTime now = new DateTime();
+		    Integer year = new Integer(now.getYear());
+		    citationString = citationString.replace("{0}", year.toString()).replace("{1}", dateTimeFormatter.print(now));
+		}
 		eml.setCitation(citationString,identifier);
 		Agent resourceCreator = new Agent();
 		resourceCreator.setEmail(creatorEmail);
