@@ -142,7 +142,7 @@ public class GetResourceClientTest {
         EasyMock.expect(httpClient.getParams())
                 .andReturn(new BasicHttpParams());
         EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse);
+                .andReturn(httpResponse).anyTimes();
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
@@ -157,5 +157,4 @@ public class GetResourceClientTest {
         assertEquals("ExitStatus should be FAILED", exitStatus,
                 ExitStatus.FAILED);
     }
-
 }

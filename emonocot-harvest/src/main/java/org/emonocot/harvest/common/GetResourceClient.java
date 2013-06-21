@@ -407,5 +407,4 @@ public class GetResourceClient {
 		}
         
     }
-
 }
