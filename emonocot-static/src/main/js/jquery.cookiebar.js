@@ -14,7 +14,7 @@
  * or the documentation provided.
  */
 (function($){
-	$.cookieBar2 = function(options,val){
+	$.cookieBar = function(options,val){
 		if(options=='cookies'){
 			var doReturn = 'cookies';
 		}else if(options=='set'){
@@ -48,13 +48,13 @@
 		expireDate.setTime(expireDate.getTime()+(options.expireDays*24*60*60*1000));
 		expireDate = expireDate.toGMTString();
 		
-		var cookieEntry = 'cb2-enabled={value}; expires='+expireDate+'; path=/'
+		var cookieEntry = 'cb-enabled={value}; expires='+expireDate+'; path=/'
 		
 		//Retrieves current cookie preference
 		var i,cookieValue='',aCookie,aCookies=document.cookie.split('; ');
 		for (i=0;i<aCookies.length;i++){
 			aCookie = aCookies[i].split('=');
-			if(aCookie[0]=='cb2-enabled'){
+			if(aCookie[0]=='cb-enabled'){
     			cookieValue = aCookie[1];
 			}
 		}
@@ -83,19 +83,19 @@
 			var message = options.message.replace('{policy_url}',options.policyURL);
 			
 			if(options.acceptButton){
-				var acceptButton = '<a href="" class="cb2-enable">'+options.acceptText+'</a>';
+				var acceptButton = '<a href="" class="cb-enable">'+options.acceptText+'</a>';
 			}else{
 				var acceptButton = '';
 			}
 			//Sets up disable/decline button if required
 			if(options.declineButton){
-				var declineButton = '<a href="" class="cb2-disable">'+options.declineText+'</a>';
+				var declineButton = '<a href="" class="cb-disable">'+options.declineText+'</a>';
 			}else{
 				var declineButton = '';
 			}
 			//Sets up privacy policy button if required
 			if(options.policyButton){
-				var policyButton = '<a href="'+options.policyURL+'" class="cb2-policy">'+options.policyText+'</a>';
+				var policyButton = '<a href="'+options.policyURL+'" class="cb-policy">'+options.policyText+'</a>';
 			}else{
 				var policyButton = '';
 			}
@@ -116,7 +116,7 @@
 			}
 			
 			//Sets the cookie preference to accepted if enable/accept button pressed
-			$('#cookie-bar .cb2-enable').click(function(){
+			$('#cookie-bar .cb-enable').click(function(){
 				document.cookie = cookieEntry.replace('{value}','accepted');
 				if(cookieValue!='enabled' && cookieValue!='accepted'){
 					window.location = options.currentLocation;
@@ -132,7 +132,7 @@
 				}
 			});
 			//Sets the cookie preference to declined if disable/decline button pressed
-			$('#cookie-bar .cb2-disable').click(function(){
+			$('#cookie-bar .cb-disable').click(function(){
 				var deleteDate = new Date();
 				deleteDate.setTime(deleteDate.getTime()-(864000000));
 				deleteDate = deleteDate.toGMTString();
