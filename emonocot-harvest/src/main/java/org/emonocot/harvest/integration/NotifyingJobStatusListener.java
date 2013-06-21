@@ -146,8 +146,8 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 					+ periodFormatter.print(duration) + ".");			
 			exitDescription.append(" Issues - Info: " + info + ", warnings: "
 					+ warn + ", Errors: " + error);
-			jobExecution.getExitStatus().addExitDescription(
-					exitDescription.toString());
+			jobExecution.setExitStatus(jobExecution.getExitStatus().addExitDescription(
+					exitDescription.toString()));
 
 			User user = userService.load(systemUser);
 			// Create comment
