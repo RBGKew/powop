@@ -7,6 +7,7 @@
 	xmlns:tiles="http://tiles.apache.org/tags-tiles">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
+	
 	<script>
 		$("document").ready(function(){
 			$("ul.dropdown-menu > li > a ").hover(function(){
@@ -14,6 +15,15 @@
 			});
 		});
 	</script>
+	
+	<script type="text/javascript">
+		$("document").ready(function(){
+			$.cookieBar({
+				message: 'By continuing to use the site, you agree to the use of cookies. <a class="link" target="_blank" href="http://families.e-monocot.org/privacy-cookies">Find out more about cookies.</a>'
+			});
+		});
+	</script>
+	
 	<div class="navbar-inner">
 		<div class="container">
 			<c:url value="/" var="brandUrl"/>
