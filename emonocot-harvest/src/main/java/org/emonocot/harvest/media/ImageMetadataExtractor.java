@@ -26,6 +26,7 @@ import org.apache.sanselan.formats.tiff.constants.TiffConstants;
 import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.model.Image;
+import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.ImageFormat;
 import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
@@ -48,6 +49,8 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
     private HtmlSanitizer sanitizer;
     
     private String imageDirectory;
+    
+    private ImageAnnotator imageAnnotator;
     
     private Validator validator;
 
@@ -78,6 +81,13 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
      */
     public final void setImageDirectory(final String newImageDirectory) {
         this.imageDirectory = newImageDirectory;
+    }
+    
+    /**
+     * @param imageAnnotator the imageAnnotator to set
+     */
+    public final void setImageAnnotator(ImageAnnotator imageAnnotator) {
+        
     }
 
     /**
@@ -350,7 +360,7 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
                 DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
                 image.setCreated(dateCreated);
             } catch (IllegalArgumentException e) {
-                //TODO annotate?
+                imageAnnotator.annotate(image, AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
                 logger.warn("Unable to set the Date Created for image" + image.getId() + " identifier: " + image.getIdentifier(), e);
             }
         }
@@ -475,7 +485,6 @@ public class ImageMetadataExtractor implements ItemProcessor<Image, Image> {
             if (exifMetadata != null) {
                 TiffImageMetadata.GPSInfo gpsInfo = exifMetadata.getGPS();
                 if (gpsInfo != null && image.getLocation() == null) {
-//TODO Ask for rational of setting like this.  N.B.Only the Longitude was being set
                     image.setLongitude(gpsInfo.getLongitudeAsDegreesEast());
                     image.setLatitude(gpsInfo.getLatitudeAsDegreesNorth());
                     isSomethingDifferent = true;

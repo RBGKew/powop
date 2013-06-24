@@ -151,10 +151,7 @@ public class ImageThumbnailGenerator implements ItemProcessor<Image, Image> {
                     mogrify.run(crop);
                 }
             } catch (Exception e) {
-                logger.error(e.toString());
-                for (StackTraceElement ste : e.getStackTrace()) {
-                    logger.error(ste.toString());
-                }
+                logger.error("Unable to generate thumbnail for image " + image.getIdentifier(), e);
             }
         }
         return image;

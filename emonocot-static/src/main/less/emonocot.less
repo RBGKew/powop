@@ -645,6 +645,10 @@ footer.navbar {
  * Taxon Page 
  */
 
+.protologueText{
+	color: @protologueTextColor;
+}
+
 .carousel-inner{
 	padding-left:80px;
 }
@@ -755,6 +759,15 @@ section#sources dl dd ul {
 		&:after {
 			content: "]";
 		}
+	}
+}
+
+section#sources dl dd ul li a.licenseLogo {
+	&:before {
+		content: "" !important;
+	}
+	&:after {
+		content: "" !important;
 	}
 }
 
