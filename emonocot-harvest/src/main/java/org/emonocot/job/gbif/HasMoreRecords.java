@@ -39,7 +39,7 @@ public class HasMoreRecords implements StepExecutionListener {
             staxEventItemReader.close();
             if(gbifResponse.getExceptionReport() != null) {
             	return new ExitStatus("SERVER_ERROR").addExitDescription(gbifResponse.getExceptionReport());
-            } else if (gbifResponse.getHeader() == null) {
+            } else if (gbifResponse.getHeader() == null || gbifResponse.getHeader().getSummary() == null) {
                 logger.info("Header Not Found");                
                 return new ExitStatus("NO_MORE_RECORDS");
             } else {
