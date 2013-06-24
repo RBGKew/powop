@@ -313,7 +313,7 @@
 								<c:if test="${not empty taxon.typesAndSpecimens}">
 										<div class="row">
 										  <div class="span7">
-											<span><spring:message code="specimenMessage" /></span>
+											<strong><spring:message code="specimenMessage" /></strong>
 											<ul class="citations">
 												<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.typesAndSpecimens)}">
 													<li>
