@@ -85,7 +85,7 @@ alter table Taxon add constraint FK4CE9EAA54493690 foreign key (originalNameUsag
 alter table Taxon add constraint FK4CD9EAACA0AED foreign key (namePublishedIn_id) references Reference;
 alter table Taxon add constraint FK4CD9EAAA9E98AAD foreign key (parentNameUsage_id) references Taxon;
 alter table Taxon_IdentificationKey add constraint FK56D693661EDCD08E foreign key (Taxon_id) references Taxon;
-alter table Taxon_IdentificationKey add constraint FK56D69466437564A foreign key (keys_id) references Image;
+alter table Taxon_IdentificationKey add constraint FK56D69466437564A foreign key (keys_id) references IdentificationKey;
 alter table Taxon_Image add constraint FK56D693661EDCD08D foreign key (Taxon_id) references Taxon;
 alter table Taxon_Image add constraint FK56D69366437564A foreign key (images_id) references Image;
 alter table Taxon_PhylogeneticTree add constraint FK164D2BD6968323D1 foreign key (trees_id) references PhylogeneticTree;
