@@ -26,9 +26,9 @@ public class ImageResizer implements ItemProcessor<Image, Image> {
 
     private String imageDirectory;
     
-   public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
-       this.searchPath = imageMagickSearchPath;
-   }
+    public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
+        this.searchPath = imageMagickSearchPath;
+    }
 
     public final void setImageDirectory(final String newImageDirectory) {
         this.imageDirectory = newImageDirectory;
@@ -39,7 +39,7 @@ public class ImageResizer implements ItemProcessor<Image, Image> {
      * @return an image or null if the image is to be skipped
      * @throws Exception if there is a problem processing the image
      */
-    public final Image process(final Image image) throws Exception {        
+    public final Image process(final Image image) throws Exception {
         
         String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
@@ -70,10 +70,7 @@ public class ImageResizer implements ItemProcessor<Image, Image> {
                     logger.info("No need to resize image as it is smaller than " + MAX_IMAGE_DIMENSION + "px x " + MAX_IMAGE_DIMENSION + "px");
                 }
             } catch (Exception e) {
-                logger.error(e.toString());
-                for (StackTraceElement ste : e.getStackTrace()) {
-                    logger.error(ste.toString());
-                }
+                logger.error("There was an error resizing the image", e);
             }
         }
         return image;

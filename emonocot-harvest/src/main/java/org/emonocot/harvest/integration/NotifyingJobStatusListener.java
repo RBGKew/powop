@@ -22,13 +22,18 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
+	
+	private static Logger logger = LoggerFactory.getLogger(NotifyingJobStatusListener.class);
 	
 	private static final String BUNDLE_NAME = "org.joda.time.format.messages";
 
@@ -43,6 +48,8 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 	private String systemUser;
 
 	private PeriodFormatter periodFormatter;
+	
+	private JobRepository jobRepository;
 
 	@Autowired
 	public void setResourceService(ResourceService resourceService) {
@@ -62,6 +69,11 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 	@Autowired
 	public void setCommentService(CommentService commentService) {
 		this.commentService = commentService;
+	}
+	
+	@Autowired
+	public void setJobRepository(JobRepository jobRepository) {
+		this.jobRepository = jobRepository;
 	}
 
 	public void setSystemUser(String systemUser) {
@@ -99,14 +111,15 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 
 	@Override
 	public void afterJob(JobExecution jobExecution) {
-		
-		long info = 0;
-		long warn = 0;
-		long error = 0;
+				
 		Period duration = new Period(jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
+		StringBuffer exitDescription = new StringBuffer();
 
-		if (jobExecution.getJobInstance().getJobParameters()
-				.getString("resource.identifier") != null) {
+		if (jobExecution.getJobInstance().getJobParameters().getString("resource.identifier") != null) {
+			long info = 0;
+			long warn = 0;
+			long error = 0;
+			
 			Resource resource = resourceService.find(jobExecution
 					.getJobInstance().getJobParameters()
 					.getString("resource.identifier"));
@@ -139,16 +152,17 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			StringBuffer exitDescription = new StringBuffer();
+			
 			exitDescription.append("Harvested " + resource.getTitle() + " " + jobExecution.getExitStatus().getExitCode());
-			exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed");
-			exitDescription.append(" Duration: "
-					+ periodFormatter.print(duration) + ".");			
+			exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed.");
+			exitDescription.append(" Duration: " + periodFormatter.print(duration) + ".");			
 			exitDescription.append(" Issues - Info: " + info + ", warnings: "
 					+ warn + ", Errors: " + error);
-			jobExecution.setExitStatus(jobExecution.getExitStatus().addExitDescription(
-					exitDescription.toString()));
+			jobExecution.setExitStatus(new ExitStatus("WIBBLE",exitDescription.toString()));
+			
+			jobRepository.update(jobExecution);
 
+			logger.info(jobExecution.getExitStatus().getExitCode() + " " + jobExecution.getExitStatus().getExitDescription());
 			User user = userService.load(systemUser);
 			// Create comment
 			Comment comment = new Comment();
@@ -160,6 +174,14 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 			comment.setAboutData(resource);
 			comment.setCommentPage(resource);
 			commentService.save(comment);
+		} else {
+			exitDescription.append(jobExecution.getJobInstance().getJobName()  + " " + jobExecution.getExitStatus().getExitCode());
+			exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed.");
+			exitDescription.append(" Duration: " + periodFormatter.print(duration) + ".");
+			jobExecution.setExitStatus(new ExitStatus(jobExecution.getExitStatus().getExitCode(),exitDescription.toString()));
+			jobRepository.update(jobExecution);
+
+			logger.info(jobExecution.getExitStatus().getExitCode() + " " + jobExecution.getExitStatus().getExitDescription());
 		}
 	}
 }

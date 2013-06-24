@@ -75,7 +75,7 @@ public class ArchiveMetadataReaderTest {
         archiveMetadataReader.beforeStep(
                 new StepExecution("test", jobExecution));
         archiveMetadataReader.readMetadata(content.getFile().getAbsolutePath(),
-                "test", Boolean.FALSE);
+                "test", "false");
         EasyMock.verify(sourceService, validator);
 
         assertNotNull("core file must be present",

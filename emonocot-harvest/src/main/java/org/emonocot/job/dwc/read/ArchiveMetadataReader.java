@@ -71,11 +71,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
     private Validator validator;
     
     /**
-     * 
-     */
-    private Boolean failOnError = Boolean.TRUE;
-
-    /**
      * @param sourceService the sourceService to set
      */
     @Autowired
@@ -96,16 +91,14 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      * @param archiveDirectoryName
      *            The directory where the DwC Archive has been unpacked to
      * @param sourceName Set the name of the source
-     * @param taxonProcessingMode Set the taxon processing mode
+     * @param failOnError Whether to fail if there is an error
      * @return An exit status indicating whether the step has been completed or
      *         failed
      */
     public final ExitStatus readMetadata(final String archiveDirectoryName,
-            final String sourceName, final Boolean failOnError) {
+            final String sourceName, String metaErrorsFail) {
         this.sourceName = sourceName;
-        if(failOnError != null) {
-            this.failOnError = failOnError;
-        }
+        boolean failOnError = "false".equalsIgnoreCase(metaErrorsFail) ? false : true;
         try {
         	File archiveDirectory = new File(archiveDirectoryName);
         	File metaDir = getMetaDirectory(archiveDirectory);
@@ -127,42 +120,42 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                     logger.error(e.getMessage(), e);
                 }
             }
-            getMetadata(core, "core", DwcTerm.taxonID);
+            getMetadata(core, "core", DwcTerm.taxonID, failOnError);
 
             if (archive.getExtension(GbifTerm.Description) != null) {
                 getMetadata(archive.getExtension(GbifTerm.Description),
-                        "description", DwcTerm.taxonID);
+                        "description", DwcTerm.taxonID, failOnError);
             }
 
             if (archive.getExtension(GbifTerm.Distribution) != null) {
                 getMetadata(archive.getExtension(GbifTerm.Distribution),
-                        "distribution", DwcTerm.taxonID);
+                        "distribution", DwcTerm.taxonID, failOnError);
             }
 
             if (archive.getExtension(GbifTerm.Image) != null) {
                 getMetadata(archive.getExtension(GbifTerm.Image), "image",
-                        DwcTerm.taxonID);
+                        DwcTerm.taxonID, failOnError);
             }
 
             if (archive.getExtension(GbifTerm.Reference) != null) {
                 getMetadata(archive.getExtension(GbifTerm.Reference),
-                        "reference", DwcTerm.taxonID);
+                        "reference", DwcTerm.taxonID, failOnError);
             }
             if (archive.getExtension(GbifTerm.Identifier) != null) {
                 getMetadata(archive.getExtension(GbifTerm.Identifier),
-                        "identifier", DwcTerm.taxonID);
+                        "identifier", DwcTerm.taxonID, failOnError);
             }
             if (archive.getExtension(DwcTerm.MeasurementOrFact) != null) {
             	getMetadata(archive.getExtension(DwcTerm.MeasurementOrFact),
-                        "measurementOrFact", DwcTerm.taxonID);
+                        "measurementOrFact", DwcTerm.taxonID, failOnError);
             }
             if (archive.getExtension(GbifTerm.VernacularName) != null) {
             	getMetadata(archive.getExtension(GbifTerm.VernacularName),
-                        "vernacularName", DwcTerm.taxonID);
+                        "vernacularName", DwcTerm.taxonID, failOnError);
             }
             if (archive.getExtension(GbifTerm.TypesAndSpecimen) != null) {
             	getMetadata(archive.getExtension(GbifTerm.TypesAndSpecimen),
-                        "typeAndSpecimen", DwcTerm.taxonID);
+                        "typeAndSpecimen", DwcTerm.taxonID, failOnError);
             }
         } catch (UnsupportedArchiveException uae) {
             logger.error("Unsupported Archive Exception reading "
@@ -308,10 +301,11 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      *            the prefix to append to the properties
      * @param identifierTerm
      *            the name of the identifier property
+     * @param failOnError Whether to fail if there is an error
      * @throws IOException 
      */
     private void getMetadata(final ArchiveFile archiveFile,
-            final String prefix, final ConceptTerm identifierTerm) throws IOException {
+            final String prefix, final ConceptTerm identifierTerm, boolean failOnError) throws IOException {
     	logger.info("Processing " + archiveFile.getRowType());
         ExecutionContext executionContext = this.stepExecution
                 .getJobExecution().getExecutionContext();
@@ -383,15 +377,17 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         }
         
         if((maxIndex + 1) > totalColumns) {
-        	if(Boolean.FALSE.equals(failOnError)) {
+        	if(failOnError) {
+                throw new RuntimeException("Metadata for " + archiveFile.getRowType()
+                        + " indicates that there should be at least "+ (maxIndex + 1)
+                        + " columns but the first data line in the file has only " + totalColumns + " values");
+            } else {
                 logger.error("Error reading metadata", new RuntimeException("Metadata for " + archiveFile.getRowType() +
                         " indicates that there should be at least " + (maxIndex + 1) +
                         " columns but the first data line in the file has only "+ totalColumns + " values"));
 
                 executionContext.put(prefix + ".processing.mode", "SKIP_WITH_ERROR");
                 return;
-        	} else {
-                throw new RuntimeException("Metadata for " + archiveFile.getRowType() + " indicates that there should be at least " + (maxIndex + 1) + " columns but the first data line in the file has only " + totalColumns + " values");
             }
         }
 

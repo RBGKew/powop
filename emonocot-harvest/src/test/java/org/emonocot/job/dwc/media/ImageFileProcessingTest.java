@@ -92,7 +92,6 @@ public class ImageFileProcessingTest {
         (new File(imageFileName)).delete();
     }
 
-
     /**
      * @throws Exception
      *             if there is a problem accessing the file
@@ -100,6 +99,7 @@ public class ImageFileProcessingTest {
     @Test
     public final void testProcess() throws Exception {
         Image i = imageFileProcessor.process(image);
+        assertTrue("The image file processor failed to return an image", i != null);
         imageMetadataExtractor.process(i);
         assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
         assertEquals("Male inflorescences", i.getDescription());
@@ -109,6 +109,7 @@ public class ImageFileProcessingTest {
                 i.getSubject());
         assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
         assertEquals("www.creativecommons.org#Creative Commons Attribution-Non-Commercial-Share Alike 3.0 Unported Licence", i.getLicense());
+        assertEquals(ImageFormat.jpg, i.getFormat());
     }
 
 }

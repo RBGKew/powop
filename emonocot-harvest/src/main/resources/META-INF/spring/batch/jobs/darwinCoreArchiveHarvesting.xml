@@ -59,7 +59,7 @@
 			<batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
 			<batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
             <batch:next on="SKIP_TAXA" to="markTaxonRecordsForSkipping" />
-            <!-- <batch:next on="SKIP_WITH_ERROR" to="ignoreTaxonFile" /> -->
+            <batch:next on="SKIP_WITH_ERROR" to="checkDescriptionProcessingMode" />
 		</batch:decision>
 		<batch:step id="markTaxonRecordsForSkipping">
 			<batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
@@ -1714,7 +1714,7 @@
         <property name="delegates">
             <list>
                 <ref local="deletingWriter"/>
-                <bean id="imageResourceDeletingWriter" class="org.emonocot.harvest.job.dwc.image.ImageFileDeletingWriter">
+                <bean id="imageResourceDeletingWriter" class="org.emonocot.job.dwc.image.ImageFileDeletingWriter">
                     <property name="imageDirectory" value="${harvester.image.directory}"/>
                 </bean>
             </list>

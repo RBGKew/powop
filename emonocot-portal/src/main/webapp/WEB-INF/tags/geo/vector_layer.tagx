@@ -161,11 +161,11 @@
 				<c:if test="${not empty specimen.decimalLatitude and not empty specimen.decimalLongitude}">
 					{"type":"Feature",
 					"properties":{
-						"catalogNumber":"${specimen.catalogNumber}",
-						"collectionCode":"${specimen.collectionCode}",
-						"institutionCode":"${specimen.institutionCode}",
+						"catalogNumber":"${em:escape(specimen.catalogNumber)}",
+						"collectionCode":"${em:escape(specimen.collectionCode)}",
+						"institutionCode":"${em:escape(specimen.institutionCode)}",
 						"locality":"${em:escape(specimen.locality)}",
-						"source":"${specimen.source}"
+						"source":"${em:escape(specimen.source)}"
 					},
 					"geometry":{
 						"type":"Point",

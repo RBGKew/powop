@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Properties;
 
 import org.emonocot.harvest.common.GetResourceClient;
 import org.joda.time.DateTime;
@@ -16,6 +17,8 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.retry.RetryCallback;
 import org.springframework.batch.retry.RetryContext;
 import org.springframework.batch.retry.RetryListener;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
 /**
@@ -32,7 +35,12 @@ public class GetResourceClientIntegrationTest {
     @Before
     public final void setUp() throws IOException {    	
         getResourceClient = new GetResourceClient();
-        
+        Resource propertiesFile = new ClassPathResource(
+                "/META-INF/spring/application.properties");
+        Properties properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
+        getResourceClient.setProxyHost(properties.getProperty("http.proxyHost", null));
+        getResourceClient.setProxyPort(properties.getProperty("http.proxyPort", null));
     }
 
     /**
@@ -56,8 +64,7 @@ public class GetResourceClientIntegrationTest {
                         tempFile.getAbsolutePath());
 
         assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be COMPLETED", exitStatus,
-                ExitStatus.COMPLETED);
+        assertEquals("ExitStatus should be COMPLETED", ExitStatus.COMPLETED, exitStatus);
     }
 
     /**
@@ -79,8 +86,7 @@ public class GetResourceClientIntegrationTest {
                         tempFile.getAbsolutePath());
 
         assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be NOT_MODIFIED",
-                exitStatus.getExitCode(), "NOT_MODIFIED");
+        assertEquals("ExitStatus should be NOT_MODIFIED", "NOT_MODIFIED", exitStatus.getExitCode());
     }
 
     /**
@@ -105,9 +111,8 @@ public class GetResourceClientIntegrationTest {
                         tempFile.getAbsolutePath());
 
         assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be FAILED", exitStatus,
-                ExitStatus.FAILED);
-        assertEquals("There should be three retry attempts",3,retryListener.getErrors());
+        assertEquals("ExitStatus should be FAILED", ExitStatus.FAILED, exitStatus);
+        assertEquals("There should be three retry attempts", 3, retryListener.getErrors());
     }
     
     class AttemptCountingRetryListener implements RetryListener {

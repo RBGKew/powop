@@ -59,7 +59,7 @@ public class ScratchpadArchiveMetadataReaderTest {
         archiveMetadataReader.beforeStep(
                 new StepExecution("test", jobExecution));
         archiveMetadataReader.readMetadata(content.getFile().getAbsolutePath(),
-                "test", Boolean.FALSE);
+                "test", "false");
 
         assertNotNull("core file must be present",
                 executionContext.getString("dwca.core.file"));
