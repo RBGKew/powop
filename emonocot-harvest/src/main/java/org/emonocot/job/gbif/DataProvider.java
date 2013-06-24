@@ -8,6 +8,8 @@ public class DataProvider {
 	private String name;
 	
 	private List<DataResource> dataResources = new ArrayList<DataResource>();
+	
+	private DataResource dataResource;
 
 	public String getName() {
 		return name;
@@ -25,4 +27,11 @@ public class DataProvider {
 		this.dataResources = dataResources;
 	}
 
+	public DataResource getDataResource() {
+		return dataResource;
+	}
+
+	public void setDataResource(DataResource dataResource) {
+		this.dataResource = dataResource;
+	}
 }
