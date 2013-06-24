@@ -196,28 +196,38 @@
 		<property name="sessionCacheSize" value="10" />
 		<property name="cacheProducers" value="false" />
 	</bean>
-	
-	<bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessor">
-	  <property name="getResourceClient" ref="getResourceClient" />
-	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-	</bean>
-	
-	<bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGenerator">
-	  <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
-	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-	</bean>
-	
-	<bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizer">
-	  <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-	</bean>
-	
-	<bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor" init-method="afterPropertiesSet">
-	  <property name="imageDirectory" value="${harvester.image.directory}"/>
-      <property name="sanitizer" ref="htmlSanitizer" />
-      <property name="validator" ref="validator"/>
-	</bean>
+    
+    <bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessor" scope="step">
+        <property name="getResourceClient" ref="getResourceClient" />
+        <property name="imageDirectory" value="${harvester.image.directory}"/>
+        <property name="imageAnnotator" ref="imageAnnotator" />
+    </bean>
+    
+    <bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGenerator" scope="step">
+        <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
+        <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
+        <property name="imageDirectory" value="${harvester.image.directory}"/>
+    </bean>
+    
+    <bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizer" scope="step">
+        <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
+        <property name="imageDirectory" value="${harvester.image.directory}"/>
+    </bean>
+    
+    <bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractor" scope="step"
+        init-method="afterPropertiesSet" >
+        <property name="imageAnnotator" ref="imageAnnotator" />
+        <property name="imageDirectory" value="${harvester.image.directory}"/>
+        <property name="sanitizer" ref="htmlSanitizer" />
+        <property name="validator" ref="validator"/>
+    </bean>
+    
+    <bean id="imageAnnotator" class="org.emonocot.harvest.media.ImageAnnotator" scope="step">
+        <property name="sourceName" value="#{jobParameters['authority.name']}" />
+        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="jobId" value="#{jobExecutionContext.jobId}"></property>
+    </bean>
 	
 	<bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
 	

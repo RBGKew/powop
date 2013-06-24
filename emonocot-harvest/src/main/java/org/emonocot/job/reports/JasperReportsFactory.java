@@ -39,13 +39,9 @@ public class JasperReportsFactory {
             return JasperCompileManager.compileReport(resource.getInputStream());
         } catch (JRException e) {
             logger.error("Unable to create instance of JasperReport for " + filePath, e);
-            System.out.println("Unable to create instance of JasperReport for " + filePath);
-            e.printStackTrace();
             return null;
         } catch (IOException e) {
             logger.error("Unable to create instance of JasperReport for " + filePath, e);
-            System.out.println("Unable to create instance of JasperReport for " + filePath);
-            e.printStackTrace();
             return null;
         }
         

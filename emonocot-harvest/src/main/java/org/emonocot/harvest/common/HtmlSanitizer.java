@@ -6,10 +6,14 @@ import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 public class HtmlSanitizer {
+    
+    private Logger logger = LoggerFactory.getLogger(HtmlSanitizer.class);
 	
 	private Resource policyFile = new ClassPathResource("/META-INF/antisamy-policy.xml");
 	
@@ -39,11 +43,16 @@ public class HtmlSanitizer {
 			throw new RuntimeException(pe);
 		} catch (ScanException se) {
 			if(unclean.length() > 36) {
-			    throw new RuntimeException("Could not sanitize html " + unclean.substring(0,36), se);
+			    logger.error("Could not sanitize html " + unclean.substring(0,36), se);
+	            return null;
 			} else {
-				throw new RuntimeException("Could not sanitize html " + unclean, se);
+			    logger.error("Could not sanitize html " + unclean, se);
+	            return null;
 			}
-		}
+		} catch (Exception e) {
+            logger.error("Could not sanitize html " + unclean, e);
+            return null;
+        }
 	}
 
 }
