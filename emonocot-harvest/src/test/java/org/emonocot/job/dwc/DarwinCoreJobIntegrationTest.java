@@ -119,6 +119,7 @@ public class DarwinCoreJobIntegrationTest {
                     + stepExecution.getFilterCount() + " "
                     + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
         }
+        logger.info(jobExecution.getExitStatus().getExitCode() + " | " + jobExecution.getExitStatus().getExitDescription());
         
     }
 }

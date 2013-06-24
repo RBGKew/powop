@@ -257,6 +257,7 @@
         <property name="userService" ref="userServiceImpl"/>
         <property name="commentService" ref="commentServiceImpl"/>
         <property name="annotationService" ref="annotationServiceImpl"/>
+        <property name="jobRepository" ref="jobRepository"/>
     </bean>
     
     <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
