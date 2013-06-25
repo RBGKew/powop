@@ -140,10 +140,15 @@
 		<property name="harvesterSpoolDirectory" value="${harvester.spool.directory}"/>
 	</bean>
 	
-	<bean id="markTypeAndSpecimenRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+	<bean id="markTypeAndSpecimenRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator"	scope="step">
 		<property name="dataSource" ref="dataSource" />
-		<property name="authorityName" value="#{jobParameters['authority.name']}" />
-		<property name="annotatedObjType" value="TypeAndSpecimen"/>			
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="TypeAndSpecimen"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, :dateTime, :authorityId, 'Warn', 'Absent', :annotatedObjType from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
 	</bean>
 	
 	<bean id="getGBIFDataTasklet"
@@ -188,7 +193,8 @@
 		</property>
 		<property name="implicitCollections">
 			<util:map id="implcitCollections">
-				<entry key="org.emonocot.job.gbif.Header" value="parameters" />				
+				<entry key="org.emonocot.job.gbif.Header" value="parameters" />
+				<entry key="org.emonocot.job.gbif.DataProvider" value="dataResources" />					
 			</util:map>
 		</property>
 		<property name="converters">
@@ -272,8 +278,7 @@
 		class="org.springframework.batch.item.database.HibernateCursorItemReader"
 		scope="step">
 		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="queryString"
-			value="select m from MeasurementOrFact m join m.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="queryString" value="select t from TypeAndSpecimen t join t.annotations a where a.jobId = :jobId and a.code = :code" />
 		<property name="parameterValues">
 			<map>
 				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
