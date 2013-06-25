@@ -3,17 +3,14 @@
  */
 package org.emonocot.harvest.media;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.Properties;
 
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
-import org.apache.sanselan.common.IImageMetadata;
-import org.apache.sanselan.common.ImageMetadata;
-import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
-import org.apache.xpath.compiler.Keywords;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.ImageFormat;
 import org.junit.After;
@@ -36,14 +33,14 @@ public class ImageResizerTest {
     /**
      * 
      */
-    private ImageResizer resizer;
+    private ImageResizerImpl resizer;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        resizer = new ImageResizer();
+        resizer = new ImageResizerImpl();
         resizer.setImageDirectory(TEST_IMAGE_DIRECTORY);
         Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
         Properties properties = new Properties();
