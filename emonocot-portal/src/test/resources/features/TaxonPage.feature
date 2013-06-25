@@ -154,7 +154,7 @@ Scenario: Bibliography
   Taxa can have general references as well, and these should be displayed in the bibliography
   at the bottom of the page.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=118
-  Then the bibliography entry "3" should be "3 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
+  Then the bibliography entry "2" should be "2 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
  
 # Unfortunately, really difficult to test   
 #Scenario: Distribution
