@@ -35,8 +35,7 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
      * @return the repeat status
      * @throws Exception if there is a problem deleting the resources
      */
-    public final RepeatStatus execute(final StepContribution contribution,
-            final ChunkContext chunkContext)
+    public final RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
             throws Exception {
         UUID uuid = UUID.randomUUID();
         String unpackDirectoryName = harvesterSpoolDirectory + File.separator
@@ -49,10 +48,9 @@ public class SetTemporaryFilenamesTasklet implements Tasklet {
         File temporaryFile = new File(temporaryFileName);
         ExecutionContext executionContext = chunkContext.getStepContext()
                 .getStepExecution().getJobExecution().getExecutionContext();
-        executionContext.put("temporary.file.name",
-                temporaryFile.getAbsolutePath());
-        executionContext.put("unpack.directory.name",
-                unpackDirectory.getAbsolutePath());
+        executionContext.put("temporary.file.name",temporaryFile.getAbsolutePath());
+        executionContext.put("unpack.directory.name",unpackDirectory.getAbsolutePath());
+        executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());
         return RepeatStatus.FINISHED;
     }
 }

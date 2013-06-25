@@ -223,6 +223,15 @@
       <property name="baseUrl" value="${harvester.baseUrl}"/>
     </bean>
     
+    <bean id="compositeJobListener" class="org.emonocot.harvest.integration.CompositeJobStatusListener">
+      <property name="jobListeners">
+        <list>
+          <ref bean="notifyingJobStatusListener"/>
+          <ref bean="jobStatusListener"/>
+        </list>
+      </property>
+    </bean>
+    
    <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener">
       <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
       <property name="baseUrl" value="${harvester.baseUrl}"/>
