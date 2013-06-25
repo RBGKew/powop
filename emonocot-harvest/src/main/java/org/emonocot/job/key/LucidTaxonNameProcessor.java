@@ -2,7 +2,6 @@ package org.emonocot.job.key;
 
 import java.util.List;
 
-import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.harvest.common.AbstractRecordAnnotator;
@@ -21,16 +20,14 @@ import org.tdwg.ubif.TaxonName;
  * @author ben
  *
  */
-public class TaxonNameProcessor extends AbstractRecordAnnotator implements
+public class LucidTaxonNameProcessor extends AbstractRecordAnnotator implements
         ItemProcessor<TaxonName, TaxonName> {
     /**
      *
      */
-    private Logger logger = LoggerFactory.getLogger(TaxonNameProcessor.class);
+    private Logger logger = LoggerFactory.getLogger(LucidTaxonNameProcessor.class);
 
     private TaxonMatcher taxonMatcher;
-
-    private TaxonService taxonService;
 
     /**
      * @param newTaxonMatcher
@@ -38,14 +35,6 @@ public class TaxonNameProcessor extends AbstractRecordAnnotator implements
      */
     public final void setTaxonMatcher(final TaxonMatcher newTaxonMatcher) {
         this.taxonMatcher = newTaxonMatcher;
-    }
-
-    /**
-     * @param newTaxonService
-     *            Set the taxon service
-     */
-    public final void setTaxonService(final TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
     }
 
     /**

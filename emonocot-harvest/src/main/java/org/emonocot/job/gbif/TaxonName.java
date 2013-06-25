@@ -4,6 +4,8 @@ public class TaxonName {
 	
 	private String nameComplete;
 	
+	private String genusPart;
+	
 	private String specificEpithet;
 	
 	private String authorship;
@@ -40,5 +42,13 @@ public class TaxonName {
 	
 	public Boolean getScientific() {
 		return scientific;
+	}
+
+	public String getGenusPart() {
+		return genusPart;
+	}
+
+	public void setGenusPart(String genusPart) {
+		this.genusPart = genusPart;
 	}
 }
