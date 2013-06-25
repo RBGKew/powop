@@ -34,13 +34,13 @@
 							</c:url>
 							<c:choose>
 								<c:when test="${sortItem eq 'searchable.label_sort_asc'}">
-									<c:set var="sortIcon" value="sortAZ"/>
+									<c:set var="sortIcon" value="sort-by-alphabet"/>
 								</c:when>
 								<c:when test="${sortItem eq 'base.created_dt_desc'}">
-									<c:set var="sortIcon" value="sortRecency"/>
+									<c:set var="sortIcon" value="sort-by-order"/>
 								</c:when>
 								<c:when test="${sortItem eq '_asc'}">
-									<c:set var="sortIcon" value="sortRelevance"/>
+									<c:set var="sortIcon" value="sort-by-attributes-alt"/>
 								</c:when>
 							</c:choose>
 							<a href="${sortUrl}"><i class="halflings-icon ${sortIcon}">&#160;</i><spring:message code="${sortItem}" /></a>
