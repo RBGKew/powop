@@ -46,12 +46,12 @@
 			</form>
 		</div>
 		<div class="row">
-			  <c:url var="resetUrl" value="/search"/>
-			  <a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
+			<c:url var="resetUrl" value="/search"/>
+			<a id="reset" class="btn pull-right tourHelp" href="${resetUrl}" data-tour-title="Reset your search" data-tour-content="Start a new search. All the filters will be deselected and any search terms deleted." data-tour-placement="bottom" data-tour-prev="0" data-tour-next="2">
 				<i class="icon-refresh"><!--  --></i>
 				<spring:message code="reset" />
-			  </a>
-			</div>
+			</a>
+		</div>
 		<div class="row">
 			<tags:overlayHelp >
 				t.addStep({
@@ -144,7 +144,7 @@
 								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>
-                        <tags:didyoumean url="/search" pager="${result}" />
+						<tags:didyoumean url="/search" pager="${result}" />
 						<div id="results" class="row no-margin-left" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
 							<c:set var="classFacet" value="${result.selectedFacets['base.class_s']}"/>
 							<c:choose>
