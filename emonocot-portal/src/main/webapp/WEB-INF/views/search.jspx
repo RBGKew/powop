@@ -140,7 +140,7 @@
 							<div id="pages" class="span4">
 								<tags:results pager="${result}" />
 							</div>
-							<div class="offset7 tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="3" data-tour-next="5">
+							<div class="offset7 tourHelp pull-right" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="3" data-tour-next="5">
 								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>

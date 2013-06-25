@@ -32,7 +32,18 @@
 								</c:forEach>
 								<c:param name="sort">${sortItem}</c:param>
 							</c:url>
-							<a href="${sortUrl}"><spring:message code="${sortItem}" /></a>
+							<c:choose>
+								<c:when test="${sortItem eq 'searchable.label_sort_asc'}">
+									<c:set var="sortIcon" value="sortAZ"/>
+								</c:when>
+								<c:when test="${sortItem eq 'base.created_dt_desc'}">
+									<c:set var="sortIcon" value="sortRecency"/>
+								</c:when>
+								<c:when test="${sortItem eq '_asc'}">
+									<c:set var="sortIcon" value="sortRelevance"/>
+								</c:when>
+							</c:choose>
+							<a href="${sortUrl}"><i class="halflings-icon ${sortIcon}">&#160;</i><spring:message code="${sortItem}" /></a>
 						</c:otherwise>
 					</c:choose>
 				</li>
