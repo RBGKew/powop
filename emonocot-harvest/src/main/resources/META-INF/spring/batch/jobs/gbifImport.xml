@@ -194,7 +194,7 @@
 		<property name="implicitCollections">
 			<util:map id="implcitCollections">
 				<entry key="org.emonocot.job.gbif.Header" value="parameters" />
-				<entry key="org.emonocot.job.gbif.DataProvider" value="dataResources" />					
+				<entry key="org.emonocot.job.gbif.DataProvider" value="resources" />					
 			</util:map>
 		</property>
 		<property name="converters">
