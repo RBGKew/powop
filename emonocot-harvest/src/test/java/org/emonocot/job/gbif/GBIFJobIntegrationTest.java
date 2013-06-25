@@ -105,6 +105,7 @@ public class GBIFJobIntegrationTest {
         
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
+        parameters.put("family", new JobParameter("Araceae"));
         parameters.put("authority.name", new JobParameter("test"));
         parameters.put("authority.uri", new JobParameter("http://build.e-monocot.org/test/list.xml?startindex="));
         
