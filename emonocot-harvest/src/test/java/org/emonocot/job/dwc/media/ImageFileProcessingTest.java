@@ -7,9 +7,9 @@ import java.io.File;
 import java.util.Properties;
 
 import org.emonocot.harvest.common.GetResourceClient;
-import org.emonocot.harvest.media.ImageFileProcessor;
-import org.emonocot.harvest.media.ImageMetadataExtractor;
-import org.emonocot.harvest.media.ImageThumbnailGenerator;
+import org.emonocot.harvest.media.ImageFileProcessorImpl;
+import org.emonocot.harvest.media.ImageMetadataExtractorImpl;
+import org.emonocot.harvest.media.ImageThumbnailGeneratorImpl;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.ImageFormat;
 import org.junit.Before;
@@ -28,17 +28,17 @@ public class ImageFileProcessingTest {
     /**
     *
     */
-    private ImageFileProcessor imageFileProcessor = new ImageFileProcessor();
+    private ImageFileProcessorImpl imageFileProcessor = new ImageFileProcessorImpl();
     
     /**
     *
     */
-    private ImageThumbnailGenerator imageThumbnailGenerator = new ImageThumbnailGenerator();
+    private ImageThumbnailGeneratorImpl imageThumbnailGenerator = new ImageThumbnailGeneratorImpl();
 
     /**
      *
      */
-    private ImageMetadataExtractor imageMetadataExtractor = new ImageMetadataExtractor();
+    private ImageMetadataExtractorImpl imageMetadataExtractor = new ImageMetadataExtractorImpl();
 
     /**
      *

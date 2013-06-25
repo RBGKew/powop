@@ -21,6 +21,11 @@
           <xsl:attribute name="debuglabel">
             <xsl:value-of select="@debuglabel"/>
           </xsl:attribute>
+          <xsl:element name="Representation">
+            <xsl:element name="Label">
+              <xsl:value-of select="sdd:Representation/sdd:Label"/>
+            </xsl:element>
+          </xsl:element>
         </sdd:TaxonName>
       </xsl:for-each>
     </sdd:TaxonNames>  
@@ -87,19 +92,38 @@
  </xsl:variable>
 
  <xsl:variable name="taxon-indexes">
-    <xsl:for-each select="/sdd:Datasets/sdd:Dataset/sdd:TaxonNames/sdd:TaxonName">
-      <sdd:TaxonName>
-        <xsl:attribute name="id">
-          <xsl:value-of select="@id"/>
-        </xsl:attribute>
-        <xsl:attribute name="name">
-          <xsl:value-of select="sdd:Representation/sdd:Label"/>
-        </xsl:attribute>
-        <xsl:attribute name="position">
-          <xsl:value-of select="position() - 1"/>
-        </xsl:attribute>
-      </sdd:TaxonName>
-    </xsl:for-each>
+   <xsl:choose>
+     <xsl:when test="/sdd:Datasets/sdd:Dataset/sdd:TaxonNames">
+       <xsl:for-each select="/sdd:Datasets/sdd:Dataset/sdd:TaxonNames/sdd:TaxonName">
+         <sdd:TaxonName>
+           <xsl:attribute name="id">
+             <xsl:value-of select="@id"/>
+           </xsl:attribute>
+           <xsl:attribute name="name">
+             <xsl:value-of select="sdd:Representation/sdd:Label"/>
+           </xsl:attribute>
+           <xsl:attribute name="position">
+             <xsl:value-of select="position() - 1"/>
+           </xsl:attribute>
+         </sdd:TaxonName>
+       </xsl:for-each>
+     </xsl:when>
+     <xsl:otherwise>
+       <xsl:for-each select="/sdd:Datasets/sdd:Dataset/sdd:CodedDescriptions/sdd:CodedDescription">
+         <sdd:TaxonName>
+           <xsl:attribute name="id">
+             <xsl:value-of select="@id"/>
+           </xsl:attribute>
+           <xsl:attribute name="name">
+             <xsl:value-of select="sdd:Representation/sdd:Label"/>
+           </xsl:attribute>
+           <xsl:attribute name="position">
+             <xsl:value-of select="position() - 1"/>
+           </xsl:attribute>
+         </sdd:TaxonName>
+       </xsl:for-each>
+     </xsl:otherwise>
+   </xsl:choose>
  </xsl:variable>
 
 
@@ -135,7 +159,17 @@
     <xsl:value-of select="sdd:Representation/sdd:Label"/>
     <xsl:text>","imagePath":"</xsl:text>
     <xsl:value-of select="$imagePath"/><xsl:text>",</xsl:text>
-    <xsl:apply-templates select="sdd:TaxonNames"/><xsl:text>,</xsl:text>
+    <xsl:choose>
+      <xsl:when test="/sdd:Datasets/sdd:TechnicalMetadata/sdd:Generator[@name='Lucid3 Builder']">
+        <xsl:apply-templates select="sdd:TaxonNames"/><xsl:text>,</xsl:text>
+      </xsl:when>
+      <xsl:when test="/sdd:Datasets/sdd:TechnicalMetadata/sdd:Generator[@name='Xper2']">
+        <xsl:apply-templates select="exsl:node-set($taxon-map)/sdd:TaxonNames"/><xsl:text>,</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message terminate="yes">Unknown SDD Generator <xsl:value-of select="/sdd:Datasets/sdd:TechnicalMetadata/sdd:Generator/@name"/></xsl:message>
+      </xsl:otherwise>    
+    </xsl:choose>    
     <xsl:apply-templates select="sdd:DescriptiveConcepts"/>
     <xsl:apply-templates select="sdd:CharacterTrees/sdd:CharacterTree"/>
     <xsl:apply-templates select="sdd:IdentificationKeys/sdd:IdentificationKey"/>
@@ -379,11 +413,19 @@
 			<xsl:when test="/sdd:Datasets/sdd:Dataset/sdd:CodedDescriptions">
 				<xsl:for-each
 					select="/sdd:Datasets/sdd:Dataset/sdd:CodedDescriptions/sdd:CodedDescription">
-					<xsl:variable name="ref" select="sdd:Scope/sdd:TaxonName/@ref" />
+										
 					<xsl:variable name="description" select="." />
 					<xsl:text>{</xsl:text>
-					<xsl:apply-templates
-						select="/sdd:Datasets/sdd:Dataset/sdd:TaxonNames/sdd:TaxonName[@id=$ref]" />
+					<xsl:choose>
+					  <xsl:when test="sdd:Scope/sdd:TaxonName/@ref">
+					    <xsl:variable name="ref" select="sdd:Scope/sdd:TaxonName/@ref" />
+					    <xsl:apply-templates select="/sdd:Datasets/sdd:Dataset/sdd:TaxonNames/sdd:TaxonName[@id=$ref]" />
+					  </xsl:when>
+					  <xsl:otherwise>
+					    <xsl:variable name="ref" select="@id" />
+					    <xsl:apply-templates select="exsl:node-set($taxon-map)/sdd:TaxonNames/sdd:TaxonName[@id=$ref]" />
+					  </xsl:otherwise>
+					</xsl:choose>					
 					<xsl:text>}</xsl:text>
 					<xsl:if test="position() != last()">
 						<xsl:text>,</xsl:text>
