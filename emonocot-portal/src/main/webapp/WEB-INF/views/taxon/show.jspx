@@ -245,7 +245,8 @@
 											<c:if test="${not empty content.references }">
 												<c:forEach var="reference" items="${content.references}">
 													<li>
-														<a href="#${reference.identifier}">${em:citekey(bibliography, reference)}</a>
+													    <c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
+														<a href="#citation${citationKey}">${citationKey}</a>
 													</li>
 												</c:forEach>
 											</c:if>
@@ -374,10 +375,9 @@
 													<a href="#${provenanceHolder}">${provenanceHolder}</a>
 												</li>
 											</c:forEach>
-											<c:forEach var="key" items="${em:citekeys(bibliography,taxon.distribution)}">
-												<c:set var="reference" value="${em:getref(bibliography,key)}"/>
+											<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">												
 												<li>
-													<a href="#${reference.identifier}">${key}</a>
+													<a href="#citation${citationKey}">${citationKey}</a>
 												</li>
 											</c:forEach>
 										</ul>
@@ -507,7 +507,8 @@
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
 										<li>
-											<a id="${reference.identifier}">${em:citekey(bibliography,reference)}</a>
+										    <c:set var="citationKey" value="${em:citekey(bibliography,reference)}"/>
+											<a id="citation${citationKey}">${citationKey}</a>
 											<c:choose>
 												<c:when test="${not empty reference.uri}">
 													<a href="${reference.uri}">${reference.bibliographicCitation}</a>

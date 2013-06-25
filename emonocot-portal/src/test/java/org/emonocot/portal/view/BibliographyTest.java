@@ -26,25 +26,34 @@ public class BibliographyTest {
 	
 	private Reference reference3;
 	
+	private Reference duplicateReference4;
+	
+	private Reference duplicateReference5;
+	
 	@Before
 	public void setUp() {
 		Taxon taxon = new Taxon();
 		taxon.setDescriptions(new HashSet<Description>());
-		reference1 = createReference("1753", null, "1");
+		reference1 = createReference("1753", null, null, null, "1");
 		taxon.getReferences().add(reference1);
 		
-		reference2 = createReference(null, "Zebras are wonderful creatures", "2");
+		reference2 = createReference(null, "Zebras are wonderful creatures", null, null, "2");
 		taxon.getReferences().add(reference2);
 		
-		reference3 = createReference(null, "A", "3");
+		reference3 = createReference(null, "A", null, null, "3");
 		taxon.getReferences().add(reference3);
+		
+		duplicateReference4 = createReference("2005","The flowering plants of Mt. Popa, central Myanmar - Results of Myanmar-Japanese joint expeditions, 2000-2004","Tanaka, N., Koyama, T. & Murata, J. (2005). The flowering plants of Mt. Popa, central Myanmar - Results of Myanmar-Japanese joint expeditions, 2000-2004. Makinoa 5: 1-102.","Tanaka, N., Koyama, T. & Murata, J.","4");
+		duplicateReference5 = createReference("2005","The flowering plants of Mt. Popa, central Myanmar - Results of Myanmar-Japanese joint expeditions, 2000-2004","Tanaka, N., Koyama, T. & Murata, J. (2005). The flowering plants of Mt. Popa, central Myanmar - Results of Myanmar-Japanese joint expeditions, 2000-2004. Makinoa 5: 1-102.","Tanaka, N., Koyama, T. & Murata, J.","5");
+		taxon.getReferences().add(duplicateReference4);
+		taxon.getReferences().add(duplicateReference5);
 		
 		bibliography = new SimpleBibliographyImpl();
 		bibliography.setReferences(taxon);
 		
 	}
 
-	private Reference createReference(String datePublished, String title, String identifier) {
+	private Reference createReference(String datePublished, String title, String bibliographicCitation, String creator, String identifier) {
 		Reference reference = new Reference();
 		reference.setDate(datePublished);
 		reference.setTitle(title);
@@ -59,9 +68,11 @@ public class BibliographyTest {
 	@Test
 	public void testBibliography() {
 		assertNotNull("Bibliography should not be null", bibliography);
-		assertEquals("Bibliography should contain three items", bibliography.getReferences().size(),3);
+		assertEquals("Bibliography should contain four items", bibliography.getReferences().size(),4);
 		assertEquals("References with dates should come first", bibliography.getKey(reference1),"1");
-		assertEquals("References without dates should be sorted by author, then title", bibliography.getKey(reference2),"3");
+		assertEquals("References without dates should be sorted by author, then title", bibliography.getKey(reference2),"4");
+		assertEquals("Duplicate references should return the same key", bibliography.getKey(duplicateReference4),"2");
+		assertEquals("Duplicate references should return the same key", bibliography.getKey(duplicateReference5),"2");
 	}
 
 }

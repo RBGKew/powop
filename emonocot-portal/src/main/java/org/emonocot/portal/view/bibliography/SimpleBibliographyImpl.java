@@ -8,6 +8,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.collections.comparators.NullComparator;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
@@ -23,22 +25,31 @@ public class SimpleBibliographyImpl implements Bibliography {
      *
      */
     List<Reference> references = new ArrayList<Reference>();
+    
+    SortedSet<ReferenceWrapper> refs = new TreeSet<ReferenceWrapper>(new ReferenceComparator());
 
    /**
     *
     * @param taxon Set the taxon
     */
     public final void setReferences(final Taxon taxon) {
-        SortedSet<Reference> refs = new TreeSet<Reference>(
-                new ReferenceComparator());
-        refs.addAll(taxon.getReferences());
+        
+        for(Reference reference : taxon.getReferences()) {
+            refs.add(new ReferenceWrapper(reference));
+        }
         for (Description d : taxon.getDescriptions()) {
-            refs.addAll(d.getReferences());
+        	for(Reference reference : d.getReferences()) {
+                refs.add(new ReferenceWrapper(reference));
+        	}
         }
         for (Distribution d : taxon.getDistribution()) {
-            refs.addAll(d.getReferences());
+        	for(Reference reference : d.getReferences()) {
+                refs.add(new ReferenceWrapper(reference));
+        	}
         }
-        references.addAll(refs);
+        for(ReferenceWrapper ref : refs) {
+            references.add(ref.reference);
+        }
     }
 
    /**
@@ -48,7 +59,15 @@ public class SimpleBibliographyImpl implements Bibliography {
     *         citation reference to the reference
     */
     public final String getKey(final Reference reference) {
-        return new Integer(references.indexOf(reference) + 1).toString();
+    	ReferenceWrapper referenceWrapper = new ReferenceWrapper(reference);
+    	ReferenceWrapper wrapper = null;
+    	for(ReferenceWrapper rw : refs) {
+    		if(rw.equals(referenceWrapper)) {
+    			wrapper = rw;
+    			break;
+    		}
+    	}
+        return new Integer(references.indexOf(wrapper.reference) + 1).toString();
     }
 
    /**
@@ -64,7 +83,7 @@ public class SimpleBibliographyImpl implements Bibliography {
      * @author ben
      *
      */
-	class ReferenceComparator implements Comparator<Reference> {
+	class ReferenceComparator implements Comparator<ReferenceWrapper> {
 
 		private NullComparator nullSafeStringComparator = new NullComparator(
 				new Comparator<String>() {
@@ -84,19 +103,14 @@ public class SimpleBibliographyImpl implements Bibliography {
          * @return 1 if o1 comes after o2, -1 if o1 comes before o2 and 0
          *         otherwise
          */
-        public final int compare(final Reference o1, final Reference o2) {
-        	int compareDate = nullSafeStringComparator.compare(o1.getDate(), o2.getDate());
+        public final int compare(final ReferenceWrapper o1, final ReferenceWrapper o2) {
+        	int compareDate = nullSafeStringComparator.compare(o1.reference.getDate(), o2.reference.getDate());
         	if(compareDate == 0) {
-        		int compareAuthor = nullSafeStringComparator.compare(o1.getCreator(), o2.getCreator());
+        		int compareAuthor = nullSafeStringComparator.compare(o1.reference.getCreator(), o2.reference.getCreator());
         		if(compareAuthor == 0) {
-        			int compareTitle = nullSafeStringComparator.compare(o1.getTitle(), o2.getTitle());
+        			int compareTitle = nullSafeStringComparator.compare(o1.reference.getTitle(), o2.reference.getTitle());
         			if(compareTitle == 0) {
-        				int compareCitation = nullSafeStringComparator.compare(o1.getBibliographicCitation(), o2.getBibliographicCitation());
-        				if(compareCitation == 0) {
-        					return nullSafeStringComparator.compare(o1.getIdentifier(), o2.getIdentifier());
-        				} else {
-        					return compareCitation;
-        				}
+        				return nullSafeStringComparator.compare(o1.reference.getBibliographicCitation(), o2.reference.getBibliographicCitation());        				
         			} else {
         				return compareTitle;
         			}
@@ -124,5 +138,39 @@ public class SimpleBibliographyImpl implements Bibliography {
 	public Reference getReference(String key) {
 		Integer i = Integer.parseInt(key) - 1;
 		return references.get(i);
+	}
+	
+	class ReferenceWrapper {
+		private Reference reference;
+		
+		public ReferenceWrapper(Reference reference) {
+			this.reference = reference;
+		}
+		
+		public int hashCode() {
+	        return new HashCodeBuilder(17, 31)
+	            .append(reference.getDate())
+	            .append(reference.getCreator())
+	            .append(reference.getTitle())
+	            .append(reference.getBibliographicCitation())
+	            .toHashCode();
+	    }
+
+	    public boolean equals(Object obj) {
+	        if (obj == null)
+	            return false;
+	        if (obj == this)
+	            return true;
+	        if (!(obj instanceof ReferenceWrapper))
+	            return false;
+
+	        ReferenceWrapper rhs = (ReferenceWrapper) obj;
+	        return new EqualsBuilder()
+	            .append(reference.getDate(), rhs.reference.getDate())
+	            .append(reference.getCreator(), rhs.reference.getCreator())
+	            .append(reference.getTitle(), rhs.reference.getTitle())
+	            .append(reference.getBibliographicCitation(), rhs.reference.getBibliographicCitation())
+	            .isEquals();
+	    }
 	}
 }
