@@ -481,21 +481,7 @@
 						</div>
 					</section>
 				</c:if>
-
-				<section id="sources" class="section-box">
-					<div class="inner">
-						<div class="box clearfix">
-							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
-							<dl>
-								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
-									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
-								</c:forEach>
-							</dl>
-						</div>
-					</div>
-				</section>
-
-				<c:if test="${not empty bibliography.references}">
+                <c:if test="${not empty bibliography.references}">
 					<section id="bibliography" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
@@ -524,6 +510,18 @@
 						</div>
 					</section>
 				</c:if>
+				<section id="sources" class="section-box">
+					<div class="inner">
+						<div class="box clearfix">
+							<h2><i class="glyphicons-icon group">&#160;</i> <spring:message code="sources" /></h2>
+							<dl>
+								<c:forEach var="organisation" items="${em:provenancesources(provenance)}">
+									<tags:provenance organisation="${organisation}" provenance="${provenance}"/>
+								</c:forEach>
+							</dl>
+						</div>
+					</div>
+				</section>
 			</div>
 
 			<div id="sidebar" class="span4 sidebar">
