@@ -61,14 +61,14 @@ public class SkippingProcessor extends AuthorityAware implements ItemProcessor<T
         Annotation annotation = annotationService.findAnnotation(RecordType.Taxon,persistedTaxon.getId(), getStepExecution().getJobExecutionId());
 
         if (annotation == null) {
-        	annotation = this.createAnnotation(taxon, RecordType.Taxon, AnnotationCode.Skipped, AnnotationType.Info);
+        	annotation = this.createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Skipped, AnnotationType.Info);
         } else {
         	if (annotation.getCode().equals(AnnotationCode.Skipped)) {
                 throw new TaxonAlreadyProcessedException(taxon);
             }
             annotation.setType(AnnotationType.Info);
             annotation.setCode(AnnotationCode.Skipped);
-        	logger.info(taxon.getIdentifier() + " was skipped");
+        	logger.info(persistedTaxon.getIdentifier() + " was skipped");
         }
         return annotation;
     }

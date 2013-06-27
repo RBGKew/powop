@@ -173,7 +173,7 @@ public class DownloadController {
        model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
        model.addAttribute("taxonMap", DarwinCorePropertyMap.getPropertyMap(DwcTerm.Taxon));
        model.addAttribute("result", result);
-       if(result.getSize() > downloadService.getDownloadLimit() && !requestingUser.getPermissions().contains(Permission.PERMISSION_ADMINISTRATE)) {
+       if(result.getSize() > downloadService.getDownloadLimit() && !requestingUser.getAuthorities().contains(Permission.PERMISSION_ADMINISTRATE)) {
     	   String[] codes = new String[] { "download.truncated" };
 		   Object[] args = new Object[] { result.getSize(), downloadService.getDownloadLimit() };
 		   DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
