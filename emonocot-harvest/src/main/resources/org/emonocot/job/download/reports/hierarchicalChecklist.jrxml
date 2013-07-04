@@ -22,8 +22,8 @@
     <parameter name="dateFormat" class="java.lang.String" isForPrompting="false">
         <defaultValueExpression><![CDATA["yyyy-MM-dd"]]></defaultValueExpression>
     </parameter>
-    <parameter name="license" class="java.lang.String" isForPrompting="false">
-        <defaultValueExpression><![CDATA["http://creativecommons.org/licenses/by-nc-sa/3.0"]]></defaultValueExpression>
+    <parameter name="defaultLicense" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["Due to a problem determining the provider's licensing, please contact the sources"]]></defaultValueExpression>
     </parameter>
     <field name="family" class="java.lang.String"/>
     <field name="scientificName" class="java.lang.String"/>
@@ -32,6 +32,11 @@
     <field name="namePublishedInString" class="java.lang.String" />
     <field name="acceptedNameUsage" class="org.emonocot.model.Taxon"/>
     <field name="synonymNameUsages" class="java.util.Set"/>
+    <field name="license" class="java.lang.String"/>
+    <variable name="licenses" class="java.util.Set">
+        <variableExpression>$V{licenses}.add($F{license})?$V{licenses}:$V{licenses}</variableExpression>
+        <initialValueExpression>new java.util.HashSet()</initialValueExpression>
+    </variable>
     <title>
         <band height="80">
             <textField isStretchWithOverflow="true">
@@ -105,8 +110,8 @@
             <textField isStretchWithOverflow="true">
                 <reportElement style="Footer" x="50" y="0" width="400" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results. They are licenced as following: " + 
-                    $P{license}]]></textFieldExpression>
+                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results. They are licenced as: " + 
+                    ($V{licenses}.size() > 0 ? $V{licenses}.toString() : $P{defaultLicense})]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true">
                 <reportElement style="Secondary" x="0" y="40" width="500" height="10"/>

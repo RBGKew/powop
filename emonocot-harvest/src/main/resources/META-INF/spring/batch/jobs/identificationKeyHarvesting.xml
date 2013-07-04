@@ -97,7 +97,7 @@
 		<batch:step id="cleanupResourcesNotModified">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="resourceDeletingTasklet" />
-			<batch:end on="COMPLETE" exit-code="NOT_MODIFIED" />
+			<batch:end on="COMPLETED" exit-code="NOT_MODIFIED" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
