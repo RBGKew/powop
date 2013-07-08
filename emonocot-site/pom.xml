@@ -21,27 +21,7 @@
             <version>1.0-beta-6</version>
           </extension>
 	    </extensions>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
-				<executions>
-					<execution>
-						<id>upload-include-files</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>upload</goal>
-						</goals>
-						<configuration>
-							<fromDir>src/main/static-resources</fromDir>
-							<includes>**/*</includes>
-							<serverId>build.server</serverId>
-						    <url>scp://build.e-monocot.org/var/www/html/</url>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+		<plugins>			
 			<plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-checkstyle-plugin</artifactId>
