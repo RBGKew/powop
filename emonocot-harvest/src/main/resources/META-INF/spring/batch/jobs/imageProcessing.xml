@@ -39,6 +39,7 @@
 	  <property name="delegates">
 	    <list>
 	      <ref bean="imageFetchingProcessor"/>
+          <ref bean="imageResizer"/>
 	      <ref bean="imageThumbnailProcessor"/>
 	      <ref bean="imageMetadataProcessor"/>
 	    </list>

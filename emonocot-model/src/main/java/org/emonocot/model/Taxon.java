@@ -952,7 +952,7 @@ public class Taxon extends SearchableObject {
         .append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
         .append(getTribe()).append(" ").append(getVerbatimTaxonRank());
 
-        if(Rank.FAMILY == getTaxonRank() && getFamily() == null) {
+        if(Rank.FAMILY.equals(getTaxonRank()) && getFamily() == null) {
             addField(sid,"taxon.family_ns", getScientificName());
             addField(sid,"taxon.family_ss", getScientificName());
         } else {
