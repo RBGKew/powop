@@ -4,10 +4,10 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.32</version>
+		<version>0.0.33-SNAPSHOT</version>
 	</parent>
 	<artifactId>emonocot-portal</artifactId>
-	<version>0.0.32</version>
+	<version>0.0.33-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
 	<dependencies>
