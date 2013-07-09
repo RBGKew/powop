@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -71,6 +72,7 @@ public class IdentificationKey extends SearchableObject implements NonOwned, Med
         this.id = id;
     }
 
+    @Size(max = 255)
     public String getTitle() {
         return title;
     }

@@ -157,7 +157,6 @@
 		<property name="targetMethod" value="getBinaryResource" />
 		<property name="arguments">
 			<list>
-				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['authority.uri']}</value>
 				<value>#{jobParameters['authority.last.harvested']}</value>
 				<value>#{jobExecutionContext['temporary.file.name']}</value>

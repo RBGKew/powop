@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -175,6 +176,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.typeDesignationType = typeDesignationType;
 	}
 
+	@Size(max = 255)
 	public String getTypeDesignatedBy() {
 		return typeDesignatedBy;
 	}
@@ -183,6 +185,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.typeDesignatedBy = typeDesignatedBy;
 	}
 
+	@Size(max = 255)
 	public String getScientificName() {
 		return scientificName;
 	}
@@ -200,6 +203,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.taxonRank = taxonRank;
 	}
 
+	@Size(max = 255)
 	public String getBibliographicCitation() {
 		return bibliographicCitation;
 	}
@@ -208,6 +212,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.bibliographicCitation = bibliographicCitation;
 	}
 
+	@Size(max = 255)
 	public String getInstitutionCode() {
 		return institutionCode;
 	}
@@ -216,6 +221,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.institutionCode = institutionCode;
 	}
 
+	@Size(max = 255)
 	public String getCollectionCode() {
 		return collectionCode;
 	}
@@ -224,6 +230,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.collectionCode = collectionCode;
 	}
 
+	@Size(max = 255)
 	public String getCatalogNumber() {
 		return catalogNumber;
 	}
@@ -250,6 +257,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.sex = sex;
 	}
 
+	@Size(max = 255)
 	public String getRecordedBy() {
 		return recordedBy;
 	}
@@ -258,6 +266,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.recordedBy = recordedBy;
 	}
 
+	@Size(max = 255)
 	public String getSource() {
 		return source;
 	}
@@ -266,6 +275,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.source = source;
 	}
 
+	@Size(max = 255)
 	public String getVerbatimEventDate() {
 		return verbatimEventDate;
 	}
@@ -274,6 +284,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.verbatimEventDate = verbatimEventDate;
 	}
 
+	@Size(max = 255)
 	public String getVerbatimLabel() {
 		return verbatimLabel;
 	}
@@ -282,6 +293,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.verbatimLabel = verbatimLabel;
 	}
 
+	@Size(max = 255)
 	public String getVerbatimLongitude() {
 		return verbatimLongitude;
 	}
@@ -290,6 +302,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
 		this.verbatimLongitude = verbatimLongitude;
 	}
 
+	@Size(max = 255)
 	public String getVerbatimLatitude() {
 		return verbatimLatitude;
 	}

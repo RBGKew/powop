@@ -243,6 +243,15 @@
     
     <bean id="emailService" class ="org.emonocot.integration.MailSenderStubImpl" />
     
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+        <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+        </value>
+        </property>
+    </bean>
+    
     <beans profile="proxy">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
             <property name="proxy">

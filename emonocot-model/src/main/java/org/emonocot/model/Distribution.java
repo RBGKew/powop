@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -174,6 +175,7 @@ public class Distribution extends OwnedEntity {
     /**
 	 * @return the locality
 	 */
+    @Size(max = 255)
 	public String getLocality() {
 		return locality;
 	}
@@ -188,6 +190,7 @@ public class Distribution extends OwnedEntity {
 	/**
 	 * @return the occurrenceRemarks
 	 */
+	@Size(max = 255)
 	public String getOccurrenceRemarks() {
 		return occurrenceRemarks;
 	}

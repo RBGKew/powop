@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -39,68 +40,30 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Description extends OwnedEntity {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -177666938449346483L;
-    /**
-     *
-     */
+
     private String description;
 
-    /**
-    *
-    */
     private Taxon taxon;
 
-    /**
-    *
-    */
     private DescriptionType type;
     
-    /**
-     * 
-     */
     private String creator;
     
-    /**
-     *
-     */
     private String contributor;
     
-    /**
-     *
-     */
     private String audience;
     
-    /**
-     *
-     */
     private Locale language;
     
-    /**
-     *
-     */
     private String source;
 
-    /**
-     *
-     */
     private Long id;
 
-    /**
-     *
-     */
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    /**
-     *
-     */
     private Set<Reference> references = new HashSet<Reference>();
 
-    /**
-     *
-     */
     public Description() {
         this.identifier = UUID.randomUUID().toString();
     }
@@ -165,6 +128,7 @@ public class Description extends OwnedEntity {
     /**
 	 * @return the creator
 	 */
+    @Size(max = 255)
 	public String getCreator() {
 		return creator;
 	}
@@ -179,6 +143,7 @@ public class Description extends OwnedEntity {
 	/**
 	 * @return the source
 	 */
+	@Size(max = 255)
 	public String getSource() {
 		return source;
 	}
@@ -256,6 +221,7 @@ public class Description extends OwnedEntity {
 	/**
 	 * @return the contributor
 	 */
+    @Size(max = 255)
 	public String getContributor() {
 		return contributor;
 	}
@@ -270,6 +236,7 @@ public class Description extends OwnedEntity {
 	/**
 	 * @return the audience
 	 */
+	@Size(max = 255)
 	public String getAudience() {
 		return audience;
 	}

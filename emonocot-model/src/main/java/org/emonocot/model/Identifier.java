@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -26,48 +27,29 @@ import org.hibernate.annotations.Where;
  */
 @Entity
 public class Identifier extends OwnedEntity {
-    /**
-     *
-     */
+
     private static final long serialVersionUID = 8866662399880411558L;
 
-    /**
-     *
-     */
     private String title;
 
-    /**
-     *
-     */
     private String subject;
 
-    /**
-     *
-     */
     private String format;
 
-    /**
-     *
-     */
     private Taxon taxon;
 
-    /**
-     *
-     */
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    /**
-     *
-     */
     private Long id;
 
    /**
     *
     * @return the format of the image
     */
-   public String getFormat() {
+    @Size(max = 255)
+    public String getFormat() {
        return format;
-   }
+    }
 
    /**
     *
@@ -81,6 +63,7 @@ public class Identifier extends OwnedEntity {
     *
     * @return the subject of this identifier
     */
+   @Size(max = 255)
    public String getSubject() {
        return subject;
    }
@@ -116,6 +99,7 @@ public class Identifier extends OwnedEntity {
      *
      * @return the title
      */
+    @Size(max = 255)
     public String getTitle() {
         return title;
     }

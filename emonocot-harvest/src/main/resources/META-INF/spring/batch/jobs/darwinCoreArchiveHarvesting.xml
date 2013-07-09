@@ -112,6 +112,7 @@
 			<batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
 			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
 			<batch:listeners>
+			    <batch:listener ref="taxonSkippingProcessor" />
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="taxonFieldSetMapper" />
 				<batch:listener ref="stepStatusListener" />				
@@ -718,7 +719,6 @@
 		<property name="targetMethod" value="getBinaryResource" />
 		<property name="arguments">
 			<list>
-				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['authority.uri']}</value>
 				<value>#{jobParameters['authority.last.harvested']}</value>
 				<value>#{jobExecutionContext['temporary.file.name']}</value>

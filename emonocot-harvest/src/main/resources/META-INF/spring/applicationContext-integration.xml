@@ -23,9 +23,7 @@
 		<constructor-arg value="read.write.job.launch.requests" />
 	</bean>
 	
-	<jms:inbound-channel-adapter id="readWriteJobLaunchGateway"
-		channel="readWriteJobLaunchRequests" destination="readWriteJobLaunchRequestsQueue"
-		message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
+	<jms:inbound-channel-adapter id="readWriteJobLaunchGateway"	channel="readWriteJobLaunchRequests" destination="readWriteJobLaunchRequestsQueue"	message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
 		<integration:poller fixed-rate="30000"/>
     </jms:inbound-channel-adapter>
 	
@@ -120,12 +118,45 @@
     
     <integration:channel id="indexingChannel"/>
     
-    <!-- eMailing integration -->
+    <!-- Filter out messages with no destination -->
     <integration:filter input-channel="enrichedCommentChannel" output-channel="toMapCommentChannel" expression="headers.toAddress != null" />
     
     <integration:channel id="toMapCommentChannel" />
     
-    <integration:transformer input-channel="toMapCommentChannel" output-channel="emailCommentChannel" method="prepareMessage" ref="emailServiceHelper"/>
+    <!-- Decide which method to use to send the message -->
+    <integration:transformer input-channel="toMapCommentChannel" output-channel="toDestinationChannel" method="prepareMessage" ref="emailServiceHelper"/>
+    
+    <integration:channel id="toDestinationChannel"/>
+    
+    <integration:router input-channel="toDestinationChannel" ref="commentDestinationRouter" method="getDestinationChannel">
+      <integration:mapping value="scratchpad" channel="scratchpadCommentChannel"/>
+      <integration:mapping value="email" channel="emailCommentChannel"/>
+    </integration:router>
+    
+    <bean id="commentDestinationRouter" class="org.emonocot.harvest.integration.CommentDestinationRouter"/>
+        
+    <!-- service channels/endpoints -->
+    <integration:channel id="emailCommentChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel" />            
+        </integration:interceptors>
+    </integration:channel>
+    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
+    
+    <integration:channel id="scratchpadCommentChannel">
+        <integration:interceptors>
+            <integration:wire-tap channel="loggingChannel" />            
+        </integration:interceptors>
+    </integration:channel>
+    <integration:service-activator input-channel="scratchpadCommentChannel" expression="@scratchpadCommentService.sendCommnent(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
+    
+    <bean id="scratchpadCommentService" class="org.emonocot.harvest.integration.ScratchpadCommentService">
+      <property name="velocityEngine" ref="velocityEngine"/>
+      <property name="getResourceClient" ref="getResourceClient"/>
+    </bean>
+    
+    <integration:channel id="loadCommentChannel" />
+    <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
     <integration:channel id="inboundEmailChannel">
         <integration:interceptors>
@@ -142,16 +173,6 @@
     </integration:channel>  
     
     <integration:service-activator input-channel="commentReplyChannel" expression="@commentServiceImpl.save(payload)" />
-    
-    <!-- service channels/endpoints -->
-    <integration:channel id="emailCommentChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />            
-        </integration:interceptors>
-    </integration:channel>
-    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
-    <integration:channel id="loadCommentChannel" />
-    <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
     
 <!-- Generic logging at INFO level for channels -->
     <integration:publish-subscribe-channel id="loggingChannel" />

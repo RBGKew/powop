@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -31,83 +32,39 @@ public class VernacularName extends OwnedEntity {
 	
 	private static final long serialVersionUID = 5439026066792559240L;
 	
-	/**
-	 * 
-	 */
 	private Long id;
 	
-	/**
-	 *
-	 */
 	private String vernacularName;
 	
-	/**
-	 *
-	 */
 	private String source;
 	
-	/**
-	 *
-	 */
 	private Locale language;
 	
-	/**
-	 *
-	 */
 	private String temporal;
 	
-	/**
-	 *
-	 */
 	private Location location;
 	
-	/**
-	 *
-	 */
 	private String locality;
 	
-	/**
-	 *
-	 */
 	private String countryCode;
 	
-	/**
-	 *
-	 */
 	private Sex sex;
 	
-	/**
-	 *
-	 */
 	private LifeStage lifeStage;
 	
-	/**
-	 *
-	 */
 	private Boolean preferredName = Boolean.FALSE;
 	
-	/**
-	 *
-	 */
 	private Boolean plural = Boolean.TRUE;
 	
-	/**
-	 *
-	 */
 	private String organismPart;
 	
-	/**
-	 * 
-	 */
 	private String taxonRemarks;
 	
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 	
-	/**
-	 *
-	 */
 	private Taxon taxon;
 
+	@Size(max = 255)
 	public String getVernacularName() {
 		return vernacularName;
 	}
@@ -116,6 +73,7 @@ public class VernacularName extends OwnedEntity {
 		this.vernacularName = vernacularName;
 	}
 
+	@Size(max = 255)
 	public String getTemporal() {
 		return temporal;
 	}
@@ -142,6 +100,7 @@ public class VernacularName extends OwnedEntity {
 		return id;
 	}
 
+	@Size(max = 255)
 	public String getSource() {
 		return source;
 	}
@@ -167,6 +126,7 @@ public class VernacularName extends OwnedEntity {
 		this.location = location;
 	}
 
+	@Size(max = 255)
 	public String getLocality() {
 		return locality;
 	}
@@ -175,6 +135,7 @@ public class VernacularName extends OwnedEntity {
 		this.locality = locality;
 	}
 
+	@Size(max = 255)
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -219,6 +180,7 @@ public class VernacularName extends OwnedEntity {
 		this.plural = plural;
 	}
 
+	@Size(max = 255)
 	public String getOrganismPart() {
 		return organismPart;
 	}
@@ -227,6 +189,7 @@ public class VernacularName extends OwnedEntity {
 		this.organismPart = organismPart;
 	}
 
+	@Size(max = 255)
 	public String getTaxonRemarks() {
 		return taxonRemarks;
 	}

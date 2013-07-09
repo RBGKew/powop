@@ -82,8 +82,7 @@ public class GetResourceClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/",
-                        "http://build.e-monocot.org/test/test.zip",
+                .getResource("http://build.e-monocot.org/test/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
@@ -114,8 +113,7 @@ public class GetResourceClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/",
-                        "http://build.e-monocot.org/test/test.zip",
+                .getResource("http://build.e-monocot.org/test/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
@@ -146,8 +144,7 @@ public class GetResourceClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/",
-                        "http://build.e-monocot.org/test/test.zip",
+                .getResource("http://build.e-monocot.org/test/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 

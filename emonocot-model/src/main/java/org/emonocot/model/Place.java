@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -27,10 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTWriter;
 import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
@@ -41,24 +39,12 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 @Entity
 public class Place extends SearchableObject {
 
-    /**
-     *
-     */
     private static Logger logger = LoggerFactory.getLogger(Place.class);
 
-	/**
-	 * 
-	 */
 	private Long id;
 
-	/**
-	 * 
-	 */
 	private String title;
 	
-	/**
-	 * 
-	 */
 	private String fipsCode;
 	
 	/**
@@ -97,6 +83,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @return the name
 	 */
+    @Size(max = 255)
 	public String getTitle() {
 		return title;
 	}
@@ -111,6 +98,7 @@ public class Place extends SearchableObject {
 	/**
 	 * @return the fipsCode
 	 */
+	@Size(max = 255)
 	public String getFipsCode() {
 		return fipsCode;
 	}

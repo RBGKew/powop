@@ -58,8 +58,7 @@ public class GetResourceClientIntegrationTest {
         tempFile.deleteOnExit();
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/",
-                        "http://build.e-monocot.org/test/test.zip",
+                .getResource("http://build.e-monocot.org/test/test.zip",
                         Long.toString(PAST_DATETIME.getMillis()),
                         tempFile.getAbsolutePath());
 
@@ -80,8 +79,7 @@ public class GetResourceClientIntegrationTest {
         
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/",
-                        "http://build.e-monocot.org/test/test.zip",
+                .getResource("http://build.e-monocot.org/test/test.zip",
                         Long.toString(new Date().getTime() - 60000L),
                         tempFile.getAbsolutePath());
 
@@ -105,8 +103,7 @@ public class GetResourceClientIntegrationTest {
         });
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://example.com/",
-                        "http://example.com/test.zip",
+                .getResource("http://example.com/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
