@@ -1510,6 +1510,7 @@
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
@@ -1575,6 +1576,7 @@
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
@@ -1629,6 +1631,7 @@
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
@@ -1687,13 +1690,14 @@
 				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:postgresql://localhost:5432/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
+				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>
+				<jdbc.driver.username>emonocot</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />

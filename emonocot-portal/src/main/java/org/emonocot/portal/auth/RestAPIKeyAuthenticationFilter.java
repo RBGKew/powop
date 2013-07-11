@@ -33,7 +33,7 @@ public class RestAPIKeyAuthenticationFilter extends
 			IOException, ServletException {
 		
 		String apiKeyValue = decodeParameterValue(request, API_KEY_PARAMETER_NAME);		
-		logger.error("attemptAuthentication " + apiKeyValue);
+		logger.debug("attemptAuthentication " + apiKeyValue);
 
 		AbstractAuthenticationToken authRequest = createAuthenticationToken(
 				apiKeyValue, new RestCredentials());
@@ -91,7 +91,7 @@ public class RestAPIKeyAuthenticationFilter extends
 	@Override
 	protected boolean requiresAuthentication(HttpServletRequest request,
 			HttpServletResponse response) {
-		logger.error("Requires Authentication " + (request.getParameter(API_KEY_PARAMETER_NAME) != null));
+		logger.debug("Requires Authentication " + (request.getParameter(API_KEY_PARAMETER_NAME) != null));
 		return request.getParameter(API_KEY_PARAMETER_NAME) != null;
 	}
 

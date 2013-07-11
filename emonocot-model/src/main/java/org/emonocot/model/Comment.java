@@ -3,7 +3,13 @@
  */
 package org.emonocot.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,8 +31,11 @@ import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
 import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
 import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
+import org.emonocot.model.marshall.json.OrganisationDeserialiser;
+import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
+import org.emonocot.model.registry.Organisation;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -73,6 +82,10 @@ public class Comment extends Base implements Searchable {
      * The object (page) on which this comment should appear
      */
     private Base commentPage;
+    
+    private Organisation authority;
+    
+    private Map<String,String> alternativeIdentifiers = new HashMap<String,String>();
 
     public String getSubject() {
 		return subject;
@@ -81,6 +94,25 @@ public class Comment extends Base implements Searchable {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	
+	/**
+    *
+    * @return the primary authority
+    */
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JsonSerialize(using = OrganisationSerializer.class)
+   public Organisation getAuthority() {
+       return authority;
+   }
+
+   /**
+    *
+    * @param authority Set the authority
+    */
+   @JsonDeserialize(using = OrganisationDeserialiser.class)
+   public void setAuthority(Organisation authority) {
+       this.authority = authority;
+   }
     
     /**
 	 * @return the inResponseTo
@@ -237,8 +269,19 @@ public class Comment extends Base implements Searchable {
     public void setUser(User user) {
         this.user = user;
     }
+    
+    @ElementCollection
+    public Map<String,String> getAlternativeIdentifiers() {
+		return alternativeIdentifiers;
+	}
 
-    /**
+	public void setAlternativeIdentifiers(Map<String,String> alternativeIdentifiers) {
+		this.alternativeIdentifiers = alternativeIdentifiers;
+	}
+
+
+
+	/**
      * @author jk00kg
      * The sending status of a comment
      */

@@ -41,7 +41,10 @@
 								<tr><th><spring:message code="organisation.description" /></th><td>${organisation.description}</td></tr>
 								<tr><th><spring:message code="organisation.publisherName" /></th><td>${organisation.publisherName}</td></tr>
                                 <tr><th><spring:message code="organisation.publisherEmail" /></th><td><a href="mailto:${organisation.publisherEmail}">${organisation.publisherEmail}</a></td></tr>
-<!-- Who should this be visible to? -->                                <!-- <tr><th><spring:message code="organisation.commentsEmailedTo" /></th><td><a href="mailto:${organisation.commentsEmailedTo}">${organisation.commentsEmailedTo}</a></td></tr> -->
+                                <security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#organisation, 'READ')">
+                                  <tr><th><spring:message code="organisation.commentsEmailedTo" /></th><td><a href="mailto:${organisation.commentsEmailedTo}">${organisation.commentsEmailedTo}</a></td></tr>
+                                  <tr><th><spring:message code="organisation.insertCommentsIntoScratchpad" /></th><td>${organisation.insertCommentsIntoScratchpad}</td></tr>
+                                </security:authorize>
 								<tr><th><spring:message code="organisation.subject" /></th>
 									<td>
 										<c:if test="${not empty organisation.subject}">

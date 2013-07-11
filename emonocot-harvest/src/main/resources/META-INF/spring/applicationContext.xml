@@ -80,7 +80,8 @@
 			<value>
 				hibernate.dialect=${hibernate.dialect}
 				hibernate.hbm2ddl.auto=validate
-				hibernate.validator.autoregister_listeners=false	
+				hibernate.validator.autoregister_listeners=false
+				hibernate.default_schema=${liquibase.default.schema.name}
 			</value>
 		</property>
 		<property name="annotatedClasses">
@@ -132,6 +133,7 @@
         <property name="dataSource" ref="liquibaseDataSource" />
         <property name="changeLog" value="classpath:${liquibase.changelog}" />
         <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+        <property name="defaultSchema" value="${liquibase.default.schema.name}"/>            
     </bean>
     
     <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource"

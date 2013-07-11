@@ -1,5 +1,5 @@
-insert into Organisation (id, identifier, uri, publisherEmail, commentsEmailedTo) values (10, 'test', 'http://example.com', 'test@example.com', 'jk00kg@kew.org');
-insert into Organisation (id, identifier, uri, publisherEmail, commentsEmailedTo) values (15, 'test2', 'http://example.org', 'test@example.org', 'sarah.phillips@kew.org');
+insert into Organisation (id, identifier, uri, publisherEmail, commentsEmailedTo, insertCommentsIntoScratchpad) values (10, 'test', 'http://example.com', 'test@example.com', 'jk00kg@kew.org',false);
+insert into Organisation (id, identifier, uri, publisherEmail, commentsEmailedTo, insertCommentsIntoScratchpad) values (15, 'test2', 'http://example.org', 'test@example.org', 'sarah.phillips@kew.org',false);
 insert into Reference (id, identifier,title, license) values (1, 'urn:kew.org:wcs:placeOfPublication:899','Bull. Pacific Orchid Soc. Hawaii','http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Reference (id, identifier,title, license) values (2, 'urn:kew.org:wcs:placeOfPublication:234','Diagn. Pl. Orient. 13: 8 (1846)','http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Taxon (id, identifier, scientificName, family, authority_id, license) values (1, 'urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5', 'Acontias conspurcatus','Arecaceae',10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
@@ -95,8 +95,8 @@ insert into Distribution (id, location, taxon_id, license) values (2,'NOR',23,'h
 insert into Distribution (id, location, taxon_id, license) values (3,'SVA',23,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Description (id, identifier, description, type, taxon_id, authority_id, license) values (1,'description1','lorem ipsum', 'general', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Description (id, identifier, description, type, taxon_id, authority_id, license) values (2,'description2','lorem ipsum', 'diagnostic', 76,15,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
-insert into Image (id, identifier, format, taxon_id, authority_id, license) values (1,'http://build.e-monocot.org/images/rss.png','png', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
-insert into Image (id, identifier, format, taxon_id, authority_id, license) values (2,'http://build.e-monocot.org/images/logos/maven-feather.png','png', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
+insert into Image (id, identifier, format, taxon_id, authority_id, license) values (1,'http://www.kew.org/ucm/groups/public/documents/image/kewdev_005089.jpg','jpg', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
+insert into Image (id, identifier, format, taxon_id, authority_id, license) values (2,'http://www.nhm.ac.uk/includes/images/generic/logos/nhm/nhmLobeliaLogo.jpg','jpg', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Taxon_Image (Taxon_id, images_id) values (76,1);
 insert into Taxon_Image (Taxon_id, images_id) values (81,1);
 insert into Taxon_Image (Taxon_id, images_id) values (76,2);

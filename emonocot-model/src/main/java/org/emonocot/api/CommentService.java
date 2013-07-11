@@ -20,4 +20,6 @@ public interface CommentService extends SearchableService<Comment> {
      */
     Collection<String> getDestinations(Comment comment);
 
+	void updateAlternativeIdentifiers(String identifier, String toAddress,	String string);
+
 }

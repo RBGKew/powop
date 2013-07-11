@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
@@ -28,6 +29,8 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,6 +57,8 @@ public class DarwinCoreJobIntegrationTest {
     @Autowired
 	@Qualifier("readWriteJobLauncher")
     private JobLauncher jobLauncher;
+    
+    private Properties properties;
 
     /**
      * 1288569600 in unix time.
@@ -61,16 +66,21 @@ public class DarwinCoreJobIntegrationTest {
     private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
     /**
+     * @throws IOException 
      *
      */
     @Before
-    public final void setUp() {
+    public final void setUp() throws IOException {
         File imageDirectory = new File("./target/images/fullsize");
         imageDirectory.mkdirs();
         imageDirectory.deleteOnExit();
         File thumbnailDirectory = new File("./target/images/thumbnails");
         thumbnailDirectory.mkdirs();
         thumbnailDirectory.deleteOnExit();
+        Resource propertiesFile = new ClassPathResource(
+        "META-INF/spring/application.properties");
+        properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
     }
 
     /**
@@ -99,8 +109,9 @@ public class DarwinCoreJobIntegrationTest {
                 "test"));
         parameters.put("family", new JobParameter(
         "Arecaceae"));
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
         parameters.put("authority.uri", new JobParameter(
-                "http://build.e-monocot.org/test/test.zip"));
+                repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip"));
         parameters.put(
                 "authority.last.harvested",
                 new JobParameter(Long

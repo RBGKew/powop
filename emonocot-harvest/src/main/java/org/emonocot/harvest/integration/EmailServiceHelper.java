@@ -5,16 +5,18 @@ package org.emonocot.harvest.integration;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.Address;
-import javax.mail.internet.InternetAddress;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
+import javax.mail.internet.InternetAddress;
 
 import org.emonocot.api.CommentService;
 import org.emonocot.api.UserService;
@@ -23,12 +25,17 @@ import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
 import org.emonocot.model.auth.User;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
+import org.springframework.integration.annotation.Filter;
+import org.springframework.integration.annotation.Header;
+import org.springframework.integration.annotation.Payload;
+import org.springframework.integration.annotation.Router;
 import org.springframework.integration.message.GenericMessage;
 
 
@@ -42,6 +49,30 @@ public class EmailServiceHelper {
 
 	Pattern pattern = Pattern
 			.compile("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
+	
+	static Set<String> autoReplyPrecedenceValues = new HashSet<String>();
+	
+	static Set<String> autoReplySubjectValues = new HashSet<String>();
+	
+	static {
+		autoReplyPrecedenceValues.add("auto_reply");
+		autoReplyPrecedenceValues.add("bulk");
+		autoReplyPrecedenceValues.add("junk");
+		
+		autoReplySubjectValues.add("Auto:");
+		autoReplySubjectValues.add("Automatic reply");
+		autoReplySubjectValues.add("Autosvar");
+		autoReplySubjectValues.add("Automatisk svar");
+		autoReplySubjectValues.add("Automatisch antwoord");
+		autoReplySubjectValues.add("Abwesenheitsnotiz");
+		autoReplySubjectValues.add("Risposta Non al computer");
+		autoReplySubjectValues.add("Auto Response");
+		autoReplySubjectValues.add("Respuesta automática");
+		autoReplySubjectValues.add("Fuori sede");
+		autoReplySubjectValues.add("Out of Office");
+		autoReplySubjectValues.add("Frånvaro");
+		autoReplySubjectValues.add("Réponse automatique");
+	}
 
 	private final String HEADER_TEMPLATE_NAME = "templateName";
 
@@ -107,9 +138,22 @@ public class EmailServiceHelper {
     		comment.setCreated(new DateTime());
     		String identifier = matcher.group();
     		Comment inResponseTo = commentService.find(identifier,"aboutData");
+    		
     		comment.setInResponseTo(inResponseTo);
+    		
     		if(inResponseTo != null) {
     			comment.setCommentPage(inResponseTo.getCommentPage());
+    			comment.setAboutData(inResponseTo.getAboutData());
+    			if(comment.getAboutData() != null && comment.getAboutData() instanceof BaseData) {
+    				
+    			} else {
+    				logger.debug("Response is about " + comment.getAboutData() + " not creating reply");
+    				return null;
+    			}
+    			
+    		} else {
+    			logger.debug("Could not find comment with identifier " + identifier + " not creating reply");
+    			return null;
     		}
     		comment.setComment(htmlSanitizer.sanitize(getText(email)));
     		for(Address address : email.getFrom()) {
@@ -139,9 +183,64 @@ public class EmailServiceHelper {
     		}
     		logger.debug("Recieved comment from " + email.getFrom()[0].toString() + " with subject " + email.getSubject() + " and content " + content);
     		return null;
-    	}
-    	
+    	}	
     }
+	
+	/**
+	 * http://stackoverflow.com/questions/1027395/detecting-outlook-autoreply-out-of-office-emails
+	 * @param message
+	 * @return
+	 */
+	@Filter
+	public boolean filterOutOfOfficeReplies(@Payload javax.mail.Message message) {
+		try {
+		    if(message.getHeader("x-auto-response-suppress") != null) {
+		    	logger.debug("Email contains header x-auto-response-suppress, filtering");
+			    return false;
+		    }
+		    if(message.getHeader("x-autorespond") != null) {
+		    	logger.debug("Email contains header x-autorespond, filtering");
+			    return false;
+		    }
+		    if(message.getHeader("precedence") != null) {
+		    	for(String header : message.getHeader("precedence")) {
+		    		if(autoReplyPrecedenceValues.contains(header)) {
+		    			logger.debug("Email contains header precedence = " + header +", filtering");
+		    			return false;
+		    		}
+		    	}
+		    }
+		    if(message.getHeader("x-precedence") != null) {
+		    	for(String header : message.getHeader("x-precedence")) {
+		    		if(autoReplyPrecedenceValues.contains(header)) {
+		    			logger.debug("Email contains header x-precedence = " + header +", filtering");
+		    			return false;
+		    		}
+		    	}
+		    }
+		    if(message.getHeader("auto-submitted") != null) {
+		    	for(String header : message.getHeader("auto-submitted")) {
+		    		if(header.equals("auto-replied")) {
+		    			logger.debug("Email contains auto-submitted = " + header +", filtering");
+		    			return false;
+		    		}
+		    	}
+		    }
+		    if(message.getSubject() != null) {
+		    	for(String subjectValue: this.autoReplySubjectValues) {
+		    		if(message.getSubject().startsWith(subjectValue)) {
+		    			logger.debug("Email contains subject " + message.getSubject() +", filtering");
+		    			return false;
+		    		}
+		    	}
+		    }
+		
+		    return true;
+		} catch(MessagingException me) {
+			logger.error("MessagingException thrown trying to filter message" + me.getLocalizedMessage());
+			return false;
+		}
+	}
 
 	private String getText(Part part) throws MessagingException, IOException {
 		if (part.isMimeType("text/*")) {
@@ -212,5 +311,29 @@ public class EmailServiceHelper {
 		return new GenericMessage<Map>(model, headers);
 
 	}
-
+	
+	@Filter
+	public boolean preventSelfSending(@Header("toAddress") String toAddress, @Payload Comment comment) {
+		if(comment.getAuthority() != null) {
+			Organisation authority = comment.getAuthority();
+			if(authority.getIdentifier().equals(toAddress)) {
+				return false;
+			}
+			if(authority.getCommentsEmailedTo() != null && authority.getCommentsEmailedTo().equals(toAddress)) {
+				return false;
+			}
+		}
+		return true;
+		
+	} 
+	
+	@Router
+	public String getDestinationChannel(@Header("toAddress") String toAddress) {
+		
+		if(toAddress.startsWith("http://")) {
+			return "scratchpad";
+		} else {
+			return "email";
+		}
+	}
 }

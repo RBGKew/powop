@@ -202,12 +202,8 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		persistedSource.setDescription(organisation.getDescription());
 		persistedSource.setPublisherName(organisation.getPublisherName());
 		persistedSource.setPublisherEmail(organisation.getPublisherEmail());
-		String emailCommentsTo = organisation.getCommentsEmailedTo();
-		if(emailCommentsTo == null) {
-		    emailCommentsTo = organisation.getPublisherEmail() != null ?
-		                organisation.getPublisherEmail() :organisation.getCreatorEmail();
-		}
-		persistedSource.setCommentsEmailedTo(emailCommentsTo);
+		persistedSource.setCommentsEmailedTo(organisation.getCommentsEmailedTo());
+		persistedSource.setInsertCommentsIntoScratchpad(organisation.getInsertCommentsIntoScratchpad());
 		persistedSource.setSubject(organisation.getSubject());
 		persistedSource.setBibliographicCitation(organisation.getBibliographicCitation());
 		persistedSource.setLogoUrl(organisation.getLogoUrl());
