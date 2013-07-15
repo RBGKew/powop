@@ -6,6 +6,8 @@
 		  @org.hibernate.annotations.Parameter(value="128", name="max_low")
   }),
   @org.hibernate.annotations.GenericGenerator(name = "annotation-sequence", strategy = "identity", parameters = {}) })
+  // For postgres
+  //@org.hibernate.annotations.GenericGenerator(name = "annotation-sequence", strategy = "sequence", parameters = {}) })
 @org.hibernate.annotations.TypeDefs({
   @org.hibernate.annotations.TypeDef(name = "dateTimeUserType", typeClass = org.joda.time.contrib.hibernate.PersistentDateTime.class),
   @org.hibernate.annotations.TypeDef(name = "durationUserType", typeClass = org.joda.time.contrib.hibernate.PersistentDuration.class),
