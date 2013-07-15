@@ -12,6 +12,7 @@ import org.emonocot.harvest.common.GetResourceClient;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.retry.RetryCallback;
@@ -31,13 +32,15 @@ public class GetResourceClientIntegrationTest {
     private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
     private GetResourceClient getResourceClient;
+    
+    private Properties properties;
 
     @Before
     public final void setUp() throws IOException {    	
         getResourceClient = new GetResourceClient();
         Resource propertiesFile = new ClassPathResource(
                 "/META-INF/spring/application.properties");
-        Properties properties = new Properties();
+        properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         getResourceClient.setProxyHost(properties.getProperty("http.proxyHost", null));
         getResourceClient.setProxyPort(properties.getProperty("http.proxyPort", null));
@@ -56,9 +59,11 @@ public class GetResourceClientIntegrationTest {
             SAXException {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
+        
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/test/test.zip",
+                .getResource(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
                         Long.toString(PAST_DATETIME.getMillis()),
                         tempFile.getAbsolutePath());
 
@@ -67,19 +72,20 @@ public class GetResourceClientIntegrationTest {
     }
 
     /**
-     *
+     * This works on a normal apache httpd directory, but not for GIT
      * @throws IOException
      *             if a temporary file cannot be created or if there is a http
      *             protocol error.
      */
     @Test
+    @Ignore
     public final void testGetResourceNotModified() throws IOException {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
-        
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/test/test.zip",
+                .getResource(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
                         Long.toString(new Date().getTime() - 60000L),
                         tempFile.getAbsolutePath());
 

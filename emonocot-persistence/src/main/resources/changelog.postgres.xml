@@ -115,7 +115,7 @@
     </changeSet>
     <changeSet author="emonocot" id="1361549992239-5">
         <createTable tableName="annotation">
-            <column name="id" type="int8">
+            <column name="id" autoIncrement="true" type="bigserial">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="annotation_pkey"/>
             </column>
             <column name="annotatedobjtype" type="VARCHAR(255)"/>
@@ -190,7 +190,7 @@
             <column name="string_val" type="TEXT"/>
             <column name="date_val" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="long_val" type="int8"/>
-            <column name="double_val" type="FLOAT8(17)"/>
+            <column name="double_val" type="FLOAT8"/>
         </createTable>
     </changeSet>
     <changeSet author="emonocot" id="1361870135086-10">
@@ -388,9 +388,9 @@
             <column name="creator" type="VARCHAR(255)"/>
             <column name="description" type="TEXT"/>
             <column name="format" type="VARCHAR(255)"/>
-            <column name="latitude" type="FLOAT8(17)"/>
+            <column name="latitude" type="float8"/>
             <column name="location" type="geometry"/>
-            <column name="longitude" type="FLOAT8(17)"/>
+            <column name="longitude" type="float8"/>
             <column name="publisher" type="VARCHAR(255)"/>
             <column name="source" type="VARCHAR(255)"/>
             <column name="locality" type="VARCHAR(255)"/>
@@ -956,8 +956,8 @@
             <column name="bibliographiccitation" type="VARCHAR(255)"/>
             <column name="catalognumber" type="VARCHAR(255)"/>
             <column name="collectioncode" type="VARCHAR(255)"/>
-            <column name="decimallatitude" type="FLOAT8(17)"/>
-            <column name="decimallongitude" type="FLOAT8(17)"/>
+            <column name="decimallatitude" type="float8"/>
+            <column name="decimallongitude" type="float8"/>
             <column name="institutioncode" type="VARCHAR(255)"/>
             <column name="locality" type="VARCHAR(255)"/>
             <column name="location" type="geometry"/>
@@ -1468,7 +1468,6 @@
     <changeSet author="emonocot" id="1361870135086-187">
         <createSequence schemaName="emonocot" sequenceName="batch_step_execution_seq"/>
     </changeSet>
-
     <!-- In the test schema we need these -->
     <changeSet id="2013-01-22_01" author="ben">
       <insert tableName="principal">

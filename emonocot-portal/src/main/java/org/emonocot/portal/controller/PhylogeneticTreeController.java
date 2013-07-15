@@ -48,4 +48,12 @@ public class PhylogeneticTreeController extends GenericController<PhylogeneticTr
         queryLog.info("PhylogeneticTree: \'{}\'", new Object[] {id});
         return "phylo/show";
     }
+    
+    /**
+     * Many users visit a taxon page and then navigate to the document above, then bounce
+     */
+    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    public String list(Model model) {
+    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
+    }
 }

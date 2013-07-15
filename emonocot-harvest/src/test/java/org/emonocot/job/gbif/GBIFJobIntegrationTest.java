@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
@@ -14,6 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -69,12 +71,21 @@ public class GBIFJobIntegrationTest {
     
     @Autowired
     private SolrIndexingListener solrIndexingListener;
+    
+    private Properties properties;
 
     /**
      * 1288569600 in unix time.
      */
     private static final BaseDateTime PAST_DATETIME
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+    
+    @Before
+    public void setUp() throws Exception {
+    	Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+    	properties = new Properties();
+    	properties.load(propertiesFile.getInputStream());
+    }
 
     /**
      *
@@ -107,7 +118,8 @@ public class GBIFJobIntegrationTest {
             new HashMap<String, JobParameter>();
         parameters.put("family", new JobParameter("Araceae"));
         parameters.put("authority.name", new JobParameter("test"));
-        parameters.put("authority.uri", new JobParameter("http://build.e-monocot.org/test/list.xml?startindex="));
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        parameters.put("authority.uri", new JobParameter(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/gbif/list.xml&startindex="));
         
         //parameters.put("authority.uri", new JobParameter("http://data.gbif.org/ws/rest/occurrence/list?taxonconceptkey=6979&maxresults=1000&typesonly=true&format=darwin&mode=raw&startindex="));
         parameters.put("authority.last.harvested",

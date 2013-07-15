@@ -48,5 +48,13 @@ public class IdentificationKeyController extends GenericController<Identificatio
         queryLog.info("IdentificationKey: \'{}\'", new Object[] {id});
         return "key/show";
     }
+    
+    /**
+     * Many users visit a taxon page and then navigate to the document above, then bounce
+     */
+    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    public String list(Model model) {
+    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
+    }
 
 }

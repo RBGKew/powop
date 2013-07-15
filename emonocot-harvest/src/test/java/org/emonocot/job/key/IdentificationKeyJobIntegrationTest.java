@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Taxon;
@@ -35,6 +36,8 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -68,6 +71,8 @@ public class IdentificationKeyJobIntegrationTest {
     
     @Autowired
     private SolrIndexingListener solrIndexingListener;
+    
+    private Properties properties;
 
     /**
      * 1288569600 in unix time.
@@ -79,7 +84,7 @@ public class IdentificationKeyJobIntegrationTest {
      *
      */
     @Before
-	public final void setUp() {
+	public final void setUp() throws Exception {
 		String fullSizeImagesDirectoryName = "./target/images/fullsize";
 		File fullSizeImagesDirectory = new File(fullSizeImagesDirectoryName);
 		fullSizeImagesDirectory.mkdirs();
@@ -88,6 +93,9 @@ public class IdentificationKeyJobIntegrationTest {
 		File thumbnailImagesDirectory = new File(thumbnailImagesDirectoryName);
 		thumbnailImagesDirectory.mkdirs();
 		thumbnailImagesDirectory.deleteOnExit();
+		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+    	properties = new Properties();
+    	properties.load(propertiesFile.getInputStream());
 	}
 
 
@@ -121,7 +129,9 @@ public class IdentificationKeyJobIntegrationTest {
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
         parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
-        parameters.put("authority.uri", new JobParameter("http://build.e-monocot.org/test/testKey.xml"));
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        parameters.put("authority.uri", new JobParameter(
+                repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/key/testKey.xml"));
         parameters.put("authority.last.harvested", new JobParameter(Long.toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME.getMillis()))));
         JobParameters jobParameters = new JobParameters(parameters);
 

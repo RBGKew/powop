@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
@@ -28,6 +29,8 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,6 +57,8 @@ public class TaxonImportingIntegrationTest {
     @Autowired
 	@Qualifier("readWriteJobLauncher")
     private JobLauncher jobLauncher;
+    
+    private Properties properties;
 
     /**
      * 1288569600 in unix time.
@@ -62,13 +67,16 @@ public class TaxonImportingIntegrationTest {
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);
     
     @Before
-    public final void setUp() {
+    public final void setUp() throws Exception {
         File imageDirectory = new File("./target/images/fullsize");
         imageDirectory.mkdirs();
         imageDirectory.deleteOnExit();
         File thumbnailDirectory = new File("./target/images/thumbnails");
         thumbnailDirectory.mkdirs();
         thumbnailDirectory.deleteOnExit();
+        Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+        properties = new Properties();
+        properties.load(propertiesFile.getInputStream());
     }
 
     /**
@@ -98,13 +106,10 @@ public class TaxonImportingIntegrationTest {
         parameters.put("family", new JobParameter(
         "Araceae"));
         parameters.put("taxon.processing.mode", new JobParameter("IMPORT_TAXA_BY_AUTHORITY"));
-        parameters.put("authority.uri", new JobParameter(
-                "http://build.e-monocot.org/test/test.zip"));
-        parameters.put(
-                "authority.last.harvested",
-                new JobParameter(Long
-                        .toString((TaxonImportingIntegrationTest.PAST_DATETIME
-                                .getMillis()))));
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        parameters.put("authority.uri", new JobParameter(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip"));
+        parameters.put("authority.last.harvested",
+                new JobParameter(Long.toString((TaxonImportingIntegrationTest.PAST_DATETIME.getMillis()))));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job darwinCoreArchiveHarvestingJob = jobLocator
