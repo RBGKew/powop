@@ -121,7 +121,7 @@ public class PhylogeneticTreeJobIntegrationTest {
         parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
         String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
         parameters.put("authority.uri", new JobParameter(
-                repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/phylo/test.nwk"));
+                repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/phylo/test.nwk"));
         parameters.put("authority.last.harvested", new JobParameter(Long.toString((PhylogeneticTreeJobIntegrationTest.PAST_DATETIME.getMillis()))));
         JobParameters jobParameters = new JobParameters(parameters);
 

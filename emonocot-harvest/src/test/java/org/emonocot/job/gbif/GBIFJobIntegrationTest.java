@@ -119,7 +119,7 @@ public class GBIFJobIntegrationTest {
         parameters.put("family", new JobParameter("Araceae"));
         parameters.put("authority.name", new JobParameter("test"));
         String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
-        parameters.put("authority.uri", new JobParameter(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/gbif/list.xml&startindex="));
+        parameters.put("authority.uri", new JobParameter(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/gbif/list.xml&startindex="));
         
         //parameters.put("authority.uri", new JobParameter("http://data.gbif.org/ws/rest/occurrence/list?taxonconceptkey=6979&maxresults=1000&typesonly=true&format=darwin&mode=raw&startindex="));
         parameters.put("authority.last.harvested",

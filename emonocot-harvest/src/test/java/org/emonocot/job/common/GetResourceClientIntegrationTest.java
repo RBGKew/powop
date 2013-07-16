@@ -63,7 +63,7 @@ public class GetResourceClientIntegrationTest {
         String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
+                .getResource(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
                         Long.toString(PAST_DATETIME.getMillis()),
                         tempFile.getAbsolutePath());
 
@@ -85,7 +85,7 @@ public class GetResourceClientIntegrationTest {
         String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource(repository + "?p=emonocot.git;a=blob;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
+                .getResource(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
                         Long.toString(new Date().getTime() - 60000L),
                         tempFile.getAbsolutePath());
 
