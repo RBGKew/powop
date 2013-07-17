@@ -141,7 +141,7 @@ Scenario: Textual Citations
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
   Then the citation for the "Diagnostic Description" topic should be "B1"
   And the bibliography entry "1" should be "1 Sp. Pl. (1753): 1 304pp"
-  And the provenance entry "C" should be "C Rights3 License3"
+  And the provenance entry "C" should be "C All Rights Reserved"
   
 Scenario: Information from
   Informations in the taxon pages can come from different source systems, and these should be displayed
