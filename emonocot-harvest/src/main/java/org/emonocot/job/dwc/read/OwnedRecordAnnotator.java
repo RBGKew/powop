@@ -75,11 +75,11 @@ public class OwnedRecordAnnotator extends AbstractRecordAnnotator implements Tas
 		Map<String, Object> queryParameters = new HashMap<String, Object>();
 
 		if (subsetValue != null) {
-			queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, :annotatedObjType, :jobId, :dateTime, :authorityId, 'Warn', 'Absent', :annotatedObjType from #annotatedObjType o join taxon t on (o.taxon_id = t.id) left join taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)";
+			queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from #annotatedObjType o join taxon t on (o.taxon_id = t.id) left join taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)";
 			queryString = queryString.replaceAll("#subsetRank", subsetRank);
 			queryParameters.put("subsetValue", subsetValue);
 		} else {
-			queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, :annotatedObjType, :jobId, :dateTime, :authorityId, 'Warn', 'Absent', :annotatedObjType from #annotatedObjType o where o.authority_id = :authorityId";
+			queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from #annotatedObjType o where o.authority_id = :authorityId";
 		}
 
 		queryString = queryString.replaceAll("#annotatedObjType", annotatedObjType);

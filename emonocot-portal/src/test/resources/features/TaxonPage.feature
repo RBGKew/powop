@@ -139,7 +139,7 @@ Scenario: Textual Citations
   bibliography at the bottom of the page. At the bottom of the page, there should be the 
   bibliography with the references listed in full.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
-  Then the citation for the "Diagnostic Description" topic should be "C1"
+  Then the citation for the "Diagnostic Description" topic should be "B1"
   And the bibliography entry "1" should be "1 Sp. Pl. (1753): 1 304pp"
   And the provenance entry "C" should be "C Rights3 License3"
   
@@ -148,7 +148,7 @@ Scenario: Information from
   in the organisation section at the bottom of the page. There should be also license and rights statements.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=197
   When I navigate to taxon page "urn:kew.org:wcs:taxon:2295"
-  Then the provenance entry "B" should be "B Rights2 License2"
+  Then the provenance entry "B" should be "B Rights3 License3"
 
 Scenario: Bibliography
   Taxa can have general references as well, and these should be displayed in the bibliography

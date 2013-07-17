@@ -114,10 +114,12 @@ public class Taxon extends SearchableObject {
 	private Reference nameAccordingTo;
 
 	private List<Taxon> higherClassification = null;
+	
+    private Taxon originalNameUsage;
+	
+	private Set<Taxon> subsequentNameUsages = new HashSet<Taxon>();
 
 	private Taxon parentNameUsage;
-
-	private Taxon originalNameUsage;
 
 	private Set<Taxon> childNameUsages = new HashSet<Taxon>();
 
@@ -284,6 +286,23 @@ public class Taxon extends SearchableObject {
 	 */
 	public void setChildNameUsages(Set<Taxon> newChildren) {
 		this.childNameUsages = newChildren;
+	}
+	
+	/**
+	 * @return Get the subsequent usages of this name
+	 */
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "originalNameUsage")
+	@JsonIgnore
+	public Set<Taxon> getSubsequentNameUsages() {
+		return subsequentNameUsages;
+	}
+
+	/**
+	 * @param subsequentNameUsages
+	 *            Set the subsequent usages of this name
+	 */
+	public void setSubsequentNameUsages(Set<Taxon> subsequentNameUsages) {
+		this.subsequentNameUsages = subsequentNameUsages;
 	}
 
 	/**

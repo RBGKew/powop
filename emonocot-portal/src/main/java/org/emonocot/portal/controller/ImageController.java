@@ -48,7 +48,7 @@ public class ImageController extends GenericController<Image, ImageService> {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public final String show(@PathVariable final Long id, final Model model) {
-        Image image = getService().load(id);
+        Image image = getService().load(id,"image-page");
         model.addAttribute(image);
         queryLog.info("Image: \'{}\'", new Object[] {id});
         return "image/show";

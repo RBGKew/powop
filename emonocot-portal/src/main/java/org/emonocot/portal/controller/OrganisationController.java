@@ -97,7 +97,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Organisation");
 		Page<Organisation> result = getService().search(query, null, limit, start, 
-				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, null);
+				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, "source-with-jobs");
 		model.addAttribute("result", result);
 		result.putParam("query", query);
 		return "organisation/list";

@@ -162,7 +162,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<!-- TODO: Exclude when we migrate to postgis -->
 		 <dependency>
 		    <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-mysql</artifactId>
@@ -171,11 +170,10 @@
 	        <groupId>postgresql</groupId>
 	        <artifactId>postgresql</artifactId>
 	    </dependency>
-	    <!-- TODO: Include when we migrate to postgis -->
-	    <!--<dependency>
+	    <dependency>
 			<groupId>org.hibernatespatial</groupId>
 			<artifactId>hibernate-spatial-postgis</artifactId>
-		</dependency>-->
+		</dependency>
 	    <dependency>
 			<groupId>org.postgis</groupId>
 			<artifactId>postgis-jdbc</artifactId>

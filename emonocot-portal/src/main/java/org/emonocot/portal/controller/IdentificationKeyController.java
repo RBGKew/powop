@@ -43,7 +43,7 @@ public class IdentificationKeyController extends GenericController<Identificatio
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public String getPage(@PathVariable Long id,
             Model model) {
-        IdentificationKey key = getService().load(id);
+        IdentificationKey key = getService().load(id,"object-page");
         model.addAttribute(key); 
         queryLog.info("IdentificationKey: \'{}\'", new Object[] {id});
         return "key/show";

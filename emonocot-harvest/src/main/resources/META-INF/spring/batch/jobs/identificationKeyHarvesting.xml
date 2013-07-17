@@ -40,8 +40,7 @@
 		<batch:step id="processTaxonNamesLucid">
 			<batch:description>Process the records</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="lucidTaxonNameReader" processor="lucidTaxonNameProcessor"
-					writer="taxonNameWriter" commit-interval="10">
+				<batch:chunk reader="lucidTaxonNameReader" processor="lucidTaxonNameProcessor"	writer="taxonNameWriter" commit-interval="10">
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="processImages" />

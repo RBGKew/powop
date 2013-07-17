@@ -90,7 +90,7 @@ public class SearchController {
 			String sort, Map<String, String> selectedFacets) throws SolrServerException {
 		Page<? extends SearchableObject> result = searchableObjectService
 				.search(query, spatial, limit, start, responseFacets,
-						facetPrefixes, selectedFacets, sort, null);
+						facetPrefixes, selectedFacets, sort, "taxon-with-image");
 		queryLog.info("Query: \'{}\', start: {}, limit: {},"
 				+ "facet: [{}], {} results", new Object[] { query, start,
 				limit, selectedFacets, result.getSize() });

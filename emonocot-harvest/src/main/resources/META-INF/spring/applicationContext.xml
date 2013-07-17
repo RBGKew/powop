@@ -114,7 +114,7 @@
 		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
 	
-	<integration:service-activator input-channel="indexingChannel" expression="@solrIndexer.index(payload['id'],'org.emonocot.model.Comment')" />
+	<integration:service-activator input-channel="indexingChannel" expression="@commentServiceImpl.index(payload['id'])" />
 	
 	<bean id="solrIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter">
       <property name="sessionFactory" ref="sessionFactory" />

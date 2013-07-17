@@ -113,9 +113,12 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet author="emonocot" id="1361549992239-173">
+        <createSequence schemaName="emonocot" sequenceName="hibernate_sequence"/>
+    </changeSet>
     <changeSet author="emonocot" id="1361549992239-5">
         <createTable tableName="annotation">
-            <column name="id" autoIncrement="true" type="bigserial">
+            <column name="id" type="int8" defaultValueComputed="nextval('hibernate_sequence')">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="annotation_pkey"/>
             </column>
             <column name="annotatedobjtype" type="VARCHAR(255)"/>
@@ -1463,9 +1466,6 @@
             <column name="sched_name"/>
             <column name="trigger_state"/>
         </createIndex>
-    </changeSet>
-    <changeSet author="emonocot" id="1361549992239-173">
-        <createSequence schemaName="emonocot" sequenceName="hibernate_sequence"/>
     </changeSet>
     <changeSet author="emonocot" id="1361870135086-185">
         <createSequence schemaName="emonocot" sequenceName="batch_job_execution_seq"/>

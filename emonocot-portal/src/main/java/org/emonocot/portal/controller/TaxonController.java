@@ -49,7 +49,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
      */
     @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public String show(@PathVariable String identifier, Model model) {
-        model.addAttribute(getService().load(identifier,"taxon-page"));
+        model.addAttribute(getService().load(identifier,"object-page"));
         model.addAttribute("present", OccurrenceStatus.Present);
         model.addAttribute("absent", OccurrenceStatus.Absent);
         model.addAttribute("nativ", EstablishmentMeans.Native); // native is a keyword in java so we can't use it as a JSP variable, at least in tomcat 

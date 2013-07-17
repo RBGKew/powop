@@ -29,7 +29,7 @@ public class IndexController {
 		Map<String, String> selectedFacets = new HashMap<String, String>();		
 		selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
 		selectedFacets.put("comment.status_t", "SENT");
-		Page<Comment> result = commentService.search(null, null, 5, 0, null, null, selectedFacets, "comment.created_dt_desc", null);
+		Page<Comment> result = commentService.search(null, null, 5, 0, null, null, selectedFacets, "comment.created_dt_desc", "aboutData");
 		uiModel.addAttribute("comments", result);
 		return "index";
 	}

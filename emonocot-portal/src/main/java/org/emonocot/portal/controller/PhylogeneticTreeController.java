@@ -43,7 +43,7 @@ public class PhylogeneticTreeController extends GenericController<PhylogeneticTr
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public String getPage(@PathVariable Long id,
             Model model) {
-        PhylogeneticTree tree = getService().load(id);
+        PhylogeneticTree tree = getService().load(id,"object-page");
         model.addAttribute(tree); 
         queryLog.info("PhylogeneticTree: \'{}\'", new Object[] {id});
         return "phylo/show";

@@ -1026,7 +1026,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="Image"/>
-		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, :dateTime, :authorityId, 'Warn', 'Absent', :annotatedObjType from Image o join Taxon_Image o_t on (o.id = o_t.images_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from Image o join Taxon_Image o_t on (o.id = o_t.images_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
 		<property name="family" value="#{jobParameters['family']}" />
         <property name="subfamily" value="#{jobParameters['subfamily']}" />
         <property name="tribe" value="#{jobParameters['tribe']}" />
@@ -1158,7 +1158,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="Reference"/>
-		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, :dateTime, :authorityId, 'Warn', 'Absent', :annotatedObjType from Reference o join Taxon_Reference o_t on (o.id = o_t.references_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from Reference o join Taxon_Reference o_t on (o.id = o_t.references_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
 		<property name="family" value="#{jobParameters['family']}" />
         <property name="subfamily" value="#{jobParameters['subfamily']}" />
         <property name="tribe" value="#{jobParameters['tribe']}" />
@@ -1622,7 +1622,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="TypeAndSpecimen"/>
-		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, :dateTime, :authorityId, 'Warn', 'Absent', :annotatedObjType from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from TypeAndSpecimen o join Taxon_TypeAndSpecimen o_t on (o.id = o_t.typesAndSpecimens_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
 		<property name="family" value="#{jobParameters['family']}" />
         <property name="subfamily" value="#{jobParameters['subfamily']}" />
         <property name="tribe" value="#{jobParameters['tribe']}" />

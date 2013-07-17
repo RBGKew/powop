@@ -27,7 +27,7 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
         FETCH_PROFILES.put("image-page", new Fetch[] {
                 new Fetch("taxon", FetchMode.JOIN),
                 new Fetch("authority", FetchMode.JOIN),
-                new Fetch("sources", FetchMode.SELECT)
+                new Fetch("comments", FetchMode.SELECT)
                 });
         FETCH_PROFILES.put("image-taxon", new Fetch[] {
                 new Fetch("taxon", FetchMode.JOIN)

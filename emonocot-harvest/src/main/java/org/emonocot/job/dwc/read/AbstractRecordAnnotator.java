@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -37,7 +36,6 @@ public abstract class AbstractRecordAnnotator implements StepExecutionListener {
 		
 		annotationParameters.put("authorityId", authorityId);
 		annotationParameters.put("jobId", stepExecution.getJobExecutionId());
-		annotationParameters.put("dateTime", new DateTime().toDate());   
 
 	    logger.info(annotationQuery);
 	    return jdbcTemplate.update(annotationQuery, annotationParameters);
