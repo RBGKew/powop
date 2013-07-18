@@ -488,7 +488,13 @@
   <xsl:template match="sdd:CategoricalCharacter">
     <xsl:text>{"name":"</xsl:text>
     <xsl:value-of select="sdd:Representation/sdd:Label"/>
-    <xsl:text>","type":"UM", "id":"</xsl:text>
+    <xsl:text>"</xsl:text>
+    <xsl:if test="sdd:Representation/sdd:Detail">
+       <xsl:text>,"description":"</xsl:text>
+       <xsl:value-of select="sdd:Representation/sdd:Detail"/>
+       <xsl:text>"</xsl:text>
+     </xsl:if>
+    <xsl:text>,"type":"UM", "id":"</xsl:text>
     <xsl:variable name="char" select="@id"/>
     <xsl:variable name="character" select="exsl:node-set($character-indexes)/sdd:Character[@id = $char]"/>
     <xsl:value-of select="$character/@position"/>
@@ -520,6 +526,11 @@
      <xsl:text>{"name":"</xsl:text>
      <xsl:value-of select="sdd:Representation/sdd:Label"/>
      <xsl:text>"</xsl:text>
+     <xsl:if test="sdd:Representation/sdd:Detail">
+       <xsl:text>,"description":"</xsl:text>
+       <xsl:value-of select="sdd:Representation/sdd:Detail"/>
+       <xsl:text>"</xsl:text>
+     </xsl:if>
      <xsl:if test="sdd:Representation/sdd:MediaObject">
         <xsl:text>,"images":[</xsl:text>
         <xsl:for-each select="sdd:Representation/sdd:MediaObject">
@@ -573,7 +584,13 @@
   <xsl:template match="sdd:QuantitativeCharacter">
     <xsl:text>{"name":"</xsl:text>
     <xsl:value-of select="sdd:Representation/sdd:Label"/>
-    <xsl:text>","type":"RN","id":"</xsl:text>
+    <xsl:text>"</xsl:text>
+    <xsl:if test="sdd:Representation/sdd:Detail">
+       <xsl:text>,"description":"</xsl:text>
+       <xsl:value-of select="sdd:Representation/sdd:Detail"/>
+       <xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:text>,"type":"RN","id":"</xsl:text>
     <xsl:variable name="char" select="@id"/>
     <xsl:variable name="character" select="exsl:node-set($character-indexes)/sdd:Character[@id = $char]"/>
     <xsl:value-of select="$character/@position"/>

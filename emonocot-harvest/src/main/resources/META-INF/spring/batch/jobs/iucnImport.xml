@@ -149,7 +149,7 @@
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />		
 	</bean>
 	
-	<bean id="checkEmptyResponseTasklet" class="org.emonocot.job.iucn.CheckEmptyResposeTasklet">
+	<bean id="checkEmptyResponseTasklet" class="org.emonocot.job.iucn.CheckEmptyResponseTasklet">
 		<property name="inputFile">
 		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
 			<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
