@@ -40,10 +40,19 @@
 		<batch:step id="markMeasurementOrFactRecords">
 			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
-			<batch:next on="COMPLETED" to="splitJsonFile" />
+			<batch:next on="COMPLETED" to="checkEmptyResponse" />
 			<batch:listeners>
 				<batch:listener ref="markMeasurementOrFactRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="checkEmptyResponse">
+			<batch:description>The JSON file from the IUCN</batch:description>
+			<batch:tasklet ref="checkEmptyResponseTasklet" />
+			<batch:next on="EMPTY_RESPONSE" to="deleteAbsentMeasurementOrFacts" />
+			<batch:next on="COMPLETED" to="splitJsonFile" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="splitJsonFile">
@@ -138,6 +147,14 @@
 		<property name="subfamily" value="#{jobParameters['subfamily']}" />
 		<property name="tribe" value="#{jobParameters['tribe']}" />
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />		
+	</bean>
+	
+	<bean id="checkEmptyResponseTasklet" class="org.emonocot.job.iucn.CheckEmptyResposeTasklet">
+		<property name="inputFile">
+		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+		  </bean>
+		</property>		
 	</bean>
 	
 	<bean id="splitOneLineJsonTasklet" class="org.emonocot.job.iucn.SplitOneLineJsonFileTasklet">
