@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -103,6 +104,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         if (facets != null && facets.length != 0) {
         	solrQuery.setFacet(true);
         	solrQuery.setFacetMinCount(1);
+        	solrQuery.setFacetMissing(true);
         	solrQuery.setFacetSort(FacetParams.FACET_SORT_INDEX);
         	for(String facet : facets) {
         		if(facet.endsWith("_dt")) {
@@ -420,7 +422,12 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         
         if(selectedFacets != null && !selectedFacets.isEmpty()) {
             for(String facetName : selectedFacets.keySet()) {
-                solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+                String facetValue = selectedFacets.get(facetName);
+                if(StringUtils.isNotEmpty(facetValue)) {
+                    solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+                } else {//Subtract/Exclude documents with any value for the facet
+                    solrQuery.addFilterQuery("-" + facetName + ":[* TO *]");
+                }
             }
         }
         

@@ -99,26 +99,30 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="facet" begin="0" end="4" step="1" items="${facetField.values}">
-						<menu:facetValue  facetName="${facetName}" 
-							facetValue="${facet.name}"
-							facetCount="${facet.count}"
-							pager="${pager}"
-							url="${url}"
-							checked="${false}"
-							facetField="${facet}"
-							showIcons="${showIcons}"/>
+					    <c:if test="${facet.count gt 0}">
+							<menu:facetValue  facetName="${facetName}" 
+								facetValue="${facet.name}"
+								facetCount="${facet.count}"
+								pager="${pager}"
+								url="${url}"
+								checked="${false}"
+								facetField="${facet}"
+								showIcons="${showIcons}"/>
+						</c:if>
 					</c:forEach>
 					<c:if test="${facetField.valueCount gt 5}">
 						<div id="${em:escapeHtmlIdentifier(facetName)}-collapse" class="collapse">
 							<c:forEach var="facet" begin="5" items="${facetField.values}">
-								<menu:facetValue  facetName="${facetName}" 
-									facetValue="${facet.name}"
-									facetCount="${facet.count}"
-									pager="${pager}"
-									url="${url}"
-									checked="${false}"
-									facetField="${facet}"
-									showIcons="${showIcons}"/>
+		                        <c:if test="${facet.count gt 0}">
+		                            <menu:facetValue  facetName="${facetName}" 
+		                                facetValue="${facet.name}"
+		                                facetCount="${facet.count}"
+		                                pager="${pager}"
+		                                url="${url}"
+		                                checked="${false}"
+		                                facetField="${facet}"
+		                                showIcons="${showIcons}"/>
+		                        </c:if>
 							</c:forEach>
 						</div>
 						<a id="${em:escapeHtmlIdentifier(facetName)}-collapse-link"
@@ -139,14 +143,16 @@
 					<noscript>
 						<c:if test="${facetField.valueCount gt 5}">
 							<c:forEach var="facet" begin="5" items="${facetField.values}">
-								<menu:facetValue  facetName="${facetName}" 
-									facetValue="${facet.name}"
-									facetCount="${facet.count}"
-									pager="${pager}"
-									url="${url}"
-									checked="${false}"
-									facetField="${facet}"
-									showIcons="${showIcons}"/>
+		                        <c:if test="${facet.count gt 0}">
+		                            <menu:facetValue  facetName="${facetName}" 
+		                                facetValue="${facet.name}"
+		                                facetCount="${facet.count}"
+		                                pager="${pager}"
+		                                url="${url}"
+		                                checked="${false}"
+		                                facetField="${facet}"
+		                                showIcons="${showIcons}"/>
+		                        </c:if>
 							</c:forEach>
 						</c:if>
 					</noscript>
