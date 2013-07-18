@@ -74,7 +74,11 @@ function characterModal(characterId, key) {
             var imageId = image.href.substring(0,image.href.indexOf('.'));
             body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
             var description = !Key.isUndefined(image.description) ? image.description : '';
-            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + image.caption + "' data-description='" + description + "'/></a></li><br/>";
+            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + image.caption + "' data-description='" + description + "'/></a>";
+            if(!Key.isUndefined(state.description)) {
+           	   body += state.description;
+            }
+            body += "</li><br/>";
             for(var j =0; j < state.images.length; j++) {
            	 imageIndex++;
             }
