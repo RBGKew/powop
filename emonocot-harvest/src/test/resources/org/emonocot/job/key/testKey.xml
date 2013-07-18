@@ -375,37 +375,31 @@
       <DescriptiveConcept id="dc2" debuglabel="80:Peduncle">
         <Representation>
           <Label>Peduncle</Label>
-          <MediaObject ref="m30" debuglabel="132:Images/Peduncle.jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc3" debuglabel="82:Spadix">
         <Representation>
           <Label>Spadix</Label>
-          <MediaObject ref="m31" debuglabel="222:Images/amended spadix.jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc4" debuglabel="83:appendix">
         <Representation>
           <Label>appendix</Label>
-          <MediaObject ref="m32" debuglabel="133:Images/appendix length.jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc5" debuglabel="112:staminate flowers">
         <Representation>
           <Label>staminate flowers</Label>
-          <MediaObject ref="m33" debuglabel="202:Images/Anthers.jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc6" debuglabel="120:Spathe">
         <Representation>
           <Label>Spathe</Label>
-          <MediaObject ref="m34" debuglabel="208:Images/Spathe length.jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc7" debuglabel="122:Limb">
         <Representation>
           <Label>Limb</Label>
-          <MediaObject ref="m35" debuglabel="213:Images/spathe limb .jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc8" debuglabel="123:Colour">
@@ -416,7 +410,6 @@
       <DescriptiveConcept id="dc9" debuglabel="137:Tube">
         <Representation>
           <Label>Tube</Label>
-          <MediaObject ref="m36" debuglabel="214:Images/spathe tube.jpg"/>
         </Representation>
       </DescriptiveConcept>
       <DescriptiveConcept id="dc10" debuglabel="138:colour">
@@ -784,13 +777,11 @@
           <StateDefinition id="s68" debuglabel="72:rhizomatous">
             <Representation>
               <Label>rhizomatous</Label>
-              <MediaObject ref="m37" debuglabel="42:Images/rhizomatous1.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s69" debuglabel="73:discoid">
             <Representation>
               <Label>discoid</Label>
-              <MediaObject ref="m38" debuglabel="221:Images/Discoid tuber1.jpg"/>
             </Representation>
           </StateDefinition>
         </States>
@@ -803,25 +794,21 @@
           <StateDefinition id="s70" debuglabel="75:Much shorter than leaves">
             <Representation>
               <Label>Much shorter than leaves</Label>
-              <MediaObject ref="m39" debuglabel="49:Images/peduncle much shorter.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s71" debuglabel="76:Shorter than leaves">
             <Representation>
               <Label>Shorter than leaves</Label>
-              <MediaObject ref="m40" debuglabel="53:Images/peduncle shorter.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s72" debuglabel="77:equal to leaves">
             <Representation>
               <Label>equal to leaves</Label>
-              <MediaObject ref="m41" debuglabel="98:Images/peduncle equal1.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s73" debuglabel="78:Exceeding leaves">
             <Representation>
               <Label>Exceeding leaves</Label>
-              <MediaObject ref="m42" debuglabel="131:Images/peduncle longer2.jpg"/>
             </Representation>
           </StateDefinition>
         </States>
@@ -874,19 +861,16 @@
           <StateDefinition id="s79" debuglabel="91:clavate">
             <Representation>
               <Label>clavate</Label>
-              <MediaObject ref="m43" debuglabel="134:Images/clavate.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s80" debuglabel="92:cylindric or conic-cylindric">
             <Representation>
               <Label>cylindric or conic-cylindric</Label>
-              <MediaObject ref="m44" debuglabel="141:Images/cylindric.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s81" debuglabel="93:fusiform">
             <Representation>
               <Label>fusiform</Label>
-              <MediaObject ref="m45" debuglabel="207:Images/fusiform.jpg"/>
             </Representation>
           </StateDefinition>
         </States>
@@ -924,19 +908,16 @@
           <StateDefinition id="s84" debuglabel="99:long">
             <Representation>
               <Label>long</Label>
-              <MediaObject ref="m46" debuglabel="143:Images/stipe long.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s85" debuglabel="100:short">
             <Representation>
               <Label>short</Label>
-              <MediaObject ref="m47" debuglabel="145:Images/stipe short.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s86" debuglabel="101:absent">
             <Representation>
               <Label>absent</Label>
-              <MediaObject ref="m48" debuglabel="154:Images/stipe absent.jpg"/>
             </Representation>
           </StateDefinition>
         </States>
@@ -949,25 +930,21 @@
           <StateDefinition id="s87" debuglabel="103:spadix 1/4 to 1/2 as long as spathe-limb">
             <Representation>
               <Label>spadix 1/4 to 1/2 as long as spathe-limb</Label>
-              <MediaObject ref="m49" debuglabel="204:Images/relative spadix lengths quarter.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s88" debuglabel="104:spadix c. 1/2 as long as spathe-limb">
             <Representation>
               <Label>spadix c. 1/2 as long as spathe-limb</Label>
-              <MediaObject ref="m50" debuglabel="205:Images/relative spadix length half.jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s89" debuglabel="105:spadix more than 1/2 as long to subequal to spathe-limb">
             <Representation>
               <Label>spadix more than 1/2 as long to subequal to spathe-limb</Label>
-              <MediaObject ref="m51" debuglabel="179:Images/relative spadix lengths .jpg"/>
             </Representation>
           </StateDefinition>
           <StateDefinition id="s90" debuglabel="106:spadix subequal to longer than spathe-limb">
             <Representation>
               <Label>spadix subequal to longer than spathe-limb</Label>
-              <MediaObject ref="m52" debuglabel="206:Images/relative spadix lengths longer.jpg"/>
             </Representation>
           </StateDefinition>
         </States>
@@ -975,7 +952,6 @@
       <QuantitativeCharacter id="c12" debuglabel="107:total spadix length">
         <Representation>
           <Label>total spadix length</Label>
-          <MediaObject ref="m53" debuglabel="217:Images/spadix length.jpg"/>
         </Representation>
         <MeasurementUnit>
           <Label role="Full">cm</Label>
@@ -984,7 +960,6 @@
       <CategoricalCharacter id="c13" debuglabel="108:pistillodes">
         <Representation>
           <Label>pistillodes</Label>
-          <MediaObject ref="m54" debuglabel="198:Images/Pistillodes.jpg"/>
         </Representation>
         <States>
           <StateDefinition id="s91" debuglabel="109:absent">
@@ -1023,8 +998,7 @@
       </CategoricalCharacter>
       <CategoricalCharacter id="c15" debuglabel="116:staminodes">
         <Representation>
-          <Label>staminodes</Label>
-          <MediaObject ref="m55" debuglabel="203:Images/Staminodes.jpg"/>
+          <Label>staminodes</Label>          
         </Representation>
         <States>
           <StateDefinition id="s96" debuglabel="117:absent">
@@ -1055,7 +1029,6 @@
       <CategoricalCharacter id="c17" debuglabel="124:inside">
         <Representation>
           <Label>inside</Label>
-          <MediaObject ref="m56" debuglabel="212:Images/spathe limb inside.jpg"/>
         </Representation>
         <States>
           <StateDefinition id="s99" debuglabel="125:crimson">
@@ -1092,8 +1065,7 @@
       </CategoricalCharacter>
       <CategoricalCharacter id="c18" debuglabel="131:outside">
         <Representation>
-          <Label>outside</Label>
-          <MediaObject ref="m57" debuglabel="211:Images/spathe limb outside.jpg"/>
+          <Label>outside</Label>          
         </Representation>
         <States>
           <StateDefinition id="s105" debuglabel="132:mid green">
@@ -1126,7 +1098,6 @@
       <CategoricalCharacter id="c19" debuglabel="139:inside">
         <Representation>
           <Label>inside</Label>
-          <MediaObject ref="m58" debuglabel="218:Images/Spathe tube inside.jpg"/>
         </Representation>
         <States>
           <StateDefinition id="s110" debuglabel="140:bicoloured - greenish white below, purple above">
@@ -1160,7 +1131,6 @@
       <CategoricalCharacter id="c20" debuglabel="145:outside">
         <Representation>
           <Label>outside</Label>
-          <MediaObject ref="m59" debuglabel="219:Images/Spathe tube outside.jpg"/>
         </Representation>
         <States>
           <StateDefinition id="s115" debuglabel="146:green">
@@ -5215,7 +5185,7 @@
             </Representation>
        </Agent>
     </Agents>
-    <MediaObjects>
+    <MediaObjects/>
       <MediaObject id="m1" debuglabel="166:http://www.cate-araceae.org/taxonomy/Arum/apulum/Index.do">
         <Representation>
           <Label>No caption</Label>
@@ -5376,253 +5346,14 @@
         </Representation>
         <Type>Text</Type>
         <Source href="http://www.cate-araceae.org/taxonomy/Arum/balansanum/Index.do"/>
-      </MediaObject>
-      <MediaObject id="m30" debuglabel="132:Images/Peduncle.jpg">
-        <Representation>
-          <Label>Peduncle</Label>
-          <Detail role="Caption">Measure the distance from the tuber to the base of the spathe.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Peduncle.jpg"/>
-      </MediaObject>
-      <MediaObject id="m31" debuglabel="222:Images/amended spadix.jpg">
-        <Representation>
-          <Label>Spadix</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/amended spadix.jpg"/>
-      </MediaObject>
-      <MediaObject id="m32" debuglabel="133:Images/appendix length.jpg">
-        <Representation>
-          <Label>Spadix appendix</Label>
-          <Detail role="Caption">The smooth sterile portion of the spadix.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/appendix length.jpg"/>
-      </MediaObject>
-      <MediaObject id="m33" debuglabel="202:Images/Anthers.jpg">
-        <Representation>
-          <Label>Staminate flowers and anthers</Label>
-          <Detail role="Caption">Look for the anther colour in young inflorescences before anthesis (colour from living plants)</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Anthers.jpg"/>
-      </MediaObject>
-      <MediaObject id="m34" debuglabel="208:Images/Spathe length.jpg">
-        <Representation>
-          <Label>Entire spathe length</Label>
-          <Detail role="Caption">Measure from the base of the spathe to the tip</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Spathe length.jpg"/>
-      </MediaObject>
-      <MediaObject id="m35" debuglabel="213:Images/spathe limb .jpg">
-        <Representation>
-          <Label>Spathe-limb</Label>
-          <Detail role="Caption">The upper expanded portion of the spathe above the tube</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/spathe limb .jpg"/>
-      </MediaObject>
-      <MediaObject id="m36" debuglabel="214:Images/spathe tube.jpg">
-        <Representation>
-          <Label>Spathe-tube</Label>
-          <Detail role="Caption">The lower tubular portion of the spathe</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/spathe tube.jpg"/>
-      </MediaObject>
-      <MediaObject id="m37" debuglabel="42:Images/rhizomatous1.jpg">
-        <Representation>
-          <Label>horizontal-rhizomatous tuber</Label>
-          <Detail role="Caption">growing sideways in the manner of a bearded Iris, in time forming spreading colonies.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/rhizomatous1.jpg"/>
-      </MediaObject>
-      <MediaObject id="m38" debuglabel="221:Images/Discoid tuber1.jpg">
-        <Representation>
-          <Label>Vertical discoid tuber</Label>
-          <Detail role="Caption">Similar to a tuberous-rooted Begonia in shape. Has a central growth point, and may be orientated vertically or horizontally.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Discoid tuber1.jpg"/>
-      </MediaObject>
-      <MediaObject id="m39" debuglabel="49:Images/peduncle much shorter.jpg">
-        <Representation>
-          <Label>Peduncle much shorter than leaves</Label>
-          <Detail role="Caption">"Cryptic species" inflorescence held at ground level, far below the leaves</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/peduncle much shorter.jpg"/>
-      </MediaObject>
+      </MediaObject>      
       <MediaObject id="m4" debuglabel="194:http://www.cate-araceae.org/taxonomy/Arum/besserianum/Index.do">
         <Representation>
           <Label>No caption</Label>
         </Representation>
         <Type>Text</Type>
         <Source href="http://www.cate-araceae.org/taxonomy/Arum/besserianum/Index.do"/>
-      </MediaObject>
-      <MediaObject id="m40" debuglabel="53:Images/peduncle shorter.jpg">
-        <Representation>
-          <Label>Peduncle shorter than leaves</Label>
-          <Detail role="Caption">"Cryptic species" inflorescence held below the leaves</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/peduncle shorter.jpg"/>
-      </MediaObject>
-      <MediaObject id="m41" debuglabel="98:Images/peduncle equal1.jpg">
-        <Representation>
-          <Label>Peduncle equal to leaves</Label>
-          <Detail role="Caption">Inflorescence held equal to the leaves</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/peduncle equal1.jpg"/>
-      </MediaObject>
-      <MediaObject id="m42" debuglabel="131:Images/peduncle longer2.jpg">
-        <Representation>
-          <Label>Peduncle exceeding the leaves</Label>
-          <Detail role="Caption">"Flag" species, inflorescence held above the leaves</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/peduncle longer2.jpg"/>
-      </MediaObject>
-      <MediaObject id="m43" debuglabel="134:Images/clavate.jpg">
-        <Representation>
-          <Label>Spadix appendix clavate</Label>
-          <Detail role="Caption">Spadix appendix clavate or club-shaped</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/clavate.jpg"/>
-      </MediaObject>
-      <MediaObject id="m44" debuglabel="141:Images/cylindric.jpg">
-        <Representation>
-          <Label>Spadix appendix cylindric or conic-cylindric</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/cylindric.jpg"/>
-      </MediaObject>
-      <MediaObject id="m45" debuglabel="207:Images/fusiform.jpg">
-        <Representation>
-          <Label>Fusiform</Label>
-          <Detail role="Caption">Swollen at middle and tapering  to each end like a spindle.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/fusiform.jpg"/>
-      </MediaObject>
-      <MediaObject id="m46" debuglabel="143:Images/stipe long.jpg">
-        <Representation>
-          <Label>Appendix stipe long</Label>
-          <Detail role="Caption">Sterile spadix appendix narrowing abruptly into a long stipe or stalk</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/stipe long.jpg"/>
-      </MediaObject>
-      <MediaObject id="m47" debuglabel="145:Images/stipe short.jpg">
-        <Representation>
-          <Label>Appendix stipe short</Label>
-          <Detail role="Caption">Sterile spadix appendix narrowing abruptly into a short stipe or stalk</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/stipe short.jpg"/>
-      </MediaObject>
-      <MediaObject id="m48" debuglabel="154:Images/stipe absent.jpg">
-        <Representation>
-          <Label>Appendix stipe absent</Label>
-          <Detail role="Caption">Sterile spadix appendix stalkless or tapering gradually towards the base</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/stipe absent.jpg"/>
-      </MediaObject>
-      <MediaObject id="m49" debuglabel="204:Images/relative spadix lengths quarter.jpg">
-        <Representation>
-          <Label>Spadix ¼ to ½ as long as spathe-limb</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/relative spadix lengths quarter.jpg"/>
-      </MediaObject>
-      <MediaObject id="m5" debuglabel="195:http://www.cate-araceae.org/taxonomy/Arum/byzantinum/Index.do">
-        <Representation>
-          <Label>No caption</Label>
-        </Representation>
-        <Type>Text</Type>
-        <Source href="http://www.cate-araceae.org/taxonomy/Arum/byzantinum/Index.do"/>
-      </MediaObject>
-      <MediaObject id="m50" debuglabel="205:Images/relative spadix length half.jpg">
-        <Representation>
-          <Label>Spadix c. ½ as long as spathe-limb</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/relative spadix length half.jpg"/>
-      </MediaObject>
-      <MediaObject id="m51" debuglabel="179:Images/relative spadix lengths .jpg">
-        <Representation>
-          <Label>Spadix more than ½ as long to sub-equal to spthe-limb</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/relative spadix lengths .jpg"/>
-      </MediaObject>
-      <MediaObject id="m52" debuglabel="206:Images/relative spadix lengths longer.jpg">
-        <Representation>
-          <Label>Spadix sub-equal to longer than spathe-limb</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/relative spadix lengths longer.jpg"/>
-      </MediaObject>
-      <MediaObject id="m53" debuglabel="217:Images/spadix length.jpg">
-        <Representation>
-          <Label>Total spadix length</Label>
-          <Detail role="Caption">Measure from the base of spadix to the tip</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/spadix length.jpg"/>
-      </MediaObject>
-      <MediaObject id="m54" debuglabel="198:Images/Pistillodes.jpg">
-        <Representation>
-          <Label>Pistillodes</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Pistillodes.jpg"/>
-      </MediaObject>
-      <MediaObject id="m55" debuglabel="203:Images/Staminodes.jpg">
-        <Representation>
-          <Label>Staminodes</Label>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Staminodes.jpg"/>
-      </MediaObject>
-      <MediaObject id="m56" debuglabel="212:Images/spathe limb inside.jpg">
-        <Representation>
-          <Label>Spathe-limb inside</Label>
-          <Detail role="Caption">The main base colour of the spathe-limb within. If unsure choose all that apply.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/spathe limb inside.jpg"/>
-      </MediaObject>
-      <MediaObject id="m57" debuglabel="211:Images/spathe limb outside.jpg">
-        <Representation>
-          <Label>Spathe-limb outside</Label>
-          <Detail role="Caption">The main base colour on the outside of the spathe-limb. If unsure choose all that apply.</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/spathe limb outside.jpg"/>
-      </MediaObject>
-      <MediaObject id="m58" debuglabel="218:Images/Spathe tube inside.jpg">
-        <Representation>
-          <Label>Spathe-tube inside</Label>
-          <Detail role="Caption">The colour within the spathe-tube. If unsure, choose all that apply</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Spathe tube inside.jpg"/>
-      </MediaObject>
-      <MediaObject id="m59" debuglabel="219:Images/Spathe tube outside.jpg">
-        <Representation>
-          <Label>Spathe-tube outside</Label>
-          <Detail role="Caption">The colour on the outside of the spathe-tube. If unsure choose all that apply</Detail>
-        </Representation>
-        <Type>Image</Type>
-        <Source href="http://build.e-monocot.org/test/testKey/Spathe tube outside.jpg"/>
-      </MediaObject>
+      </MediaObject>      
       <MediaObject id="m6" debuglabel="196:http://www.cate-araceae.org/taxonomy/Arum/concinnatum/Index.do">
         <Representation>
           <Label>No caption</Label>

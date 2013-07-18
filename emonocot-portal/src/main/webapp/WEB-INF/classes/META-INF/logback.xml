@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <if condition='property("spring.profiles.active").equals("local")'>
-    <then>
-      <property resource="META-INF/spring/local.properties" />
-    </then>
-    <else>
-      <property resource="META-INF/spring/application.properties" />
-    </else>
-  </if>
+  <property resource="META-INF/spring/application.properties" />
   <appender name="database" class="ch.qos.logback.classic.db.DBAppender">
     <connectionSource
       class="ch.qos.logback.core.db.DataSourceConnectionSource">

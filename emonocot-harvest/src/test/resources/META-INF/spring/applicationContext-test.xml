@@ -11,9 +11,9 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/*.properties" />
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
     
-    <context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+    <context:property-placeholder location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
     
 	<integration:outbound-channel-adapter channel="enrichedCommentChannel" ref="testMessageHandler" method="handle" />
 	<integration:outbound-channel-adapter channel="indexingChannel" ref="testMessageHandler" method="ignore" />
@@ -141,7 +141,7 @@
         <property name="sourceName" value="#{jobParameters['authority.name']}" />
         <property name="sessionFactory" ref="sessionFactory" />
         <property name="transactionManager" ref="transactionManager" />
-        <property name="jobId" value="#{jobExecutionContext.jobId}"></property>
+        <property name="jobId" value="#{jobExecutionContext['job.execution.id']}"></property>
     </bean>
 	
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>

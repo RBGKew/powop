@@ -7,7 +7,7 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 	                    
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-harvest.conf"/>
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
 	<context:annotation-config />
 
 	<batch:job id="IUCNImport">
