@@ -194,6 +194,38 @@ public class SearchController {
 			} else {
 				selectedFacets.remove("taxon.distribution_TDWG_1_ss");
 			}
+			if(selectedFacets.containsKey("taxon.family_ss")) {
+			    if(selectedFacets.containsKey("taxon.subfamily_s")){
+			        if(selectedFacets.containsKey("taxon.tribe_s")) {
+			            if(selectedFacets.containsKey("taxon.subtribe_s")) {
+			                responseFacetList.add(2, "taxon.genus_s");
+			                responseFacetList.add(2, "taxon.subtribe_s");
+			                responseFacetList.add(2, "taxon.tribe_s");
+		                    responseFacetList.add(2, "taxon.subfamily_s");
+			            } else {
+                            responseFacetList.add(2, "taxon.subtribe_s");
+                            responseFacetList.add(2, "taxon.tribe_s");
+                            responseFacetList.add(2, "taxon.subfamily_s");
+                            selectedFacets.remove("taxon.genus_s");
+                        }
+			        } else {
+                        responseFacetList.add(2, "taxon.tribe_s");
+                        responseFacetList.add(2, "taxon.subfamily_s");
+	                    selectedFacets.remove("taxon.subtribe_s");
+	                    selectedFacets.remove("taxon.genus_s");
+                    }
+			    } else {
+			        responseFacetList.add(2, "taxon.subfamily_s");
+	                selectedFacets.remove("taxon.tribe_s");
+	                selectedFacets.remove("taxon.subtribe_s");
+	                selectedFacets.remove("taxon.genus_s");
+                }
+			} else {
+                selectedFacets.remove("taxon.subfamily_s");
+                selectedFacets.remove("taxon.tribe_s");
+                selectedFacets.remove("taxon.subtribe_s");
+                selectedFacets.remove("taxon.genus_s");
+            }
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
