@@ -30,7 +30,7 @@
  	    // 01/01/70 00:01
  	    $(document).ready(function() {
           $("#_${field}_id").datetimepicker({
-        	  format: "dd/mm/yy hh:ii"
+        	  format: "yyyy-mm-ddThh:ii:ssZ"
           });
  	    });
       </script>

@@ -154,8 +154,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	@RequestMapping(value = "/{organisationId}", produces = "text/html")
 	public String show(@PathVariable String organisationId,
 			Model uiModel) {
-		uiModel.addAttribute(getService().find(organisationId));
-		uiModel.addAttribute("resources", resourceService.list(organisationId, 0, 10));
+		uiModel.addAttribute(getService().find(organisationId,"source-with-jobs"));
 		return "organisation/show";
 	}
 
