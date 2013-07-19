@@ -147,7 +147,8 @@
 					                  <spring:message code="next" />
 				                    </a>
 				                  </li>
-				                </c:otherwise>			
+				                </c:otherwise>
+				              </c:choose>		
 	                        </ul>
 	                      </div>
 	                    </div>
