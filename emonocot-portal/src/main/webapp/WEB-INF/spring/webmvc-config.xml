@@ -11,7 +11,7 @@
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 	    <property name="basenames">
 		    <list>
-		        <value>META-INF/spring/emonocot-portal-messages</value>
+		        <value>classpath:META-INF/spring/emonocot-portal-messages</value>
 				<value>WEB-INF/i18n/messages</value>
 				<value>WEB-INF/i18n/application</value>				
 			</list>
