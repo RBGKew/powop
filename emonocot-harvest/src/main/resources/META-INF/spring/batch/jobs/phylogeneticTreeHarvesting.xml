@@ -114,6 +114,7 @@
 		<property name="baseUri" value="${portal.baseUrl}"/>
 		<property name="taxonMatcher" ref="taxonMatcher" />
 		<property name="phylogeneticTreeService" ref="phylogeneticTreeServiceImpl" />
+		<property name="solrIndexingListener" ref="solrIndexingListener"/>
 		<property name="taxonService" ref="taxonServiceImpl" />
 		<property name="sessionFactory" ref="sessionFactory"/>
 		<property name="transactionManager" ref="transactionManager"/>

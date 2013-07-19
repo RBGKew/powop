@@ -46,6 +46,11 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
     public final T process(final T t)
             throws Exception {
         logger.info("Validating " + t.getIdentifier());
+        
+        if(doFilter(t)) {
+        	return null;
+        }
+        
         Taxon taxon = null;
         if(!((NonOwned)t).getTaxa().isEmpty()) {
         	taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
@@ -135,7 +140,9 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
         }
     }
 
-    protected abstract void doUpdate(T persisted, T t);
+    protected abstract boolean doFilter(T t);
+
+	protected abstract void doUpdate(T persisted, T t);
 
 	protected abstract void doPersist(T t);
 

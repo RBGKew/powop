@@ -15,6 +15,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.forester.io.parsers.PhylogenyParser;
 import org.forester.io.parsers.util.ParserUtils;
 import org.forester.io.writers.PhylogenyWriter;
@@ -68,6 +69,8 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 	private PhylogeneticTreeService phylogeneticTreeService;
 	
 	private TaxonService taxonService;
+	
+	private SolrIndexingListener solrIndexingListener;
 
 	public void setTreeIdentifier(String treeIdentifier) {
 		this.treeIdentifier = treeIdentifier;
@@ -122,6 +125,11 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 	@Autowired	
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
+	}
+	
+	@Autowired
+	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
+		this.solrIndexingListener = solrIndexingListener;
 	}
 
 	@Override
@@ -202,6 +210,7 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		
 		phylogeneticTree.setPhylogeny(stringBuffer.toString().replaceAll("\n", ""));
 		phylogeneticTreeService.saveOrUpdate(phylogeneticTree);
+		solrIndexingListener.indexObject(phylogeneticTree);
         logger.info(stringBuffer.toString());
 		return RepeatStatus.FINISHED;
 	}

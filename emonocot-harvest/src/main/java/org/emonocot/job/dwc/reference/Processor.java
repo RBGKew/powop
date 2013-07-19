@@ -84,4 +84,9 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
             throw new RequiredFieldException(t + " has no bibliographicCitation set", RecordType.Reference, getStepExecution().getReadCount());
         }
 	}
+
+	@Override
+	protected boolean doFilter(Reference t) {		
+		return false;
+	}
 }

@@ -57,7 +57,7 @@
 				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<bean class="org.emonocot.model.convert.DescriptionTypeConverter" />
-				<bean class="org.emonocot.model.convert.ImageFormatConverter" />
+				<bean class="org.emonocot.model.convert.MediaFormatConverter" />
 				<bean class="org.emonocot.model.convert.TypeStatusConverter" />
 				<bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
