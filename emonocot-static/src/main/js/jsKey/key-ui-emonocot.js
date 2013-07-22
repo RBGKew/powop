@@ -64,25 +64,27 @@ function characterModal(characterId, key) {
     $('#characterModal .modal-header h3').html(character.name);
     var body = "";
     switch(character.type) {
-      case Key.Categorical:
-      body += "<ul class='unstyled'>";
+      case Key.Categorical:      
       var imageIndex = 0;
       for(var i = 0; i < character.states.length; i++) {
         var state = character.states[i];
+        body += "<div class='media'>";
         if(!Key.isUndefined(state.images) && state.images.length > 0) {
             var image = state.images[0];
             var imageId = image.href.substring(0,image.href.indexOf('.'));
-            body += "<li><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
             var description = !Key.isUndefined(image.description) ? image.description : '';
-            body += "<a href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + image.caption + "' data-description='" + description + "'/></a></li><br/>";
+            body += "<a class='pull-right' href='#'><img id='character" + character.id + "-" + i + "-" + imageIndex + "' class='thumbnail' data-icon='icon-white icon-picture' src='" + key.getThumbnailImagePath() +  image.href + "'title='" + image.caption + "' data-description='" + description + "'/></a>";
             for(var j =0; j < state.images.length; j++) {
-           	 imageIndex++;
+          	   imageIndex++;
             }
-        } else {
-            body += "<li class='noimage'><label class='checkbox'><input type='checkbox'>" + state.name + "</label></li><br/>";
         }
+        body += "<div class='media-body'><div class='control-group'><div class='controls'><label class='checkbox'><input type='checkbox'>" + state.name + "</label>";
+        if(!Key.isUndefined(state.description)) {
+           	   body += "<span class='help-block'>" + state.description + "</span>";
+        }
+        body += "</div></div></div></div>";	
+        
       }
-      body += "</ul>";
       $('#characterModal .modal-body').html(body);
       $('#save').unbind("click");
       $('#save').click(function() {

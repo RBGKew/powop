@@ -92,6 +92,12 @@ public class TaxonDeletingWriter extends HibernateDaoSupport implements ItemWrit
                 }
                 taxon.getSynonymNameUsages().clear();
             }
+            if (!taxon.getSubsequentNameUsages().isEmpty()) {
+                for (Taxon subsequentNameUsage : taxon.getSubsequentNameUsages()) {
+                	subsequentNameUsage.setOriginalNameUsage(null);
+                }
+                taxon.getSubsequentNameUsages().clear();
+            }
 			taxa.add(taxon);
 		}
 		

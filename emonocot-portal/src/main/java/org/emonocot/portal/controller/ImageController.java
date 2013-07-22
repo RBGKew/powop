@@ -48,9 +48,17 @@ public class ImageController extends GenericController<Image, ImageService> {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public final String show(@PathVariable final Long id, final Model model) {
-        Image image = getService().load(id);
+        Image image = getService().load(id,"image-page");
         model.addAttribute(image);
         queryLog.info("Image: \'{}\'", new Object[] {id});
         return "image/show";
+    }
+    
+    /**
+     * Many users visit a taxon page and then navigate to the document above, then bounce
+     */
+    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    public String list(Model model) {
+    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.Image";
     }
 }

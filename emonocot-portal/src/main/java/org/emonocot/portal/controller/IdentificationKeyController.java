@@ -43,10 +43,18 @@ public class IdentificationKeyController extends GenericController<Identificatio
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
     public String getPage(@PathVariable Long id,
             Model model) {
-        IdentificationKey key = getService().load(id);
+        IdentificationKey key = getService().load(id,"object-page");
         model.addAttribute(key); 
         queryLog.info("IdentificationKey: \'{}\'", new Object[] {id});
         return "key/show";
+    }
+    
+    /**
+     * Many users visit a taxon page and then navigate to the document above, then bounce
+     */
+    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    public String list(Model model) {
+    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
     }
 
 }

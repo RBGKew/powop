@@ -86,4 +86,6 @@ public interface SearchableService<T extends Base> extends Service<T> {
      * @return
      */
     T loadObjectForDocument(SolrDocument solrDocument);
+    
+    void index(Long id);
 }

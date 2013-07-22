@@ -2,6 +2,7 @@ package org.emonocot.harvest.common;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -19,6 +21,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -112,9 +115,9 @@ public class GetResourceClient {
      *
      * @param authorityName
      *            The name of the Source being harvested.
-     * @param authorityURI
+     * @param resource
      *            The endpoint (uri) being harvested.
-     * @param dateLastHarvested
+     * @param ifModifiedSince
      *            The dateTime when this Source was last harvested.
      * @param temporaryFileName
      *            The name of the temporary file to store the response in
@@ -122,11 +125,8 @@ public class GetResourceClient {
      *         if the Source responded with a 304 NOT MODIFIED response
      *         indicating that no records have been modified
      */
-    public final ExitStatus getResource(final String authorityName,
-            final String authorityURI, final String dateLastHarvested,
+    public final ExitStatus getResource(final String resource, final String ifModifiedSince,
             final String temporaryFileName) {
-
-        logger.debug(authorityName + " " + authorityURI);
         if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
             httpClient.getParams()
@@ -158,9 +158,9 @@ public class GetResourceClient {
 					InputStreamReader inputStreamReader = null;
 			        OutputStreamWriter outputStreamWriter = null;
 
-			        HttpGet httpGet = new HttpGet(authorityURI);			        
+			        HttpGet httpGet = new HttpGet(resource);			        
 			        httpGet.setHeader("If-Modified-Since", DateUtils
-			                .formatDate(new Date(Long.parseLong(dateLastHarvested))));
+			                .formatDate(new Date(Long.parseLong(ifModifiedSince))));
 			        try {
 			            HttpResponse httpResponse = httpClient.execute(httpGet);			           
 
@@ -197,27 +197,27 @@ public class GetResourceClient {
 			              default:
 			                logger.warn("Server returned unexpected status code "
 			                        + httpResponse.getStatusLine() + " for document "
-			                        + authorityURI); // This is not an error in this
+			                        + resource); // This is not an error in this
 			                                         // application but a server side error
 			                throw new IOException("Server returned unexpected status code "
 			                        + httpResponse.getStatusLine() + " for document "
-			                        + authorityURI);
+			                        + resource);
 			            }
 
 			        } catch (ClientProtocolException cpe) {
 			        	if(cpe instanceof HttpResponseException) {
 			        		HttpResponseException hre = (HttpResponseException) cpe;
 			        		logger.error("HttpResponse Exception getting document "
-			                        + authorityURI + " " + hre.getMessage()
+			                        + resource + " " + hre.getMessage()
 			                        + " with status code " + hre.getStatusCode());
 			        	} else {
 			                logger.error("Client Protocol Exception getting document "
-			                    + authorityURI + " " + cpe.getMessage());
+			                    + resource + " " + cpe.getMessage());
 			        	}
 			            throw cpe;
 			        } catch (IOException ioe) {
 			            logger.error("Input Output Exception getting document "
-			                    + authorityURI + " " + ioe.getLocalizedMessage());
+			                    + resource + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
 			            if (inputStreamReader != null) {
@@ -226,7 +226,7 @@ public class GetResourceClient {
 			                } catch (IOException ioe) {
 			                    logger.error(
 			                            "Input Output Exception closing inputStream for "
-			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                            + resource + " " + ioe.getLocalizedMessage());
 			                }
 			            }
 			            if (outputStreamWriter != null) {
@@ -235,7 +235,7 @@ public class GetResourceClient {
 			                } catch (IOException ioe) {
 			                    logger.error(
 			                            "Input Output Exception closing outputStream for "
-			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                            + resource + " " + ioe.getLocalizedMessage());
 			                }
 			            }
 			        }
@@ -263,9 +263,9 @@ public class GetResourceClient {
      *
      * @param authorityName
      *            The name of the Source being harvested.
-     * @param authorityURI
+     * @param resource
      *            The endpoint (uri) being harvested.
-     * @param dateLastHarvested
+     * @param ifModifiedSince
      *            The dateTime when this Source was last harvested.
      * @param temporaryFileName
      *            The name of the temporary file to store the response in
@@ -273,8 +273,7 @@ public class GetResourceClient {
      *         if the Source responded with a 304 NOT MODIFIED response
      *         indicating that no records have been modified
      */
-    public final ExitStatus getBinaryResource(final String authorityName,
-            final String authorityURI, final String dateLastHarvested,
+    public final ExitStatus getBinaryResource(final String resource, final String ifModifiedSince,
             final String temporaryFileName) {
         if (proxyHost != null && proxyPort != null) {
             HttpHost proxy = new HttpHost(proxyHost, proxyPort);
@@ -305,9 +304,9 @@ public class GetResourceClient {
 					BufferedInputStream bufferedInputStream = null;
 			        BufferedOutputStream bufferedOutputStream = null;
 
-			        HttpGet httpGet = new HttpGet(authorityURI.replace(" ", "%20"));
+			        HttpGet httpGet = new HttpGet(resource.replace(" ", "%20"));
 			        httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
-			                .formatDate(new Date(Long.parseLong(dateLastHarvested)))));
+			                .formatDate(new Date(Long.parseLong(ifModifiedSince)))));
 			        try {
 			            HttpResponse httpResponse = httpClient.execute(httpGet);
 
@@ -343,7 +342,7 @@ public class GetResourceClient {
 			            default:
 			                logger.warn("Server returned unexpected status code "
 			                        + httpResponse.getStatusLine() + " for document "
-			                        + authorityURI); // This is not an error in this
+			                        + resource); // This is not an error in this
 			                                         // application but a server side error
 			                BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
 			                        httpResponse.getEntity());
@@ -357,6 +356,134 @@ public class GetResourceClient {
 			                }
 			                logger.warn("Server Response was: " + stringBuffer.toString());
 			                httpGet.abort();
+			                throw new IOException("Server returned unexpected status code "
+			                        + httpResponse.getStatusLine() + " for document "
+			                        + resource);
+			            }
+
+			        } catch (ClientProtocolException cpe) {
+			        	if(cpe instanceof HttpResponseException) {
+			        		HttpResponseException hre = (HttpResponseException) cpe;
+			        		logger.error("HttpResponse Exception getting document "
+			                        + resource + " " + hre.getMessage()
+			                        + " with status code " + hre.getStatusCode());
+			        	} else {
+			                logger.error("Client Protocol Exception getting document "
+			                    + resource + " " + cpe.getMessage());
+			        	}
+			            throw cpe;
+			        } catch (IOException ioe) {
+			            logger.error("Input Output Exception getting document "
+			                    + resource + " " + ioe.getLocalizedMessage());
+			            throw ioe;
+			        } finally {
+			            if (bufferedInputStream != null) {
+			                try {
+			                    bufferedInputStream.close();
+			                } catch (IOException ioe) {
+			                    logger.error(
+			                            "Input Output Exception closing inputStream for "
+			                            + resource + " " + ioe.getLocalizedMessage());
+			                }
+			            }
+			            if (bufferedOutputStream != null) {
+			                try {
+			                    bufferedOutputStream.close();
+			                } catch (IOException ioe) {
+			                    logger.error(
+			                            "Input Output Exception closing outputStream for "
+			                            + resource + " " + ioe.getLocalizedMessage());
+			                }
+			            }
+			        }
+				}
+				
+			});
+		} catch (Exception e) {
+			logger.error("Retry processing failed " + e.getMessage());
+			return ExitStatus.FAILED;
+			
+		}        
+    }
+    
+    public ExitStatus postBody(final String authorityURI, final Map<String,String> params, final StringBuffer response, final Map<String,String> responseHeaders) {
+    	if (proxyHost != null && proxyPort != null) {
+            HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+            httpClient.getParams()
+                .setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+        }
+
+        httpClient.getParams().setParameter("http.useragent", "org.emonocot.ws.GetResourceClient");
+        RetryTemplate retryTemplate = new RetryTemplate();
+        retryTemplate.setListeners(retryListeners);
+        FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+        backOffPolicy.setBackOffPeriod(backoffPeriod);
+        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+        retryPolicy.setMaxAttempts(retryAttempts);
+        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>(); 
+        retryableExceptions.put(ClientProtocolException.class, Boolean.TRUE);
+        retryableExceptions.put(IOException.class, Boolean.TRUE);
+        retryPolicy.setRetryableExceptions(retryableExceptions);
+        
+        retryTemplate.setBackOffPolicy(backOffPolicy);
+        retryTemplate.setRetryPolicy(retryPolicy);
+        try {
+			return retryTemplate.execute(new RetryCallback<ExitStatus> () {
+
+				@Override
+				public ExitStatus doWithRetry(RetryContext context)
+						throws Exception {
+					InputStreamReader reader = null;
+
+			        HttpPost httpPost = new HttpPost(authorityURI.replace(" ", "%20"));
+
+			        try {
+			            HttpResponse httpResponse = httpClient.execute(httpPost);
+
+			            switch(httpResponse.getStatusLine().getStatusCode()) {
+			              case HttpURLConnection.HTTP_CREATED:
+			              case HttpURLConnection.HTTP_OK:
+			            	  for(Header header : httpResponse.getAllHeaders()) {
+			            		  responseHeaders.put(header.getName(), header.getValue());
+			            	  }
+			                  HttpEntity entity = httpResponse.getEntity();
+			                  if (entity != null) {
+			                	  BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
+					                        httpResponse.getEntity());
+			                	  reader = new InputStreamReader(
+					                        bufferedEntity.getContent());
+			                     
+			                    int count;
+			                    char[] content = new char[BUFFER];
+			                    while ((count = reader.read(content, 0, BUFFER)) != -1) {
+				                    response.append(content);
+				                }			                    
+			                  } else {
+			                    logger.warn("Server returned "
+			                            + httpResponse.getStatusLine()
+			                            + " but HttpEntity is null");
+			                      throw new IOException("Server returned "
+				                            + httpResponse.getStatusLine()
+				                            + " but HttpEntity is null");
+			                  }
+			                  return ExitStatus.COMPLETED;
+			            default:
+			                logger.warn("Server returned unexpected status code "
+			                        + httpResponse.getStatusLine() + " for document "
+			                        + authorityURI); // This is not an error in this
+			                                         // application but a server side error
+			                BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
+			                        httpResponse.getEntity());
+			                reader = new InputStreamReader(
+			                        bufferedEntity.getContent());
+			                StringBuffer stringBuffer = new StringBuffer();
+			                int count;
+			                char[] content = new char[BUFFER];
+			                while ((count = reader.read(content, 0, BUFFER)) != -1) {
+			                    stringBuffer.append(content);
+			                }
+			                logger.warn("Server Response was: " + stringBuffer.toString());
+			                httpPost.abort();
 			                throw new IOException("Server returned unexpected status code "
 			                        + httpResponse.getStatusLine() + " for document "
 			                        + authorityURI);
@@ -378,24 +505,15 @@ public class GetResourceClient {
 			                    + authorityURI + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
-			            if (bufferedInputStream != null) {
+			            if (reader != null) {
 			                try {
-			                    bufferedInputStream.close();
+			                    reader.close();
 			                } catch (IOException ioe) {
 			                    logger.error(
 			                            "Input Output Exception closing inputStream for "
 			                            + authorityURI + " " + ioe.getLocalizedMessage());
 			                }
-			            }
-			            if (bufferedOutputStream != null) {
-			                try {
-			                    bufferedOutputStream.close();
-			                } catch (IOException ioe) {
-			                    logger.error(
-			                            "Input Output Exception closing outputStream for "
-			                            + authorityURI + " " + ioe.getLocalizedMessage());
-			                }
-			            }
+			            }			            
 			        }
 				}
 				
@@ -404,7 +522,6 @@ public class GetResourceClient {
 			logger.error("Retry processing failed " + e.getMessage());
 			return ExitStatus.FAILED;
 			
-		}
-        
+		} 
     }
 }

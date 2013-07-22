@@ -151,7 +151,7 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 			try {
 				Url u = new Url();
 				u.setLastmod(ISODateTimeFormat.dateTime().print((ReadableInstant) null));
-				u.setLoc(new URL(portalBaseUrl + "/" + currentFile.getFilename()));
+				u.setLoc(new URL(portalBaseUrl + "/sitemap/" + currentFile.getFilename()));
 				sitemapNames.add(u);
 			} catch (MalformedURLException e) {
 				logger.error("Unable create Url for sitemap", e);

@@ -4450,4 +4450,46 @@
         <column name="permissions" valueNumeric="33"/>
       </insert>
     </changeSet>
+    <changeSet id="2013-07-11_01" author="ben">
+      <comment>BUG #463 As a Scratchpad system owner, I would like feeback to be inserted into my scratchpad directly</comment>
+      <addColumn tableName="Comment">
+        <column name="authority_id" type="bigint"/>
+      </addColumn>
+    </changeSet>
+    <changeSet id="2013-07-11_02" author="ben">
+      <comment>BUG #463 As a Scratchpad system owner, I would like feeback to be inserted into my scratchpad directly</comment>
+      <addForeignKeyConstraint constraintName="FKC35AE4F16C64D29C" 
+                               referencedTableName="Organisation"
+                               baseColumnNames="authority_id"
+                               baseTableName="Comment"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-07-11_03" author="ben">
+      <comment>BUG #463 As a Scratchpad system owner, I would like feeback to be inserted into my scratchpad directly</comment>
+      <createTable tableName="Comment_alternativeIdentifiers">
+        <column name="Comment_id" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="alternativeIdentifiers" type="varchar(255)">
+          <constraints nullable="false"/>
+        </column>
+        <column name="alternativeIdentifiers_KEY" type="varchar(255)">
+          <constraints nullable="false"/>
+        </column>    
+      </createTable>
+    </changeSet>
+    <changeSet id="2013-07-11_04" author="ben">
+      <comment>BUG #463 As a Scratchpad system owner, I would like feeback to be inserted into my scratchpad directly</comment>
+      <addForeignKeyConstraint constraintName="FK7B63B2A45090CB20" 
+                               referencedTableName="Comment"
+                               baseColumnNames="Comment_id"
+                               baseTableName="Comment_alternativeIdentifiers"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-07-11_05" author="ben">
+      <comment>BUG #463 As a Scratchpad system owner, I would like feeback to be inserted into my scratchpad directly</comment>
+      <addColumn tableName="Organisation">
+        <column name="insertCommentsIntoScratchpad" type="boolean" defaultValueBoolean="false"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

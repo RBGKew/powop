@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -19,6 +20,7 @@ import org.emonocot.model.Base;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Level;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
@@ -118,6 +120,16 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         		} else {
                     solrQuery.addFacetField(facet);
         		}
+        		try {
+        		    FacetName fn = FacetName.fromString(facet);
+                    System.out.println(fn + " for " + facet);
+                    if(fn != null && fn.isIncludeMissing()) {
+                        solrQuery.set("f." + fn.getSolrField() + ".facet.missing", true);
+                    }
+        		} catch (IllegalArgumentException e) {
+                    logger.debug("Unable to find a facet for " + facet);
+                    System.out.println("Unable to find a facet for " + facet);
+                }
         	}
             if(facetPrefixes != null) {
             	for(String facet : facetPrefixes.keySet()) {
@@ -125,8 +137,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             	}
             }
         }
-        
-        QueryResponse queryResponse = solrServer.query(solrQuery);		
+        QueryResponse queryResponse = solrServer.query(solrQuery);
         
         List<T> results = new ArrayList<T>();
         for(SolrDocument solrDocument : queryResponse.getResults()) {
@@ -420,7 +431,12 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         
         if(selectedFacets != null && !selectedFacets.isEmpty()) {
             for(String facetName : selectedFacets.keySet()) {
-                solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+                String facetValue = selectedFacets.get(facetName);
+                if(StringUtils.isNotEmpty(facetValue)) {
+                    solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+                } else {//Subtract/Exclude documents with any value for the facet
+                    solrQuery.addFilterQuery("-" + facetName + ":[* TO *]");
+                }
             }
         }
         

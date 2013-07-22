@@ -1,6 +1,7 @@
 package org.emonocot.harvest.media;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -115,34 +116,38 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
         Image embeddedMetadata = new Image();
         String xmpXml = Sanselan.getXmpXml(file);
 		if (xmpXml != null && !xmpXml.isEmpty()) {
-		    logger.debug("Attempting to extract metadata from xmp-xml:\n" + xmpXml);
-	        XMPMetadata xmp = XMPMetadata.load(new InputSource(new StringReader(xmpXml)));
-	        for(Class schemaClass : schemas) {
-	            XMPSchema schema = xmp.getSchemaByClass(schemaClass);
-	            if(schema instanceof XMPSchemaIptc4xmpCore){
-	                XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
-	                metadataFound = addIptcProperies(iptcSchema, embeddedMetadata) || metadataFound;
-	                logger.debug("Known schema that will be added:" + schema.toString() +
-	                        "\n" + schema.getElement().getTextContent());
-	            } else if (schema instanceof XMPSchemaDublinCore) {
-	                XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
-	                metadataFound = addDcProperies(dcSchema, embeddedMetadata) || metadataFound;
-	                logger.debug("Known schema that will be added:" + schema.toString() +
-	                        "\n" + schema.getElement().getTextContent());
-	            } else if (schema instanceof XMPSchemaRightsManagement) {
-	                XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
-	                metadataFound = addRightsProprties(rightsSchema, embeddedMetadata) || metadataFound;
-	                logger.debug("Known schema that will be added:" + schema.toString() +
-	                        "\n" + schema.getElement().getTextContent());
-	            } else if(schema instanceof XMPSchemaPhotoshop) {
-	                XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
-	                metadataFound = addPhotoshopProperties(photoshopSchema, embeddedMetadata) || metadataFound;
-	                logger.debug("Known schema that will be added:" + schema.toString() +
-	                        "\n" + schema.getElement().getTextContent());
-	            } else {
-	                logger.info("Unable to process a schema of: " + schemaClass);
-	            }
-	        }
+			logger.debug("Attempting to extract metadata from xmp-xml:\n" + xmpXml);
+			try {
+				XMPMetadata xmp = XMPMetadata.load(new InputSource(new StringReader(xmpXml)));
+				for (Class schemaClass : schemas) {
+					XMPSchema schema = xmp.getSchemaByClass(schemaClass);
+					if (schema instanceof XMPSchemaIptc4xmpCore) {
+						XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
+						metadataFound = addIptcProperies(iptcSchema,embeddedMetadata) || metadataFound;
+						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+								+ schema.getElement().getTextContent());
+					} else if (schema instanceof XMPSchemaDublinCore) {
+						XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
+						metadataFound = addDcProperies(dcSchema, embeddedMetadata) || metadataFound;
+						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+								+ schema.getElement().getTextContent());
+					} else if (schema instanceof XMPSchemaRightsManagement) {
+						XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
+						metadataFound = addRightsProprties(rightsSchema,embeddedMetadata) || metadataFound;
+						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+								+ schema.getElement().getTextContent());
+					} else if (schema instanceof XMPSchemaPhotoshop) {
+						XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
+						metadataFound = addPhotoshopProperties(photoshopSchema,	embeddedMetadata) || metadataFound;
+						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+								+ schema.getElement().getTextContent());
+					} else {
+						logger.info("Unable to process a schema of: " + schemaClass);
+					}
+				}
+			} catch (IOException ioe) {
+				logger.error("Exception parsing XMP XML " + xmpXml, ioe);
+			}
 		} else {
 			logger.debug("Image " + file + " does not contain embedded XMP metadata");
 		}

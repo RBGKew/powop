@@ -42,6 +42,8 @@
 		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
 	</bean>
 	
+	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener"/>
+	
 	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
 		<constructor-arg value="${functional.test.solr.url}"/>
 	</bean>

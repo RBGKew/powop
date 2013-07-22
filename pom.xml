@@ -1049,6 +1049,13 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
+	    <extensions>
+          <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>1.0-beta-6</version>
+          </extension>
+        </extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -1190,7 +1197,11 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
+				<version>1.0-beta-4</version>
+				<configuration>           
+                  <url>${wagon.static.url}</url>
+                  <serverId>${wagon.server.id}</serverId>
+                </configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
@@ -1368,6 +1379,8 @@
 				<jdbc.driver.username>sa</jdbc.driver.username>
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
+				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
+				<git.repository>http://build.e-monocot.org/git/</git.repository>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1405,6 +1418,8 @@
 				<skip.global.tests>true</skip.global.tests>
 				<http.proxyHost />
 				<http.proxyPort />
+				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
+				<git.repository>http://build.e-monocot.org/git/</git.repository>
 			</properties>
 			<build>
 				<plugins>
@@ -1500,6 +1515,7 @@
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
@@ -1565,6 +1581,7 @@
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
@@ -1619,6 +1636,7 @@
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
@@ -1632,6 +1650,11 @@
 				<functional.test.basePath />
 				<functional.test.port>8080</functional.test.port>
 				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
+				<functional.test.username>test@e-monocot.org</functional.test.username>
+                <functional.test.password>t35t.pa55w0rd</functional.test.password>
+                <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
+                <selenium.webdriver.mode>local</selenium.webdriver.mode>
+                <selenium.display.port>:1</selenium.display.port>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost />
 				<http.proxyPort />
@@ -1677,18 +1700,24 @@
 				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:postgresql://localhost:5432/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
+				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>
+				<jdbc.driver.username>emonocot</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />
 				<functional.test.port>8080</functional.test.port>
 				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
+				<functional.test.username>test@e-monocot.org</functional.test.username>
+                <functional.test.password>t35t.pa55w0rd</functional.test.password>
+                <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
+                <selenium.webdriver.mode>local</selenium.webdriver.mode>
+                <selenium.display.port>:0</selenium.display.port>
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost />
 				<http.proxyPort />
@@ -1708,6 +1737,78 @@
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
 			</properties>
-		</profile>		
+		</profile>
+		<profile>
+			<id>harvest.uat.postgres.vagrant</id>
+			<properties>
+				<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
+				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
+				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
+				<harvester.admin.password>adm1n</harvester.admin.password>
+				<harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
+				<harvester.thumbnail.directory>/var/lib/emonocot/images/thumbnails</harvester.thumbnail.directory>
+				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
+				<harvester.spool.directory>/var/spool/emonocot</harvester.spool.directory>
+				<harvester.output.directory>/var/lib/emonocot/output/</harvester.output.directory>
+				<batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
+				<cargo.containerId>tomcat7x</cargo.containerId>
+				<cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
+				<cargo.remote.username>admin</cargo.remote.username>
+				<cargo.remote.password>tomcat</cargo.remote.password>
+				<cargo.context.path>emonocot-harvester</cargo.context.path>				
+				<http.proxyHost />
+				<http.proxyPort />
+				<logging.level>WARN</logging.level>
+				<logging.method>file</logging.method>
+				<logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
+				<liquibase.drop.database.first>false</liquibase.drop.database.first>
+				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
+				<liquibase.username>emonocot</liquibase.username>
+				<liquibase.password>eM0n0c0t</liquibase.password>
+				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
+				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>
+				<solr.url>http://localhost:8983/solr</solr.url>
+				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
+				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
+				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>
+				<jdbc.driver.username>emonocot</jdbc.driver.username>
+				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
+				<download.citation.string>eMonocot Citation String</download.citation.string>
+				<download.creator.email>creator@e-monocot.org</download.creator.email>
+				<download.creator.name>Creator Name</download.creator.name>
+				<download.meta.description>Description String</download.meta.description>
+				<download.homepage.url>http://e-monocot.org</download.homepage.url>
+				<download.identifier>eMonocot</download.identifier>
+				<download.logo.url>http://e-monocot.org/css/images/logo.png</download.logo.url>
+				<download.publisher.email>publisher@e-monocot.org</download.publisher.email>
+				<download.publisher.name>Publisher Name</download.publisher.name>
+				<download.rights>Rights Statement</download.rights>
+				<download.subject>Subject Keywords</download.subject>
+				<download.title>eMonocot Download</download.title>
+				<email.debug>true</email.debug>
+				<email.smtp.username>portal</email.smtp.username>
+				<email.smtp.password>portal</email.smtp.password>
+				<email.smtp.host>localhost</email.smtp.host>
+				<email.smtp.port>25</email.smtp.port>
+				<email.smtp.auth>false</email.smtp.auth>
+				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
+				<email.imap.username>portal</email.imap.username>
+				<email.imap.password>portal</email.imap.password>
+				<email.imap.port>143</email.imap.port>
+				<email.imap.server>localhost</email.imap.server>
+				<email.imap.folder>INBOX</email.imap.folder>
+				<email.imap.enable.starttls>false</email.imap.enable.starttls>
+				<email.imap.socketfactory.class>javax.net.ssl.SSLSocketFactory</email.imap.socketfactory.class>
+				<email.imap.socketfactory.fallback>true</email.imap.socketfactory.fallback>				
+				<email.fromAddress>portal@localhost</email.fromAddress>
+                <comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
+                <comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
+                <comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
+			</properties>
+		</profile>	
 	</profiles>
 </project>

@@ -125,8 +125,7 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 					.getString("resource.identifier"));
 			Map<String, String> selectedFacets = new HashMap<String, String>();
 			selectedFacets.put("base.class_s", "org.emonocot.model.Annotation");
-			selectedFacets.put("annotation.job_id_l",
-					new Long(resource.getLastHarvestedJobId()).toString());
+			selectedFacets.put("annotation.job_id_l", new Long(jobExecution.getId()).toString());
 			try {
 				Page<Annotation> result = annotationService.search(null, null,
 						1, 0, new String[] { "annotation.type_s" }, null,

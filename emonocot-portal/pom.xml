@@ -7,7 +7,6 @@
 		<version>0.0.33-SNAPSHOT</version>
 	</parent>
 	<artifactId>emonocot-portal</artifactId>
-	<version>0.0.33-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
 	<dependencies>
@@ -104,8 +103,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<!-- TODO: Exclude when we migrate to postgis -->
+		</dependency>		
 		<dependency>
 		    <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-mysql</artifactId>
@@ -113,12 +111,11 @@
 	    <dependency>
 	        <groupId>postgresql</groupId>
 	        <artifactId>postgresql</artifactId>
-	    </dependency>
-	    <!-- TODO: Include when we migrate to postgis 
+	    </dependency>	  
 	    <dependency>
 			<groupId>org.hibernatespatial</groupId>
 			<artifactId>hibernate-spatial-postgis</artifactId>
-		</dependency>-->
+		</dependency>
 	    <dependency>
 			<groupId>org.postgis</groupId>
 			<artifactId>postgis-jdbc</artifactId>

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
@@ -14,6 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -52,10 +54,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class IUCNJobIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(
-            IUCNJobIntegrationTest.class);
-
-   private Resource inputFile = new ClassPathResource("/LILIOPSIDA.json");
+    private Logger logger = LoggerFactory.getLogger(IUCNJobIntegrationTest.class);
 
     @Autowired
     private JobLocator jobLocator;
@@ -69,12 +68,21 @@ public class IUCNJobIntegrationTest {
     
     @Autowired
     private SolrIndexingListener solrIndexingListener;
+    
+    private Properties properties;
 
     /**
      * 1288569600 in unix time.
      */
     private static final BaseDateTime PAST_DATETIME
     = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+    
+    @Before
+    public void setUp() throws Exception {
+    	Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+    	properties = new Properties();
+    	properties.load(propertiesFile.getInputStream());
+    }
 
     /**
      *
@@ -106,8 +114,9 @@ public class IUCNJobIntegrationTest {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
         parameters.put("authority.uri", new JobParameter(
-        "http://build.e-monocot.org/test/test.json"));
+        repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/iucn/test.json"));
         parameters.put("authority.last.harvested",
         new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
 

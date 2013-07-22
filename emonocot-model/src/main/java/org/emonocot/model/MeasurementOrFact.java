@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -88,6 +89,7 @@ public class MeasurementOrFact extends OwnedEntity {
 		this.measurementType = measurementType;
 	}
 
+	@Size(max = 255)
 	public String getMeasurementValue() {
 		return measurementValue;
 	}
@@ -96,6 +98,7 @@ public class MeasurementOrFact extends OwnedEntity {
 		this.measurementValue = measurementValue;
 	}
 
+	@Size(max = 255)
 	public String getMeasurementAccuracy() {
 		return measurementAccuracy;
 	}
@@ -124,6 +127,7 @@ public class MeasurementOrFact extends OwnedEntity {
 		this.measurementDeterminedDate = measurementDeterminedDate;
 	}
 
+	@Size(max = 255)
 	public String getMeasurementDeterminedBy() {
 		return measurementDeterminedBy;
 	}
@@ -132,6 +136,7 @@ public class MeasurementOrFact extends OwnedEntity {
 		this.measurementDeterminedBy = measurementDeterminedBy;
 	}
 
+	@Size(max = 255)
 	public String getMeasurementMethod() {
 		return measurementMethod;
 	}
@@ -140,6 +145,7 @@ public class MeasurementOrFact extends OwnedEntity {
 		this.measurementMethod = measurementMethod;
 	}
 
+	@Size(max = 255)
 	public String getMeasurementRemarks() {
 		return measurementRemarks;
 	}

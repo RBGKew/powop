@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -133,6 +134,7 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 		this.leaves = leaves;
 	}
 
+	@Size(max = 255)
 	public String getTitle() {
 		return title;
 	}
@@ -150,6 +152,7 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
 		this.description = description;
 	}
 
+	@Size(max = 255)
 	public String getCreator() {
 		return creator;
 	}

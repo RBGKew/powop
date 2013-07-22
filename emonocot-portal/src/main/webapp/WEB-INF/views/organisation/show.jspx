@@ -41,7 +41,10 @@
 								<tr><th><spring:message code="organisation.description" /></th><td>${organisation.description}</td></tr>
 								<tr><th><spring:message code="organisation.publisherName" /></th><td>${organisation.publisherName}</td></tr>
                                 <tr><th><spring:message code="organisation.publisherEmail" /></th><td><a href="mailto:${organisation.publisherEmail}">${organisation.publisherEmail}</a></td></tr>
-<!-- Who should this be visible to? -->                                <!-- <tr><th><spring:message code="organisation.commentsEmailedTo" /></th><td><a href="mailto:${organisation.commentsEmailedTo}">${organisation.commentsEmailedTo}</a></td></tr> -->
+                                <security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#organisation, 'READ')">
+                                  <tr><th><spring:message code="organisation.commentsEmailedTo" /></th><td><a href="mailto:${organisation.commentsEmailedTo}">${organisation.commentsEmailedTo}</a></td></tr>
+                                  <tr><th><spring:message code="organisation.insertCommentsIntoScratchpad" /></th><td>${organisation.insertCommentsIntoScratchpad}</td></tr>
+                                </security:authorize>
 								<tr><th><spring:message code="organisation.subject" /></th>
 									<td>
 										<c:if test="${not empty organisation.subject}">
@@ -65,61 +68,93 @@
 				</div>
 			</div>
 		</div>
-		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE') or hasPermission(#organisation, 'READ')">
-			<div class="row">
-				<div class="span12">
-					<div class="inner">
-						<div class="box">
-							<h2><i class="glyphicons-icon file"><!--  --></i> <spring:message code="resources.title"/></h2>
-							<div class="row">
-								<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-									<c:url var="createUrl" value="/resource">
-										<c:param name="form" value="true"/>
-										<c:param name="organisation" value="${organisation.identifier}"/>
-									</c:url>
-									<p><a href="${createUrl}" class="btn pull-right"><spring:message code="create.resource"/></a></p>
-								</security:authorize>
-							</div>
-							<table class="table">
-								<thead>
-									<tr>
-										<th><spring:message code="resource.title"/></th>
-										<th><spring:message code="resource.resourceType"/></th>
-										<th><spring:message code="resource.status"/></th>
-										<th><spring:message code="resource.startTime"/></th>
-										<th><spring:message code="resource.duration"/></th>
-										<th><spring:message code="resource.exitCode"/></th>
-										<th><spring:message code="resource.totalRecords"/></th>
-										<th><spring:message code="resource.written"/></th>
-										<th><spring:message code="resource.output"/></th>
-									</tr>
-								</thead>
-								<tbody id="resources">
-									<c:forEach var="resource" items="${resources}">
-										<tr>
-											<td>
-												<spring:url var="resourceUrl" value="/resource/${resource.id}"/>
-												<a href="${resourceUrl}">${resource.title}</a>
-											</td>
-											<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
-											<td><tags:jobstatus status="${resource.status}"/></td>
-											<td><joda:format value="${resource.startTime}" style="MM" /></td>
-											<td>${em:duration(resource.duration)}</td>
-											<td><tags:jobstatus status="${resource.exitCode}"/></td>
-											<td>${resource.recordsRead + resource.readSkip}</td>											
-											<td>${resource.written}</td>
-											<td>
-												<spring:url var="resourceUrl" value="/resource/${resource.id}/output"/>
-												<a href="${resourceUrl}"><spring:message code="see.report"/></a>
-											</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+	    <div class="row">
+			<div class="span12">
+				<div class="inner">
+					<div class="box">
+						<h2><i class="glyphicons-icon file"><!--  --></i> <spring:message code="resources.title"/></h2>
+						<div class="row">
+							<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
+								<c:url var="createUrl" value="/resource">
+									<c:param name="form" value="true"/>
+									<c:param name="organisation" value="${organisation.identifier}"/>
+								</c:url>
+								<p><a href="${createUrl}" class="btn pull-right"><spring:message code="create.resource"/></a></p>
+							</security:authorize>
 						</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th><spring:message code="resource.title"/></th>
+									<th><spring:message code="resource.resourceType"/></th>
+									<th><spring:message code="resource.status"/></th>
+									<th><spring:message code="resource.startTime"/></th>
+									<th><spring:message code="resource.duration"/></th>
+									<th><spring:message code="resource.exitCode"/></th>
+									<th><spring:message code="resource.totalRecords"/></th>
+									<th><spring:message code="resource.written"/></th>
+									<th><spring:message code="resource.output"/></th>
+								</tr>
+							</thead>
+							<tbody id="resources">
+								<c:forEach var="resource" items="${organisation.resources}" begin="0" end="9">
+									<tr>
+										<td>
+											<spring:url var="resourceUrl" value="/resource/${resource.id}"/>
+											<a href="${resourceUrl}">${resource.title}</a>
+										</td>
+										<td><spring:message code="${resource.resourceType}" text="${resource.resourceType}"/></td>
+										<td><tags:jobstatus status="${resource.status}"/></td>
+										<td><joda:format value="${resource.startTime}" style="MM" /></td>
+										<td>${em:duration(resource.duration)}</td>
+										<td><tags:jobstatus status="${resource.exitCode}"/></td>
+										<td>${resource.recordsRead + resource.readSkip}</td>											
+										<td>${resource.written}</td>
+										<td>
+											<spring:url var="resourceUrl" value="/resource/${resource.id}/output"/>
+											<a href="${resourceUrl}"><spring:message code="see.report"/></a>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+						<div class="row no-print">
+                          <div class="pagination pull-right">
+						    <ul>
+				              <li class="prev disabled">
+				                <a href="#">
+					              <spring:message code="previous" />
+				                </a>
+				              </li>
+		                      <li class="active"><a href="#">1 - <c:choose><c:when test="${fn:length(organisation.resources) gt 10}">10</c:when><c:otherwise>${fn:length(organisation.resources)}</c:otherwise></c:choose></a></li>
+		                      <c:choose>
+		                        <c:when test="${fn:length(organisation.resources) gt 10}">				
+				                  <li class="next">
+				                    <c:url value="/resource" var="nextUrl">						  
+							          <c:param name="facet" value="resource.organisation_s:${organisation.identifier}"/>
+							          <c:param name="limit" value="10" />
+						              <c:param name="start" value="1" />
+						              <c:param name="sort" value="resource.last_harvested_dt_desc" />
+                                    </c:url>
+					                <a href="${nextUrl}">
+						              <spring:message code="next" />
+					                </a>
+				                  </li>
+				                </c:when>
+				                <c:otherwise>
+				                  <li class="next disabled">
+				                    <a href="#">
+					                  <spring:message code="next" />
+				                    </a>
+				                  </li>
+				                </c:otherwise>
+				              </c:choose>		
+	                        </ul>
+	                      </div>
+	                    </div>
 					</div>
 				</div>
 			</div>
-		</security:authorize>
+		</div>
 	</div>
 </div>

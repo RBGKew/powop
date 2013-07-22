@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
 import javax.validation.groups.Default;
 
 import org.apache.solr.client.solrj.SolrServerException;
@@ -25,7 +24,6 @@ import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.joda.time.base.BaseDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,7 +135,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		    @RequestParam(value = "sort", required = false) String sort,
 		    @RequestParam(value = "view", required = false) String view,
 		    Model model) throws SolrServerException {
-		Resource resource = getService().load(resourceId);
+		Resource resource = getService().load(resourceId,"job-with-source");
 		model.addAttribute("resource", resource);
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
@@ -319,7 +317,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 */
 	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = "text/html", params = {"!run", "!form", "!parameters"})
 	public String show(@PathVariable Long resourceId, Model uiModel) {
-		Resource resource = getService().load(resourceId);
+		Resource resource = getService().load(resourceId,"job-with-source");
 		uiModel.addAttribute("resource", resource);
 		return "resource/show";
 	}
@@ -337,7 +335,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	public String update(
 			@PathVariable Long resourceId,
 			Model model) {
-		Resource resource = getService().load(resourceId);
+		Resource resource = getService().load(resourceId,"job-with-source");
 		populateForm(model, resource, new ResourceParameterDto());
 		return "resource/update";
 	}
@@ -406,7 +404,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			Model model,
 			RedirectAttributes redirectAttributes) {
 
-		Resource resource = getService().load(resourceId);
+		Resource resource = getService().load(resourceId,"job-with-source");
 		if (resource.getStatus() != null) {
 			switch (resource.getStatus()) {
 			case STARTED:
@@ -481,7 +479,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
     @ResponseBody
 	public JobExecutionInfo getProgress(@PathVariable("resourceId") Long resourceId) throws Exception {
 		JobExecutionInfo jobExecutionInfo = new JobExecutionInfo();
-		Resource resource = getService().load(resourceId);
+		Resource resource = getService().load(resourceId,"job-with-source");
 		
 		JobExecution jobExecution = jobExplorer.getJobExecution(resource.getJobId());
 		if(jobExecution != null) {			

@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -34,74 +35,32 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Reference extends BaseData implements NonOwned {
 
-    /**
-     *
-     */
     private static long serialVersionUID = -5928234699377084008L;
 
-    /**
-     *
-     */
     private String title;
 
-    /**
-     *
-     */
     private String date;
 
-    /**
-     *
-     */
     private ReferenceType type;
 
-    /**
-     *
-     */
     private String creator;
 
-    /**
-     *
-     */
     private String source;
 
-    /**
-     *
-     */
     private String bibliographicCitation;
-    
-    /**
-     *
-     */
+
     private Locale language;
 
-    /**
-     *
-     */
     private Set<Taxon> taxa = new HashSet<Taxon>();
 
-    /**
-    *
-    */
     private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    /**
-     *
-     */
     private Long id;
 
-    /**
-     *
-     */
     private String description;
 
-    /**
-     *
-     */
     private String subject;
-    
-    /**
-     *
-     */
+
     private String taxonRemarks;
     
     private String uri;
@@ -109,6 +68,7 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the uri
      */
+    @Size(max = 255)
     public String getUri() {
         return uri;
     }
@@ -143,6 +103,7 @@ public class Reference extends BaseData implements NonOwned {
      *
      * @return the author
      */
+    @Size(max = 255)
     public String getCreator() {
         return creator;
     }
@@ -160,6 +121,7 @@ public class Reference extends BaseData implements NonOwned {
      *
      * @return the publication this reference was published in
      */
+    @Size(max = 255)
     public String getSource() {
         return source;
     }
@@ -212,6 +174,7 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the datePublished
      */
+    @Size(max = 255)
     public String getDate() {
         return date;
     }
@@ -227,6 +190,7 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the title
      */
+    @Size(max = 255)
     public String getTitle() {
         return title;
     }
@@ -299,6 +263,7 @@ public class Reference extends BaseData implements NonOwned {
     /**
      * @return the keywords
      */
+    @Size(max = 255)
     public String getSubject() {
         return subject;
     }
@@ -333,6 +298,7 @@ public class Reference extends BaseData implements NonOwned {
 	/**
 	 * @return the taxonRemarks
 	 */
+	@Size(max = 255)
 	public String getTaxonRemarks() {
 		return taxonRemarks;
 	}

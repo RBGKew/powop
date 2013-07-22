@@ -53,10 +53,7 @@ public class ImageFileProcessingTest {
     public final void setUp() throws Exception {
     	LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
     	validatorFactory.afterPropertiesSet();
-    	
-    	
-    	
-        image.setIdentifier("http://build.e-monocot.org/test/test.jpg");
+     
         image.setFormat(ImageFormat.jpg);
         GetResourceClient getResourceClient = new GetResourceClient();
         imageFileProcessor.setGetResourceClient(getResourceClient);
@@ -79,11 +76,13 @@ public class ImageFileProcessingTest {
                 "/META-INF/spring/application.properties");
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
-
+        
+        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        image.setIdentifier(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/media/test.jpg");
         imageThumbnailGenerator.setImageDirectory(imagesDirectoryName);
         imageThumbnailGenerator.setThumbnailDirectory(thumbnailDirectoryName);
         imageThumbnailGenerator.setImageMagickSearchPath(properties.getProperty(
-                "harvester.imagemagick.path", "/Program Files/ImageMagick"));
+                "harvester.imagemagick.path", "/usr/bin"));
         getResourceClient.setProxyHost(properties.getProperty("http.proxyHost",
                 null));
         getResourceClient.setProxyPort(properties.getProperty("http.proxyPort",
