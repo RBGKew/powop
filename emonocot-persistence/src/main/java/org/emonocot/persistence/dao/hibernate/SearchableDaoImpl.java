@@ -122,13 +122,11 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         		}
         		try {
         		    FacetName fn = FacetName.fromString(facet);
-                    System.out.println(fn + " for " + facet);
                     if(fn != null && fn.isIncludeMissing()) {
                         solrQuery.set("f." + fn.getSolrField() + ".facet.missing", true);
                     }
         		} catch (IllegalArgumentException e) {
                     logger.debug("Unable to find a facet for " + facet);
-                    System.out.println("Unable to find a facet for " + facet);
                 }
         	}
             if(facetPrefixes != null) {
