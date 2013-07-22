@@ -20,6 +20,7 @@ import org.emonocot.model.Base;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Level;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
@@ -104,7 +105,6 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         if (facets != null && facets.length != 0) {
         	solrQuery.setFacet(true);
         	solrQuery.setFacetMinCount(1);
-        	solrQuery.setFacetMissing(true);
         	solrQuery.setFacetSort(FacetParams.FACET_SORT_INDEX);
         	for(String facet : facets) {
         		if(facet.endsWith("_dt")) {
@@ -120,6 +120,16 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         		} else {
                     solrQuery.addFacetField(facet);
         		}
+        		try {
+        		    FacetName fn = FacetName.fromString(facet);
+                    System.out.println(fn + " for " + facet);
+                    if(fn != null && fn.isIncludeMissing()) {
+                        solrQuery.set("f." + fn.getSolrField() + ".facet.missing", true);
+                    }
+        		} catch (IllegalArgumentException e) {
+                    logger.debug("Unable to find a facet for " + facet);
+                    System.out.println("Unable to find a facet for " + facet);
+                }
         	}
             if(facetPrefixes != null) {
             	for(String facet : facetPrefixes.keySet()) {
@@ -127,8 +137,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             	}
             }
         }
-        
-        QueryResponse queryResponse = solrServer.query(solrQuery);		
+        QueryResponse queryResponse = solrServer.query(solrQuery);
         
         List<T> results = new ArrayList<T>();
         for(SolrDocument solrDocument : queryResponse.getResults()) {
