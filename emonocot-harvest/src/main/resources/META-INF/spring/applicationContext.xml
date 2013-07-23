@@ -20,7 +20,7 @@
 		                http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
 		                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 		                
-	<context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-harvest.conf"/>
+	<context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
 		
 	<context:annotation-config />
 	
@@ -80,7 +80,8 @@
 			<value>
 				hibernate.dialect=${hibernate.dialect}
 				hibernate.hbm2ddl.auto=validate
-				hibernate.validator.autoregister_listeners=false	
+				hibernate.validator.autoregister_listeners=false
+				hibernate.default_schema=${liquibase.default.schema.name}
 			</value>
 		</property>
 		<property name="annotatedClasses">
@@ -113,7 +114,7 @@
 		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
 	
-	<integration:service-activator input-channel="indexingChannel" expression="@solrIndexer.index(payload['id'],'org.emonocot.model.Comment')" />
+	<integration:service-activator input-channel="indexingChannel" expression="@commentServiceImpl.index(payload['id'])" />
 	
 	<bean id="solrIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter">
       <property name="sessionFactory" ref="sessionFactory" />
@@ -132,6 +133,7 @@
         <property name="dataSource" ref="liquibaseDataSource" />
         <property name="changeLog" value="classpath:${liquibase.changelog}" />
         <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+        <property name="defaultSchema" value="${liquibase.default.schema.name}"/>            
     </bean>
     
     <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource"

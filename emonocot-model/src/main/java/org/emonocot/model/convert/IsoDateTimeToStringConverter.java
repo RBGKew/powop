@@ -9,7 +9,7 @@ import org.springframework.format.datetime.joda.ReadableInstantPrinter;
 public class IsoDateTimeToStringConverter implements
 		Converter<ReadableInstant, String> {
 	
-	Printer<ReadableInstant> printer = new ReadableInstantPrinter(ISODateTimeFormat.dateTime());
+	Printer<ReadableInstant> printer = new ReadableInstantPrinter(ISODateTimeFormat.dateTimeNoMillis());
 
 	@Override
 	public String convert(ReadableInstant source) {

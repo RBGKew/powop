@@ -1,5 +1,6 @@
 package org.emonocot.model.registry;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,6 +71,8 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
      */
     private String commentsEmailedTo;
 
+	private boolean insertCommentsIntoScratchpad;
+
     public void setId(Long newId) {
         this.id = newId;
     }
@@ -89,7 +92,15 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
         this.uri = newUri;
     }
 
-    @Transient
+    public boolean getInsertCommentsIntoScratchpad() {
+		return insertCommentsIntoScratchpad;
+	}
+
+	public void setInsertCommentsIntoScratchpad(boolean insertCommentsIntoScratchpad) {
+		this.insertCommentsIntoScratchpad = insertCommentsIntoScratchpad;
+	}
+
+	@Transient
     @JsonIgnore
     public String getClassName() {
         return "Organisation";
@@ -321,5 +332,18 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     	.append(getPublisherName()).append(" ").append(getSubject()).append(" ").append(getTitle());
     	sid.addField("searchable.solrsummary_t", summary);
 		return sid;
+	}
+
+	@Transient
+    @JsonIgnore
+	public Collection<String> getCommentDestinations() {
+		Set<String> destinations = new HashSet<String>();
+		if(this.commentsEmailedTo != null && !this.commentsEmailedTo.isEmpty()) {
+			destinations.add(commentsEmailedTo);
+		}
+		if(this.insertCommentsIntoScratchpad) {
+			destinations.add(this.identifier);
+		}
+		return destinations;
 	}
 }

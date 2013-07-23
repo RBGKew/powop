@@ -9,7 +9,7 @@ public class DataProvider {
 	
 	private List<DataResource> dataResources = new ArrayList<DataResource>();
 	
-	private DataResource dataResource;
+	private List<DataResource> resources = new ArrayList<DataResource>();
 
 	public String getName() {
 		return name;
@@ -27,11 +27,11 @@ public class DataProvider {
 		this.dataResources = dataResources;
 	}
 
-	public DataResource getDataResource() {
-		return dataResource;
+	public List<DataResource> getResources() {
+		return resources;
 	}
 
-	public void setDataResource(DataResource dataResource) {
-		this.dataResource = dataResource;
-	}
+	public void setResources(List<DataResource> resources) {
+		this.resources = resources;
+	}	
 }

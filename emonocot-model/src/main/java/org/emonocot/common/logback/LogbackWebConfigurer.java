@@ -154,9 +154,7 @@ public final class LogbackWebConfigurer {
 					LogbackConfigurer.initLogging(location);
 					break;
 				} catch (FileNotFoundException ex) {
-					throw new IllegalArgumentException(
-							"Invalid 'logbackConfigLocation' parameter: "
-									+ ex.getMessage());
+					servletContext.log("Invalid 'logbackConfigLocation' parameter: " +  ex.getMessage());
 				}
 			}
         }

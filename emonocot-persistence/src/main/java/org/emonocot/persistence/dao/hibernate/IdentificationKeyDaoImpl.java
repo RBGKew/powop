@@ -25,8 +25,8 @@ public class IdentificationKeyDaoImpl extends
         FETCH_PROFILES = new HashMap<String, Fetch[]>();
         FETCH_PROFILES.put("object-page", new Fetch[] {
                 new Fetch("taxa", FetchMode.SELECT),
-                new Fetch("authority", FetchMode.SELECT),
-                new Fetch("sources", FetchMode.SELECT)});
+                new Fetch("comments", FetchMode.SELECT),
+                new Fetch("authority", FetchMode.JOIN)});
         FETCH_PROFILES.put("front-cover", new Fetch[] {
                 new Fetch("taxa", FetchMode.SELECT)});
     }

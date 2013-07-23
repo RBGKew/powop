@@ -64,7 +64,7 @@ public class SubsetRecordAnnotator extends AbstractRecordAnnotator implements Ta
 	    	subsetRank = "family";
 	    	subsetValue = family;
 	    }
-	    String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', :jobId, :dateTime, :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)";
+	    String queryString = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select t.id, 'Taxon', :jobId, now(), :authorityId, 'Warn', 'Absent', 'Taxon' from Taxon t left join Taxon a on (t.acceptedNameUsage_id = a.id) where t.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)";
 	    queryString = queryString.replaceAll("#subsetRank", subsetRank);
 	    Map<String, Object> queryParameters = new HashMap<String,Object>();
 	    queryParameters.put("subsetValue", subsetValue);

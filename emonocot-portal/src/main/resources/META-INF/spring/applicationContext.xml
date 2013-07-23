@@ -7,8 +7,8 @@
 		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		                
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-portal.conf"/>
-	<context:property-override location="classpath:META-INF/spring/application.properties,file:/etc/emonocot/emonocot-portal.conf" ignore-resource-not-found="true" ignore-unresolvable="true"/>		                
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
+	<context:property-override location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties" ignore-resource-not-found="true" ignore-unresolvable="true"/>		                
 
 	<context:annotation-config />
 	<context:component-scan base-package="org.emonocot">
@@ -58,7 +58,8 @@
 				hibernate.dialect=${hibernate.dialect}
 				hibernate.hbm2ddl.auto=validate
                 hibernate.validator.autoregister_listeners=false
-                hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}             				
+                hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}
+                hibernate.default_schema=${liquibase.default.schema.name}
 			</value>
 		</property>
 		<property name="annotatedClasses">
@@ -105,6 +106,7 @@
         <property name="dataSource" ref="liquibaseDataSource" />
         <property name="changeLog" value="classpath:${liquibase.changelog}" />
         <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+        <property name="defaultSchema" value="${liquibase.default.schema.name}"/>        
     </bean>
     
     <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -177,7 +179,7 @@
                 <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
                 <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
                 <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
-                <prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
+                <prop key="org.quartz.jobStore.tablePrefix">${liquibase.default.schema.name}.qrtz_</prop>
                 <prop key="org.quartz.jobStore.isClustered">true</prop>
                 <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
                 <prop key="org.quartz.threadPool.threadCount">1</prop>

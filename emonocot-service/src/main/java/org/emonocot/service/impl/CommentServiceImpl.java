@@ -45,49 +45,6 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
     @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_COMMENT')")
 	public void delete(String identifier) {
 		super.delete(identifier);
-	}
-
-	private Collection<String> getDestinations(BaseData baseData) {
-    	 Set<String> orgs = new HashSet<String>();
-    	 orgs.add(baseData.getAuthority().getCommentsEmailedTo());
-         if (baseData instanceof Taxon) {
-             for(BaseData datum : ((Taxon) baseData).getChildNameUsages()) {
-                 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getDescriptions()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getDistribution()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getHigherClassification()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getIdentifiers()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getMeasurementsOrFacts()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getReferences()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getSynonymNameUsages()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getTypesAndSpecimens()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-             for(BaseData datum : ((Taxon) baseData).getVernacularNames()) {
-            	 orgs.add(datum.getAuthority().getCommentsEmailedTo());
-             }
-         } else if (baseData instanceof NonOwned) {             
-             for(Taxon t : ((NonOwned) baseData).getTaxa()) {
-                 orgs.add(t.getAuthority().getCommentsEmailedTo());
-             }
-         }
-         
-         return orgs;
     }
 
     /* (non-Javadoc)
@@ -100,42 +57,82 @@ public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDa
         
         comment = find(comment.getIdentifier(), "aboutData");
         Base about = comment.getAboutData();
+        Set<String> destinations = new HashSet<String>();
         if(comment.getInResponseTo() != null) {
         	logger.debug("Comment " + comment.getIdentifier() + " in response to " + comment.getInResponseTo().getIdentifier());
         	Comment inResponseTo = comment.getInResponseTo();
         	User user = inResponseTo.getUser();
         	logger.debug("Sending notification to " + user.getIdentifier() + " ? " + user.isNotifyByEmail());
-        	Set<String> destinations = new HashSet<String>();
+        	
         	if(user.isNotifyByEmail()) {
         		destinations.add(user.getIdentifier());
         	}
-        	return destinations;
-        } else if(about != null) {
+        } 
+        
+        if(about != null) {
         	if(about instanceof BaseData) {
-        		return this.getDestinations((BaseData) about);
+        		getDestinations((BaseData) about, destinations);
         	} else if(about instanceof Resource) {
-        		return this.getDestinations((Resource) about);
-        	}else {
+        		getDestinations((Resource) about, destinations);
+        	} else {
         		logger.error("about is not an instance of BaseData - we can't cope with it at the moment");
         		throw new IllegalArgumentException("Cannot cope with instance of " + about.getClass());
         	}
-        } else {
-        	return this.getDestinations(comment.getCommentPage());
         }
-       
+       return destinations;
     }
+	
+    private void getDestinations(BaseData baseData, Collection<String> destinations) {
+   	     destinations.addAll(baseData.getAuthority().getCommentDestinations());
+   	     
+        if (baseData instanceof Taxon) {
+            for(BaseData datum : ((Taxon) baseData).getChildNameUsages()) {
+                destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getDescriptions()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getDistribution()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getHigherClassification()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getIdentifiers()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getMeasurementsOrFacts()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getReferences()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getSynonymNameUsages()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getTypesAndSpecimens()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+            for(BaseData datum : ((Taxon) baseData).getVernacularNames()) {
+           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
+            }
+        } else if (baseData instanceof NonOwned) {             
+            for(Taxon t : ((NonOwned) baseData).getTaxa()) {
+                destinations.addAll(t.getAuthority().getCommentDestinations());
+            }
+        }
+   }
 
-	private Collection<String> getDestinations(Base commentPage) {
-		Set<String> orgs = new HashSet<String>();
-		return orgs;
+	private void getDestinations(Resource about, Collection<String> destinations) {		
+		destinations.add(about.getOrganisation().getCommentsEmailedTo());
 	}
 
-
-
-	private Collection<String> getDestinations(Resource about) {
-		Set<String> orgs = new HashSet<String>();
-		orgs.add(about.getOrganisation().getCommentsEmailedTo());
-		return orgs;
+	@Override
+	@Transactional(readOnly = false)
+	public void updateAlternativeIdentifiers(String identifier,	String toAddress, String string) {
+		Comment comment = load(identifier);
+		comment.getAlternativeIdentifiers().put(toAddress, string);
+		saveOrUpdate(comment);
 	}
 
 }

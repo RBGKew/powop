@@ -139,22 +139,22 @@ Scenario: Textual Citations
   bibliography at the bottom of the page. At the bottom of the page, there should be the 
   bibliography with the references listed in full.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
-  Then the citation for the "Diagnostic Description" topic should be "C1"
+  Then the citation for the "Diagnostic Description" topic should be "B1"
   And the bibliography entry "1" should be "1 Sp. Pl. (1753): 1 304pp"
-  And the provenance entry "C" should be "C Rights3 License3"
+  And the provenance entry "C" should be "C All Rights Reserved"
   
 Scenario: Information from
   Informations in the taxon pages can come from different source systems, and these should be displayed
   in the organisation section at the bottom of the page. There should be also license and rights statements.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=197
   When I navigate to taxon page "urn:kew.org:wcs:taxon:2295"
-  Then the provenance entry "B" should be "B Rights2 License2"
+  Then the provenance entry "B" should be "B Rights3 License3"
 
 Scenario: Bibliography
   Taxa can have general references as well, and these should be displayed in the bibliography
   at the bottom of the page.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=118
-  Then the bibliography entry "3" should be "3 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
+  Then the bibliography entry "2" should be "2 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
  
 # Unfortunately, really difficult to test   
 #Scenario: Distribution

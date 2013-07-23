@@ -77,7 +77,7 @@ public class ImageFileProcessorImpl implements ItemProcessor<Image, Image>, Imag
         logger.debug("Image File " + imageFileName);
         if (file.exists()) {
             logger.info("File exists in image directory, issuing a conditional GET");
-            ExitStatus status = getResourceClient.getBinaryResource("", image.getIdentifier(), Long.toString(file.lastModified()), imageFileName);
+            ExitStatus status = getResourceClient.getBinaryResource(image.getIdentifier(), Long.toString(file.lastModified()), imageFileName);
             if(status == null || ExitStatus.FAILED.equals(status)) {
                 logger.error("There was a problem trying to get " + image.getIdentifier());
                 imageAnnotator.annotate(image, AnnotationCode.BadIdentifier, "The source image wasn't available from " + image.getIdentifier());
@@ -87,8 +87,7 @@ public class ImageFileProcessorImpl implements ItemProcessor<Image, Image>, Imag
             }
         } else {
             try {
-                getResourceClient.getBinaryResource("",
-                        image.getIdentifier(), "1", imageFileName);
+                getResourceClient.getBinaryResource(image.getIdentifier(), "1", imageFileName);
                 file = new File(imageFileName);
                 if (!file.exists()) {
                     logger.error("File does not exist in image directory, skipping");

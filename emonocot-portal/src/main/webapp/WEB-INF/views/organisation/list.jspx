@@ -60,7 +60,7 @@
                           <div id="pages" class="span4">
                             <tags:results pager="${result}" />
                           </div>
-                          <tags:sort url="/organisation" result="${result}" spanClass="span1 offset3" sortItems="${em:organisationSortItems()}" />
+                          <tags:sort url="/organisation" result="${result}" spanClass="span1 offset6" sortItems="${em:organisationSortItems()}" />
                         </div>
 						<table class="table">
 							<tbody>

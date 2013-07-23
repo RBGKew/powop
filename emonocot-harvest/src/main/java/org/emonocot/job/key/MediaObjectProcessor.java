@@ -2,9 +2,6 @@ package org.emonocot.job.key;
 
 import org.emonocot.api.ImageService;
 import org.emonocot.harvest.common.AuthorityAware;
-import org.emonocot.harvest.media.ImageFileProcessor;
-import org.emonocot.harvest.media.ImageMetadataExtractor;
-import org.emonocot.harvest.media.ImageThumbnailGenerator;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.AnnotationCode;
@@ -23,29 +20,7 @@ import org.tdwg.ubif.MediaObject;
 public class MediaObjectProcessor extends AuthorityAware implements
         ItemProcessor<MediaObject, MediaObject> {
 
-    private ImageService imageService;
-
-    private ImageMetadataExtractor imageMetadataExtractor;
-
-    private ImageFileProcessor imageFileProcessor;
-    
-    private ImageThumbnailGenerator imageThumbnailGenerator;
-
-
-    @Autowired
-    public void setImageMetadataExtractor(ImageMetadataExtractor newImageMetadataExtractor) {
-        this.imageMetadataExtractor = newImageMetadataExtractor;
-    }
-    
-    @Autowired
-    public void setImageThumbnailGenerator(ImageThumbnailGenerator newImageThumbnailGenerator) {
-        this.imageThumbnailGenerator = newImageThumbnailGenerator;
-    }
-
-    @Autowired
-    public void setImageFileProcessor(ImageFileProcessor newImageFileProcessor) {
-        this.imageFileProcessor = newImageFileProcessor;
-    }
+    private ImageService imageService;    
 
     @Autowired
     public void setImageService(ImageService newImageService) {
@@ -60,10 +35,8 @@ public class MediaObjectProcessor extends AuthorityAware implements
                 item.setDebuglabel(persistedImage.getId() + "." + persistedImage.getFormat());
                 persistedImage.setTitle(item.getRepresentation().getLabel());                
                 persistedImage.setDescription(item.getRepresentation()
-                        .getDetail());
+                        .getDetail());                
                 
-                imageFileProcessor.process(persistedImage);
-                imageMetadataExtractor.process(persistedImage);
                 Annotation annotation = createAnnotation(persistedImage,
                         RecordType.Image, AnnotationCode.Update,
                         AnnotationType.Info);
@@ -85,15 +58,7 @@ public class MediaObjectProcessor extends AuthorityAware implements
                         AnnotationType.Info);
                 image.getAnnotations().add(annotation);
                 imageService.saveOrUpdate(image);
-                item.setDebuglabel(image.getId() + "." + format);
-                image = imageFileProcessor.process(image);
-                image = imageThumbnailGenerator.process(image);
-                if(image != null) {
-                   image = imageMetadataExtractor.process(image);
-                   if(image != null) {
-                       imageService.saveOrUpdate(image);                       
-                   }
-                }
+                item.setDebuglabel(image.getId() + "." + format);                
             }
             return item;
         } else {

@@ -49,9 +49,11 @@ public class PdfWritingTest {
             Taxon t = new Taxon();
             t.setTaxonomicStatus(TaxonomicStatus.Accepted);
             t.setScientificName(t.getTaxonomicStatus().toString() + i);
+            t.setLicense("http://example.com/34*");
             t.setIdentifier(t.getScientificName());
             itemsToWrite.add(t);
         }
+        itemsToWrite.get(4).setLicense("Ask Joseph nicely, preferably with cake");
         for (int i = 0; i < 15; i++) {
             Taxon t = new Taxon();
             t.setTaxonomicStatus(TaxonomicStatus.Synonym);

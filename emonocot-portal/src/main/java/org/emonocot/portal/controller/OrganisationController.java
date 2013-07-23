@@ -97,7 +97,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Organisation");
 		Page<Organisation> result = getService().search(query, null, limit, start, 
-				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, null);
+				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, "source-with-jobs");
 		model.addAttribute("result", result);
 		result.putParam("query", query);
 		return "organisation/list";
@@ -154,8 +154,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	@RequestMapping(value = "/{organisationId}", produces = "text/html")
 	public String show(@PathVariable String organisationId,
 			Model uiModel) {
-		uiModel.addAttribute(getService().find(organisationId));
-		uiModel.addAttribute("resources", resourceService.list(organisationId, 0, 10));
+		uiModel.addAttribute(getService().find(organisationId,"source-with-jobs"));
 		return "organisation/show";
 	}
 
@@ -202,12 +201,8 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		persistedSource.setDescription(organisation.getDescription());
 		persistedSource.setPublisherName(organisation.getPublisherName());
 		persistedSource.setPublisherEmail(organisation.getPublisherEmail());
-		String emailCommentsTo = organisation.getCommentsEmailedTo();
-		if(emailCommentsTo == null) {
-		    emailCommentsTo = organisation.getPublisherEmail() != null ?
-		                organisation.getPublisherEmail() :organisation.getCreatorEmail();
-		}
-		persistedSource.setCommentsEmailedTo(emailCommentsTo);
+		persistedSource.setCommentsEmailedTo(organisation.getCommentsEmailedTo());
+		persistedSource.setInsertCommentsIntoScratchpad(organisation.getInsertCommentsIntoScratchpad());
 		persistedSource.setSubject(organisation.getSubject());
 		persistedSource.setBibliographicCitation(organisation.getBibliographicCitation());
 		persistedSource.setLogoUrl(organisation.getLogoUrl());

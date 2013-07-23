@@ -7,7 +7,7 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 	                    
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/*.properties,file:/etc/emonocot/emonocot-harvest.conf"/>
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
 	<context:annotation-config />
 
 	<batch:job id="IUCNImport">
@@ -40,10 +40,19 @@
 		<batch:step id="markMeasurementOrFactRecords">
 			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
 			<batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
-			<batch:next on="COMPLETED" to="splitJsonFile" />
+			<batch:next on="COMPLETED" to="checkEmptyResponse" />
 			<batch:listeners>
 				<batch:listener ref="markMeasurementOrFactRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="checkEmptyResponse">
+			<batch:description>The JSON file from the IUCN</batch:description>
+			<batch:tasklet ref="checkEmptyResponseTasklet" />
+			<batch:next on="EMPTY_RESPONSE" to="deleteAbsentMeasurementOrFacts" />
+			<batch:next on="COMPLETED" to="splitJsonFile" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="splitJsonFile">
@@ -57,7 +66,10 @@
 	    <batch:step id="processFile">
 	      <batch:description>Process the specified file and check for matches</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="fileReader" processor="iucnProcessor"	writer="itemWriter" commit-interval="10">
+				<batch:chunk reader="fileReader" processor="iucnProcessor"	writer="itemWriter" commit-interval="10" skip-limit="100">
+				  <batch:skippable-exception-classes>
+				    <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+				  </batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts"/>
@@ -137,6 +149,14 @@
 		<property name="subtribe" value="#{jobParameters['subtribe']}" />		
 	</bean>
 	
+	<bean id="checkEmptyResponseTasklet" class="org.emonocot.job.iucn.CheckEmptyResponseTasklet">
+		<property name="inputFile">
+		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
+		  </bean>
+		</property>		
+	</bean>
+	
 	<bean id="splitOneLineJsonTasklet" class="org.emonocot.job.iucn.SplitOneLineJsonFileTasklet">
 		<property name="inputFile">
 		  <bean class="org.springframework.core.io.FileSystemResource" scope="step">
@@ -157,7 +177,6 @@
 		<property name="targetMethod" value="getBinaryResource" />
 		<property name="arguments">
 			<list>
-				<value>#{jobParameters['authority.name']}</value>
 				<value>#{jobParameters['authority.uri']}</value>
 				<value>#{jobParameters['authority.last.harvested']}</value>
 				<value>#{jobExecutionContext['temporary.file.name']}</value>

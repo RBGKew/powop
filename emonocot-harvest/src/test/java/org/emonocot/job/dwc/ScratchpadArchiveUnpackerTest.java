@@ -27,7 +27,6 @@ public class ScratchpadArchiveUnpackerTest {
    *
    */
    private String unpackDirectoryName = "target/archive";
-	   // System.getProperty("java.io.tmpdir") + "/archive";
 
    /**
     *
