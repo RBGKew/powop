@@ -716,6 +716,14 @@
 		    <batch:tasklet>
 				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
+			<batch:next on="COMPLETED" to="optimize" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="optimize">
+		    <batch:description>Optimze the indexes if neccessary</batch:description>
+		    <batch:tasklet ref="solrOptimizingTasklet"/>
 			<batch:next on="COMPLETED" to="cleanupResources" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
@@ -743,6 +751,14 @@
 		    <batch:tasklet>
 				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
+			<batch:next on="COMPLETED" to="optimizeFailed" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="optimizeFailed">
+		    <batch:description>Optimze the indexes if neccessary</batch:description>
+		    <batch:tasklet ref="solrOptimizingTasklet"/>
 			<batch:next on="COMPLETED" to="cleanupResourcesFailed" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
