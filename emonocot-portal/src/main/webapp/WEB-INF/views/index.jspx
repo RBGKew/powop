@@ -57,7 +57,7 @@
 							$('#testNews').rssfeed('http://families.e-monocot.org/blog/feed',{
 								limit:5,
 								dateformat: 'date',
-								historical: true
+								historical: false
 							});
 						});
 					</script>

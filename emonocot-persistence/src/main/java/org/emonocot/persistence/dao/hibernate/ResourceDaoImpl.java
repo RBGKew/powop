@@ -130,4 +130,11 @@ public class ResourceDaoImpl extends SearchableDaoImpl<Resource> implements Reso
 		return false;
 	}
 
+	@Override
+	public Resource findResourceByUri(String identifier) {
+		Criteria criteria = getSession().createCriteria(type);
+		criteria.add(Restrictions.eq("uri", identifier));
+		return (Resource) criteria.uniqueResult();
+	}
+
 }

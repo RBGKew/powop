@@ -5185,7 +5185,7 @@
             </Representation>
        </Agent>
     </Agents>
-    <MediaObjects/>
+    <MediaObjects>
       <MediaObject id="m1" debuglabel="166:http://www.cate-araceae.org/taxonomy/Arum/apulum/Index.do">
         <Representation>
           <Label>No caption</Label>

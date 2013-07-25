@@ -45,7 +45,7 @@
 				<batch:chunk reader="itemReader" writer="itemWriter" commit-interval="1" skip-limit="1000">
 				  <batch:skippable-exception-classes>
 					<batch:include class="org.gbif.ecat.parser.UnparsableException" />
-					<batch:include class="com.ctc.wstx.exc.WstxUnexpectedCharException"/>
+					<batch:include class="org.springframework.oxm.UnmarshallingFailureException"/>
 					<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 				  </batch:skippable-exception-classes>
 				</batch:chunk>

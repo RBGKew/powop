@@ -26,7 +26,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -60,7 +60,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
 
     private String spatial;
 
-    private ImageFormat format;
+    private MediaFormat format;
 
     private String subject;
 
@@ -137,11 +137,11 @@ public class Image extends SearchableObject implements NonOwned, Media {
    }
 
    @Enumerated(EnumType.STRING)
-   public ImageFormat getFormat() {
+   public MediaFormat getFormat() {
        return format;
    }
 
-   public void setFormat(ImageFormat format) {
+   public void setFormat(MediaFormat format) {
        this.format = format;
    }
 

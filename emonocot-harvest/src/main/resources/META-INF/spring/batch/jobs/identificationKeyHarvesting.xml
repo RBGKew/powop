@@ -409,9 +409,15 @@
 		</property>
 	</bean>
 	
-	<bean id="datasetWriter"
-		class="org.springframework.batch.item.database.HibernateItemWriter">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean id="datasetWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
+		<property name="delegates">
+		  <list>
+		    <ref bean="itemWriter" />
+		    <bean class="org.emonocot.harvest.common.SolrObjectIndexingWriter">
+		      <property name="solrIndexingListener" ref="solrIndexingListener"/>
+		    </bean>
+		  </list>
+		</property>
 	</bean>
 
 	<bean id="keyUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">

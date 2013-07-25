@@ -36,4 +36,6 @@ public interface ResourceDao extends SearchableDao<Resource> {
 
 	List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch);
 
+	Resource findResourceByUri(String identifier);
+
 }

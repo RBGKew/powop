@@ -310,7 +310,7 @@ public class GroupController extends GenericController<Group, GroupService> {
         ace.setPrincipal(identifier);
         SecuredObject securedObject = conversionService.convert(ace,
                 SecuredObject.class);
-        getService().deletePermission(securedObject, identifier, permission, clazz);        
+        getService().deletePermission(securedObject, identifier, permission, clazz);
         String[] codes = new String[] {"ace.removed.from.group" };
         Object[] args = new Object[] {
                 conversionService.convert(permission, String.class),

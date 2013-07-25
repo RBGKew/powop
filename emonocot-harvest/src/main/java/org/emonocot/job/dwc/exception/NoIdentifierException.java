@@ -1,6 +1,6 @@
 package org.emonocot.job.dwc.exception;
 
-import org.emonocot.model.Taxon;
+import org.emonocot.model.BaseData;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 
@@ -21,7 +21,7 @@ public class NoIdentifierException extends TaxonProcessingException {
      * @param t
      *            the taxon
      */
-    public NoIdentifierException(final Taxon t) {
+    public NoIdentifierException(final BaseData t) {
         super(t.toString() + " has no identifier", AnnotationCode.BadField, "identifier");
     }
 

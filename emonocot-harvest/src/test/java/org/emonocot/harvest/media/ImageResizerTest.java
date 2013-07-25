@@ -12,7 +12,7 @@ import java.util.Properties;
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
 import org.emonocot.model.Image;
-import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.MediaFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class ImageResizerTest {
         long imageNumber = 0L;
         Image image = new Image();
         image.setId(imageNumber);
-        image.setFormat(ImageFormat.jpg);
+        image.setFormat(MediaFormat.jpg);
         ImageInfo info = null;
         Integer originalHeight = null;
         Integer originalWidth = null;
@@ -93,7 +93,7 @@ public class ImageResizerTest {
         long imageNumber = 1L;
         Image image = new Image();
         image.setId(imageNumber);
-        image.setFormat(ImageFormat.jpg);
+        image.setFormat(MediaFormat.jpg);
         ImageInfo info = null;
         Integer originalHeight = null;
         Integer originalWidth = null;

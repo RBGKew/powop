@@ -97,69 +97,6 @@
 	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
 	  <property name="solrServer" ref="solrServer"/>
 	</bean>
-
-	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
-		<constructor-arg value="${solr.url}"/>
-	</bean>
-	
-	<bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">
-        <property name="dataSource" ref="liquibaseDataSource" />
-        <property name="changeLog" value="classpath:${liquibase.changelog}" />
-        <property name="dropFirst" value="${liquibase.drop.database.first}"/>
-        <property name="defaultSchema" value="${liquibase.default.schema.name}"/>        
-    </bean>
-    
-    <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver.classname}" />
-		<property name="url" value="${jdbc.driver.url}" />
-		<property name="username" value="${liquibase.username}" />
-		<property name="password" value="${liquibase.password}" />
-		<property name="initialSize" value="8" />
-		<property name="maxActive" value="20" />
-		<property name="maxIdle" value="10" />
-		<property name="minIdle" value="0" />
-		<property name="maxWait" value="10000" />
-		<property name="removeAbandoned" value="true" />
-		<property name="removeAbandonedTimeout" value="300" />
-		<property name="logAbandoned" value="true" />
-		<property name="defaultAutoCommit" value="true" />
-		<property name="defaultReadOnly" value="false" />
-		<property name="validationQuery" value="SELECT 1" />
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
-		<property name="minEvictableIdleTimeMillis" value="30000" />
-		<property name="numTestsPerEvictionRun" value="3" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnReturn" value="true" />
-		<property name="testOnBorrow" value="true" />
-		<property name="defaultTransactionIsolation" value="2" />
-	</bean>
-
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver.classname}" />
-		<property name="url" value="${jdbc.driver.url}" />
-		<property name="username" value="${jdbc.driver.username}" />
-		<property name="password" value="${jdbc.driver.password}" />
-		<property name="initialSize" value="8" />
-		<property name="maxActive" value="20" />
-		<property name="maxIdle" value="10" />
-		<property name="minIdle" value="1" />
-		<property name="maxWait" value="10000" />
-		<property name="removeAbandoned" value="true" />
-		<property name="removeAbandonedTimeout" value="300" />
-		<property name="logAbandoned" value="true" />
-		<property name="defaultAutoCommit" value="true" />
-		<property name="defaultReadOnly" value="false" />
-		<property name="validationQuery" value="SELECT 1" />
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
-		<property name="minEvictableIdleTimeMillis" value="30000" />
-		<property name="numTestsPerEvictionRun" value="3" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnReturn" value="true" />
-		<property name="testOnBorrow" value="true" />
-		<property name="defaultTransactionIsolation" value="2" />
-	</bean>
 	
 	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
      <property name="applicationContextSchedulerContextKey" value="applicationContext" />
@@ -200,7 +137,7 @@
                 <entry key="workingWeekCronExpression" value="* * 0-9,17-23 ? * MON-FRI" />
                 <entry key="weekendCronExpression" value="* * 0-23 ? * SAT-SUN" />
                 <entry key="resourceServiceName" value="resourceServiceImpl" />
-                <entry key="jobLauncherName" value="readWriteJobLauncher" />
+                <entry key="jobLauncherName" value="messageBasedReadWriteJobLauncher" />
             </map>
         </property>
     </bean>
@@ -232,4 +169,82 @@
           </props>
     </property>
     </bean>
+    <beans profile="default">
+        <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+		    <constructor-arg value="${solr.url}"/>
+	    </bean>
+	
+	    <bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">
+            <property name="dataSource" ref="liquibaseDataSource" />
+            <property name="changeLog" value="classpath:${liquibase.changelog}" />
+            <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+            <property name="defaultSchema" value="${liquibase.default.schema.name}"/>        
+        </bean>
+    
+        <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		    <property name="driverClassName" value="${jdbc.driver.classname}" />
+		    <property name="url" value="${jdbc.driver.url}" />
+		    <property name="username" value="${liquibase.username}" />
+		    <property name="password" value="${liquibase.password}" />
+		    <property name="initialSize" value="8" />
+		    <property name="maxActive" value="20" />
+		    <property name="maxIdle" value="10" />
+		    <property name="minIdle" value="0" />
+		    <property name="maxWait" value="10000" />
+		    <property name="removeAbandoned" value="true" />
+		    <property name="removeAbandonedTimeout" value="300" />
+		    <property name="logAbandoned" value="true" />
+		    <property name="defaultAutoCommit" value="true" />
+		    <property name="defaultReadOnly" value="false" />
+		    <property name="validationQuery" value="SELECT 1" />
+		    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+		    <property name="minEvictableIdleTimeMillis" value="30000" />
+		    <property name="numTestsPerEvictionRun" value="3" />
+		    <property name="testWhileIdle" value="true" />
+		    <property name="testOnReturn" value="true" />
+		    <property name="testOnBorrow" value="true" />
+		    <property name="defaultTransactionIsolation" value="2" />
+	    </bean>
+
+	    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		    <property name="driverClassName" value="${jdbc.driver.classname}" />
+		    <property name="url" value="${jdbc.driver.url}" />
+		    <property name="username" value="${jdbc.driver.username}" />
+		    <property name="password" value="${jdbc.driver.password}" />
+		    <property name="initialSize" value="8" />
+		    <property name="maxActive" value="20" />
+		    <property name="maxIdle" value="10" />
+		    <property name="minIdle" value="1" />
+		    <property name="maxWait" value="10000" />
+		    <property name="removeAbandoned" value="true" />
+		    <property name="removeAbandonedTimeout" value="300" />
+		    <property name="logAbandoned" value="true" />
+		    <property name="defaultAutoCommit" value="true" />
+		    <property name="defaultReadOnly" value="false" />
+		    <property name="validationQuery" value="SELECT 1" />
+		    <property name="timeBetweenEvictionRunsMillis" value="60000" />
+		    <property name="minEvictableIdleTimeMillis" value="30000" />
+		    <property name="numTestsPerEvictionRun" value="3" />
+		    <property name="testWhileIdle" value="true" />
+		    <property name="testOnReturn" value="true" />
+		    <property name="testOnBorrow" value="true" />
+		    <property name="defaultTransactionIsolation" value="2" />
+	    </bean>
+    </beans>
+    <beans profile="local.tests">
+      <bean name="dataSource"
+            class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
+            <property name="testDatabaseName" value="testdb" />
+            <property name="schemaLocations">
+                <list>
+                    <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
+                    <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
+                    <value>classpath:/META-INF/database/H2_schema.ddl</value>
+                </list>
+            </property>           
+      </bean>
+      <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean" destroy-method="shutdown">
+		<property name="solrHome" value="classpath:/META-INF/solr/"/>
+	  </bean>
+    </beans>
 </beans>

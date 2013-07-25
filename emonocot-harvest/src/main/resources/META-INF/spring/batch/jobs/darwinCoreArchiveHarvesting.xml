@@ -214,8 +214,8 @@
 		<batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
 			<batch:next on="IMPORT_IMAGES" to="markImageRecords" />
 			<batch:next on="IMPORT_IMAGES_DONT_DELETE_GLOBAL" to="markRelatedImageRecords" />
-            <batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
-            <batch:next on="SKIP_WITH_ERROR" to="checkReferenceProcessingMode" />
+            <batch:next on="SKIP_IMAGES" to="checkKeyProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkKeyProcessingMode" />
 		</batch:decision>
 		<batch:step id="markImageRecords">
 			<batch:description>Mark the image records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -292,6 +292,75 @@
 		  <batch:description>Index the images associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexImagesReader" writer="indexImagesWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkKeyProcessingMode" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="keyProcessingModeDecider" id="checkKeyProcessingMode">
+			<batch:next on="IMPORT_KEYS" to="markKeyRecords" />
+			<batch:next on="IMPORT_KEYS_DONT_DELETE_GLOBAL" to="markRelatedKeyRecords" />
+            <batch:next on="SKIP_KEYS" to="checkReferenceProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkReferenceProcessingMode" />
+		</batch:decision>
+		<batch:step id="markKeyRecords">
+			<batch:description>Mark the identification key records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markKeyRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processKeysDecision" />
+			<batch:listeners>
+				<batch:listener ref="markKeyRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedKeyRecords">
+			<batch:description>Mark the key records we expect to be present in this archive (based on what we have previously harvested) but don't delete keys which are not associate with a taxon</batch:description>
+			<batch:tasklet ref="markRelatedKeyRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processKeysDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedKeyRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processKeysDecider" id="processKeysDecision">
+			<batch:next on="true" to="processKeyFile" />
+			<batch:next on="false" to="deleteAbsentKeys" />
+		</batch:decision>
+		<batch:step id="processKeyFile">
+			<batch:description>Process the extension file containing the identification keys</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="keyReader" processor="keyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include	class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentKeys" />
+			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="imageFieldSetMapper" />
+				<batch:listener ref="keyProcessor" />
+				<batch:listener ref="keyProcessorDelegate" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentKeys">
+			<batch:description>Delete the identification keys which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+                <batch:chunk reader="deleteKeysReader" writer="deletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexKeys" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexKeys">
+		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexKeysReader" writer="indexKeysWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
 			<batch:listeners>
@@ -623,7 +692,7 @@
 			</batch:listeners>
 		</batch:step>
 		<batch:step id="indexTaxa">
-		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:description>Index the taxa associated with this job</batch:description>
 		  <batch:tasklet>
 				<batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
 			</batch:tasklet>
@@ -1143,6 +1212,98 @@
 	
 	<bean id="indexImagesWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="org.emonocot.model.Image" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
+    
+    <!-- Identification Keys -->
+	
+	<bean id="keyProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="key.processing.mode" />
+		<property name="defaultProcessingMode" value="SKIP_KEYS" /><!-- By default skip keys as the majority are configured and imported individually -->
+	</bean>
+	
+	<bean id="processKeysDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.image.file" />
+	</bean>
+
+	<bean id="markKeyRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="IdentificationKey"/>
+	</bean>
+	
+	<bean id="markRelatedKeyRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="IdentificationKey"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from Image o join Taxon_IdentificationKey o_t on (o.id = o_t.keys_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="keyReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.image.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.image.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.image.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="imageLineMapper" /><!-- Re-use objects -->
+	</bean>
+	
+	<bean id="keyProcessor" class="org.emonocot.job.dwc.key.JobLaunchingProcessor" scope="step">
+	  <property name="processor" ref="keyProcessorDelegate"/>
+      <property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="keyProcessorDelegate" class="org.emonocot.job.dwc.key.Processor" scope="step">
+	    <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+
+	<bean id="deleteKeysReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i from IdentificationKey i join i.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexKeysReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i.id from IdentificationKey i join i.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexKeysWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+      <property name="type" value="org.emonocot.model.IdentificationKey" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>
