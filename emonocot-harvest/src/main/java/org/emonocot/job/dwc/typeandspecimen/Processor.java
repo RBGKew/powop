@@ -90,4 +90,9 @@ public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecime
 	protected void doValidate(TypeAndSpecimen t) throws Exception {
 		
 	}
+
+	@Override
+	protected boolean doFilter(TypeAndSpecimen t) {
+		return false;
+	}
 }

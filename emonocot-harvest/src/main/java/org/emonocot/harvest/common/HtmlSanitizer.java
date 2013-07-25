@@ -30,29 +30,35 @@ public class HtmlSanitizer {
 	}
 	
 	public String sanitize(String unclean) {
-		if(unclean == null || unclean.isEmpty()) {
+		if (unclean == null || unclean.isEmpty()) {
 			return unclean;
-		}
-		String unescaped = StringEscapeUtils.unescapeHtml(unclean);
-		
-		CleanResults cleanResults;
-		try {
-			cleanResults = antiSamy.scan(unescaped, policy);
-			return cleanResults.getCleanHTML();
-		} catch (PolicyException pe) {
-			throw new RuntimeException(pe);
-		} catch (ScanException se) {
-			if(unclean.length() > 36) {
-			    logger.error("Could not sanitize html " + unclean.substring(0,36), se);
-	            return null;
-			} else {
-			    logger.error("Could not sanitize html " + unclean, se);
-	            return null;
+		} else if (unclean.matches(".*\\<[^>]+>.*")) {
+
+			String unescaped = StringEscapeUtils.unescapeHtml(unclean);
+
+			CleanResults cleanResults;
+			try {
+				cleanResults = antiSamy.scan(unescaped, policy);
+				return cleanResults.getCleanHTML();
+			} catch (PolicyException pe) {
+				throw new RuntimeException(pe);
+			} catch (ScanException se) {
+				if (unclean.length() > 36) {
+					logger.error(
+							"Could not sanitize html "
+									+ unclean.substring(0, 36), se);
+					return null;
+				} else {
+					logger.error("Could not sanitize html " + unclean, se);
+					return null;
+				}
+			} catch (Exception e) {
+				logger.error("Could not sanitize html " + unclean, e);
+				return null;
 			}
-		} catch (Exception e) {
-            logger.error("Could not sanitize html " + unclean, e);
-            return null;
-        }
+		} else {
+			return unclean.replace("\0", "");
+		}
 	}
 
 }

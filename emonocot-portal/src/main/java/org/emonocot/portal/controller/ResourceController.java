@@ -11,15 +11,18 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
+import org.emonocot.api.job.CouldNotLaunchJobException;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
+import org.emonocot.api.job.ResourceAlreadyBeingHarvestedException;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.SchedulingPeriod;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.model.registry.Resource.ReadResource;
+import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
@@ -56,27 +59,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/resource")
 public class ResourceController extends GenericController<Resource, ResourceService> {
-	private static Logger logger = LoggerFactory.getLogger(ResourceController.class);
-	
-	private static BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,	9, 0, 0, 0);
+	private static Logger logger = LoggerFactory.getLogger(ResourceController.class);	
 	
 	private AnnotationService annotationService;
 	
 	private OrganisationService organisationService;
-	
-	private JobLauncher jobLauncher;
-	
+		
 	private JobExplorer jobExplorer;
 
 	@Autowired
 	public void setResourceService(ResourceService resourceService) {
 		super.setService(resourceService);
-	}
-	
-	@Autowired
-	@Qualifier("readWriteJobLauncher")
-	public void setJobLauncher(JobLauncher newJobLauncher) {
-	   this.jobLauncher = newJobLauncher;
 	}
 	
 	@Autowired
@@ -135,8 +128,9 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		    @RequestParam(value = "sort", required = false) String sort,
 		    @RequestParam(value = "view", required = false) String view,
 		    Model model) throws SolrServerException {
-		Resource resource = getService().load(resourceId,"job-with-source");
+		Resource resource = getService().load(resourceId,"job-with-source");		
 		model.addAttribute("resource", resource);
+        
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
@@ -145,7 +139,15 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		}
 		
 		selectedFacets.put("base.class_s", "org.emonocot.model.Annotation");
-		selectedFacets.put("annotation.job_id_l", new Long(resource.getLastHarvestedJobId()).toString());
+		if(resource.getLastHarvestedJobId() == null) {
+			selectedFacets.put("annotation.job_id_l","0");
+			String[] codes = new String[] { "resource.not.harvested" };
+			Object[] args = new Object[] { resource.getTitle() };
+			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+			model.addAttribute("error", message);
+		} else {
+		    selectedFacets.put("annotation.job_id_l", new Long(resource.getLastHarvestedJobId()).toString());
+		}
 		Page<Annotation> result = annotationService.search(query, null, limit,
 				start, new String[] { "annotation.code_s",
 				"annotation.type_s", "annotation.record_type_s",
@@ -404,75 +406,29 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			Model model,
 			RedirectAttributes redirectAttributes) {
 
-		Resource resource = getService().load(resourceId,"job-with-source");
-		if (resource.getStatus() != null) {
-			switch (resource.getStatus()) {
-			case STARTED:
-			case STARTING:
-			case STOPPING:
-			case UNKNOWN:
-				String[] codes = new String[] { "job.running" };
-				Object[] args = new Object[] {};
-				DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-						codes, args);
-				redirectAttributes.addFlashAttribute("error", message);
-				return "redirect:/resource/" + resourceId;
-			case COMPLETED:
-			case FAILED:
-			case STOPPED:
-			case ABANDONED:
-			default:
-				break;
-			}
-		}
-		Map<String, String> jobParametersMap = new HashMap<String, String>();
-		jobParametersMap.put("authority.name", resource.getOrganisation().getIdentifier());
-		jobParametersMap.put("authority.uri", resource.getUri());
-		jobParametersMap.put("resource.identifier", resource.getIdentifier());
-        jobParametersMap.put("skip.unmodified", ifModified.toString());
-
-		if (resource.getStatus() == null || !ifModified) {
-			jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
-			jobParametersMap.put("authority.last.harvested",
-					Long.toString((PAST_DATETIME.getMillis())));
-		} else {
-			jobParametersMap.put("authority.last.harvested",
-					Long.toString((resource.getStartTime().getMillis())));
-		}
-		
-		jobParametersMap.putAll(resource.getParameters());
-
-		JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
-		jobLaunchRequest.setJob(resource.getResourceType().getJobName());		
-		jobLaunchRequest.setParameters(jobParametersMap);
-
 		try {
-			jobLauncher.launch(jobLaunchRequest);
-			resource.setStartTime(null);
-			resource.setDuration(null);
-			resource.setExitCode(null);
-			resource.setExitDescription(null);
-			resource.setJobId(null);
-			resource.setStatus(BatchStatus.UNKNOWN);
-			resource.setRecordsRead(0);
-			resource.setReadSkip(0);
-			resource.setProcessSkip(0);
-			resource.setWriteSkip(0);
-			resource.setWritten(0);
-			getService().saveOrUpdate(resource);
+			getService().harvestResource(resourceId, ifModified);
 			String[] codes = new String[] { "job.scheduled" };
 			Object[] args = new Object[] {};
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
 			redirectAttributes.addFlashAttribute("info", message);
-		} catch (JobExecutionException e) {
+			return "redirect:/resource/{resourceId}";
+		} catch(ResourceAlreadyBeingHarvestedException rabhe) {
+		    String[] codes = new String[] { "job.running" };
+		    Object[] args = new Object[] {};
+		    DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		    redirectAttributes.addFlashAttribute("error", message);
+		    return "redirect:/resource/" + resourceId;		    
+		} catch (CouldNotLaunchJobException cnlje) {
 			String[] codes = new String[] { "job.failed" };
-			Object[] args = new Object[] { e.getMessage() };
+			Object[] args = new Object[] { cnlje.getMessage() };
 			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					codes, args);
 			redirectAttributes.addFlashAttribute("error", message);
+			return "redirect:/resource/{resourceId}";
 		}
-		return "redirect:/resource/{resourceId}";
+		
 	}
 	
 	@RequestMapping(value = "/{resourceId}/progress", method = RequestMethod.GET, produces="application/json")

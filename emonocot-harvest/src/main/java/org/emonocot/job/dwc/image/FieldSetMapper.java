@@ -3,7 +3,7 @@ package org.emonocot.job.dwc.image;
 import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
-import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.MediaFormat;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class FieldSetMapper extends
             	object.setDescription(htmlSanitizer.sanitize(value));
             	break;
             case format:
-                object.setFormat(conversionService.convert(value, ImageFormat.class));
+                object.setFormat(conversionService.convert(value, MediaFormat.class));
                 break;
             case identifier:
                 object.setIdentifier(value);                

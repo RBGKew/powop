@@ -130,4 +130,13 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		
 	}
 
+	@Override
+	protected boolean doFilter(Image t) {
+		if(t.getFormat() != null && !t.getFormat().isImage()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

@@ -29,11 +29,17 @@
         <context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService" />
         <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao" />
         <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao" />
+        <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceService" />
         <!-- Only used by the portal -->
         <context:exclude-filter type="assignable" expression="org.emonocot.service.impl.DownloadServiceImpl" />
     </context:component-scan>
 
 	<tx:annotation-driven />
+	
+	<bean id="resourceServiceImpl" class="org.emonocot.service.impl.ResourceServiceImpl">
+	  <property name="jobDao" ref="resourceDaoImpl"/>
+	  <property name="jobLauncher" ref="messageBasedReadWriteJobLauncher"/>
+	</bean>
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
@@ -57,7 +63,7 @@
 				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<bean class="org.emonocot.model.convert.DescriptionTypeConverter" />
-				<bean class="org.emonocot.model.convert.ImageFormatConverter" />
+				<bean class="org.emonocot.model.convert.MediaFormatConverter" />
 				<bean class="org.emonocot.model.convert.TypeStatusConverter" />
 				<bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
@@ -236,12 +242,13 @@
     <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.CompositeTaxonMatcher">
         <property name="matchers">
             <list>
-                <bean class="org.emonocot.job.taxonmatch.ExampleTaxonMatcher">
-                  <property name="nameParser" ref="nameParser"/>
-                </bean>
                 <bean class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher">
                   <property name="nameParser" ref="nameParser"/>
                 </bean>
+                <!--  removing to see if this speeds up the matching
+                <bean class="org.emonocot.job.taxonmatch.ExampleTaxonMatcher">
+                  <property name="nameParser" ref="nameParser"/>
+                </bean>-->
             </list>
         </property>
     </bean>

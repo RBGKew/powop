@@ -37,7 +37,7 @@ public class DownloadServiceImpl implements DownloadService {
      * @param jobLauncher the jobLauncher to set
      */
     @Autowired
-    @Qualifier("readOnlyJobLauncher")
+    @Qualifier("messageBasedReadOnlyJobLauncher")
     public void setJobLauncher(JobLauncher jobLauncher) {
         this.jobLauncher = jobLauncher;
     }

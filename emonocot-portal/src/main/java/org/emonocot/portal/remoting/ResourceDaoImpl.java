@@ -118,4 +118,10 @@ public class ResourceDaoImpl extends DaoImpl<Resource> implements ResourceDao {
 		return null;
 	}
 
+	@Override
+	public Resource findResourceByUri(String identifier) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
