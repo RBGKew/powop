@@ -38,6 +38,8 @@ public enum FacetName {
     LAST_HARVESTED("resource.last_harvested_dt", false),
     COMMENT_SUBJECT("comment.subject_s", false),
     COMMENT_PAGE_TYPE("comment.comment_page_class_s", false);
+    
+    public static final FacetName[] taxonomyFacets = {ORDER, FAMILY, SUBFAMILY, TRIBE, SUBTRIBE, GENUS}; 
 
     private FacetName(String solrField, boolean includeMissing) {
         this.solrField = solrField;
