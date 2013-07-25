@@ -130,21 +130,25 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 				Page<Annotation> result = annotationService.search(null, null,
 						1, 0, new String[] { "annotation.type_s" }, null,
 						selectedFacets, null, "annotated-obj");
-				FacetField annotationTypes = result
-						.getFacetField("annotation.type_s");
+				FacetField annotationTypes = result.getFacetField("annotation.type_s");
+				
 				for (FacetField.Count value : annotationTypes.getValues()) {
-					switch (value.getName()) {
-					case "Info":
-						info = value.getCount();
-						break;
-					case "Warn":
-						warn = value.getCount();
-						break;
-					case "Error":
-						error = value.getCount();
-						break;
-					default:
-						break;
+					if(value.getName() == null) {
+						
+					} else {
+					    switch (value.getName()) {
+					    case "Info":
+						    info = value.getCount();
+						    break;
+					    case "Warn":
+						    warn = value.getCount();
+						    break;
+					    case "Error":
+						    error = value.getCount();
+						    break;
+					    default:
+						    break;
+					    }
 					}
 				}
 			} catch (SolrServerException e) {

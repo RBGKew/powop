@@ -27,7 +27,9 @@
 	
     <bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>
     
-    <bean id="readOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
+    <bean id="messageBasedReadOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
+    
+    <bean id="messageBasedReadWriteJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
 
 	<bean name="jdbcTemplate"
 		class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">

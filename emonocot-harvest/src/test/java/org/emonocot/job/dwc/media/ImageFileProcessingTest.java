@@ -11,7 +11,7 @@ import org.emonocot.harvest.media.ImageFileProcessorImpl;
 import org.emonocot.harvest.media.ImageMetadataExtractorImpl;
 import org.emonocot.harvest.media.ImageThumbnailGeneratorImpl;
 import org.emonocot.model.Image;
-import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.MediaFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -54,7 +54,7 @@ public class ImageFileProcessingTest {
     	LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
     	validatorFactory.afterPropertiesSet();
      
-        image.setFormat(ImageFormat.jpg);
+        image.setFormat(MediaFormat.jpg);
         GetResourceClient getResourceClient = new GetResourceClient();
         imageFileProcessor.setGetResourceClient(getResourceClient);
         String imagesDirectoryName = System.getProperty("java.io.tmpdir")
@@ -108,7 +108,7 @@ public class ImageFileProcessingTest {
                 i.getSubject());
         assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
         assertEquals("www.creativecommons.org#Creative Commons Attribution-Non-Commercial-Share Alike 3.0 Unported Licence", i.getLicense());
-        assertEquals(ImageFormat.jpg, i.getFormat());
+        assertEquals(MediaFormat.jpg, i.getFormat());
     }
 
 }

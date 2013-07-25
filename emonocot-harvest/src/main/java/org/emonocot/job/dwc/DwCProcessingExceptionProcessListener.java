@@ -85,6 +85,8 @@ public class DwCProcessingExceptionProcessListener extends
             return RecordType.VernacularName;
         case "processTypeAndSpecimenFile":
             return RecordType.TypeAndSpecimen;
+        case "processKeyFile":
+            return RecordType.IdentificationKey;
         default:
         	return null;
         }

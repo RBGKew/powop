@@ -21,18 +21,26 @@
 	<bean id="testMessageHandler" class="org.emonocot.integration.MessageHandler" />
 
 	<context:component-scan base-package="org.emonocot">
+	    <context:exclude-filter type="assignable" expression="org.emonocot.service.DownloadService" />
+	    <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceService" />
 		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService" />
 		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService" />
 		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao" />
         <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao" />
         <context:exclude-filter type="assignable" expression="org.emonocot.service.impl.DownloadServiceImpl" />
 	</context:component-scan>
+	
+	<bean id="resourceServiceImpl" class="org.emonocot.service.impl.ResourceServiceImpl">
+	  <property name="jobDao" ref="resourceDaoImpl"/>
+	  <property name="jobLauncher" ref="messageBasedReadWriteJobLauncher"/>
+	</bean>
 
 	<context:annotation-config />
 
 	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
+			    <bean class="org.emonocot.model.convert.MediaFormatConverter" />
 			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
 			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
 			    <bean class="org.emonocot.model.convert.RankConverter" />

@@ -25,6 +25,10 @@ public class MediaFormatConverter implements
                 return MediaFormat.png;
             } else if (value.equals("image/gif")) {
                 return MediaFormat.png;
+            } else if (value.equals("application/xml")) {
+            	return MediaFormat.xml;
+            } else if (value.equals("text/plain")) {
+            	return MediaFormat.txt;
             } else {
                 return MediaFormat.valueOf(value);
             }

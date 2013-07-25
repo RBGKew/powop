@@ -2,6 +2,8 @@ package org.emonocot.api;
 
 import java.util.List;
 
+import org.emonocot.api.job.CouldNotLaunchJobException;
+import org.emonocot.api.job.ResourceAlreadyBeingHarvestedException;
 import org.emonocot.model.registry.Resource;
 import org.joda.time.DateTime;
 
@@ -35,4 +37,8 @@ public interface ResourceService extends SearchableService<Resource> {
 	boolean isHarvesting();
 
 	List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch);
+	
+	void harvestResource(Long resourceId, Boolean ifModified) throws ResourceAlreadyBeingHarvestedException, CouldNotLaunchJobException;
+
+	Resource findByResourceUri(String identifier) throws ResourceAlreadyBeingHarvestedException, CouldNotLaunchJobException;
 }

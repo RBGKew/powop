@@ -28,7 +28,7 @@ import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.AnnotationCode;
-import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -297,13 +297,13 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
         if(image.getFormat() == null && StringUtils.isNotBlank(dcSchema.getFormat())) {
             String format = dcSchema.getFormat();
             if(format.contains("gif")) {
-                image.setFormat(ImageFormat.gif);
+                image.setFormat(MediaFormat.gif);
                 isSomethingDifferent = true;
             } else if(format.contains("jpeg")) {
-                image.setFormat(ImageFormat.jpg);
+                image.setFormat(MediaFormat.jpg);
                 isSomethingDifferent = true;
             } else if(format.contains("png")) {
-                image.setFormat(ImageFormat.png);
+                image.setFormat(MediaFormat.png);
                 isSomethingDifferent = true;
             }
         }
@@ -441,12 +441,12 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
                 if (o instanceof ImageMetadata.Item) {
                     ImageMetadata.Item item = (ImageMetadata.Item) o;
                     if (item.getKeyword().equals("Object Name") && image.getTitle() == null) {
-                        image.setTitle(sanitizer.sanitize(item.getText()));
+                        image.setTitle(sanitizer.sanitize(removeLastByte(item.getText())));
                         isSomethingDifferent = true;
                     } else if (item.getKeyword().equals("Keywords")) {
                         if (keywords == null) {
                             keywords = new StringBuffer();
-                            keywords.append(item.getText());
+                            keywords.append(removeLastByte(item.getText()));
                         } else {
                             keywords.append(", " + item.getText());
                         }
@@ -455,7 +455,7 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
                             || item.getKeyword().equals("Country/Primary Location Name")) {
                         if (spatial == null) {
                             spatial = new StringBuffer();
-                            spatial.append(item.getText());
+                            spatial.append(removeLastByte(item.getText()));
                         } else {
                             spatial.append(", " + item.getText());
                         }
@@ -472,15 +472,22 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
             }
             if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_ARTIST) != null
                     && image.getCreator() == null) {
-                image.setCreator(sanitizer.sanitize(jpegMetadata.findEXIFValue(
-                        TiffConstants.TIFF_TAG_ARTIST).getStringValue()));
+                image.setCreator(sanitizer.sanitize(removeLastByte(jpegMetadata.findEXIFValue(
+                        TiffConstants.TIFF_TAG_ARTIST).getStringValue())));
+                isSomethingDifferent = true;
+            }
+            if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_COPYRIGHT) != null
+                    && image.getRights() == null) {
+            	
+                image.setRights(sanitizer.sanitize(removeLastByte(jpegMetadata.findEXIFValue(
+                        TiffConstants.TIFF_TAG_COPYRIGHT).getStringValue())));
                 isSomethingDifferent = true;
             }
             if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION) != null
                     && image.getDescription() == null) {
-                image.setDescription(sanitizer.sanitize(jpegMetadata.findEXIFValue(
+                image.setDescription(sanitizer.sanitize(removeLastByte(jpegMetadata.findEXIFValue(
                         TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION)
-                        .getStringValue()));
+                        .getStringValue())));
                 isSomethingDifferent = true;
             }
             TiffImageMetadata exifMetadata = jpegMetadata.getExif();
@@ -496,7 +503,22 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
         return isSomethingDifferent ;
     }
 
-    public void afterPropertiesSet() throws Exception {
+    /**
+     * For some reason, sanselan returns the last byte from exif fields
+     * which is a null byte.
+     */
+    private String removeLastByte(String string) {
+    	if(string == null || string.isEmpty()) {
+    		return null;
+    	}
+    	if(string.codePointAt(string.length() - 1) == 0) {
+    		return string.substring(0,string.length() - 1);
+    	} else {
+		    return string;
+    	}
+	}
+
+	public void afterPropertiesSet() throws Exception {
         assert imageDirectory != null;
         if (sanitizer == null) {
             sanitizer = new HtmlSanitizer();
