@@ -184,7 +184,7 @@ public class CommentController extends GenericController<Comment, CommentService
         case "identifiers":
         case "other":
         	 comment.setSubject(form.getAboutData());
-        	 comment.setAboutData(commentPage);
+        	 about = commentPage;
         	 break;
        default:
     	   for(Service<? extends BaseData> service : getServices()) {
