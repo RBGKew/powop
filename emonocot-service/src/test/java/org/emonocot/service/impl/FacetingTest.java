@@ -173,7 +173,7 @@ public class FacetingTest extends DataManagementSupport {
 
         assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
                 Strings, hasItemInArray("org.emonocot.model.Taxon"));
-        assertEquals("There should be 2 values for the FAMILY facet", 2, pager
+        assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacetField("taxon.family_ss").getValues().size());
     }
 
@@ -203,7 +203,7 @@ public class FacetingTest extends DataManagementSupport {
 
         assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
                 Strings, hasItemInArray("org.emonocot.model.Taxon"));
-        assertEquals("There should be two values for the FAMILY facet", 2, pager
+        assertEquals("There should be one value for the FAMILY facet", 1, pager
                 .getFacetField("taxon.family_ss").getValueCount());
     }
 
@@ -235,7 +235,7 @@ public class FacetingTest extends DataManagementSupport {
 
         assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
                 Strings, hasItemInArray("org.emonocot.model.Taxon"));
-        assertEquals("There should be two values for the FAMILY facet", 2, pager
+        assertEquals("There should be one values for the FAMILY facet", 1, pager
                 .getFacetField("taxon.family_ss").getValueCount());
 
         selectedFacets.put("taxon.taxon_rank_s", "SPECIES");

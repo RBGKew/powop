@@ -30,52 +30,40 @@
 	</c:if>
 	
 	<li class="${facetName}">
-		<c:choose>
-			<c:when test="${facetCount == 0}">
-				<c:if test="${facetName eq 'base.class_s'}">
-					<c:set value="no-small-icon" var="cssClass"/>
-				</c:if>
-				<div class="${cssClass}">
-					<spring:message code="${facetValue}" text="${facetValue}"/>
-				</div>
-			</c:when>
-			<c:otherwise>
-			   <c:if test="${empty facetValue}">
-                    <spring:message code="null" var="facetValue"/>
-			   </c:if>
-				<menu:facetUrl url="${url}" pager="${pager}" facetName="${facetName}" selectedFacet="${selectedFacet}" facetField="${facetField}" rangeFacet="${rangeFacet}">
-					<c:if test="${showIcons}">
-					<!-- Glyphicon -->
-						<c:choose> 
-							<c:when test="${facetValue eq 'org.emonocot.model.Taxon'}">
-								<c:set var="classIcon" value="leaf"/>
-							</c:when>
-							<c:when test="${facetValue eq 'org.emonocot.model.Image'}">
-								<c:set var="classIcon" value="picture"/>
-							</c:when>
-							<c:when test="${facetValue eq 'org.emonocot.model.IdentificationKey'}">
-								<c:set var="classIcon" value="keys"/>
-							</c:when>
-							<c:when test="${facetValue eq 'org.emonocot.model.PhylogeneticTree'}">
-								<c:set var="classIcon" value="phylogeny"/>
-							</c:when>
-							<c:when test="${facetValue eq 'org.emonocot.model.Place'}">
-								<c:set var="classIcon" value="map-marker"/>
-							</c:when>
-						</c:choose>
-					</c:if>
-					<i class="halflings-icon ${checkedCss}">&#160;</i>
-					<c:if test="${not empty classIcon}">
-						<i class="halflings-icon ${classIcon}">&#160;</i>
-					</c:if>
-					<span class="facetValue">
-						<spring:message code="${facetValue}" text="${facetValue}" />
-					</span>
-					<c:if test="${facetCount ne null}">
-						<span class="facetCount"> [${facetCount}]</span>
-					</c:if>
-				</menu:facetUrl>
-			</c:otherwise>
-		</c:choose>
+	    <c:if test="${empty facetValue}">
+            <spring:message code="null" var="facetValue"/>
+	    </c:if>
+		<menu:facetUrl url="${url}" pager="${pager}" facetName="${facetName}" selectedFacet="${selectedFacet}" facetField="${facetField}" rangeFacet="${rangeFacet}">
+			<c:if test="${showIcons}">
+			<!-- Glyphicon -->
+				<c:choose> 
+					<c:when test="${facetValue eq 'org.emonocot.model.Taxon'}">
+						<c:set var="classIcon" value="leaf"/>
+					</c:when>
+					<c:when test="${facetValue eq 'org.emonocot.model.Image'}">
+						<c:set var="classIcon" value="picture"/>
+					</c:when>
+					<c:when test="${facetValue eq 'org.emonocot.model.IdentificationKey'}">
+						<c:set var="classIcon" value="keys"/>
+					</c:when>
+					<c:when test="${facetValue eq 'org.emonocot.model.PhylogeneticTree'}">
+						<c:set var="classIcon" value="phylogeny"/>
+					</c:when>
+					<c:when test="${facetValue eq 'org.emonocot.model.Place'}">
+						<c:set var="classIcon" value="map-marker"/>
+					</c:when>
+				</c:choose>
+			</c:if>
+			<i class="halflings-icon ${checkedCss}">&#160;</i>
+			<c:if test="${not empty classIcon}">
+				<i class="halflings-icon ${classIcon}">&#160;</i>
+			</c:if>
+			<span class="facetValue">
+				<spring:message code="${facetValue}" text="${facetValue}" />
+			</span>
+			<c:if test="${facetCount ne null}">
+				<span class="facetCount"> [${facetCount}]</span>
+			</c:if>
+		</menu:facetUrl>
 	</li>
 </jsp:root>
