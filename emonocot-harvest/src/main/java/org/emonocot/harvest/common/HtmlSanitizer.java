@@ -57,7 +57,7 @@ public class HtmlSanitizer {
 				return null;
 			}
 		} else {
-			return unclean;
+			return unclean.replace("\0", "");
 		}
 	}
 

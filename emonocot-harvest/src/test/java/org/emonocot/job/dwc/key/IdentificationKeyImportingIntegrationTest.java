@@ -11,6 +11,7 @@ import java.util.Properties;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -47,6 +48,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
     "/META-INF/spring/applicationContext-integration.xml",
     "/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@Ignore
 public class IdentificationKeyImportingIntegrationTest {
 
     private Logger logger = LoggerFactory.getLogger(IdentificationKeyImportingIntegrationTest.class);

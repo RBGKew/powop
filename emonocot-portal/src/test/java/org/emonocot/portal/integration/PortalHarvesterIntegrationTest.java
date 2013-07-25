@@ -30,7 +30,7 @@ public class PortalHarvesterIntegrationTest {
      *
      */
     @Autowired
-    @Qualifier("readWriteJobLauncher")
+    @Qualifier("messageBasedReadWriteJobLauncher")
     private JobLauncher jobLauncher;
 
     /**

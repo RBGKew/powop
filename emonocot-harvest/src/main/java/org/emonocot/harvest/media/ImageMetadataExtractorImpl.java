@@ -441,12 +441,12 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
                 if (o instanceof ImageMetadata.Item) {
                     ImageMetadata.Item item = (ImageMetadata.Item) o;
                     if (item.getKeyword().equals("Object Name") && image.getTitle() == null) {
-                        image.setTitle(sanitizer.sanitize(removeLastByte(item.getText())));
+                        image.setTitle(sanitizer.sanitize(item.getText()));
                         isSomethingDifferent = true;
                     } else if (item.getKeyword().equals("Keywords")) {
                         if (keywords == null) {
                             keywords = new StringBuffer();
-                            keywords.append(removeLastByte(item.getText()));
+                            keywords.append(item.getText());
                         } else {
                             keywords.append(", " + item.getText());
                         }
@@ -455,7 +455,7 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
                             || item.getKeyword().equals("Country/Primary Location Name")) {
                         if (spatial == null) {
                             spatial = new StringBuffer();
-                            spatial.append(removeLastByte(item.getText()));
+                            spatial.append(item.getText());
                         } else {
                             spatial.append(", " + item.getText());
                         }
@@ -472,22 +472,22 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
             }
             if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_ARTIST) != null
                     && image.getCreator() == null) {
-                image.setCreator(sanitizer.sanitize(removeLastByte(jpegMetadata.findEXIFValue(
-                        TiffConstants.TIFF_TAG_ARTIST).getStringValue())));
+                image.setCreator(sanitizer.sanitize(jpegMetadata.findEXIFValue(
+                        TiffConstants.TIFF_TAG_ARTIST).getStringValue()));
                 isSomethingDifferent = true;
             }
             if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_COPYRIGHT) != null
                     && image.getRights() == null) {
             	
-                image.setRights(sanitizer.sanitize(removeLastByte(jpegMetadata.findEXIFValue(
-                        TiffConstants.TIFF_TAG_COPYRIGHT).getStringValue())));
+                image.setRights(sanitizer.sanitize(jpegMetadata.findEXIFValue(
+                        TiffConstants.TIFF_TAG_COPYRIGHT).getStringValue()));
                 isSomethingDifferent = true;
             }
             if (jpegMetadata.findEXIFValue(TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION) != null
                     && image.getDescription() == null) {
-                image.setDescription(sanitizer.sanitize(removeLastByte(jpegMetadata.findEXIFValue(
+                image.setDescription(sanitizer.sanitize(jpegMetadata.findEXIFValue(
                         TiffConstants.TIFF_TAG_IMAGE_DESCRIPTION)
-                        .getStringValue())));
+                        .getStringValue()));
                 isSomethingDifferent = true;
             }
             TiffImageMetadata exifMetadata = jpegMetadata.getExif();
@@ -502,21 +502,6 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
         }
         return isSomethingDifferent ;
     }
-
-    /**
-     * For some reason, sanselan returns the last byte from exif fields
-     * which is a null byte.
-     */
-    private String removeLastByte(String string) {
-    	if(string == null || string.isEmpty()) {
-    		return null;
-    	}
-    	if(string.codePointAt(string.length() - 1) == 0) {
-    		return string.substring(0,string.length() - 1);
-    	} else {
-		    return string;
-    	}
-	}
 
 	public void afterPropertiesSet() throws Exception {
         assert imageDirectory != null;
