@@ -1524,6 +1524,8 @@
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
+				<solr.core>collection1</solr.core>
+				<solr.max.segments>5</solr.max.segments>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
@@ -1778,6 +1780,8 @@
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
+				<solr.core>collection1</solr.core>
+				<solr.max.segments>5</solr.max.segments>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>

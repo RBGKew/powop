@@ -29,7 +29,7 @@ public class EmbeddedSolrServerFactoryBean implements FactoryBean<SolrServer> {
 			 System.setProperty("solr.solr.home", solrHome.getFile().getAbsolutePath());
 			 CoreContainer.Initializer initializer = new CoreContainer.Initializer();
 			 coreContainer = initializer.initialize();
-			 solrServer = new EmbeddedSolrServer(coreContainer, "");
+			 solrServer = new EmbeddedSolrServer(coreContainer, "collection1");
 		}
 		return solrServer;
 	}

@@ -24,7 +24,7 @@ public class ImagePresentProcessor implements ItemProcessor<File, String> {
 		String name = item.getName();
 		if(name.indexOf(".") != -1) {
 			try {
-		        Long id = new Long(name.substring(0, name.indexOf(".") - 1));
+		        Long id = new Long(name.substring(0, name.lastIndexOf(".") - 1));
 		        if(imageService.find(id) == null) {
 				    return name;
 			    } else {

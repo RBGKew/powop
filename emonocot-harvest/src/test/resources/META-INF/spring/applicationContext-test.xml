@@ -226,6 +226,12 @@
 		<property name="solrHome" value="classpath:/META-INF/solr/"/>
 	</bean>
 	
+	<bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">
+	  <property name="core" value="${solr.core}"/>
+	  <property name="maxSegments" value="${solr.max.segments}"/>
+	  <property name="solrServer" ref="solrServer"/>
+	</bean>
+	
     <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
       <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
       <property name="baseUrl" value="${harvester.baseUrl}"/>

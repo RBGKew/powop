@@ -130,6 +130,12 @@
 	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
 	  <property name="solrServer" ref="solrServer"/>
 	</bean>
+	
+	<bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">
+	  <property name="core" value="${solr.core}"/>
+	  <property name="maxSegments" value="${solr.max.segments}"/>
+	  <property name="solrServer" ref="solrServer"/>
+	</bean>
 
 	<bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
 		<constructor-arg value="${solr.url}"/>
