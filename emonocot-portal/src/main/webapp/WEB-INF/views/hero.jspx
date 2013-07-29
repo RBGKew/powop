@@ -2,6 +2,8 @@
 <header class="hero-unit"
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:results="urn:jsptagdir:/WEB-INF/tags/results"
+	xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu"
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
@@ -17,7 +19,39 @@
 				<p class="lead span12">
 					<spring:message code="hero.message" />
 				</p>
+				<h4>
+					<c:forEach var="s" items="${stats.getFacetField('base.class_s').getValues()}">
+						<c:choose>
+							<c:when test="${s.name eq 'org.emonocot.model.Taxon'}">
+								<c:set var="taxa" value="${s.count}"/>
+							</c:when>
+							<c:when test="${s.name eq 'org.emonocot.model.Image'}">
+								<c:set var="images" value="${s.count}"/>
+							</c:when>
+							<c:when test="${s.name eq 'org.emonocot.model.IdentificationKey'}">
+								<c:set var="keys" value="${s.count}"/>
+							</c:when>
+							<c:when test="${s.name eq 'org.emonocot.model.PhylogeneticTree'}">
+								<c:set var="phylogeneticTrees" value="${s.count}"/>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+					<c:url var="taxaUrl" value="/search">
+						<c:param name="facet" value="base.class_s:org.emonocot.model.Taxon"/>
+					</c:url>
+					<c:url var="imagesUrl" value="/search">
+						<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
+					</c:url>
+					<c:url var="keysUrl" value="/search">
+						<c:param name="facet" value="base.class_s:org.emonocot.model.IdentificationKey"/>
+					</c:url>
+					<c:url var="phylogeneticTreesUrl" value="/search">
+						<c:param name="facet" value="base.class_s:org.emonocot.model.PhylogeneticTree"/>
+					</c:url>
+					<spring:message code="hero.stats" arguments="${taxaUrl},${taxa},${imagesUrl},${images},${keysUrl},${keys},${phylogeneticTreesUrl},${phylogeneticTrees}"/>
+				</h4>
 			</div>
+			
 			<div class="row">
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -44,6 +78,7 @@
 					</div>
 				</form>
 			</div>
+			
 		</div>
 	</div>
 </header>

@@ -36,17 +36,17 @@
 								<c:choose>
 									<c:when test="${sortItem eq 'searchable.label_sort_asc'}">
 										<c:set var="sortIcon" value="sort-by-alphabet"/>
-										<i class="halflings-icon ${sortIcon}">&#160;</i>
 									</c:when>
 									<c:when test="${sortItem eq 'base.created_dt_desc'}">
 										<c:set var="sortIcon" value="sort-by-order"/>
-										<i class="halflings-icon ${sortIcon}">&#160;</i>
 									</c:when>
 									<c:when test="${sortItem eq '_asc'}">
 										<c:set var="sortIcon" value="sort-by-attributes-alt"/>
-										<i class="halflings-icon ${sortIcon}">&#160;</i>
 									</c:when>
 								</c:choose>
+								<c:if test="${not empty sortIcon}">
+									<i class="halflings-icon ${sortIcon}">&#160;</i>
+								</c:if>
 								<spring:message code="${sortItem}" />
 							</a>
 						</c:otherwise>
