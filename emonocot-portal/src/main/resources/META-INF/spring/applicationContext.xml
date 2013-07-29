@@ -18,6 +18,8 @@
 		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobInstanceDaoImpl"/>
 		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteUserServiceImpl"/>
 		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteGroupServiceImpl"/>
+		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao"/>
+		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao"/>
 	</context:component-scan>
 
 	<tx:annotation-driven />
@@ -49,81 +51,10 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
-	<bean name="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="springLiquibase">
-		<property name="dataSource" ref="dataSource" />
-		<property name="hibernateProperties">
-			<value>
-				hibernate.dialect=${hibernate.dialect}
-				hibernate.hbm2ddl.auto=validate
-                hibernate.validator.autoregister_listeners=false
-                hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}
-                hibernate.default_schema=${liquibase.default.schema.name}
-			</value>
-		</property>
-		<property name="annotatedClasses">
-			<list>
-				<value>org.emonocot.model.Identifier</value>
-				<value>org.emonocot.model.IdentificationKey</value>
-				<value>org.emonocot.model.Annotation</value>
-				<value>org.emonocot.model.Distribution</value>
-				<value>org.emonocot.model.Description</value>
-				<value>org.emonocot.model.Image</value>
-				<value>org.emonocot.model.MeasurementOrFact</value>
-				<value>org.emonocot.model.PhylogeneticTree</value>
-				<value>org.emonocot.model.Reference</value>
-				<value>org.emonocot.model.Taxon</value>
-				<value>org.emonocot.model.TypeAndSpecimen</value>
-				<value>org.emonocot.model.VernacularName</value>
-				<value>org.emonocot.model.registry.Resource</value>
-				<value>org.emonocot.model.registry.Organisation</value>
-				<value>org.emonocot.model.auth.User</value>
-				<value>org.emonocot.model.auth.Group</value>
-				<value>org.emonocot.model.Place</value>
-                <value>org.emonocot.model.Comment</value>
-			</list>
-		</property>
-		<property name="eventListeners">
-      	  <map>        	
-      	    <entry key="post-insert" value-ref="solrIndexingListener" />
-      	    <entry key="post-update" value-ref="solrIndexingListener" />
-            <entry key="post-delete" value-ref="solrIndexingListener" />
-      	  </map>
-    	</property>	
-		<property name="annotatedPackages" value="org.emonocot.model"/>
-	</bean>
 	
 	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
 	  <property name="solrServer" ref="solrServer"/>
 	</bean>
-	
-	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
-     <property name="applicationContextSchedulerContextKey" value="applicationContext" />
-        <property name="dataSource" ref="dataSource"/>
-        <property name="transactionManager" ref="transactionManager"/>
-        <property name="overwriteExistingJobs" value="true"/>
-        <property name="autoStartup" value="true" />
-        <property name="triggers">
-            <list>
-                <ref bean="cronTrigger" />
-            </list>
-        </property>
-        <property name="quartzProperties">
-            <props>
-                <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
-                <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
-                <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
-                <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
-                <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
-                <prop key="org.quartz.jobStore.tablePrefix">${liquibase.default.schema.name}.qrtz_</prop>
-                <prop key="org.quartz.jobStore.isClustered">true</prop>
-                <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
-                <prop key="org.quartz.threadPool.threadCount">1</prop>
-                <prop key="org.quartz.threadPool.threadPriority">5</prop>
-            </props>
-      </property>
-    </bean>
     
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetails" />
@@ -170,6 +101,88 @@
     </property>
     </bean>
     <beans profile="default">
+        <bean name="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="springLiquibase">
+		    <property name="dataSource" ref="dataSource" />
+		    <property name="hibernateProperties">
+			    <value>
+				    hibernate.dialect=${hibernate.dialect}
+				    hibernate.hbm2ddl.auto=validate
+                    hibernate.validator.autoregister_listeners=false
+                    hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}
+                    hibernate.default_schema=${liquibase.default.schema.name}
+			    </value>
+		    </property>
+		    <property name="annotatedClasses">
+			    <list>
+				    <value>org.emonocot.model.Identifier</value>
+				    <value>org.emonocot.model.IdentificationKey</value>
+				    <value>org.emonocot.model.Annotation</value>
+				    <value>org.emonocot.model.Distribution</value>
+				    <value>org.emonocot.model.Description</value>
+				    <value>org.emonocot.model.Image</value>
+				    <value>org.emonocot.model.MeasurementOrFact</value>
+				    <value>org.emonocot.model.PhylogeneticTree</value>
+				    <value>org.emonocot.model.Reference</value>
+				    <value>org.emonocot.model.Taxon</value>
+				    <value>org.emonocot.model.TypeAndSpecimen</value>
+				    <value>org.emonocot.model.VernacularName</value>
+				    <value>org.emonocot.model.registry.Resource</value>
+				    <value>org.emonocot.model.registry.Organisation</value>
+				    <value>org.emonocot.model.auth.User</value>
+				    <value>org.emonocot.model.auth.Group</value>
+				    <value>org.emonocot.model.Place</value>
+                    <value>org.emonocot.model.Comment</value>
+			    </list>
+		    </property>
+		    <property name="eventListeners">
+      	      <map>        	
+      	        <entry key="post-insert" value-ref="solrIndexingListener" />
+      	        <entry key="post-update" value-ref="solrIndexingListener" />
+                <entry key="post-delete" value-ref="solrIndexingListener" />
+      	      </map>
+    	    </property>	
+		    <property name="annotatedPackages" value="org.emonocot.model"/>
+	    </bean>
+	    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
+            <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+            <property name="dataSource" ref="dataSource"/>
+            <property name="transactionManager" ref="transactionManager"/>
+            <property name="overwriteExistingJobs" value="true"/>
+            <property name="autoStartup" value="true" />
+            <property name="triggers">
+                <list>
+                    <ref bean="cronTrigger" />
+                </list>
+            </property>
+            <property name="quartzProperties">
+                <props>
+                    <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
+                    <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+                    <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+                    <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                    <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
+                    <prop key="org.quartz.jobStore.tablePrefix">${liquibase.default.schema.name}.qrtz_</prop>
+                    <prop key="org.quartz.jobStore.isClustered">true</prop>
+                    <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+                    <prop key="org.quartz.threadPool.threadCount">1</prop>
+                    <prop key="org.quartz.threadPool.threadPriority">5</prop>
+                </props>
+          </property>
+        </bean>
+        <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" depends-on="springLiquibase">
+		    <constructor-arg ref="dataSource" />
+		    <constructor-arg ref="lookupStrategy" />
+		    <constructor-arg ref="aclCache" />
+		    <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
+		    <property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
+		    <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+		    <property name="auditLogger" ref="auditLogger" />
+		    <property name="sessionFactory" ref="sessionFactory" />
+	    </bean>
+
+	    <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl" depends-on="springLiquibase"/>
+	    <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl" depends-on="springLiquibase"/>
+	    
         <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
 		    <constructor-arg value="${solr.url}"/>
 	    </bean>
@@ -232,6 +245,84 @@
 	    </bean>
     </beans>
     <beans profile="local.tests">
+        <bean name="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		    <property name="dataSource" ref="dataSource" />
+		    <property name="hibernateProperties">
+			    <value>
+				    hibernate.dialect=${hibernate.dialect}
+				    hibernate.hbm2ddl.auto=validate
+                    hibernate.validator.autoregister_listeners=false                   
+			    </value>
+		    </property>
+		    <property name="annotatedClasses">
+			    <list>
+				    <value>org.emonocot.model.Identifier</value>
+				    <value>org.emonocot.model.IdentificationKey</value>
+				    <value>org.emonocot.model.Annotation</value>
+				    <value>org.emonocot.model.Distribution</value>
+				    <value>org.emonocot.model.Description</value>
+				    <value>org.emonocot.model.Image</value>
+				    <value>org.emonocot.model.MeasurementOrFact</value>
+				    <value>org.emonocot.model.PhylogeneticTree</value>
+				    <value>org.emonocot.model.Reference</value>
+				    <value>org.emonocot.model.Taxon</value>
+				    <value>org.emonocot.model.TypeAndSpecimen</value>
+				    <value>org.emonocot.model.VernacularName</value>
+				    <value>org.emonocot.model.registry.Resource</value>
+				    <value>org.emonocot.model.registry.Organisation</value>
+				    <value>org.emonocot.model.auth.User</value>
+				    <value>org.emonocot.model.auth.Group</value>
+				    <value>org.emonocot.model.Place</value>
+                    <value>org.emonocot.model.Comment</value>
+			    </list>
+		    </property>
+		    <property name="eventListeners">
+      	      <map>        	
+      	        <entry key="post-insert" value-ref="solrIndexingListener" />
+      	        <entry key="post-update" value-ref="solrIndexingListener" />
+                <entry key="post-delete" value-ref="solrIndexingListener" />
+      	      </map>
+    	    </property>	
+		    <property name="annotatedPackages" value="org.emonocot.model"/>
+	    </bean>
+	    <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" >
+		    <constructor-arg ref="dataSource" />
+		    <constructor-arg ref="lookupStrategy" />
+		    <constructor-arg ref="aclCache" />
+		    <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
+		    <property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
+		    <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+		    <property name="auditLogger" ref="auditLogger" />
+		    <property name="sessionFactory" ref="sessionFactory" />
+	    </bean>
+	    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+            <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+            <property name="dataSource" ref="dataSource"/>
+            <property name="transactionManager" ref="transactionManager"/>
+            <property name="overwriteExistingJobs" value="true"/>
+            <property name="autoStartup" value="true" />
+            <property name="triggers">
+                <list>
+                    <ref bean="cronTrigger" />
+                </list>
+            </property>
+            <property name="quartzProperties">
+                <props>
+                    <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
+                    <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+                    <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+                    <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                    <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
+                    <prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
+                    <prop key="org.quartz.jobStore.isClustered">true</prop>
+                    <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+                    <prop key="org.quartz.threadPool.threadCount">1</prop>
+                    <prop key="org.quartz.threadPool.threadPriority">5</prop>
+                </props>
+          </property>
+        </bean>
+        <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl"/>
+	    <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl"/>
       <bean name="dataSource"
             class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
             <property name="testDatabaseName" value="testdb" />
@@ -240,8 +331,11 @@
                     <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
                     <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
                     <value>classpath:/META-INF/database/H2_schema.ddl</value>
+                    <value>classpath:/META-INF/database/H2_quartz.ddl</value>
+                    <value>classpath:/createAclSchema.sql</value>
                 </list>
-            </property>           
+            </property>
+            <property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />          
       </bean>
       <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean" destroy-method="shutdown">
 		<property name="solrHome" value="classpath:/META-INF/solr/"/>
