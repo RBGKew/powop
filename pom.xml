@@ -1626,16 +1626,16 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>tomcat</cargo.remote.password>
-				<cargo.context.path>/</cargo.context.path>
-				<logging.level>WARN</logging.level>
+				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080</cargo.tomcat.url>
+				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
+				<cargo.remote.username>sadmin</cargo.remote.username>
+				<cargo.remote.password>kewadmin</cargo.remote.password>
+				<cargo.context.path>/emonocot</cargo.context.path>
+				<logging.level>INFO</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
@@ -1651,7 +1651,7 @@
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://a9482.ad.kew.org:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
@@ -1690,12 +1690,12 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
+				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/emonocot</cargo.tomcat.url>
+				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>tomcat</cargo.remote.password>
 				<cargo.context.path>/</cargo.context.path>
@@ -1706,16 +1706,16 @@
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
-				<liquibase.username>liquibase</liquibase.username>
-				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.username>emonocot-user</liquibase.username>
+				<liquibase.password>eM0n0c0t</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot</jdbc.driver.username>
+				<jdbc.driver.url>jdbc:postgresql://a9482.ad.kew.org:5432/emonocot</jdbc.driver.url>
+				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />
