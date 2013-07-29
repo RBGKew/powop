@@ -42,7 +42,7 @@ import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.constants.ImageFormat;
+import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
@@ -190,7 +190,7 @@ public class TestDataManager {
         image.setLicense(license);
         image.setSubject(keywords);
         if(format != null) {
-        	image.setFormat(ImageFormat.valueOf(format));
+        	image.setFormat(MediaFormat.valueOf(format));
         }
         if (source != null) {
             Organisation s = new Organisation();

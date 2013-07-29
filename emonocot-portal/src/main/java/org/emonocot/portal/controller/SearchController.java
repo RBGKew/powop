@@ -17,6 +17,7 @@ import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
 import org.emonocot.pager.Dimension;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.slf4j.Logger;
@@ -170,7 +171,18 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-		responseFacetList.add("taxon.family_ss");
+        for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
+        //for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
+            FacetName fn = FacetName.taxonomyFacets[i];
+            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
+                responseFacetList.add(fn.getSolrField());
+            } else {
+                if(!responseFacetList.contains(fn.getSolrField())){
+                    responseFacetList.add(fn.getSolrField());
+                }
+                break;
+            }
+        }
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
 		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
@@ -194,38 +206,6 @@ public class SearchController {
 			} else {
 				selectedFacets.remove("taxon.distribution_TDWG_1_ss");
 			}
-			if(selectedFacets.containsKey("taxon.family_ss")) {
-			    if(selectedFacets.containsKey("taxon.subfamily_s")){
-			        if(selectedFacets.containsKey("taxon.tribe_s")) {
-			            if(selectedFacets.containsKey("taxon.subtribe_s")) {
-			                responseFacetList.add(2, "taxon.genus_s");
-			                responseFacetList.add(2, "taxon.subtribe_s");
-			                responseFacetList.add(2, "taxon.tribe_s");
-		                    responseFacetList.add(2, "taxon.subfamily_s");
-			            } else {
-                            responseFacetList.add(2, "taxon.subtribe_s");
-                            responseFacetList.add(2, "taxon.tribe_s");
-                            responseFacetList.add(2, "taxon.subfamily_s");
-                            selectedFacets.remove("taxon.genus_s");
-                        }
-			        } else {
-                        responseFacetList.add(2, "taxon.tribe_s");
-                        responseFacetList.add(2, "taxon.subfamily_s");
-	                    selectedFacets.remove("taxon.subtribe_s");
-	                    selectedFacets.remove("taxon.genus_s");
-                    }
-			    } else {
-			        responseFacetList.add(2, "taxon.subfamily_s");
-	                selectedFacets.remove("taxon.tribe_s");
-	                selectedFacets.remove("taxon.subtribe_s");
-	                selectedFacets.remove("taxon.genus_s");
-                }
-			} else {
-                selectedFacets.remove("taxon.subfamily_s");
-                selectedFacets.remove("taxon.tribe_s");
-                selectedFacets.remove("taxon.subtribe_s");
-                selectedFacets.remove("taxon.genus_s");
-            }
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
@@ -309,7 +289,18 @@ public class SearchController {
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		responseFacetList.add("base.class_s");
-		responseFacetList.add("taxon.family_ss");
+        //for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
+        for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
+            FacetName fn = FacetName.taxonomyFacets[i];
+            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
+                responseFacetList.add(fn.getSolrField());
+            } else {
+                if(!responseFacetList.contains(fn.getSolrField())){
+                    responseFacetList.add(fn.getSolrField());
+                }
+                break;
+            }
+        }
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
         responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
         responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");

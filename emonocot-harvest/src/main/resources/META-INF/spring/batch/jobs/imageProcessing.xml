@@ -17,22 +17,39 @@
 			  then resize the images
 			</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor"
-					writer="itemWriter" commit-interval="10">
+				<batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor" writer="itemWriter" skip-limit="1000" commit-interval="10">
+				  <batch:skippable-exception-classes>
+						<batch:include class="org.apache.sanselan.ImageReadException" />
+						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />				
+				  </batch:skippable-exception-classes>
 				</batch:chunk>			    
 			</batch:tasklet>
-			<batch:end on="COMPLETED" />
+			<batch:next on="COMPLETED" to="removeAbsentImages"/>			
+		</batch:step>
+		<batch:step id="removeAbsentImages">
+			<batch:description>Remove image files still present on the filesystem which are absent in the database</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="imageDirectoryFileReader" processor="imagesPresentProcessor" writer="imageFileDeletingWriter" commit-interval="10">
+				</batch:chunk>			    
+			</batch:tasklet>
+			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
 	
 	<bean id="processImageFilesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
 	  <property name="sessionFactory" ref="sessionFactory" />	  
-	  <property name="queryString" value="select i from Image i join i.authority a where a.identifier = :authority"/>
-	  <property name="parameterValues">
-	    <map>
-	     <entry key="authority" value="#{jobParameters['authority.name']}"/>
-	    </map>
-	  </property>
+	  <property name="queryString" value="#{jobParameters['query.string']}"/>
+	</bean>
+	
+	<bean id="imageDirectoryFileReader" class="org.emonocot.harvest.common.DirectoryReader">
+	  <property name="directoryName" value="${harvester.image.directory}"/>
+	</bean>
+	
+	<bean id="imagesPresentProcessor" class="org.emonocot.harvest.media.ImagePresentProcessor"/>
+	
+	<bean id="imageFileDeletingWriter" class="org.emonocot.harvest.media.ImageDeletingWriter">
+	    <property name="imageDirectory" value="${harvester.image.directory}"/>
+	    <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
 	</bean>
 	
 	<bean id="processImageFilesProcessor" class="org.springframework.batch.item.support.CompositeItemProcessor">

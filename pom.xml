@@ -944,6 +944,12 @@
 				<groupId>org.apache.tika</groupId>
 				<artifactId>tika-parsers</artifactId>
 				<version>1.0</version>
+				<exclusions>
+				  <exclusion>
+				    <groupId>de.l3s.boilerpipe</groupId>
+				    <artifactId>boilerpipe</artifactId>
+				  </exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.gbif</groupId>
@@ -1260,20 +1266,20 @@
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external/</url>
 		</repository>
-		<!-- <repository>
+		<repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 			<layout>default</layout>
 			<releases>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 				<updatePolicy>never</updatePolicy>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
-		</repository>-->
+		</repository>
 		<repository>
 			<id>openqa</id>
 			<name>OpenQA Repository</name>
@@ -1339,11 +1345,11 @@
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 			<layout>default</layout>
 			<releases>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 				<updatePolicy>never</updatePolicy>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 		</pluginRepository>
@@ -1528,6 +1534,8 @@
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
+				<solr.core>collection1</solr.core>
+				<solr.max.segments>5</solr.max.segments>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
@@ -1782,6 +1790,8 @@
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>
 				<solr.url>http://localhost:8983/solr</solr.url>
+				<solr.core>collection1</solr.core>
+				<solr.max.segments>5</solr.max.segments>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>

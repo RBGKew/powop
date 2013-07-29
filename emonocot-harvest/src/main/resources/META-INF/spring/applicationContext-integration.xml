@@ -37,6 +37,16 @@
 		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
 		<property name="baseUrl" value="${harvester.baseUrl}" />
 	</bean>	
+	
+	<!-- Outgoing Read write job launcher -->
+
+	<integration:gateway id="messageBasedReadWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="outgoingReadWriteJobLaunchRequests">
+		<integration:method name="launch" />
+	</integration:gateway>
+
+	<integration:channel id="outgoingReadWriteJobLaunchRequests" />
+
+	<jms:outbound-channel-adapter id="outgoingReadWriteJobLaunchGateway" channel="outgoingReadWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
 
 <!-- Read only job queue -->
     <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">

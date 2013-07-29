@@ -35,6 +35,11 @@
 		</div>
 	</tags:pageheader>
 	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:error />
+			</div>
+		</div>
 		<div class="row">
 		    <div id="facets" class="span3 no-print">
 				<c:forEach var="facetName" items="${result.facetNames}">

@@ -8,7 +8,7 @@
 		                http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
 <!-- Read write job launcher -->
 
-	<integration:gateway id="readWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readWriteJobLaunchRequests">
+	<integration:gateway id="messageBasedReadWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readWriteJobLaunchRequests">
 		<integration:method name="launch" />
 	</integration:gateway>
 
@@ -20,8 +20,8 @@
 		<constructor-arg value="read.write.job.launch.requests" />
 	</bean>
 
-<!-- Read only job launcher -->
-	<integration:gateway id="readOnlyJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readOnlyJobLaunchRequests">
+    <!-- Read only job launcher -->
+	<integration:gateway id="messageBasedReadOnlyJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readOnlyJobLaunchRequests">
 		<integration:method name="launch" />
 	</integration:gateway>
 

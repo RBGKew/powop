@@ -45,5 +45,9 @@ public enum RecordType {
     /**
      * 
      */
-    PhylogeneticTree;
+    PhylogeneticTree,
+    /**
+     *
+     */
+    IdentificationKey;
 }

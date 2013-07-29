@@ -21,6 +21,8 @@
         <context:exclude-filter type="assignable" expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
         <context:exclude-filter type="assignable" expression="org.emonocot.service.impl.DownloadServiceImpl" />
     </context:component-scan>
+    
+    <bean id="messageBasedReadWriteJobLauncher" class="org.emonocot.portal.integration.MockJobLauncher"/>
 
 	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="clientHttpRequestFactory" />
