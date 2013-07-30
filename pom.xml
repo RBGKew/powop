@@ -1503,6 +1503,7 @@
 		<profile>
 			<id>portal.test.vagrant</id>
 			<properties>
+			    <use.remote.solr>true</use.remote.solr>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
