@@ -27,6 +27,7 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.DateUtils;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -199,6 +200,7 @@ public class GetResourceClient {
 			                        + httpResponse.getStatusLine() + " for document "
 			                        + resource); // This is not an error in this
 			                                         // application but a server side error
+			                EntityUtils.consumeQuietly(httpResponse.getEntity());
 			                throw new IOException("Server returned unexpected status code "
 			                        + httpResponse.getStatusLine() + " for document "
 			                        + resource);

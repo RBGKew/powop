@@ -18,9 +18,20 @@ public class DirectoryReader implements ItemReader<File>, ItemStream {
 	private int currentCount;
 	
 	private String key = "file.in.directory.count";
+	
+	private String directoryName;
 
 	@Override
 	public void open(ExecutionContext executionContext)	throws ItemStreamException {
+		File directory = new File(directoryName);
+		if(directory.isDirectory()) {
+		    this.files = directory.listFiles((FileFilter) FileFilterUtils.fileFileFilter());
+		    if(files.length > 1) {
+		        Arrays.sort(files, new NameFileComparator());
+		    }
+		} else {
+			throw new IllegalArgumentException(directoryName + " is not a directory");
+		}
 		currentCount = executionContext.getInt(key, 0);
 	}
 
@@ -41,10 +52,7 @@ public class DirectoryReader implements ItemReader<File>, ItemStream {
 		return files[index];
 	}
 	
-	public void setDirectory(String directory) {
-		this.files = new File(directory).listFiles(
-			(FileFilter) FileFilterUtils.fileFileFilter()
-		);
-		Arrays.sort(files, new NameFileComparator());
+	public void setDirectoryName(String directoryName) {
+		this.directoryName = directoryName;
 	}
 }
