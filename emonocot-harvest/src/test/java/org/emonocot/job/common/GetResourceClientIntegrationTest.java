@@ -14,6 +14,8 @@ import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.retry.RetryCallback;
 import org.springframework.batch.retry.RetryContext;
@@ -31,6 +33,8 @@ public class GetResourceClientIntegrationTest {
 	
     private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
+    private Logger logger = LoggerFactory.getLogger(GetResourceClientIntegrationTest.class);
+    
     private GetResourceClient getResourceClient;
     
     private Properties properties;
@@ -113,9 +117,9 @@ public class GetResourceClientIntegrationTest {
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
-        assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be FAILED", ExitStatus.FAILED, exitStatus);
-        assertEquals("There should be three retry attempts", 3, retryListener.getErrors());
+        assertNotNull("ExitStatus should not be null.", exitStatus);
+        assertEquals("ExitStatus should be FAILED.", ExitStatus.FAILED, exitStatus);
+        assertEquals("There should be three retry attempts.", 3, retryListener.getErrors());
     }
     
     class AttemptCountingRetryListener implements RetryListener {
@@ -140,7 +144,7 @@ public class GetResourceClientIntegrationTest {
 		@Override
 		public <T> void onError(RetryContext context,
 				RetryCallback<T> callback, Throwable throwable) {
-			errors++;
+		    logger.info("Got error number " + ++errors, throwable);
 		}
     	
     }
