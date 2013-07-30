@@ -17,6 +17,7 @@ import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 
 import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -91,6 +92,8 @@ public class TestDataManager {
     private String username;
 
     private String password;
+    
+    private String useRemoteSolr;
 
     /**
      * @throws IOException
@@ -104,6 +107,7 @@ public class TestDataManager {
         properties.load(propertiesFile.getInputStream());
         username = properties.getProperty("functional.test.username", null);
         password = properties.getProperty("functional.test.password", null);
+        useRemoteSolr = properties.getProperty("use.remote.solr", "true");
     }
 
     @Autowired
@@ -971,19 +975,29 @@ public class TestDataManager {
 	}
 
 	public void cleanIndices() throws Exception {
+		if(useRemoteSolr.equals("true")) {
+			boolean documentsRemaining = true;
+			while(documentsRemaining) {
+				documentsRemaining = deleteDocuments();
+			}
+		}
+	}
+	
+	private boolean deleteDocuments() throws SolrServerException, IOException {
 		ModifiableSolrParams params = new ModifiableSolrParams();
-    	params.add("q","*:*");
-    	params.add("df", "id");
-    	QueryResponse queryResponse = solrServer.query(params);
-    	SolrDocumentList solrDocumentList = queryResponse.getResults();
-    	List<String> documentsToDelete = new ArrayList<String>();
-    	for(int i = 0; i < solrDocumentList.size(); i++) {
-    		documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
-    	}
-    	if(!documentsToDelete.isEmpty()) {
-    	    solrServer.deleteById(documentsToDelete);
-    	    solrServer.commit(true,true);
-    	}
+	    params.add("q","*:*");
+	    params.add("rows", "100");
+	    QueryResponse queryResponse = solrServer.query(params);
+	    SolrDocumentList solrDocumentList = queryResponse.getResults();
+	    List<String> documentsToDelete = new ArrayList<String>();
+	    for(int i = 0; i < solrDocumentList.size(); i++) {
+		    documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
+	    }
+	    if(!documentsToDelete.isEmpty()) {
+	        solrServer.deleteById(documentsToDelete);
+	        solrServer.commit(true,true);
+	    }	  
+	    return queryResponse.getResults().getNumFound() > documentsToDelete.size();
 	}
 
 	public void cleanDatabase() {
