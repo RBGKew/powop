@@ -34,6 +34,7 @@ import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.emonocot.pager.FacetName;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
@@ -982,13 +983,18 @@ public class Taxon extends SearchableObject {
             addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
             summary.append(" ").append(getAcceptedNameUsage().getFamily());
         }
-        addField(sid,"taxon.genus_s", getGenus());
         
+        addField(sid,FacetName.GENUS.getSolrField(), getGenus());
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.GENUS.getSolrField(), getAcceptedNameUsage().getGenus());
+        }
         if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
             addField(sid,"taxon.genus_ns", getScientificName());
+            addField(sid,FacetName.GENUS.getSolrField(), getScientificName());
         } else {
             addField(sid,"taxon.genus_ns", getGenus());
         }
+        
         addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
         addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
         addField(sid,"taxon.kingdom_s", getKingdom());
@@ -1003,13 +1009,37 @@ public class Taxon extends SearchableObject {
         addField(sid,"taxon.source_t", getSource());
         addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
         addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
-        addField(sid,"taxon.subfamily_s", getSubfamily());
+        
+        addField(sid,FacetName.SUBFAMILY.getSolrField(), getSubfamily());
+        if(Rank.Subfamily.equals(getTaxonRank()) && getSubfamily() == null) {
+            addField(sid,FacetName.SUBFAMILY.getSolrField(), getScientificName());
+        }
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.SUBFAMILY.getSolrField(), getAcceptedNameUsage().getSubfamily());
+        }
+        
         addField(sid,"taxon.subgenus_s", getSubgenus());
-        addField(sid,"taxon.subtribe_s", getSubtribe());
+        
+        addField(sid,FacetName.SUBTRIBE.getSolrField(), getSubtribe());
+        if(Rank.Subtribe.equals(getTaxonRank()) && getSubtribe() == null) {
+            addField(sid,FacetName.SUBTRIBE.getSolrField(), getScientificName());
+        }
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.SUBTRIBE.getSolrField(), getAcceptedNameUsage().getSubtribe());
+        }
+        
         addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
         addField(sid,"taxon.taxon_rank_s", getTaxonRank());
         addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
-        addField(sid,"taxon.tribe_s", getTribe());
+        
+        addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
+        if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
+            addField(sid,FacetName.TRIBE.getSolrField(), getScientificName());
+        }
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.TRIBE.getSolrField(), getAcceptedNameUsage().getTribe());
+        }
+        
         addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
         
         if(getDescriptions().isEmpty()) {
