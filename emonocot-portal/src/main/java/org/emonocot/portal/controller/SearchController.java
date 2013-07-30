@@ -171,17 +171,22 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-        for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-        //for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
-            FacetName fn = FacetName.taxonomyFacets[i];
-            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
-                responseFacetList.add(fn.getSolrField());
-            } else {
-                if(!responseFacetList.contains(fn.getSolrField())){
+		if(selectedFacets == null) {
+		    responseFacetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+            for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
+            //for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
+                FacetName fn = FacetName.taxonomyFacets[i];
+                if(selectedFacets.containsKey(fn.getSolrField())) {
                     responseFacetList.add(fn.getSolrField());
+                } else {
+                    if(!responseFacetList.contains(fn.getSolrField())){
+                        responseFacetList.add(fn.getSolrField());
+                    }
+                    break;
                 }
-                break;
             }
+
         }
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");

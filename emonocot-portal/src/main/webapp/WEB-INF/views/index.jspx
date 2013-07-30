@@ -61,6 +61,7 @@
 							});
 						});
 					</script>
+					
 					<div class="row">
 					<div class="pull-right">
 						<c:url var="newsUrl" value="http://families.e-monocot.org/blog"/>
