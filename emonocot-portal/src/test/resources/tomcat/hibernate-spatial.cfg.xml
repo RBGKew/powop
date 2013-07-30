@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-spatial>
+    <default_dialect>org.hibernatespatial.geodb.GeoDBDialect</default_dialect>
+</hibernate-spatial>
