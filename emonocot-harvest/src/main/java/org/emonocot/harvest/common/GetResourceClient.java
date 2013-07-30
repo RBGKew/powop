@@ -222,6 +222,7 @@ public class GetResourceClient {
 			                    + resource + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
+			            httpGet.releaseConnection();
 			            if (inputStreamReader != null) {
 			                try {
 			                    inputStreamReader.close();
@@ -379,6 +380,7 @@ public class GetResourceClient {
 			                    + resource + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
+                        httpGet.releaseConnection();
 			            if (bufferedInputStream != null) {
 			                try {
 			                    bufferedInputStream.close();
@@ -507,6 +509,7 @@ public class GetResourceClient {
 			                    + authorityURI + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
+                        httpPost.releaseConnection();
 			            if (reader != null) {
 			                try {
 			                    reader.close();
