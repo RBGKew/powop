@@ -1393,7 +1393,7 @@
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-				<git.repository>http://kptman01.ad.kew.org/git/</git.repository>
+				<git.repository>http://git.ad.kew.org/git/</git.repository>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1432,7 +1432,7 @@
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-				<git.repository>http://kptman01.ad.kew.org/git/</git.repository>
+				<git.repository>http://git.ad.kew.org/git/</git.repository>
 			</properties>
 			<build>
 				<plugins>
