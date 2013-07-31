@@ -521,7 +521,6 @@ public class GetResourceClient {
 			            }			            
 			        }
 				}
-				
 			});
 		} catch (Exception e) {
 			logger.error("Retry processing failed " + e.getMessage());
