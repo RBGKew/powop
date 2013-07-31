@@ -155,8 +155,6 @@
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 	
 	<bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
-	
-	<bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>
 
     <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
         <property name="proxyHost" value="${http.proxyHost}" />

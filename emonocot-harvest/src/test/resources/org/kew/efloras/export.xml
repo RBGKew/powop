@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet author="jk00kg" id="2012-06-22">
+    <changeSet author="jk00kg" id="2012-06-22" runAlways="true">
         <comment>Create taxon file</comment>
         <sql>
             SELECT CONCAT('urn:kew.org:efloras:taxon:', n.name_id) AS taxonID,
@@ -34,7 +34,7 @@
             FROM name n LEFT JOIN name a ON n.taxonNo = a.taxonNo
               LEFT JOIN name p ON n.parentTaxon = p.taxonNo
             WHERE n.family = 'Iridaceae'
-              ##MORE JOIN CONSTRAINTS##
+              ##REFINE JOIN CONSTRAINTS##
               AND (a.status = 'A' OR a.status IS NULL)
               AND (p.status = 'A' OR p.status IS NULL)
             ORDER BY taxonID
@@ -44,7 +44,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-26_0">
+    <changeSet author="jk00kg" id="2012-06-26_0" runAlways="true">
         <comment>Create description table with distribution data</comment>
         <sql>
             CREATE TEMPORARY TABLE dwc_description(taxonID VARCHAR(50), description BLOB, description_type VARCHAR(20), source_table VARCHAR(20)) AS
@@ -69,7 +69,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-26_1">
+    <changeSet author="jk00kg" id="2012-06-26_1" runAlways="true">
         <comment>Add 'excountry' (presented online as "Range") to description table</comment>
         <sql>
             INSERT INTO dwc_description
@@ -82,7 +82,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-28">
+    <changeSet author="jk00kg" id="2012-06-28" runAlways="true">
         <comment>Add `taxon`.`georange` to description table</comment>
         <sql>
             INSERT INTO dwc_description
@@ -95,7 +95,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-27_0">
+    <changeSet author="jk00kg" id="2012-06-27_0" runAlways="true">
         <comment>Add general description to description table</comment>
         <sql>
             INSERT INTO dwc_description
@@ -109,7 +109,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <!-- <changeSet author="jk00kg" id="">
+    <!-- <changeSet author="jk00kg" id="" runAlways="true">
         <comment>Add habitat to description table</comment>
         <sql>
             INSERT INTO dwc_description
@@ -124,7 +124,7 @@
         </sql>
         <rollback />
     </changeSet> -->
-    <changeSet author="jk00kg" id="2012-06-28_0">
+    <changeSet author="jk00kg" id="2012-06-28_0" runAlways="true">
         <comment>Add habit to description table</comment>
         <sql>
             INSERT INTO dwc_description
@@ -140,7 +140,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-28_1">
+    <changeSet author="jk00kg" id="2012-06-28_1" runAlways="true">
         <comment>Add other morphology to description table</comment>
         <sql>
             INSERT INTO dwc_description
@@ -156,7 +156,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-28_2">
+    <changeSet author="jk00kg" id="2012-06-28_2" runAlways="true">
         <comment>Create description file</comment>
         <sql>
             SELECT taxonID, GROUP_CONCAT(description SEPARATOR ' '), description_type AS type
@@ -169,7 +169,7 @@
         </sql>
         <rollback />
     </changeSet>
-    <changeSet author="jk00kg" id="2012-06-28_3">
+    <changeSet author="jk00kg" id="2012-06-28_3" runAlways="true">
         <comment>Create references file</comment>
         <sql>
             SELECT CONCAT('urn:kew.org:efloras:taxon:', n.name_id) AS taxonID, CONCAT('urn:kew.org:efloras:reference:eflora:', e.eflora_id) AS identifier, 
