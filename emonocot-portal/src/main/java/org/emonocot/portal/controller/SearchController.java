@@ -171,13 +171,14 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-		if(selectedFacets == null) {
-		    responseFacetList.add(FacetName.FAMILY.getSolrField());
-		} else {
+        if(selectedFacets == null) {
+            responseFacetList.add(FacetName.FAMILY.getSolrField());
+        } else {
+            int taxFacetIdx = 1;
             for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-            //for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
-                FacetName fn = FacetName.taxonomyFacets[i];
-                if(selectedFacets.containsKey(fn.getSolrField())) {
+            //for (; taxFacetIdx < 2; taxFacetIdx++) {//Only include FacetName.FAMILY
+                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+                if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
                     responseFacetList.add(fn.getSolrField());
                 } else {
                     if(!responseFacetList.contains(fn.getSolrField())){
@@ -186,7 +187,9 @@ public class SearchController {
                     break;
                 }
             }
-
+            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+            }
         }
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
@@ -294,10 +297,12 @@ public class SearchController {
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		responseFacetList.add("base.class_s");
-		if(selectedFacets != null) {
+        if(selectedFacets == null) {
+            responseFacetList.add(FacetName.FAMILY.getSolrField());
+        } else {
 		    int taxFacetIdx = 1;
-	        //for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-	        for (; taxFacetIdx < 2; taxFacetIdx++) {//Only include FacetName.FAMILY
+	        for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
+	        //for (; taxFacetIdx < 2; taxFacetIdx++) {//Only include FacetName.FAMILY
 	            FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
 	            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
 	                responseFacetList.add(fn.getSolrField());
