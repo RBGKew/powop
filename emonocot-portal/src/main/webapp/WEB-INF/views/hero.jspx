@@ -49,7 +49,7 @@
 					<c:url var="phylogeneticTreesUrl" value="/search">
 						<c:param name="facet" value="base.class_s:org.emonocot.model.PhylogeneticTree"/>
 					</c:url>
-					<spring:message code="hero.stats" arguments="${taxaUrl},${taxa},${imagesUrl},${images},${keysUrl},${keys},${phylogeneticTreesUrl},${phylogeneticTrees}"/>
+					<spring:message code="hero.stats" arguments="${taxaUrl}|${taxa}|${imagesUrl}|${images}|${keysUrl}|${keys}|${phylogeneticTreesUrl}|${phylogeneticTrees}" argumentSeparator="|"/>
 				</h4>
 			</div>
 			
