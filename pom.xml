@@ -1393,7 +1393,7 @@
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-				<git.repository>http://build.e-monocot.org/git/</git.repository>
+				<git.repository>http://kptman01.ad.kew.org/git/</git.repository>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1429,10 +1429,10 @@
 			<id>integration</id>
 			<properties>
 				<skip.global.tests>true</skip.global.tests>
-				<http.proxyHost />
-				<http.proxyPort />
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-				<git.repository>http://build.e-monocot.org/git/</git.repository>
+				<git.repository>http://kptman01.ad.kew.org/git/</git.repository>
 			</properties>
 			<build>
 				<plugins>
@@ -1500,25 +1500,25 @@
 		<profile>
 			<id>portal.test.vagrant</id>
 			<properties>
-			    <use.remote.solr>true</use.remote.solr>
+			    <use.remote.solr>false</use.remote.solr>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>tomcat</cargo.remote.password>
+				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080</cargo.tomcat.url>
+				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
+				<cargo.remote.username>sadmin</cargo.remote.username>
+				<cargo.remote.password>kewadmin</cargo.remote.password>
 				<cargo.context.path>/</cargo.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
+				<wagon.static.url>scp://kpttweb01.ad.kew.org:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
@@ -1531,10 +1531,10 @@
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://a9482.ad.kew.org:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-				<functional.test.baseUri>http://localhost</functional.test.baseUri>
+				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
 				<functional.test.basePath />
 				<functional.test.port>8080</functional.test.port>
 				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
@@ -1544,8 +1544,8 @@
                 <selenium.webdriver.mode>local</selenium.webdriver.mode>
                 <selenium.display.port>:1</selenium.display.port>
 				<solr.url>http://localhost:8983/solr</solr.url>
-				<http.proxyHost />
-				<http.proxyPort />
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>true</email.debug>
 				<email.smtp.username>portal</email.smtp.username>
 				<email.smtp.password>portal</email.smtp.password>
@@ -1611,8 +1611,8 @@
                 <selenium.webdriver.mode>local</selenium.webdriver.mode>
                 <selenium.display.port>:1</selenium.display.port>
 				<solr.url>http://localhost:8983/solr</solr.url>
-				<http.proxyHost />
-				<http.proxyPort />
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>true</email.debug>
 				<email.smtp.username>portal</email.smtp.username>
 				<email.smtp.password>portal</email.smtp.password>
@@ -1710,20 +1710,20 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-                <portal.baseUrl>http://localhost:8080</portal.baseUrl>
+                <portal.baseUrl>http://kptuapp01.ad.kew.org:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
+				<cargo.tomcat.url>http://kptuapp01.ad.kew.org:8080</cargo.tomcat.url>
+				<cargo.tomcat.manager.url>http://kptuapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
+<!--TODO -->				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>tomcat</cargo.remote.password>
 				<cargo.context.path>/</cargo.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
+				<wagon.static.url>scp://kptuweb01.ad.kew.org:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
@@ -1737,17 +1737,17 @@
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://a9482.ad.kew.org:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-				<http.proxyHost />
-				<http.proxyPort />
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>true</email.debug>
 				<email.smtp.username>portal</email.smtp.username>
 				<email.smtp.password>portal</email.smtp.password>
 				<email.smtp.host>localhost</email.smtp.host>
 				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>				
+				<email.smtp.auth>false</email.smtp.auth>
 				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
 				<quartz.cron.expression>* 0/5 * * * ?</quartz.cron.expression>
@@ -1766,35 +1766,35 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>tomcat</cargo.remote.password>
+				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080</cargo.tomcat.url>
+				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
+				<cargo.remote.username>sadmin</cargo.remote.username>
+				<cargo.remote.password>kewadmin</cargo.remote.password>
 				<cargo.context.path>/</cargo.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
+				<wagon.static.url>scp://kpttweb01.ad.kew.org:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
-				<liquibase.username>liquibase</liquibase.username>
-				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.username>emonocot-user</liquibase.username>
+				<liquibase.password>eM0n0c0t</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>				
 				<spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot</jdbc.driver.username>
+				<jdbc.driver.url>jdbc:postgresql://a9482.ad.kew.org:5432/emonocot</jdbc.driver.url>
+				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-				<functional.test.baseUri>http://localhost</functional.test.baseUri>
+				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
 				<functional.test.basePath />
 				<functional.test.port>8080</functional.test.port>
 				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
@@ -1804,8 +1804,8 @@
                 <selenium.webdriver.mode>local</selenium.webdriver.mode>
                 <selenium.display.port>:0</selenium.display.port>
 				<solr.url>http://localhost:8983/solr</solr.url>
-				<http.proxyHost />
-				<http.proxyPort />
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>true</email.debug>
 				<email.smtp.username>portal@localhost</email.smtp.username>
 				<email.smtp.password>portal</email.smtp.password>
@@ -1829,9 +1829,9 @@
 				<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<portal.baseUrl>http://kptuapp01.ad.kew.org:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
+				<harvester.baseUrl>http://kptuapp01.ad.kew.org/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
 				<harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
@@ -1841,12 +1841,12 @@
 				<harvester.output.directory>/var/lib/emonocot/output/</harvester.output.directory>
 				<batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
+				<cargo.tomcat.manager.url>http://kptuapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>tomcat</cargo.remote.password>
-				<cargo.context.path>emonocot-harvester</cargo.context.path>				
-				<http.proxyHost />
-				<http.proxyPort />
+				<cargo.context.path>emonocot-harvester</cargo.context.path>
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
@@ -1861,7 +1861,7 @@
 				<solr.max.segments>5</solr.max.segments>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://a9482.ad.kew.org:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<download.citation.string>eMonocot Citation String</download.citation.string>
@@ -1903,9 +1903,9 @@
 				<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<portal.baseUrl>http://kptuapp01.ad.kew.org:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
+				<harvester.baseUrl>http://kptuapp01.ad.kew.org:8080/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
 				<harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
@@ -1915,12 +1915,12 @@
 				<harvester.output.directory>/var/lib/emonocot/output/</harvester.output.directory>
 				<batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>tomcat</cargo.remote.password>
-				<cargo.context.path>emonocot-harvester</cargo.context.path>				
-				<http.proxyHost />
-				<http.proxyPort />
+				<cargo.tomcat.manager.url>http://kptuapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
+<!-- ? -->				<cargo.remote.username>sadmin</cargo.remote.username>
+				<cargo.remote.password>kewadmin</cargo.remote.password>
+				<cargo.context.path>emonocot-harvester</cargo.context.path>
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
@@ -1935,7 +1935,7 @@
 				<solr.max.segments>5</solr.max.segments>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:postgresql://10.0.2.15:5432/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:postgresql://a4982.ad.kew.org:5432/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<download.citation.string>eMonocot Citation String</download.citation.string>
