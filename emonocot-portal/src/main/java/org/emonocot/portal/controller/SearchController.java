@@ -174,9 +174,8 @@ public class SearchController {
         if(selectedFacets == null) {
             responseFacetList.add(FacetName.FAMILY.getSolrField());
         } else {
-            int taxFacetIdx = 1;
-            for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-            //for (; taxFacetIdx < 2; taxFacetIdx++) {//Only include FacetName.FAMILY
+            int taxFacetIdx = 1; //Start from FacetName.FAMILY
+            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
                 FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
                 if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
                     responseFacetList.add(fn.getSolrField());
@@ -300,9 +299,8 @@ public class SearchController {
         if(selectedFacets == null) {
             responseFacetList.add(FacetName.FAMILY.getSolrField());
         } else {
-		    int taxFacetIdx = 1;
-	        for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-	        //for (; taxFacetIdx < 2; taxFacetIdx++) {//Only include FacetName.FAMILY
+		    int taxFacetIdx = 1; //Start from FacetName.FAMILY
+	        for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
 	            FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
 	            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
 	                responseFacetList.add(fn.getSolrField());
