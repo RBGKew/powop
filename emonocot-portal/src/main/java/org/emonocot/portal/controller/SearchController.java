@@ -177,12 +177,10 @@ public class SearchController {
             int taxFacetIdx = 1; //Start from FacetName.FAMILY
             for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
                 FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-                if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
+                if(!responseFacetList.contains(fn.getSolrField())){
                     responseFacetList.add(fn.getSolrField());
-                } else {
-                    if(!responseFacetList.contains(fn.getSolrField())){
-                        responseFacetList.add(fn.getSolrField());
-                    }
+                }
+                if(!selectedFacets.containsKey(fn.getSolrField())) {
                     break;
                 }
             }
@@ -299,22 +297,20 @@ public class SearchController {
         if(selectedFacets == null) {
             responseFacetList.add(FacetName.FAMILY.getSolrField());
         } else {
-		    int taxFacetIdx = 1; //Start from FacetName.FAMILY
-	        for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-	            FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-	            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
-	                responseFacetList.add(fn.getSolrField());
-	            } else {
-	                if(!responseFacetList.contains(fn.getSolrField())){
-	                    responseFacetList.add(fn.getSolrField());
-	                }
-	                break;
-	            }
-	        }
-	        for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-	            selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-	        }
-		}
+            int taxFacetIdx = 1; //Start from FacetName.FAMILY
+            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+                if(!responseFacetList.contains(fn.getSolrField())){
+                    responseFacetList.add(fn.getSolrField());
+                }
+                if(!selectedFacets.containsKey(fn.getSolrField())) {
+                    break;
+                }
+            }
+            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+            }
+        }
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
         responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
         responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
