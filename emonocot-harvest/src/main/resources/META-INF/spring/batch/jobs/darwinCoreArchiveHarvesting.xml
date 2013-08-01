@@ -301,8 +301,8 @@
 		<batch:decision decider="keyProcessingModeDecider" id="checkKeyProcessingMode">
 			<batch:next on="IMPORT_KEYS" to="markKeyRecords" />
 			<batch:next on="IMPORT_KEYS_DONT_DELETE_GLOBAL" to="markRelatedKeyRecords" />
-            <batch:next on="SKIP_KEYS" to="checkReferenceProcessingMode" />
-            <batch:next on="SKIP_WITH_ERROR" to="checkReferenceProcessingMode" />
+            <batch:next on="SKIP_KEYS" to="checkPhylogenyProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkPhylogenyProcessingMode" />
 		</batch:decision>
 		<batch:step id="markKeyRecords">
 			<batch:description>Mark the identification key records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -315,6 +315,75 @@
 		</batch:step>
 		<batch:step id="markRelatedKeyRecords">
 			<batch:description>Mark the key records we expect to be present in this archive (based on what we have previously harvested) but don't delete keys which are not associate with a taxon</batch:description>
+			<batch:tasklet ref="markRelatedKeyRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processKeysDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedKeyRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processKeysDecider" id="processKeysDecision">
+			<batch:next on="true" to="processKeyFile" />
+			<batch:next on="false" to="deleteAbsentKeys" />
+		</batch:decision>
+		<batch:step id="processKeyFile">
+			<batch:description>Process the extension file containing the identification keys</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="keyReader" processor="keyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include	class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentKeys" />
+			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="imageFieldSetMapper" />
+				<batch:listener ref="keyProcessor" />
+				<batch:listener ref="keyProcessorDelegate" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentKeys">
+			<batch:description>Delete the identification keys which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+                <batch:chunk reader="deleteKeysReader" writer="deletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexKeys" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexKeys">
+		  <batch:description>Index the images associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexKeysReader" writer="indexKeysWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkPhylogenyProcessingMode" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="phylogenyProcessingModeDecider" id="checkPhylogenyProcessingMode">
+			<batch:next on="IMPORT_PHYLOGENIES" to="markPhylogenyRecords" />
+			<batch:next on="IMPORT_PHYLOGENIES_DONT_DELETE_GLOBAL" to="markRelatedPhylogenyRecords" />
+            <batch:next on="SKIP_PHYLOGENIES" to="checkReferenceProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkReferenceProcessingMode" />
+		</batch:decision>
+		<batch:step id="markPhylogenyRecords">
+			<batch:description>Mark the phylogeny records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markPhylogenyRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processPhylogeniesDecision" />
+			<batch:listeners>
+				<batch:listener ref="markPhylogenyRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedPhylogenyRecords">
+			<batch:description>Mark the phylogeny records we expect to be present in this archive (based on what we have previously harvested) but don't delete phylogenies which are not associate with a taxon</batch:description>
 			<batch:tasklet ref="markRelatedKeyRecordsTasklet" />
 			<batch:next on="COMPLETED" to="processKeysDecision" />
 			<batch:listeners>

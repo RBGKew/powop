@@ -77,11 +77,20 @@
 			<div class="inner">
 				<div class="box">
 					<h2><i class="glyphicons-icon comments"><!--  --></i> <spring:message code="comments.title"/></h2>
-					<ul class="media-list">
-						<c:forEach var="comment" items="${comments.records}">
+					<c:choose>
+					  <c:when test="${comments}">
+					    <ul class="media-list">
+						  <c:forEach var="comment" items="${comments.records}">
 							<tags:comment comment="${comment}"/>
-						</c:forEach>
-					</ul>
+						  </c:forEach>
+					    </ul>
+					  </c:when>
+					  <c:otherwise>
+					    <div class="span6">
+					      <spring:message code="comments.unavailable"/>
+					    </div>
+					  </c:otherwise>
+					</c:choose>					
 					<div class="row">
 						<div class="span6">
 							<c:url var="commentsUrl" value="/comment"/>

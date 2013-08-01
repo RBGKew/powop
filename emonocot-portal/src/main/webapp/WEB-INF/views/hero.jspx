@@ -20,7 +20,8 @@
 				<p class="lead span12">
 					<spring:message code="hero.message" />
 				</p>
-				<h4>
+				<c:if test="${stats}">
+				  <h4>
 					<c:forEach var="s" items="${stats.getFacetField('base.class_s').getValues()}">
 						<c:choose>
 							<c:when test="${s.name eq 'org.emonocot.model.Taxon'}">
@@ -50,7 +51,8 @@
 						<c:param name="facet" value="base.class_s:org.emonocot.model.PhylogeneticTree"/>
 					</c:url>
 					<spring:message code="hero.stats" arguments="${taxaUrl}|${taxa}|${imagesUrl}|${images}|${keysUrl}|${keys}|${phylogeneticTreesUrl}|${phylogeneticTrees}" argumentSeparator="|"/>
-				</h4>
+				  </h4>
+				</c:if>
 			</div>
 			
 			<div class="row">
