@@ -955,8 +955,8 @@ public class Taxon extends SearchableObject {
 	public SolrInputDocument toSolrInputDocument() {
         SolrInputDocument sid = super.toSolrInputDocument();
         sid.addField("searchable.label_sort", getScientificName());
-        addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
-        addField(sid,"taxon.clazz_s", getClazz());
+        //addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
+        //addField(sid,"taxon.clazz_s", getClazz());
         
         StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
         .append(getClazz()).append(" ").append(getFamily()).append(" ")
@@ -997,16 +997,16 @@ public class Taxon extends SearchableObject {
         
         addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
         addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
-        addField(sid,"taxon.kingdom_s", getKingdom());
-        addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
-        addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
-        addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
-        addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
-        addField(sid,"taxon.order_s", getOrder());
-        addField(sid,"taxon.phylum_s", getPhylum());
+        //addField(sid,"taxon.kingdom_s", getKingdom());
+        //addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
+        //addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
+        //addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
+        //addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
+        //addField(sid,"taxon.phylum_s", getPhylum());
+        //addField(sid,"taxon.source_t", getSource());
+        addField(sid,"taxon.order_s", getOrder());        
         addField(sid,"taxon.scientific_name_t", getScientificName());
-        addField(sid,"taxon.scientific_name_authorship_t", getScientificNameAuthorship());
-        addField(sid,"taxon.source_t", getSource());
+        addField(sid,"taxon.scientific_name_authorship_t", getScientificNameAuthorship());        
         addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
         addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
         
@@ -1030,7 +1030,7 @@ public class Taxon extends SearchableObject {
         
         addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
         addField(sid,"taxon.taxon_rank_s", getTaxonRank());
-        addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
+        //addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
         
         addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
         if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
@@ -1040,7 +1040,7 @@ public class Taxon extends SearchableObject {
             addField(sid,FacetName.TRIBE.getSolrField(), getAcceptedNameUsage().getTribe());
         }
         
-        addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
+        //addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
         
         if(getDescriptions().isEmpty()) {
             sid.addField("taxon.descriptions_not_empty_b", false);

@@ -306,15 +306,14 @@ public class Image extends SearchableObject implements NonOwned, Media {
     public SolrInputDocument toSolrInputDocument() {
     	SolrInputDocument sid = super.toSolrInputDocument();
     	sid.addField("searchable.label_sort", getTitle());
-    	addField(sid,"image.audience_t", getAudience());
-    	
-    	addField(sid,"image.creator_t", getCreator());
-    	addField(sid,"image.description_t", getDescription());
-    	addField(sid,"image.publisher_t", getPublisher());
-    	addField(sid,"image.references_t", getReferences());
-    	addField(sid,"image.spatial_t", getSpatial());
-    	addField(sid,"image.subject_t", getSubject());
-    	sid.addField("image.title_t", getTitle());    	
+    	//addField(sid,"image.audience_t", getAudience());
+    	//addField(sid,"image.creator_t", getCreator());
+    	//addField(sid,"image.description_t", getDescription());
+    	//addField(sid,"image.publisher_t", getPublisher());
+    	//addField(sid,"image.references_t", getReferences());
+    	//addField(sid,"image.spatial_t", getSpatial());
+    	//addField(sid,"image.subject_t", getSubject());
+    	//sid.addField("image.title_t", getTitle());    	
     	
 		StringBuilder summary = new StringBuilder().append(getAudience())
 				.append(" ").append(getCreator()).append(" ")
@@ -323,12 +322,12 @@ public class Image extends SearchableObject implements NonOwned, Media {
 				.append(getSpatial()).append(" ").append(getSubject())
 				.append(" ").append(getTitle()).append(" ");
     	if(getTaxon() != null) {
-    		addField(sid,"taxon.class_s", getTaxon().getClazz());
+    		//addField(sid,"taxon.class_s", getTaxon().getClazz());
     	    addField(sid,"taxon.family_ss", getTaxon().getFamily());
     	    addField(sid,"taxon.genus_s", getTaxon().getGenus());
-    	    addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
-    	    addField(sid,"taxon.order_s", getTaxon().getOrder());
-    	    addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+    	    //addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
+    	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+    	    addField(sid,"taxon.order_s", getTaxon().getOrder());    	    
     	    addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
     	    addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
     	    addField(sid,"taxon.subtribe_s", getTaxon().getSubtribe());

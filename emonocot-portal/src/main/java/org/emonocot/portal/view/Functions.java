@@ -567,7 +567,6 @@ public class Functions {
 		sortItems.add("resource.duration_l_asc");
 		sortItems.add("resource.records_read_l_asc");
 		sortItems.add("resource.records_read_l_desc");
-		sortItems.add("annotation.record_type_s_asc");
 		sortItems.add("base.created_dt_desc");
 		sortItems.add("_asc");
 		return sortItems;

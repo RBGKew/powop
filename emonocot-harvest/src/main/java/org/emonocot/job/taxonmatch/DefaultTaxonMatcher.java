@@ -60,7 +60,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
     public List<Match<Taxon>> match(ParsedName<String> parsed) {
         StringBuilder stringBuilder = new StringBuilder();
         if (parsed.getSpecificEpithet() == null) {
-            stringBuilder.append("taxon.searchable_label_sort:" + parsed.getGenusOrAbove());
+            stringBuilder.append("searchable.label_sort:" + parsed.getGenusOrAbove());
             if(parsed.getAuthorship() != null) {
                 stringBuilder.append(" AND taxon.scientific_name_authorship_s:"
                         + parsed.getAuthorship());

@@ -201,19 +201,19 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
     public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = super.toSolrInputDocument();
     	sid.addField("searchable.label_sort", getTitle());
-    	sid.addField("phylogeny.title_t", getTitle());
-    	addField(sid,"phylogeny.creator_t", getCreator());
-    	addField(sid,"phylogeny.description_t", getDescription());
+    	//sid.addField("phylogeny.title_t", getTitle());
+    	//addField(sid,"phylogeny.creator_t", getCreator());
+    	//addField(sid,"phylogeny.description_t", getDescription());
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
     	.append(getCreator()).append(" ").append(getDescription());
     	if(getTaxa() != null) {
     		for(Taxon t : getTaxa()) {
-    		addField(sid,"taxon.class_s", t.getClazz());
+    		//addField(sid,"taxon.class_s", t.getClazz());
+    	    //addField(sid,"taxon.kingdom_s", t.getKingdom());
+    	    //addField(sid,"taxon.phylum_s", t.getPhylum());
+    	    addField(sid,"taxon.order_s", t.getOrder());
     	    addField(sid,"taxon.family_ss", t.getFamily());
     	    addField(sid,"taxon.genus_s", t.getGenus());
-    	    addField(sid,"taxon.kingdom_s", t.getKingdom());
-    	    addField(sid,"taxon.order_s", t.getOrder());
-    	    addField(sid,"taxon.phylum_s", t.getPhylum());
     	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
     	    addField(sid,"taxon.subgenus_s", t.getSubgenus());
     	    addField(sid,"taxon.subtribe_s", t.getSubtribe());
