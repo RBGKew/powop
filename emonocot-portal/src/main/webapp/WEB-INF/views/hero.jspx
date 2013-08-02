@@ -20,7 +20,7 @@
 				<p class="lead span12">
 					<spring:message code="hero.message" />
 				</p>
-				<c:if test="${stats}">
+				<c:if test="${not empty stats}">
 				  <h4>
 					<c:forEach var="s" items="${stats.getFacetField('base.class_s').getValues()}">
 						<c:choose>

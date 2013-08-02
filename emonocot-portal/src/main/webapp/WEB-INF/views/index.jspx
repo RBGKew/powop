@@ -81,7 +81,7 @@
 					  <c:when test="${comments}">
 					    <ul class="media-list">
 						  <c:forEach var="comment" items="${comments.records}">
-							<tags:comment comment="${comment}"/>
+							<tags:comment comment="${not empty comment}"/>
 						  </c:forEach>
 					    </ul>
 					  </c:when>
