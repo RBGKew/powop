@@ -78,7 +78,7 @@
 				<div class="box">
 					<h2><i class="glyphicons-icon comments"><!--  --></i> <spring:message code="comments.title"/></h2>
 					<c:choose>
-					  <c:when test="${comments}">
+					  <c:when test="${not empty comments}">
 					    <ul class="media-list">
 						  <c:forEach var="comment" items="${comments.records}">
 							<tags:comment comment="${not empty comment}"/>
