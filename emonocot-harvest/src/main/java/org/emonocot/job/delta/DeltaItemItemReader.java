@@ -48,16 +48,12 @@ public class DeltaItemItemReader extends AbstractItemCountingItemStreamItemReade
 				moreLines = false;
 			} else {
 			    line = line.trim();
-			    //System.out.println("LINE: "+line);
-			    if (line.isEmpty()) {
-				    //System.out.println("line.isEmpty()");				
+			    if (line.isEmpty()) {		
 				    break;
 				    // item ends or ignore
 			    } else if (line.startsWith("*")) {
-				    //System.out.println("line.startsWith(\"*\")");
 				    // other directive
 			    } else if (line.startsWith("#")) {
-				    //System.out.println("line.startsWith(\"#\")");
 			    	if(itemBuffer != null) {
 			    	    String finishedItem = itemBuffer.toString();
 			    	    if(!finishedItem.trim().isEmpty()) {			    	    	
@@ -71,7 +67,6 @@ public class DeltaItemItemReader extends AbstractItemCountingItemStreamItemReade
 				    itemBuffer.append(line);
 				    
 			    } else {
-				    //System.out.println("other");
 				    if (itemBuffer != null) {
 					    itemBuffer.append("\n" + line);
 				    }

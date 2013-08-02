@@ -384,52 +384,52 @@
 		</batch:step>
 		<batch:step id="markRelatedPhylogenyRecords">
 			<batch:description>Mark the phylogeny records we expect to be present in this archive (based on what we have previously harvested) but don't delete phylogenies which are not associate with a taxon</batch:description>
-			<batch:tasklet ref="markRelatedKeyRecordsTasklet" />
-			<batch:next on="COMPLETED" to="processKeysDecision" />
+			<batch:tasklet ref="markRelatedPhylogenyRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processPhylogeniesDecision" />
 			<batch:listeners>
-				<batch:listener ref="markRelatedKeyRecordsTasklet" />
+				<batch:listener ref="markRelatedPhylogenyRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:decision decider="processKeysDecider" id="processKeysDecision">
-			<batch:next on="true" to="processKeyFile" />
-			<batch:next on="false" to="deleteAbsentKeys" />
+		<batch:decision decider="processPhylogeniesDecider" id="processPhylogeniesDecision">
+			<batch:next on="true" to="processPhylogenyFile" />
+			<batch:next on="false" to="deleteAbsentPhylogenies" />
 		</batch:decision>
-		<batch:step id="processKeyFile">
-			<batch:description>Process the extension file containing the identification keys</batch:description>
+		<batch:step id="processPhylogenyFile">
+			<batch:description>Process the extension file containing the phylogenies</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="keyReader" processor="keyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+				<batch:chunk reader="phylogenyReader" processor="phylogenyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
 						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include	class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="deleteAbsentKeys" />
+			<batch:next on="COMPLETED" to="deleteAbsentPhylogenies" />
 			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="imageFieldSetMapper" />
-				<batch:listener ref="keyProcessor" />
-				<batch:listener ref="keyProcessorDelegate" />
+				<batch:listener ref="phylogenyProcessor" />
+				<batch:listener ref="phylogenyProcessorDelegate" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:step id="deleteAbsentKeys">
-			<batch:description>Delete the identification keys which we expected to be present in the archive but which were absent</batch:description>
+		<batch:step id="deleteAbsentPhylogenies">
+			<batch:description>Delete the phylogenies which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-                <batch:chunk reader="deleteKeysReader" writer="deletingWriter" commit-interval="10" />
+                <batch:chunk reader="deletePhylogeniesReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="indexKeys" />
+			<batch:next on="COMPLETED" to="indexPhylogenies" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:step id="indexKeys">
-		  <batch:description>Index the images associated with this job</batch:description>
+		<batch:step id="indexPhylogenies">
+		  <batch:description>Index the phylogenies associated with this job</batch:description>
 		  <batch:tasklet>
-				<batch:chunk reader="indexKeysReader" writer="indexKeysWriter" commit-interval="10" />
+				<batch:chunk reader="indexPhylogeniesReader" writer="indexPhylogeniesWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
 			<batch:listeners>
@@ -785,19 +785,11 @@
 		    <batch:tasklet>
 				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="optimize" />
-			<batch:listeners>
-			    <batch:listener ref="stepStatusListener" />
-			</batch:listeners>
-		</batch:step>
-		<batch:step id="optimize">
-		    <batch:description>Optimze the indexes if neccessary</batch:description>
-		    <batch:tasklet ref="solrOptimizingTasklet"/>
 			<batch:next on="COMPLETED" to="cleanupResources" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
-		</batch:step>
+		</batch:step>	
 		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
@@ -820,14 +812,6 @@
 		    <batch:tasklet>
 				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="optimizeFailed" />
-			<batch:listeners>
-			    <batch:listener ref="stepStatusListener" />
-			</batch:listeners>
-		</batch:step>
-		<batch:step id="optimizeFailed">
-		    <batch:description>Optimze the indexes if neccessary</batch:description>
-		    <batch:tasklet ref="solrOptimizingTasklet"/>
 			<batch:next on="COMPLETED" to="cleanupResourcesFailed" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
@@ -1322,7 +1306,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="annotatedObjType" value="IdentificationKey"/>
-		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from Image o join Taxon_IdentificationKey o_t on (o.id = o_t.keys_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from IdentificationKey o join Taxon_IdentificationKey o_t on (o.id = o_t.keys_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
 		<property name="family" value="#{jobParameters['family']}" />
         <property name="subfamily" value="#{jobParameters['subfamily']}" />
         <property name="tribe" value="#{jobParameters['tribe']}" />
@@ -1389,6 +1373,98 @@
 	
 	<bean id="indexKeysWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="org.emonocot.model.IdentificationKey" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
+    
+    <!-- Phylogenies -->
+	
+	<bean id="phylogenyProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="phylogeny.processing.mode" />
+		<property name="defaultProcessingMode" value="SKIP_PHYLOGENIES" /><!-- By default skip phylogenies as the majority are configured and imported individually -->
+	</bean>
+	
+	<bean id="processPhylogeniesDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.image.file" />
+	</bean>
+
+	<bean id="markPhylogenyRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="PhylogeneticTree"/>
+	</bean>
+	
+	<bean id="markRelatedPhylogenyRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="IdentificationKey"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from PhylogeneticTree o join Taxon_PhylogeneticTree o_t on (o.id = o_t.trees_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="phylogenyReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.image.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.image.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.image.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="imageLineMapper" /><!-- Re-use objects -->
+	</bean>
+	
+	<bean id="phylogenyProcessor" class="org.emonocot.job.dwc.phylo.JobLaunchingProcessor" scope="step">
+	  <property name="processor" ref="phylogenyProcessorDelegate"/>
+      <property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="phylogenyProcessorDelegate" class="org.emonocot.job.dwc.phylo.Processor" scope="step">
+	    <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+
+	<bean id="deletePhylogeniesReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i from PhylogeneticTree i join i.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexPhylogeniesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i.id from PhylogeneticTree i join i.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexPhylogeniesWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+      <property name="type" value="org.emonocot.model.PhylogeneticTree" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>

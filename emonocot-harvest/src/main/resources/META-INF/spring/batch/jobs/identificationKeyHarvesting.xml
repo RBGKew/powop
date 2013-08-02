@@ -133,19 +133,19 @@
 		    <batch:tasklet>
 				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="cleanupResources" />
+			<batch:end on="COMPLETED"/> <!-- to="cleanupResources" -->
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<batch:step id="cleanupResources">
+		<!-- <batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="resourceDeletingTasklet" />
 			<batch:end on="COMPLETED" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
-		</batch:step>
+		</batch:step>-->
 		<batch:listeners>
 		  <batch:listener ref="jobStatusListener"/>
 		</batch:listeners>

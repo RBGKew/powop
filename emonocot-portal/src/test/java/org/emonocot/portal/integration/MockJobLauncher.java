@@ -4,9 +4,13 @@ import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class MockJobLauncher implements JobLauncher {
+	
+	private static Logger logger = LoggerFactory.getLogger(MockJobLauncher.class);
 	
 	private JobExecutionInfo execution = new JobExecutionInfo();
 	
@@ -53,7 +57,7 @@ public class MockJobLauncher implements JobLauncher {
 	@Override
 	public void launch(JobLaunchRequest request)
 			throws JobExecutionException {
-		System.out.println("RECIEVED: " + request);
+		logger.info("RECIEVED: " + request);
 		request.setException(exception);
 		request.setExecution(execution);
 	}

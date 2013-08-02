@@ -277,7 +277,7 @@ public class PageObject {
         try {
             openAs(getBaseUri() + "/logout", Index.class);
         } catch (Exception e) {
-           System.out.println(e.getMessage());
+           logger.debug(e.getMessage());
         }
         
     }

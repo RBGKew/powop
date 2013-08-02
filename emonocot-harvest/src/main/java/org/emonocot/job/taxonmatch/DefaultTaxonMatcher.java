@@ -66,7 +66,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
                         + parsed.getAuthorship());
             }
         } else {
-            stringBuilder.append("taxon.genus_s:" + parsed.getGenusOrAbove());
+            stringBuilder.append("taxon.genus_ns:" + parsed.getGenusOrAbove());
             if (parsed.getSpecificEpithet() != null) {
                 stringBuilder.append(" AND taxon.specific_epithet_s:"
                         + parsed.getSpecificEpithet());
