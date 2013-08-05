@@ -46,7 +46,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="span8">
+		<div id="news" class="span8">
 			<div class="inner">
 				<div class="box">
 					<h2><a href="http://families.e-monocot.org/blog/feed"><i class="glyphicons-icon rss"><!--  --></i></a> <spring:message code="news.title"/></h2>
@@ -58,7 +58,24 @@
 								limit:5,
 								dateformat: 'date',
 								historical: false
-							});
+							},
+							 function(e) {
+								  // BUG 552 As an administrator of the portal I want the News panel to disappear if no news for 3 months
+								  var now = new Date();
+								  var stale = true;
+								  var threeMonths = 1000 * 60 * 60 * 24 * 30.4368 * 3;
+								  $(e).find('div.rssBody ul li div').each(function() {
+								     var d = new Date(Date.parse($(this).text()));
+								     var difference = now.getTime() - d.getTime();
+								     if(difference &lt; threeMonths) {
+								         stale = false;
+								     }
+								  });
+								  if(stale) {								   
+								    $("#news").removeClass("span8").addClass("hide");
+								    $("#comments").removeClass("span4").addClass("span12");
+								  }
+						});
 						});
 					</script>
 					
@@ -73,7 +90,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="span4">
+		<div id="" class="span4">
 			<div class="inner">
 				<div class="box">
 					<h2><i class="glyphicons-icon comments"><!--  --></i> <spring:message code="comments.title"/></h2>

@@ -48,7 +48,7 @@ public class HomeController {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         model.addAttribute(userService.load(user.getUsername()));
-        return "user/update";
+        return "home/update";
     }
     
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
@@ -61,7 +61,7 @@ public class HomeController {
     	assert authorizedUser.equals(user);
     	
         if (result.hasErrors()) {
-            return "user/update";
+            return "home/update";
         }
         authorizedUser.setAccountName(user.getAccountName());
         authorizedUser.setFamilyName(user.getFamilyName());
@@ -81,7 +81,7 @@ public class HomeController {
             Object[] args = new Object[] {uoe.getMessage()};
             DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
             model.addAttribute("error", message);
-    		return "user/update";
+    		return "home/update";
         }        
         
         userService.saveOrUpdate(authorizedUser);
