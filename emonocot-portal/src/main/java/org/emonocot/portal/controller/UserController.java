@@ -108,7 +108,7 @@ public class UserController extends GenericController<User, UserService> {
 		return "user/show";
 	}
 	
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "form")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "form", produces = "text/html")
     public String update(@PathVariable Long id, Model uiModel) {    	
         uiModel.addAttribute(getService().find(id));
         return "user/update";

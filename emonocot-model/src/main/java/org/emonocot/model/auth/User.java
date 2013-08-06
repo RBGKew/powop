@@ -229,22 +229,12 @@ public class User extends Principal implements UserDetails {
     public boolean isAccountNonExpired() {
         return accountNonExpired;
     }
-    
-    @JsonIgnore
-    public boolean getAccountNonExpired() {
-    	return accountNonExpired;
-    }
 
     /**
      * @return true if the account isn't locked
      */
     public boolean isAccountNonLocked() {
         return accountNonLocked;
-    }
-    
-    @JsonIgnore
-    public boolean getAccountNonLocked() {
-    	return accountNonLocked;
     }
 
     /**
@@ -253,22 +243,12 @@ public class User extends Principal implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return credentialsNonExpired;
     }
-    
-    @JsonIgnore
-    public boolean getCredentialsNonExpired() {
-    	return credentialsNonExpired;
-    }
 
     /**
      * @return true if the account is enabled
      */
     public boolean isEnabled() {
         return enabled;
-    }
-    
-    @JsonIgnore
-    public boolean getEnabled() {
-    	return enabled;
     }
 
     /**
