@@ -7,15 +7,19 @@ import org.emonocot.model.Reference;
 
 public class ReferenceComparator implements Comparator<Reference> {
 	
-	private NullComparator nullSafeStringComparator = new NullComparator(
-			new Comparator<String>() {
+	private NullComparator nullSafeStringComparator;
+	
+	public ReferenceComparator() {
+		Comparator<String> stringComparator = new Comparator<String>() {
 
-				@Override
-				public int compare(String o1, String o2) {
-					return o1.compareTo(o2);
-				}
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
 
-			});
+		};
+		nullSafeStringComparator = new NullComparator(stringComparator, false);
+	}
 
 	@Override
 	public int compare(Reference o1, Reference o2) {
