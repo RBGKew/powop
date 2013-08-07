@@ -238,6 +238,7 @@
 											<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
 										</h2>
 										<c:forEach var="description" items="${descriptions}">
+										  <div class="description-with-citations">
 										    <p class="justified">${description.description}</p>
 										    <ul class="citations">
 											    <li>
@@ -252,6 +253,7 @@
 												    </c:forEach>
 											    </c:if>
 										    </ul>
+										  </div>
 										</c:forEach>
 									</div>
 								</div>

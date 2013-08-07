@@ -295,10 +295,10 @@ background-image:url(./images/glyphicons/fullsize/glyphicons_044_keys.png);
  * Identification Key
  */
  
-li.descriptiveConcept > div >  a > i.halflings-icon.plus{
+li.descriptiveConcept > div > div.media-body >  a > i.halflings-icon.plus{
   background-position: -433px -96px;
 }
-li.descriptiveConcept > div.collapsed > a > i.halflings-icon.plus {
+li.descriptiveConcept > div.collapsed > div.media-body > a > i.halflings-icon.plus {
   background-position: -408px -96px;
 }
  
@@ -550,8 +550,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .box p {
 	color: #888;
-	clear: both;
 }
+
+.description-with-citations {
+  overflow: auto;
+  clear:both;
+  width: 100%;
+  margin-bottom:30px;
+}
+
+.description-with-citations:last-child {
+  margin-bottom: 0px;
+}
+
+.description-with-citations  p {
+  margin-bottom: 0px;
+}
+
 
 /**
  * footer 
