@@ -18,34 +18,18 @@ import org.springframework.core.io.Resource;
  */
 public class KeyTransformationTest {
 
-    /**
-     *
-     */
     private Resource inputFile = new ClassPathResource(
             "org/emonocot/job/sdd/testKey.xml");
 
-   /**
-    *
-    */
     private Resource xsltFile = new ClassPathResource(
             "org/emonocot/job/key/sddToJSON.xsl");
 
-    /**
-     *
-     */
     private Resource taxonNameFile = new ClassPathResource(
             "org/emonocot/job/sdd/taxon-file.xml");
 
-    /**
-     *
-     */
    private Resource imageFile = new ClassPathResource(
            "org/emonocot/job/sdd/image-file.xml");
 
-
-    /**
-     *
-     */
     private XmlTransformingTasklet xmlTransformingTasklet;
 
     /**
@@ -56,7 +40,7 @@ public class KeyTransformationTest {
         xmlTransformingTasklet = new XmlTransformingTasklet();
         xmlTransformingTasklet.setInputFile(inputFile);
         xmlTransformingTasklet.setXsltFile(xsltFile);
-        File output = File.createTempFile("output", "json");
+        File output = File.createTempFile("output","json");
         FileSystemResource outputFile = new FileSystemResource(output);
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("taxonFileName", taxonNameFile.getFile()

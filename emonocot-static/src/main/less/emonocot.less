@@ -320,7 +320,15 @@ li.descriptiveConcept > div.collapsed > a > i.halflings-icon.plus {
 	overflow: auto;
 }
 
-li.descriptiveConcept div {
+li.descriptiveConcept > div.collapse {
+	clear:both;
+}
+
+li.descriptiveConcept > div.collapse > ul {
+	margin-top: 15px;
+}
+
+li.character > div.collapse {
 	clear:both;
 }
 
@@ -542,6 +550,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .box p {
 	color: #888;
+	clear: both;
 }
 
 /**

@@ -23,7 +23,9 @@
           </xsl:attribute>
           <xsl:element name="Representation">
             <xsl:element name="Label">
-              <xsl:value-of select="sdd:Representation/sdd:Label"/>
+              <xsl:call-template name="remove-html">
+                <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+              </xsl:call-template>
             </xsl:element>
           </xsl:element>
         </sdd:TaxonName>
@@ -66,7 +68,9 @@
           <xsl:value-of select="@id"/>
         </xsl:attribute>
         <xsl:attribute name="name">
-          <xsl:value-of select="sdd:Representation/sdd:Label"/>
+          <xsl:call-template name="remove-html">
+            <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+          </xsl:call-template>
         </xsl:attribute>
         <xsl:attribute name="position">
           <xsl:value-of select="position() - 1"/>
@@ -82,7 +86,9 @@
           <xsl:value-of select="@id"/>
         </xsl:attribute>
         <xsl:attribute name="name">
-          <xsl:value-of select="sdd:Representation/sdd:Label"/>
+          <xsl:call-template name="remove-html">
+            <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+          </xsl:call-template>          
         </xsl:attribute>
         <xsl:attribute name="position">
           <xsl:value-of select="position() - 1"/>
@@ -100,7 +106,9 @@
              <xsl:value-of select="@id"/>
            </xsl:attribute>
            <xsl:attribute name="name">
-             <xsl:value-of select="sdd:Representation/sdd:Label"/>
+             <xsl:call-template name="remove-html">
+               <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+             </xsl:call-template>
            </xsl:attribute>
            <xsl:attribute name="position">
              <xsl:value-of select="position() - 1"/>
@@ -115,7 +123,9 @@
              <xsl:value-of select="@id"/>
            </xsl:attribute>
            <xsl:attribute name="name">
-             <xsl:value-of select="sdd:Representation/sdd:Label"/>
+             <xsl:call-template name="remove-html">
+               <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+             </xsl:call-template>
            </xsl:attribute>
            <xsl:attribute name="position">
              <xsl:value-of select="position() - 1"/>
@@ -137,7 +147,9 @@
           <xsl:value-of select="@id"/>
         </xsl:attribute>
         <xsl:attribute name="name">
-          <xsl:value-of select="sdd:Representation/sdd:Label"/>
+          <xsl:call-template name="remove-html">
+            <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+          </xsl:call-template>
         </xsl:attribute>
         <xsl:attribute name="position">
           <xsl:value-of select="position()"/>
@@ -156,7 +168,9 @@
 
   <xsl:template match="sdd:Dataset">   	
     <xsl:text>{"title":"</xsl:text>
-    <xsl:value-of select="sdd:Representation/sdd:Label"/>
+    <xsl:call-template name="remove-html">
+      <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+    </xsl:call-template>
     <xsl:text>","imagePath":"</xsl:text>
     <xsl:value-of select="$imagePath"/><xsl:text>",</xsl:text>
     <xsl:choose>
@@ -453,7 +467,9 @@
     <xsl:variable name="taxon" select="exsl:node-set($taxon-indexes)/sdd:TaxonName[@id = $id]"/>
     <xsl:value-of select="$taxon/@position"/>
     <xsl:text>","name":"</xsl:text>
-    <xsl:value-of select="sdd:Representation/sdd:Label"/>
+    <xsl:call-template name="remove-html">
+      <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+    </xsl:call-template>
     <xsl:text>"</xsl:text>
     <xsl:if test="sdd:Representation/sdd:Detail">
       <xsl:text>,"description":"</xsl:text>
@@ -476,7 +492,9 @@
         <xsl:value-of select="$linkPath"/>
         <xsl:value-of select="exsl:node-set($taxon-map)/sdd:TaxonNames/sdd:TaxonName[@id = $id]/@debuglabel"/>
         <xsl:text>","title":"</xsl:text>
-        <xsl:value-of select="sdd:Representation/sdd:Label"/>
+        <xsl:call-template name="remove-html">
+          <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+        </xsl:call-template>
         <xsl:text>"}]</xsl:text>
     </xsl:if>
   </xsl:template>
@@ -487,7 +505,9 @@
 
   <xsl:template match="sdd:CategoricalCharacter">
     <xsl:text>{"name":"</xsl:text>
-    <xsl:value-of select="sdd:Representation/sdd:Label"/>
+    <xsl:call-template name="remove-html">
+      <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+    </xsl:call-template>  
     <xsl:text>"</xsl:text>
     <xsl:if test="sdd:Representation/sdd:Detail">
        <xsl:text>,"description":"</xsl:text>
@@ -524,7 +544,9 @@
 
   <xsl:template match="sdd:StateDefinition">
      <xsl:text>{"name":"</xsl:text>
-     <xsl:value-of select="sdd:Representation/sdd:Label"/>
+     <xsl:call-template name="remove-html">
+      <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+    </xsl:call-template>
      <xsl:text>"</xsl:text>
      <xsl:if test="sdd:Representation/sdd:Detail">
        <xsl:text>,"description":"</xsl:text>
@@ -583,7 +605,9 @@
 
   <xsl:template match="sdd:QuantitativeCharacter">
     <xsl:text>{"name":"</xsl:text>
-    <xsl:value-of select="sdd:Representation/sdd:Label"/>
+    <xsl:call-template name="remove-html">
+      <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+    </xsl:call-template>
     <xsl:text>"</xsl:text>
     <xsl:if test="sdd:Representation/sdd:Detail">
        <xsl:text>,"description":"</xsl:text>
@@ -626,9 +650,19 @@
   <xsl:template name="quantData">
     <xsl:param name="char"/>
     <xsl:param name="description"/>
+    <xsl:variable name="taxon" select="$description/sdd:Scope/sdd:TaxonName/@ref"/>
     <xsl:choose>
       <xsl:when test="$description/sdd:SummaryData/sdd:Quantitative[@ref=$char]">
-        <xsl:apply-templates select="$description/sdd:SummaryData/sdd:Quantitative[@ref=$char]"/>
+        <xsl:variable name="numberOfNodes" select="count($description/sdd:SummaryData/sdd:Quantitative[@ref=$char])"/>
+        <xsl:choose>
+          <xsl:when test="count($description/sdd:SummaryData/sdd:Quantitative[@ref=$char]) &gt; 1">
+            <xsl:message><xsl:value-of select="$numberOfNodes"/> measurements for character <xsl:value-of select="exsl:node-set($character-indexes)/sdd:Character[@id = $char]/@name"/>, taxon <xsl:value-of select="exsl:node-set($taxon-indexes)/sdd:TaxonName[@id = $taxon]/@name"/> </xsl:message>
+            <xsl:apply-templates select="$description/sdd:SummaryData/sdd:Quantitative[@ref=$char][1]"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="$description/sdd:SummaryData/sdd:Quantitative[@ref=$char]"/>
+          </xsl:otherwise>
+        </xsl:choose>      
       </xsl:when>
       <xsl:otherwise><xsl:text>0</xsl:text></xsl:otherwise>
     </xsl:choose>    
@@ -655,7 +689,9 @@
             <xsl:value-of select="exsl:node-set($image-map)/sdd:MediaObjects/sdd:MediaObject[@id = $id]/@debuglabel"/>
           </xsl:if>
            <xsl:text>","caption":"</xsl:text>
-           <xsl:value-of select="sdd:Representation/sdd:Label"/>
+           <xsl:call-template name="remove-html">
+             <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+           </xsl:call-template>
            <xsl:if test="sdd:Representation/sdd:Detail">
               <xsl:text>","description":"</xsl:text>
               <xsl:call-template name="escape-quot">
@@ -668,11 +704,29 @@
           <xsl:text>{"href":"</xsl:text>
            <xsl:value-of select="sdd:Source/@href"/>
            <xsl:text>","title":"</xsl:text>
-           <xsl:value-of select="sdd:Representation/sdd:Label"/>           
+           <xsl:call-template name="remove-html">
+             <xsl:with-param name="text" select="sdd:Representation/sdd:Label"/>
+           </xsl:call-template>
           <xsl:text>"}</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
   </xsl:template>
+  
+  <xsl:template name="remove-html">
+    <xsl:param name="text"/>
+    <xsl:choose>
+        <xsl:when test="contains($text, '&lt;')">
+            <xsl:value-of select="substring-before($text, '&lt;')"/>
+            <xsl:call-template name="remove-html">
+                    <xsl:with-param name="text" select="substring-after($text, '&gt;')"/>
+            </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:value-of select="$text"/>
+        </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
 
   <xsl:template name="escape-quot">
     <xsl:param name="string"/>
@@ -681,9 +735,9 @@
       <xsl:when test='contains($string, $quot)'>
         <xsl:value-of select="translate(substring-before($string,$quot), '&#x20;&#x9;&#xD;&#xA;', ' ')" />
         <xsl:text>'</xsl:text>
-	<xsl:call-template name="escape-quot">
+	    <xsl:call-template name="escape-quot">
           <xsl:with-param name="string" select="translate(substring-after($string,$quot), '&#x20;&#x9;&#xD;&#xA;', ' ')" />
-   	</xsl:call-template>
+   	    </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="translate($string, '&#x20;&#x9;&#xD;&#xA;', ' ')" />

@@ -96,6 +96,7 @@
 		    <batch:next on="COMPLETED" to="processDataset"/>
 		    <batch:listeners>
 		        <batch:listener ref="stepStatusListener" />
+		        <batch:listener ref="xmlTransformingTaskletErrorListener" />
 		    </batch:listeners>
 		</batch:step>
 		<batch:step id="processDataset">
@@ -133,19 +134,19 @@
 		    <batch:tasklet>
 				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
-			<batch:end on="COMPLETED"/> <!-- to="cleanupResources" -->
+			<batch:next on="COMPLETED" to="cleanupResources"/>
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
-		<!-- <batch:step id="cleanupResources">
+		<batch:step id="cleanupResources">
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="resourceDeletingTasklet" />
 			<batch:end on="COMPLETED" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
-		</batch:step>-->
+		</batch:step>
 		<batch:listeners>
 		  <batch:listener ref="jobStatusListener"/>
 		</batch:listeners>
@@ -207,6 +208,7 @@
 				<constructor-arg value="org/emonocot/job/key/sddToJSON.xsl" />
 			</bean>
 		</property>
+		<property name="errorListener" ref="xmlTransformingTaskletErrorListener"/>
 		<property name="parameters">
 		  <map>
 		    <entry>
@@ -219,6 +221,13 @@
 		    </entry>
 		  </map>
 		</property>
+	</bean>
+	
+	<bean id="xmlTransformingTaskletErrorListener" class="org.emonocot.job.key.XmlTransformingTaskletErrorListener" scope="step">
+	  <property name="jobExecutionId" value="#{jobExecutionContext['job.execution.id']}"/>
+	  <property name="sourceName" value="#{jobParameters['authority.name']}" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="transactionManager" ref="transactionManager" />
 	</bean>
 
 	<bean id="getIdentificationKeyTasklet"

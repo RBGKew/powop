@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +36,7 @@ import org.emonocot.model.VernacularName;
 import org.emonocot.model.compare.AlphabeticalTaxonComparator;
 import org.emonocot.model.compare.DistributionComparator;
 import org.emonocot.model.compare.LocationComparator;
+import org.emonocot.model.compare.ReferenceBasedDescriptionComparator;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.Status;
@@ -404,15 +406,14 @@ public class Functions {
 	 *            Set the feature
 	 * @return a Content object, or null
 	 */
-	public static Description content(Taxon taxon, DescriptionType feature) {
-		Description description = null;
+	public static SortedSet<Description> content(Taxon taxon, DescriptionType feature) {
+		SortedSet<Description> descriptions = new TreeSet<Description>(new ReferenceBasedDescriptionComparator());
 		for (Description d : taxon.getDescriptions()) {
 			if (d.getType().equals(feature)) {
-				description = d;
-				break;
+				descriptions.add(d);
 			}
-		}
-		return description;
+		}		
+		return descriptions;
 	}
 
 	/**

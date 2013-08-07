@@ -228,8 +228,8 @@
 				<c:if test="${not empty taxon.descriptions}">
 					<section id="description" class="section-box">
 						<c:forEach var="feature" items="${em:features()}">
-							<c:set var="content" value="${em:content(taxon,feature)}" />
-							<c:if test="${content != null}">
+							<c:set var="descriptions" value="${em:content(taxon,feature)}" />
+							<c:if test="${not empty descriptions}">
 								<div class="inner">
 									<div id="${feature}" class="box">
 										<spring:message code="${feature}" var="featureHeader"/>
@@ -237,20 +237,22 @@
 											<span>${featureHeader}</span>
 											<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
 										</h2>
-										<p class="justified">${content.description}</p>
-										<ul class="citations">
-											<li>
-												<a href="#">${em:provenancekey(provenance, content)}</a>
-											</li>
-											<c:if test="${not empty content.references }">
-												<c:forEach var="reference" items="${content.references}">
-													<li>
-													    <c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
-														<a href="#citation${citationKey}">${citationKey}</a>
-													</li>
-												</c:forEach>
-											</c:if>
-										</ul>
+										<c:forEach var="description" items="${descriptions}">
+										    <p class="justified">${description.description}</p>
+										    <ul class="citations">
+											    <li>
+												    <a href="#">${em:provenancekey(provenance, description)}</a>
+											    </li>
+											    <c:if test="${not empty description.references}">
+												    <c:forEach var="reference" items="${description.references}">
+													    <li>
+													        <c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
+														    <a href="#citation${citationKey}">${citationKey}</a>
+													    </li>
+												    </c:forEach>
+											    </c:if>
+										    </ul>
+										</c:forEach>
 									</div>
 								</div>
 							</c:if>
@@ -819,9 +821,17 @@
 									<option id="aboutData_descriptions" value="descriptions">${messageDescription}</option>
 								</c:if>
 								<c:forEach var="feature" items="${em:features()}">
-									<c:set var="content" value="${em:content(taxon,feature)}" />
-									<c:if test="${content != null}">
-										<option id="aboutData_${content.identifier}" value="${content.identifier}"><spring:message code="${feature}" /></option>
+									<c:set var="descriptions" value="${em:content(taxon,feature)}" />
+									<c:if test="${descriptions != null}">
+									    <c:forEach var="description" items="${descriptions}">
+									      <option id="aboutData_${description.identifier}" value="${description.identifier}">
+									        <spring:message code="${feature}" />
+									        <c:choose>
+									          <c:when test="${fn:length(description.description) lt 32}">${description.description}</c:when>
+											  <c:otherwise>${fn:substring(description.description,0,31)} &#8230;</c:otherwise>
+									        </c:choose>
+									      </option>
+									    </c:forEach>
 									</c:if>
 								</c:forEach>
 								<c:if test="${not empty taxon.distribution}">
