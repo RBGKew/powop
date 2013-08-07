@@ -825,7 +825,7 @@
 									<c:if test="${descriptions != null}">
 									    <c:forEach var="description" items="${descriptions}">
 									      <option id="aboutData_${description.identifier}" value="${description.identifier}">
-									        <spring:message code="${feature}" />
+									        <spring:message code="${feature}" />:&#160;
 									        <c:choose>
 									          <c:when test="${fn:length(description.description) lt 32}">${description.description}</c:when>
 											  <c:otherwise>${fn:substring(description.description,0,31)} &#8230;</c:otherwise>
