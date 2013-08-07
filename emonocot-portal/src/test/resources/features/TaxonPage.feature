@@ -18,7 +18,7 @@ Background:
   | test3       | http://apps.kew.org/wcs | World Checklist of Selected Plant Families | WCSP 2012. 'World Checklist of Selected Plant Families. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved 2011 onwards | test@example.com  |
   And there are references with the following properties:
   | identifier                    | authority | authors                      | title                                                        | datePublished | volume | page  | citation                | publisher                                               |
-  | urn:kew.org:wcs:publication:1 |  test     |                              | Sp. Pl.                                                      | (1753)        | 1      | 304pp | Sp. Pl. (1753): 1 304pp |                                                         |
+  | urn:kew.org:wcs:publication:1 |  test     |                              | Sp. Pl.                                                      | 1753          | 1      | 304pp | Sp. Pl. (1753): 1 304pp |                                                         |
   And there are taxa with the following properties:
   | identifier                   | name                        | status   | source | parent                     | accepted                   | protologue                    | protologueMicroReference | protologLink                                                         | distribution1 | distributionSource | distributionLicense | distributionRights | diagnostic                                                           | diagnosticSource | diagnosticLicense | diagnosticRights   | habitat                                                                                   | diagnosticReference1          | habitatSource | habitatLicense | habitatRights | lifeForm | iucnConservationStatus |
   | urn:kew.org:wcs:family:3     | Araceae                     | Accepted | test   |                            |                            |                               |                          |                                                                      |               |                    |                     |                    |                                                                      |                  |                   |                    |                                                                                           |                               |               |                |               |          |                        |
@@ -30,7 +30,7 @@ Background:
   | urn:kew.org:wcs:taxon:65181  | Dunalia artensis            | Doubtful | test   |                            |                            |                               |                          |                                                                      |               |                    |                     |                    |                                                                      |                  |                   |                    |                                                                                           |                               |               |                |               |          |                        |
   And there are references with the following properties:
   | identifier                    | authority | authors                      | title                                                        | datePublished | citation                                                                                                                                                         |  taxa1                     |
-  | urn:kew.org:wcs:publication:2 | test      |                              | Sp. Pl.                                                      | (1753)        | Sp. Pl. (1753): 1 304pp                                                                                                                                          | urn:kew.org:wcs:taxon:2295 | 
+  | urn:kew.org:wcs:publication:2 | test      |                              | Sp. Pl.                                                      | 1753          | Sp. Pl. (1753): 1 304pp                                                                                                                                          | urn:kew.org:wcs:taxon:2295 | 
   | urn:kew.org:wcs:publication:3 | test      | Govaerts, R. & Frodin, D.G.  | World Checklist and Bibliography of Araceae (and Acoraceae)  | 2002          | Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew. | urn:kew.org:wcs:taxon:2295 |
   And there are images with the following properties:
   | identifier | url                                                                                                                              | caption                       | taxa1                      | source  |
@@ -139,8 +139,8 @@ Scenario: Textual Citations
   bibliography at the bottom of the page. At the bottom of the page, there should be the 
   bibliography with the references listed in full.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
-  Then the citation for the "Diagnostic Description" topic should be "B1"
-  And the bibliography entry "1" should be "1 Sp. Pl. (1753): 1 304pp"
+  Then the citation for the "Diagnostic Description" topic should be "B2"
+  And the bibliography entry "2" should be "2 Sp. Pl. (1753): 1 304pp"
   And the provenance entry "C" should be "C All Rights Reserved"
   
 Scenario: Information from
@@ -154,7 +154,7 @@ Scenario: Bibliography
   Taxa can have general references as well, and these should be displayed in the bibliography
   at the bottom of the page.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=118
-  Then the bibliography entry "2" should be "2 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
+  Then the bibliography entry "1" should be "1 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
  
 # Unfortunately, really difficult to test   
 #Scenario: Distribution
