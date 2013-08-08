@@ -103,23 +103,27 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      */
     protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
-    		throw new RequiredFieldException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
+    		throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
     	} else if(subtribe != null && (inSubtribe(taxon) && (taxon.getAcceptedNameUsage() != null && inSubtribe(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
                     recordType, getStepExecution().getReadCount());
     	} else if(tribe != null && (inTribe(taxon) && (taxon.getAcceptedNameUsage() != null && inTribe(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
                     recordType, getStepExecution().getReadCount());
     	} else if(subfamily != null && (inSubfamily(taxon) && (taxon.getAcceptedNameUsage() != null && inSubfamily(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
                     recordType, getStepExecution().getReadCount());
     	} else if(family != null && (inFamily(taxon) && (taxon.getAcceptedNameUsage() != null && inFamily(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
                     recordType, getStepExecution().getReadCount());
     	}
     }
     
-    private boolean inSubtribe(Taxon taxon) {
+    protected int getLineNumber() {
+		return getStepExecution().getReadCount();
+	}
+
+	private boolean inSubtribe(Taxon taxon) {
     	return taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe);
     }
     

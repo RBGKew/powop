@@ -7,6 +7,7 @@ import org.emonocot.harvest.common.AbstractRecordAnnotator;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
 
@@ -32,7 +33,7 @@ public class ImageAnnotatorImpl extends AbstractRecordAnnotator implements Image
 	 * @see org.emonocot.harvest.media.ImageAnnotator#annotate(org.emonocot.model.Image, org.emonocot.model.constants.AnnotationCode, java.lang.String)
 	 */
     @Override
-	public void annotate(Image image, AnnotationCode code, String message) {
+	public void annotate(Image image, AnnotationType type, AnnotationCode code, String message) {
         Annotation a = new Annotation();
         a.setAnnotatedObj(image);
         a.setAuthority(super.getSource());
@@ -40,6 +41,7 @@ public class ImageAnnotatorImpl extends AbstractRecordAnnotator implements Image
             a.setJobId(jobId);
         }
         a.setCode(code);
+        a.setType(type);
         a.setDateTime(new DateTime());
         a.setRecordType(RecordType.Image);
         a.setText(message);

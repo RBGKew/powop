@@ -28,6 +28,7 @@ import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
@@ -362,7 +363,7 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
                 DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
                 image.setCreated(dateCreated);
             } catch (IllegalArgumentException e) {
-                imageAnnotator.annotate(image, AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
+                imageAnnotator.annotate(image, AnnotationType.Warn, AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
                 logger.warn("Unable to set the Date Created for image" + image.getId() + " identifier: " + image.getIdentifier(), e);
             }
         }
