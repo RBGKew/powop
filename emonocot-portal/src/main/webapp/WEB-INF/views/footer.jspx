@@ -43,9 +43,8 @@
 								<c:url value="/about" var="aboutUrl" />
 								<a href="${aboutUrl}"><spring:message code="about.title" /></a>
 							</li>
-							<li class="contactLinkOverlay">
-								<c:url value="/contact" var="contactUrl" />
-								<a href="${contactUrl}"><spring:message code="contact.title" /></a>
+							<li class="contactLinkOverlay">								
+								<a href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" alt="eMonocot email"><spring:message code="contact.title" />&#160;<i class="halflings-icon white envelope"><!--  --></i></a>
 							</li>
 							<li>
 								<c:url var="twitterImageUrl" value="/css/images/glyphicons_white_twitter.png"/>
