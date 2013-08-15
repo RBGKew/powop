@@ -1,0 +1,217 @@
+package org.emonocot.model;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.validation.constraints.Size;
+
+import org.apache.solr.common.SolrInputDocument;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.emonocot.model.marshall.json.ConceptDeserializer;
+import org.emonocot.model.marshall.json.ConceptSerializer;
+import org.emonocot.model.marshall.json.ImageDeserializer;
+import org.emonocot.model.marshall.json.ImageSerializer;
+import org.emonocot.model.marshall.json.ReferenceDeserializer;
+import org.emonocot.model.marshall.json.ReferenceSerializer;
+import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ *
+ * @author ben
+ *
+ */
+@Entity
+public class Concept extends SearchableObject implements NonOwned {
+	
+	private static Logger logger = LoggerFactory.getLogger(Concept.class);
+	
+    private static final long serialVersionUID = 3341900807619517602L;
+
+    private Set<Taxon> taxa = new HashSet<Taxon>();
+
+    private Set<Annotation> annotations = new HashSet<Annotation>();
+    
+    private Reference source;
+    
+    private String prefLabel;
+    
+    private String definition;
+    
+    private Image prefSymbol;
+    
+    private String altLabel;
+
+    private Long id;
+    
+    private String creator;
+    
+    private List<Comment> comments = new ArrayList<Comment>();
+
+    @Size(max = 255)
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+    public void setId(Long newId) {
+        this.id = newId;
+    }
+
+    @Id
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+    public Long getId() {
+        return id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JsonSerialize(using = ReferenceSerializer.class)
+    public Reference getSource() {
+		return source;
+	}
+
+    @JsonDeserialize(using = ReferenceDeserializer.class)
+	public void setSource(Reference source) {
+		this.source = source;
+	}
+
+	@Size(max = 255)
+	public String getPrefLabel() {
+		return prefLabel;
+	}
+
+	public void setPrefLabel(String prefLabel) {
+		this.prefLabel = prefLabel;
+	}
+
+	@Lob
+	public String getDefinition() {
+		return definition;
+	}
+
+	public void setDefinition(String definition) {
+		this.definition = definition;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonSerialize(using = ImageSerializer.class)
+	public Image getPrefSymbol() {
+		return prefSymbol;
+	}
+
+	@JsonDeserialize(using = ImageDeserializer.class)
+	public void setPrefSymbol(Image prefSymbol) {
+		this.prefSymbol = prefSymbol;
+	}
+
+	@Size(max = 255)
+	public String getAltLabel() {
+		return altLabel;
+	}
+
+	public void setAltLabel(String altLabel) {
+		this.altLabel = altLabel;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Taxon_Concept", joinColumns = {@JoinColumn(name = "concepts_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+    @JsonSerialize(contentUsing = TaxonSerializer.class)
+    public Set<Taxon> getTaxa() {
+        return taxa;
+    }
+
+    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
+    public void setTaxa(Set<Taxon> taxa) {
+        this.taxa = taxa;
+    }
+
+    /**
+     * @return the annotations
+     */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Concept'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+   
+    /**
+     * @param annotations
+     *            the annotations to set
+     */
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+    
+    /**
+	 * @return the comments
+	 */
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "commentPage_id")
+    @OrderBy("created DESC")
+    @Where(clause = "commentPage_type = 'Concept'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	/**
+	 * @param comments the comments to set
+	 */
+    @JsonIgnore
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+    
+    @Override
+    public SolrInputDocument toSolrInputDocument() {
+    	SolrInputDocument sid = super.toSolrInputDocument();
+    	sid.addField("searchable.label_sort", getPrefLabel());  	
+    	
+		StringBuilder summary = new StringBuilder().append(getAltLabel())
+				.append(" ").append(getCreator()).append(" ")
+				.append(getDefinition()).append(" ").append(getSource());
+    	sid.addField("searchable.solrsummary_t", summary);
+		
+    	return sid;
+    }
+    
+    @Override
+    public String toString() {
+    	StringBuffer stringBuffer = new StringBuffer();
+    	stringBuffer.append(identifier);
+    	if(prefLabel != null) {
+    		stringBuffer.append(": \"" + prefLabel + "\"");
+    	}
+    	return stringBuffer.toString();
+    }
+}
