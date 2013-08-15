@@ -119,6 +119,7 @@ public class Concept extends SearchableObject implements NonOwned {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
+        @Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonSerialize(using = ImageSerializer.class)
 	public Image getPrefSymbol() {
 		return prefSymbol;
