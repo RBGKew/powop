@@ -53,6 +53,9 @@
 					<c:when test="${facetValue eq 'org.emonocot.model.Place'}">
 						<c:set var="classIcon" value="map-marker"/>
 					</c:when>
+					<c:when test="${facetValue eq 'org.emonocot.model.Concept'}">
+						<c:set var="classIcon" value="book"/>
+					</c:when>
 				</c:choose>
 			</c:if>
 			<i class="halflings-icon ${checkedCss}">&#160;</i>

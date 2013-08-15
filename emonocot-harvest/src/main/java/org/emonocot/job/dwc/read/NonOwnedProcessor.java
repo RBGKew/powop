@@ -156,11 +156,11 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	
 	protected abstract void doValidate(T t) throws Exception;
 
-	public final void afterChunk() {
+	public void afterChunk() {
         logger.info("After Chunk");
     }
 
-    public final void beforeChunk() {
+    public void beforeChunk() {
         logger.info("Before Chunk");
         boundObjects = new HashMap<String, T>();
     }

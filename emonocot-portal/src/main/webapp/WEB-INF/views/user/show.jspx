@@ -56,16 +56,18 @@
 					<br/>
 					  <table class="table">
 							<tbody>
-							  <c:if test="${principal eq user}">
-								<tr>
+							  <security:authorize access="!hasRole('PERMISSION_ADMINISTRATE')">
+							    <c:if test="${principal eq user}">
+								  <tr>
 									<th><spring:message code="user.username" /></th>
 									<td id="username">${user.username}</td>
-								</tr>
-								<tr>
+								  </tr>
+								  <tr>
 									<th><spring:message code="user.apiKey" /></th>
 									<td id="apiKey">${user.apiKey}</td>
-								</tr>
-							  </c:if>
+								  </tr>
+							    </c:if>
+							  </security:authorize>
 							  <security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 							    <tr>
 									<th><spring:message code="user.username" /></th>

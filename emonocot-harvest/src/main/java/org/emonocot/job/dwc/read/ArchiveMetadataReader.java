@@ -16,12 +16,12 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.emonocot.api.OrganisationService;
+import org.emonocot.api.job.SkosTerm;
 import org.emonocot.model.registry.Organisation;
 import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.text.Archive;
-import org.gbif.dwc.text.ArchiveFactory;
 import org.gbif.dwc.text.ArchiveField;
 import org.gbif.dwc.text.ArchiveFile;
 import org.gbif.dwc.text.UnsupportedArchiveException;
@@ -106,7 +106,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         		logger.error("Could not find metadata directory in " +  archiveDirectoryName);
                 return ExitStatus.FAILED;
         	}
-        	
             Archive archive = ArchiveFactory.openArchive(metaDir);
 
             ArchiveFile core = archive.getCore();
@@ -156,6 +155,10 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             if (archive.getExtension(GbifTerm.TypesAndSpecimen) != null) {
             	getMetadata(archive.getExtension(GbifTerm.TypesAndSpecimen),
                         "typeAndSpecimen", DwcTerm.taxonID, failOnError);
+            }
+            if (archive.getExtension(SkosTerm.Concept) != null) {
+            	getMetadata(archive.getExtension(SkosTerm.Concept),
+                        "term", DwcTerm.taxonID, failOnError);
             }
         } catch (UnsupportedArchiveException uae) {
             logger.error("Unsupported Archive Exception reading "

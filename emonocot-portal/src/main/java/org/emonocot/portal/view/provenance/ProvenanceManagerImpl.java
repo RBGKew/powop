@@ -9,6 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.emonocot.model.BaseData;
+import org.emonocot.model.Concept;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
@@ -73,6 +74,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		} else if(baseData instanceof IdentificationKey) {
 			IdentificationKey key = (IdentificationKey)baseData;
 			addProvenance(key);
+		} else if(baseData instanceof Concept) {
+			Concept concept = (Concept)baseData;
+			addProvenance(concept);
 		} else if(baseData instanceof PhylogeneticTree) {
 			PhylogeneticTree tree = (PhylogeneticTree)baseData;
 			addProvenance(tree);

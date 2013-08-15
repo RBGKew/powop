@@ -163,8 +163,8 @@
 		</batch:step>
 		<batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
 			<batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
-            <batch:next on="SKIP_DESCRIPTIONS" to="checkImageProcessingMode" />
-            <batch:next on="SKIP_WITH_ERROR" to="checkImageProcessingMode" />
+            <batch:next on="SKIP_DESCRIPTIONS" to="checkTermProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkTermProcessingMode" />
 		</batch:decision>
 		<batch:step id="markDescriptionRecords">
 			<batch:description>Mark the description records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -205,10 +205,78 @@
 			<batch:tasklet>
 				<batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
-			<batch:next on="COMPLETED" to="checkImageProcessingMode" />
+			<batch:next on="COMPLETED" to="checkTermProcessingMode" />
 			<batch:listeners>
 				<batch:listener ref="processingExceptionProcessListener" />
 				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="termProcessingModeDecider" id="checkTermProcessingMode">
+			<batch:next on="IMPORT_TERMS" to="markTermRecords" />
+			<batch:next on="IMPORT_TERMS_DONT_DELETE_GLOBAL" to="markRelatedTermRecords" />
+            <batch:next on="SKIP_TERMS" to="checkImageProcessingMode" />
+            <batch:next on="SKIP_WITH_ERROR" to="checkImageProcessingMode" />
+		</batch:decision>
+		<batch:step id="markTermRecords">
+			<batch:description>Mark the term records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markTermRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processTermsDecision" />
+			<batch:listeners>
+				<batch:listener ref="markTermRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedTermRecords">
+			<batch:description>Mark the term records we expect to be present in this archive (based on what we have previously harvested) but don't delete keys which are not associate with a taxon</batch:description>
+			<batch:tasklet ref="markRelatedTermRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processTermsDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedTermRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:decision decider="processTermsDecider" id="processTermsDecision">
+			<batch:next on="true" to="processTermFile" />
+			<batch:next on="false" to="deleteAbsentTerms" />
+		</batch:decision>
+		<batch:step id="processTermFile">
+			<batch:description>Process the extension file containing the terms</batch:description>
+			<batch:tasklet>
+				<batch:chunk reader="termReader" processor="termProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+					<batch:skippable-exception-classes>
+						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include	class="org.springframework.batch.item.file.FlatFileParseException" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteAbsentTerms" />
+			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="termFieldSetMapper" />
+				<batch:listener ref="termProcessor" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="deleteAbsentTerms">
+			<batch:description>Delete the terms which we expected to be present in the archive but which were absent</batch:description>
+			<batch:tasklet>
+                <batch:chunk reader="deleteTermsReader" writer="deletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexTerms" />
+			<batch:listeners>
+				<batch:listener ref="processingExceptionProcessListener" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexTerms">
+		  <batch:description>Index the terms associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexTermsReader" writer="indexTermsWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="checkImageProcessingMode" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
 		<batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
@@ -1465,6 +1533,122 @@
 	
 	<bean id="indexPhylogeniesWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
       <property name="type" value="org.emonocot.model.PhylogeneticTree" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
+    
+    <!-- Terms -->
+	
+	<bean id="termProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+		<property name="processingModeKey" value="term.processing.mode" />
+		<property name="defaultProcessingMode" value="IMPORT_TERMS" />
+	</bean>
+	
+	<bean id="processTermsDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+		<property name="processingModeKey" value="dwca.term.file" />
+	</bean>
+
+	<bean id="markTermRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Concept"/>
+	</bean>
+	
+	<bean id="markRelatedTermRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Concept"/>
+		<property name="queryString" value="insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select distinct o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from Concept o join Taxon_Concept o_t on (o.id = o_t.terms_id) join Taxon t on (o_t.Taxon_id = t.id) left join Taxon a on (t.acceptedNameUsage_id = a.id) where o.authority_id = :authorityId and (t.#subsetRank = :subsetValue or a.#subsetRank = :subsetValue)"/>
+		<property name="family" value="#{jobParameters['family']}" />
+        <property name="subfamily" value="#{jobParameters['subfamily']}" />
+        <property name="tribe" value="#{jobParameters['tribe']}" />
+        <property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="termReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="encoding"
+			value="#{jobExecutionContext['dwca.term.encoding']}" />
+		<property name="linesToSkip"
+			value="#{jobExecutionContext['dwca.term.ignoreHeaderLines']}" />
+		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+		<property name="resource">
+			<bean class="org.springframework.core.io.FileSystemResource"
+				scope="step">
+				<constructor-arg value="#{jobExecutionContext['dwca.term.file']}" />
+			</bean>
+		</property>
+		<property name="lineMapper" ref="termLineMapper" />
+	</bean>
+
+	<bean id="termProcessor" class="org.emonocot.job.dwc.concept.Processor" scope="step">
+	    <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="family" value="#{jobParameters['family']}" />
+		<property name="subfamily" value="#{jobParameters['subfamily']}" />
+		<property name="tribe" value="#{jobParameters['tribe']}" />
+		<property name="subtribe" value="#{jobParameters['subtribe']}" />
+	</bean>
+
+	<bean id="termLineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+		scope="step">
+		<property name="lineTokenizer" ref="termLineTokenizer" />
+		<property name="fieldSetMapper" ref="termFieldSetMapper" />
+	</bean>
+
+	<bean id="termLineTokenizer"
+		class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+		scope="step">
+		<property name="names"
+			value="#{jobExecutionContext['dwca.term.fieldNames']}" />
+		<property name="quoteCharacter"
+			value="#{jobExecutionContext['dwca.term.fieldsEnclosedBy']}" />
+		<property name="delimiter"
+			value="#{jobExecutionContext['dwca.term.fieldsTerminatedBy']}" />
+		<property name="strict" value="false" />
+	</bean>
+
+	<bean id="termFieldSetMapper" class="org.emonocot.job.dwc.concept.FieldSetMapper"
+		scope="step">
+		<property name="fieldNames"
+			value="#{jobExecutionContext['dwca.term.fieldNames']}" />
+		<property name="defaultValues"
+			value="#{jobExecutionContext['dwca.term.defaultValues']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />
+		<property name="organisationService" ref="organisationServiceImpl" />
+		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+	</bean>
+
+	<bean id="deleteTermsReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i from Concept i join i.annotations a where a.jobId = :jobId and a.code = :code" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+				<entry key="code"
+					value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexTermsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i.id from Concept i join i.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexTermsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+      <property name="type" value="org.emonocot.model.Concept" />
       <property name="sessionFactory" ref="sessionFactory" />
       <property name="solrIndexingListener" ref="solrIndexingListener" />
     </bean>

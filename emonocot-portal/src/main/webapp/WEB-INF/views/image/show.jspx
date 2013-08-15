@@ -15,7 +15,7 @@
 	</tags:pageheader>
 	<div class="container">
 	<div class="row">
-		<div class="span9">
+		<div class="span12">
 			<tags:info />
 			<tags:error />
 			<div class="centeredImage section-box">
@@ -63,16 +63,7 @@
 								<tr>
 									<th><spring:message code="image.description"/></th>
 									<td>${image.description}</td>
-								</tr>
-								<tr>
-									<th><spring:message code="image.license"/></th>
-									<td>
-										<c:choose>
-											<c:when test="${not empty image.license}">${image.license}</c:when>
-											<c:otherwise><spring:message code="allRightsReserved" /></c:otherwise>
-										</c:choose>
-									</td>
-								</tr>
+								</tr>								
 								<tr>
 									<th><spring:message code="image.spatial"/></th>
 									<td>${image.spatial}</td>

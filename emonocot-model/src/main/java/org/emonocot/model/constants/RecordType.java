@@ -49,5 +49,9 @@ public enum RecordType {
     /**
      *
      */
-    IdentificationKey;
+    IdentificationKey,
+    /**
+     *
+     */
+    Concept;
 }
