@@ -154,8 +154,9 @@
 					<c:when test="${item.className == 'Concept'}">
 						<results:listEntry itemName="${item.prefLabel}"
 							icon="book_open"
-							iconAlt="Term" url="/term/${item.id}">
-							<spring:url var="itemUrl" value="/term/${item.id}" image="${item.prefSymbol}" />
+							iconAlt="Term" url="/term/${item.id}"
+							image="${item.prefSymbol}">
+							<spring:url var="itemUrl" value="/term/${item.id}" />
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.prefLabel)}">
 								<h4 class="h4Results">${item.prefLabel}</h4>
 							</a>
