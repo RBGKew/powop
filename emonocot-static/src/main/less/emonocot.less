@@ -35,14 +35,16 @@ a:focus {
 /**
  * BUG # 301: As a user of eMonocot I do not expect there to be gaps where it looks like there are missing images when looking at the images in a grid
  * Explicitly set the width and height of thumbnails to avoid the odd 
- * divide-by-zero error when a thumbnail has been resized to 101px or 99px
+ * divide-by-zero error when a thumbnail has been resized to 101px or 99px 
+ * 
+ * Also, set max-width to none to prevent chrome squishing images in tables.
  */
  
 img.thumbnail {
 	height: 100px;
 	width: 100px;
 	display: block;
-	max-width: 100%;
+	max-width: none;
 	margin-left: auto;
 	margin-right: auto;
 }

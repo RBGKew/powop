@@ -155,7 +155,7 @@
 						<results:listEntry itemName="${item.prefLabel}"
 							icon="book_open"
 							iconAlt="Term" url="/term/${item.id}">
-							<spring:url var="itemUrl" value="/term/${item.id}" />
+							<spring:url var="itemUrl" value="/term/${item.id}" image="${item.prefSymbol}" />
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.prefLabel)}">
 								<h4 class="h4Results">${item.prefLabel}</h4>
 							</a>
@@ -168,7 +168,10 @@
 							<c:if test="${item.definition != null}">
 								<div>
 									<em><spring:message code="concept.definition" /></em>:
-									${item.definition}
+									<c:choose>
+							          <c:when test="${fn:length(item.definition) lt 255}">${item.definition}</c:when>
+									  <c:otherwise>${fn:substring(item.definition,0,254)} &#8230;</c:otherwise>
+								    </c:choose>
 								</div>
 							</c:if>
 						</results:listEntry>
