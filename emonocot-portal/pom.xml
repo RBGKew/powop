@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.36-SNAPSHOT</version>
+		<version>0.0.35-kew</version>
 	</parent>
 	<artifactId>emonocot-portal</artifactId>
 	<packaging>war</packaging>
