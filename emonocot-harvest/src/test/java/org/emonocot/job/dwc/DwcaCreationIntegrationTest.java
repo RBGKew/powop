@@ -147,7 +147,7 @@ public class DwcaCreationIntegrationTest {
 				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
         assertNotNull("There should be an output file", outputFile);
-		System.out.println("Zip file created at " + outputFile.getAbsolutePath());
+		logger.info("Zip file created at " + outputFile.getAbsolutePath());
 		
         List<ZipEntry> entries = new ArrayList<ZipEntry>();
         ZipEntry e;
@@ -190,7 +190,7 @@ public class DwcaCreationIntegrationTest {
 				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
         assertNotNull("There should be an output file", outputFile);
-        System.out.println("Zip file created at " + outputFile.getAbsolutePath());
+        logger.info("Zip file created at " + outputFile.getAbsolutePath());
         
         List<ZipEntry> entries = new ArrayList<ZipEntry>();
         ZipEntry e;

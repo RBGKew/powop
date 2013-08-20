@@ -21,7 +21,7 @@ public class CannotFindRecordException extends TaxonProcessingException {
      * @param title 
      */
     public CannotFindRecordException(final String identifier, final String title) {
-        super("Cannot find a taxon " + title, AnnotationCode.BadIdentifier, identifier);
+        super("Cannot find a taxon " + title + " with identifier " + identifier, AnnotationCode.BadIdentifier, identifier);
     }
 
     @Override

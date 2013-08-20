@@ -21,6 +21,8 @@ import org.emonocot.persistence.dao.AnnotationDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -32,6 +34,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
  */
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class AnnotationDaoTest extends AbstractPersistenceTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(AnnotationDaoTest.class);
 
     /**
      *
@@ -110,10 +114,10 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        selectedFacets.put("annotation.job_id_l", "1");
        Page<Annotation> results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
-    	   System.out.println(facetName);
+    	   logger.debug(facetName);
     	   FacetField facet = results.getFacetField(facetName);
     	   for(Count count : facet.getValues()) {
-    		   System.out.println("\t" + count.getName() + " " + count.getCount());
+    		   logger.debug("\t" + count.getName() + " " + count.getCount());
     	   }
        }
        assertFalse(results.getRecords().isEmpty());
@@ -122,10 +126,10 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        selectedFacets.put("annotation.job_id_l", "1");
        results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
-    	   System.out.println(facetName);
+    	   logger.debug(facetName);
     	   FacetField facet = results.getFacetField(facetName);
     	   for(Count count : facet.getValues()) {
-    		   System.out.println("\t" + count.getName() + " " + count.getCount());
+    		   logger.debug("\t" + count.getName() + " " + count.getCount());
     	   }
        }
        selectedFacets.clear();
@@ -134,10 +138,10 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
        selectedFacets.put("annotation.type_s", "Create");
        results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
        for(String facetName : results.getFacetNames()) {
-    	   System.out.println(facetName);
+    	   logger.debug(facetName);
     	   FacetField facet = results.getFacetField(facetName);
     	   for(Count count : facet.getValues()) {
-    		   System.out.println("\t" + count.getName() + " " + count.getCount());
+    		   logger.debug("\t" + count.getName() + " " + count.getCount());
     	   }
        }
 

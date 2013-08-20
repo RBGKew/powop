@@ -9,7 +9,7 @@
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
 		<h2 id="page-title">
-			<i class="glyphicons-icon user">
+			<i class="glyphicons-icon home">
 				<!--  -->
 			</i>${user.accountName}
 		</h2>
@@ -25,11 +25,9 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box clearfix">
-						<form:create path="/user/${user.id}" modelAttribute="user" multipart="true">
-							<field:input field="identifier" label="user.username" fieldClass="span6" required="true"/>
+						<form:create path="/home" modelAttribute="user" multipart="true">
+							<field:hidden field="identifier"/>
 							<field:input field="accountName" label="user.accountName" fieldClass="span6" required="true"/>
-							<field:checkbox field="enabled" label="user.enabled" fieldClass="span6"/>
-							<field:checkbox field="accountNonLocked" label="user.accountNonLocked" fieldClass="span6"/>
 				            <field:input field="name" label="user.name" fieldClass="span6"/>
 				            <field:input field="firstName" label="user.firstName" fieldClass="span6"/>
 				            <field:input field="familyName" label="user.familyName" fieldClass="span6"/>

@@ -14,6 +14,7 @@ import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.compare.ReferenceComparator;
 
 /**
  *
@@ -26,7 +27,7 @@ public class SimpleBibliographyImpl implements Bibliography {
      */
     List<Reference> references = new ArrayList<Reference>();
     
-    SortedSet<ReferenceWrapper> refs = new TreeSet<ReferenceWrapper>(new ReferenceComparator());
+    SortedSet<ReferenceWrapper> refs = new TreeSet<ReferenceWrapper>(new ReferenceWrapperComparator());
 
    /**
     *
@@ -83,17 +84,9 @@ public class SimpleBibliographyImpl implements Bibliography {
      * @author ben
      *
      */
-	class ReferenceComparator implements Comparator<ReferenceWrapper> {
+	class ReferenceWrapperComparator implements Comparator<ReferenceWrapper> {
 
-		private NullComparator nullSafeStringComparator = new NullComparator(
-				new Comparator<String>() {
-
-					@Override
-					public int compare(String o1, String o2) {
-						return o1.compareTo(o2);
-					}
-
-				});
+		private Comparator<Reference> referenceComparator = new ReferenceComparator();
 
         /**
          * @param o1
@@ -104,22 +97,7 @@ public class SimpleBibliographyImpl implements Bibliography {
          *         otherwise
          */
         public final int compare(final ReferenceWrapper o1, final ReferenceWrapper o2) {
-        	int compareDate = nullSafeStringComparator.compare(o1.reference.getDate(), o2.reference.getDate());
-        	if(compareDate == 0) {
-        		int compareAuthor = nullSafeStringComparator.compare(o1.reference.getCreator(), o2.reference.getCreator());
-        		if(compareAuthor == 0) {
-        			int compareTitle = nullSafeStringComparator.compare(o1.reference.getTitle(), o2.reference.getTitle());
-        			if(compareTitle == 0) {
-        				return nullSafeStringComparator.compare(o1.reference.getBibliographicCitation(), o2.reference.getBibliographicCitation());        				
-        			} else {
-        				return compareTitle;
-        			}
-        		} else {
-        			return compareAuthor;
-        		}
-        	} else {
-        		return compareDate;
-        	}
+        	return referenceComparator.compare(o1.reference, o2.reference);
         }
     }
 

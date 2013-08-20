@@ -1430,6 +1430,13 @@
             <Measure type="Max" value="11.0"/>
             <MeasurementUnitPrefix>noprefix</MeasurementUnitPrefix>
           </Quantitative>
+          <Quantitative ref="c5" debuglabel="81:peduncle length">
+            <Measure type="Min" value="5.0"/>
+            <Measure type="UMethLower" value="5.0"/>
+            <Measure type="UMethUpper" value="12.0"/>
+            <Measure type="Max" value="12.0"/>
+            <MeasurementUnitPrefix>noprefix</MeasurementUnitPrefix>
+          </Quantitative>
           <Quantitative ref="c9" debuglabel="97:appendix width">
             <Measure type="Min" value="3.0"/>
             <Measure type="UMethLower" value="3.0"/>

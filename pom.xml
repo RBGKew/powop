@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
-	<version>0.0.34-SNAPSHOT</version>
+	<version>0.0.34</version>
 	<description>eMonocot aims to create a global online resource for monocot plants. It will
         provide a focus for taxonomists working on monocots and will help people discover
         information about monocots by providing tools for identification, up-to-date checklists,
@@ -14,6 +14,13 @@
 		<name>eMonocot</name>
 		<url>http://e-monocot.org</url>
 	</organization>
+	<licenses>
+      <license>
+        <name>The Apache Software License, Version 2.0</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+      </license>
+    </licenses>
 	<modules>
 		<module>emonocot-site</module>
 		<module>emonocot-model</module>

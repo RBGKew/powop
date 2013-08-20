@@ -244,12 +244,6 @@ public class FacetingTest extends DataManagementSupport {
                         "taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
                         "taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
                 null, selectedFacets, null, null);
-//        for (String String : pager.getStrings()) {
-//            System.out.println(String);
-//            for (Facet facet : pager.getFacets().get(String)) {
-//                System.out.println(facet.getValue() + " " + facet.getCount());
-//            }
-//        }
         assertEquals("There should be four taxa returned", (Integer) 4,
                 pager.getSize());
     }
@@ -287,26 +281,12 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, 
                 new String[] {"base.class_s", "taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
                 null, null, null, null);
-//    	System.out.println("No Query");
-//		for (String String : results.getStrings()) {
-//			System.out.println(String);
-//			for (Facet facet : results.getFacets().get(String)) {
-//				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
-//			}
-//		}
 		selectedFacets.clear();
 		selectedFacets.put("taxon.family_ss", "Ausaceae");
     	 results = searchableObjectService.search(null,
                 null, null, null, 
                 new String[] {"base.class_s", "taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
                 null, selectedFacets, null, null);
-//    	System.out.println("Searchable {FAMILY:Ausaceae}");
-//		for (String String : results.getStrings()) {
-//			System.out.println(String);
-//			for (Facet facet : results.getFacets().get(String)) {
-//				System.out.println("\t" +facet.getValue() + " " + facet.getCount());
-//			}
-//		}
 		selectedFacets.clear();
 		selectedFacets.put("taxon.family_ss", "Ausaceae");
 		selectedFacets.put("base.class_s", "org.emonocot.model.taxon.Taxon");
@@ -317,13 +297,6 @@ public class FacetingTest extends DataManagementSupport {
                 null, null, null, 
                 new String[] {"base.class_s","taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
                 null, selectedFacets, null, null);
-//    	System.out.println("Searchable {FAMILY:Ausaceae,CLASS:org.emonocot.model.taxon.Taxon, AUTHORITY:source2}");
-//		for (String String : results.getStrings()) {
-//			System.out.println(String);
-//			for (Facet facet : results.getFacets().get(String)) {
-//				System.out.println("\t" + facet.getValue() + " " + facet.getCount());
-//			}
-//		}
 		selectedFacets.clear();
 		selectedFacets.put("searchable.sources_ss", "source2");
 

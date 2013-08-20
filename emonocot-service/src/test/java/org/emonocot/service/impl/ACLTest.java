@@ -21,6 +21,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.acls.domain.BasePermission;
@@ -39,6 +41,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class ACLTest extends DataManagementSupport {
+	
+	private static Logger logger = LoggerFactory.getLogger(ACLTest.class);
 
     /**
      *
@@ -239,7 +243,7 @@ public class ACLTest extends DataManagementSupport {
   public final void testListAces() {
 
       for (Object[] row : userService.listAces("test")) {
-          System.out.println("Object: " + row[0] + " ACE: " + row[1]);
+          logger.debug("Object: " + row[0] + " ACE: " + row[1]);
       }
   }
 }

@@ -40,8 +40,8 @@
 					<div class="box">
 						<h2><spring:message code="login"/></h2>
 						<form:create modelAttribute="loginForm" path="/process_login" btnLabel="login" btnCss="btn-primary btn-large">
-							<field:input field="j_username" label="username" fieldClass="span4" />
-							<field:input field="j_password" label="password" fieldClass="span4" type="password" />
+							<field:input field="j_username" label="user.username" fieldClass="span4" />
+							<field:input field="j_password" label="user.password" fieldClass="span4" type="password" />
 							<field:checkbox field="_spring_security_remember_me" label="remember.me" disableFormBinding="true" />
 						</form:create>
 						<c:url value="/recovery" var="recoveryUrl" />

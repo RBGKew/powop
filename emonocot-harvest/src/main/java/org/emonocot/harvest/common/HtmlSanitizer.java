@@ -57,7 +57,8 @@ public class HtmlSanitizer {
 				return null;
 			}
 		} else {
-			return unclean.replace("\0", "");
+			String unescaped = StringEscapeUtils.unescapeHtml(unclean);
+			return unescaped.replace("\0", "");
 		}
 	}
 

@@ -101,6 +101,115 @@
 															<spring:url value="/image/${annotatedObj.id}" var="url"/>
 															<a href="${url}">${annotatedObj.title}</a>
 														</c:when>
+														<c:when test="${annotatedObj.className eq 'PhylogeneticTree'}">
+															<spring:url value="/phylo/${annotatedObj.id}" var="url"/>
+															<a href="${url}">${annotatedObj.title}</a>
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'Description'}">
+															<spring:url value="/taxon/${annotatedObj.taxon.identifier}" var="url"/>
+															<a href="${url}"><strong><spring:message code="${annotatedObj.type}"/>:</strong>
+															  <c:choose>
+															    <c:when test="${fn:length(annotatedObj.description) lt 32}">
+															      ${annotatedObj.description}
+															    </c:when>
+															    <c:otherwise>
+															      ${fn:substring(annotatedObj.description,0,31)} &#8230;
+															    </c:otherwise>
+															  </c:choose>
+															</a>
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'Identifier'}">
+															<spring:url value="/taxon/${annotatedObj.taxon.identifier}" var="url"/>
+															<a href="${url}"><strong>${annotatedObj.identifier}:</strong>
+															  <c:choose>
+															    <c:when test="${fn:length(annotatedObj.title) lt 32}">
+															      ${annotatedObj.title}
+															    </c:when>
+															    <c:otherwise>
+															      ${fn:substring(annotatedObj.title,0,31)} &#8230;
+															    </c:otherwise>
+															  </c:choose>
+															</a>
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'Distribution'}">
+															<spring:url value="/taxon/${annotatedObj.taxon.identifier}" var="url"/>
+															<a href="${url}"><strong><spring:message code="${annotatedObj.location.toString()}" />:</strong>
+															  <c:if test="${not empty annotatedObj.occurrenceStatus}">
+															    &#160;<spring:message code="${annotatedObj.occurrenceStatus}" text="${annotatedObj.occurrenceStatus}"/>
+														      </c:if>
+														      <c:if test="${not empty annotatedObj.establishmentMeans}">
+															    &#160;<spring:message code="${annotatedObj.establishmentMeans}" text="${annotatedObj.establishmentMeans}"/>
+														      </c:if>
+															</a>
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'MeasurementOrFact'}">
+															<spring:url value="/taxon/${annotatedObj.taxon.identifier}" var="url"/>
+															<a href="${url}"><strong><spring:message code="${annotatedObj.measurementType}" />:</strong>
+															  &#160;<spring:message code="measurementorfact_${annotatedObj.measurementType}_${annotatedObj.measurementValue}" text="${annotatedObj.measurementValue}"/>
+															</a>
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'VernacularName'}">
+															<spring:url value="/taxon/${annotatedObj.taxon.identifier}" var="url"/>
+															<a href="${url}"><strong><spring:message code="${annotatedObj.vernacularName}" />:</strong>
+															  <c:if test="${not empty annotatedObj.language}">
+															    &#160;<spring:message code="${annotatedObj.language}" text="${annotatedObj.language}"/>
+														      </c:if>
+															</a>
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'Reference'}">
+														    <c:choose>
+														      <c:when test="${not empty annotatedObj.taxa}">
+														        <spring:url value="/taxon/${annotatedObj.taxa.iterator().next().identifier}" var="url"/>
+															    <a href="${url}">
+															      <c:choose>
+															        <c:when test="${fn:length(annotatedObj.bibliographicCitation) lt 64}">
+															          ${annotatedObj.bibliographicCitation}
+															        </c:when>
+															        <c:otherwise>
+															          ${fn:substring(annotatedObj.bibliographicCitation,0,63)} &#8230;
+															        </c:otherwise>
+															      </c:choose>
+															    </a>
+														      </c:when>
+														      <c:otherwise>
+														        <c:choose>
+															      <c:when test="${fn:length(annotatedObj.bibliographicCitation) lt 64}">
+															        ${annotatedObj.bibliographicCitation}
+															      </c:when>
+															      <c:otherwise>
+															        ${fn:substring(annotatedObj.bibliographicCitation,0,63)} &#8230;
+															      </c:otherwise>
+															    </c:choose>
+														      </c:otherwise>
+														    </c:choose>															
+														</c:when>
+														<c:when test="${annotatedObj.className eq 'TypeAndSpecimen'}">
+														    <c:choose>
+														      <c:when test="${not empty annotatedObj.taxa}">
+														        <spring:url value="/taxon/${annotatedObj.taxa.iterator().next().identifier}" var="url"/>
+															    <a href="${url}">
+															      <c:choose>
+															        <c:when test="${not empty annotatedObj.toString()}">
+															          ${annotatedObj.toString()}
+															        </c:when>
+															        <c:otherwise>
+															          ${annotatedObj.identifier}
+															        </c:otherwise>
+															      </c:choose>
+															    </a>
+														      </c:when>
+														      <c:otherwise>
+														        <c:choose>
+															      <c:when test="${not empty annotatedObj.toString()}">
+															        ${annotatedObj.toString()}
+															      </c:when>
+															      <c:otherwise>
+															        ${annotatedObj.identifier}
+															      </c:otherwise>
+															    </c:choose>
+														      </c:otherwise>
+														    </c:choose>															
+														</c:when>
 														<c:when test="${not empty annotatedObj}">
 															${annotatedObj.className} : ${annotatedObj.identifier}
 														</c:when>

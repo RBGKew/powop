@@ -5,8 +5,16 @@
     <put-attribute name="pageTitle" value="${user.accountName}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/user/show.jspx" />
   </definition>
+  <definition name="home/update" extends="default">    
+    <put-attribute name="pageTitle" value="${user.accountName}" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/user/homeUpdate.jspx" />
+  </definition>
   <definition name="user/update" extends="default">    
     <put-attribute name="pageTitle" value="${user.accountName}" cascade="true"/>
     <put-attribute name="body" value="/WEB-INF/views/user/update.jspx" />
+  </definition>
+  <definition name="user/list" extends="default">    
+    <put-attribute name="pageTitle" value="users" cascade="true"/>
+    <put-attribute name="body" value="/WEB-INF/views/user/list.jspx" />
   </definition>   
 </tiles-definitions>

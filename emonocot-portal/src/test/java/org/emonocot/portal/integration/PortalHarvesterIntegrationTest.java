@@ -11,6 +11,8 @@ import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,6 +27,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration({"classpath:META-INF/spring/applicationContext-integrationTest.xml",
                        "classpath:META-INF/spring/applicationContext-integration.xml"})
 public class PortalHarvesterIntegrationTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(PortalHarvesterIntegrationTest.class);
 
     /**
      *
@@ -51,7 +55,7 @@ public class PortalHarvesterIntegrationTest {
         try {
             jobLauncher.launch(jobLaunchRequest);            
         } catch (JobExecutionException jobExecutionException) {
-            System.out.println(jobExecutionException.getMessage());
+            logger.error(jobExecutionException.getMessage());
             fail("No exception expected here");
         }
     }

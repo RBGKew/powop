@@ -18,6 +18,8 @@ import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,6 +27,8 @@ import org.junit.Test;
  *
  */
 public class SearchTest extends AbstractPersistenceTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(SearchTest.class);
 	
     /**
      * @throws java.lang.Exception
@@ -99,10 +103,10 @@ public class SearchTest extends AbstractPersistenceTest {
                 new String[] {"taxon.distribution_TDWG_0_ss" , "taxon.distribution_TDWG_1_ss"}, null, selectedFacets, null, null);
         assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", new Integer(2), (Integer)results.getSize());
         for(String facetName : results.getFacetNames()) {
-      	   System.out.println(facetName);
+      	   logger.debug(facetName);
       	   FacetField facet = results.getFacetField(facetName);
       	   for(Count count : facet.getValues()) {
-      		   System.out.println("\t" + count.getName() + " " + count.getCount());
+      		   logger.debug("\t" + count.getName() + " " + count.getCount());
       	   }
          }
     }

@@ -22,7 +22,7 @@ public class TaxonAlreadyProcessedException extends TaxonProcessingException {
      */
     public TaxonAlreadyProcessedException(final Taxon taxon) {
         super("Taxon " + taxon.toString()
-                + " already found once in this archive",
+                + " with identifier " + taxon.getIdentifier() + " already found once in this archive",
                 AnnotationCode.AlreadyProcessed, taxon.getIdentifier());
     }
 

@@ -337,7 +337,7 @@ public class Comment extends Base implements Searchable {
     			sid.addField("comment.comment_page_class_s","org.emonocot.model.Image");
     		}
 		}
-    	sid.addField("comment.comment_t",getComment());
+    	//sid.addField("comment.comment_t",getComment());
     	sid.addField("comment.created_dt",dateTimeFormatter.print(getCreated()));
     	sid.addField("comment.status_t",getStatus());
     	sid.addField("comment.subject_s",getSubject());

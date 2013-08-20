@@ -12,6 +12,7 @@ import org.emonocot.api.CommentService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.UserService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.CellSet;
@@ -55,6 +56,8 @@ public class SearchController {
 	
 	private ResourceService resourceService;
 	
+	private UserService userService;
+	
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
 		this.searchableObjectService = searchableObjectService;
@@ -74,6 +77,11 @@ public class SearchController {
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
+    
+    @Autowired
+    public void setUserService(UserService userService) {
+    	this.userService = userService;
+    }
 
 	/**
 	 * @param query
@@ -450,6 +458,11 @@ public class SearchController {
 	@RequestMapping(value = "/autocomplete/comment", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Match> autocompleteComments(@RequestParam(required = true) String term) throws SolrServerException {    	
         return commentService.autocomplete(term, 10, null);
+    }
+	
+	@RequestMapping(value = "/autocomplete/user", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Match> autocompleteUsers(@RequestParam(required = true) String term) throws SolrServerException {    	
+        return userService.autocomplete(term, 10, null);
     }
 	
 	@RequestMapping(value = "/autocomplete/organisation", method = RequestMethod.GET, produces = "application/json")

@@ -65,6 +65,14 @@
 								<a href="${resourceUrl}"><spring:message code="resources.title" />&#160;<i class="halflings-icon white file"><!--  --></i></a>
 							</li>
 							<li>
+								<c:url value="/comment" var="commentUrl" />
+								<a href="${commentUrl}"><spring:message code="comments.title" />&#160;<i class="halflings-icon white comments"><!--  --></i></a>
+							</li>
+							<li>
+								<c:url value="/user" var="userUrl" />
+								<a href="${userUrl}"><spring:message code="users.title" /></a>
+							</li>
+							<li>
 								<c:url value="/group" var="groupUrl" />
 								<a href="${groupUrl}"><spring:message code="group.title" /></a>
 							</li>
