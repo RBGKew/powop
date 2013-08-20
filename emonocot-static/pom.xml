@@ -4,10 +4,10 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.34</version>
+		<version>0.0.36-SNAPSHOT</version>
 	</parent>
 	<artifactId>emonocot-static</artifactId>
-	<version>0.0.34</version>
+	<version>0.0.36-SNAPSHOT</version>
 	<name>eMonocot Static Files</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -66,6 +66,11 @@
                             </copy>
                             <copy todir="${project.build.directory}/static/css/fonts">
                               <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
+                            </copy>
+                            <delete dir="${project.build.directory}/static/tiles/" />
+                            <mkdir dir="${project.build.directory}/static/tiles/" />
+                            <copy todir="${project.build.directory}/static/tiles">
+                              <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
                             </copy>
                         </tasks>
                     </configuration>

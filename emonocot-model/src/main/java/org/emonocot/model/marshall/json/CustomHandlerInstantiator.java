@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.introspect.Annotated;
 import org.codehaus.jackson.map.jsontype.TypeIdResolver;
 import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
+import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
@@ -46,61 +47,44 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     private IdentificationKeyService identificationKeyService;
     
     private PhylogeneticTreeService phylogeneticTreeService;
+    
+    private ConceptService conceptService;
 
-    /**
-     * @param userService the userService to set
-     */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    /**
-     * @param groupService the groupService to set
-     */
     public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
-    /**
-     * @param newReferenceService the referenceService to set
-     */
-    public void setReferenceService(
-            ReferenceService newReferenceService) {
-        this.referenceService = newReferenceService;
+    public void setReferenceService(ReferenceService referenceService) {
+        this.referenceService = referenceService;
     }
 
-    /**
-     * @param newTaxonService the taxonService to set
-     */
-    public void setTaxonService(TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
+    public void setTaxonService(TaxonService taxonService) {
+        this.taxonService = taxonService;
     }
 
-    /**
-     * @param newImageService the imageService to set
-     */
-    public void setImageService(ImageService newImageService) {
-        this.imageService = newImageService;
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
     }
 
-    /**
-     * @param organisationService the sourceService to set
-     */
     public void setOrganisationService(OrganisationService organisationService) {
         this.organisationService = organisationService;
     }
     
-    /**
-     * @param newIdentificationKeyService the identification key service to set
-     */
-    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
-        this.identificationKeyService = newIdentificationKeyService;
+    public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
+        this.identificationKeyService = identificationKeyService;
     }       
     
-    public void setPhylogeneticTreeService(
-			PhylogeneticTreeService phylogeneticTreeService) {
+    public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
+    
+    public void setConceptService(ConceptService conceptService) {
+    	this.conceptService = conceptService;
+    }
 
 	public CustomHandlerInstantiator() {
     	
@@ -160,6 +144,12 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
                     = PhylogeneticTreeDeserializer.class.newInstance();
                 phylogeneticTreeDeserializer.setService(phylogeneticTreeService);
                 return phylogeneticTreeDeserializer; 
+            } else if (jsonDeserializerClass
+                    .equals(ConceptDeserializer.class)) {
+            	ConceptDeserializer conceptDeserializer
+                    = ConceptDeserializer.class.newInstance();
+                conceptDeserializer.setService(conceptService);
+                return conceptDeserializer; 
             } else if (jsonDeserializerClass
                         .equals(PrincipalDeserializer.class)) {
                     PrincipalDeserializer principalDeserializer

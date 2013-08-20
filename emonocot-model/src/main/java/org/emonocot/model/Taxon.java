@@ -34,6 +34,8 @@ import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.emonocot.model.marshall.json.ConceptDeserializer;
+import org.emonocot.model.marshall.json.ConceptSerializer;
 import org.emonocot.pager.FacetName;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
@@ -148,6 +150,19 @@ public class Taxon extends SearchableObject {
 
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
 	
+	private Set<Concept> concepts = new HashSet<Concept>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+	@JsonSerialize(contentUsing = ConceptSerializer.class)
+	public Set<Concept> getConcepts() {
+		return concepts;
+	}
+
+	@JsonDeserialize(contentUsing = ConceptDeserializer.class)
+	public void setConcepts(Set<Concept> concepts) {
+		this.concepts = concepts;
+	}
+
 	private List<Comment> comments = new ArrayList<Comment>();
 
 	/**

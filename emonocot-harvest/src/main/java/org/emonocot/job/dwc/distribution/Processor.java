@@ -46,7 +46,7 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
     @Override
     protected void doValidate(Distribution t) {
     	if (t.getLocation() == null) {
-            throw new RequiredFieldException(t + " has no location set", RecordType.Distribution, getStepExecution().getReadCount());
+            throw new RequiredFieldException("Distribution " + t + " at line " + getLineNumber() + " has no location set", RecordType.Distribution, getStepExecution().getReadCount());
         } 
     }
 

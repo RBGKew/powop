@@ -16,6 +16,12 @@
     #set($objectId = "${comment.commentPage.identifier}")
     #set($contributingOrg = $comment.commentPage.authority)
     #set($about = "${comment.aboutData}")
+#elseif($commentPage == "Concept")##Anything that doesn't have a page/appears on the taxon page
+    #set($pageTitle = "${comment.commentPage.prefLabel}")
+    #set($pageUrl = "/term/${comment.id}")
+    #set($objectId = "${comment.commentPage.identifier}")
+    #set($contributingOrg = $comment.commentPage.authority)
+    #set($about = "${comment.aboutData}")
 #elseif($commentPage == "IdentificationKey")
     #set($pageTitle = "${comment.commentPage.title}")
     #set($pageUrl = "/key/${comment.commentPage.id}")

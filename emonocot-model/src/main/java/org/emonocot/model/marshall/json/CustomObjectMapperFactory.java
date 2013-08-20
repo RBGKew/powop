@@ -1,6 +1,7 @@
 package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
@@ -41,76 +42,48 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
      private IdentificationKeyService identificationKeyService;
      
      private PhylogeneticTreeService phylogeneticTreeService;
+     
+     private ConceptService conceptService;
 
-    /**
-     * @param userService
-     *            the userService to set
-     */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    /**
-     * @param groupService
-     *            the groupService to set
-     */
     public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
-    /**
-     *
-     * @param newReferenceService
-     *            Set the reference service
-     */
-    public void setReferenceService(
-            ReferenceService newReferenceService) {
-        this.referenceService = newReferenceService;
+    public void setReferenceService(ReferenceService referenceService) {
+        this.referenceService = referenceService;
     }
 
-    /**
-     * @param newTaxonService
-     *            the taxonService to set
-     */
-    public void setTaxonService(TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
+    public void setTaxonService(TaxonService taxonService) {
+        this.taxonService = taxonService;
     }
 
-    /**
-     * @param newImageService
-     *            the imageService to set
-     */
-    public void setImageService(ImageService newImageService) {
-        this.imageService = newImageService;
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
     }
 
-    /**
-     * @param organisationService
-     *            the sourceService to set
-     */
     public void setOrganisationService(OrganisationService organisationService) {
         this.organisationService = organisationService;
     }
 
-    /**
-     * @param jobInstanceService the jobInstanceService to set
-     */
-    public void setJobInstanceService(
-            JobInstanceService jobInstanceService) {
+    public void setJobInstanceService(JobInstanceService jobInstanceService) {
         this.jobInstanceService = jobInstanceService;
     }
 
-    /**
-     * @param newIdentificationKeyService the identification key service to set
-     */
-    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
-        this.identificationKeyService = newIdentificationKeyService;
+    public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
+        this.identificationKeyService = identificationKeyService;
     }
     
-    public void setPhylogeneticTreeService(
-			PhylogeneticTreeService phylogeneticTreeService) {
+    public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
+    
+    public void setConceptService(ConceptService conceptService) {
+    	this.conceptService = conceptService;
+    }
 
 	/**
      * @return the object created by this factory
@@ -129,6 +102,7 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
             objectMapper.setJobInstanceService(jobInstanceService);
             objectMapper.setIdentificationKeyService(identificationKeyService);
             objectMapper.setPhylogeneticTreeService(phylogeneticTreeService);
+            objectMapper.setConceptService(conceptService);
             objectMapper.init();
         }
         logger.debug("Returning objectMapper " + objectMapper);

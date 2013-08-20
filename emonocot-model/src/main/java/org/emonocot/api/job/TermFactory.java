@@ -17,7 +17,7 @@ import org.gbif.dwc.terms.UnknownTerm;
 public class TermFactory {
 
 	private static final Pattern QUOTE_PATTERN = Pattern.compile("\"");
-	private final Set<ConceptTerm> unkownTerms = new HashSet<ConceptTerm>();
+	private final static Set<ConceptTerm> unkownTerms = new HashSet<ConceptTerm>();
 
 	public static String normaliseTerm(String term) {
 		// no quotes or whitespace in term names
@@ -30,7 +30,7 @@ public class TermFactory {
 		unkownTerms.clear();
 	}
 
-	public ConceptTerm findTerm(String termName) {
+	public static ConceptTerm findTerm(String termName) {
 		if (termName == null) {
 			return null;
 		}
@@ -41,7 +41,7 @@ public class TermFactory {
 				new String[] {DwcTerm.PREFIX, DwcTerm.NS});
 		if (term == null) {
 			term = findTermInEnum(normTermName, DcTerm.values(),
-					new String[] {DcTerm.PREFIX, DcTerm.NS});
+					new String[] {DcTerm.PREFIX + ":", "http://purl.org/dc/elements/1.1/", "dct", "dcterm:", "dcterms:", DcTerm.NS});
 		}
 		if (term == null) {
 			term = findTermInEnum(normTermName, GbifTerm.values(),
@@ -64,6 +64,10 @@ public class TermFactory {
 					new String[] {WCSPTerm.PREFIX, WCSPTerm.NS});
 		}
 		if (term == null) {
+			term = findTermInEnum(normTermName, SkosTerm.values(),
+					new String[] {SkosTerm.PREFIX, SkosTerm.NS});
+		}
+		if (term == null) {
 			term = findTermInEnum(normTermName, unkownTerms);
 		}
 		if (term == null) {
@@ -74,13 +78,13 @@ public class TermFactory {
 		return term;
 	}
 
-	private ConceptTerm findTermInEnum(String termName,
+	private static ConceptTerm findTermInEnum(String termName,
 			Collection<ConceptTerm> vocab) {
 		for (ConceptTerm term : vocab) {
-			if (term.qualifiedNormalisedName().equalsIgnoreCase(termName)) {
+			if (term.qualifiedNormalisedName().equalsIgnoreCase(termName)) {				
 				return term;
 			}
-			if (term.simpleNormalisedName().equalsIgnoreCase(termName)) {
+			if (term.simpleNormalisedName().equalsIgnoreCase(termName)) {			
 				return term;
 			}
 			for (String alt : term.simpleNormalisedAlternativeNames()) {
@@ -92,7 +96,7 @@ public class TermFactory {
 		return null;
 	}
 
-	private ConceptTerm findTermInEnum(String termName, ConceptTerm[] vocab,
+	private static ConceptTerm findTermInEnum(String termName, ConceptTerm[] vocab,
 			String[] prefixes) {
 		for (String prefix : prefixes) {
 			if (termName.startsWith(prefix)) {

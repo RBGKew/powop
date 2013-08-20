@@ -15,7 +15,6 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.portal.driver.About;
 import org.emonocot.portal.driver.Classification;
-import org.emonocot.portal.driver.Contact;
 import org.emonocot.portal.driver.Identify;
 import org.emonocot.portal.driver.IllustratedPage;
 import org.emonocot.portal.driver.Login;
@@ -765,19 +764,7 @@ public class StepDefinitions {
     public void iShouldBeOnTheAboutPage() {
         assertEquals(currentPage.getClass(), About.class);
     }
-
-    /**
-    *
-    */
-    @When("^I select the contact link in the footer$")
-    public void iSelectTheContactLinkInTheFooter() {
-        currentPage = currentPage.selectContactLink();
-    }
-
-    @Then("^I should be on the contact page$")
-    public void iShouldBeOnTheContactPage() {
-        assertEquals(currentPage.getClass(), Contact.class);
-    }
+    
 
     /**
      * @param options
@@ -893,6 +880,11 @@ public class StepDefinitions {
         } catch (RequiresLoginException rle) {
             currentPage = rle.getLoginPage();
         }
+    }
+    
+    @Then("^the contact link in the footer should be \"([^\"]*)\"$")
+    public void theContactLinkInTheFooterShouldBe(String contactLink) {
+        contactLink = currentPage.getContactLink();
     }
 
     /**

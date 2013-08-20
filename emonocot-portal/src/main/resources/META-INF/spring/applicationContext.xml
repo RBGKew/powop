@@ -132,6 +132,7 @@
 				    <value>org.emonocot.model.auth.Group</value>
 				    <value>org.emonocot.model.Place</value>
                     <value>org.emonocot.model.Comment</value>
+                    <value>org.emonocot.model.Concept</value>
 			    </list>
 		    </property>
 		    <property name="eventListeners">

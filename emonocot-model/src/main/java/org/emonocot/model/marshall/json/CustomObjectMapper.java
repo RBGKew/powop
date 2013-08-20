@@ -1,6 +1,7 @@
 package org.emonocot.model.marshall.json;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
@@ -39,78 +40,49 @@ public class CustomObjectMapper extends ObjectMapper {
     private IdentificationKeyService identificationKeyService;
     
     private PhylogeneticTreeService phylogeneticTreeService;
+    
+    private ConceptService conceptService;
 
-    /**
-     * @param userService
-     *            the userService to set
-     */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    /**
-     * @param groupService
-     *            the groupService to set
-     */
     public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
-    /**
-     * @param newIdentificationKeyService the identification key service to set
-     */
-    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
-        this.identificationKeyService = newIdentificationKeyService;
+
+    public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
+        this.identificationKeyService = identificationKeyService;
     }
 
-    /**
-     * 
-     * @param newReferenceService
-     *            Set the reference service
-     */
-    public void setReferenceService(
-            ReferenceService newReferenceService) {
-        this.referenceService = newReferenceService;
+    public void setReferenceService(ReferenceService referenceService) {
+        this.referenceService = referenceService;
     }
 
-    /**
-     * 
-     * @param newTaxonService
-     *            Set the taxon service
-     */
-    public void setTaxonService(TaxonService newTaxonService) {
-        this.taxonService = newTaxonService;
+    public void setTaxonService(TaxonService taxonService) {
+        this.taxonService = taxonService;
     }
 
-    /**
-     * @param newImageService
-     *            the imageService to set
-     */
-    public void setImageService(ImageService newImageService) {
-        this.imageService = newImageService;
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
     }
 
-    /**
-     * @param newJobInstanceService
-     *            the jobInstanceService to set
-     */
-    public void setJobInstanceService(
-            JobInstanceService newJobInstanceService) {
-        this.jobInstanceService = newJobInstanceService;
+    public void setJobInstanceService(JobInstanceService jobInstanceService) {
+        this.jobInstanceService = jobInstanceService;
     }
 
-    /**
-     * @param newOrganisationService
-     *            the sourceService to set
-     */
-    public void setOrganisationService(OrganisationService newOrganisationService) {
-        this.organisationService = newOrganisationService;
+    public void setOrganisationService(OrganisationService organisationService) {
+        this.organisationService = organisationService;
     }
 
-    public void setPhylogeneticTreeService(
-			PhylogeneticTreeService phylogeneticTreeService) {
+    public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
+    
+    public void setConceptService(ConceptService conceptService) {
+    	this.conceptService = conceptService;
+    }
 
 	/**
     *
@@ -132,6 +104,7 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setOrganisationService(organisationService);
         handlerInstantiator.setIdentificationKeyService(identificationKeyService);
         handlerInstantiator.setPhylogeneticTreeService(phylogeneticTreeService);
+        handlerInstantiator.setConceptService(conceptService);
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule(jobInstanceService);
         registerModule(module);

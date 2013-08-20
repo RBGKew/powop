@@ -75,9 +75,6 @@
     <mvc:view-controller path="/internalServerError" view-name="internalServerError"/>
     <mvc:view-controller path="/serviceUnavailable" view-name="serviceUnavailable"/>
     
-    
-    <mvc:view-controller path="/contact" view-name="contact"/>
-    
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 	  <property name="converters">
 		<set>

@@ -107,6 +107,12 @@
 								</c:url>
 								<a href="${imageSearchUrl}"><i class="halflings-icon browse_images"><!--  --></i>&#160;<spring:message code="browse.images"/></a>
 							</li>
+							<li>
+								<c:url value="/search" var="termSearchUrl">
+									<c:param name="facet" value="base.class_s:org.emonocot.model.Concept"/>
+								</c:url>
+								<a href="${termSearchUrl}"><i class="halflings-icon book"><!--  --></i>&#160;<spring:message code="browse.glossary"/></a>
+							</li>
 						</ul>
 					</li>
 					<li class="dropdown" id="menuClassify">

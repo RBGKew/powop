@@ -4492,4 +4492,68 @@
         <column name="insertCommentsIntoScratchpad" type="boolean" defaultValueBoolean="false"/>
       </addColumn>
     </changeSet>
+    <changeSet author="ben" id="2013-08-15_01">
+        <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+        <createTable tableName="Concept">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="identifier" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="creator" type="varchar(255)"/>
+            <column name="license" type="varchar(255)"/>        
+            <column name="modified" type="datetime"/>
+            <column name="source_id" type="bigint"/>
+            <column name="definition" type="longtext"/>
+            <column name="prefLabel" type="varchar(255)"/>
+            <column name="authority_id" type="bigint"/>
+            <column name="accessRights" type="varchar(255)"/>
+            <column name="rights" type="longtext"/>
+            <column name="rightsHolder" type="varchar(255)"/>
+            <column name="altLabel" type="varchar(255)"/>
+             <column name="prefSymbol_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2013-08-15_02" author="ben" >
+       <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+       <createTable tableName="Taxon_Concept">
+            <column name="Taxon_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="concepts_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2013-08-15_03" author="ben" >
+        <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+        <addForeignKeyConstraint constraintName="Taxon_Concept_Taxon_FK" baseTableName="Taxon_Concept" baseColumnNames="taxon_id" referencedTableName="Taxon" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-08-15_04" author="ben" >
+        <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+        <addForeignKeyConstraint constraintName="Taxon_Concept_concepts_FK" baseTableName="Taxon_Concept" baseColumnNames="concepts_id" referencedTableName="Concept" referencedColumnNames="id"
+        />
+    </changeSet>
+    <changeSet id="2013-08-15_05" author="ben">
+      <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+      <addForeignKeyConstraint constraintName="Concept_authority_FK" referencedTableName="Organisation" baseColumnNames="authority_id" baseTableName="Concept" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-08-15_06" author="ben">
+      <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+      <addForeignKeyConstraint constraintName="Concept_source_FK" 
+                               referencedTableName="Reference"
+                               baseColumnNames="source_id"
+                               baseTableName="Concept"
+                               referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-08-15_07" author="ben">
+      <comment>BUG #449 As a biologist, I would like to understand the terminology in eMonocot</comment>
+      <addForeignKeyConstraint constraintName="Concept_prefSymbol_FK" 
+                               referencedTableName="Image"
+                               baseColumnNames="prefSymbol_id"
+                               baseTableName="Concept"
+                               referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

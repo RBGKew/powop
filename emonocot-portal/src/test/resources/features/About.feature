@@ -17,5 +17,4 @@ Scenario: About
   Then I should be on the about page
   And the paragraph named "sourcesParagraph" should contain the text "content from 1 systems"
   And there should be a "A Test Source" link on the page
-  When I select the contact link in the footer
-  Then I should be on the contact page
+  And the contact link in the footer should be "mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry"

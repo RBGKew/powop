@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.CommentService;
+import org.emonocot.api.ConceptService;
 import org.emonocot.api.DescriptionService;
 import org.emonocot.api.DistributionService;
 import org.emonocot.api.IdentifierService;
@@ -26,6 +27,7 @@ import org.emonocot.api.VernacularNameService;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
+import org.emonocot.model.Concept;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
@@ -79,6 +81,8 @@ public class CommentController extends GenericController<Comment, CommentService
     
     private IdentifierService identifierService;
     
+    private ConceptService conceptService;
+    
     private UserService userService;
         
     @Autowired
@@ -111,10 +115,15 @@ public class CommentController extends GenericController<Comment, CommentService
 		this.userService = userService;
 	}
     
+    @Autowired
+    public void setConceptService(ConceptService conceptService) {
+    	this.conceptService = conceptService;
+    }
+    
 	private List<Service<? extends BaseData>> getServices() {
 		return Arrays.asList(searchableObjectService, distributionService,
 				descriptionService, vernacularNameService,
-				measurementOrFactService, identifierService, referenceService);
+				measurementOrFactService, identifierService, referenceService, conceptService);
 	}
 
 	public CommentController() {
@@ -250,6 +259,8 @@ public class CommentController extends GenericController<Comment, CommentService
             return "redirect:image/" + commentPage.getId();
         } else if (commentPage instanceof IdentificationKey) {
             return "redirect:key/" + commentPage.getId();
+        } else if (commentPage instanceof Concept) {
+            return "redirect:term/" + commentPage.getId();
         } else {
             return "user/show";
         }

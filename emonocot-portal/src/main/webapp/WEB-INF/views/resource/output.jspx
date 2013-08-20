@@ -105,6 +105,10 @@
 															<spring:url value="/phylo/${annotatedObj.id}" var="url"/>
 															<a href="${url}">${annotatedObj.title}</a>
 														</c:when>
+														<c:when test="${annotatedObj.className eq 'Concept'}">
+															<spring:url value="/term/${annotatedObj.id}" var="url"/>
+															<a href="${url}">${annotatedObj.prefLabel}</a>
+														</c:when>
 														<c:when test="${annotatedObj.className eq 'Description'}">
 															<spring:url value="/taxon/${annotatedObj.taxon.identifier}" var="url"/>
 															<a href="${url}"><strong><spring:message code="${annotatedObj.type}"/>:</strong>
