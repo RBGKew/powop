@@ -18,7 +18,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	protected SERVICE service;
 
 	@Override
-	public T process(T t) throws Exception {
+	public T doProcess(T t) throws Exception {
 		logger.info("Processing " + t);
 		
 		if(t.getTaxon() != null) {
@@ -38,7 +38,10 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
         }
         
         if(persisted != null) {
-            if (skipUnmodified  && ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified()))) {
+        	
+        	checkAuthority(getRecordType(), t, persisted.getAuthority());
+            
+        	if (skipUnmodified  && ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified()))) {
                 // The content hasn't changed, skip it
                 logger.info("Skipping " + t);
                 replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);

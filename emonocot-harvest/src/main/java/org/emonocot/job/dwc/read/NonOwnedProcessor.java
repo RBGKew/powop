@@ -15,6 +15,7 @@ import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
 
 /**
  *
@@ -43,7 +44,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
      * @throws Exception if something goes wrong
      * @return T an object
      */
-    public final T process(final T t)
+    public final T doProcess(final T t)
             throws Exception {
         logger.info("Validating " + t.getIdentifier());
         
@@ -79,6 +80,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
                 logger.info("Adding object " + t.getIdentifier());
                 return t;
             } else {
+            	checkAuthority(getRecordType(), t, persisted.getAuthority());
                 // We've seen this object before, but not in this chunk            	
                 if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null)
                     && !persisted.getModified().isBefore(t.getModified()))) {
@@ -157,10 +159,12 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected abstract void doValidate(T t) throws Exception;
 
 	public void afterChunk() {
+		super.afterChunk();
         logger.info("After Chunk");
     }
 
     public void beforeChunk() {
+    	super.beforeChunk();
         logger.info("Before Chunk");
         boundObjects = new HashMap<String, T>();
     }

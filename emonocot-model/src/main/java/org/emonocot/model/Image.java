@@ -324,7 +324,7 @@ public class Image extends SearchableObject implements NonOwned, Media {
     	if(getTaxon() != null) {
     		//addField(sid,"taxon.class_s", getTaxon().getClazz());
     	    addField(sid,"taxon.family_ss", getTaxon().getFamily());
-    	    addField(sid,"taxon.genus_s", getTaxon().getGenus());
+    	    addField(sid,"taxon.genus_ss", getTaxon().getGenus());
     	    //addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
     	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
     	    addField(sid,"taxon.order_s", getTaxon().getOrder());    	    

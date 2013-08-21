@@ -185,7 +185,15 @@
       </xsl:otherwise>    
     </xsl:choose>    
     <xsl:apply-templates select="sdd:DescriptiveConcepts"/>
-    <xsl:apply-templates select="sdd:CharacterTrees/sdd:CharacterTree"/>
+    <xsl:choose>
+      <xsl:when test="count(sdd:CharacterTrees/sdd:CharacterTree) gt 1">
+        <xsl:apply-templates select="sdd:CharacterTrees/sdd:CharacterTree"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="sdd:CharacterTrees/sdd:CharacterTree[sdd:DesignedFor/sdd:Role/text() = 'InteractiveIdentification']"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    
     <xsl:apply-templates select="sdd:IdentificationKeys/sdd:IdentificationKey"/>
     <xsl:apply-templates select="sdd:Characters"/><xsl:text>}</xsl:text>
   </xsl:template>

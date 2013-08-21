@@ -50,7 +50,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	 *             if something goes wrong
 	 * @return Taxon a taxon object
 	 */
-	public Taxon process(Taxon t) throws Exception {
+	public Taxon doProcess(Taxon t) throws Exception {
 		logger.info("Processing " + t.getIdentifier());
 		
 		if (t.getIdentifier() == null) {
@@ -75,57 +75,60 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			logger.info("Adding taxon " + t);
 			return t;
 		} else {
-			if (!persisted.getAuthority().getIdentifier().equals(this.getSource().getIdentifier())) {
-				// Skip taxa which do not belong to this authority
-				logger.info("Taxon " + persisted + " belongs to " + this.getSource().getIdentifier() +  ", skipping");
-				return null;
-			} else {				
-				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted.getModified().isBefore(t.getModified()))) {
-					bindTaxon(persisted);
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
-				} else {
-					bindRelationships(t,persisted);
-					persisted.setAccessRights(t.getAccessRights());
-	                persisted.setCreated(t.getCreated());
-	                persisted.setLicense(t.getLicense());
-	                persisted.setModified(t.getModified());
-	                persisted.setRights(t.getRights());
-	                persisted.setRightsHolder(t.getRightsHolder());
-					persisted.setBibliographicCitation(t.getBibliographicCitation());
-					persisted.setClazz(t.getClazz());
-					persisted.setFamily(t.getFamily());
-					persisted.setGenus(t.getGenus());
-					persisted.setInfraspecificEpithet(t.getInfraspecificEpithet());
-					persisted.setKingdom(t.getKingdom());
-					persisted.setNameAccordingTo(t.getNameAccordingTo());
-					persisted.setNamePublishedIn(t.getNamePublishedIn());
-					persisted.setNamePublishedInString(t.getNamePublishedInString());
-					persisted.setNamePublishedInYear(t.getNamePublishedInYear());
-					persisted.setNomenclaturalCode(t.getNomenclaturalCode());
-					persisted.setNomenclaturalStatus(t.getNomenclaturalStatus());
-					persisted.setOrder(t.getOrder());
-					persisted.setPhylum(t.getPhylum());
-					persisted.setScientificName(t.getScientificName());
-					persisted.setScientificNameAuthorship(t.getScientificNameAuthorship());
-					persisted.setScientificNameID(t.getScientificNameID());
-					persisted.setSource(t.getSource());
-					persisted.setSpecificEpithet(t.getSpecificEpithet());
-					persisted.setSubfamily(t.getSubfamily());
-					persisted.setSubgenus(t.getSubgenus());
-					persisted.setSubtribe(t.getSubtribe());
-					persisted.setTaxonomicStatus(t.getTaxonomicStatus());
-					persisted.setTaxonRank(t.getTaxonRank());
-					persisted.setTaxonRemarks(t.getTaxonRemarks());
-					persisted.setTribe(t.getTribe());
-					persisted.setTaxonRank(t.getTaxonRank());
-					validate(t);
-					
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);					
-				}				
+			checkAuthority(RecordType.Taxon, t, persisted.getAuthority());
+			if (skipUnmodified
+					&& ((persisted.getModified() != null && t.getModified() != null) && !persisted
+							.getModified().isBefore(t.getModified()))) {
+				bindTaxon(persisted);
+				replaceAnnotation(persisted, AnnotationType.Info,
+						AnnotationCode.Skipped);
+			} else {
+				bindRelationships(t, persisted);
+				persisted.setAccessRights(t.getAccessRights());
+				persisted.setCreated(t.getCreated());
+				persisted.setLicense(t.getLicense());
+				persisted.setModified(t.getModified());
+				persisted.setRights(t.getRights());
+				persisted.setRightsHolder(t.getRightsHolder());
+				persisted
+						.setBibliographicCitation(t.getBibliographicCitation());
+				persisted.setClazz(t.getClazz());
+				persisted.setFamily(t.getFamily());
+				persisted.setGenus(t.getGenus());
+				persisted.setInfraspecificEpithet(t.getInfraspecificEpithet());
+				persisted.setKingdom(t.getKingdom());
+				persisted.setNameAccordingTo(t.getNameAccordingTo());
+				persisted.setNamePublishedIn(t.getNamePublishedIn());
+				persisted
+						.setNamePublishedInString(t.getNamePublishedInString());
+				persisted.setNamePublishedInYear(t.getNamePublishedInYear());
+				persisted.setNomenclaturalCode(t.getNomenclaturalCode());
+				persisted.setNomenclaturalStatus(t.getNomenclaturalStatus());
+				persisted.setOrder(t.getOrder());
+				persisted.setPhylum(t.getPhylum());
+				persisted.setScientificName(t.getScientificName());
+				persisted.setScientificNameAuthorship(t
+						.getScientificNameAuthorship());
+				persisted.setScientificNameID(t.getScientificNameID());
+				persisted.setSource(t.getSource());
+				persisted.setSpecificEpithet(t.getSpecificEpithet());
+				persisted.setSubfamily(t.getSubfamily());
+				persisted.setSubgenus(t.getSubgenus());
+				persisted.setSubtribe(t.getSubtribe());
+				persisted.setTaxonomicStatus(t.getTaxonomicStatus());
+				persisted.setTaxonRank(t.getTaxonRank());
+				persisted.setTaxonRemarks(t.getTaxonRemarks());
+				persisted.setTribe(t.getTribe());
+				persisted.setTaxonRank(t.getTaxonRank());
+				validate(t);
 
-				logger.info("Overwriting taxon " + persisted);
-				return persisted;
+				replaceAnnotation(persisted, AnnotationType.Info,
+						AnnotationCode.Update);
 			}
+
+			logger.info("Overwriting taxon " + persisted);
+			return persisted;
+
 		}
 	}
 
