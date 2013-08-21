@@ -124,7 +124,10 @@
 							<c:if test="${item.description != null}">
 								<div>
 									<em><spring:message code="key.description" /></em>:
-									${item.description}
+									<c:choose>
+							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+								    </c:choose>
 								</div>
 							</c:if>
 						</results:listEntry>
@@ -146,7 +149,10 @@
 							<c:if test="${item.description != null}">
 								<div>
 									<em><spring:message code="phylo.description" /></em>:
-									${item.description}
+									<c:choose>
+							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+								    </c:choose>
 								</div>
 							</c:if>
 						</results:listEntry>
