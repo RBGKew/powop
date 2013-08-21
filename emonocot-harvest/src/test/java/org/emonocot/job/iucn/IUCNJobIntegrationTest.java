@@ -114,9 +114,9 @@ public class IUCNJobIntegrationTest {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
-        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
-        parameters.put("authority.uri", new JobParameter(
-        repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/iucn/test.json"));
+        String repository = properties.getProperty("test.resource.baseUrl",
+                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
+        parameters.put("authority.uri", new JobParameter(repository + "iucn.json"));
         parameters.put("authority.last.harvested",
         new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
 
