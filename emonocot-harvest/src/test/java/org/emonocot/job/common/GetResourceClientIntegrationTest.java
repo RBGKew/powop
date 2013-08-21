@@ -64,10 +64,11 @@ public class GetResourceClientIntegrationTest {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
         
-        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        String repository = properties.getProperty("test.resource.baseUrl",
+                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
+                .getResource(repository + "dwc.zip",
                         Long.toString(PAST_DATETIME.getMillis()),
                         tempFile.getAbsolutePath());
 
@@ -86,10 +87,11 @@ public class GetResourceClientIntegrationTest {
     public final void testGetResourceNotModified() throws IOException {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
-        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        String repository = properties.getProperty("test.resource.baseUrl",
+                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
+                .getResource(repository + "dwc.zip",
                         Long.toString(new Date().getTime() - 60000L),
                         tempFile.getAbsolutePath());
 
