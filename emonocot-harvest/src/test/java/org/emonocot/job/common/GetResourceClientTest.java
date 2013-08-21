@@ -48,7 +48,7 @@ public class GetResourceClientTest {
      *
      */
     private Resource content = new ClassPathResource(
-            "/org/emonocot/job/dwc/test.zip");
+            "/org/emonocot/job/common/dwc.zip");
     /**
      *
      * @throws IOException

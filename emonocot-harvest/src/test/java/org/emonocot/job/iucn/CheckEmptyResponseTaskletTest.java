@@ -19,9 +19,9 @@ import org.springframework.core.io.Resource;
  */
 public class CheckEmptyResponseTaskletTest {
 	
-	Resource responseWithData = new ClassPathResource("org/emonocot/job/iucn/test.json");
+	Resource responseWithData = new ClassPathResource("org/emonocot/job/common/iucn.json");
 	
-	Resource emptyResponse = new ClassPathResource("org/emonocot/job/iucn/empty.json");
+	Resource emptyResponse = new ClassPathResource("org/emonocot/job/common/empty.json");
 	
 	StepContribution stepContribution;
 	
