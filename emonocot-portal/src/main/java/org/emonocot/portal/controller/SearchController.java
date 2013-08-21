@@ -399,8 +399,11 @@ public class SearchController {
 		cube.addDimension(taxonomy);
 
 		taxonomy.addLevel("taxon.order_s", false);
-		taxonomy.addLevel("taxon.family_ss", false);		
-		taxonomy.addLevel("taxon.genus_s", false);
+		taxonomy.addLevel("taxon.family_ss", false);
+		taxonomy.addLevel("taxon.subfamily_ss", false);
+		taxonomy.addLevel("taxon.tribe_ss", false);
+		taxonomy.addLevel("taxon.subtribe_ss", false);
+		taxonomy.addLevel("taxon.genus_ss", false);
 
 		Dimension distribution = new Dimension("distribution");
 		cube.addDimension(distribution);

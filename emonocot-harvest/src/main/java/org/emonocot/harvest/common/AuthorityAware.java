@@ -75,7 +75,7 @@ public class AuthorityAware implements StepExecutionListener {
      * @param newStepExecution Set the step execution
      * @return the exit status
      */
-    public final ExitStatus afterStep(final StepExecution newStepExecution) {
+    public ExitStatus afterStep(final StepExecution newStepExecution) {
         return null;
     }
 

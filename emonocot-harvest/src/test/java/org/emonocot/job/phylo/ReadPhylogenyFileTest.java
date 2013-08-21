@@ -21,7 +21,7 @@ import org.springframework.core.io.Resource;
 
 public class ReadPhylogenyFileTest {
 
-	Resource tree = new ClassPathResource("/org/emonocot/job/phylo/test.nwk");
+	Resource tree = new ClassPathResource("/org/emonocot/job/common/test.nwk");
 	
 	private static Logger logger = LoggerFactory.getLogger(ReadPhylogenyFileTest.class);
 

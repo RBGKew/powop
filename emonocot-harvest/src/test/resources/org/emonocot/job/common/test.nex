@@ -1,0 +1,138 @@
+#NEXUS
+
+[!This data set was downloaded from TreeBASE, a relational database of phylogenetic knowledge. TreeBASE has been supported by the NSF, Harvard University, Yale University, SDSC and UC Davis. Please do not remove this acknowledgment from the Nexus file.
+
+
+Generated on July 15, 2013; 23:41 GMT
+
+TreeBASE (cc) 1994-2008
+
+Study reference:
+Chase M., Stevenson D., Wilkin P., & Rudall P. 1995. "Monocot systematics: a combined
+analysis." In: Rudall P., Cribb P., Cutler D., & Humphries C., eds. Monocotyledons:
+systematics and evolution. pp. 685-730. Kew, Royal Botanic Gardens.
+
+TreeBASE Study URI:  http://purl.org/phylo/treebase/phylows/study/TB2:S629]
+
+BEGIN TAXA;
+        TITLE  rbcL;
+        DIMENSIONS NTAX=107;
+        TAXLABELS
+            Acorus
+            Agavaceae
+            Alismataceae
+            Alliaceae
+            Alstromeriaceae
+            Amaryllidaceae
+            Anarthria
+            Anthericum
+            Aphullanthes
+            Aponogeton
+            Apostasiaceae
+            Araceae
+            Arecaceae
+            Asparagaceae
+            Asphodelaceae
+            Astelia
+            Blandfordia
+            Bromeliaceae
+            Burmanniaceae
+            Butomus
+            Calectasia
+            Calochortus
+            Campynemaceae
+            Canna
+            Centrolepidaceae
+            Colchicaceae
+            Commelinaceae
+            Convallaria
+            Cordyline
+            Corsiaceae
+            Costaceae
+            Cyanastrum
+            Cyclanthaceae
+            Cymodoceaceae
+            Cyperaceae
+            Cypripediaceae
+            Dasypogon
+            Dioscoreaceae
+            Doryanthes
+            Dracaenaceae
+            Ecdeiocolea
+            Eriocaulaceae
+            Eriospermum
+            Flagellaria
+            Geosiris
+            Haemodoraceae
+            Hanguana
+            Heliconia
+            Hemerocallis
+            Herreriaceae
+            Hostaceae
+            Hyacinthaceae
+            Hydatellaceae
+            Hydrocharitaceae
+            Hypoxidaceae
+            Iridaceae
+            Ixiolirion
+            Joinvillea
+            Juncaceae
+            Juncaginaceae
+            Liliaceae
+            Limnocharitaceae
+            Lomandra
+            Lowia
+            Luzuriagaceae
+            Maranthaceae
+            Mayaca
+            Melanthieae
+            Musaceae
+            Najas
+            Narthecieae
+            Nolinaceae
+            Orchidaceae
+            Pandanaceae
+            Petermannia
+            Petrosavia
+            Philesiaceae
+            Philydraceae
+            Phormiaceae
+            Poaceae
+            Pontederiaceae
+            Posidonia
+            Potamogetonceae
+            Rapateaceae
+            Restionaceae
+            Ruscaceae
+            Scheuchzeria
+            Smilacaceae
+            Sparganium
+            Stemonaceae
+            Streliziaceae
+            Taccaceae
+            Tecophilaeaeceae
+            Thismiaceae
+            Thurnia
+            Tofieldieae
+            Trichopus
+            Trilliaceae
+            Triuridaceae
+            Typha
+            Uvulariaceae
+            Velloziaceae
+            Xanthorrhoea
+            Xyridaceae
+            Zannichelliaceae
+            Zingiberaceae
+            Zosteraceae
+            ;
+END;
+
+BEGIN TREES;
+      TITLE Tb5708;
+      LINK TAXA = rbcL;
+      TREE Fig._4 = [&R] (((((((((((((((((((Ruscaceae,Convallaria),Nolinaceae),Dracaenaceae),Asparagaceae),((Cordyline,Lomandra),Aphullanthes)),Eriospermum),(((((Anthericum,Herreriaceae),Hostaceae),Agavaceae),Hyacinthaceae),((Alliaceae,Amaryllidaceae),Asphodelaceae))),((Hemerocallis,Phormiaceae),Xanthorrhoea)),(Iridaceae,Geosiris)),((Cyanastrum,Tecophilaeaeceae),Doryanthes)),Ixiolirion),(((Blandfordia,Astelia),Hypoxidaceae),((Apostasiaceae,Orchidaceae),Cypripediaceae))),((((((Philesiaceae,Petermannia),Smilacaceae),(Calochortus,Liliaceae)),(Trilliaceae,Melanthieae)),(((Uvulariaceae,Colchicaceae),Alstromeriaceae),Luzuriagaceae)),Campynemaceae)),((((Dioscoreaceae,Trichopus),Taccaceae),((Burmanniaceae,Thismiaceae),Corsiaceae)),(((Cyclanthaceae,Pandanaceae),Velloziaceae),Stemonaceae))),(((((((((Restionaceae,Ecdeiocolea),(Anarthria,Centrolepidaceae)),(Joinvillea,Poaceae)),Flagellaria),(((Cyperaceae,Juncaceae),Thurnia),Eriocaulaceae)),((Sparganium,Typha),Hydatellaceae)),(Bromeliaceae,Rapateaceae)),((((((Streliziaceae,Zingiberaceae),Heliconia),(Musaceae,Lowia)),Costaceae),(Maranthaceae,Canna)),((((Mayaca,Xyridaceae),Commelinaceae),Pontederiaceae),(Haemodoraceae,Philydraceae)))),((Arecaceae,Hanguana),(Calectasia,Dasypogon)))),Narthecieae),((((((((((Potamogetonceae,Zosteraceae),Zannichelliaceae),Cymodoceaceae),Triuridaceae),Juncaginaceae),Scheuchzeria),Aponogeton),(((Limnocharitaceae,Alismataceae),Butomus),((Najas,Posidonia),Hydrocharitaceae))),Araceae),Tofieldieae)),Petrosavia),Acorus);
+[!  TreeBASE tree URI: http://purl.org/phylo/treebase/phylows/tree/TB2:Tr1113]
+
+
+END;

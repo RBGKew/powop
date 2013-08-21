@@ -84,7 +84,7 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> extends Authority
      * @throws BindException if there is a problem binding
      *         the values to the object
      */
-    public T mapFieldSet(FieldSet fieldSet) throws BindException {
+    public T mapFieldSet(FieldSet fieldSet) throws BindException {    	
         T t;
         try {
             t = type.newInstance();

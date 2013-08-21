@@ -19,9 +19,11 @@ function writeNode(key, node) {
    }
    if(!Key.isUndefined(node.concept)) {
 	  var children = "";
-      for(var i = 0; i < node.children.length; i++) {
-	     var child = node.children[i];
-	     children += writeNode(key, child); 
+	  if(!Key.isUndefined(node.children)) {
+         for(var i = 0; i < node.children.length; i++) {
+	        var child = node.children[i];
+	        children += writeNode(key, child); 
+	     }
 	  }
 	  if(children.length == 0) {
 		 return "";

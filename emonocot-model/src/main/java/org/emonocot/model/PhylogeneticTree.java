@@ -213,7 +213,7 @@ public class PhylogeneticTree extends SearchableObject implements NonOwned,
     	    //addField(sid,"taxon.phylum_s", t.getPhylum());
     	    addField(sid,"taxon.order_s", t.getOrder());
     	    addField(sid,"taxon.family_ss", t.getFamily());
-    	    addField(sid,"taxon.genus_s", t.getGenus());
+    	    addField(sid,"taxon.genus_ss", t.getGenus());
     	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
     	    addField(sid,"taxon.subgenus_s", t.getSubgenus());
     	    addField(sid,"taxon.subtribe_s", t.getSubtribe());

@@ -1021,7 +1021,7 @@ public class Taxon extends SearchableObject {
         //addField(sid,"taxon.source_t", getSource());
         addField(sid,"taxon.order_s", getOrder());        
         addField(sid,"taxon.scientific_name_t", getScientificName());
-        addField(sid,"taxon.scientific_name_authorship_t", getScientificNameAuthorship());        
+        addField(sid,"taxon.scientific_name_authorship_s", getScientificNameAuthorship());        
         addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
         addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
         

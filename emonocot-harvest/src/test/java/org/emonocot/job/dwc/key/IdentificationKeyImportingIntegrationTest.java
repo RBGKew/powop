@@ -109,7 +109,6 @@ public class IdentificationKeyImportingIntegrationTest {
         "Araceae"));
         parameters.put("key.processing.mode", new JobParameter("IMPORT_KEYS"));
         parameters.put("taxon.processing.mode", new JobParameter("IMPORT_TAXA_BY_AUTHORITY"));
-        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
         parameters.put("authority.uri", new JobParameter("http://build.e-monocot.org/oldtest/test.zip"));
         parameters.put("authority.last.harvested",
                 new JobParameter(Long.toString((IdentificationKeyImportingIntegrationTest.PAST_DATETIME.getMillis()))));
