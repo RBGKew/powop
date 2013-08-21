@@ -186,7 +186,7 @@
     </xsl:choose>    
     <xsl:apply-templates select="sdd:DescriptiveConcepts"/>
     <xsl:choose>
-      <xsl:when test="count(sdd:CharacterTrees/sdd:CharacterTree) gt 1">
+      <xsl:when test="count(sdd:CharacterTrees/sdd:CharacterTree) = 1">
         <xsl:apply-templates select="sdd:CharacterTrees/sdd:CharacterTree"/>
       </xsl:when>
       <xsl:otherwise>

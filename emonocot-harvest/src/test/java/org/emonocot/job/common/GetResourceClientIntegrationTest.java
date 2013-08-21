@@ -113,7 +113,7 @@ public class GetResourceClientIntegrationTest {
         });
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://example.com/test.zip",
+                .getResource("http://not.a.domain.com/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
