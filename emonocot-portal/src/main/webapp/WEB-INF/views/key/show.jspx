@@ -105,7 +105,7 @@
 			<div id="gallery" class="hide" data-toggle="modal-gallery" data-target="#modal-gallery"><!--  --></div>
 			<div class="row">
 			<section class="span12">
-					<div class="inner tourHelp" data-tour-title="Key details" data-tour-content="Information on the Key, including a brief description." data-tour-placement="top" data-tour-prev="5" data-tour-next="7">
+					<div class="inner tourHelp" data-tour-title="Key details" data-tour-content="Information on the Key, including a brief description." data-tour-placement="bottom" data-tour-prev="5" data-tour-next="7">
 						<div class="box">
 							<table class="table" id="key-properties">
 								<tbody>

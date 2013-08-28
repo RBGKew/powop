@@ -67,7 +67,7 @@
 					element: ".viewOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Results view",
 					content: "You can alter how the results are displayed. The grid view is available only for images.",
-					placement: "bottom",
+					placement: "right",
 					prev: 5,
 					next: 7,
 					backdrop: !0
@@ -76,7 +76,7 @@
 					element: ".sortOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Sort your results",
 					content: "You can sort by alphabetical order, the order in which the content was uploaded to the site or by relevance.",
-					placement: "bottom",
+					placement: "left",
 					prev: 6,
 					next: 8,
 					backdrop: !0
@@ -170,7 +170,7 @@
 							<div id="pages" class="span4">
 								<tags:results pager="${result}" />
 							</div>
-							<div class="offset7 tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="bottom" data-tour-prev="4" data-tour-next="6">
+							<div class="offset7 tourHelp" data-tour-title="Download your results" data-tour-content="If you are a registered user you can download your results. Note that you need to restrict the results to only taxa in order to enable the download." data-tour-placement="left" data-tour-prev="4" data-tour-next="6">
 								<tags:download url="/download" pager="${result}"/>
 							</div>
 						</div>
