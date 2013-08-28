@@ -323,7 +323,7 @@ public class PageObject {
      * @return the contact page
      */
     public final String getContactLink() {
-        return foot.findElement(By.xpath("div/div/div/ul/li/ul/li[@class='contactLinkOverlay']/a")).getAttribute("href");
+        return foot.findElement(By.xpath("div/div/div/ul/li/ul/li/a[@class='contactLinkOverlay']")).getAttribute("href");
     }
 
     /**
