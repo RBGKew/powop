@@ -3,6 +3,7 @@ package org.emonocot.job.key;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.transform.ErrorListener;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -10,6 +11,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -22,21 +25,20 @@ import org.springframework.core.io.Resource;
  *
  */
 public class XmlTransformingTasklet implements Tasklet {
+	
+	private static Logger logger = LoggerFactory.getLogger(XmlTransformingTasklet.class);
 
-    /**
-     *
-     */
     private Resource inputFile;
 
-    /**
-     *
-     */
     private Resource xsltFile;
 
-    /**
-     *
-     */
     private Resource outputFile;
+    
+    private ErrorListener errorListener;
+    
+    public void setErrorListener(ErrorListener errorListener) {
+    	this.errorListener = errorListener;
+    }
 
     /**
      * @param newInputFile the inputFile to set
@@ -96,6 +98,9 @@ public class XmlTransformingTasklet implements Tasklet {
         for (String parameterName : parameters.keySet()) {
             transformer.setParameter(parameterName,
                     parameters.get(parameterName));
+        }
+        if(errorListener != null) {
+            transformer.setErrorListener(errorListener);
         }
         transformer.transform(inputXML, outputXHTML);
         return RepeatStatus.FINISHED;

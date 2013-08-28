@@ -34,6 +34,9 @@ import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.emonocot.model.marshall.json.ConceptDeserializer;
+import org.emonocot.model.marshall.json.ConceptSerializer;
+import org.emonocot.pager.FacetName;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
@@ -147,6 +150,19 @@ public class Taxon extends SearchableObject {
 
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
 	
+	private Set<Concept> concepts = new HashSet<Concept>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
+	@JsonSerialize(contentUsing = ConceptSerializer.class)
+	public Set<Concept> getConcepts() {
+		return concepts;
+	}
+
+	@JsonDeserialize(contentUsing = ConceptDeserializer.class)
+	public void setConcepts(Set<Concept> concepts) {
+		this.concepts = concepts;
+	}
+
 	private List<Comment> comments = new ArrayList<Comment>();
 
 	/**
@@ -954,8 +970,8 @@ public class Taxon extends SearchableObject {
 	public SolrInputDocument toSolrInputDocument() {
         SolrInputDocument sid = super.toSolrInputDocument();
         sid.addField("searchable.label_sort", getScientificName());
-        addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
-        addField(sid,"taxon.clazz_s", getClazz());
+        //addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
+        //addField(sid,"taxon.clazz_s", getClazz());
         
         StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
         .append(getClazz()).append(" ").append(getFamily()).append(" ")
@@ -982,35 +998,64 @@ public class Taxon extends SearchableObject {
             addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
             summary.append(" ").append(getAcceptedNameUsage().getFamily());
         }
-        addField(sid,"taxon.genus_s", getGenus());
         
+        addField(sid,FacetName.GENUS.getSolrField(), getGenus());
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.GENUS.getSolrField(), getAcceptedNameUsage().getGenus());
+        }
         if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
             addField(sid,"taxon.genus_ns", getScientificName());
+            addField(sid,FacetName.GENUS.getSolrField(), getScientificName());
         } else {
             addField(sid,"taxon.genus_ns", getGenus());
         }
+        
         addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
         addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
-        addField(sid,"taxon.kingdom_s", getKingdom());
-        addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
-        addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
-        addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
-        addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
-        addField(sid,"taxon.order_s", getOrder());
-        addField(sid,"taxon.phylum_s", getPhylum());
+        //addField(sid,"taxon.kingdom_s", getKingdom());
+        //addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
+        //addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
+        //addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
+        //addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
+        //addField(sid,"taxon.phylum_s", getPhylum());
+        //addField(sid,"taxon.source_t", getSource());
+        addField(sid,"taxon.order_s", getOrder());        
         addField(sid,"taxon.scientific_name_t", getScientificName());
-        addField(sid,"taxon.scientific_name_authorship_t", getScientificNameAuthorship());
-        addField(sid,"taxon.source_t", getSource());
+        addField(sid,"taxon.scientific_name_authorship_s", getScientificNameAuthorship());        
         addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
         addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
-        addField(sid,"taxon.subfamily_s", getSubfamily());
+        
+        addField(sid,FacetName.SUBFAMILY.getSolrField(), getSubfamily());
+        if(Rank.Subfamily.equals(getTaxonRank()) && getSubfamily() == null) {
+            addField(sid,FacetName.SUBFAMILY.getSolrField(), getScientificName());
+        }
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.SUBFAMILY.getSolrField(), getAcceptedNameUsage().getSubfamily());
+        }
+        
         addField(sid,"taxon.subgenus_s", getSubgenus());
-        addField(sid,"taxon.subtribe_s", getSubtribe());
+        
+        addField(sid,FacetName.SUBTRIBE.getSolrField(), getSubtribe());
+        if(Rank.Subtribe.equals(getTaxonRank()) && getSubtribe() == null) {
+            addField(sid,FacetName.SUBTRIBE.getSolrField(), getScientificName());
+        }
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.SUBTRIBE.getSolrField(), getAcceptedNameUsage().getSubtribe());
+        }
+        
         addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
         addField(sid,"taxon.taxon_rank_s", getTaxonRank());
-        addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
-        addField(sid,"taxon.tribe_s", getTribe());
-        addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
+        //addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
+        
+        addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
+        if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
+            addField(sid,FacetName.TRIBE.getSolrField(), getScientificName());
+        }
+        if(getAcceptedNameUsage() != null) {
+            addField(sid,FacetName.TRIBE.getSolrField(), getAcceptedNameUsage().getTribe());
+        }
+        
+        //addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
         
         if(getDescriptions().isEmpty()) {
             sid.addField("taxon.descriptions_not_empty_b", false);

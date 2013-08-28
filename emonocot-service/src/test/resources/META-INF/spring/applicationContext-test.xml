@@ -24,8 +24,6 @@
 		</property>
 		<property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
 	</bean>
-	
-    <bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>
     
     <bean id="messageBasedReadOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
     
@@ -90,6 +88,7 @@
 				<value>org.emonocot.model.auth.User</value>
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.Place</value>
+				<value>org.emonocot.model.Concept</value>
 			</list>
 		</property>
 		<property name="eventListeners">

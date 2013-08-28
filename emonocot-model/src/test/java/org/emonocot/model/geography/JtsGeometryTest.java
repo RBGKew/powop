@@ -4,6 +4,8 @@ import static junit.framework.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import com.spatial4j.core.context.jts.JtsSpatialContext;
@@ -15,6 +17,8 @@ import com.vividsolutions.jts.io.WKTWriter;
 import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 
 public class JtsGeometryTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(JtsGeometryTest.class);
 	
 	private ClassPathResource countriesResource = new ClassPathResource("org/emonocot/model/level3_simplified.txt");
 	
@@ -41,7 +45,7 @@ public class JtsGeometryTest {
 			
 			Geometry geom = wktreader.read(sampleData.shape);
 			if(!geom.isValid()) {
-			    System.out.println(sampleData.name + " is not valid");	
+			    logger.warn(sampleData.name + " is not valid");	
 			}
 	
 			
@@ -68,7 +72,7 @@ public class JtsGeometryTest {
 			
 			Geometry geom = wktreader.read(sampleData.shape);
 			if(!geom.isValid()) {
-			    System.out.println(sampleData.name + " is not valid");	
+			    logger.warn(sampleData.name + " is not valid");	
 			}
 			
 			Shape shape = new JtsGeometry(geom, ctx, true);
@@ -88,16 +92,16 @@ public class JtsGeometryTest {
 			
 			Geometry geom = wktreader.read(sampleData.shape);
 			if(!geom.isValid()) {
-			    System.out.println(sampleData.name + " is not valid");	
+			    logger.warn(sampleData.name + " is not valid");	
 			}
 	
 			if(false) {
 				Shape shape = new JtsGeometry(TopologyPreservingSimplifier.simplify(geom,0.1), ctx, true);
-				System.out.println(sampleData.code + " " + wktwriter.write(TopologyPreservingSimplifier.simplify(geom,0.1)));
+				logger.debug(sampleData.code + " " + wktwriter.write(TopologyPreservingSimplifier.simplify(geom,0.1)));
 			} else if (sampleData.code.equals("1")) {
 				
 			} else {
-				System.out.println(sampleData.code);
+				logger.debug(sampleData.code);
 				Shape shape = new JtsGeometry(geom, ctx, true);
 			}
 		}

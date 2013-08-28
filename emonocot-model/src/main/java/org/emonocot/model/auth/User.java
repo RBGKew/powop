@@ -41,13 +41,13 @@ public class User extends Principal implements UserDetails {
 
     private String password;
 
-    private boolean accountNonExpired;
+    private Boolean accountNonExpired = Boolean.FALSE;
 
-    private boolean accountNonLocked;
+    private Boolean accountNonLocked = Boolean.FALSE;
 
-    private boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired = Boolean.FALSE;
 
-    private boolean enabled;
+    private Boolean enabled = Boolean.FALSE;
 
     private Set<Permission> permissions = new HashSet<Permission>();
 
@@ -73,7 +73,7 @@ public class User extends Principal implements UserDetails {
     
     private String homepage;
 
-	private boolean notifyByEmail;
+	private Boolean notifyByEmail = Boolean.FALSE;
 	
 	private String apiKey;
 
@@ -414,12 +414,12 @@ public class User extends Principal implements UserDetails {
     	sid.addField("base.id_l", getId());
     	sid.addField("base.class_searchable_b", false);
     	sid.addField("base.class_s", getClass().getName());
-    	sid.addField("user.name_t", getName());
-    	sid.addField("user.first_name_t", getFirstName());
-    	sid.addField("user.family_name_t", getFamilyName());
-    	sid.addField("user.account_name_t", getAccountName());
-    	sid.addField("user.topic_interest_t", getTopicInterest());
-    	sid.addField("user.organization_t", getOrganization());
+    	//sid.addField("user.name_t", getName());
+    	//sid.addField("user.first_name_t", getFirstName());
+    	//sid.addField("user.family_name_t", getFamilyName());
+    	//sid.addField("user.account_name_t", getAccountName());
+    	//sid.addField("user.topic_interest_t", getTopicInterest());
+    	//sid.addField("user.organization_t", getOrganization());
     	sid.addField("searchable.label_sort", getAccountName());
 		StringBuilder summary = new StringBuilder().append(getAccountName())
 				.append(" ").append(getFirstName()).append(" ")

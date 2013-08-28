@@ -25,8 +25,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>
 
 	<bean name="jdbcTemplate"
 		class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
@@ -86,6 +84,7 @@
 				<value>org.emonocot.model.registry.Resource</value>
                 <value>org.emonocot.model.registry.Organisation</value>
                 <value>org.emonocot.model.Comment</value>
+                <value>org.emonocot.model.Concept</value>
 			</list>
 		</property>
 		<property name="eventListeners">

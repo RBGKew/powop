@@ -1,5 +1,7 @@
 package org.emonocot.portal.steps;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,16 +9,29 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.portal.driver.*;
+import org.apache.commons.lang.ObjectUtils;
+import org.emonocot.portal.driver.About;
+import org.emonocot.portal.driver.Classification;
+import org.emonocot.portal.driver.Identify;
+import org.emonocot.portal.driver.IllustratedPage;
+import org.emonocot.portal.driver.Login;
+import org.emonocot.portal.driver.PageObject;
+import org.emonocot.portal.driver.Portal;
+import org.emonocot.portal.driver.Profile;
+import org.emonocot.portal.driver.Register;
+import org.emonocot.portal.driver.RequiresLoginException;
+import org.emonocot.portal.driver.Search;
+import org.emonocot.portal.driver.TermsOfUse;
 import org.emonocot.portal.driver.organisation.ResourceOutput;
 import org.emonocot.portal.rows.AccessControlRow;
 import org.emonocot.portal.rows.GroupRow;
-import org.emonocot.portal.rows.ResourceRow;
 import org.emonocot.portal.rows.LoginRow;
-import org.emonocot.portal.rows.RegistrationRow;
 import org.emonocot.portal.rows.OrganisationRow;
+import org.emonocot.portal.rows.RegistrationRow;
+import org.emonocot.portal.rows.ResourceRow;
 import org.emonocot.portal.rows.SummaryRow;
 import org.emonocot.portal.rows.UserRow;
 import org.slf4j.Logger;
@@ -614,6 +629,21 @@ public class StepDefinitions {
             assertArrayEquals(results.get(i).toArray(), actualResults.get(i));
         }
     }
+    
+    @Then("^the following results should be displayed in any order:$")
+    public void theFollowingResultsShouldBeDisplayedInAnyOrder(
+            List<ResultRow> results) {
+    	List<String[]> actualResults = ((Search) currentPage).getResults();
+        List<ResultRow> actualResultRows = new ArrayList<ResultRow>();
+        for(String[] s : actualResults) {
+        	ResultRow r = new ResultRow();
+        	r.page = s[0];
+        	r.text = s[1];
+        	actualResultRows.add(r);
+        }
+       
+        assertThat(actualResultRows,hasItems(results.toArray(new ResultRow[results.size()])));
+    }
 
     /**
      * @param number
@@ -734,19 +764,7 @@ public class StepDefinitions {
     public void iShouldBeOnTheAboutPage() {
         assertEquals(currentPage.getClass(), About.class);
     }
-
-    /**
-    *
-    */
-    @When("^I select the contact link in the footer$")
-    public void iSelectTheContactLinkInTheFooter() {
-        currentPage = currentPage.selectContactLink();
-    }
-
-    @Then("^I should be on the contact page$")
-    public void iShouldBeOnTheContactPage() {
-        assertEquals(currentPage.getClass(), Contact.class);
-    }
+    
 
     /**
      * @param options
@@ -862,6 +880,11 @@ public class StepDefinitions {
         } catch (RequiresLoginException rle) {
             currentPage = rle.getLoginPage();
         }
+    }
+    
+    @Then("^the contact link in the footer should be \"([^\"]*)\"$")
+    public void theContactLinkInTheFooterShouldBe(String contactLink) {
+        contactLink = currentPage.getContactLink();
     }
 
     /**
@@ -1270,6 +1293,34 @@ public class StepDefinitions {
          */
         public String[] toArray() {
             return new String[] {page, text};
+        }
+        
+        @Override
+        public boolean equals(Object other) {
+            // check for self-comparison
+            if (this == other) {
+                return true;
+            }
+            if (other == null) {
+                return false;
+            }
+            // Only works when classes are instantiated
+            if ((other.getClass().equals(this.getClass()))) {
+
+                ResultRow row = (ResultRow) other;
+                if (this.page == null && row.page == null) {
+
+                    if (this.text != null && row.text != null) {
+                        return ObjectUtils.equals(this.text, row.text);
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return ObjectUtils.equals(this.page, row.page);
+                }
+            } else {
+                return false;
+            }
         }
     }
 }

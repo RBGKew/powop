@@ -31,7 +31,8 @@
 	
 	<li class="${facetName}">
 	    <c:if test="${empty facetValue}">
-            <spring:message code="null" var="facetValue"/>
+            <spring:message code="${facetName}" var="facetDisplayName" />
+            <spring:message code="facet.missing" var="facetValue" arguments="${facetDisplayName}"/>
 	    </c:if>
 		<menu:facetUrl url="${url}" pager="${pager}" facetName="${facetName}" selectedFacet="${selectedFacet}" facetField="${facetField}" rangeFacet="${rangeFacet}">
 			<c:if test="${showIcons}">
@@ -51,6 +52,9 @@
 					</c:when>
 					<c:when test="${facetValue eq 'org.emonocot.model.Place'}">
 						<c:set var="classIcon" value="map-marker"/>
+					</c:when>
+					<c:when test="${facetValue eq 'org.emonocot.model.Concept'}">
+						<c:set var="classIcon" value="book"/>
 					</c:when>
 				</c:choose>
 			</c:if>

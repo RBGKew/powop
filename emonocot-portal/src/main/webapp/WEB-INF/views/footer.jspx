@@ -43,9 +43,8 @@
 								<c:url value="/about" var="aboutUrl" />
 								<a href="${aboutUrl}"><spring:message code="about.title" /></a>
 							</li>
-							<li>
-								<c:url value="/contact" var="contactUrl" />
-								<a class="contactLinkOverlay" href="${contactUrl}"><spring:message code="contact.title" /></a>
+							<li class="contactLinkOverlay">								
+								<a href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" alt="eMonocot email"><spring:message code="contact.title" />&#160;<i class="halflings-icon white envelope"><!--  --></i></a>
 							</li>
 							<li>
 								<c:url var="twitterImageUrl" value="/css/images/glyphicons_white_twitter.png"/>
@@ -63,6 +62,14 @@
 							<li>
 								<c:url value="/resource" var="resourceUrl" />
 								<a href="${resourceUrl}"><spring:message code="resources.title" />&#160;<i class="halflings-icon white file"><!--  --></i></a>
+							</li>
+							<li>
+								<c:url value="/comment" var="commentUrl" />
+								<a href="${commentUrl}"><spring:message code="comments.title" />&#160;<i class="halflings-icon white comments"><!--  --></i></a>
+							</li>
+							<li>
+								<c:url value="/user" var="userUrl" />
+								<a href="${userUrl}"><spring:message code="users.title" /></a>
 							</li>
 							<li>
 								<c:url value="/group" var="groupUrl" />

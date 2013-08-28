@@ -24,7 +24,8 @@
             @org.hibernate.annotations.MetaValue(targetEntity = Reference.class, value = "Reference"),
             @org.hibernate.annotations.MetaValue(targetEntity = Organisation.class, value = "Organisation"),
             @org.hibernate.annotations.MetaValue(targetEntity = IdentificationKey.class, value = "IdentificationKey"),
-            @org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree")
+            @org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree"),
+            @org.hibernate.annotations.MetaValue(targetEntity = Concept.class, value = "Concept")
     }),
     @org.hibernate.annotations.AnyMetaDef(name = "CommentMetaDef", idType = "long", metaType = "string", metaValues = {
             @org.hibernate.annotations.MetaValue(targetEntity = Comment.class, value = "Comment"),
@@ -40,13 +41,12 @@
             @org.hibernate.annotations.MetaValue(targetEntity = Taxon.class, value = "Taxon"),
             @org.hibernate.annotations.MetaValue(targetEntity = TypeAndSpecimen.class, value = "TypeAndSpecimen"),
             @org.hibernate.annotations.MetaValue(targetEntity = VernacularName.class, value = "VernacularName"),
-            @org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree")
+            @org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree"),
+            @org.hibernate.annotations.MetaValue(targetEntity = Concept.class, value = "Concept")
     })    
 })
 package org.emonocot.model;
 
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
-import org.hibernate.annotations.AnyMetaDef;
-import org.hibernate.annotations.MetaValue;
 

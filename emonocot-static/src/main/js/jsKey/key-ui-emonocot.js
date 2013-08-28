@@ -19,21 +19,23 @@ function writeNode(key, node) {
    }
    if(!Key.isUndefined(node.concept)) {
 	  var children = "";
-      for(var i = 0; i < node.children.length; i++) {
-	     var child = node.children[i];
-	     children += writeNode(key, child); 
+	  if(!Key.isUndefined(node.children)) {
+         for(var i = 0; i < node.children.length; i++) {
+	        var child = node.children[i];
+	        children += writeNode(key, child); 
+	     }
 	  }
 	  if(children.length == 0) {
 		 return "";
       }
-      html += "<li class='descriptiveConcept'><div class='collapsed' data-toggle='collapse' data-target='#node" + node.id +"'>";
+      html += "<li class='descriptiveConcept media'><div class='collapsed' data-toggle='collapse' data-target='#node" + node.id +"'>";
       if(!Key.isUndefined(node.images) && node.images.length > 0) {
          var image = node.images[0];
          var imageId = image.href.substring(0,image.href.indexOf('.'));
-         html += "<a class='pull-left' href='#'><img id='descriptiveConcept" + node.id + "' data-link='" + key.getImagePath() + imageId + "' class='thumbnail' src='" + key.getThumbnailImagePath() +  image.href + "' title='" + node.concept + "'/></a>";     
-         html += "<a class='pull-left'><i class='halflings-icon plus'></i>" + node.concept + "</a>";   
+         html += "<img id='descriptiveConcept" + node.id + "' data-link='" + key.getImagePath() + imageId + "' class='thumbnail pull-right' src='" + key.getThumbnailImagePath() +  image.href + "' title='" + node.concept + "'/>";     
+         html += "<div class='media-body pull-left'><a><i class='halflings-icon plus'></i>" + node.concept + "</a></div>";   
      } else {
-         html += "<a ><i class='halflings-icon plus'></i>" + node.concept + "</a>";
+         html += "<div class='media-body pull-left'><a><i class='halflings-icon plus'></i>" + node.concept + "</a></div>";
      }
      html += "</div>";
      html += "<div id='node" + node.id + "' class='collapse'><ul class='unstyled'>";
@@ -43,15 +45,15 @@ function writeNode(key, node) {
    } else {
      var character = key.getCharacter(node.character);
      if((!character.selectedValues || character.selectedValues.length == 0) && !character.isRedundant) {
-       html += "<li class='character'>";
+       html += "<li class='character media'>";
        if(!Key.isUndefined(character.images) && character.images.length > 0) {
          var image = character.images[0];
          var imageId = image.href.substring(0,image.href.indexOf('.'));
-         html  += "<a class='pull-left' id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a></br>";
-         html  += "<img id='character" + character.id + "' data-link='" + key.getImagePath() + imageId + "' class='thumbnail' src='" + key.getThumbnailImagePath() +  image.href + "' title='" + character.name + "'/>";
+         html  += "<div class='media-body pull-left'><a id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a></div>";
+         html  += "<img id='character" + character.id + "' data-link='" + key.getImagePath() + imageId + "' class='thumbnail pull-right' src='" + key.getThumbnailImagePath() +  image.href + "' title='" + character.name + "'/>";
          
        } else {
-         html  += "<a id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a>";
+         html  += "<div class='media-body'><a id='" + character.id + "'><i class='halflings-icon unchecked'></i>" + character.name + "</a></div>";
        }
        html += "</li>";
      }

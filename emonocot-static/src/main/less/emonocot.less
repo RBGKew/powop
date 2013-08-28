@@ -35,14 +35,16 @@ a:focus {
 /**
  * BUG # 301: As a user of eMonocot I do not expect there to be gaps where it looks like there are missing images when looking at the images in a grid
  * Explicitly set the width and height of thumbnails to avoid the odd 
- * divide-by-zero error when a thumbnail has been resized to 101px or 99px
+ * divide-by-zero error when a thumbnail has been resized to 101px or 99px 
+ * 
+ * Also, set max-width to none to prevent chrome squishing images in tables.
  */
  
 img.thumbnail {
 	height: 100px;
 	width: 100px;
 	display: block;
-	max-width: 100%;
+	max-width: none;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -295,10 +297,10 @@ background-image:url(./images/glyphicons/fullsize/glyphicons_044_keys.png);
  * Identification Key
  */
  
-li.descriptiveConcept > div >  a > i.halflings-icon.plus{
+li.descriptiveConcept > div > div.media-body >  a > i.halflings-icon.plus{
   background-position: -433px -96px;
 }
-li.descriptiveConcept > div.collapsed > a > i.halflings-icon.plus {
+li.descriptiveConcept > div.collapsed > div.media-body > a > i.halflings-icon.plus {
   background-position: -408px -96px;
 }
  
@@ -320,7 +322,15 @@ li.descriptiveConcept > div.collapsed > a > i.halflings-icon.plus {
 	overflow: auto;
 }
 
-li.descriptiveConcept div {
+li.descriptiveConcept > div.collapse {
+	clear:both;
+}
+
+li.descriptiveConcept > div.collapse > ul {
+	margin-top: 15px;
+}
+
+li.character > div.collapse {
 	clear:both;
 }
 
@@ -395,7 +405,7 @@ h1, h2, h3, h4, h5, h6 {
 @heroBackground: #b9f0e5;
 @heroBackgroundHighlight: #cffff2;
 @heroUnitHeight: 470px;
-@heroUnitHeightMobile: 370px;
+@heroUnitHeightMobile: 410px;
 
 .navbar {
 	.brand {
@@ -543,6 +553,22 @@ h1, h2, h3, h4, h5, h6 {
 .box p {
 	color: #888;
 }
+
+.description-with-citations {
+  overflow: auto;
+  clear:both;
+  width: 100%;
+  margin-bottom:30px;
+}
+
+.description-with-citations:last-child {
+  margin-bottom: 0px;
+}
+
+.description-with-citations  p {
+  margin-bottom: 0px;
+}
+
 
 /**
  * footer 
@@ -717,7 +743,7 @@ ul.citations {
 	}
 	
 	li {
-		display: inline;
+		display: inline-block;
 		
 		&:last-child {
 			&:after {

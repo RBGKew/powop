@@ -3,8 +3,11 @@ package org.emonocot.model.geography;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.emonocot.model.constants.Location;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -17,6 +20,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  *
  */
 public class LocationTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(LocationTest.class);
 
 
     /**
@@ -42,7 +47,7 @@ public class LocationTest {
         Coordinate[] envelope = geometryCollection.getEnvelope()
                 .getCoordinates();
         for (Coordinate c : envelope) {
-            System.out.println(Math.round(c.x) + " " + Math.round(c.y));
+            logger.debug(Math.round(c.x) + " " + Math.round(c.y));
         }
     }
 

@@ -9,7 +9,7 @@
 	xmlns:spring="http://www.springframework.org/tags">
 	<tags:pageheader>
 		<h2 id="page-title">
-			<i class="glyphicons-icon home">
+			<i class="glyphicons-icon user">
 				<!--  -->
 			</i>${user.accountName}
 		</h2>
@@ -25,17 +25,19 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box clearfix">
-						<form:create path="/home" modelAttribute="user" multipart="true">
-							<field:hidden field="identifier"/>
-							<field:input field="accountName" label="accountName" fieldClass="span6" required="true"/>
-				            <field:input field="name" label="name" fieldClass="span6"/>
-				            <field:input field="firstName" label="firstName" fieldClass="span6"/>
-				            <field:input field="familyName" label="familyName" fieldClass="span6"/>
-				            <field:input field="homepage" label="homepage" fieldClass="span6"/>
-				            <field:input field="imgFile" label="img" type="file" fieldClass="span6"/>
-				            <field:input field="organization" label="organization" fieldClass="span6"/>
-				            <field:input field="topicInterest" label="topicInterest" fieldClass="span6"/>
-				            <field:checkbox field="notifyByEmail" label="notifyByEmail" fieldClass="span6"/>
+						<form:create path="/user/${user.id}" modelAttribute="user" multipart="true">
+							<field:input field="identifier" label="user.username" fieldClass="span6" required="true"/>
+							<field:input field="accountName" label="user.accountName" fieldClass="span6" required="true"/>
+							<field:checkbox field="enabled" label="user.enabled" fieldClass="span6"/>
+							<field:checkbox field="accountNonLocked" label="user.accountNonLocked" fieldClass="span6"/>
+				            <field:input field="name" label="user.name" fieldClass="span6"/>
+				            <field:input field="firstName" label="user.firstName" fieldClass="span6"/>
+				            <field:input field="familyName" label="user.familyName" fieldClass="span6"/>
+				            <field:input field="homepage" label="user.homepage" fieldClass="span6"/>
+				            <field:input field="imgFile" label="user.img" type="file" fieldClass="span6"/>
+				            <field:input field="organization" label="user.organization" fieldClass="span6"/>
+				            <field:input field="topicInterest" label="user.topicInterest" fieldClass="span6"/>
+				            <field:checkbox field="notifyByEmail" label="user.notifyByEmail" fieldClass="span6"/>
 					    </form:create>
 					</div>
 				</div>

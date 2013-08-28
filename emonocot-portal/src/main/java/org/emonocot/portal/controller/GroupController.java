@@ -82,12 +82,11 @@ public class GroupController extends GenericController<Group, GroupService> {
     }
 
     /**
-     * @param newConversionService Set the conversion service
+     * @param conversionService Set the conversion service
      */
     @Autowired
-    public void setConversionService(
-            ConversionService newConversionService) {
-        this.conversionService = newConversionService;
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
     }
 
 

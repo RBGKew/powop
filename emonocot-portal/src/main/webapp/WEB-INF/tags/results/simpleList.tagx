@@ -69,6 +69,15 @@
 							<h4 class="h4Results">${item.title}</h4>
 						</results:simpleListEntry>
 					</c:when>
+					<c:when test="${item.className == 'Concept'}">
+						<results:simpleListEntry 
+							itemName="${item.prefLabel}" 
+							icon="book_open"
+							iconAlt="Term"
+							url="/term/${item.id}">
+							<h4 class="h4Results">${item.prefLabel}</h4>
+						</results:simpleListEntry>
+					</c:when>
 					<c:otherwise>
 						Unknown class ${item.className}
 					</c:otherwise>

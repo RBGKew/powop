@@ -12,6 +12,7 @@ import org.emonocot.api.CommentService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.UserService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.CellSet;
@@ -55,6 +56,8 @@ public class SearchController {
 	
 	private ResourceService resourceService;
 	
+	private UserService userService;
+	
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
 		this.searchableObjectService = searchableObjectService;
@@ -74,6 +77,11 @@ public class SearchController {
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
+    
+    @Autowired
+    public void setUserService(UserService userService) {
+    	this.userService = userService;
+    }
 
 	/**
 	 * @param query
@@ -171,16 +179,21 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-        for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-        //for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
-            FacetName fn = FacetName.taxonomyFacets[i];
-            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
-                responseFacetList.add(fn.getSolrField());
-            } else {
+        if(selectedFacets == null) {
+            responseFacetList.add(FacetName.FAMILY.getSolrField());
+        } else {
+            int taxFacetIdx = 1; //Start from FacetName.FAMILY
+            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
                 if(!responseFacetList.contains(fn.getSolrField())){
                     responseFacetList.add(fn.getSolrField());
                 }
-                break;
+                if(!selectedFacets.containsKey(fn.getSolrField())) {
+                    break;
+                }
+            }
+            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
             }
         }
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
@@ -267,9 +280,9 @@ public class SearchController {
 				&& x2 != null
 				&& y2 != null
 				&& (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
-			spatial = "Intersects(" + decimalFormat.format(x1) + " "
+			spatial = "{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"Intersects(" + decimalFormat.format(x1) + " "
 					+ decimalFormat.format(y1) + " " + decimalFormat.format(x2)
-					+ " " + decimalFormat.format(y2) + ")";
+					+ " " + decimalFormat.format(y2) + ")\"";
 		}
 
 		Map<String, String> selectedFacets = null;
@@ -289,16 +302,21 @@ public class SearchController {
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		responseFacetList.add("base.class_s");
-        //for (int i = 1; i < FacetName.taxonomyFacets.length; i++) {//Start from FacetName.FAMILY
-        for (int i = 1; i < 2; i++) {//Only include FacetName.FAMILY
-            FacetName fn = FacetName.taxonomyFacets[i];
-            if(selectedFacets != null && selectedFacets.containsKey(fn.getSolrField())) {
-                responseFacetList.add(fn.getSolrField());
-            } else {
+        if(selectedFacets == null) {
+            responseFacetList.add(FacetName.FAMILY.getSolrField());
+        } else {
+            int taxFacetIdx = 1; //Start from FacetName.FAMILY
+            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
                 if(!responseFacetList.contains(fn.getSolrField())){
                     responseFacetList.add(fn.getSolrField());
                 }
-                break;
+                if(!selectedFacets.containsKey(fn.getSolrField())) {
+                    break;
+                }
+            }
+            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
             }
         }
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
@@ -381,8 +399,8 @@ public class SearchController {
 		cube.addDimension(taxonomy);
 
 		taxonomy.addLevel("taxon.order_s", false);
-		taxonomy.addLevel("taxon.family_ss", false);		
-		taxonomy.addLevel("taxon.genus_s", false);
+		taxonomy.addLevel("taxon.family_ss", false);
+		taxonomy.addLevel("taxon.genus_ss", false);
 
 		Dimension distribution = new Dimension("distribution");
 		cube.addDimension(distribution);
@@ -440,6 +458,11 @@ public class SearchController {
 	@RequestMapping(value = "/autocomplete/comment", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Match> autocompleteComments(@RequestParam(required = true) String term) throws SolrServerException {    	
         return commentService.autocomplete(term, 10, null);
+    }
+	
+	@RequestMapping(value = "/autocomplete/user", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Match> autocompleteUsers(@RequestParam(required = true) String term) throws SolrServerException {    	
+        return userService.autocomplete(term, 10, null);
     }
 	
 	@RequestMapping(value = "/autocomplete/organisation", method = RequestMethod.GET, produces = "application/json")

@@ -1,6 +1,7 @@
 package org.emonocot.job.dwc.read;
 
 
+import java.util.HashMap;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -13,6 +14,7 @@ import org.emonocot.job.dwc.exception.DarwinCoreProcessingException;
 import org.emonocot.job.dwc.exception.InvalidValuesException;
 import org.emonocot.job.dwc.exception.OutOfScopeTaxonException;
 import org.emonocot.job.dwc.exception.RequiredFieldException;
+import org.emonocot.job.dwc.exception.WrongAuthorityException;
 import org.emonocot.model.Annotated;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
@@ -21,9 +23,12 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @param <T> the type of object validated
  */
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
-        ItemProcessor<T, T> {
+        ItemProcessor<T, T>, ChunkListener {
 
     private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
     
@@ -50,6 +55,8 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     private String subtribe;
     
     protected Boolean skipUnmodified = Boolean.TRUE;
+
+	private int itemsRead;
     
     @Autowired
     public void setValidator(Validator validator) {
@@ -103,23 +110,45 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      */
     protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
-    		throw new RequiredFieldException(record + " has no Taxon set", recordType, getStepExecution().getReadCount());
+    		throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
     	} else if(subtribe != null && (inSubtribe(taxon) && (taxon.getAcceptedNameUsage() != null && inSubtribe(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
-                    recordType, getStepExecution().getReadCount());
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
+                    recordType, getLineNumber());
     	} else if(tribe != null && (inTribe(taxon) && (taxon.getAcceptedNameUsage() != null && inTribe(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
-                    recordType, getStepExecution().getReadCount());
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
+                    recordType, getLineNumber());
     	} else if(subfamily != null && (inSubfamily(taxon) && (taxon.getAcceptedNameUsage() != null && inSubfamily(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
-                    recordType, getStepExecution().getReadCount());
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
+                    recordType, getLineNumber());
     	} else if(family != null && (inFamily(taxon) && (taxon.getAcceptedNameUsage() != null && inFamily(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
-                    recordType, getStepExecution().getReadCount());
+    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
+                    recordType, getLineNumber());
     	}
     }
     
-    private boolean inSubtribe(Taxon taxon) {
+    protected void  checkAuthority(RecordType recordType, Base record, Organisation authority) throws DarwinCoreProcessingException {
+    	if(authority.getIdentifier().equals(getSource().getIdentifier())) {
+    		
+    	} else {
+    		throw new WrongAuthorityException("Expected content at line + " + getLineNumber() +  " to belong to " + getSource().getIdentifier() + " but found content belonging to " + authority.getIdentifier(), recordType, getLineNumber());
+    	}
+    }
+    
+    public void afterChunk() {
+        logger.info("After Chunk");
+    }
+
+    public void beforeChunk() {
+        logger.info("Before Chunk");        
+        itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
+    }
+
+    
+    protected int getLineNumber() {
+		return itemsRead;
+	}
+
+	private boolean inSubtribe(Taxon taxon) {
     	return taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe);
     }
     
@@ -184,5 +213,10 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
      * @throws Exception if something goes wrong
      * @return an object of class T
      */
-    public abstract T process(T t) throws Exception;
+    public T process(T t) throws Exception {
+    	this.itemsRead++;
+    	return doProcess(t);
+    }
+    
+    public abstract T doProcess(T t) throws Exception;
 }

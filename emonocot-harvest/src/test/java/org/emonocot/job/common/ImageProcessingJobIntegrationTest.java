@@ -92,7 +92,7 @@ public class ImageProcessingJobIntegrationTest {
 			JobRestartException, JobInstanceAlreadyCompleteException,
 			JobParametersInvalidException {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("authority.name", new JobParameter("test"));
+		parameters.put("query.string", new JobParameter("select i from Image i"));
 
 		JobParameters jobParameters = new JobParameters(parameters);
 

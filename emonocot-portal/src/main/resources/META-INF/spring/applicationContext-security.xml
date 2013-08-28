@@ -37,17 +37,6 @@
 		</property>
 	</bean>
 
-	<bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" depends-on="springLiquibase">
-		<constructor-arg ref="dataSource" />
-		<constructor-arg ref="lookupStrategy" />
-		<constructor-arg ref="aclCache" />
-		<property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
-		<property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
-		<property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
-		<property name="auditLogger" ref="auditLogger" />
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
 	<bean id="lookupStrategy"
 		class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
 		<constructor-arg ref="dataSource" />
@@ -225,6 +214,7 @@
 		<sec:intercept-url pattern="/login*" access="permitAll" />
 		<sec:intercept-url pattern="/recovery" access="permitAll" />
 		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
+		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_ADMINISTRATE')" />
 		<sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
 		<sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
 		<sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />

@@ -31,6 +31,8 @@ public class DarwinCorePropertyMap {
    
    public static Map<ConceptTerm,String> measurementOrFactTerms = new HashMap<ConceptTerm,String>();
    
+   public static Map<ConceptTerm,String> skosTerms = new HashMap<ConceptTerm,String>();
+   
    static {
 	   taxonTerms.put(DcTerm.accessRights,"accessRights");
    	   taxonTerms.put(DwcTerm.datasetID,"authority.identifier");
@@ -241,6 +243,26 @@ public class DarwinCorePropertyMap {
 	typeAndSpecimenTerms.put(GbifTerm.verbatimLabel, "verbatimLabel");
 	typeAndSpecimenTerms.put(DwcTerm.verbatimLatitude, "verbatimLatitude");
 	typeAndSpecimenTerms.put(DwcTerm.verbatimLongitude, "verbatimLongitude");
+	
+	skosTerms.put(DcTerm.accessRights,"accessRights");
+   	skosTerms.put(DwcTerm.datasetID,"authority.identifier");
+   	skosTerms.put(DwcTerm.datasetName,"authority.title");
+   	skosTerms.put(DcTerm.created,"created");
+   	skosTerms.put(DcTerm.license,"license");
+   	skosTerms.put(DcTerm.modified,"modified");
+   	skosTerms.put(DcTerm.rights,"rights");
+   	skosTerms.put(DcTerm.rightsHolder,"rightsHolder");
+   	skosTerms.put(DcTerm.identifier, "identifier");
+   	skosTerms.put(DwcTerm.taxonID, "taxa[0].identifier");
+   	skosTerms.put(DcTerm.creator, "creator");   	
+   	skosTerms.put(DcTerm.source, "source");
+   	skosTerms.put(SkosTerm.altLabel, "altLabel");
+   	skosTerms.put(SkosTerm.definition, "definition");
+   	skosTerms.put(SkosTerm.exactMatch, "exactMatch.identifier");
+   	skosTerms.put(SkosTerm.prefLabel, "prefLabel");
+   	skosTerms.put(SkosTerm.prefSymbol, "prefSymbol.identifier");
+   	skosTerms.put(SkosTerm.related, "related.identifier");
+   	
    	
    }
 
@@ -263,6 +285,8 @@ public class DarwinCorePropertyMap {
 	    	return typeAndSpecimenTerms;
 	    } else if(conceptTerm.equals(GbifTerm.Reference)) {
 	    	return referenceTerms;
+	    } else if(conceptTerm.equals(SkosTerm.Concept)) {
+	    	return skosTerms;
 	    } else {
 	    	throw new IllegalArgumentException(conceptTerm.qualifiedName() + " is not a supported term");
 	    }
@@ -288,6 +312,8 @@ public class DarwinCorePropertyMap {
 	    	conceptTerms.addAll(typeAndSpecimenTerms.keySet());
 	    } else if(conceptTerm.equals(GbifTerm.Reference)) {
 	    	conceptTerms.addAll(referenceTerms.keySet());
+	    } else if(conceptTerm.equals(SkosTerm.Concept)) {
+	    	conceptTerms.addAll(skosTerms.keySet());
 	    } else {
 	    	throw new IllegalArgumentException(conceptTerm.qualifiedName() + " is not a supported term");
 	    }

@@ -49,5 +49,9 @@ public enum AnnotationCode {
     /**
      * If the record has not changed, we skip it
      */
-    Skipped
+    Skipped,
+    /**
+     * If we find that the record belongs to another organisation
+     */
+    WrongAuthority
 }

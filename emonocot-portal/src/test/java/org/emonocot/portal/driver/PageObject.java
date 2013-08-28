@@ -277,7 +277,7 @@ public class PageObject {
         try {
             openAs(getBaseUri() + "/logout", Index.class);
         } catch (Exception e) {
-           System.out.println(e.getMessage());
+           logger.debug(e.getMessage());
         }
         
     }
@@ -322,10 +322,8 @@ public class PageObject {
     /**
      * @return the contact page
      */
-    public final Contact selectContactLink() {
-        return openAs(
-                foot.findElement(By.linkText("Contact us"))
-                        .getAttribute("href"), Contact.class);
+    public final String getContactLink() {
+        return foot.findElement(By.xpath("div/div/div/ul/li/ul/li[@class='contactLinkOverlay']/a")).getAttribute("href");
     }
 
     /**

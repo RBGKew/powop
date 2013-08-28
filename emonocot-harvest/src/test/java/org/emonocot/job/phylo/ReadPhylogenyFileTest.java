@@ -14,12 +14,16 @@ import org.forester.phylogeny.data.Annotation;
 import org.forester.phylogeny.data.PhylogenyDataUtil;
 import org.forester.phylogeny.data.Uri;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 public class ReadPhylogenyFileTest {
 
-	Resource tree = new ClassPathResource("/org/emonocot/job/phylo/test.nwk");
+	Resource tree = new ClassPathResource("/org/emonocot/job/common/test.nwk");
+	
+	private static Logger logger = LoggerFactory.getLogger(ReadPhylogenyFileTest.class);
 
 	@Test
 	public void readFile() throws Exception {
@@ -40,9 +44,9 @@ public class ReadPhylogenyFileTest {
 		node.getNodeData().addAnnotation(annotation);
 		addBranchLengths(phylogeny.getRoot());
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
-		System.out.println(stringBuffer.toString().replaceAll("\r\n", ""));
+		logger.debug(stringBuffer.toString().replaceAll("\r\n", ""));
 		
-		System.out.println(phylogeny.getNumberOfExternalNodes() + " " + phylogeny.getHeight());
+		logger.debug(phylogeny.getNumberOfExternalNodes() + " " + phylogeny.getHeight());
 
 	}
 	

@@ -27,6 +27,7 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.cookie.DateUtils;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -199,6 +200,7 @@ public class GetResourceClient {
 			                        + httpResponse.getStatusLine() + " for document "
 			                        + resource); // This is not an error in this
 			                                         // application but a server side error
+			                EntityUtils.consumeQuietly(httpResponse.getEntity());
 			                throw new IOException("Server returned unexpected status code "
 			                        + httpResponse.getStatusLine() + " for document "
 			                        + resource);
@@ -220,6 +222,7 @@ public class GetResourceClient {
 			                    + resource + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
+			            httpGet.releaseConnection();
 			            if (inputStreamReader != null) {
 			                try {
 			                    inputStreamReader.close();
@@ -377,6 +380,7 @@ public class GetResourceClient {
 			                    + resource + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
+                        httpGet.releaseConnection();
 			            if (bufferedInputStream != null) {
 			                try {
 			                    bufferedInputStream.close();
@@ -505,6 +509,7 @@ public class GetResourceClient {
 			                    + authorityURI + " " + ioe.getLocalizedMessage());
 			            throw ioe;
 			        } finally {
+                        httpPost.releaseConnection();
 			            if (reader != null) {
 			                try {
 			                    reader.close();
@@ -516,7 +521,6 @@ public class GetResourceClient {
 			            }			            
 			        }
 				}
-				
 			});
 		} catch (Exception e) {
 			logger.error("Retry processing failed " + e.getMessage());

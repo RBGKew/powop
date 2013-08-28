@@ -425,6 +425,10 @@ Key.prototype.hasScore = function(character, taxon, scores) {
 		    if ( Key.isString(attributeValue) ) {
 			    if ( selectedValue.indexOf(attributeValue+'') > -1 ) {
 				    return true;
+			    } else if(attributeValue == "-"){  // Unscoped
+			    	return true;
+			    } else if(attributeValue == "?") { // Uncertain
+			    	return true;
 			    }
 		    } else {
 			    if ( selectedValue == attributeValue ) {

@@ -77,8 +77,4 @@
     <put-attribute name="pageTitle" value="aboutTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/about.jspx" />
   </definition>
-  <definition name="contact" extends="default">
-    <put-attribute name="pageTitle" value="contactTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/contact.jspx" />
-  </definition>
 </tiles-definitions>

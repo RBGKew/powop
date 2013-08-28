@@ -56,20 +56,27 @@
 										<c:url value="/home" var="homeUrl"/>
 										<a href="${homeUrl}"><i class="icon-home"><!--  --></i> <spring:message code="user.title"/></a>
 									</li>
-									<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
-										<li>
-											<c:url value="/organisation" var="organisationsUrl"/> 
-											<a href="${organisationsUrl}"><i class="icon-user"><!--  --></i><spring:message code="organisations.title"/></a>
-										</li>
-										<li>
-											<c:url value="/resource" var="resourcesUrl"/> 
-											<a href="${resourcesUrl}"><i class="icon-file"><!--  --></i><spring:message code="resources.title"/></a>
-										</li>
-										<li>
-											<c:url value="/group" var="groupsUrl"/>
-											<a href="${groupsUrl}"><spring:message code="group.title"/></a>
-										</li>
-									</security:authorize>
+								    <li>
+										<c:url value="/organisation" var="organisationsUrl"/> 
+										<a href="${organisationsUrl}"><i class="icon-user"><!--  --></i> <spring:message code="organisations.title"/></a>
+									</li>
+									<li>
+										<c:url value="/resource" var="resourcesUrl"/> 
+										<a href="${resourcesUrl}"><i class="icon-file"><!--  --></i> <spring:message code="resources.title"/></a>
+									</li>
+									<li>
+								      <c:url value="/comment" var="commentUrl" />
+								      <a href="${commentUrl}"><i class="halflings-icon comments"><!--  --></i> <spring:message code="comments.title" /></a>
+							        </li>
+							        <li>
+								      <c:url value="/user" var="userUrl" />
+								      <a href="${userUrl}"><spring:message code="users.title" /></a>
+							        </li>
+									<li>
+										<c:url value="/group" var="groupsUrl"/>
+										<a href="${groupsUrl}"><spring:message code="group.title"/></a>
+									</li>
+									
 								</ul>
 							</li>
 						</ul>
@@ -99,6 +106,12 @@
 									<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
 								</c:url>
 								<a href="${imageSearchUrl}"><i class="halflings-icon browse_images"><!--  --></i>&#160;<spring:message code="browse.images"/></a>
+							</li>
+							<li>
+								<c:url value="/search" var="termSearchUrl">
+									<c:param name="facet" value="base.class_s:org.emonocot.model.Concept"/>
+								</c:url>
+								<a href="${termSearchUrl}"><i class="halflings-icon book"><!--  --></i>&#160;<spring:message code="browse.glossary"/></a>
 							</li>
 						</ul>
 					</li>

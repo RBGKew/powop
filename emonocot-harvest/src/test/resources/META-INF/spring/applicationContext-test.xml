@@ -155,8 +155,6 @@
 	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 	
 	<bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
-	
-	<bean id="springLiquibase" class="org.emonocot.test.LiquibaseDummy"/>
 
     <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
         <property name="proxyHost" value="${http.proxyHost}" />
@@ -207,6 +205,7 @@
 				<value>org.emonocot.model.auth.Group</value>
 				<value>org.emonocot.model.Place</value>
                 <value>org.emonocot.model.Comment</value>
+                <value>org.emonocot.model.Concept</value>
               </list>
             </property>
             <property name="eventListeners">

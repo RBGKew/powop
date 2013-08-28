@@ -113,7 +113,7 @@ public class Show extends PageObject implements IllustratedPage {
      * @return a paragraph with that title
      */
     public String getParagraph(String heading) {    	
-        WebElement element = description.findElement(By.xpath("div/div[h2/span='" + heading + "']/p"));
+        WebElement element = description.findElement(By.xpath("div/div[h2/span='" + heading + "']/div[@class='description-with-citations']/p"));
         return element.getText();
     }
     
@@ -127,7 +127,7 @@ public class Show extends PageObject implements IllustratedPage {
     public boolean doesParagraphExist(String heading) {
         try {
             WebElement element = description.findElement(By
-                .xpath("div/div[h2/span='" + heading + "']/p"));
+                .xpath("div/div[h2/span='" + heading + "']/div[@class='description-with-citations']/p"));
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -274,7 +274,7 @@ public class Show extends PageObject implements IllustratedPage {
      */
     public String getCitations(String topic) {
         WebElement element = description.findElement(By
-                .xpath("div/div[h2/span = '" + topic + "']/ul[@class='citations']"));
+                .xpath("div/div[h2/span = '" + topic + "']/div[@class='description-with-citations']/ul[@class='citations']"));
         return element.getText();
     }
 

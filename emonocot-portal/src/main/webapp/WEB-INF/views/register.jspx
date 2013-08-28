@@ -12,18 +12,18 @@
 		    <div class="inner">
 		    <div class="box">	
 		    <form:create path="/register" modelAttribute="registrationForm" multipart="true">
-		        <field:input field="accountName" label="accountName" fieldClass="span6" required="true"/>
-			    <field:input field="username" label="username" fieldClass="span6" required="true"/>
-				<field:input field="repeatUsername" label="repeatUsername" fieldClass="span6" required="true"/>
-				<field:input field="password" label="password" type="password" fieldClass="span6" required="true"/>
-				<field:input field="repeatPassword" label="repeatPassword" type="password" fieldClass="span6" required="true"/>
-				<field:input field="name" label="name" fieldClass="span6"/>
-				<field:input field="firstName" label="firstName" fieldClass="span6"/>
-				<field:input field="familyName" label="familyName" fieldClass="span6"/>
-				<field:input field="homepage" label="homepage" fieldClass="span6"/>
-				<field:input field="img" label="img" type="file" fieldClass="span6"/>
-				<field:input field="organization" label="organization" fieldClass="span6"/>
-				<field:input field="topicInterest" label="topicInterest" fieldClass="span6"/>
+		        <field:input field="accountName" label="user.accountName" fieldClass="span6" required="true"/>
+			    <field:input field="username" label="user.username" fieldClass="span6" required="true"/>
+				<field:input field="repeatUsername" label="user.repeatUsername" fieldClass="span6" required="true"/>
+				<field:input field="password" label="user.password" type="password" fieldClass="span6" required="true"/>
+				<field:input field="repeatPassword" label="user.repeatPassword" type="password" fieldClass="span6" required="true"/>
+				<field:input field="name" label="user.name" fieldClass="span6"/>
+				<field:input field="firstName" label="user.firstName" fieldClass="span6"/>
+				<field:input field="familyName" label="user.familyName" fieldClass="span6"/>
+				<field:input field="homepage" label="user.homepage" fieldClass="span6"/>
+				<field:input field="img" label="user.img" type="file" fieldClass="span6"/>
+				<field:input field="organization" label="user.organization" fieldClass="span6"/>
+				<field:input field="topicInterest" label="user.topicInterest" fieldClass="span6"/>
 			</form:create>
 			</div>
 			</div>

@@ -20,6 +20,9 @@
 			<c:when test="${item.className == 'PhylogeneticTree'}">
 				<results:gridEntry itemName="${item.title}" url="/phylo/${item.id}"/>
 			</c:when>
+			<c:when test="${item.className == 'Concept'}">
+				<results:gridEntry itemName="${item.prefLabel}" url="/term/${item.id}"/>
+			</c:when>
 			<c:when test="${item.className == 'Place'}">
 				<c:choose>
 					<c:when test="${item.envelope.minX gt item.envelope.maxX}">

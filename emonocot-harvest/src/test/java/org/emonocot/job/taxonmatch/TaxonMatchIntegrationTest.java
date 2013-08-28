@@ -99,7 +99,7 @@ public class TaxonMatchIntegrationTest {
         assertNotNull("There should be an output file", reader);
         String ln;
         while ((ln = reader.readLine()) != null) {
-            System.out.println(ln);
+            logger.debug(ln);
         }
     }
 }

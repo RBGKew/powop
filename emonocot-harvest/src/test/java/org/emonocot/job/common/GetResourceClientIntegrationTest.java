@@ -14,6 +14,8 @@ import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.retry.RetryCallback;
 import org.springframework.batch.retry.RetryContext;
@@ -31,6 +33,8 @@ public class GetResourceClientIntegrationTest {
 	
     private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
+    private Logger logger = LoggerFactory.getLogger(GetResourceClientIntegrationTest.class);
+    
     private GetResourceClient getResourceClient;
     
     private Properties properties;
@@ -60,10 +64,11 @@ public class GetResourceClientIntegrationTest {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
         
-        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        String repository = properties.getProperty("test.resource.baseUrl",
+                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
+                .getResource(repository + "dwc.zip",
                         Long.toString(PAST_DATETIME.getMillis()),
                         tempFile.getAbsolutePath());
 
@@ -82,10 +87,11 @@ public class GetResourceClientIntegrationTest {
     public final void testGetResourceNotModified() throws IOException {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
-        String repository = properties.getProperty("git.repository", "http://build.e-monocot.org/git/");
+        String repository = properties.getProperty("test.resource.baseUrl",
+                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
 
         ExitStatus exitStatus = getResourceClient
-                .getResource(repository + "?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/dwc/test.zip",
+                .getResource(repository + "dwc.zip",
                         Long.toString(new Date().getTime() - 60000L),
                         tempFile.getAbsolutePath());
 
@@ -109,13 +115,13 @@ public class GetResourceClientIntegrationTest {
         });
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://example.com/test.zip",
+                .getResource("http://not.a.domain.com/test.zip",
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
-        assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be FAILED", ExitStatus.FAILED, exitStatus);
-        assertEquals("There should be three retry attempts", 3, retryListener.getErrors());
+        assertNotNull("ExitStatus should not be null.", exitStatus);
+        assertEquals("ExitStatus should be FAILED.", ExitStatus.FAILED, exitStatus);
+        assertEquals("There should be three retry attempts.", 3, retryListener.getErrors());
     }
     
     class AttemptCountingRetryListener implements RetryListener {
@@ -140,7 +146,7 @@ public class GetResourceClientIntegrationTest {
 		@Override
 		public <T> void onError(RetryContext context,
 				RetryCallback<T> callback, Throwable throwable) {
-			errors++;
+		    logger.info("Got error number " + ++errors, throwable);
 		}
     	
     }

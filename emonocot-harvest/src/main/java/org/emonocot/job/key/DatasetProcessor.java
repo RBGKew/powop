@@ -25,74 +25,37 @@ import org.tdwg.ubif.Dataset;
 public class DatasetProcessor extends AuthorityAware implements
         ItemProcessor<Dataset, IdentificationKey> {
 
-    /**
-    *
-    */
    private Logger logger = LoggerFactory.getLogger(DatasetProcessor.class);
 
-    /**
-     *
-     */
     private String authorityUri;
 
-    /**
-     *
-     */
     private IdentificationKeyService identificationKeyService;
 
-    /**
-     *
-     */
     private Resource matrixFile;
 
-    /**
-     *
-     */
     private String rootTaxonIdentifier;
 
-    /**
-     *
-     */
     private TaxonService taxonService;
 
-    /**
-     * @param newRootTaxonIdentifier the rootTaxonIdentifier to set
-     */
-    public final void setRootTaxonIdentifier(
-            final String newRootTaxonIdentifier) {
+    public void setRootTaxonIdentifier(String newRootTaxonIdentifier) {
         this.rootTaxonIdentifier = newRootTaxonIdentifier;
     }
 
-    /**
-     * @param newTaxonService the taxonService to set
-     */
-    public final void setTaxonService(final TaxonService newTaxonService) {
+    public void setTaxonService(TaxonService newTaxonService) {
         this.taxonService = newTaxonService;
     }
 
-    /**
-     * @param newAuthorityUri
-     *            Set the source of this dataset
-     */
-    public final void setAuthorityUri(final String newAuthorityUri) {
+    public void setAuthorityUri(String newAuthorityUri) {
         this.authorityUri = newAuthorityUri;
     }
 
-    /**
-     * @param newMatrixFile
-     *            the matrixFile to set
-     */
-    public final void setMatrixFile(final Resource newMatrixFile) {
+    public void setMatrixFile(Resource newMatrixFile) {
         this.matrixFile = newMatrixFile;
     }
-
-    /**
-     * @param newIdentificationKeyService
-     *            Set the identification key service
-     */
+    
     @Autowired
-    public final void setIdentificationKeyService(
-            final IdentificationKeyService newIdentificationKeyService) {
+    public void setIdentificationKeyService(
+            IdentificationKeyService newIdentificationKeyService) {
         this.identificationKeyService = newIdentificationKeyService;
     }
 
@@ -104,7 +67,7 @@ public class DatasetProcessor extends AuthorityAware implements
      * @throws IOException
      *             if there is a problem reading the file
      */
-    private String readFileAsString(final Resource resource)
+    private String readFileAsString(Resource resource)
         throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 resource.getInputStream()));
@@ -124,9 +87,9 @@ public class DatasetProcessor extends AuthorityAware implements
      * @throws Exception
      *             if there is a problem
      */
-    public final IdentificationKey process(final Dataset item)
+    public IdentificationKey process(Dataset item)
         throws Exception {
-        IdentificationKey persistedIdentificationKey = identificationKeyService.find(authorityUri);
+        IdentificationKey persistedIdentificationKey = identificationKeyService.find(authorityUri,"object-page");
         String matrix = readFileAsString(matrixFile);
         if (persistedIdentificationKey == null) {
             IdentificationKey identificationKey = new IdentificationKey();
@@ -177,7 +140,7 @@ public class DatasetProcessor extends AuthorityAware implements
      * @param item Set the item
      * @return the list of creators
      */
-    private String constructCreators(final Dataset item) {
+    private String constructCreators(Dataset item) {
         StringBuffer creator = new StringBuffer();
         boolean appendComma = false;
         for (Agent a : item.getRevisionData().getCreators()) {

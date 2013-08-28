@@ -24,6 +24,7 @@
 			<batch:tasklet ref="getPhylogeneticTreeTasklet" />
 			<batch:next on="NOT_MODIFIED" to="cleanupResourcesNotModified" />
 			<batch:next on="COMPLETED" to="processPhylogeneticTree" />
+			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>
@@ -32,6 +33,7 @@
 		    <batch:description>Transform the PhylogeneticTree to PhyloXML</batch:description>
 		    <batch:tasklet ref="phylogeneticTreeTransformingTasklet" />
 		    <batch:next on="COMPLETED" to="indexAnnotations"/>
+		    <batch:next on="FAILED" to="indexAnnotationsFailed"/>
 		    <batch:listeners>
 		        <batch:listener ref="stepStatusListener" />
 		    </batch:listeners>
@@ -68,6 +70,34 @@
 			<batch:description>Cleanup the resources</batch:description>
 			<batch:tasklet ref="resourceDeletingTasklet" />
 			<batch:end on="COMPLETED" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexAnnotationsFailed">
+		  <batch:description>Index the annotations associated with this job, given that it has failed</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="deleteOldAnnotationsFailed" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>			
+		</batch:step>
+		<batch:step id="deleteOldAnnotationsFailed">
+		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
+		    <batch:tasklet>
+				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
+			</batch:tasklet>
+			<batch:next on="COMPLETED" to="cleanupResourcesFailed" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="cleanupResourcesFailed">
+			<batch:description>Cleanup the resources, given that the job has failed</batch:description>
+			<batch:tasklet ref="resourceDeletingTasklet" />
+			<batch:end on="COMPLETED" exit-code="FAILED"/>
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			</batch:listeners>

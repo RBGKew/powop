@@ -93,6 +93,12 @@
 									${item.creator}
 								</div>
 							</c:if>
+							<c:if test="${item.description != null}">
+								<div>
+									<em><spring:message code="image.description" /></em>:
+									${item.description}
+								</div>
+							</c:if>
 							<c:if test="${item.spatial != null}">
 								<div>
 									<em><spring:message code="image.locality" /></em>:
@@ -109,6 +115,21 @@
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}">
 								<h4 class="h4Results">${item.title}</h4>
 							</a>
+							<c:if test="${item.creator != null}">
+								<div>
+									<em><spring:message code="key.creator" /></em>:
+									${item.creator}
+								</div>
+							</c:if>
+							<c:if test="${item.description != null}">
+								<div>
+									<em><spring:message code="key.description" /></em>:
+									<c:choose>
+							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+								    </c:choose>
+								</div>
+							</c:if>
 						</results:listEntry>
 					</c:when>
 					<c:when test="${item.className == 'PhylogeneticTree'}">
@@ -119,6 +140,47 @@
 							<a class="result" href="${itemUrl}" title="${em:stripXml(item.title)}">
 								<h4 class="h4Results">${item.title}</h4>
 							</a>
+							<c:if test="${item.creator != null}">
+								<div>
+									<em><spring:message code="phylo.creator" /></em>:
+									${item.creator}
+								</div>
+							</c:if>
+							<c:if test="${item.description != null}">
+								<div>
+									<em><spring:message code="phylo.description" /></em>:
+									<c:choose>
+							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+								    </c:choose>
+								</div>
+							</c:if>
+						</results:listEntry>
+					</c:when>
+					<c:when test="${item.className == 'Concept'}">
+						<results:listEntry itemName="${item.prefLabel}"
+							icon="book_open"
+							iconAlt="Term" url="/term/${item.id}"
+							image="${item.prefSymbol}">
+							<spring:url var="itemUrl" value="/term/${item.id}" />
+							<a class="result" href="${itemUrl}" title="${em:stripXml(item.prefLabel)}">
+								<h4 class="h4Results">${item.prefLabel}</h4>
+							</a>
+							<c:if test="${item.creator != null}">
+								<div>
+									<em><spring:message code="concept.creator" /></em>:
+									${item.creator}
+								</div>
+							</c:if>
+							<c:if test="${item.definition != null}">
+								<div>
+									<em><spring:message code="concept.definition" /></em>:
+									<c:choose>
+							          <c:when test="${fn:length(item.definition) lt 255}">${item.definition}</c:when>
+									  <c:otherwise>${fn:substring(item.definition,0,254)} &#8230;</c:otherwise>
+								    </c:choose>
+								</div>
+							</c:if>
 						</results:listEntry>
 					</c:when>
 					<c:when test="${item.className == 'Place'}">

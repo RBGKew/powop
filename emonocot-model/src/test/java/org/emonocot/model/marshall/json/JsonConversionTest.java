@@ -40,6 +40,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -57,6 +59,8 @@ import com.vividsolutions.jts.geom.Polygon;
  *
  */
 public class JsonConversionTest {
+ 
+	private static Logger logger = LoggerFactory.getLogger(JsonConversionTest.class);
 
     private ObjectMapper objectMapper;
 
@@ -186,7 +190,7 @@ public class JsonConversionTest {
             taxon.getImages().add(image);
         }
         try {
-        	System.out.println(objectMapper.writeValueAsString(taxon));
+        	logger.debug(objectMapper.writeValueAsString(taxon));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -210,7 +214,7 @@ public class JsonConversionTest {
 
         try {
            String output = objectMapper.writeValueAsString(image);
-           System.out.println(output);
+           logger.debug(output);
            
         } catch (Exception e) {
             fail(e.getMessage());
@@ -384,9 +388,9 @@ public class JsonConversionTest {
         annotation.setValue("wibble");
     	Page<Annotation> page = new DefaultPageImpl<Annotation>(100, 0, 10, annotations, null);
     	try{
-            System.out.println(objectMapper.writeValueAsString(page));
+            logger.debug(objectMapper.writeValueAsString(page));
           } catch (Exception e) {
-        	  System.out.println("ERROR" + e.getMessage());
+        	  logger.debug("ERROR" + e.getMessage());
         	  
               fail();
           }
@@ -440,7 +444,7 @@ public class JsonConversionTest {
     @Test
     public void testWriteMultiPolygon() throws Exception {
     	String serialized = objectMapper.writeValueAsString(place);
-    	System.out.println(serialized);
+    	logger.debug(serialized);
     	assertTrue("Expected JSON to contain the identifier", serialized.contains("\"identifier\":\"test.jk.triangle\""));
     	assertTrue("Expected JSON to contain the name", serialized.contains("\"title\":\"testName\""));
     	assertTrue("Expected JSON to contain the shape", serialized.contains("\"shape\":\"POLYGON ((57 26, 0 0, 25 25, 57 26))\""));
@@ -460,7 +464,7 @@ public class JsonConversionTest {
     public void testReadJobInstanceList() throws Exception {
     	String jobInstanceListJson = "[{\"id\":1,\"jobName\":\"testJob\",\"version\":1,\"parameters\":[]}]";
     	List<JobInstance> jobInstanceList = objectMapper.readValue(jobInstanceListJson, List.class);
-    	System.out.println("JOBINSTANCELIST " + jobInstanceList.size());
+    	logger.debug("JOBINSTANCELIST " + jobInstanceList.size());
     	
     }
 }

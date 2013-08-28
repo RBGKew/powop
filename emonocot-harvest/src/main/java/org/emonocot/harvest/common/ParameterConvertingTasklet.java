@@ -84,12 +84,12 @@ public class ParameterConvertingTasklet implements Tasklet {
 	    }
 	    chunkContext.getStepContext().getStepExecution()
 	        .getJobExecution().getExecutionContext().put(defaultValuesKey, defaultValuesMap);
-	    System.out.println("SETTING " + defaultValuesKey + " as " + defaultValuesMap);
+	    logger.debug("SETTING " + defaultValuesKey + " as " + defaultValuesMap);
 	    String names = fieldNames.substring(1, this.fieldNames.length() - 1);
 	    String[] fieldNamesArray = names.split(",");
 	    chunkContext.getStepContext().getStepExecution()
 	        .getJobExecution().getExecutionContext().put(fieldNamesKey, fieldNamesArray);
-	    System.out.println("SETTING " + fieldNamesKey + " as " + Arrays.toString(fieldNamesArray));
+	    logger.debug("SETTING " + fieldNamesKey + " as " + Arrays.toString(fieldNamesArray));
         return RepeatStatus.FINISHED;
     }
 }

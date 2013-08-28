@@ -29,6 +29,8 @@ import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public abstract class AbstractPersistenceTest extends DataManagementSupport {
+	
+	private static Logger logger = LoggerFactory.getLogger(AbstractPersistenceTest.class);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -160,7 +164,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                     } else if (obj.getClass().equals(User.class)) {
                         userDao.save(((User) obj));
                     } else {
-                        System.out.println("WHAT is a " + obj.toString());
+                        logger.error("WHAT is a " + obj.toString());
                         throw new IllegalArgumentException("Unknown class. Unable to save object:" + obj);
                     }
                 }
@@ -191,9 +195,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                         sourceDao.delete(((Organisation) obj).getIdentifier());
                     } else if (obj.getClass().equals(Reference.class)) {
                         referenceDao.delete(((Reference) obj).getIdentifier());
-                    } else if (obj.getClass().equals(JobInstance.class)) {
-                        System.out.println("Deleting JobInstance "
-                                + ((JobInstance) obj).getId());
+                    } else if (obj.getClass().equals(JobInstance.class)) {                        
                         String authorityName = ((JobInstance) obj)
                                 .getJobParameters().getString("authority.name");
                         List<JobExecution> jobExecutions = jobExecutionDao
@@ -207,7 +209,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
                     } else if (obj.getClass().equals(User.class)) {
                         userDao.delete(((User) obj).getIdentifier());
                     } else {
-                        System.out.println("WHAT is a " + obj.toString());
+                        logger.error("WHAT is a " + obj.toString());
                         throw new IllegalArgumentException("Unknown class. Unable to delete object:" + obj);
                     }
                 }

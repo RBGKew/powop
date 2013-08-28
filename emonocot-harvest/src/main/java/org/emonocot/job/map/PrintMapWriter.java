@@ -97,7 +97,6 @@ public class PrintMapWriter implements ItemWriter<BaseData> {
 				
 				String json = objectMapper.writeValueAsString(mapSpec);
 				mapPrinter.setYamlConfigFile(config.getFile());
-				System.out.println(json);
 				PJsonObject jsonSpec = MapPrinter.parseSpec(json);
 				File outputFile = new File(outputDirectory.getFile(),place.getId() + ".png");
 				mapPrinter.print(jsonSpec, new FileOutputStream(outputFile), referer);

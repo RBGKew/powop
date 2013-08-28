@@ -276,14 +276,20 @@ public class Annotation extends Base implements Searchable {
     	sid.addField("base.id_l", getId());
     	sid.addField("base.class_searchable_b", false);
     	sid.addField("base.class_s", getClass().getName());
-    	if(getAuthority() != null) {
-			sid.addField("base.authority_s", getAuthority().getIdentifier());
-		}
     	sid.addField("annotation.job_id_l",getJobId());
     	sid.addField("annotation.type_s",getType());
     	sid.addField("annotation.record_type_s",getRecordType());
     	sid.addField("annotation.code_s",getCode());
-    	sid.addField("annotation.text_t",getText());
+    	StringBuilder summary = new StringBuilder().append(getType()).append(" ")
+    	.append(getRecordType()).append(" ").append(getCode()).append(" ").append(getText());
+    	
+    	if(getAuthority() != null) {
+			sid.addField("base.authority_s", getAuthority().getIdentifier());
+			summary.append(" ").append(getAuthority().getIdentifier());
+		}
+    	
+    	sid.addField("searchable.solrsummary_t",summary.toString());
+    	//sid.addField("annotation.text_t",getText());
 		return sid;
 	}
 

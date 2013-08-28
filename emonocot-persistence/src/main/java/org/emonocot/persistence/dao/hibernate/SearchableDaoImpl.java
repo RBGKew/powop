@@ -1,11 +1,15 @@
 package org.emonocot.persistence.dao.hibernate;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.analysis.charfilter.HTMLStripCharFilter;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -99,7 +103,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
         
         if (spatialQuery != null && spatialQuery.trim().length() != 0) {
-                solrQuery.addFilterQuery("{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"" + spatialQuery + "\"");
+                solrQuery.addFilterQuery(spatialQuery);
         }
 
         if (facets != null && facets.length != 0) {
@@ -196,8 +200,9 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 			for (Group group : groupCommand.getValues()) {
 				for (SolrDocument solrDocument : group.getResult()) {
 					Match match = new Match();
-					match.setLabel((String) solrDocument.get("autocomplete"));
-					match.setValue((String) solrDocument.get("autocomplete"));
+					String label = filter((String) solrDocument.get("autocomplete"));					
+					match.setLabel(label);
+					match.setValue(label);
 					matchMap.put((String) solrDocument.get("id"), match);
 					results.add(match);
 				}
@@ -214,6 +219,27 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 
         return results;
     }
+    
+	private String filter(String value) {
+		StringBuilder out = new StringBuilder();
+		StringReader strReader = new StringReader(value);
+		try {
+			HTMLStripCharFilter html = new HTMLStripCharFilter(new BufferedReader(strReader));
+			char[] cbuf = new char[1024 * 10];
+			while (true) {
+				int count = html.read(cbuf);
+				if (count == -1)
+					break; // end of stream mark is -1
+				if (count > 0)
+					out.append(cbuf, 0, count);
+			}
+			html.close();
+		} catch (IOException e) {
+			throw new RuntimeException("Failed stripping HTML for value: "
+					+ value, e);
+		}
+		return out.toString();
+	}
 
 	@Override
     public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException {

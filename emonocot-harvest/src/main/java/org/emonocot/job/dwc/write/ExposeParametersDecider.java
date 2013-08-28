@@ -59,7 +59,7 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 	}
 
 	private void setExecutionContext(ExecutionContext executionContext, JobParameters jobParameters, String fileName,String downloadType, String extension) {
-		System.out.println(jobParameterName + " Setting download.fields to " + jobParameters.getString(jobParameterName));
+		logger.debug(jobParameterName + " Setting download.fields to " + jobParameters.getString(jobParameterName));
 		executionContext.put("download.fields", jobParameters.getString(jobParameterName));
 		File workDirectory = new File(outputDirectory.getFile(),jobParameters.getString("download.file"));
 		if(!workDirectory.exists()) {

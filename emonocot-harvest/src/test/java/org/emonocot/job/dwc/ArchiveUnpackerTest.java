@@ -21,7 +21,7 @@ public class ArchiveUnpackerTest {
     *
     */
    private Resource content = new ClassPathResource(
-           "/org/emonocot/job/dwc/test.zip");
+           "/org/emonocot/job/common/dwc.zip");
 
   /**
    *
