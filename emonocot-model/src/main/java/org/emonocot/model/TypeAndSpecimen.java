@@ -1,5 +1,6 @@
 package org.emonocot.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.apache.solr.common.SolrInputDocument;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -27,16 +29,20 @@ import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.Sex;
 import org.gbif.ecat.voc.TypeStatus;
+import org.geotools.filter.expression.ThisPropertyAccessorFactory;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  *
@@ -44,9 +50,11 @@ import com.vividsolutions.jts.geom.Point;
  *
  */
 @Entity
-public class TypeAndSpecimen extends BaseData implements NonOwned {
+public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 	
 	private static final long serialVersionUID = -843014945343629009L;
+	
+	private static final Logger logger = LoggerFactory.getLogger(TypeAndSpecimen.class);
 
     private Long id;
 
@@ -370,4 +378,78 @@ public class TypeAndSpecimen extends BaseData implements NonOwned {
     	}
     	return stringBuffer.toString();
     }
+
+	@Override
+    @Transient
+    @JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
+	
+	protected void addField(SolrInputDocument sid, String name, Serializable value) {
+		if(value != null && !value.toString().isEmpty()) {			
+			sid.addField(name, value);
+		}
+	}
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getDocumentId());
+    	sid.addField("base.id_l", getId());
+    	sid.addField("base.class_searchable_b", false);
+    	sid.addField("base.class_s", getClass().getName());
+    	sid.addField("searchable.label_sort", toString());
+
+    	StringBuilder summary = new StringBuilder().append(getCatalogNumber()).append(" ")
+    	.append(getCollectionCode()).append(" ").append(getInstitutionCode()).append(" ").append(getLocality())
+    	.append(" ").append(getRecordedBy()).append(" ").append(getScientificName()).append(" ").append(getSex())
+    	.append(" ").append(getTypeDesignatedBy()).append(" ").append(getVerbatimEventDate()).append(" ").append(getVerbatimLabel())
+    	.append(" ").append(getVerbatimLatitude()).append(" ").append(getVerbatimLongitude()).append(" ").append(getTaxonRank())
+    	.append(" ").append(getTypeDesignationType()).append(" ").append(getTypeStatus());
+    	
+    	if(getTaxa().isEmpty()) {
+    		for(Taxon t : getTaxa()) {
+    		//addField(sid,"taxon.class_s", t.getClazz());
+    	    addField(sid,"taxon.family_ss", t.getFamily());
+    	    addField(sid,"taxon.genus_ss", t.getGenus());
+    	    //addField(sid,"taxon.kingdom_s", t.getKingdom());
+    	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+    	    addField(sid,"taxon.order_s", t.getOrder());    	    
+    	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
+    	    addField(sid,"taxon.subgenus_s", t.getSubgenus());
+    	    addField(sid,"taxon.subtribe_s", t.getSubtribe());
+    	    addField(sid,"taxon.tribe_s", t.getTribe());
+    	    summary.append(" ").append(t.getClazz())
+    	    .append(" ").append(t.getClazz())
+    	    .append(" ").append(t.getFamily())
+    	    .append(" ").append(t.getGenus())
+    	    .append(" ").append(t.getKingdom())
+    	    .append(" ").append(t.getOrder())
+    	    .append(" ").append(t.getPhylum())
+    	    .append(" ").append(t.getSubfamily())
+    	    .append(" ").append(t.getSubgenus())
+    	    .append(" ").append(t.getSubtribe())
+    	    .append(" ").append(t.getTribe());
+    		}
+    	}
+    	
+    	if(getAuthority() != null) {
+			sid.addField("base.authority_s", getAuthority().getIdentifier());
+			summary.append(" ").append(getAuthority().getIdentifier());
+		}
+    	if (getLocation() != null) {
+			try {
+				WKTWriter wktWriter = new WKTWriter();
+				sid.addField("geo", wktWriter.write(getLocation()));
+			} catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
+			}
+		}
+    	
+    	sid.addField("searchable.solrsummary_t",summary.toString());
+    
+		return sid;
+	}
+	
 }

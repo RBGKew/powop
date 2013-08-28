@@ -6,7 +6,8 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
 	<jsp:directive.attribute name="name" type="java.lang.String" required="true" />
-	<jsp:directive.attribute name="typesAndSpecimens" type="java.util.Collection" required="true" />
+	<jsp:directive.attribute name="typesAndSpecimens" type="java.util.Collection" required="false" />
+	<jsp:directive.attribute name="typesAndSpecimensUrl" type="java.lang.String" required="false" />
 		
 	// Define three colors that will be used to style the cluster features
 	// depending on the number of features they contain.
@@ -149,12 +150,17 @@
 		rules: [pointRule, clusterRule10, clusterRule100, clusterRule250, clusterRule1000, clusterRuleBig]
 	});
 	
-	var strategy = new OpenLayers.Strategy.Cluster();
-	var ${name} = new OpenLayers.Layer.Vector("${name}", {
-		strategies: [strategy], styleMap:new OpenLayers.StyleMap(style)});
-	map.addLayer(${name});
+	var select, selectedFeature;
+	var geojson_format = new OpenLayers.Format.GeoJSON({"internalProjection": new OpenLayers.Projection("EPSG:3857"),
+		"externalProjection": new OpenLayers.Projection("EPSG:4326")});
 	
-	var featurecollection = {
+	<c:choose>
+	  <c:when test="${not empty typesAndSpecimens}">
+	  var ${name} = new OpenLayers.Layer.Vector("${name}", {
+		strategies: [new OpenLayers.Strategy.Fixed(),new OpenLayers.Strategy.Cluster()], styleMap:new OpenLayers.StyleMap(style)});
+	
+	
+	  var featurecollection = {
 		"type": "FeatureCollection",
 		"features": [
 			<c:forEach var="specimen" varStatus="status" items="${typesAndSpecimens}">
@@ -176,13 +182,18 @@
 				</c:if>
 			</c:forEach>
 		]
-	};
-	var geojson_format = new OpenLayers.Format.GeoJSON({"internalProjection": new OpenLayers.Projection("EPSG:3857"),
-		"externalProjection": new OpenLayers.Projection("EPSG:4326")});
-
-	var select, selectedFeature;
-
-	${name}.addFeatures(geojson_format.read(featurecollection));
+	  };
+	  ${name}.addFeatures(geojson_format.read(featurecollection));
+	  </c:when>
+	  <c:otherwise>
+	    var ${name} = new OpenLayers.Layer.Vector("${name}", {
+	        strategies: [new OpenLayers.Strategy.Fixed(),new OpenLayers.Strategy.Cluster()],
+	        styleMap:new OpenLayers.StyleMap(style),
+	        protocol: new OpenLayers.Protocol.HTTP({ url: "${typesAndSpecimensUrl}", format: geojson_format, headers: {'Accept':'application/json', 'Content-Type':'application/json'} })});
+	  </c:otherwise>
+	</c:choose>
+	
+	map.addLayer(${name});
 
 	function onPopupClose(evt) {
 		select.unselect(selectedFeature);
@@ -192,15 +203,26 @@
 	
 		selectedFeature = feature;
 		if(feature.cluster.length == 1) {
+		    var contents = "<dl>";
+		    if(feature.cluster[0].attributes.catalogNumber !== undefined) {
+		       contents += "<dt>Catalog Number:</dt><dd>" + feature.cluster[0].attributes.catalogNumber + "</dd>";
+		    }
+		    if(feature.cluster[0].attributes.collectionCode !== undefined) {
+		        contents += "<dt>Collection Code:</dt><dd>" + feature.cluster[0].attributes.collectionCode + "</dd>";
+		    }
+		    if(feature.cluster[0].attributes.institutionCode !== undefined) { 
+			    contents += "<dt>Institution Code:</dt><dd>" + feature.cluster[0].attributes.institutionCode + "</dd>";
+			}
+			if(feature.cluster[0].attributes.locality !== undefined) {
+				contents += "<dt>Locality:</dt><dd>" + feature.cluster[0].attributes.locality + "</dd>";
+		    }
+		    
+			contents += "<dt>Source Link:</dt><dd>&lt;a href='" + feature.cluster[0].attributes.source + "'&gt;" + feature.cluster[0].attributes.source + "&lt;/a&gt;</dd></dl>"
 			popup = new OpenLayers.Popup.FramedCloud(
 				"specimenPopup",
 				feature.geometry.getBounds().getCenterLonLat(),
 				null,
-				"<dl><dt>Catalog Number:</dt><dd>" + feature.cluster[0].attributes.catalogNumber + "</dd>"
-				+ "<dt>Collection Code:</dt><dd>" + feature.cluster[0].attributes.collectionCode + "</dd>"
-				+ "<dt>Institution Code:</dt><dd>" + feature.cluster[0].attributes.institutionCode + "</dd>"
-				+ "<dt>Locality:</dt><dd>" + feature.cluster[0].attributes.locality + "</dd>"
-				+ "<dt>Source Link:</dt><dd>&lt;a href='" + feature.cluster[0].attributes.source + "'&gt;" + feature.cluster[0].attributes.source + "&lt;/a&gt;</dd></dl>",
+				contents,
 				null,
 				true,
 				onPopupClose);

@@ -161,7 +161,7 @@
       </xsl:for-each>
     </xsl:for-each>
  </xsl:variable>
-
+ 
   <!-- root element: root -->
   <xsl:template match="/"><xsl:apply-templates select="sdd:Datasets"/></xsl:template>
 
@@ -677,11 +677,39 @@
   </xsl:template>
 
   <xsl:template match="sdd:Quantitative">
-    <xsl:text>"</xsl:text>
-    <xsl:apply-templates select="sdd:Measure[@type = 'Min']"/>
-    <xsl:text>-</xsl:text>
-    <xsl:apply-templates select="sdd:Measure[@type = 'Max']"/>
-    <xsl:text>"</xsl:text>
+    <xsl:choose>
+      <xsl:when test="sdd:Modifier">
+        <xsl:variable name="mod" select="sdd:Modifier/@ref"/>
+        <xsl:variable name="modifier" select="/sdd:Datasets/sdd:Dataset/sdd:DescriptiveConcepts/sdd:DescriptiveConcept/sdd:Modifiers/sdd:Modifier[@id = $mod]"/>
+        <xsl:choose>
+          <xsl:when test="$modifier/sdd:Representation/sdd:Label/text() = 'rarely'">
+            <xsl:text>"&lt;"</xsl:text>
+          </xsl:when>
+          <xsl:when test="$modifier/sdd:Representation/sdd:Label/text() = 'uncertain'">
+            <xsl:text>"?"</xsl:text>
+          </xsl:when>
+          <xsl:when test="$modifier/sdd:Representation/sdd:Label/text() = 'misinterpreted'">
+            <xsl:text>"!"</xsl:text>
+          </xsl:when>
+          <xsl:when test="$modifier/sdd:Representation/sdd:Label/text() = 'unscoped'">
+            <xsl:text>"-"</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:message terminate="no">Unknown Modifier <xsl:value-of select="$modifier/sdd:Representation/sdd:Label"/> for Quantitative measure <xsl:value-of select="@ref"/> (<xsl:value-of select="@debuglabel"/>)</xsl:message>
+            <xsl:text>"</xsl:text>
+            <xsl:value-of select="$modifier/sdd:Representation/sdd:Label"/>
+            <xsl:text>"</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>"</xsl:text>
+          <xsl:apply-templates select="sdd:Measure[@type = 'Min']"/>
+        <xsl:text>-</xsl:text>
+          <xsl:apply-templates select="sdd:Measure[@type = 'Max']"/>
+        <xsl:text>"</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>    
   </xsl:template>
 
   <xsl:template match="sdd:Measure">

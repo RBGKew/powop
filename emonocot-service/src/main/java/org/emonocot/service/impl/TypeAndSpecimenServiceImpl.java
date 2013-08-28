@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TypeAndSpecimenServiceImpl extends
-		ServiceImpl<TypeAndSpecimen, TypeAndSpecimenDao> implements
+		SearchableServiceImpl<TypeAndSpecimen, TypeAndSpecimenDao> implements
 		TypeAndSpecimenService {
 
 	@Autowired
