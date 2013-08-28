@@ -43,9 +43,9 @@
 								<c:url value="/about" var="aboutUrl" />
 								<a href="${aboutUrl}"><spring:message code="about.title" /></a>
 							</li>
-							<li class="contactLinkOverlay">
+							<li>
 								<c:url value="/contact" var="contactUrl" />
-								<a href="${contactUrl}"><spring:message code="contact.title" /></a>
+								<a class="contactLinkOverlay" href="${contactUrl}"><spring:message code="contact.title" /></a>
 							</li>
 							<li>
 								<c:url var="twitterImageUrl" value="/css/images/glyphicons_white_twitter.png"/>
@@ -72,8 +72,8 @@
 					</li>
 					<li>
 						<ul class="footerColumn span3">
-							<li class="helpLinkOverlay">
-								<a href="http://families.e-monocot.org/emonocot-guide"><spring:message code="help.title" /></a>
+							<li>
+								<a class="helpLinkOverlay" href="http://families.e-monocot.org/emonocot-guide"><spring:message code="help.title" /></a>
 							</li>
 							<li>
 								<c:url value="/tour" var="tourUrl" />
