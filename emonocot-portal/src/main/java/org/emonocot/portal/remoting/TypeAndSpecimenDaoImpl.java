@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.model.TypeAndSpecimen;
+import org.emonocot.pager.CellSet;
+import org.emonocot.pager.Cube;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.TypeAndSpecimenDao;
@@ -54,6 +57,15 @@ public class TypeAndSpecimenDaoImpl extends DaoImpl<TypeAndSpecimen> implements
 	public final List<TypeAndSpecimen> list(final Integer page, final Integer size, final String fetch) {
 		return this.page(page, size).getRecords();
     }
+
+	@Override
+	public CellSet analyse(String rows, String cols, Integer firstCol,
+			Integer maxCols, Integer firstRow, Integer maxRows,
+			Map<String, String> selectedFacets, String[] array, Cube cube)
+			throws SolrServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

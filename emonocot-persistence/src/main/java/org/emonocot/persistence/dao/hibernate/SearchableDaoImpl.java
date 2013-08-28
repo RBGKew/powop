@@ -103,7 +103,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
         
         if (spatialQuery != null && spatialQuery.trim().length() != 0) {
-                solrQuery.addFilterQuery("{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"" + spatialQuery + "\"");
+                solrQuery.addFilterQuery(spatialQuery);
         }
 
         if (facets != null && facets.length != 0) {

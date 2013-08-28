@@ -74,6 +74,16 @@
 			<batch:tasklet>
 				<batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter"	commit-interval="100" />
 			</batch:tasklet>
+			<batch:next on="COMPLETED" to="indexTypesAndSpecimens" />
+			<batch:listeners>
+			    <batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="indexTypesAndSpecimens">
+		  <batch:description>Index the types and specimens associated with this job</batch:description>
+		  <batch:tasklet>
+				<batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="10" />
+			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexAnnotations" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
@@ -258,6 +268,24 @@
 	<bean id="hibernateItemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="indexTypesAndSpecimensReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString"
+			value="select i.id from TypeAndSpecimen i join i.annotations a where a.jobId = :jobId" />
+		<property name="parameterValues">
+			<map>
+				<entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="indexTypesAndSpecimensWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+      <property name="type" value="org.emonocot.model.TypeAndSpecimen" />
+      <property name="sessionFactory" ref="sessionFactory" />
+      <property name="solrIndexingListener" ref="solrIndexingListener" />
+    </bean>
 	
 	<bean id="gbifMoreRecordsTasklet"
 		class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
