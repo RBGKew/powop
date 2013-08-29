@@ -139,7 +139,7 @@
 		<batch:step id="importCoreFile">
 			<batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="10">
+				<batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="10" skip-limit="10000">
 				  <batch:skippable-exception-classes>
 						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />

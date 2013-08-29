@@ -408,7 +408,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
     	.append(" ").append(getVerbatimLatitude()).append(" ").append(getVerbatimLongitude()).append(" ").append(getTaxonRank())
     	.append(" ").append(getTypeDesignationType()).append(" ").append(getTypeStatus());
     	
-    	if(getTaxa().isEmpty()) {
+    	if(!getTaxa().isEmpty()) {
     		for(Taxon t : getTaxa()) {
     		//addField(sid,"taxon.class_s", t.getClazz());
     	    addField(sid,"taxon.family_ss", t.getFamily());
