@@ -280,9 +280,9 @@ public class SearchController {
 				&& x2 != null
 				&& y2 != null
 				&& (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
-			spatial = "Intersects(" + decimalFormat.format(x1) + " "
+			spatial = "{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"Intersects(" + decimalFormat.format(x1) + " "
 					+ decimalFormat.format(y1) + " " + decimalFormat.format(x2)
-					+ " " + decimalFormat.format(y2) + ")";
+					+ " " + decimalFormat.format(y2) + ")\"";
 		}
 
 		Map<String, String> selectedFacets = null;

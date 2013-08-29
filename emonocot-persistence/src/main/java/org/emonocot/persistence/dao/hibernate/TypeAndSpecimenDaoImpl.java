@@ -11,7 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TypeAndSpecimenDaoImpl extends DaoImpl<TypeAndSpecimen> implements
+public class TypeAndSpecimenDaoImpl extends SearchableDaoImpl<TypeAndSpecimen> implements
 		TypeAndSpecimenDao {
 
 	private static Map<String, Fetch[]> FETCH_PROFILES;
@@ -33,6 +33,11 @@ public class TypeAndSpecimenDaoImpl extends DaoImpl<TypeAndSpecimen> implements
 	public TypeAndSpecimen findByCatalogNumber(String catalogNumber) {
 		Criteria criteria = getSession().createCriteria(type).add(Restrictions.eq("catalogNumber", catalogNumber));
         return (TypeAndSpecimen) criteria.uniqueResult();
+	}
+	
+	@Override
+    protected boolean isSearchableObject() {
+		return false;
 	}
 
 }
