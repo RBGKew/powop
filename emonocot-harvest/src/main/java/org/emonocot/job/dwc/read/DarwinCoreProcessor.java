@@ -1,7 +1,6 @@
 package org.emonocot.job.dwc.read;
 
 
-import java.util.HashMap;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -28,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -130,7 +128,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     	if(authority.getIdentifier().equals(getSource().getIdentifier())) {
     		
     	} else {
-    		throw new WrongAuthorityException("Expected content at line + " + getLineNumber() +  " to belong to " + getSource().getIdentifier() + " but found content belonging to " + authority.getIdentifier(), recordType, getLineNumber());
+    		throw new WrongAuthorityException("Expected content at line " + getLineNumber() +  " to belong to " + getSource().getIdentifier() + " but found content belonging to " + authority.getIdentifier(), recordType, getLineNumber());
     	}
     }
     
