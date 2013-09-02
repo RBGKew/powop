@@ -2,9 +2,9 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.emonocot.api.Service;
 import org.emonocot.model.auth.Group;
 import org.emonocot.model.auth.Principal;

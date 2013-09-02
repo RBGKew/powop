@@ -40,7 +40,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
      *
      */
 	public OrganisationController() {
-		super("organisation");
+		super("organisation", Organisation.class);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	 *            Set the model
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{organisationId}", produces = "text/html")
+	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = {"!form", "!delete"}, produces = "text/html")
 	public String show(@PathVariable String organisationId,
 			Model uiModel) {
 		uiModel.addAttribute(getService().find(organisationId,"source-with-jobs"));
@@ -209,9 +209,19 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		getService().saveOrUpdate(persistedSource);
 		String[] codes = new String[] { "organisation.updated" };
 		Object[] args = new Object[] { organisation.getTitle() };
-		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-				codes, args);
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/organisation/" + organisationId;
 	}
+	
+	@RequestMapping(value = "/{identifier}",  method = RequestMethod.GET, params = {"delete"}, produces = "text/html")
+    public String delete(@PathVariable String identifier, RedirectAttributes redirectAttributes) {
+		Organisation organisation = getService().find(identifier);
+        getService().delete(identifier);
+        String[] codes = new String[] { "organisation.deleted" };
+		Object[] args = new Object[] { organisation.getTitle() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+        return "redirect:/organisation";
+   }
 }

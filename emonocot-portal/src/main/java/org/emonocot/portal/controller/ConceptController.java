@@ -37,7 +37,7 @@ public class ConceptController extends GenericController<Concept, ConceptService
      *
      */
     public ConceptController() {
-       super("term");
+       super("term", Concept.class);
     }
 
     /**

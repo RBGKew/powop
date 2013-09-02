@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
+
 import org.easymock.EasyMock;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
@@ -408,7 +410,7 @@ public class JsonConversionTest {
         EasyMock.expect(taxonService.find(EasyMock.eq("testIdentifier")))
                 .andReturn(taxon);
         EasyMock.replay(taxonService);
-        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"authority\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":1321973454966,\"identifier\":\"1\"}", Annotation.class);
+        Annotation annotation = objectMapper.readValue("{\"value\":\"wibble\",\"id\":null,\"type\":null,\"authority\":null,\"code\":\"Absent\",\"text\":\"wibble\",\"jobId\":null,\"annotatedObj\":\"testIdentifier\",\"recordType\":\"Taxon\",\"dateTime\":\"2013-01-01T09:00:00.000Z\",\"identifier\":\"1\"}", Annotation.class);
         EasyMock.verify(taxonService);
 
         assertNotNull(annotation.getAnnotatedObj());
@@ -465,6 +467,12 @@ public class JsonConversionTest {
     	String jobInstanceListJson = "[{\"id\":1,\"jobName\":\"testJob\",\"version\":1,\"parameters\":[]}]";
     	List<JobInstance> jobInstanceList = objectMapper.readValue(jobInstanceListJson, List.class);
     	logger.debug("JOBINSTANCELIST " + jobInstanceList.size());
+    	
+    }
+    
+    @Test
+    public void testWriteSchema() throws Exception {
+    	JsonSchema jsonSchema = objectMapper.generateJsonSchema(Page.class);
     	
     }
 }

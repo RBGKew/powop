@@ -1,6 +1,6 @@
 package org.emonocot.model.marshall.json;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
@@ -11,16 +11,20 @@ import org.emonocot.api.ReferenceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
+import org.emonocot.model.marshall.json.hibernate.HibernateModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.module.hibernate.HibernateModule;
 
 /**
 *
 */
 public class CustomObjectMapper extends ObjectMapper {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7839832006798715918L;
+
 	Logger logger = LoggerFactory.getLogger(CustomObjectMapper.class);
 
     private ReferenceService referenceService;
@@ -107,7 +111,7 @@ public class CustomObjectMapper extends ObjectMapper {
         handlerInstantiator.setConceptService(conceptService);
         setHandlerInstantiator(handlerInstantiator);
         CustomModule module = new CustomModule(jobInstanceService);
-        registerModule(module);
+        registerModule(module);        
         registerModule(new HibernateModule());
     }
 }

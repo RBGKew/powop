@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Place;
 import org.emonocot.model.Taxon;
@@ -19,13 +18,10 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.WKTReader;
-import com.vividsolutions.jts.io.WKTWriter;
 
 public class PrintMapWriter implements ItemWriter<BaseData> {
 	

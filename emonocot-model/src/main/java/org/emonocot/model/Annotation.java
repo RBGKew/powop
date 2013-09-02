@@ -15,14 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
 import org.emonocot.model.marshall.json.AnnotatableObjectSerializer;
+import org.emonocot.model.marshall.json.DateTimeDeserializer;
+import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.emonocot.model.registry.Organisation;
@@ -236,6 +238,7 @@ public class Annotation extends Base implements Searchable {
      * @return the dateTime
      */
     @Type(type="dateTimeUserType")
+    @JsonSerialize(using = DateTimeSerializer.class)
     public DateTime getDateTime() {
         return dateTime;
     }
@@ -243,6 +246,7 @@ public class Annotation extends Base implements Searchable {
     /**
      * @param dateTime the dateTime to set
      */
+    @JsonDeserialize(using = DateTimeDeserializer.class)
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
     }

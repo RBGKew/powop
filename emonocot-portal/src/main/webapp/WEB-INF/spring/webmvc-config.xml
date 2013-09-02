@@ -52,7 +52,7 @@
 		</property>
 	</bean>
 
-	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes" value="application/json,application/javascript" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>

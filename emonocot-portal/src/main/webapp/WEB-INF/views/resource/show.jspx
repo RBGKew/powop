@@ -62,8 +62,13 @@
 								  <spring:message code="harvest.changes" />
 								</a>
 							</c:otherwise>
-						  </c:choose>						
+						  </c:choose>						  					
 						</c:if>
+						<c:url value="/resource/${resource.id}" var="deleteUrl">
+							<c:param name="delete">true</c:param>
+						</c:url>
+						<spring:message code="delete.resource" var="deleteMessage"/>
+						<a href="${deleteUrl}" class="btn btn-danger">${deleteMessage}</a>
 				    </div>
 				</div>
 			</div>
@@ -120,6 +125,10 @@
 								<tr>
 									<th><spring:message code="resource.lastHarvested" /></th>
 									<td id="lastHarvested"><joda:format value="${resource.lastHarvested}" style="MM" /></td>
+								</tr>
+								<tr>
+									<th><spring:message code="resource.lastAttempt" /></th>
+									<td id="lastAttempt"><joda:format value="${resource.lastAttempt}" style="MM" /></td>
 								</tr>
 								<tr>
 									<th><spring:message code="resource.resource" /></th>

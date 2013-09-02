@@ -3,6 +3,7 @@ package org.emonocot.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.job.CouldNotLaunchJobException;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,6 +119,7 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 		}
 		Map<String, String> jobParametersMap = new HashMap<String, String>();
 		jobParametersMap.put("authority.name", resource.getOrganisation().getIdentifier());
+		jobParametersMap.put("attempt", UUID.randomUUID().toString()); // Prevent jobs failing if a job has been executed with the same parameters
 		jobParametersMap.put("authority.uri", resource.getUri());
 		jobParametersMap.put("resource.identifier", resource.getIdentifier());
         jobParametersMap.put("skip.unmodified", ifModified.toString());
@@ -137,6 +140,7 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 		try {
 			jobLauncher.launch(jobLaunchRequest);
 			resource.setStartTime(null);
+			resource.setLastAttempt(new DateTime());
 			resource.setDuration(null);
 			resource.setExitCode(null);
 			resource.setExitDescription(null);
@@ -159,4 +163,20 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 	public Resource findByResourceUri(String identifier) {
 		return dao.findResourceByUri(identifier);
 	}
+
+	@Override
+	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+	@Transactional(readOnly = false)
+	public void deleteById(Long id) {
+		super.deleteById(id);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+	@Transactional(readOnly = false)
+	public void delete(String identifier) {
+		super.delete(identifier);
+	}
+	
+	
 }

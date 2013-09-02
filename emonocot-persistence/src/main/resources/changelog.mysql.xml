@@ -4556,4 +4556,10 @@
                                baseTableName="Concept"
                                referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2013-08-29_01" author="ben">
+      <comment>Add lastAttempt column to avoid repeated harvesting in a short period of time</comment>
+      <addColumn tableName="Resource">
+        <column name="lastAttempt" type="datetime"/>
+      </addColumn>
+    </changeSet>
 </databaseChangeLog>

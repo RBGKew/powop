@@ -28,7 +28,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
      *
      */
     public TaxonController() {
-        super("taxon");
+        super("taxon", Taxon.class);
     }
 
     /**

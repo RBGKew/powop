@@ -1,12 +1,10 @@
 package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
  *

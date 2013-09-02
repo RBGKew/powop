@@ -21,7 +21,7 @@ public class IdentificationKeyController extends GenericController<Identificatio
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
     public IdentificationKeyController() {
-        super("key");
+        super("key", IdentificationKey.class);
     }
 
     /**

@@ -30,7 +30,7 @@ public class TypeAndSpecimenController extends
 	private static final Logger logger = LoggerFactory.getLogger(TypeAndSpecimenController.class);
 
 	public TypeAndSpecimenController() {
-		super("typeAndSpecimen");
+		super("typeAndSpecimen",TypeAndSpecimen.class);
 	}
 	
 	@Autowired
@@ -57,7 +57,7 @@ public class TypeAndSpecimenController extends
 			@RequestParam(value = "y1", required = false) Double y1,
 			@RequestParam(value = "x2", required = false) Double x2,
 			@RequestParam(value = "y2", required = false) Double y2,
-			@RequestParam(value = "limit", required = false, defaultValue = "1000") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "5000") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets) throws SolrServerException {
 		String spatial = null;

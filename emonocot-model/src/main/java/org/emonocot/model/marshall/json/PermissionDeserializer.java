@@ -2,10 +2,10 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.emonocot.model.convert.StringToPermissionConverter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.acls.model.Permission;

@@ -2,8 +2,8 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import org.emonocot.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

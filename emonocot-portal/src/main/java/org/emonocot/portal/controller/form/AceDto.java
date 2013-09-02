@@ -1,7 +1,7 @@
 package org.emonocot.portal.controller.form;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.marshall.json.PermissionDeserializer;
 import org.emonocot.model.marshall.json.PermissionSerializer;
 import org.springframework.security.acls.model.Permission;

@@ -20,6 +20,7 @@ import org.emonocot.api.job.ResourceAlreadyBeingHarvestedException;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.constants.SchedulingPeriod;
+import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.model.registry.Resource.ReadResource;
 import org.emonocot.pager.DefaultPageImpl;
@@ -91,7 +92,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
      *
      */
     public ResourceController() {
-        super("resource");
+        super("resource", Resource.class);
     }
     
     private void populateForm(Model model, Resource resource, ResourceParameterDto parameter) {
@@ -317,7 +318,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	 *            Set the model
 	 * @return the view name
 	 */
-	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = "text/html", params = {"!run", "!form", "!parameters"})
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = "text/html", params = {"!run", "!form", "!parameters", "!delete"})
 	public String show(@PathVariable Long resourceId, Model uiModel) {
 		Resource resource = getService().load(resourceId,"job-with-source");
 		uiModel.addAttribute("resource", resource);
@@ -491,6 +492,17 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		}
 		return jobExecutionInfo;
 	}  
+	
+	@RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		Resource resource = getService().find(id);
+        getService().deleteById(id);
+        String[] codes = new String[] { "resource.deleted" };
+		Object[] args = new Object[] { resource.getTitle() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+        return "redirect:/resource";
+   }
 
 
 }

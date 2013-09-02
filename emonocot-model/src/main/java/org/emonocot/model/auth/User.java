@@ -15,9 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.marshall.json.GroupDeserializer;
 import org.emonocot.model.marshall.json.GroupSerializer;
 import org.hibernate.annotations.Cascade;

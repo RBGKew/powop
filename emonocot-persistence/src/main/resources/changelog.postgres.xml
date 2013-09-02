@@ -2115,7 +2115,7 @@
             <column name="identifier" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="created" type="datetime"/>
+            <column name="created" type="timestamp with time zone"/>
             <column name="creator" type="varchar(255)"/>
             <column name="license" type="varchar(255)"/>        
             <column name="modified" type="datetime"/>
@@ -2169,5 +2169,11 @@
                                baseColumnNames="prefsymbol_id"
                                baseTableName="concept"
                                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-08-29_01" author="ben">
+      <comment>Add lastAttempt column to avoid repeated harvesting in a short period of time</comment>
+      <addColumn tableName="resource">
+        <column name="lastattempt" type="timestamp with time zone"/>
+      </addColumn>
     </changeSet>
 </databaseChangeLog>

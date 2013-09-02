@@ -1,6 +1,7 @@
 package org.emonocot.model.marshall.json;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;

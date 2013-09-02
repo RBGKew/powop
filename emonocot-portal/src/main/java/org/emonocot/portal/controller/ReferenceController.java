@@ -20,7 +20,7 @@ public class ReferenceController extends
      *
      */
     public ReferenceController() {
-        super("reference");
+        super("reference", Reference.class);
     }
 
   /**

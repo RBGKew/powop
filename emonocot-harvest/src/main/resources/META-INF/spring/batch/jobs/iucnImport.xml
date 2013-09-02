@@ -228,7 +228,7 @@
 			</bean>
 		</property>
 		<property name="lineMapper">
-			<bean class="org.springframework.batch.item.file.mapping.JsonLineMapper"/>
+			<bean class="org.emonocot.harvest.common.Jackson2JsonLineMapper"/>
 		</property>
 	</bean>
 

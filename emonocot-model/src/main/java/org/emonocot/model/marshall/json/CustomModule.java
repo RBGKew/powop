@@ -1,10 +1,10 @@
 package org.emonocot.model.marshall.json;
 
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.Module;
-import org.codehaus.jackson.map.module.SimpleDeserializers;
-import org.codehaus.jackson.map.module.SimpleKeyDeserializers;
-import org.codehaus.jackson.map.module.SimpleSerializers;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.module.SimpleDeserializers;
+import com.fasterxml.jackson.databind.module.SimpleKeyDeserializers;
+import com.fasterxml.jackson.databind.module.SimpleSerializers;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.model.constants.Location;
 import org.springframework.batch.core.JobExecution;

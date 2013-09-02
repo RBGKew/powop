@@ -5,6 +5,7 @@ import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.dao.OrganisationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +50,19 @@ public class OrganisationServiceImpl extends SearchableServiceImpl<Organisation,
     public final Organisation load(final String identifier) {
         return dao.load(identifier);
     }
+
+	@Override
+	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+	@Transactional(readOnly = false)
+	public void deleteById(Long id) {		
+		super.deleteById(id);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+	@Transactional(readOnly = false)
+	public void delete(String identifier) {	
+		super.delete(identifier);
+	}
 
 }

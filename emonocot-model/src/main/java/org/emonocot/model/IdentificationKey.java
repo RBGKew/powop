@@ -19,9 +19,9 @@ import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -172,28 +172,32 @@ public class IdentificationKey extends SearchableObject implements NonOwned, Med
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
     	.append(getCreator()).append(" ").append(getDescription());
     	if(getTaxa() != null) {
+    		boolean first = true; 
     		for(Taxon t : getTaxa()) {
-    		//addField(sid,"taxon.class_s", t.getClazz());
-    	    addField(sid,"taxon.family_ss", t.getFamily());
-    	    addField(sid,"taxon.genus_ss", t.getGenus());
-    	    //addField(sid,"taxon.kingdom_s", t.getKingdom());
-    	    //addField(sid,"taxon.phylum_s", t.getPhylum());
-    	    addField(sid,"taxon.order_s", t.getOrder());
-    	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
-    	    addField(sid,"taxon.subgenus_s", t.getSubgenus());
-    	    addField(sid,"taxon.subtribe_s", t.getSubtribe());
-    	    addField(sid,"taxon.tribe_s", t.getTribe());
-    	    summary.append(" ").append(t.getClazz())
-    	    .append(" ").append(t.getClazz())
-    	    .append(" ").append(t.getFamily())
-    	    .append(" ").append(t.getGenus())
-    	    .append(" ").append(t.getKingdom())
-    	    .append(" ").append(t.getOrder())
-    	    .append(" ").append(t.getPhylum())
-    	    .append(" ").append(t.getSubfamily())
-    	    .append(" ").append(t.getSubgenus())
-    	    .append(" ").append(t.getSubtribe())
-    	    .append(" ").append(t.getTribe());
+    			if(first) {
+    		        //addField(sid,"taxon.class_s", t.getClazz());
+    		        //addField(sid,"taxon.kingdom_s", t.getKingdom());
+        	        //addField(sid,"taxon.phylum_s", t.getPhylum());
+        	        addField(sid,"taxon.order_s", t.getOrder());
+        	        addField(sid,"taxon.subgenus_s", t.getSubgenus());
+    			}
+    	        addField(sid,"taxon.family_ss", t.getFamily());
+    	        addField(sid,"taxon.genus_ss", t.getGenus());    	    
+    	        addField(sid,"taxon.subfamily_ss", t.getSubfamily());    	    
+    	        addField(sid,"taxon.subtribe_ss", t.getSubtribe());
+    	        addField(sid,"taxon.tribe_ss", t.getTribe());
+    	        summary.append(" ").append(t.getClazz())
+    	        .append(" ").append(t.getClazz())
+    	        .append(" ").append(t.getFamily())
+    	        .append(" ").append(t.getGenus())
+          	    .append(" ").append(t.getKingdom())
+    	        .append(" ").append(t.getOrder())
+    	        .append(" ").append(t.getPhylum())
+    	        .append(" ").append(t.getSubfamily())
+    	        .append(" ").append(t.getSubgenus())
+    	        .append(" ").append(t.getSubtribe())
+    	        .append(" ").append(t.getTribe());
+    	        first = false;
     		}
     	}
     	sid.addField("searchable.solrsummary_t", summary.toString());

@@ -20,18 +20,13 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.emonocot.model.constants.TypeDesignationType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.Sex;
 import org.gbif.ecat.voc.TypeStatus;
-import org.geotools.filter.expression.ThisPropertyAccessorFactory;
 import org.geotools.geometry.jts.JTSFactoryFinder;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
@@ -39,6 +34,9 @@ import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -409,17 +407,22 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
     	.append(" ").append(getTypeDesignationType()).append(" ").append(getTypeStatus());
     	
     	if(!getTaxa().isEmpty()) {
+    		boolean first = true;
     		for(Taxon t : getTaxa()) {
-    		//addField(sid,"taxon.class_s", t.getClazz());
+    		
     	    addField(sid,"taxon.family_ss", t.getFamily());
-    	    addField(sid,"taxon.genus_ss", t.getGenus());
-    	    //addField(sid,"taxon.kingdom_s", t.getKingdom());
-    	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
-    	    addField(sid,"taxon.order_s", t.getOrder());    	    
     	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
-    	    addField(sid,"taxon.subgenus_s", t.getSubgenus());
-    	    addField(sid,"taxon.subtribe_s", t.getSubtribe());
-    	    addField(sid,"taxon.tribe_s", t.getTribe());
+    	    addField(sid,"taxon.subtribe_ss", t.getSubtribe());
+    	    addField(sid,"taxon.tribe_ss", t.getTribe());
+    	    addField(sid,"taxon.genus_ss", t.getGenus());
+    	    
+    	    if(first) {
+    	    	//addField(sid,"taxon.class_s", t.getClazz());
+    	    	//addField(sid,"taxon.kingdom_s", t.getKingdom());
+        	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+    	        addField(sid,"taxon.order_s", t.getOrder());
+    	        addField(sid,"taxon.subgenus_s", t.getSubgenus());        	    
+    	    }
     	    summary.append(" ").append(t.getClazz())
     	    .append(" ").append(t.getClazz())
     	    .append(" ").append(t.getFamily())
@@ -431,6 +434,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
     	    .append(" ").append(t.getSubgenus())
     	    .append(" ").append(t.getSubtribe())
     	    .append(" ").append(t.getTribe());
+    	    first = false;
     		}
     	}
     	
