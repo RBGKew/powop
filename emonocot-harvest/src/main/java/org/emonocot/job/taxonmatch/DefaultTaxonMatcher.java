@@ -22,6 +22,7 @@ import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
 import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,16 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
     @Autowired 
     private NameParser nameParser;
     
+    private Boolean assumeAcceptedMatches = Boolean.FALSE;
+    
     public void setNameParser(NameParser nameParser) {
     	this.nameParser = nameParser;
+    }
+    
+    public void setAssumeAcceptedMatches(Boolean assumeAcceptedMatches) {
+    	if(assumeAcceptedMatches != null) {
+    	    this.assumeAcceptedMatches = assumeAcceptedMatches;
+    	}
     }
 
     /**
@@ -154,7 +163,21 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
                 matches.retainAll(exactMatches);
                 break;
             default:
-                logger.debug(exactMatches.size() + " exact matches:");
+            	if(assumeAcceptedMatches) {
+            		Set<Match<Taxon>> acceptedMatches = new HashSet<Match<Taxon>>();
+            		for(Match<Taxon> match : exactMatches) {
+            			if(match.getInternal().getTaxonomicStatus() != null && match.getInternal().getTaxonomicStatus().equals(TaxonomicStatus.Accepted)) {
+            				acceptedMatches.add(match);
+            			}
+            		}
+            		if(acceptedMatches.size() == 1) {
+            			matches.retainAll(acceptedMatches);
+            		} else {
+            			logger.debug(acceptedMatches.size() + " accepted taxa exactly match");
+            		}
+            	} else {
+                    logger.debug(exactMatches.size() + " exact matches:");
+            	}
                 break;
             }
         }

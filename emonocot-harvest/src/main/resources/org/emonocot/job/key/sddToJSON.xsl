@@ -653,7 +653,7 @@
     <xsl:choose>
       <xsl:when test="sdd:Default/sdd:MeasurementUnitPrefix">
         <xsl:value-of select="sdd:Default/sdd:MeasurementUnitPrefix"/>
-        <xsl:value-of select="sdd:MeasurementUnit/sdd:Label[@role = 'full']"/>
+        <xsl:value-of select="sdd:MeasurementUnit/sdd:Label[@role = 'Full']"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="sdd:MeasurementUnit/sdd:Label"/>
