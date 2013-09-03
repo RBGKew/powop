@@ -118,7 +118,7 @@
 			<geo:layer name="places" layer="emonocot:place" style="eMonocot"
 				featureId="${result.params['featureId']}" />
 		</c:if>
-		<c:url var="typesAndSpecimensUrl" value="/typeAndSpecimen/geo">
+		<c:url var="typesAndSpecimensUrl" value="/geo">
 		  <c:forEach var="p" items="${result.paramNames}">
 			<c:param name="${p}" value="${result.params[p]}" />
 		  </c:forEach>

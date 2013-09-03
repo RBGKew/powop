@@ -179,6 +179,7 @@
 		<sec:intercept-url pattern="/resource" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
 		<sec:intercept-url pattern="/resource/*" method="GET" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/search" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')" />
 		<sec:intercept-url pattern="/taxon" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')" />

@@ -173,30 +173,35 @@ public abstract class GenericController<T extends Base,
         
         restDoc.setHeaders(headers);
         
-        Set<RestResource> resources = new HashSet<RestResource>();
-        
-        RestResource listOfObjects = new RestResource();
-        listOfObjects.setId(type.getSimpleName() + "List");
-        listOfObjects.setPath("/" + directory + "{?limit,start,apikey}");
-        
         ParamValidation integerParam = new ParamValidation();
         integerParam.setType("match");
         integerParam.setPattern("\\d+");
         ParamValidation apikeyParam = new ParamValidation();
         apikeyParam.setType("match");
         apikeyParam.setPattern("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+        ParamValidation stringParam = new ParamValidation();
+        stringParam.setType("match");
+        stringParam.setPattern("[0-9a-f]+");
+        
+        Set<RestResource> resources = new HashSet<RestResource>();
+        RestResource listOfObjects = new RestResource();
+        
+        listOfObjects.setId(type.getSimpleName() + "List");
+        listOfObjects.setPath("/" + directory + "{?limit,start,callback,apikey,fetch}");
         listOfObjects.param("limit", "The maximum number of resources to return", integerParam);
         listOfObjects.param("start", "The number of pages (of size _limit_) offset from the beginning of the recordset", integerParam);
         listOfObjects.param("apikey", "The apikey of the user account making the request", apikeyParam);
+        listOfObjects.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
+        listOfObjects.param("fetch", "The name of a valid 'fetch-profile' which will load some or all related objects prior to serialization. Try 'object-page' to return most related objects", stringParam);
         
         MethodDefinition listObjects = new MethodDefinition();
         listObjects.description("List " + type.getSimpleName() + " resources");
         ResponseDefinition listObjectsResponseDefinition = new ResponseDefinition();
-        
         listObjectsResponseDefinition.type("application/json", "http://e-monocot.org#page");
         listObjectsResponseDefinition.type("application/javascript", "http://e-monocot.org#page");
         listObjects.response(listObjectsResponseDefinition);
         listObjects.statusCode("200", "Successfully retrieved a list of 0+ resources");
+        listOfObjects.method("GET", listObjects);
         
         MethodDefinition createObject = new MethodDefinition();
         ResponseDefinition createdResponseDefinition = new ResponseDefinition();
@@ -206,28 +211,24 @@ public abstract class GenericController<T extends Base,
         createObject.description("Create a new " + type.getSimpleName() + " resource");
         createObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
         createObject.statusCode("201", "Successfully created the resource");
-        
-        listOfObjects.method("GET", listObjects);
+        listOfObjects.method("POST", createObject);
+       
         resources.add(listOfObjects);
         
         RestResource singleObject = new RestResource();
         singleObject.setId(type.getSimpleName());
-        singleObject.setPath("/" + directory + "/{identifier}{?apikey}");
-        singleObject.param("apikey", "The apikey of the user account making the request", apikeyParam);
-        ParamValidation stringParam = new ParamValidation();
-        stringParam.setType("match");
-        stringParam.setPattern("[0-9a-f]+");
+        singleObject.setPath("/" + directory + "/{identifier}{?apikey,callback}");
+        singleObject.param("apikey", "The apikey of the user account making the request", apikeyParam);  
+        singleObject.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
         singleObject.param("identifier", "The identifier of the object", stringParam);
         
         MethodDefinition getObject = new MethodDefinition();
         getObject.description("Get a " + type.getSimpleName() + " resource");
-        ResponseDefinition getObjectResponseDefinition = new ResponseDefinition();
-        
+        ResponseDefinition getObjectResponseDefinition = new ResponseDefinition();        
         getObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());
         getObjectResponseDefinition.type("application/javascript", "http://e-monocot.org#" + type.getSimpleName());
         getObject.response(getObjectResponseDefinition);
-        getObject.statusCode("200", "Successfully retrieved a resource");
-        
+        getObject.statusCode("200", "Successfully retrieved a resource");        
         singleObject.method("GET", getObject);
         
         MethodDefinition updateObject = new MethodDefinition();
@@ -236,8 +237,7 @@ public abstract class GenericController<T extends Base,
         updateObject.response(updatedObjectResponseDefinition);
         updateObject.description("Update an existing " + type.getSimpleName() + " resource");
         updateObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
-        updateObject.statusCode("200", "Successfully updated the resource");
-        
+        updateObject.statusCode("200", "Successfully updated the resource");        
         singleObject.method("POST", updateObject);
         
         MethodDefinition deleteObject = new MethodDefinition();
@@ -246,8 +246,7 @@ public abstract class GenericController<T extends Base,
         deleteObject.response(deletedObjectResponseDefinition);
         deleteObject.description("Delete an existing " + type.getSimpleName() + " resource");
         deleteObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
-        deleteObject.statusCode("200", "Successfully deleted the resource");
-        
+        deleteObject.statusCode("200", "Successfully deleted the resource");        
         singleObject.method("DELETE", deleteObject);
         
         resources.add(singleObject);

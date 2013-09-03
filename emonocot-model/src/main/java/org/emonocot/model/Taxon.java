@@ -1168,13 +1168,13 @@ public class Taxon extends SearchableObject {
 			}
 		}
 		if(!hasLifeForm) {
-			sid.addField("taxon.measurement_or_fact_" + WCSPTerm.Lifeform.simpleName() + "_txt", "NULL");
+			sid.addField("taxon.measurement_or_fact_" + WCSPTerm.Lifeform.simpleName() + "_txt", "_NULL_");
 		}
 		if(!hasHabitat) {
-			sid.addField("taxon.measurement_or_fact_" + WCSPTerm.Habitat.simpleName() + "_txt", "NULL");
+			sid.addField("taxon.measurement_or_fact_" + WCSPTerm.Habitat.simpleName() + "_txt", "_NULL_");
 		}
 		if(!hasThreatStatus) {
-			sid.addField("taxon.measurement_or_fact_" + IucnTerm.threatStatus.simpleName() + "_txt", "NULL");
+			sid.addField("taxon.measurement_or_fact_" + IucnTerm.threatStatus.simpleName() + "_txt", "_NULL_");
 		}
 		
 		if(getVernacularNames().isEmpty()) {

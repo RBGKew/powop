@@ -110,7 +110,11 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         	solrQuery.setFacet(true);
         	solrQuery.setFacetMinCount(1);
         	solrQuery.setFacetSort(FacetParams.FACET_SORT_INDEX);
+        	
         	for(String facet : facets) {
+        		if(facet.equals("base.class_s")) {
+        			solrQuery.setParam("f.base.class_s.sort", FacetParams.FACET_SORT_COUNT);
+        		}
         		if(facet.endsWith("_dt")) {
         			/**
         			 * Is a date facet. Once Solr 4.2 is released, we can implement variable length buckets, but for now
