@@ -157,7 +157,7 @@
 	<c:choose>
 	  <c:when test="${not empty typesAndSpecimens}">
 	  var ${name} = new OpenLayers.Layer.Vector("${name}", {
-		strategies: [new OpenLayers.Strategy.Fixed(),new OpenLayers.Strategy.Cluster()], styleMap:new OpenLayers.StyleMap(style)});
+		strategies: [new OpenLayers.Strategy.Cluster()], styleMap:new OpenLayers.StyleMap(style)});
 	
 	
 	  var featurecollection = {
