@@ -16,7 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Searchable;
@@ -239,6 +239,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
      */
 	@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+    @Cascade(CascadeType.DELETE)
     @OrderBy("lastHarvested DESC")
     public Set<Resource> getResources() {
         return resources;

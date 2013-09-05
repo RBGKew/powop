@@ -3156,7 +3156,7 @@
     <changeSet id="2012-11-26_01" author="ben">
       <comment>OAI-PMH webservice did not set the authority for distributions</comment>
       <sql>
-        update Distribution set authority_id = 1 where authority_id is NULL;
+        update distribution set authority_id = 1 where authority_id is NULL;
       </sql>
     </changeSet>
     <changeSet id="2012-11-28_01" author="ben">
@@ -4555,5 +4555,11 @@
                                baseColumnNames="prefSymbol_id"
                                baseTableName="Concept"
                                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="2013-08-29_01" author="ben">
+      <comment>Add lastAttempt column to avoid repeated harvesting in a short period of time</comment>
+      <addColumn tableName="Resource">
+        <column name="lastAttempt" type="datetime"/>
+      </addColumn>
     </changeSet>
 </databaseChangeLog>

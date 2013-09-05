@@ -3,7 +3,7 @@ package org.emonocot.portal.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.marshall.json.CustomObjectMapperFactory;
 import org.emonocot.portal.controller.form.AceDto;

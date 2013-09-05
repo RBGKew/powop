@@ -35,7 +35,7 @@
 <!-- Generic converter used by both queues -->
 		
     <bean id="mappingMessageConverter"
-		class="org.springframework.jms.support.converter.MappingJacksonMessageConverter">
+		class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
 		<property name="objectMapper" ref="customObjectMapper"/>
 		<property name="typeIdPropertyName" value="javaType"/>
 		<property name="typeIdMappings">

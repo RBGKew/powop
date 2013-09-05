@@ -21,7 +21,7 @@ public class PhylogeneticTreeController extends GenericController<PhylogeneticTr
     private static Logger queryLog = LoggerFactory.getLogger("query");
 
     public PhylogeneticTreeController() {
-        super("phylo");
+        super("phylo", PhylogeneticTree.class);
     }
 
     /**

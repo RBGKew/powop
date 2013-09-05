@@ -21,11 +21,10 @@
 				</p>
 				<div class="alert-actions">
 					<c:url value="/search" var="searchUrl" />
-					<a class="btn small" href="${searchUrl}"><spring:message
-							code="search" /></a>
-					<spring:message code="support.issuetracker" var="supportIssueTracker"/>
-			        <a href="${supportIssueTracker}" class="btn small">
-			          <spring:message code="submit.issue" />
+					<a class="btn small" href="${searchUrl}"><spring:message code="search" /></a>
+					<spring:message code="support.email.address" var="supportEmailAddress"/>
+			        <a href="mailto:${supportEmailAddress}" class="btn small">
+			          <spring:message code="send.an.email" />
 			        </a>
 				</div>
 			</div>

@@ -1,15 +1,16 @@
 package org.emonocot.model.marshall.json;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.HandlerInstantiator;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.KeyDeserializer;
-import org.codehaus.jackson.map.MapperConfig;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.introspect.Annotated;
-import org.codehaus.jackson.map.jsontype.TypeIdResolver;
-import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.KeyDeserializer;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.cfg.HandlerInstantiator;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.Annotated;
+import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
+import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
+
 import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.IdentificationKeyService;
@@ -94,7 +95,7 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     public JsonDeserializer<?> deserializerInstance(
             DeserializationConfig deserializerConfig,
             Annotated annotated,
-            Class<? extends JsonDeserializer<?>> jsonDeserializerClass) {
+            Class<?> jsonDeserializerClass) {
     	logger.debug("deserializerInstance " +  deserializerConfig + " " + jsonDeserializerClass);
         try {
             if (jsonDeserializerClass.equals(TaxonDeserializer.class)) {
@@ -179,7 +180,7 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     public KeyDeserializer keyDeserializerInstance(
             DeserializationConfig deserializationConfig,
             Annotated annotated,
-            Class<? extends KeyDeserializer> keyDeserializerClass) {
+            Class<?> keyDeserializerClass) {
         return null;
     }
 
@@ -187,7 +188,7 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     public JsonSerializer<?> serializerInstance(
             SerializationConfig serializationConfig,
             Annotated annotated,
-            Class<? extends JsonSerializer<?>> jsonSerializerClass) {
+            Class<?> jsonSerializerClass) {
         logger.debug("serializerInstance " +  serializationConfig + " " + annotated + " " + jsonSerializerClass);
         return null;
     }
@@ -195,14 +196,14 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
     @Override
     public TypeIdResolver typeIdResolverInstance(
             MapperConfig<?> mapperConfig, Annotated annotated,
-            Class<? extends TypeIdResolver> typeIdResolverClass) {
+            Class<?> typeIdResolverClass) {
         return null;
     }
 
     @Override
     public TypeResolverBuilder<?> typeResolverBuilderInstance(
             MapperConfig<?> mapperConfig, Annotated annotated,
-            Class<? extends TypeResolverBuilder<?>>
+            Class<?>
                 typeResolverBuilderClass) {
         return null;
     }

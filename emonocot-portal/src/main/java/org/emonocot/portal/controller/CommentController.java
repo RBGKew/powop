@@ -127,7 +127,7 @@ public class CommentController extends GenericController<Comment, CommentService
 	}
 
 	public CommentController() {
-        super("comment");
+        super("comment", Comment.class);
     }
     
     /**

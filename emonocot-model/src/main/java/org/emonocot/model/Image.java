@@ -23,9 +23,9 @@ import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
@@ -330,8 +330,8 @@ public class Image extends SearchableObject implements NonOwned, Media {
     	    addField(sid,"taxon.order_s", getTaxon().getOrder());    	    
     	    addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
     	    addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
-    	    addField(sid,"taxon.subtribe_s", getTaxon().getSubtribe());
-    	    addField(sid,"taxon.tribe_s", getTaxon().getTribe());
+    	    addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
+    	    addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
     	    summary.append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getFamily())

@@ -20,7 +20,7 @@ public class AnnotationController extends
      *
      */
    public AnnotationController() {
-        super("annotation");
+        super("annotation", Annotation.class);
     }
 
     /**

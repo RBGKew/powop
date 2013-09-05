@@ -58,8 +58,8 @@ Scenario: Search for Only Taxa
   | Acoraceae |
   And the IUCN status facet should have the following options:
   | option         |
-  | Least Concern  |
   | Not Evaluated  |
+  | Least Concern  |
   When I restrict the "taxon.taxon_rank_s" by selecting "Species"
   Then there should be 2 results
   When I restrict the "taxon.taxonomic_status_s" by selecting "Accepted Name"

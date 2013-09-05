@@ -1,6 +1,8 @@
 package org.emonocot.portal.remoting;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Comment;
@@ -43,6 +45,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -50,11 +54,14 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -64,6 +71,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/applicationContext-functionalTest.xml")
 public class RestApiFunctionalTest {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RestApiFunctionalTest.class);
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
     @Autowired
     private TaxonDao taxonDao;
@@ -104,6 +116,8 @@ public class RestApiFunctionalTest {
     private String password;
 
     private String username;
+    
+    private String taxonBaseUri;
 
     /**
      *
@@ -117,6 +131,7 @@ public class RestApiFunctionalTest {
         properties.load(propertiesFile.getInputStream());
         username = properties.getProperty("functional.test.username", null);
         password = properties.getProperty("functional.test.password", null);
+        taxonBaseUri = properties.getProperty("taxonDaoImpl.baseUri", "http://localhost:8080/taxon");
     }
 
     /**

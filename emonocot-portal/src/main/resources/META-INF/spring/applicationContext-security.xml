@@ -179,17 +179,18 @@
 		<sec:intercept-url pattern="/resource" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
 		<sec:intercept-url pattern="/resource/*" method="GET" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/search" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')" />
 		<sec:intercept-url pattern="/taxon" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')" />
 		<sec:intercept-url pattern="/taxon/*" method="GET" access="isAuthenticated()" />
-		<!--<sec:intercept-url pattern="/term" method="POST" access="hasRole('PERMISSION_CREATE_TERM')" />
+		<sec:intercept-url pattern="/term" method="POST" access="hasRole('PERMISSION_CREATE_TERM')" />
 		<sec:intercept-url pattern="/term" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/term/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TERM')" />
-		<sec:intercept-url pattern="/term/*" method="GET" access="isAuthenticated()" />-->
-		<!--<sec:intercept-url pattern="/occurrence" method="POST" access="hasRole('PERMISSION_CREATE_OCCURRENCE')" />
-		<sec:intercept-url pattern="/occurrence/*" method="DELETE" access="hasRole('PERMISSION_DELETE_OCCURRENCE')" />
-		<sec:intercept-url pattern="/occurrence/*" method="GET" access="isAuthenticated()" />-->		
+		<sec:intercept-url pattern="/term/*" method="GET" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/typeAndSpecimen" method="POST" access="hasRole('PERMISSION_CREATE_OCCURRENCE')" />
+		<sec:intercept-url pattern="/typeAndSpecimen/*" method="DELETE" access="hasRole('PERMISSION_DELETE_OCCURRENCE')" />
+		<sec:intercept-url pattern="/typeAndSpecimen/*" method="GET" access="isAuthenticated()" />		
 		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_CREATE_USER')" />
 		<sec:intercept-url pattern="/user" method="GET" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
@@ -215,10 +216,13 @@
 		<sec:intercept-url pattern="/recovery" access="permitAll" />
 		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
 		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_ADMINISTRATE')" />
+		<sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
 		<sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
 		<sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
 		<sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
 		<sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
+		<sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
+		<sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
         <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
          <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
         <sec:intercept-url pattern="/download" access="isAuthenticated()" />

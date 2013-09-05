@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.job.JobLaunchRequest;
@@ -24,6 +25,11 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class HarvestDataJob extends QuartzJobBean {
 	
+	/**
+	 * The minimal interval in hours between job runs.
+	 */
+	private static final int MINIMAL_INTERVAL = 6;
+
 	private Logger logger = LoggerFactory.getLogger(HarvestDataJob.class);
 	
 	private List<String> cronExpressions = new ArrayList<String>();
@@ -69,7 +75,7 @@ public class HarvestDataJob extends QuartzJobBean {
 					Resource resource = null;
 					for (Resource r : resourcesToHarvest) {
 						DateTime probableFinishingTime = now.plus(r.getDuration());
-						if (probableFinishingTime.isBefore(nextInvalidDate)) {
+						if (probableFinishingTime.isBefore(nextInvalidDate) && r.getLastAttempt().isAfter(now.plusHours(MINIMAL_INTERVAL))) {
 							resource = r;
 							break;
 						}
@@ -81,6 +87,7 @@ public class HarvestDataJob extends QuartzJobBean {
 						jobParametersMap.put("authority.name", resource.getOrganisation().getIdentifier());
 						jobParametersMap.put("authority.uri", resource.getUri());
 						jobParametersMap.put("resource.identifier",	resource.getIdentifier());
+						jobParametersMap.put("attempt", UUID.randomUUID().toString()); // Prevent jobs failing if a job has been executed with the same parameters
 						jobParametersMap.put("authority.last.harvested", Long.toString((resource.getStartTime().getMillis())));
 						jobParametersMap.putAll(resource.getParameters());
 
@@ -90,6 +97,7 @@ public class HarvestDataJob extends QuartzJobBean {
 
 						try {
 							jobLauncher.launch(jobLaunchRequest);
+							resource.setLastAttempt(now);
 							resource.setStartTime(null);
 							resource.setDuration(null);
 							resource.setExitCode(null);

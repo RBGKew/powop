@@ -44,66 +44,33 @@ public class ACLTest extends DataManagementSupport {
 	
 	private static Logger logger = LoggerFactory.getLogger(ACLTest.class);
 
-    /**
-     *
-     */
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    /**
-    *
-    */
     @Autowired
     private TaxonService taxonService;
 
-    /**
-    *
-    */
     @Autowired
     private ImageService imageService;
 
-    /**
-    *
-    */
     @Autowired
     private AnnotationService annotationService;
 
-    /**
-     *
-     */
     @Autowired
     private UserService userService;
 
-    /**
-     *
-     */
     @Autowired
     private GroupService groupService;
 
-    /**
-    *
-    */
     @Autowired
     private OrganisationService sourceService;
 
-    /**
-     *
-     */
     private UsernamePasswordAuthenticationToken token;
 
-    /**
-     *
-     */
     private Group group;
 
-    /**
-     *
-     */
     private Organisation source;
 
-    /**
-     *
-     */
     private User user;
 
     /**

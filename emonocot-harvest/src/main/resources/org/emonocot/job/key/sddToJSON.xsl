@@ -650,7 +650,16 @@
     <xsl:text>","max":"</xsl:text>
     <xsl:value-of select="math:max($values)"/>
     <xsl:text>","unit":"</xsl:text>
-    <xsl:value-of select="sdd:MeasurementUnit/sdd:Label"/>
+    <xsl:choose>
+      <xsl:when test="sdd:Default/sdd:MeasurementUnitPrefix">
+        <xsl:value-of select="sdd:Default/sdd:MeasurementUnitPrefix"/>
+        <xsl:value-of select="sdd:MeasurementUnit/sdd:Label[@role = 'Full']"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="sdd:MeasurementUnit/sdd:Label"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    
     <xsl:text>"}</xsl:text>
     <xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if>
   </xsl:template>

@@ -32,6 +32,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.AccessControlEntry;
+import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
@@ -63,69 +64,30 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implements UserService {
 
-    /**
-     * 
-     */
     private final Double THUMBNAIL_DIMENSION = 100D;
 
-    /**
-     *
-     */
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    /**
-     *
-     */
     private GroupDao groupDao;
 
-    /**
-     *
-     */
     private AclService aclService;
 
-    /**
-     *
-     */
     private SaltSource saltSource;
 
-    /**
-     *
-     */
     private PasswordEncoder passwordEncoder;
 
-    /**
-     *
-     */
     private AuthenticationManager authenticationManager;
 
-    /**
-     *
-     */
     private UserCache userCache;
 
-    /**
-     * 
-     */
     private String searchPath;
 
-    /**
-     * 
-     */
     private FileSystemResource temporaryFolder;
 
-    /**
-     * 
-     */
     private FileSystemResource userProfilesFolder;
 
-    /**
-     * 
-     */
     private Tika tika = new Tika(); 
 
-    /**
-     *
-     */
     public UserServiceImpl() {
         saltSource = new ReflectionSaltSource();
         ((ReflectionSaltSource) saltSource).setUserPropertyToUse("getUsername");
@@ -342,6 +304,9 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
         Assert.hasLength(username);
 
         User user = dao.find(username);
+        for(Group group : user.getGroups()) {
+        	removeUserFromGroup(username, group.getName());
+        }
         if (user != null) {
             dao.delete(username);
         }
@@ -462,10 +427,19 @@ public class UserServiceImpl extends SearchableServiceImpl<User, UserDao> implem
     /**
      * @param groupName The name of the group to delete
      */
-    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_GROUP')")
     @Transactional(readOnly = false)
     public final void deleteGroup(final String groupName) {
         Assert.hasText(groupName);
+        Group group = groupDao.find(groupName);
+        for(User user : group.getMembers()) {
+        	removeUserFromGroup(user.getUsername(), groupName);
+        }
+        for(Object[] objs : listAces(groupName)) {
+        	Object object = objs[0];
+        	Acl acl = (Acl)objs[1];
+        	aclService.deleteAcl(acl.getObjectIdentity(), true);
+        }
         groupDao.delete(groupName);
     }
 

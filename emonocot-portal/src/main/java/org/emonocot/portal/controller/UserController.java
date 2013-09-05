@@ -45,7 +45,7 @@ public class UserController extends GenericController<User, UserService> {
      *
      */
     public UserController() {
-        super("user");
+        super("user", User.class);
     }
 
     /**
@@ -102,7 +102,7 @@ public class UserController extends GenericController<User, UserService> {
         return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
     }
     
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html", params = {"!form"})
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html", params = {"!form", "!delete"})
 	public String show(@PathVariable Long id, Model uiModel) {
 		uiModel.addAttribute(getService().find(id));
 		return "user/show";
@@ -181,4 +181,15 @@ public class UserController extends GenericController<User, UserService> {
 		model.addAttribute("result", result);
 		return "user/list";
 	}
+	
+	@RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		User user = getService().find(id);
+        getService().deleteUser(user.getUsername());
+        String[] codes = new String[] { "user.deleted" };
+		Object[] args = new Object[] { user.getUsername() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+        return "redirect:/user";
+   }
 }

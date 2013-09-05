@@ -37,7 +37,7 @@ public class ImageController extends GenericController<Image, ImageService> {
      *
      */
     public ImageController() {
-       super("image");
+       super("image", Image.class);
     }
 
     /**

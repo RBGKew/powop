@@ -3,8 +3,10 @@ package org.emonocot.portal.controller;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -12,19 +14,31 @@ import org.emonocot.api.CommentService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.TypeAndSpecimenService;
 import org.emonocot.api.UserService;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
+import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
 import org.emonocot.pager.Dimension;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.view.geojson.Feature;
+import org.emonocot.portal.view.geojson.FeatureCollection;
+import org.restdoc.api.GlobalHeader;
+import org.restdoc.api.MethodDefinition;
+import org.restdoc.api.ParamValidation;
+import org.restdoc.api.ResponseDefinition;
+import org.restdoc.api.RestDoc;
+import org.restdoc.api.RestResource;
+import org.restdoc.api.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +48,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 
 /**
  * 
@@ -56,7 +75,11 @@ public class SearchController {
 	
 	private ResourceService resourceService;
 	
+	private TypeAndSpecimenService typeAndSpecimenService;
+	
 	private UserService userService;
+	
+	private ObjectMapper objectMapper;
 	
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
@@ -81,6 +104,16 @@ public class SearchController {
     @Autowired
     public void setUserService(UserService userService) {
     	this.userService = userService;
+    }
+    
+    @Autowired
+    public void setObjectMapper(ObjectMapper objectMapper) {
+    	this.objectMapper = objectMapper;
+    }
+    
+    @Autowired
+    public void setTypeAndSpecimenService(TypeAndSpecimenService typeAndSpecimenService) {
+    	this.typeAndSpecimenService = typeAndSpecimenService;
     }
 
 	/**
@@ -151,7 +184,7 @@ public class SearchController {
 	 * 
 	 * @return a model and view
 	 */
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String search(
 			@RequestParam(value = "query", required = false) String query,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
@@ -233,6 +266,41 @@ public class SearchController {
 		model.addAttribute("result", result);
 		return "search";
 	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<Page> searchAPI(
+			@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			@RequestParam(value = "x1", required = false) Double x1,
+			@RequestParam(value = "y1", required = false) Double y1,
+			@RequestParam(value = "x2", required = false) Double x2,
+			@RequestParam(value = "y2", required = false) Double y2,
+			@RequestParam(value = "sort", required = false) String sort,
+			Model model) throws SolrServerException {
+
+		spatial(query,x1, y1, x2, y2, null, limit,start,facets,sort,null,model);
+		return new ResponseEntity<Page>((Page) model.asMap().get("result"),HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/javascript")
+	public ResponseEntity<JSONPObject> searchAPIJSONP(
+			@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			@RequestParam(value = "x1", required = false) Double x1,
+			@RequestParam(value = "y1", required = false) Double y1,
+			@RequestParam(value = "x2", required = false) Double x2,
+			@RequestParam(value = "y2", required = false) Double y2,
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "callback", required = true) String callback,
+			Model model) throws SolrServerException {
+
+		spatial(query,x1, y1, x2, y2, null, limit,start,facets,sort,null,model);
+		return new ResponseEntity<JSONPObject>(new JSONPObject(callback,(Page) model.asMap().get("result")),HttpStatus.OK);
+	}
 
 	/**
 	 * 
@@ -259,7 +327,7 @@ public class SearchController {
 	 * 
 	 * @return a model and view
 	 */
-	@RequestMapping(value = "/spatial", method = RequestMethod.GET)
+	@RequestMapping(value = "/spatial", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String spatial(
 			@RequestParam(value = "query", required = false) String query,
 			@RequestParam(value = "x1", required = false) Double x1,
@@ -482,4 +550,127 @@ public class SearchController {
     	modelAndView.addObject("exception", sse);
         return modelAndView;
     }
+	
+	@RequestMapping(method = RequestMethod.OPTIONS,
+            produces = "application/json")
+    public ResponseEntity<RestDoc> optionsResource() throws JsonMappingException {
+        RestDoc restDoc = new RestDoc();
+        HashMap<String,Schema> schemas = new HashMap<String,Schema>();
+        Schema pagerSchema = new Schema();
+        SchemaFactoryWrapper pageVisitor = new SchemaFactoryWrapper();
+        objectMapper.acceptJsonFormatVisitor(objectMapper.constructType(Page.class), pageVisitor);
+        pagerSchema.setSchema(pageVisitor.finalSchema());
+        schemas.put("http://e-monocot.org#page", pagerSchema);
+        restDoc.setSchemas(schemas);
+        
+        GlobalHeader headers = new GlobalHeader();
+        headers.request("Content-Type","Must be set to application/json",true);
+        headers.request("Authorization","Supports HTTP Basic. Users may also use their api key",false);
+        
+        restDoc.setHeaders(headers);
+        
+        ParamValidation integerParam = new ParamValidation();
+        integerParam.setType("match");
+        integerParam.setPattern("\\d+");
+        ParamValidation apikeyParam = new ParamValidation();
+        apikeyParam.setType("match");
+        apikeyParam.setPattern("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+        ParamValidation stringParam = new ParamValidation();
+        stringParam.setType("match");
+        stringParam.setPattern("[0-9a-f]+");
+        ParamValidation doubleParam = new ParamValidation();
+        doubleParam.setType("match");
+        doubleParam.setPattern("[0-9]+\\.[0.9]+");
+        
+        Set<RestResource> resources = new HashSet<RestResource>();
+        
+        RestResource searchForObjects = new RestResource();
+        searchForObjects.setId("Search");
+        searchForObjects.setPath("/search{?query,x1,y1,x2,y2,facet,limit,start,sort,callback,apikey,fetch}"); 
+        searchForObjects.param("limit", "The maximum number of resources to return", integerParam);
+        searchForObjects.param("start", "The number of pages (of size _limit_) offset from the beginning of the recordset", integerParam);
+        searchForObjects.param("apikey", "The apikey of the user account making the request", apikeyParam);
+        searchForObjects.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
+        searchForObjects.param("x1", "The southerly extent of the bounding box (uses WGS84 Coordinate reference system). Only documents with distributions within the bounding box will be returned", doubleParam);
+        searchForObjects.param("y1", "The westerly extent of the bounding box (uses WGS84 Coordinate reference system). Only documents with distributions within the bounding box will be returned", doubleParam);
+        searchForObjects.param("x2", "The northerly extent of the bounding box (uses WGS84 Coordinate reference system). Only documents with distributions within the bounding box will be returned", doubleParam);
+        searchForObjects.param("y2", "The easterly extent of the bounding box (uses WGS84 Coordinate reference system). Only documents with distributions within the bounding box will be returned", doubleParam);
+        searchForObjects.param("query", "A free-text query string. Only documents matching the query string will be returned", stringParam);
+        searchForObjects.param("facet", "Only return documents which match a particular filter, in the form {fieldName}:{fieldValue} where fieldName is from the controlled vocabulary defined by org.emonocot.pager.FacetName.", stringParam);
+        searchForObjects.param("sort", "Sort the result set according to the supplied criteria, in the form {fieldName}_(asc|desc) where fieldName is from the controlled vocabulary defined by org.emonocot.pager.FacetName.", stringParam);
+        searchForObjects.param("fetch", "The name of a valid 'fetch-profile' which will load some or all related objects prior to serialization. Try 'object-page' to return most related objects", stringParam);
+        
+        MethodDefinition searchObjects = new MethodDefinition();
+        searchObjects.description("Search for resources");
+        ResponseDefinition searchObjectsResponseDefinition = new ResponseDefinition();
+        
+        searchObjectsResponseDefinition.type("application/json", "http://e-monocot.org#page");
+        searchObjectsResponseDefinition.type("application/javascript", "http://e-monocot.org#page");
+        searchObjects.response(searchObjectsResponseDefinition);
+        searchObjects.statusCode("200", "Successfully searched for resources");
+        
+        searchForObjects.method("GET", searchObjects);
+        resources.add(searchForObjects);
+        
+        restDoc.setResources(resources);
+        
+        return new ResponseEntity<RestDoc>(restDoc,HttpStatus.OK);
+    }
+	
+	@RequestMapping(value = "/geo", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<FeatureCollection> spatial(
+			@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "x1", required = false) Double x1,
+			@RequestParam(value = "y1", required = false) Double y1,
+			@RequestParam(value = "x2", required = false) Double x2,
+			@RequestParam(value = "y2", required = false) Double y2,
+			@RequestParam(value = "limit", required = false, defaultValue = "5000") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets) throws SolrServerException {
+		String spatial = null;
+		DecimalFormat decimalFormat = new DecimalFormat("###0.0");
+		if (x1 != null
+				&& y1 != null
+				&& x2 != null
+				&& y2 != null
+				&& (x1 != 0.0 && y1 != 0.0 && x2 != 0.0 && x2 != 0.0 && y2 != 0.0)) {
+			spatial = "geo:\"Intersects(" + decimalFormat.format(x1) + " "
+					+ decimalFormat.format(y1) + " " + decimalFormat.format(x2)
+					+ " " + decimalFormat.format(y2) + ")\"";
+		}
+
+		Map<String, String> selectedFacets = new HashMap<String, String>();
+		if (facets != null && !facets.isEmpty()) {			
+			for (FacetRequest facetRequest : facets) {
+				selectedFacets.put(facetRequest.getFacet(),
+						facetRequest.getSelected());
+			}
+			logger.debug(selectedFacets.size()
+					+ " facets have been selected from " + facets.size()
+					+ " available");
+		} else {
+			logger.debug("There were no facets available to select from");
+		}
+		selectedFacets.put("base.class_s", "org.emonocot.model.TypeAndSpecimen");
+
+		// Run the search
+		Page<TypeAndSpecimen> result = typeAndSpecimenQuery(query, start, limit,
+				spatial,  new String[] {}, null, null, selectedFacets);
+
+		FeatureCollection featureCollection = new FeatureCollection();
+		for(TypeAndSpecimen typeAndSpecimen : result.getRecords()) {
+			featureCollection.getFeatures().add(Feature.fromTypeAndSpecimen(typeAndSpecimen));
+		}
+		return new ResponseEntity<FeatureCollection>(featureCollection,HttpStatus.OK);
+	}
+	
+	private Page<TypeAndSpecimen> typeAndSpecimenQuery(String query,
+			Integer start, Integer limit, String spatial,
+			String[] responseFacets, Map<String, String> facetPrefixes,
+			String sort, Map<String, String> selectedFacets) throws SolrServerException {
+		Page<TypeAndSpecimen> result = typeAndSpecimenService.search(query, spatial, limit, start, responseFacets,facetPrefixes, selectedFacets, sort, null);
+		result.putParam("query", query);
+
+		return result;
+	}
 }

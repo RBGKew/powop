@@ -18,7 +18,7 @@ public class PlaceController extends
      *
      */
     public PlaceController() {
-        super("place");
+        super("place", Place.class);
     }
 
     /**

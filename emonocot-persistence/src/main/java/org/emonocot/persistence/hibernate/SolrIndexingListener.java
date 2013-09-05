@@ -79,8 +79,8 @@ public class SolrIndexingListener implements PostInsertEventListener,
 
 	@Override
 	public void onPostDelete(PostDeleteEvent event) {		
-		if(SearchableObject.class.isAssignableFrom(event.getEntity().getClass())) {
-		    deleteObject((SearchableObject) event.getEntity());
+		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
+		    deleteObject((Searchable) event.getEntity());
 		}
 	}
 

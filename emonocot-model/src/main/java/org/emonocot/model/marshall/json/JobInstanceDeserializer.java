@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameter.ParameterType;
@@ -36,7 +36,7 @@ public class JobInstanceDeserializer extends JsonDeserializer<JobInstance> {
         jsonParser.nextToken();
         assert jsonParser.getCurrentName() == "version";
         jsonParser.nextToken();
-        Integer version = jsonParser.getIntValue();
+        Integer version = jsonParser.getValueAsInt();
         jsonParser.nextToken();
         assert jsonParser.getCurrentName() == "parameters";
         jsonToken = jsonParser.nextToken();

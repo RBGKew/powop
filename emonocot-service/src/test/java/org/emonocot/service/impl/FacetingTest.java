@@ -17,11 +17,13 @@ import org.emonocot.api.OrganisationService;
 import org.emonocot.api.PlaceService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.api.UserService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Image;
 import org.emonocot.model.Place;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
@@ -33,6 +35,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.acls.domain.BasePermission;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -44,6 +51,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class FacetingTest extends DataManagementSupport {
+	
+	@Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private TaxonService taxonService;
@@ -62,6 +72,10 @@ public class FacetingTest extends DataManagementSupport {
 
     @Autowired
     private SearchableObjectService searchableObjectService;
+    
+    private User user;
+    
+    private UsernamePasswordAuthenticationToken token;
 
     /**
      * @throws java.lang.Exception if there is a problem
@@ -83,6 +97,10 @@ public class FacetingTest extends DataManagementSupport {
                 placeService.saveOrUpdate((Place) obj);
             }
         }
+        token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org", "sPePhAz6");
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.clearContext();
     }
 
     /**
@@ -91,6 +109,10 @@ public class FacetingTest extends DataManagementSupport {
     @After
     public final void tearDown() throws Exception {
         setSetUp(new ArrayList<Object>());
+        token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
+        "sPePhAz6");
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         while (!getTearDown().isEmpty()) {
             Object obj = getTearDown().pop();
             if (obj.getClass().equals(Taxon.class)) {
@@ -105,6 +127,7 @@ public class FacetingTest extends DataManagementSupport {
                 placeService.delete(((Place) obj).getIdentifier());
             }
         }
+        SecurityContextHolder.clearContext();
     }
 
     /**

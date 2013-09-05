@@ -1,7 +1,7 @@
 package org.emonocot.model.marshall.json;
 
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.deser.StdKeyDeserializer;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdKeyDeserializer;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.convert.StringToLocationConverter;
 

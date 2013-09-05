@@ -21,11 +21,7 @@
 		      <spring:message code="support.email.address" var="supportEmailAddress"/>
 			  <a class="btn small" href="mailto:${supportEmailAddress}">
 				<spring:message code="send.an.email" /> 	
-			  </a>   
-			  <spring:message code="support.issuetracker" var="supportIssueTracker"/>
-			  <a href="${supportIssueTracker}" class="btn small">
-			     <spring:message code="submit.issue" />
-			  </a>	
+			  </a>
             </div>
 		  </div>
 		</div>

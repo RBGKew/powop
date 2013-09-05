@@ -44,7 +44,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *
      */
     public GroupController() {
-        super("group");
+        super("group", Group.class);
     }
 
    /**
@@ -230,7 +230,7 @@ public class GroupController extends GenericController<Group, GroupService> {
      *            Set the model map
      * @return the view name
      */
-    @RequestMapping(value = "/{identifier}", params = "!form", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/{identifier}", params = {"!form","!delete"}, method = RequestMethod.GET, produces = "text/html")
     public String show(
             @PathVariable("identifier") String identifier,
             Model model) {
@@ -319,4 +319,15 @@ public class GroupController extends GenericController<Group, GroupService> {
         redirectAttributes.addFlashAttribute("info", message);
         return "redirect:/group/" + identifier + "?form";
     }
+    
+    @RequestMapping(value = "/{identifier}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+    public String delete(@PathVariable String identifier, RedirectAttributes redirectAttributes) {
+		Group group = getService().find(identifier);
+        userService.deleteGroup(identifier);
+        String[] codes = new String[] { "group.deleted" };
+		Object[] args = new Object[] { group.getName() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+        return "redirect:/group";
+   }
 }

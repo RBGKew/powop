@@ -2,10 +2,10 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.io.WKTWriter;
@@ -16,8 +16,7 @@ import com.vividsolutions.jts.io.WKTWriter;
  */
 public class ShapeSerializer extends JsonSerializer<Geometry> {
 
-	/* (non-Javadoc)
-	 * @see org.codehaus.jackson.map.JsonSerializer#serialize(java.lang.Object, org.codehaus.jackson.JsonGenerator, org.codehaus.jackson.map.SerializerProvider)
+	/* (non-Javadocom.fasterxml.jackson.databind..jackson.databind.JsonSerializer#serialize(java.lang.Object, org.codehaus.jackscom.fasterxml.jackson.databind.terxml.jackson.databind.SerializerProvider)
 	 */
 	@Override
 	public void serialize(Geometry value, JsonGenerator jgen,

@@ -100,7 +100,7 @@
 	  <property name="requestFactory" ref="requestFactory"/>
 	  <property name="messageConverters">
 	    <list>
-	      <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	      <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	        <property name="objectMapper" ref="objectMapper"/>
 	      </bean>
 	    </list>
