@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	                    
+    <context:property-placeholder ignore-resource-not-found="true"  location="classpath*:META-INF/spring/palmweb.default.properties,classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" system-properties-mode="OVERRIDE"/>
+
+    <!--
+      - NOTE FOR DEVELOPERS: There are lots of hibernate @Any relationships in the CDM.
+      - Because these relationships span tables, they cannot use foreign key constraints.
+      - because the properties used as foreign keys do not use foreign key constraints, 
+      - they are not indexed. This is, as I am sure you know, a _bad idea_.
+      -
+      - To make your life easier, I suggest that you check whether the following properties indexes
+      - defined and, if not, add an index prior to running this job. This will make the job run 
+      - much faster.
+      -
+      - create index OriginalSourceBase_SourcedObject_id_IDX on originalsourcebase (sourcedObj_id);
+      - create index OriginalSourceBase_SourcedObject_type_IDX on originalsourcebase (sourcedObj_type);
+      -->
+
+	<batch:job id="PalmWeb">
+		<batch:description>Create a darwin core archive the PalmWeb database</batch:description>
+		<batch:step id="updatePalmWebNameLsids">
+		  <batch:description>Some of the taxa don't have identifiers but the names do, so add those</batch:description>
+		  <batch:tasklet ref="updatePalmWebNameLsidsTasklet"/>
+		  <batch:next on="COMPLETED" to="updatePalmWebConceptLsids"/>
+		</batch:step>
+		<batch:step id="updatePalmWebConceptLsids">
+		  <batch:description>Now add the identifiers from the taxon concepts themselves</batch:description>
+		  <batch:tasklet ref="updatePalmWebConceptLsidsTasklet"/>
+		  <batch:next on="COMPLETED" to="produceTaxonFile"/>
+		</batch:step>
+		<batch:step id="produceTaxonFile">
+		  <batch:description>Produce the checklist output</batch:description>
+		  <batch:tasklet>
+		    <batch:chunk reader="taxonReader" writer="taxonWriter" commit-interval="10"/>
+		  </batch:tasklet>
+		  <batch:next on="COMPLETED" to="dropDescriptionTableIfExists"/>
+		</batch:step>
+		<batch:step id="dropDescriptionTableIfExists">
+		  <batch:description>Drop the description table if it exists</batch:description>
+		  <batch:tasklet ref="dropDescriptionTableTasklet"/>
+		  <batch:next on="COMPLETED" to="createDescriptionTable"/>
+		</batch:step>
+		<batch:step id="createDescriptionTable">
+		  <batch:description>Drop the description table if it exists</batch:description>
+		  <batch:tasklet ref="createDescriptionTableTasklet"/>
+		  <batch:next on="COMPLETED" to="produceDescriptionFile"/>
+		</batch:step>
+		<batch:step id="produceDescriptionFile">
+		  <batch:description>Produce the description output</batch:description>
+		  <batch:tasklet>
+		    <batch:chunk reader="descriptionReader" writer="descriptionWriter" commit-interval="10"/>
+		  </batch:tasklet>
+		  <batch:next on="COMPLETED" to="dropImageTableIfExists"/>
+		</batch:step>
+		<batch:step id="dropImageTableIfExists">
+		  <batch:description>Drop the image table if it exists</batch:description>
+		  <batch:tasklet ref="dropImageTableTasklet"/>
+		  <batch:next on="COMPLETED" to="createImageTable"/>
+		</batch:step>
+		<batch:step id="createImageTable">
+		  <batch:description>Drop the image table if it exists</batch:description>
+		  <batch:tasklet ref="createImageTableTasklet"/>
+		  <batch:next on="COMPLETED" to="produceImageFile"/>
+		</batch:step>
+		<batch:step id="produceImageFile">
+		  <batch:description>Produce the image output</batch:description>
+		  <batch:tasklet>
+		    <batch:chunk reader="imageReader" writer="imageWriter" commit-interval="10"/>
+		  </batch:tasklet>
+		  <batch:next on="COMPLETED" to="produceReferenceFile"/>
+		</batch:step>
+		<batch:step id="produceReferenceFile">
+		  <batch:description>Produce the reference output</batch:description>
+		  <batch:tasklet>
+		    <batch:chunk reader="referenceReader" writer="referenceWriter" commit-interval="10"/>
+		  </batch:tasklet>
+		  <batch:next on="COMPLETED" to="produceIdentifierFile"/>
+		</batch:step>
+		<batch:step id="produceIdentifierFile">
+		  <batch:description>Produce the identifier output</batch:description>
+		  <batch:tasklet>
+		    <batch:chunk reader="identifierReader" writer="identifierWriter" commit-interval="10"/>
+		  </batch:tasklet>
+		  <batch:next on="COMPLETED" to="createMetadataFile"/>
+		</batch:step>
+		<batch:step id="createMetadataFile">
+			<batch:description>Create the Metadata file</batch:description>
+			<batch:tasklet ref="writeMetadataTasklet"/>
+			<batch:next on="COMPLETED" to="packageArchive"/>
+	    </batch:step>
+	    <batch:step id="packageArchive">
+			<batch:description>Package the archive up</batch:description>
+			<batch:tasklet ref="packageArchiveTasklet"/>
+			<batch:next on="COMPLETED" to="cleanupResources"/>
+	    </batch:step>
+	    <batch:step id="cleanupResources">
+			<batch:description>Cleanup the resources</batch:description>
+			<batch:tasklet ref="workingDirectoryResourceDeletingTasklet" />
+			<batch:end on="COMPLETED"/>
+		</batch:step>
+	</batch:job>
+
+    <bean id="updatePalmWebNameLsidsTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+      <property name="jdbcTemplate" ref="jdbcTemplate"/>
+      <property name="query" value="update taxonbase as taxon join taxonnamebase as name on (taxon.name_id = name.id) left join originalsourcebase as source on (name.id = source.sourcedObj_id AND source.sourcedObj_type = 'eu.etaxonomy.cdm.model.name.BotanicalName') set taxon.lsid_lsid = if(source.idinsource IS NULL, NULL, concat('urn:kew.org:wcs:taxon:',substr(source.idinsource,9)))"/>
+    </bean>
+    
+    <bean id="updatePalmWebConceptLsidsTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+      <property name="jdbcTemplate" ref="jdbcTemplate"/>
+      <property name="query" value="update taxonbase as taxon join originalsourcebase as source on (taxon.id = source.sourcedObj_id AND source.sourcedObj_type = 'eu.etaxonomy.cdm.model.taxon.Taxon') set taxon.lsid_lsid = if(source.idinsource IS NULL, NULL, concat('urn:kew.org:wcs:taxon:',substr(source.idinsource,9))) where taxon.lsid_lsid is NULL"/>
+    </bean>
+    
+    <bean id="dropDescriptionTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+      <property name="jdbcTemplate" ref="jdbcTemplate"/>
+      <property name="query" value="drop table if exists description"/>
+    </bean>
+    
+    <bean id="createDescriptionTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+      <property name="jdbcTemplate" ref="jdbcTemplate"/>
+      <property name="query" value="create table description select element.id as id, IFNULL(taxon.lsid_lsid,'') AS taxonID, CASE feature_id WHEN 937 THEN 'morphology' WHEN 936 THEN 'biology' WHEN 924 THEN 'vernacular' WHEN 945 THEN 'conservation' WHEN 934 THEN 'general' WHEN 929 THEN 'diagnostic' WHEN  940 THEN 'distribution' WHEN 2075 THEN 'habitat' WHEN 925 THEN 'use' END as type, concat('http://www.palmweb.org/?q=cdm_dataportal/descriptionelement/',element.uuid) AS identifier, concat('http://www.palmweb.org/?q=cdm_dataportal/taxon/',taxon.uuid) AS reference, IF(element.updated is NULL, DATE_FORMAT(element.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(element.updated,'%Y-%m-%dT%TZ')) as modified, DATE_FORMAT(element.created,'%Y-%m-%dT%TZ') as created, IFNULL(user.username,'') as creator, REPLACE(REPLACE(IFNULL(string.text,''),'\r\n','\n'),'\n',' ') as description, IFNULL(IF(reference.uuid IS NULL,NULL,concat('http://www.palmweb.org/?q=cdm_dataportal/reference/',reference.uuid)),'') as citation from descriptionelementbase as element join descriptionbase as description on (element.indescription_id = description.id) join taxonbase as taxon on (description.taxon_id = taxon.id) left join useraccount as user on (user.id = element.createdBy_id) join descriptionelementbase_languagestring as deb_ls on (element.id = deb_ls.DescriptionElementBase_id) join languagestring as string on (deb_ls.multilanguagetext_id = string.id) left join originalsourcebase as source on (element.id = source.sourcedObj_id AND source.sourcedObj_type = 'eu.etaxonomy.cdm.model.description.TextData') left join Reference as reference on (source.citation_id = reference.id) where feature_id in (937,924,936,945,934,929,940,2075,925);"/>
+    </bean>
+    
+    <bean id="dropImageTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+      <property name="jdbcTemplate" ref="jdbcTemplate"/>
+      <property name="query" value="drop table if exists species"/>
+    </bean>
+    
+    <bean id="createImageTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+      <property name="jdbcTemplate" ref="jdbcTemplate"/>
+      <property name="query" value="create table species select taxon.id as parent, child.taxon_id as child from TaxonBase as taxon join TaxonNameBase as name on (taxon.name_id = name.id) join TaxonNode parent on (taxon.id = parent.taxon_id) join TaxonNode as child on (parent.id = child.parent_id) where name.rank_id = 775 and taxon.DTYPE = 'Taxon';"/>
+    </bean>
+    
+    <bean id="taxonReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="sql" value="select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(name.nameCache,'') as scientificName, IFNULL(name.authorshipCache,'') as scientificNameAuthorship, IFNULL(lower(rank.titleCache),'') as taxonRank, IF(taxon.DTYPE = 'Taxon', 'Accepted','Synonym') as taxonomicStatus, IFNULL(accepted.lsid_lsid,'') as acceptedNameUsageID, IFNULL(name.genusOrUninomial,'') as genus, IFNULL(name.infraGenericEpithet,'') as subgenus, IFNULL(name.specificEpithet,'') as specificEpithet, IFNULL(name.infraSpecificEpithet,'') as infraspecificEpithet, concat('http://www.palmweb.org/?q=cdm_dataportal/taxon/',taxon.uuid) AS source, IF(taxon.updated is NULL, DATE_FORMAT(taxon.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(taxon.updated,'%Y-%m-%dT%TZ')) as modified,DATE_FORMAT(taxon.created,'%Y-%m-%dT%TZ') as created,IFNULL(parent.lsid_lsid,'') as parentNameUsageID, IFNULL(IF(name.nomenclaturalmicroreference IS NULL,reference.titleCache,concat(reference.titleCache,' ', name.nomenclaturalmicroreference)),'') as namePublishedIn, IFNULL(IF(reference.uuid IS NULL,NULL,concat('http://www.palmweb.org/q=cdm_dataportal/reference/',reference.uuid)),'') as namePublishedInID, if(status.type_id IS NULL,'', IF(status.type_id=848,'illegitimum',IF(status.type_id=834,'invalidum',IF(status.type_id=831,'provisorium',IF(status.type_id=833,'nudum','subnudum'))))) as nomenclaturalStatus from taxonbase as taxon join taxonnamebase as name on (taxon.name_id = name.id) join DefinedTermBase as rank on (name.rank_id = rank.id)  left join synonymrelationship on (taxon.id = synonymrelationship.relatedfrom_id) left join taxonbase as accepted on (accepted.id = synonymrelationship.relatedto_id) left join taxonnode as node on (taxon.id = node.taxon_id) left join taxonnode as parentnode on (node.parent_id = parentnode.id) left join taxonbase as parent on (parentnode.taxon_id = parent.id) join reference on (name.nomenclaturalreference_id = reference.id) left join taxonnamebase_nomenclaturalstatus as name_status on (name.id = name_status.TaxonNameBase_id) left join nomenclaturalstatus as status on (name_status.status_id = status.id)"/>
+      <property name="rowMapper" ref="rowToMapRowMapper"/>
+    </bean>
+    
+    <bean id="rowToMapRowMapper" class="org.emonocot.harvest.common.RowToMapRowMapper"/>
+    
+    <bean id="taxonWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="taxonFile"/>
+	  <property name="lineAggregator" ref="taxonLineAggregator"/>
+	</bean>
+	
+	<bean id="taxonFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+				<constructor-arg type="java.lang.String" value="taxon.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+		
+	<bean name="taxonLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+	 <property name="delimiter" value="	"/>
+	 <property name="fieldExtractor">
+	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	     <property name="names" value="taxonID,scientificName,scientificNameAuthorship,taxonRank,taxonomicStatus,acceptedNameUsageID,genus,subgenus,specificEpithet,infraspecificEpithet,source,modified,created,parentNameUsageID,namePublishedIn,namePublishedInID,nomenclaturalStatus"/>
+	   </bean>
+	 </property>
+	</bean>
+	
+	<bean id="descriptionReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="sql" value="select taxonID, type, identifier, modified, created, creator,description,reference, group_concat(citation,',') as source from description group by id"/>
+      <property name="rowMapper" ref="rowToMapRowMapper"/>
+    </bean>
+    
+    <bean id="descriptionWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="descriptionFile"/>
+	  <property name="lineAggregator" ref="descriptionLineAggregator"/>
+	</bean>
+	
+	<bean id="descriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+				<constructor-arg type="java.lang.String" value="description.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="descriptionLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+	 <property name="delimiter" value="	"/>
+	 <property name="fieldExtractor">
+	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	     <property name="names" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
+	   </bean>
+	 </property>
+	</bean>
+	
+	<bean id="imageReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="sql" value="select taxonID, identifier, title, creator, modified, created FROM (select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(part.uri,'') as identifier, IFNULL(media.titleCache,'') as title, IFNULL(agent.titleCache,'') as creator, IFNULL(IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')),'') as modified, IFNULL(DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),'') as created, mimetype as format from media  join mediarepresentation as rep on (media.id = rep.media_id) join mediarepresentationpart as part on (rep.id = part.representation_id) left join media_rights on (media.id = media_rights.Media_id) left join rights on (media_rights.rights_id = rights.id) left join agentbase as agent on (rights.agent_id = Agent.id) join descriptionelementbase_media as deb_media on (media.id = deb_media.media_id) join descriptionelementbase as element on(element.id = deb_media.DescriptionElementBase_id) join DescriptionBase as description on (element.indescription_id = description.id) join species on (description.taxon_id = species.child) join taxonbase as taxon on (species.parent = taxon.id) union select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(part.uri,'') as identifier, IFNULL(media.titleCache,'') as title, IFNULL(agent.titleCache,'') as creator, IFNULL(IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')),'') as modified, IFNULL(DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),'') as created, mimetype as format from media join mediarepresentation as rep on (media.id = rep.media_id) join mediarepresentationpart as part on (rep.id = part.representation_id)left join media_rights on (media.id = media_rights.Media_id) left join rights on (media_rights.rights_id = rights.id) left join AgentBase as agent on (rights.agent_id = Agent.id) left join descriptionelementbase_media as deb_media on (media.id = deb_media.media_id) left join descriptionelementbase as element on (element.id = deb_media.DescriptionElementBase_id) left join DescriptionBase as description on (element.indescription_id = description.id) left join taxonbase as taxon on (description.taxon_id = taxon.id)) as images where (format = 'image/jpeg' and length(identifier) > 0)"/>
+      <property name="rowMapper" ref="rowToMapRowMapper"/>
+    </bean>
+    
+    <bean id="imageWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="imageFile"/>
+	  <property name="lineAggregator" ref="imageLineAggregator"/>
+	</bean>
+	
+	<bean id="imageFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+				<constructor-arg type="java.lang.String" value="image.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="imageLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+	 <property name="delimiter" value="	"/>
+	 <property name="fieldExtractor">
+	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	     <property name="names" value="taxonID,identifier,title,creator,modified,created"/>
+	   </bean>
+	 </property>
+	</bean>
+	
+	<bean id="referenceReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="sql" value="select IFNULL(taxon.lsid_lsid,'') as taxonID, IF(ref.updated is NULL, DATE_FORMAT(ref.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(ref.updated,'%Y-%m-%dT%TZ')) as modified, DATE_FORMAT(ref.created,'%Y-%m-%dT%TZ') as created, IFNULL(IF(ref.uuid IS NULL,NULL,concat('http://www.palmweb.org/?q=cdm_dataportal/reference/',ref.uuid)),'') as identifier, ifnull(ref.titleCache,'') as bibliographicCitation, ifnull(ref.title,'') as title, REPLACE(REPLACE(IFNULL(ref.referenceAbstract,''),'\r\n','\n'),'\n',' ') as description, ifnull(substr(ref.datepublished_start,1,4),'') as date,ifnull(inref.title,'') as source, ifnull(authors.titleCache,'') as creator from reference as ref left join reference as inref on (ref.inreference_id= inref.id) join agentbase as authors on (ref.authorTeam_id = authors.id) join originalsourcebase as source on (source.citation_id = ref.id) join descriptionelementbase as element on (source.sourcedObj_id = element.id and source.sourcedObj_type = 'eu.etaxonomy.cdm.model.description.TextData') join descriptionbase as description on (element.indescription_id = description.id) join taxonbase as taxon on (taxon.id = description.taxon_id) where element.feature_id in (937,936,924,945,934,929,940,2075,925)"/>
+      <property name="rowMapper" ref="rowToMapRowMapper"/>
+    </bean>
+    
+    <bean id="referenceWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="referenceFile"/>
+	  <property name="lineAggregator" ref="referenceLineAggregator"/>
+	</bean>
+	
+	<bean id="referenceFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+				<constructor-arg type="java.lang.String" value="reference.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="referenceLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+	 <property name="delimiter" value="	"/>
+	 <property name="fieldExtractor">
+	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	     <property name="names" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
+	   </bean>
+	 </property>
+	</bean>
+	
+	<bean id="identifierReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="sql" value="select taxonID, modified, created, identifier, title, IF(RIGHT(identifier,3)='pdf','application/pdf','text/html') as format from (select IFNULL(taxon.lsid_lsid,'') as taxonID, IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')) as modified, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ') as created, uri as identifier, concat(name.titleCache,' Protolog') as title from TaxonBase as taxon join TaxonNameBase as name on (taxon.name_id = name.id) join DescriptionBase on (name.id = DescriptionBase.TaxonName_id) join DescriptionElementBase on (DescriptionBase.id = DescriptionElementBase.inDescription_id)  join DescriptionElementBase_Media on (DescriptionElementBase.id = DescriptionElementBase_Media.DescriptionElementBase_id) join Media on (DescriptionElementBase_Media.media_id = Media.id) join MediaRepresentation on (Media.id = MediaRepresentation.media_id) join MediaRepresentationPart on (MediaRepresentation.id = MediaRepresentationPart.representation_id) where uri like  '%pdf' or uri like 'http://biodiversitylibrary%') as a group by identifier"/>
+      <property name="rowMapper" ref="rowToMapRowMapper"/>
+    </bean>
+    
+    <bean id="identifierWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	  <property name="resource" ref="identifierFile"/>
+	  <property name="lineAggregator" ref="identifierLineAggregator"/>
+	</bean>
+	
+	<bean id="identifierFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+		<constructor-arg type="java.io.File">
+			<bean class="java.io.File" scope="step">
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+				<constructor-arg type="java.lang.String" value="identifier.txt"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="identifierLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+	 <property name="delimiter" value="	"/>
+	 <property name="fieldExtractor">
+	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	     <property name="names" value="taxonID,modified,created,identifier,title,format"/>
+	   </bean>
+	 </property>
+	</bean>
+	
+	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
+		<property name="archiveFile" value="${harvester.output.directory}"/>		
+		<property name="taxonFields" value="${taxon.file.field.names}"/>
+		<property name="taxonDefaultValues" value="${taxon.default.values}"/>
+		<property name="descriptionFields" value="${description.file.field.names}"/>
+	    <property name="descriptionDefaultValues" value="${description.default.values}"/>
+	    <property name="imageFields" value="${image.file.field.names}"/>
+	    <property name="imageDefaultValues" value="${image.file.default.values}"/>
+	    <property name="referenceFields" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
+	    <property name="referenceDefaultValues" value="type=publication,license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
+	    <property name="identifierFields" value="${identifier.file.field.names}"/>
+	    <property name="identifierDefaultValues" value="${identifier.default.values}"/>
+		<property name="delimiter" value="${fields.terminated.by}"/>
+		<property name="quoteCharacter" value="${fields.enclosed.by}"/>
+		<property name="outputDirectory" value="./"/>
+		<property name="citationString" value="${citation.string}"/>
+		<property name="creatorEmail" value="${creator.email}"/>
+		<property name="creatorName" value="${creator.name}"/>
+		<property name="description" value="${meta.description}"/>
+		<property name="homepageUrl" value="${homepage.url}"/>
+		<property name="identifier" value="${meta.identifier}"/>
+		<property name="logoUrl" value="${logo.url}"/>
+		<property name="publisherEmail" value="${publisher.email}"/>
+		<property name="publisherName" value="${publisher.name}"/>
+		<property name="rights" value="${meta.rights}"/>
+		<property name="subject" value="${meta.subject}"/>
+		<property name="title" value="${meta.title}"/>
+	</bean>
+	
+	<bean id="packageArchiveTasklet" class="org.emonocot.job.dwc.write.ArchivePackager" scope="step">
+		<property name="archiveFile" value="${harvester.output.directory}"/>
+		<property name="outputDirectory" value="./"/>
+		<property name="descriptionFields" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
+		<property name="imageFields" value="taxonID,identifier,title,creator,modified,created"/>
+		<property name="referenceFields" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
+		<property name="identifierFields" value="taxonID,modified,created,identifier,title,format"/>		
+	</bean>
+	
+	<bean id="workingDirectoryResourceDeletingTasklet"
+		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		scope="step">
+		<property name="resources">
+			<list>
+				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+				    <constructor-arg value="${harvester.output.directory}" />
+				</bean>				
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="jobRepository"	class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+
+	<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<property name="jobRegistry" ref="jobRegistry" />
+	</bean>
+
+	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+
+   <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+   </bean>
+   
+   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+     <property name="dataSource" ref="dataSource"/>
+   </bean>
+   
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+     <property name="dataSource" ref="dataSource"/>
+   </bean>
+   
+   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver.classname}" />
+		<property name="url" value="${jdbc.driver.url}" />
+		<property name="username" value="${jdbc.driver.username}" />
+		<property name="password" value="${jdbc.driver.password}" />
+		<property name="initialSize" value="8" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="10" />
+		<property name="minIdle" value="1" />
+		<property name="maxWait" value="10000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="300" />
+		<property name="logAbandoned" value="true" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="defaultReadOnly" value="false" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="30000" />
+		<property name="numTestsPerEvictionRun" value="3" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="defaultTransactionIsolation" value="2" />
+	</bean>
+	
+</beans>
