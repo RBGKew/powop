@@ -5,11 +5,13 @@ import org.emonocot.model.IdentificationKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author jk00kg
@@ -40,7 +42,7 @@ public class IdentificationKeyController extends GenericController<Identificatio
      *            The model
      * @return The name of the view
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "!delete", produces = {"text/html", "*/*"})
     public String getPage(@PathVariable Long id,
             Model model) {
         IdentificationKey key = getService().load(id,"object-page");
@@ -56,5 +58,16 @@ public class IdentificationKeyController extends GenericController<Identificatio
     public String list(Model model) {
     	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
     }
+    
+    @RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		IdentificationKey key = getService().load(id);
+        getService().deleteById(id);
+        String[] codes = new String[] { "key.deleted" };
+		Object[] args = new Object[] { key.getTitle() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+        return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
+   }
 
 }

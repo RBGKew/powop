@@ -32,7 +32,7 @@
 									<c:param name="delete">true</c:param>
 								</c:url>
 								<spring:message code="delete.organisation" var="deleteMessage"/>
-								<p class="btn-group pull-right"><a href="${editUrl}" class="btn">${editMessage}</a><a href="${deleteUrl}" class="btn btn-danger">${deleteMessage}</a></p>
+								<p class="btn-group pull-right"><a href="${editUrl}" class="btn">${editMessage}</a><a href="${deleteUrl}" class="btn btn-danger"><i class="halflings-icon remove white">&#160;</i>&#160;${deleteMessage}</a></p>
 							</security:authorize>
 							<security:authorize access="hasPermission(#organisation, 'READ')">
 								<c:url value="/organisation/${organisation.identifier}" var="editUrl">

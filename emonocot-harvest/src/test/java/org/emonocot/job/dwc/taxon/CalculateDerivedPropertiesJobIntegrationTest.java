@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.taxon;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -90,8 +91,8 @@ public class CalculateDerivedPropertiesJobIntegrationTest {
                 .getJob("CalculateDerivedProperties");
         assertNotNull("CalculateDerivedProperties must not be null",
                 job);
-        JobExecution jobExecution = jobLauncher.run(
-                job, jobParameters);
+        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "

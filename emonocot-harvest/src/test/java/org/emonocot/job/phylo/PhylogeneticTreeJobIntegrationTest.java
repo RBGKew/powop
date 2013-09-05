@@ -1,7 +1,9 @@
 package org.emonocot.job.phylo;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -85,6 +87,9 @@ public class PhylogeneticTreeJobIntegrationTest {
     	Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
     	properties = new Properties();
     	properties.load(propertiesFile.getInputStream());
+    	File spoolDirectory = new File("./target/spool");
+        spoolDirectory.mkdirs();
+        spoolDirectory.deleteOnExit();
 	}
 
 
@@ -121,13 +126,14 @@ public class PhylogeneticTreeJobIntegrationTest {
         parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
         String repository = properties.getProperty("test.resource.baseUrl",
                 "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
-        parameters.put("authority.uri", new JobParameter(repository + "tree.nwk"));
+        parameters.put("authority.uri", new JobParameter(repository + "test.nwk"));
         parameters.put("authority.last.harvested", new JobParameter(Long.toString((PhylogeneticTreeJobIntegrationTest.PAST_DATETIME.getMillis()))));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job identificationKeyHarvestingJob = jobLocator.getJob("PhylogeneticTreeHarvesting");
         assertNotNull("PhylogeneticTreeHarvesting must not be null", identificationKeyHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(identificationKeyHarvestingJob, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "

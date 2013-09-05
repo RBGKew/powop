@@ -142,7 +142,7 @@ public class DwcaCreationIntegrationTest {
 		        jobParameters);
 		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
-		File workingDirectory = new File("target");
+		File workingDirectory = new File("target/output");
 		File outputFile = new File(workingDirectory,jobParameters.getParameters()
 				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
@@ -185,7 +185,7 @@ public class DwcaCreationIntegrationTest {
 		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 
-		File workingDirectory = new File("target");
+		File workingDirectory = new File("target/output");
 		File outputFile = new File(workingDirectory,jobParameters.getParameters()
 				.get("download.file").getValue().toString() + ".zip");
         ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));

@@ -54,7 +54,7 @@
 							  <spring:message code="delete.user" var="deleteMessage"/>
 							  <p class="btn-group pull-right">
 							    <a href="${editUrl}" class="btn">${editMessage}</a>
-							    <a href="${deleteUrl}" class="btn btn-danger">${deleteMessage}</a>
+							    <a href="${deleteUrl}" class="btn btn-danger"><i class="halflings-icon remove white">&#160;</i>&#160;${deleteMessage}</a>
 							  </p>
 						    </security:authorize>
 						  </c:otherwise>

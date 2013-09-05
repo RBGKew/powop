@@ -15,8 +15,22 @@
 		</div>
 	</tags:pageheader>
 	<div class="container">
-        <tags:info />
-        <tags:error />
+	    <div class="row">
+			<div class="span12">
+                <tags:info />
+                <tags:error />
+            </div>
+        </div>
+        <security:authorize url="hasRole('PERMISSION_ADMINISTRATE')">
+			<div class="row">
+				<c:url value="/phylo/${phylogeneticTree.id}" var="deleteUrl">
+					<c:param name="delete">true</c:param>
+				</c:url>
+				<p class="pull-right">
+				  <a href="${deleteUrl}" class="btn btn-danger"><i class="halflings-icon remove white">&#160;</i>&#160;<spring:message code="delete.phylogeny" /></a>
+				</p>
+			</div>
+		</security:authorize>
 		<div class="row">
 			<section class="span12">
 					<div class="inner">

@@ -1,15 +1,18 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.PhylogeneticTreeService;
+import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.PhylogeneticTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author jk00kg
@@ -40,7 +43,7 @@ public class PhylogeneticTreeController extends GenericController<PhylogeneticTr
      *            The model
      * @return The name of the view
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "!delete", produces = {"text/html", "*/*"})
     public String getPage(@PathVariable Long id,
             Model model) {
         PhylogeneticTree tree = getService().load(id,"object-page");
@@ -56,4 +59,15 @@ public class PhylogeneticTreeController extends GenericController<PhylogeneticTr
     public String list(Model model) {
     	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
     }
+    
+    @RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		PhylogeneticTree tree = getService().load(id);
+        getService().deleteById(id);
+        String[] codes = new String[] { "phylogeny.deleted" };
+		Object[] args = new Object[] { tree.getTitle() };
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+        return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
+   }
 }

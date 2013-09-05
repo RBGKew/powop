@@ -1,5 +1,6 @@
 package org.emonocot.job.common;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -80,8 +81,8 @@ public class ReIndexingJobIntegrationTest {
                 .getJob("ReIndex");
         assertNotNull("ReIndex must not be null",
                 job);
-        JobExecution jobExecution = jobLauncher.run(
-                job, jobParameters);
+        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "

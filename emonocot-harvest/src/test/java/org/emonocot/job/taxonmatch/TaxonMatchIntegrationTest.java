@@ -1,5 +1,6 @@
 package org.emonocot.job.taxonmatch;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.BufferedReader;
@@ -111,8 +112,8 @@ public class TaxonMatchIntegrationTest {
 
         Job taxonMatchingJob = jobLocator.getJob("TaxonMatching");
         assertNotNull("TaxonMatching must not be null", taxonMatchingJob);
-        JobExecution jobExecution = jobLauncher.run(taxonMatchingJob,
-                jobParameters);
+        JobExecution jobExecution = jobLauncher.run(taxonMatchingJob, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 
         FileReader file = new FileReader(jobParameters.getParameters().get("output.file").getValue().toString());
         BufferedReader reader = new BufferedReader(file);

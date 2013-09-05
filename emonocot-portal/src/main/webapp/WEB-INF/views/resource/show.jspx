@@ -68,7 +68,7 @@
 							<c:param name="delete">true</c:param>
 						</c:url>
 						<spring:message code="delete.resource" var="deleteMessage"/>
-						<a href="${deleteUrl}" class="btn btn-danger">${deleteMessage}</a>
+						<a href="${deleteUrl}" class="btn btn-danger"><i class="halflings-icon remove white">&#160;</i>&#160;${deleteMessage}</a>
 				    </div>
 				</div>
 			</div>

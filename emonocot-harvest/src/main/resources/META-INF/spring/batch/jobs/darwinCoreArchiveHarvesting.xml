@@ -1060,14 +1060,9 @@
 		<property name="strict" value="false" />
 	</bean>
 
-	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper"
-		scope="step">
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
-		<property name="fieldNames"
-			value="#{jobExecutionContext['dwca.core.fieldNames']}" />
-		<property name="defaultValues"
-			value="#{jobExecutionContext['dwca.core.defaultValues']}" />		
-		<property name="organisationService" ref="organisationServiceImpl" />
+	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper" scope="step">
+		<property name="fieldNames"	value="#{jobExecutionContext['dwca.core.fieldNames']}" />
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
 	</bean>
 	
 	<bean id="deleteTaxaReader"
@@ -1207,8 +1202,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.description.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteDescriptionsReader"
@@ -1304,9 +1297,7 @@
 			value="#{jobExecutionContext['dwca.image.fieldNames']}" />
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.image.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />		
 	</bean>
 
 	<bean id="processImageFilesReader"
@@ -1629,9 +1620,7 @@
 			value="#{jobExecutionContext['dwca.term.fieldNames']}" />
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.term.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />		
 	</bean>
 
 	<bean id="deleteTermsReader"
@@ -1747,8 +1736,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.reference.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteReferencesReader"
@@ -1839,9 +1826,7 @@
 			value="#{jobExecutionContext['dwca.identifier.fieldNames']}" />
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.identifier.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />		
 	</bean>
 
 	<bean id="deleteIdentifiersReader"
@@ -1930,8 +1915,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.distribution.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteDistributionReader"
@@ -2020,8 +2003,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.measurementOrFact.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteMeasurementOrFactReader"
@@ -2112,8 +2093,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.vernacularName.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteVernacularNameReader"
@@ -2210,8 +2189,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.typeAndSpecimen.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteTypeAndSpecimenReader"

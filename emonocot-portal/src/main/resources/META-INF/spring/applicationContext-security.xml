@@ -215,12 +215,14 @@
 		<sec:intercept-url pattern="/login*" access="permitAll" />
 		<sec:intercept-url pattern="/recovery" access="permitAll" />
 		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
+		<sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
 		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_ADMINISTRATE')" />
 		<sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
 		<sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
 		<sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
 		<sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
 		<sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
+		<sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
 		<sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
 		<sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
         <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
