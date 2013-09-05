@@ -5,7 +5,7 @@
  ------
  Date
  
-  We're using maven (2.2.1) as the build tool for the moment.
+  We're using maven (3.0.x) as the build tool for the moment.
 
   * To build a module: <mvn clean install>
   
@@ -27,25 +27,23 @@
 
 Tips
 
- * Use $\{user.home\} in your settings.xml to reference your home directory (Maven 3.0 only)
- 
- * Use $\{env.PROFILE\} in your settings.xml to reference your home directory (Maven 2+)
+ * Use $\{user.home\} in your settings.xml to reference your home directory
  
  * When checking out code into a fresh workspace in eclipse:
  
-   * Check out the code from CVS
+   * Check out the code from git
    
    * Run <mvn eclipse:eclipse> (from eclipse or the command line) in the root of the workspace or import the modules as new maven projects
    
    * Import the modules into eclipse if you ran <mvn eclipse:eclipse> in the last step
    
-   * Set the Java Compiler to a jdk5 compliant compiler (it is set to 1.4 by default)
+   * Set the Java Compiler to a jdk7 compliant compiler (it is set to 1.4 by default)
    
    * Set the JDK library in Build Path to the right library
    
    * Enable dependency management (in eclipse, right click on the project, then look under 'maven')
    
-   * When synchronizing with CVS for the first time, remember to add the target directory and any properties files such as .project and .settings to .cvsignore (and to add .cvsignore to .cvsignore) so that built or part built artifacts are not stored in CVS
+   * When synchronizing with git for the first time, remember to add the target directory and any properties files such as .project and .settings to .gitignore (and to add .gitignore to .gitignore) so that built or part built artifacts are not stored in git
    
    []
    

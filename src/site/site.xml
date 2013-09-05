@@ -27,7 +27,6 @@
       <item name="Secure Access" href="secure.html"/>
       <item name="Eclipse Integration" href="eclipse.html"/>
       <item name="Maven" href="maven.html"/>
-      <item name="Liquibase" href="liquibase.html"/>
       <item name="Spatial Data" href="spatial.html"/>
     </menu>
     <menu name="Infrastructure">

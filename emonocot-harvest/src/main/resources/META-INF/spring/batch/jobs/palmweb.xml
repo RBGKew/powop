@@ -7,7 +7,7 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 	                    
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
+    <context:property-placeholder ignore-resource-not-found="true"  location="classpath*:META-INF/spring/palmweb.default.properties,classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" system-properties-mode="OVERRIDE"/>
 
     <!--
       - NOTE FOR DEVELOPERS: There are lots of hibernate @Any relationships in the CDM.
@@ -153,7 +153,7 @@
 	<bean id="taxonFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="palmweb"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="taxon.txt"/>
 			</bean>
 		</constructor-arg>
@@ -182,7 +182,7 @@
 	<bean id="descriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="palmweb"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="description.txt"/>
 			</bean>
 		</constructor-arg>
@@ -211,7 +211,7 @@
 	<bean id="imageFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="palmweb"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="image.txt"/>
 			</bean>
 		</constructor-arg>
@@ -240,7 +240,7 @@
 	<bean id="referenceFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="palmweb"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="reference.txt"/>
 			</bean>
 		</constructor-arg>
@@ -269,7 +269,7 @@
 	<bean id="identifierFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="palmweb"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="identifier.txt"/>
 			</bean>
 		</constructor-arg>
@@ -285,36 +285,36 @@
 	</bean>
 	
 	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
-		<property name="archiveFile" value="palmweb"/>		
-		<property name="taxonFields" value="taxonID,scientificName,scientificNameAuthorship,taxonRank,taxonomicStatus,acceptedNameUsageID,genus,subgenus,specificEpithet,infraspecificEpithet,source,modified,created,parentNameUsageID,namePublishedIn,namePublishedInID,nomenclaturalStatus"/>
-		<property name="taxonDefaultValues" value="bibliographicCitation=Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 18/07/2011.,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License,kingdom=Plantae,phylum=Magnoliophyta,class=Commelinids,order=Arecales,family=Arecaceae,nomenclaturalCode=ICBN,license=http://creativecommons.org/licenses/by-nc-sa/3.0"/>
-		<property name="descriptionFields" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
-	    <property name="descriptionDefaultValues" value="license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License,language=EN,bibliographicCitation=Palmweb 2011. Palmweb: Palms of the World Online. Published onthe internet http://www.palmweb.org. Accessed on 21/04/2013."/>
-	    <property name="imageFields" value="taxonID,identifier,title,creator,modified,created"/>
-	    <property name="imageDefaultValues" value="format=image/jpeg,license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
+		<property name="archiveFile" value="${harvester.output.directory}"/>		
+		<property name="taxonFields" value="${taxon.file.field.names}"/>
+		<property name="taxonDefaultValues" value="${taxon.default.values}"/>
+		<property name="descriptionFields" value="${description.file.field.names}"/>
+	    <property name="descriptionDefaultValues" value="${description.default.values}"/>
+	    <property name="imageFields" value="${image.file.field.names}"/>
+	    <property name="imageDefaultValues" value="${image.file.default.values}"/>
 	    <property name="referenceFields" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
 	    <property name="referenceDefaultValues" value="type=publication,license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
-	    <property name="identifierFields" value="taxonID,modified,created,identifier,title,format"/>
-	    <property name="identifierDefaultValues" value="license=http://creativecommons.org/licenses/by-nc-sa/3.0,rights=Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License"/>
-		<property name="delimiter" value="	"/>
-		<property name="quoteCharacter" value="&quot;"/>
+	    <property name="identifierFields" value="${identifier.file.field.names}"/>
+	    <property name="identifierDefaultValues" value="${identifier.default.values}"/>
+		<property name="delimiter" value="${fields.terminated.by}"/>
+		<property name="quoteCharacter" value="${fields.enclosed.by}"/>
 		<property name="outputDirectory" value="./"/>
-		<property name="citationString" value="Palmweb 2011. Palmweb: Palms of the World Online. Published on the internet http://www.palmweb.org. Accessed on 21/04/2013"/>
-		<property name="creatorEmail" value="palms@kew.org"/>
-		<property name="creatorName" value="Palmweb"/>
-		<property name="description" value="Palmweb is an authoritative source of information about palms, one of the most important plant families in the world. It contains data compiled by palm diversity experts for all 2,400 palm species. Palms are among the most charismatic plants in the world. They include record breaking species with the longest leaves and heaviest seed, as well as some of the most economically valuable of all plants."/>
-		<property name="homepageUrl" value="http://www.palmweb.org"/>
-		<property name="identifier" value="PalmWeb"/>
-		<property name="logoUrl" value="http://www.palmweb.org/files/cdm-portal-palmae/palmweb_2_logo.jpg"/>
-		<property name="publisherEmail" value="palms@kew.org"/>
-		<property name="publisherName" value="Palmweb"/>
-		<property name="rights" value="With the exception of the artwork, all the content in Palmweb is served under the Creative Commons Attribution-Noncommercial-Share Alike license."/>
-		<property name="subject" value="e-Taxonomy,PalmWeb,Royal Botanic Gardens Kew,Botanischer Garten und Botanisches Museum Berlin-Dahlem,Arecaceae,Palmae,Palms"/>
-		<property name="title" value="Palmweb - Palms of the World Online"/>
+		<property name="citationString" value="${citation.string}"/>
+		<property name="creatorEmail" value="${creator.email}"/>
+		<property name="creatorName" value="${creator.name}"/>
+		<property name="description" value="${meta.description}"/>
+		<property name="homepageUrl" value="${homepage.url}"/>
+		<property name="identifier" value="${meta.identifier}"/>
+		<property name="logoUrl" value="${logo.url}"/>
+		<property name="publisherEmail" value="${publisher.email}"/>
+		<property name="publisherName" value="${publisher.name}"/>
+		<property name="rights" value="${meta.rights}"/>
+		<property name="subject" value="${meta.subject}"/>
+		<property name="title" value="${meta.title}"/>
 	</bean>
 	
 	<bean id="packageArchiveTasklet" class="org.emonocot.job.dwc.write.ArchivePackager" scope="step">
-		<property name="archiveFile" value="palmweb"/>
+		<property name="archiveFile" value="${harvester.output.directory}"/>
 		<property name="outputDirectory" value="./"/>
 		<property name="descriptionFields" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
 		<property name="imageFields" value="taxonID,identifier,title,creator,modified,created"/>
@@ -328,7 +328,7 @@
 		<property name="resources">
 			<list>
 				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
-				    <constructor-arg value="palmweb" />
+				    <constructor-arg value="${harvester.output.directory}" />
 				</bean>				
 			</list>
 		</property>

@@ -2,7 +2,6 @@ package org.emonocot.job.delta;
 
 import java.io.File;
 
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.Resource;
 
 import au.org.ala.delta.DeltaContext;

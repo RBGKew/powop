@@ -46,6 +46,18 @@ ogr2ogr -f MySQL MySQL:gis,user=user,password=passwd shapefile.shp  -nln tablena
 > curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/level3.txt&fieldnames=id,location.tdwg_code_s,location.name_s,geo'
 
 ---------------------------------------------------------
+
+ * NB: I found that level 1 continents could not be easily loaded into solr, so these have been left out totally. I also found that pre-simplfying the polygons using
+   com.vividsolutions.jts.simplify.TopologyPreservingSimplifier.simplify(geom, 0.01) made it more likely that some of the polygons could be imported. Some level 2 and
+   3 polygons could not be loaded, even once they had been simplified so I ended up importing them in batches thus (where X is the offset from the top of the file
+   and Y is the size of the batch):
+   
+---------------------------------------------------------
+
+> head -n X /tmp/level2_simplified.txt | tail -n Y > /tmp/l2.txt
+> curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/l2.txt&fieldnames=id,location.tdwg_code_s,location.name_s,geo'
+
+---------------------------------------------------------
  
  * The documentation for the spatial extensions in MySQL is here: http://dev.mysql.com/doc/refman/5.0/en/spatial-extensions.html
  

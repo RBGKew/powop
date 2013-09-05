@@ -20,7 +20,7 @@ import org.springframework.validation.BindException;
  * @author ben
  * @param <T> the type of object which this class maps
  */
-public abstract class DarwinCoreFieldSetMapper<T extends Base> extends AuthorityAware implements
+public abstract class DarwinCoreFieldSetMapper<T extends Base> implements
         FieldSetMapper<T> {
 	
     private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);

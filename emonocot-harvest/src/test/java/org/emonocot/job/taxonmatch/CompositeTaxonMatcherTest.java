@@ -3,9 +3,9 @@
  */
 package org.emonocot.job.taxonmatch;
 
-import static org.junit.Assert.*;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,6 @@ import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.Taxon;
-import org.gbif.ecat.model.ParsedName;
-import org.gbif.ecat.parser.NameParser;
-import org.gbif.ecat.parser.UnparsableException;
 import org.junit.Before;
 import org.junit.Test;
 

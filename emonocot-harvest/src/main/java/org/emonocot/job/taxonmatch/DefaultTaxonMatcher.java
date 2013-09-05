@@ -115,7 +115,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
 		} catch (SolrServerException sse) {
 			throw new RuntimeException("SolrServerException", sse);
 		}
-
+        
         switch (page.getRecords().size()) {
         case 0:
         	if(parsed.getBracketAuthorship() != null){
@@ -134,7 +134,8 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
             Match<Taxon> single = new Match<Taxon>();
             single.setInternal((Taxon)page.getRecords().get(0));
             String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
-            if (searchTerm.equals(internalName)) {
+            
+            if (parsed.canonicalName().equals(internalName)) {
                 single.setStatus(MatchStatus.EXACT);
             } else {
                 single.setStatus(MatchStatus.PARTIAL);
@@ -142,6 +143,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
             matches.add(single);
             break;
         default:
+        	logger.debug(page.getSize() + " records found");
             Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
             for (SearchableObject eTaxon : page.getRecords()) {
                 logger.debug(((Taxon)eTaxon).getScientificName() + " " + eTaxon.getIdentifier());
@@ -149,13 +151,15 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
                 m.setInternal((Taxon)eTaxon);
                 matches.add(m);
                 String name = (new NameParser().parseToCanonical(((Taxon)eTaxon).getScientificName()));
-                if (searchTerm.equals(name)) {
+                logger.debug("Name is " + name);
+                if (parsed.canonicalName().equals(name)) {
                     m.setStatus(MatchStatus.EXACT);
                     exactMatches.add(m);
                 } else {
                     m.setStatus(MatchStatus.PARTIAL);
                 }
             }
+            logger.debug(exactMatches.size() + " exact matches");
             switch (exactMatches.size()) {
             case 0:
                 break;
@@ -163,9 +167,10 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
                 matches.retainAll(exactMatches);
                 break;
             default:
-            	if(assumeAcceptedMatches) {
+            	if(assumeAcceptedMatches && parsed.getAuthorship() == null) {
             		Set<Match<Taxon>> acceptedMatches = new HashSet<Match<Taxon>>();
             		for(Match<Taxon> match : exactMatches) {
+            			logger.debug("Taxonomic status " + match.getInternal().getTaxonomicStatus());
             			if(match.getInternal().getTaxonomicStatus() != null && match.getInternal().getTaxonomicStatus().equals(TaxonomicStatus.Accepted)) {
             				acceptedMatches.add(match);
             			}

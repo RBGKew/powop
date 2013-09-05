@@ -658,8 +658,7 @@
       <xsl:otherwise>
         <xsl:value-of select="sdd:MeasurementUnit/sdd:Label"/>
       </xsl:otherwise>
-    </xsl:choose>
-    
+    </xsl:choose>    
     <xsl:text>"}</xsl:text>
     <xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if>
   </xsl:template>

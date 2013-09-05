@@ -41,7 +41,7 @@ Bare Metal install using KickStart
  
  * Your server needs to be added to /etc/puppet/auth.conf in order to be able to access some files stored on the puppetmaster
  
- * Either wait for the puppet changes to propagate or run <<<sudo puppet agent --test>>> on the server to see the changes applied instantly.
+ * Either start the puppet service and wait for the puppet changes to propagate or run <<<sudo puppet agent --test>>> on the server to see the changes applied instantly.
 
  []
  

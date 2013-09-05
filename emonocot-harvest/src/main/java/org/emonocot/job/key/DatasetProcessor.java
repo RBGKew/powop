@@ -97,11 +97,20 @@ public class DatasetProcessor extends AuthorityAware implements
             identificationKey.setAuthority(getSource());
 
             if (rootTaxonIdentifier != null
-                    && rootTaxonIdentifier.trim().length() > 0) {
-                Taxon root = taxonService.find(rootTaxonIdentifier);
-                logger.debug("rootTaxonIdentifier is "  + rootTaxonIdentifier);
-                logger.debug("rootTaxon "  + root);
-                identificationKey.getTaxa().add(root);
+                    && !rootTaxonIdentifier.isEmpty()) {
+            	if(rootTaxonIdentifier.indexOf(",") == -1) {
+                    Taxon root = taxonService.find(rootTaxonIdentifier);
+                    logger.debug("rootTaxonIdentifier is "  + rootTaxonIdentifier);
+                    logger.debug("rootTaxon "  + root);
+                    identificationKey.getTaxa().add(root);
+            	} else {
+            		for(String identifier : rootTaxonIdentifier.split(",")) {
+            			Taxon root = taxonService.find(identifier);
+                        logger.debug("rootTaxonIdentifier is "  + identifier);
+                        logger.debug("rootTaxon "  + root);
+                        identificationKey.getTaxa().add(root);
+            		}
+            	}
             }
 
             if (item.getRevisionData() != null) {

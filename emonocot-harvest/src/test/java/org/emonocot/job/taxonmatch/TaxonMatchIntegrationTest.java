@@ -7,8 +7,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.emonocot.model.Taxon;
+import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Test;
@@ -55,6 +61,12 @@ public class TaxonMatchIntegrationTest {
     @Autowired
 	@Qualifier("jobLauncher")
     private JobLauncher jobLauncher;
+    
+    @Autowired
+    private SessionFactory sessionFactory;
+    
+    @Autowired
+    private SolrIndexingListener solrIndexingListener;
 
     /**
      * 1288569600 in unix time.
@@ -81,9 +93,17 @@ public class TaxonMatchIntegrationTest {
             NoSuchJobException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException,
             JobParametersInvalidException {
-        ClassPathResource input = new ClassPathResource(
-                "/org/emonocot/job/taxonmatch/input.csv");
+    	
+    	Session session = sessionFactory.openSession();        
+        Transaction tx = session.beginTransaction();
+
+        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+        solrIndexingListener.indexObjects(taxa);
+        tx.commit();
+    	
+        ClassPathResource input = new ClassPathResource("/org/emonocot/job/taxonmatch/input.csv");
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+        parameters.put("assume.accepted.matches", new JobParameter(Boolean.TRUE.toString()));
         parameters.put("input.file", new JobParameter(input.getFile().getAbsolutePath()));
         parameters.put("output.file", new JobParameter(File.createTempFile("output", "csv").getAbsolutePath()));
 

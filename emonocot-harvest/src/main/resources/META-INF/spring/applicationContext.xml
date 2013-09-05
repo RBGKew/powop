@@ -213,6 +213,7 @@
 	</bean>
     
     <bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessorImpl" scope="step">
+        <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}" />
         <property name="getResourceClient" ref="getResourceClient" />
         <property name="imageDirectory" value="${harvester.image.directory}"/>
         <property name="imageAnnotator" ref="imageAnnotator" />

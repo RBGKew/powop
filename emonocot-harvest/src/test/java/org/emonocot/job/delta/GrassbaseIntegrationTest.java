@@ -53,6 +53,8 @@ public class GrassbaseIntegrationTest {
 	
 	private ClassPathResource speciesTaxonFile = new ClassPathResource("org/kew/grassbase/species.txt");
 	
+	private ClassPathResource imagesFile = new ClassPathResource("org/kew/grassbase/images.txt");
+	
 	 @Autowired
 	 private JobLocator jobLocator;
 
@@ -72,17 +74,8 @@ public class GrassbaseIntegrationTest {
 	    parameters.put("genera.specs.file", new JobParameter(generaSpecsFile.getFile().getAbsolutePath()));
 	    parameters.put("genera.items.file", new JobParameter(generaItemsFile.getFile().getAbsolutePath()));
 	    parameters.put("genera.taxon.file", new JobParameter(generaTaxonFile.getFile().getAbsolutePath()));
-	    parameters.put("fields.terminated.by", new JobParameter("\t"));
-	    parameters.put("fields.enclosed.by", new JobParameter("\""));
-	    parameters.put("taxon.file.skip.lines", new JobParameter("0"));
-	    parameters.put("taxon.file.field.names", new JobParameter("taxonID,scientificName,scientificNameAuthorship"));
-	    parameters.put("description.file.field.names", new JobParameter("taxonID,description,references"));
-	    parameters.put("description.default.values", new JobParameter("language=EN,type=general,rights=© Copyright The Board of Trustees\\, Royal Botanic Gardens\\, Kew."));
-	    parameters.put("archive.file", new JobParameter(UUID.randomUUID().toString()));
-	    parameters.put("character.for.link", new JobParameter("1090"));
-	    parameters.put("link.prefix", new JobParameter("http://www.kew.org/data/grasses-db/www/"));
-	    parameters.put("link.suffix", new JobParameter(".htm"));
-	    
+	    parameters.put("images.file", new JobParameter(imagesFile.getFile().getAbsolutePath()));
+
 	    JobParameters jobParameters = new JobParameters(parameters);
 
 	    Job deltaToDwC = jobLocator.getJob("Grassbase");

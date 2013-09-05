@@ -21,8 +21,7 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class FieldSetMapper extends
-        OwnedEntityFieldSetMapper<VernacularName> implements StepExecutionListener {
+public class FieldSetMapper extends OwnedEntityFieldSetMapper<VernacularName> {
 
 
 	

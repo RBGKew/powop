@@ -26,7 +26,7 @@ public class HtmlSanitizer {
 	}
 	
 	public void afterPropertiesSet() throws Exception {
-		policy = Policy.getInstance(policyFile.getFile().getAbsolutePath());
+		policy = Policy.getInstance(policyFile.getInputStream());
 	}
 	
 	public String sanitize(String unclean) {

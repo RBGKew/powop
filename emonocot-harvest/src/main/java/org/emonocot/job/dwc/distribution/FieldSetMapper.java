@@ -19,7 +19,7 @@ import org.springframework.validation.BindException;
  * @author ben
  *
  */
-public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> implements StepExecutionListener {
+public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
 
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 	

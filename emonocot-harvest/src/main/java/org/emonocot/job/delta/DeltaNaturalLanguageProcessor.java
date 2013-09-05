@@ -16,8 +16,8 @@ import org.springframework.batch.item.ItemProcessor;
 
 import au.org.ala.delta.DeltaContext;
 import au.org.ala.delta.model.Attribute;
-import au.org.ala.delta.model.Item;
 import au.org.ala.delta.model.Character;
+import au.org.ala.delta.model.Item;
 import au.org.ala.delta.model.MutableDeltaDataSet;
 import au.org.ala.delta.model.format.AttributeFormatter;
 import au.org.ala.delta.model.format.CharacterFormatter;
@@ -28,7 +28,6 @@ import au.org.ala.delta.translation.ItemListTypeSetter;
 import au.org.ala.delta.translation.IterativeTranslator;
 import au.org.ala.delta.translation.PrintFile;
 import au.org.ala.delta.translation.TypeSetterFactory;
-import au.org.ala.delta.translation.naturallanguage.NaturalLanguageDataSetFilter;
 import au.org.ala.delta.translation.naturallanguage.NaturalLanguageTranslator;
 
 public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Description> {
