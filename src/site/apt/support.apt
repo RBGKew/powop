@@ -52,7 +52,7 @@ create index OriginalSourceBase_SourcedObject_type_IDX on originalsourcebase (so
          
 ---------------------------------------------------------
 
->java -Djdbc.driver.url=jdbc:mysql://localhost:3306/palmweb -jar emonocot-harvest-jar-with-dependencies.jar classpath:META-INF/spring/batch/jobs/palmweb.xml PalmWeb
+>java -Djdbc.driver.url=jdbc:mysql://localhost:3306/palmweb -jar emonocot-harvest-jar-with-dependencies.jar classpath:org/emonocot/job/palmweb/palmweb.xml PalmWeb
 
 ---------------------------------------------------------
   
@@ -104,7 +104,7 @@ Grassbase
     
 ---------------------------------------------------------
 
->java -jar target\emonocot-harvest-jar-with-dependencies.jar classpath:META-INF/spring/batch/jobs/grassbase.xml Grassbase species.specs.file=TONAT species.items.file=ITEMS species.taxon.file=species.txt genera.specs.file=GTONATH genera.items.file=geitems genera.taxon.file=genera.txt images.file=images.txt
+>java -jar target\emonocot-harvest-jar-with-dependencies.jar classpath:org/emonocot/job/grassbase/grassbase.xml Grassbase species.specs.file=TONAT species.items.file=ITEMS species.taxon.file=species.txt genera.specs.file=GTONATH genera.items.file=geitems genera.taxon.file=genera.txt images.file=images.txt
 
 --------------------------------------------------------- 
 

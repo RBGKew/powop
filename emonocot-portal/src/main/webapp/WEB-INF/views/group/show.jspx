@@ -16,7 +16,7 @@
 				<tags:info />
 			</div>
 		</div>
-		<security:authorize url="hasRole('PERMISSION_ADMINISTRATE')">
+		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 			<div class="row">
 				<c:url var="editGroupUrl" value="/group/${group.identifier}">
 					<c:param name="form">true</c:param>

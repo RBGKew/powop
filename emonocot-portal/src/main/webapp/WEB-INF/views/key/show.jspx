@@ -65,7 +65,7 @@
 		        <tags:error />
 		    </div>
 		</div>
-		<security:authorize url="hasRole('PERMISSION_ADMINISTRATE')">
+		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 			<div class="row">
 				<c:url value="/key/${identificationKey.id}" var="deleteUrl">
 					<c:param name="delete">true</c:param>

@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/palmweb.xml" })
+    "/org/emonocot/job/palmweb/palmweb.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @Ignore
 public class PalmwebIntegrationTest {

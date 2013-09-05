@@ -576,7 +576,14 @@
 									<tags:feedbackLink selector="option:contains(${idHeader})" dataName="${idHeader}" />
 								</h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
-									<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
+									<c:choose>
+									  <c:when test="${not empty identifier.title}">
+									    <a href="${identifier.identifier}">${identifier.identifier}</a>
+									  </c:when>
+									  <c:otherwise>
+									    <a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
+									  </c:otherwise>
+									</c:choose>
 								</c:forEach>
 								<ul class="citations">
 									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.identifiers)}">
