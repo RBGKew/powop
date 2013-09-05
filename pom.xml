@@ -1510,13 +1510,13 @@
 			</build>
 		</profile>
 		<profile>
-			<id>portal.test.vagrant</id>
+			<id>portal.test.kpttapp</id>
 			<properties>
 			    <use.remote.solr>false</use.remote.solr>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<amq.broker.uri>tcp://kptuapp01:6166</amq.broker.uri>				
 				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
@@ -1525,12 +1525,12 @@
 				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>sadmin</cargo.remote.username>
 				<cargo.remote.password>kewadmin</cargo.remote.password>
-				<cargo.context.path>/</cargo.context.path>
+				<cargo.context.path>/emonocot-portal</cargo.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://kpttweb01.ad.kew.org:2222/var/www/html/</wagon.static.url>
+				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
@@ -1547,9 +1547,9 @@
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
-				<functional.test.basePath />
+				<functional.test.basePath>emonocot-portal</functional.test.basePath>
 				<functional.test.port>8080</functional.test.port>
-				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
+				<functional.test.solr.url>http://kpttapp01.ad.kew.org:8983/solr</functional.test.solr.url>
 				<functional.test.username>test@e-monocot.org</functional.test.username>
                 <functional.test.password>t35t.pa55w0rd</functional.test.password>
                 <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
@@ -1558,14 +1558,14 @@
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
-				<email.debug>true</email.debug>
-				<email.smtp.username>portal</email.smtp.username>
-				<email.smtp.password>portal</email.smtp.password>
-				<email.smtp.host>localhost</email.smtp.host>
+				<email.debug>false</email.debug>
+				<email.smtp.username />
+				<email.smtp.password />
+				<email.smtp.host>smtp.ad.kew.org</email.smtp.host>
 				<email.smtp.port>25</email.smtp.port>
 				<email.smtp.auth>false</email.smtp.auth>
 				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>portal@localhost</email.fromAddress>
+				<email.fromAddress>test-portal@kpttapp01</email.fromAddress>
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
