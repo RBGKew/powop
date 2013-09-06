@@ -17,9 +17,9 @@ Support Tasks
 PalmWeb
 
     This task relies on an up-to-date copy of the PalmWeb database (MySQL) which is hosted by the BGBM in Berlin. 
-    {{{http://www.bgbm.org/bgbm/staff/Wiss/Kohlbecker/}}Andreas Kohlbecker} or 
-    {{{http://www.bgbm.org/BGBM/staff/Wiss/Mueller/}}Andreas Müller} can provide this information,
-    {{{mailto:w.baker@kew.org}}Bill Baker} is the owner.
+    {{{http://www.bgbm.org/bgbm/staff/Wiss/Kohlbecker/}Andreas Kohlbecker}} or 
+    {{{http://www.bgbm.org/BGBM/staff/Wiss/Mueller/}Andreas Müller}} can provide this information,
+    {{{mailto:w.baker@kew.org}Bill Baker}} is the owner.
     
     The job relies on a network accessible database, I suggest that you import the database into a local MySQL server. 
     Once the data is imported into a new database, run the following commands on it (otherwise you will be JOIN-ing rows
@@ -47,7 +47,7 @@ create index OriginalSourceBase_SourcedObject_type_IDX on originalsourcebase (so
 
     There are a number of parameters, found in emonocot-harvester/src/main/assembly/META-INF/spring/palmweb.default.properties which set values 
     in the meta.xml or eml.xml file of the generated archive. These can be more easily understood by looking at the job itself (emonocot-harvest/src/main/resources/META-INF/spring/batch/jobs/palmweb.xml).
-    {{{http://static.springsource.org/spring-batch/apidocs/org/springframework/batch/core/launch/support/CommandLineJobRunner.html}}CommandLineJobRunner}
+    {{{http://static.springsource.org/spring-batch/apidocs/org/springframework/batch/core/launch/support/CommandLineJobRunner.html}CommandLineJobRunner}}
     has two required arguments, the location of the application context file and the name of the job to be run. The PalmWeb job can thus be run: 
          
 ---------------------------------------------------------
@@ -61,7 +61,7 @@ create index OriginalSourceBase_SourcedObject_type_IDX on originalsourcebase (so
 Grassbase
 
     This task relies on an up-to-date copy of the Grassbase dataset (DELTA) which is found on the T: drive in the Grasses folder. 
-    {{{mailto:m.vorontsova@kew.org}}Maria Vorontsova} can provide this information, {{{mailto:d.simpson@kew.org}}Dave Simpson} is the owner.
+    {{{mailto:m.vorontsova@kew.org}Maria Vorontsova}} can provide this information, {{{mailto:d.simpson@kew.org}Dave Simpson}} is the owner.
     
     This task relies on a number of files from the DELTA dataset, ones which are most likely to be updated are ITEMS and geitems, the two files which 
     contain the coded descriptions. Other files should be replaced by the files in ./emonocot-harvest/src/test/resources/org/kew/grassbase unless new
