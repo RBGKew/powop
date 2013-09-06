@@ -1,5 +1,6 @@
 package org.emonocot.job.key;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -93,6 +94,9 @@ public class XperIdentificationKeyJobIntegrationTest {
 		File thumbnailImagesDirectory = new File(thumbnailImagesDirectoryName);
 		thumbnailImagesDirectory.mkdirs();
 		thumbnailImagesDirectory.deleteOnExit();
+		File spoolDirectory = new File("./target/spool");
+        spoolDirectory.mkdirs();
+        spoolDirectory.deleteOnExit();
 		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
     	properties = new Properties();
     	properties.load(propertiesFile.getInputStream());
@@ -138,6 +142,7 @@ public class XperIdentificationKeyJobIntegrationTest {
         Job identificationKeyHarvestingJob = jobLocator.getJob("IdentificationKeyHarvesting");
         assertNotNull("IdentificationKeyHarvesting must not be null", identificationKeyHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(identificationKeyHarvestingJob, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "

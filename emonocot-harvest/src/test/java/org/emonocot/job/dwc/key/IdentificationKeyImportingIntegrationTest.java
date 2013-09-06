@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc.key;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -119,6 +120,7 @@ public class IdentificationKeyImportingIntegrationTest {
         assertNotNull("DarwinCoreArchiveHarvesting must not be null",
                 darwinCoreArchiveHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(darwinCoreArchiveHarvestingJob, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "

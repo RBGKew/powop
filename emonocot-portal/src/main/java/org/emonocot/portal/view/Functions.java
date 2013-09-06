@@ -406,13 +406,14 @@ public class Functions {
 	 *            Set the feature
 	 * @return a Content object, or null
 	 */
-	public static SortedSet<Description> content(Taxon taxon, DescriptionType feature) {
-		SortedSet<Description> descriptions = new TreeSet<Description>(new ReferenceBasedDescriptionComparator());
+	public static List<Description> content(Taxon taxon, DescriptionType feature) {
+		List<Description> descriptions = new ArrayList<Description>();
 		for (Description d : taxon.getDescriptions()) {
 			if (d.getType().equals(feature)) {
 				descriptions.add(d);
 			}
-		}		
+		}
+		Collections.sort(descriptions,new ReferenceBasedDescriptionComparator());
 		return descriptions;
 	}
 
@@ -923,15 +924,13 @@ public class Functions {
 	public static Collection<Distribution> getDistribution(Taxon taxon,
 			OccurrenceStatus occurrenceStatus,
 			EstablishmentMeans establishmentMeans) {
-		List<Distribution> distribution = new ArrayList<Distribution>();
+		SortedSet<Distribution> distribution = new TreeSet<Distribution>(new DistributionComparator());
 		for (Distribution d : taxon.getDistribution()) {
 			if (toPresentAbsent(d.getOccurrenceStatus()).equals(occurrenceStatus)
 					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(establishmentMeans)) {
 				distribution.add(d);
 			}
-		}		
-		DistributionComparator comparator = new DistributionComparator();
-		Collections.sort(distribution, comparator);
+		}				
 		return distribution;
 	}
 

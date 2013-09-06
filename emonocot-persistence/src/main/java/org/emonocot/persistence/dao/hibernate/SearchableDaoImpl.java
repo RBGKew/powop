@@ -113,7 +113,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         	
         	for(String facet : facets) {
         		if(facet.equals("base.class_s")) {
-        			solrQuery.setParam("f.base.class_s.sort", FacetParams.FACET_SORT_COUNT);
+        			solrQuery.setParam("f.base.class_s.facet.sort", FacetParams.FACET_SORT_COUNT);
         		}
         		if(facet.endsWith("_dt")) {
         			/**

@@ -1,0 +1,111 @@
+ ------
+ Support Tasks
+ ------
+ Ben Clark
+ ------
+ Date
+ 
+Support Tasks
+
+    There are two recurring support tasks supported by the eMonocot codebase. They allow support to create Darwin
+    Core Archives from the PalmWeb and Grassbase datasets for import into the eMonocot Portal. Both are Spring Batch
+    Jobs and are configured to be run using the CommandLineJobRunner provided by Spring Batch. As part of the build,
+    an executable JAR file which contains all of the required dependencies is created, and with the main class property
+    of the JAR  manifest set as CommandLineJobRunner. This means that these tasks can be accomplished by using the jar
+    on the commandline.
+
+PalmWeb
+
+    This task relies on an up-to-date copy of the PalmWeb database (MySQL) which is hosted by the BGBM in Berlin. 
+    {{{http://www.bgbm.org/bgbm/staff/Wiss/Kohlbecker/}}Andreas Kohlbecker} or 
+    {{{http://www.bgbm.org/BGBM/staff/Wiss/Mueller/}}Andreas Müller} can provide this information,
+    {{{mailto:w.baker@kew.org}}Bill Baker} is the owner.
+    
+    The job relies on a network accessible database, I suggest that you import the database into a local MySQL server. 
+    Once the data is imported into a new database, run the following commands on it (otherwise you will be JOIN-ing rows
+    using columns which are not indexed, which is S-L-O-W). 
+
+---------------------------------------------------------
+create index OriginalSourceBase_SourcedObject_id_IDX on originalsourcebase (sourcedObj_id);
+create index OriginalSourceBase_SourcedObject_type_IDX on originalsourcebase (sourcedObj_type);
+---------------------------------------------------------
+     
+     Then run the following command (requires java 7). The parameters which can be supplied on the commandline using
+     standard java arguments (-Dargument=value) are
+
+*----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Name                       | Description                                                                                                                                                                       |
+*----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| jdbc.driver.classname      | The driver class name (optional, defaults to com.mysql.jdbc.Driver)                                                                                                               |
+*----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| jdbc.driver.url            | The JDBC url of the palmweb database (optional, defaults to jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useCursorFetch=true&useServerPrepStmts=true) |
+*----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| jdbc.driver.username       | The JDBC url of the palmweb database (optional, defaults to root)                                                                                                                 |
+*----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| jdbc.driver.password       | The JDBC url of the palmweb database (optional, defaults to no password)                                                                                                          |
+*----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+    There are a number of parameters, found in emonocot-harvester/src/main/assembly/META-INF/spring/palmweb.default.properties which set values 
+    in the meta.xml or eml.xml file of the generated archive. These can be more easily understood by looking at the job itself (emonocot-harvest/src/main/resources/META-INF/spring/batch/jobs/palmweb.xml).
+    {{{http://static.springsource.org/spring-batch/apidocs/org/springframework/batch/core/launch/support/CommandLineJobRunner.html}}CommandLineJobRunner}
+    has two required arguments, the location of the application context file and the name of the job to be run. The PalmWeb job can thus be run: 
+         
+---------------------------------------------------------
+
+>java -Djdbc.driver.url=jdbc:mysql://localhost:3306/palmweb -jar emonocot-harvest-jar-with-dependencies.jar classpath:org/emonocot/job/palmweb/palmweb.xml PalmWeb
+
+---------------------------------------------------------
+  
+    This generates the palmweb archive which can made available for harvesting by putting it somewhere on the network.
+
+Grassbase
+
+    This task relies on an up-to-date copy of the Grassbase dataset (DELTA) which is found on the T: drive in the Grasses folder. 
+    {{{mailto:m.vorontsova@kew.org}}Maria Vorontsova} can provide this information, {{{mailto:d.simpson@kew.org}}Dave Simpson} is the owner.
+    
+    This task relies on a number of files from the DELTA dataset, ones which are most likely to be updated are ITEMS and geitems, the two files which 
+    contain the coded descriptions. Other files should be replaced by the files in ./emonocot-harvest/src/test/resources/org/kew/grassbase unless new
+    characters or states have been added to the dataset, or if character specifications have been changed, in which case they may need to be updated. 
+    Maria is probably the best person to talk to about this.
+    
+    This task also requires two other files (species.taxon.file and genera.taxon.file) which contain a list of species and genera in the Poaceae. These files must have at 
+    least two columns, one being the identifier of the taxon and the other being the scientificName of the taxon. They may contain extra columns, which will be ignored.
+    These files should be downloaded from the eMonocot Portal. I suggest that non-neccessary columns should be deleted using a spreadsheet program such as Excel.
+    
+    Finally, a file containing the list of images associated with the grassbase data (images.file) is copied into the archive without modifying it. It should have two columns, the first being
+    the taxonID that the image is associated with, and the second being the identifier of the image (the full uri of the image file). This file was prepared by one of the content team based on 
+    a list of images provided by Maria. If the images have not been altered, this file does not need to be altered.
+    
+    Examples of these files can be found in emonocot-harvest/src/test/resources/org/kew/grassbase.
+    
+    The parameters which can be supplied on the commandline as spring batch parameters (after the two required arguments as argument=value) are:
+
+*--------------------+-----------------------------------------------------------------------+
+| Name               | Description                                                           |
+*--------------------+-----------------------------------------------------------------------+
+| species.specs.file | The DELTA SPECS file for the species data (TONAT)                     |
+*--------------------+-----------------------------------------------------------------------+
+| species.items.file | The DELTA ITEMS file for the species data (ITEMS)                     |
+*--------------------+-----------------------------------------------------------------------+    
+| species.taxon.file | The file of grass species names and identifiers (species.txt)         |
+*--------------------+-----------------------------------------------------------------------+    
+| genera.specs.file  | The DELTA SPECS file for the species data (GTONATH)                   |
+*--------------------+-----------------------------------------------------------------------+    
+| genera.items.file  | The DELTA ITEMS file for the species data (geitems)                   |
+*--------------------+-----------------------------------------------------------------------+    
+| genera.taxon.file  | The file of grass genera names and identifiers (genera.txt)           |
+*--------------------+-----------------------------------------------------------------------+    
+| images.file        | The file of grass image identifier and taxon identifiers (images.txt) |
+*--------------------+-----------------------------------------------------------------------+  
+
+    There are a number of optional parameters, found in emonocot-harvester/src/main/assembly/META-INF/spring/grassbase.default.properties which set values 
+    in the meta.xml or eml.xml file of the generated archive. These can be more easily understood by looking at the job itself (emonocot-harvest/src/main/resources/META-INF/spring/batch/jobs/grassbase.xml).
+    The Grassbase job can thus be run:   
+    
+---------------------------------------------------------
+
+>java -jar target\emonocot-harvest-jar-with-dependencies.jar classpath:org/emonocot/job/grassbase/grassbase.xml Grassbase species.specs.file=TONAT species.items.file=ITEMS species.taxon.file=species.txt genera.specs.file=GTONATH genera.items.file=geitems genera.taxon.file=genera.txt images.file=images.txt
+
+--------------------------------------------------------- 
+
+     This generates the grassbase archive which can made available for harvesting by putting it somewhere on the network.

@@ -2,8 +2,14 @@ package org.emonocot.portal.view;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.gbif.ecat.voc.Rank;
 import org.junit.Test;
+import org.emonocot.model.Description;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.DescriptionType;
 
 public class FunctionsTest {
 	
@@ -36,5 +42,23 @@ public class FunctionsTest {
 	@Test
 	public void testFormatDateRange() {
 		assertEquals("Date range should be formatted as expected",Functions.formatDateRange("[2012-09-12T00:00:00Z TO 2012-09-12T00:00:00Z+1MONTH]"),"2012/09 - 2012/10");
+	}
+	
+	@Test
+	public void testSortDescriptions() {
+		Taxon taxon = new Taxon();
+
+		taxon.getDescriptions().add(createDescription("description1", DescriptionType.associations));
+		taxon.getDescriptions().add(createDescription("description3", DescriptionType.associations));
+		taxon.getDescriptions().add(createDescription("description2", DescriptionType.general));
+		
+		assertEquals("This function should return more than one description of the same type", Functions.content(taxon, DescriptionType.associations).size(),2);
+	}
+
+	private Description createDescription(String identifier, DescriptionType type) {
+		Description description = new Description();
+		description.setIdentifier(identifier);
+		description.setType(type);
+		return description;
 	}
 }

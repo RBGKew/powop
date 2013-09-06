@@ -134,6 +134,7 @@ public class PrintMapIntegrationTest {
 		Job archiveCreatorJob = jobLocator.getJob("PrintMap");
 		assertNotNull("PrintMap must exist", archiveCreatorJob);
 		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 		return jobExecution;
 		        
     }

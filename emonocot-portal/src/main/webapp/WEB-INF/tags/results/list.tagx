@@ -96,12 +96,15 @@
 							<c:if test="${item.description != null}">
 								<div>
 									<em><spring:message code="image.description" /></em>:
-									${item.description}
+									<c:choose>
+							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+								    </c:choose>									
 								</div>
 							</c:if>
 							<c:if test="${item.spatial != null}">
 								<div>
-									<em><spring:message code="image.locality" /></em>:
+									<em><spring:message code="image.spatial" /></em>:
 									${item.spatial}
 								</div>
 							</c:if>

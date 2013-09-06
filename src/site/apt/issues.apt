@@ -11,7 +11,7 @@ Using the Issue Tracker
   
  * By visiting the issue tracker in a web browser, for example, to look at the {{{http://build.e-monocot.org/bugzilla/buglist.cgi?query_format=advanced&columnlist=short_desc%2Cvotes%2Cpriority&order=votes%2Cpriority&field0-0-0=cf_epic&bug_status=BACKLOG&type0-0-0=notequals&value0-0-0=true&product=emonocot}backlog}}.
 
- * By asking to recieve email reports on a daily or weekly basis (talk to Ben if you would like to receive emails). 
+ * By asking to receive email reports on a daily or weekly basis (talk to Ben if you would like to receive emails). 
 
  * Subscribing to one of the atom feeds. Visit one of the lists of issue (or create your own), then click on the <Feed> link at the bottom of the search results.
   

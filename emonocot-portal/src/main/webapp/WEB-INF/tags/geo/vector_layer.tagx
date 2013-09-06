@@ -157,8 +157,8 @@
 	<c:choose>
 	  <c:when test="${not empty typesAndSpecimens}">
 	  var ${name} = new OpenLayers.Layer.Vector("${name}", {
-		strategies: [new OpenLayers.Strategy.Fixed(),new OpenLayers.Strategy.Cluster()], styleMap:new OpenLayers.StyleMap(style)});
-	
+		strategies: [new OpenLayers.Strategy.Cluster()], styleMap:new OpenLayers.StyleMap(style)});
+	  map.addLayer(${name});
 	
 	  var featurecollection = {
 		"type": "FeatureCollection",
@@ -190,10 +190,9 @@
 	        strategies: [new OpenLayers.Strategy.Fixed(),new OpenLayers.Strategy.Cluster()],
 	        styleMap:new OpenLayers.StyleMap(style),
 	        protocol: new OpenLayers.Protocol.HTTP({ url: "${typesAndSpecimensUrl}", format: geojson_format, headers: {'Accept':'application/json', 'Content-Type':'application/json'} })});
+	    map.addLayer(${name});
 	  </c:otherwise>
 	</c:choose>
-	
-	map.addLayer(${name});
 
 	function onPopupClose(evt) {
 		select.unselect(selectedFeature);

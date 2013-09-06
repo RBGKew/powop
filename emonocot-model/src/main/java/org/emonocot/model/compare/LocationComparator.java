@@ -28,7 +28,7 @@ public class LocationComparator implements
         	case 1:
         		return o1.compareNames(o2.getParent());
         	case 2:
-        		o1.compareNames(o2.getParent().getParent());
+        		return o1.compareNames(o2.getParent().getParent());
         	default:
         		return 0;    	
         	}

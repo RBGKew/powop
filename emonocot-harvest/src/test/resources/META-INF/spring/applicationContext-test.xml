@@ -94,7 +94,11 @@
 	</bean>
 
     <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
-    <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" />
+    
+    <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" scope="step">
+        <property name="nameParser" ref="nameParser"/>
+        <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>     
+    </bean>
 
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 	  <property name="requestFactory" ref="requestFactory"/>

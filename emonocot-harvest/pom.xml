@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.36-SNAPSHOT</version>
+		<version>0.0.37-SNAPSHOT</version>
 	</parent>
 	<artifactId>emonocot-harvest</artifactId>
 	<packaging>war</packaging>
@@ -394,7 +394,28 @@
                 <configuration>
                     <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
                 </configuration>
-            </plugin>			
+            </plugin>
+            <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <configuration>
+                 <archive>
+                   <manifest>
+                        <mainClass>org.springframework.batch.core.launch.support.CommandLineJobRunner</mainClass>
+                   </manifest>
+                 </archive>
+				 <descriptors>
+					<descriptor>src/main/assembly/support.xml</descriptor>
+				</descriptors>
+			  </configuration>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>single</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>            			
 		</plugins>
 	</build>
 </project>

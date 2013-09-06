@@ -167,6 +167,7 @@
 		</batch:step>
 		<batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
 			<batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
+			<batch:next on="IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL" to="markRelatedDescriptionRecords" />
             <batch:next on="SKIP_DESCRIPTIONS" to="checkTermProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkTermProcessingMode" />
 		</batch:decision>
@@ -176,6 +177,15 @@
 			<batch:next on="COMPLETED" to="processDescriptionDecision" />
 			<batch:listeners>
 				<batch:listener ref="markDescriptionRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedDescriptionRecords">
+			<batch:description>Mark the description records we expect to be present in this archive (based on what we have previously harvested), don't delete global records</batch:description>
+			<batch:tasklet ref="markRelatedDescriptionRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processDescriptionDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedDescriptionRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -568,6 +578,7 @@
 		</batch:step>
 		<batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
 			<batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
+			<batch:next on="IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL" to="markRelatedIdentifierRecords" />
             <batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkDistributionProcessingMode" />
 		</batch:decision>
@@ -577,6 +588,15 @@
 			<batch:next on="COMPLETED" to="processIdentifiersDecision" />
 			<batch:listeners>
 				<batch:listener ref="markIdentifierRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedIdentifierRecords">
+			<batch:description>Mark the identifier records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markRelatedIdentifierRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processIdentifiersDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedIdentifierRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -618,6 +638,7 @@
 		</batch:step>
 		<batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
 			<batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
+			<batch:next on="IMPORT_DISTRIBUTION_DONT_DELETE_GLOBAL" to="markRelatedDistributionRecords" />
             <batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkMeasurementOrFactProcessingMode" />
 		</batch:decision>
@@ -627,6 +648,15 @@
 			<batch:next on="COMPLETED" to="processDistributionDecision" />
 			<batch:listeners>
 				<batch:listener ref="markDistributionRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedDistributionRecords">
+			<batch:description>Mark the distribution records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markRelatedDistributionRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processDistributionDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedDistributionRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -669,6 +699,7 @@
 		</batch:step>
 		<batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
 			<batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
+			<batch:next on="IMPORT_MEASUREMENT_OR_FACT_DONT_DELETE_GLOBAL" to="markRelatedMeasurementOrFactRecords" />
             <batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkVernacularNameProcessingMode" />
 		</batch:decision>
@@ -678,6 +709,15 @@
 			<batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
 			<batch:listeners>
 				<batch:listener ref="markMeasurementOrFactRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedMeasurementOrFactRecords">
+			<batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markRelatedMeasurementOrFactRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedMeasurementOrFactRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -718,6 +758,7 @@
 		</batch:step>
 		<batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
 			<batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
+			<batch:next on="IMPORT_VERNACULAR_NAME_DONT_DELETE_GLOBAL" to="markRelatedVernacularNameRecords" />
             <batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkTypeAndSpecimenProcessingMode" />
 		</batch:decision>
@@ -727,6 +768,15 @@
 			<batch:next on="COMPLETED" to="processVernacularNameDecision" />
 			<batch:listeners>
 				<batch:listener ref="markVernacularNameRecordsTasklet" />
+				<batch:listener ref="stepStatusListener" />
+			</batch:listeners>
+		</batch:step>
+		<batch:step id="markRelatedVernacularNameRecords">
+			<batch:description>Mark the vernacular name records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+			<batch:tasklet ref="markRelatedVernacularNameRecordsTasklet" />
+			<batch:next on="COMPLETED" to="processVernacularNameDecision" />
+			<batch:listeners>
+				<batch:listener ref="markRelatedVernacularNameRecordsTasklet" />
 				<batch:listener ref="stepStatusListener" />
 			</batch:listeners>
 		</batch:step>
@@ -1060,14 +1110,9 @@
 		<property name="strict" value="false" />
 	</bean>
 
-	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper"
-		scope="step">
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
-		<property name="fieldNames"
-			value="#{jobExecutionContext['dwca.core.fieldNames']}" />
-		<property name="defaultValues"
-			value="#{jobExecutionContext['dwca.core.defaultValues']}" />		
-		<property name="organisationService" ref="organisationServiceImpl" />
+	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper" scope="step">
+		<property name="fieldNames"	value="#{jobExecutionContext['dwca.core.fieldNames']}" />
+		<property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
 	</bean>
 	
 	<bean id="deleteTaxaReader"
@@ -1138,14 +1183,20 @@
 	
 	<bean id="descriptionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="description.processing.mode" />
-		<property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS" />
+		<property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL" />
 	</bean>
 
 	<bean id="processDescriptionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
 		<property name="processingModeKey" value="dwca.description.file" />
 	</bean>
-
+	
 	<bean id="markDescriptionRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>		
+		<property name="annotatedObjType" value="Description" />	
+	</bean>
+
+	<bean id="markRelatedDescriptionRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
@@ -1207,8 +1258,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.description.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteDescriptionsReader"
@@ -1304,9 +1353,7 @@
 			value="#{jobExecutionContext['dwca.image.fieldNames']}" />
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.image.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />		
 	</bean>
 
 	<bean id="processImageFilesReader"
@@ -1629,9 +1676,7 @@
 			value="#{jobExecutionContext['dwca.term.fieldNames']}" />
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.term.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />		
 	</bean>
 
 	<bean id="deleteTermsReader"
@@ -1747,8 +1792,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.reference.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteReferencesReader"
@@ -1767,8 +1810,14 @@
 	</bean>
 
 	<!-- Identifiers -->
-
+	
 	<bean id="markIdentifierRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
+		<property name="annotatedObjType" value="Identifier" />	
+	</bean>
+
+	<bean id="markRelatedIdentifierRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
@@ -1780,7 +1829,7 @@
 	
 	<bean id="identifierProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="identifier.processing.mode" />
-		<property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS" />
+		<property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL" />
 	</bean>
 	
 	<bean id="processIdentifierDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -1839,9 +1888,7 @@
 			value="#{jobExecutionContext['dwca.identifier.fieldNames']}" />
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.identifier.defaultValues']}" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
+		<property name="taxonService" ref="taxonServiceImpl" />		
 	</bean>
 
 	<bean id="deleteIdentifiersReader"
@@ -1859,8 +1906,14 @@
 	</bean>
 	
 	<!-- Distribution -->
-
+	
 	<bean id="markDistributionRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>		
+		<property name="annotatedObjType" value="Distribution" />	
+	</bean>
+
+	<bean id="markRelatedDistributionRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
@@ -1872,7 +1925,7 @@
 	
 	<bean id="distributionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="distribution.processing.mode" />
-		<property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION" />
+		<property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION_DONT_DELETE_GLOBAL" />
 	</bean>
 	
 	<bean id="processDistributionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -1930,8 +1983,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.distribution.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteDistributionReader"
@@ -1948,8 +1999,14 @@
 	</bean>
 	
 	<!-- MeasurementOrFact -->
-
+	
 	<bean id="markMeasurementOrFactRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>		
+		<property name="annotatedObjType" value="MeasurementOrFact" />		
+	</bean>
+
+	<bean id="markRelatedMeasurementOrFactRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
@@ -1961,7 +2018,7 @@
 	
 	<bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="measurementOrFact.processing.mode" />
-		<property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT" />
+		<property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT_DONT_DELETE_GLOBAL" />
 	</bean>
 	
 	<bean id="processMeasurementOrFactDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -2020,8 +2077,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.measurementOrFact.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteMeasurementOrFactReader"
@@ -2040,8 +2095,13 @@
 	</bean>
 	
 	<!-- VernacularName -->
-
 	<bean id="markVernacularNameRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="authorityName" value="#{jobParameters['authority.name']}"/>		
+		<property name="annotatedObjType" value="VernacularName" />		
+	</bean>
+
+	<bean id="markRelatedVernacularNameRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
 		<property name="dataSource" ref="dataSource" />
 		<property name="authorityName" value="#{jobParameters['authority.name']}"/>
 		<property name="family" value="#{jobParameters['family']}"/>
@@ -2053,7 +2113,7 @@
 	
 	<bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
 		<property name="processingModeKey" value="vernacularName.processing.mode" />
-		<property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME" />
+		<property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME_DONT_DELETE_GLOBAL" />
 	</bean>
 	
 	<bean id="processVernacularNameDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -2112,8 +2172,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.vernacularName.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteVernacularNameReader"
@@ -2210,8 +2268,6 @@
 		<property name="defaultValues"
 			value="#{jobExecutionContext['dwca.typeAndSpecimen.defaultValues']}" />
 		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="sourceName" value="#{jobParameters['authority.name']}" />
 	</bean>
 
 	<bean id="deleteTypeAndSpecimenReader"

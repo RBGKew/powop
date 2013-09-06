@@ -1,7 +1,5 @@
 package org.emonocot.model.geography;
 
-import static junit.framework.Assert.assertTrue;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;

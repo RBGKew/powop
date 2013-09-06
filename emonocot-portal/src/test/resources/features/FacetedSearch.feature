@@ -41,8 +41,8 @@ Scenario: Search for Both Taxa and Images
   Then there should be 6 results
   And the Type facet should have the following options:
   | option |
-  | Images |
   | Taxa   |
+  | Images |
 
 Scenario: Search for Only Taxa
   As a taxonomist I would like to search for taxa matching a particular term,

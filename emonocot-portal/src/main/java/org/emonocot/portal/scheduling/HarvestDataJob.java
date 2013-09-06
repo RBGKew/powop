@@ -75,7 +75,7 @@ public class HarvestDataJob extends QuartzJobBean {
 					Resource resource = null;
 					for (Resource r : resourcesToHarvest) {
 						DateTime probableFinishingTime = now.plus(r.getDuration());
-						if (probableFinishingTime.isBefore(nextInvalidDate) && r.getLastAttempt().isAfter(now.plusHours(MINIMAL_INTERVAL))) {
+						if (probableFinishingTime.isBefore(nextInvalidDate) && (r.getLastAttempt() == null || r.getLastAttempt().plusHours(MINIMAL_INTERVAL).isBefore(now))) {
 							resource = r;
 							break;
 						}

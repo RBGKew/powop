@@ -16,7 +16,7 @@
 				<tags:info />
 			</div>
 		</div>
-		<security:authorize url="hasRole('PERMISSION_ADMINISTRATE')">
+		<security:authorize access="hasRole('PERMISSION_ADMINISTRATE')">
 			<div class="row">
 				<c:url var="editGroupUrl" value="/group/${group.identifier}">
 					<c:param name="form">true</c:param>
@@ -26,7 +26,7 @@
 				</c:url>
 				<p class="btn-group pull-right">
 				  <a href="${editGroupUrl}" class="btn"><spring:message code="edit.group" /></a>
-				  <a href="${deleteUrl}" class="btn btn-danger"><spring:message code="delete.group" /></a>
+				  <a href="${deleteUrl}" class="btn btn-danger"><i class="halflings-icon remove white">&#160;</i>&#160;<spring:message code="delete.group" /></a>
 				</p>
 			</div>
 		</security:authorize>

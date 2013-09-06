@@ -7,7 +7,7 @@
 	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 	                    
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/grassbase.default.properties,classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" system-properties-mode="OVERRIDE"/>
 	
     <context:annotation-config />
 	
@@ -60,6 +60,11 @@
 	    <batch:step id="copyGeneraDescriptionFile">
 	        <batch:description>Copy the genera description file to the working directory so that it can be packaged</batch:description>
 	        <batch:tasklet ref="copyGeneraDescriptionFileTasklet"/>
+	        <batch:next on="COMPLETED" to="copyImagesFile"/>
+	    </batch:step>
+	    <batch:step id="copyImagesFile">
+	        <batch:description>Copy the images file to the working directory so that it can be packaged</batch:description>
+	        <batch:tasklet ref="copyImagesFileTasklet"/>
 	        <batch:next on="COMPLETED" to="packageArchive"/>
 	    </batch:step>
 	    <batch:step id="packageArchive">
@@ -73,6 +78,38 @@
 			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
+	
+	<bean name="jobRepository"	class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+	
+	<bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+	
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+    </bean>
+    
+    <bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
+    
+    <bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
+    
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+			    <bean class="org.emonocot.model.convert.MediaFormatConverter" />
+			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
+			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
+			    <bean class="org.emonocot.model.convert.RankConverter" />
+			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
+			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
+			    <bean class="org.emonocot.model.convert.NomenclaturalCodeConverter" />
+			    <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
+			    <bean class="org.emonocot.model.convert.TaxonomicStatusConverter" />
+				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
+				<bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
+				<bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="copySpeciesTaxonFileTasklet" class="org.emonocot.harvest.common.CopyFileTasklet"
 		scope="step">
@@ -88,7 +125,7 @@
 				<constructor-arg type="java.io.File">
 					<bean class="java.io.File" scope="step">
 						<constructor-arg type="java.io.File"
-							value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+							value="${harvester.output.directory}" />
 						<constructor-arg type="java.lang.String" value="taxon.txt" />
 					</bean>
 				</constructor-arg>
@@ -106,7 +143,7 @@
 			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 				<constructor-arg type="java.io.File">
 					<bean class="java.io.File" scope="step">
-						<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+						<constructor-arg type="java.io.File" value="${harvester.output.directory}" />
 						<constructor-arg type="java.lang.String" value="taxon.txt" />
 					</bean>
 				</constructor-arg>
@@ -122,7 +159,7 @@
 		<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 			<constructor-arg type="java.io.File">
 				<bean class="java.io.File" scope="step">
-					<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+					<constructor-arg type="java.io.File" value="${harvester.output.directory}" />
 					<constructor-arg type="java.lang.String" value="description.txt" />
 				</bean>
 			</constructor-arg>
@@ -136,7 +173,7 @@
 		<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 			<constructor-arg type="java.io.File">
 				<bean class="java.io.File" scope="step">
-					<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+					<constructor-arg type="java.io.File" value="${harvester.output.directory}" />
 					<constructor-arg type="java.lang.String" value="description.txt" />
 				</bean>
 			</constructor-arg>
@@ -144,11 +181,29 @@
 	</property>
 	<property name="append" value="true"/>
   </bean>
+  
+  <bean id="copyImagesFileTasklet" class="org.emonocot.harvest.common.CopyFileTasklet" scope="step">
+	<property name="from">
+	    <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg value="#{jobParameters['images.file']}" />
+		</bean>
+	</property>
+	<property name="to">
+		<bean class="org.springframework.core.io.FileSystemResource" scope="step">
+			<constructor-arg type="java.io.File">
+				<bean class="java.io.File" scope="step">
+					<constructor-arg type="java.io.File" value="${harvester.output.directory}" />
+					<constructor-arg type="java.lang.String" value="image.txt" />
+				</bean>
+			</constructor-arg>
+		</bean>
+	</property>
+  </bean>
     
     <bean id="descriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}" />
 				<constructor-arg type="java.lang.String" value="description.txt" />
 			</bean>
 		</constructor-arg>
@@ -157,7 +212,7 @@
     <bean id="speciesDescriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="species.txt"/>
 			</bean>
 		</constructor-arg>
@@ -166,45 +221,48 @@
 	<bean id="generaDescriptionFile" class="org.springframework.core.io.FileSystemResource" scope="step">
 		<constructor-arg type="java.io.File">
 			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="${harvester.output.directory}/#{jobParameters['archive.file']}"/>
+				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
 				<constructor-arg type="java.lang.String" value="genera.txt"/>
 			</bean>
 		</constructor-arg>
 	</bean>
 	
 	<bean id="packageArchiveTasklet" class="org.emonocot.job.dwc.write.ArchivePackager" scope="step">
-		<property name="archiveFile" value="#{jobParameters['archive.file']}"/>
-		<property name="outputDirectory" value="${harvester.output.directory}"/>
-		<property name="descriptionFields" value="#{jobParameters['description.file.field.names']}"/>
+		<property name="archiveFile" value="${harvester.output.directory}"/>
+		<property name="outputDirectory" value="./"/>
+		<property name="descriptionFields" value="${description.file.field.names}"/>
+		<property name="imageFields" value="${image.file.field.names}"/>
 	</bean>
 	
 	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
-		<property name="archiveFile" value="#{jobParameters['archive.file']}"/>		
-		<property name="taxonFields" value="#{jobParameters['taxon.file.field.names']}"/>
-		<property name="taxonDefaultValues" value="#{jobParameters['taxon.default.values']}"/>
-		<property name="descriptionFields" value="#{jobParameters['description.file.field.names']}"/>
-	    <property name="descriptionDefaultValues" value="#{jobParameters['description.default.values']}"/>		
-		<property name="delimiter" value="#{jobParameters['fields.terminated.by']}"/>
-		<property name="quoteCharacter" value="#{jobParameters['fields.enclosed.by']}"/>
-		<property name="outputDirectory" value="${harvester.output.directory}"/>
-		<property name="citationString" value="#{jobParameters['citation.string']}"/>
-		<property name="creatorEmail" value="#{jobParameters['creator.email']}"/>
-		<property name="creatorName" value="#{jobParameters['creator.name']}"/>
-		<property name="description" value="#{jobParameters['meta.description']}"/>
-		<property name="homepageUrl" value="#{jobParameters['homepage.url']}"/>
-		<property name="identifier" value="#{jobParameters['identifier']}"/>
-		<property name="logoUrl" value="#{jobParameters['logo.url']}"/>
-		<property name="publisherEmail" value="#{jobParameters['publisher.email']}"/>
-		<property name="publisherName" value="#{jobParameters['publisher.name']}"/>
-		<property name="rights" value="#{jobParameters['rights']}"/>
-		<property name="subject" value="#{jobParameters['subject']}"/>
-		<property name="title" value="#{jobParameters['title']}"/>
+		<property name="archiveFile" value="${harvester.output.directory}"/>		
+		<property name="taxonFields" value="${taxon.file.field.names}"/>
+		<property name="taxonDefaultValues" value="${taxon.default.values}"/>
+		<property name="descriptionFields" value="${description.file.field.names}"/>
+	    <property name="descriptionDefaultValues" value="${description.default.values}"/>		
+	    <property name="imageFields" value="${image.file.field.names}"/>
+	    <property name="imageDefaultValues" value="${image.default.values}"/>
+		<property name="delimiter" value="${fields.terminated.by}"/>
+		<property name="quoteCharacter" value="${fields.enclosed.by}"/>
+		<property name="outputDirectory" value="./"/>
+		<property name="citationString" value="${citation.string}"/>
+		<property name="creatorEmail" value="${creator.email}"/>
+		<property name="creatorName" value="${creator.name}"/>
+		<property name="description" value="${meta.description}"/>
+		<property name="homepageUrl" value="${homepage.url}"/>
+		<property name="identifier" value="${meta.identifier}"/>
+		<property name="logoUrl" value="${logo.url}"/>
+		<property name="publisherEmail" value="${publisher.email}"/>
+		<property name="publisherName" value="${publisher.name}"/>
+		<property name="rights" value="${meta.rights}"/>
+		<property name="subject" value="${meta.subject}"/>
+		<property name="title" value="${meta.title}"/>
 	</bean>
 	
 	<bean id="speciesReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
 		<property name="encoding" value="UTF-8" />
-		<property name="linesToSkip" value="#{jobParameters['taxon.file.skip.lines']}" />
+		<property name="linesToSkip" value="${taxon.file.skip.lines}" />
 		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
@@ -217,7 +275,7 @@
 	<bean id="generaReader" class="org.springframework.batch.item.file.FlatFileItemReader"
 		scope="step">
 		<property name="encoding" value="UTF-8" />
-		<property name="linesToSkip" value="#{jobParameters['taxon.file.skip.lines']}" />
+		<property name="linesToSkip" value="${taxon.file.skip.lines}" />
 		<property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
 		<property name="resource">
 			<bean class="org.springframework.core.io.FileSystemResource" scope="step">
@@ -233,14 +291,14 @@
 	</bean>
 
 	<bean id="taxonLineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" scope="step">
-		<property name="names" value="#{jobParameters['taxon.file.field.names']}" />
-		<property name="delimiter" value="#{jobParameters['fields.terminated.by']}" />
-		<property name="quoteCharacter"	value="#{jobParameters['fields.enclosed.by']}" />
+		<property name="names" value="${taxon.file.field.names}" />
+		<property name="delimiter" value="${fields.terminated.by}" />
+		<property name="quoteCharacter"	value="${fields.enclosed.by}" />
 		<property name="strict" value="false" />
 	</bean>
 
 	<bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper" scope="step">
-		<property name="fieldNames"	value="#{jobParameters['taxon.file.field.names']}" />
+		<property name="fieldNames"	value="${taxon.file.field.names}" />
 	</bean>
 	
 	
@@ -281,9 +339,9 @@
 	<bean id="speciesNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
 	  <property name="deltaContextHolder" ref="speciesContextHolder"/>
 	  <property name="taxonMatcher" ref="mapBackedSpeciesMatcher"/>
-	  <property name="characterForLink" value="#{jobParameters['character.for.link']}"/>
-	  <property name="linkPrefix" value="#{jobParameters['link.prefix']}"/>
-	  <property name="linkSuffix" value="#{jobParameters['link.suffix']}"/>
+	  <property name="characterForLink" value="${character.for.link}"/>
+	  <property name="linkPrefix" value="${link.prefix}"/>
+	  <property name="linkSuffix" value="${link.suffix}"/>
 	  <property name="filter" ref="speciesNaturalLanguageDatasetFilter"/>
 	</bean>
 	
@@ -316,11 +374,11 @@
 	</bean>
 	
 	<bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="#{jobParameters['fields.terminated.by']}"/>
+	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
-	     <property name="names" value="#{jobParameters['description.file.field.names']}"/>
-	     <property name="quoteCharacter" value="#{jobParameters['fields.enclosed.by']}"/>
+	     <property name="names" value="${description.file.field.names}"/>
+	     <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="extension" value="http://rs.gbif.org/terms/1.0/Description"/>
 	     <property name="conversionService" ref="conversionService"/>
 	   </bean>
@@ -334,7 +392,7 @@
 		<property name="resources">
 			<list>
 				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
-				    <constructor-arg value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
+				    <constructor-arg value="${harvester.output.directory}" />
 				</bean>				
 			</list>
 		</property>

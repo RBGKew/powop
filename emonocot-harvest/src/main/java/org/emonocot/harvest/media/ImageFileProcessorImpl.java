@@ -18,65 +18,45 @@ import org.springframework.batch.item.ItemProcessor;
  */
 public class ImageFileProcessorImpl implements ItemProcessor<Image, Image>, ImageFileProcessor {
 
-   /**
-    *
-    */
     private Logger logger = LoggerFactory.getLogger(ImageFileProcessorImpl.class);
 
-    /**
-     *
-     */
-    private final Integer IMAGE_DIMENSION = 1000;
+    private Integer IMAGE_DIMENSION = 1000;
 
-    /**
-     *
-     */
     private String imageDirectory;
     
-    /**
-     * 
-     */
     private ImageAnnotator imageAnnotator;
 
-    /**
-     *
-     */
     private GetResourceClient getResourceClient;
+    
+    private Boolean skipUnmodified = Boolean.TRUE;
 
-    /**
-     *
-     * @param newImageDirectory Set the image directory
-     */
-    public final void setImageDirectory(
-            final String newImageDirectory) {
-        this.imageDirectory = newImageDirectory;
+    public void setImageDirectory(String imageDirectory) {
+        this.imageDirectory = imageDirectory;
     }
 
-    /**
-     * @param imageAnnotator the imageAnnotator to set
-     */
     public void setImageAnnotator(ImageAnnotator imageAnnotator) {
         this.imageAnnotator = imageAnnotator;
     }
 
-    /**
-     *
-     * @param newGetResourceClient set the get resource client
-     */
-    public final void setGetResourceClient(
-            final GetResourceClient newGetResourceClient) {
-        this.getResourceClient = newGetResourceClient;
+    public void setGetResourceClient(GetResourceClient getResourceClient) {
+        this.getResourceClient = getResourceClient;
+    }
+    
+    public void setSkipUnmodified(Boolean skipUnmodified) {
+    	if(skipUnmodified != null) {
+    	    this.skipUnmodified = skipUnmodified;
+    	}
     }
 
     /* (non-Javadoc)
 	 * @see org.emonocot.harvest.media.ImageFileProcessor#process(org.emonocot.model.Image)
 	 */
     @Override
-	public final Image process(final Image image) throws Exception {
+	public Image process(Image image) throws Exception {
         String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
-        if (file.exists()) {
+        if (file.exists() && skipUnmodified) {
             logger.info("File exists in image directory, issuing a conditional GET");
             ExitStatus status = getResourceClient.getBinaryResource(image.getIdentifier(), Long.toString(file.lastModified()), imageFileName);
             if(status == null || ExitStatus.FAILED.equals(status)) {

@@ -1,5 +1,6 @@
 package org.emonocot.job.dwc;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -74,6 +75,9 @@ public class DarwinCoreJobIntegrationTest {
         File imageDirectory = new File("./target/images/fullsize");
         imageDirectory.mkdirs();
         imageDirectory.deleteOnExit();
+        File spoolDirectory = new File("./target/spool");
+        spoolDirectory.mkdirs();
+        spoolDirectory.deleteOnExit();
         File thumbnailDirectory = new File("./target/images/thumbnails");
         thumbnailDirectory.mkdirs();
         thumbnailDirectory.deleteOnExit();
@@ -124,6 +128,7 @@ public class DarwinCoreJobIntegrationTest {
         assertNotNull("DarwinCoreArchiveHarvesting must not be null",
                 darwinCoreArchiveHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(darwinCoreArchiveHarvestingJob, jobParameters);
+        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
         	logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "

@@ -61,7 +61,7 @@
     <function>
         <name>content</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.Description content(org.emonocot.model.Taxon,org.emonocot.model.constants.DescriptionType)</function-signature>
+        <function-signature>java.util.Collection content(org.emonocot.model.Taxon,org.emonocot.model.constants.DescriptionType)</function-signature>
     </function>
     <function>
         <name>evaluate</name>

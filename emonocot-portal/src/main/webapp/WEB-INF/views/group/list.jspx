@@ -22,7 +22,7 @@
 			<div class="span12">
 				<div class="inner">
 					<div class="box">
-						<security:authorize url="hasRole('PERMISSION_CREATE_GROUP')">
+						<security:authorize access="hasRole('PERMISSION_CREATE_GROUP')">
 							<div class="row">
 								<c:url var="createGroup" value="group">
 									<c:param name="form">true</c:param>

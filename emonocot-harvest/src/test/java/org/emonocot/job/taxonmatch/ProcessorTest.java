@@ -5,9 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.easymock.EasyMock;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.Taxon;
-import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

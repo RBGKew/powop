@@ -104,6 +104,11 @@
 	</tags:pageheader>
 
 	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<tags:info />
+			</div>
+		</div>
 		<div class="row">
 			<div id="facets" class="tourHelp span3 no-print"  data-tour-title="Filter your search" data-tour-content="You can filter your results selecting an option for each filter." data-tour-placement="top" data-tour-prev="1" data-tour-next="3">
 				<div class="row">

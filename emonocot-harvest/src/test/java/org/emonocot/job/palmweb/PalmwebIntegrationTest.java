@@ -1,5 +1,6 @@
 package org.emonocot.job.palmweb;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/palmweb.xml" })
+    "/org/emonocot/job/palmweb/palmweb.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @Ignore
 public class PalmwebIntegrationTest {
@@ -56,6 +57,7 @@ public class PalmwebIntegrationTest {
 	    Job palmwebArchive = jobLocator.getJob("PalmWeb");
 	    assertNotNull("Palmweb must not be null",  palmwebArchive);
 	    JobExecution jobExecution = jobLauncher.run(palmwebArchive, jobParameters);
+	    assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 	    for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
 	        logger.info(stepExecution.getStepName() + " "
 	                    + stepExecution.getReadCount() + " "

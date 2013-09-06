@@ -1,12 +1,12 @@
 package org.emonocot.job.delta;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-
+ 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/grassbase.xml",
+    "/org/emonocot/job/grassbase/grassbase.xml",
     "/META-INF/spring/applicationContext-integration.xml",
     "/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
@@ -52,6 +52,8 @@ public class GrassbaseIntegrationTest {
 	private ClassPathResource speciesItemsFile = new ClassPathResource("org/kew/grassbase/ITEMS");
 	
 	private ClassPathResource speciesTaxonFile = new ClassPathResource("org/kew/grassbase/species.txt");
+	
+	private ClassPathResource imagesFile = new ClassPathResource("org/kew/grassbase/images.txt");
 	
 	 @Autowired
 	 private JobLocator jobLocator;
@@ -72,22 +74,14 @@ public class GrassbaseIntegrationTest {
 	    parameters.put("genera.specs.file", new JobParameter(generaSpecsFile.getFile().getAbsolutePath()));
 	    parameters.put("genera.items.file", new JobParameter(generaItemsFile.getFile().getAbsolutePath()));
 	    parameters.put("genera.taxon.file", new JobParameter(generaTaxonFile.getFile().getAbsolutePath()));
-	    parameters.put("fields.terminated.by", new JobParameter("\t"));
-	    parameters.put("fields.enclosed.by", new JobParameter("\""));
-	    parameters.put("taxon.file.skip.lines", new JobParameter("0"));
-	    parameters.put("taxon.file.field.names", new JobParameter("taxonID,scientificName,scientificNameAuthorship"));
-	    parameters.put("description.file.field.names", new JobParameter("taxonID,description,references"));
-	    parameters.put("description.default.values", new JobParameter("language=EN,type=general,rights=© Copyright The Board of Trustees\\, Royal Botanic Gardens\\, Kew."));
-	    parameters.put("archive.file", new JobParameter(UUID.randomUUID().toString()));
-	    parameters.put("character.for.link", new JobParameter("1090"));
-	    parameters.put("link.prefix", new JobParameter("http://www.kew.org/data/grasses-db/www/"));
-	    parameters.put("link.suffix", new JobParameter(".htm"));
-	    
+	    parameters.put("images.file", new JobParameter(imagesFile.getFile().getAbsolutePath()));
+
 	    JobParameters jobParameters = new JobParameters(parameters);
 
 	    Job deltaToDwC = jobLocator.getJob("Grassbase");
 	    assertNotNull("Grassbase must not be null",  deltaToDwC);
 	    JobExecution jobExecution = jobLauncher.run(deltaToDwC, jobParameters);
+	    assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 	    for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
 	        logger.info(stepExecution.getStepName() + " "
 	                    + stepExecution.getReadCount() + " "

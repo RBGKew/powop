@@ -202,10 +202,20 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			phylogeneticTree.setRightsHolder(phylogenyRightsHolder);
 		}
 		if(rootTaxonIdentifier != null && !rootTaxonIdentifier.isEmpty()) {
-			Taxon rootTaxon = taxonService.find(rootTaxonIdentifier);
-			if(rootTaxon != null) {
-				phylogeneticTree.getTaxa().add(rootTaxon);
+			if(rootTaxonIdentifier.indexOf(",") == -1) {
+			    Taxon rootTaxon = taxonService.find(rootTaxonIdentifier);
+			    if(rootTaxon != null) {
+				    phylogeneticTree.getTaxa().add(rootTaxon);
+			    }
+			} else {
+				for(String identifier : rootTaxonIdentifier.split(",")) {
+					Taxon rootTaxon = taxonService.find(identifier);
+				    if(rootTaxon != null) {
+					    phylogeneticTree.getTaxa().add(rootTaxon);
+				    }
+				}
 			}
+			
 		}
 		
 		phylogeneticTree.setPhylogeny(stringBuffer.toString().replaceAll("\n", ""));
