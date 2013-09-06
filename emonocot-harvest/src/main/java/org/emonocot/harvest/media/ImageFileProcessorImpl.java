@@ -43,7 +43,9 @@ public class ImageFileProcessorImpl implements ItemProcessor<Image, Image>, Imag
     }
     
     public void setSkipUnmodified(Boolean skipUnmodified) {
-    	this.skipUnmodified = skipUnmodified;
+    	if(skipUnmodified != null) {
+    	    this.skipUnmodified = skipUnmodified;
+    	}
     }
 
     /* (non-Javadoc)

@@ -19,30 +19,23 @@ import org.springframework.batch.item.ItemProcessor;
  */
 public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>, ImageThumbnailGenerator {
 
-   /**
-    *
-    */
     private Logger logger = LoggerFactory.getLogger(ImageThumbnailGeneratorImpl.class);
 
-    /**
-     *
-     */
     private final Double THUMBNAIL_DIMENSION = 100D;
 
-    /**
-     *
-     */
     private String searchPath;
 
-    /**
-     *
-     */
     private String imageDirectory;
 
-    /**
-     *
-     */
     private String thumbnailDirectory;
+    
+    private Boolean skipUnmodified = Boolean.TRUE;
+    
+    public void setSkipUnmodified(Boolean skipUnmodified) {
+    	if(skipUnmodified != null) {
+    	    this.skipUnmodified = skipUnmodified;
+    	}
+    }
 
     /**
      *
@@ -82,7 +75,7 @@ public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>,
         File file = new File(imageFileName);
         if(!file.exists()) {
         	logger.warn("File does not exist in image directory, skipping");
-        } else if(thumbnailFile.exists()) {
+        } else if(thumbnailFile.exists() && skipUnmodified) {
         	logger.info("Thumbnail File exists in image directory, skipping");
         } else {
             try {
