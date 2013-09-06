@@ -924,15 +924,13 @@ public class Functions {
 	public static Collection<Distribution> getDistribution(Taxon taxon,
 			OccurrenceStatus occurrenceStatus,
 			EstablishmentMeans establishmentMeans) {
-		List<Distribution> distribution = new ArrayList<Distribution>();
+		SortedSet<Distribution> distribution = new TreeSet<Distribution>(new DistributionComparator());
 		for (Distribution d : taxon.getDistribution()) {
 			if (toPresentAbsent(d.getOccurrenceStatus()).equals(occurrenceStatus)
 					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(establishmentMeans)) {
 				distribution.add(d);
 			}
-		}		
-		DistributionComparator comparator = new DistributionComparator();
-		Collections.sort(distribution, comparator);
+		}				
 		return distribution;
 	}
 
