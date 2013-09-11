@@ -1517,7 +1517,7 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://kptuapp01:6166</amq.broker.uri>				
-				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080</portal.baseUrl>				
+				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot-portal</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1531,7 +1531,7 @@
 				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
 				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
-				<wagon.server.id>vagrant</wagon.server.id>
+				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
