@@ -256,6 +256,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the namePublishedInString
 	 */
+	@Size(max = 255)
 	public String getNamePublishedInString() {
 		return namePublishedInString;
 	}
@@ -540,6 +541,7 @@ public class Taxon extends SearchableObject {
 	 * @return the taxonomic class the taxon classified in
 	 */
 	@Column(name = "class")
+	@Size(max = 255)
 	public String getClazz() {
 		return clazz;
 	}
@@ -603,6 +605,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the subfamily
 	 */
+	@Size(max = 255)
 	public String getSubfamily() {
 		return subfamily;
 	}
@@ -618,6 +621,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the tribe
 	 */
+	@Size(max = 255)
 	public String getTribe() {
 		return tribe;
 	}
@@ -633,6 +637,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the subtribe
 	 */
+	@Size(max = 255)
 	public String getSubtribe() {
 		return subtribe;
 	}
@@ -648,6 +653,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the bibliographicCitation
 	 */
+	@Size(max = 255)
 	public String getBibliographicCitation() {
 		return bibliographicCitation;
 	}
@@ -741,6 +747,7 @@ public class Taxon extends SearchableObject {
 	 * 
 	 * @return the name identifier
 	 */
+	@Size(max = 255)
 	public String getScientificNameID() {
 		return scientificNameID;
 	}
@@ -776,6 +783,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the source
 	 */
+	@Size(max = 255)
 	public String getSource() {
 		return source;
 	}
@@ -806,6 +814,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the verbatimTaxonRank
 	 */
+	@Size(max = 255)
 	public String getVerbatimTaxonRank() {
 		return verbatimTaxonRank;
 	}
@@ -821,6 +830,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the taxonRemarks
 	 */
+	@Size(max = 255)
 	public String getTaxonRemarks() {
 		return taxonRemarks;
 	}

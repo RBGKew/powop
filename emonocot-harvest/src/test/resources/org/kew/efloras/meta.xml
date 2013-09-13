@@ -26,7 +26,6 @@
             default="© Copyright The Board of Trustees, Royal Botanic Gardens, Kew."
             term="http://purl.org/dc/terms/license" />
 		<field default="Plantae" term="http://rs.tdwg.org/dwc/terms/kingdom" />
-		<field default="Asparagales" term="http://rs.tdwg.org/dwc/terms/order" />
 		<field default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode" />
 		<field default="Taxon" term="http://rs.tdwg.org/dwc/terms/type" />
 		<field default="eFloras-Iridaceae" term="http://rs.tdwg.org/dwc/terms/datasetName" />
@@ -42,7 +41,7 @@
 		<field index="2" term="http://purl.org/dc/terms/type" />
 		<field default="EN" term="http://purl.org/dc/terms/language" />
 		<field
-            default="Royal Botanic Gardens, Kew, 2004. eFloras: Iridaceae. [online] Available at: http://kew.org/efloras/ [Accessed 2012-06-22]"
+            default="Royal Botanic Gardens, Kew, 2004. eFloras. [online] Available at: http://kew.org/efloras/ [Accessed 2013-08-02]"
             term="http://purl.org/dc/terms/bibliographicCitation" />
         <field
             default="© Copyright The Board of Trustees, Royal Botanic Gardens, Kew."

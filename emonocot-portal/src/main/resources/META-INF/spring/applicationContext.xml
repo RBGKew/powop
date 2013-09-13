@@ -41,6 +41,8 @@
 		<property name="targetConnectionFactory">
 			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
 				<property name="brokerURL" value="${amq.broker.uri}" />
+				<property name="userName" value="${amq.broker.userName}" />
+				<property name="password" value="${amq.broker.password}" />
 			</bean>
 		</property>
 		<property name="sessionCacheSize" value="10" />
