@@ -1518,12 +1518,12 @@
 				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://kptuapp01:6166</amq.broker.uri>
 				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>	
+				<amq.broker.password>emonocot</amq.broker.password>
                 <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot-portal</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080</cargo.tomcat.url>
+				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/emonocot-portal</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>sadmin</cargo.remote.username>
 				<cargo.remote.password>kewadmin</cargo.remote.password>
@@ -1536,8 +1536,8 @@
 				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>liquibase</liquibase.username>
-				<liquibase.password>l1qu1ba53</liquibase.password>
+				<liquibase.username>emonocot-user</liquibase.username>
+				<liquibase.password>eM0n0c0t</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
@@ -1545,7 +1545,7 @@
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://a9482.ad.kew.org:3306/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
