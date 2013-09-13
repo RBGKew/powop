@@ -17,7 +17,7 @@
 	<jms:outbound-channel-adapter id="readWriteJobLaunchGateway" channel="readWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
 	
     <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="read.write.job.launch.requests" />
+		<constructor-arg value="${amq.readWriteQueue.name}" />
 	</bean>
 
     <!-- Read only job launcher -->
@@ -30,7 +30,7 @@
 	<jms:outbound-channel-adapter id="readOnlyJobLaunchGateway" channel="readOnlyJobLaunchRequests"	destination="readOnlyJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
 	
     <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="read.only.job.launch.requests" />
+		<constructor-arg value="${amq.readOnlyQueue.name}" />
 	</bean>
 <!-- Generic converter used by both queues -->
 		

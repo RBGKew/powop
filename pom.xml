@@ -1519,7 +1519,9 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<amq.broker.userName>emonocot</amq.broker.userName>
+				<amq.broker.password>emonocot</amq.broker.password>		
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
@@ -1586,7 +1588,9 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>				
+				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<amq.broker.userName>emonocot</amq.broker.userName>
+				<amq.broker.password>emonocot</amq.broker.password>				
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
@@ -1725,6 +1729,8 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<amq.broker.userName>emonocot</amq.broker.userName>
+				<amq.broker.password>emonocot</amq.broker.password>
                 <portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
@@ -1781,6 +1787,8 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<amq.broker.userName>emonocot</amq.broker.userName>
+				<amq.broker.password>emonocot</amq.broker.password>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
@@ -1846,6 +1854,8 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<amq.broker.userName>emonocot</amq.broker.userName>
+				<amq.broker.password>emonocot</amq.broker.password>
 				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
@@ -1920,6 +1930,8 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
+				<amq.broker.userName>emonocot</amq.broker.userName>
+				<amq.broker.password>emonocot</amq.broker.password>
 				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
