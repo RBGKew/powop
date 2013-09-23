@@ -1536,8 +1536,8 @@
 				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>emonocot-user</liquibase.username>
-				<liquibase.password>eM0n0c0t</liquibase.password>
+				<liquibase.username>emonocot</liquibase.username>
+				<liquibase.password>m0n0pa55</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
@@ -1546,8 +1546,8 @@
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
-				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
+				<jdbc.driver.username>emonocot</jdbc.driver.username>
+				<jdbc.driver.password>m0n0pa55</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
 				<functional.test.basePath>emonocot-portal</functional.test.basePath>
 				<functional.test.port>8080</functional.test.port>
