@@ -80,8 +80,8 @@
 									  <td>${item.organization}</td>
 									  <td>
 									    <c:choose>
-									      <c:when test="${not empty user.img}">
-									        <c:url var="profileImage" value="/images/profiles/${user.img}"/>
+									      <c:when test="${not empty item.img}">
+									        <c:url var="profileImage" value="/images/profiles/${item.img}"/>
 									      </c:when>
 									      <c:otherwise>
 									        <c:url var="profileImage" value="/css/images/no_image.jpg"/>

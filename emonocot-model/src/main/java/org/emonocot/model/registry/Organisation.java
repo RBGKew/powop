@@ -343,7 +343,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 			destinations.add(commentsEmailedTo);
 		}
 		if(this.insertCommentsIntoScratchpad) {
-			destinations.add(this.identifier);
+			destinations.add("http://" + this.identifier + "/feedback");
 		}
 		return destinations;
 	}

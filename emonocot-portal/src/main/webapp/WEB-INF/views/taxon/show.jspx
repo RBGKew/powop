@@ -63,37 +63,24 @@
 						<c:if test="${not empty taxon.images}">
 							<li><a href="#images"><spring:message code="images" /></a></li>
 						</c:if>
-						<li>
-							<c:if test="${not empty taxon.descriptions}">
-								<a href="#description"><spring:message code="description" /></a>
-							</c:if>
-						</li>
-						<li>
-							<c:if test="${not empty taxon.distribution}">
-								<a href="#map"><spring:message code="distributionMap" /></a>
-							</c:if>
-						</li>
-						<li>
-							<c:if test="${not empty taxon.childNameUsages}">
-								<a href="#children">${childrenHeader}${childrenRank}</a>
-							</c:if>
-							
-						</li>
-						<li>
-							<c:if test="${not empty taxon.synonymNameUsages}">
-								<a href="#synonyms"><spring:message code="synonyms" /></a>
-							</c:if>
-						</li>
-						<li>
-							<c:if test="${not empty taxon.vernacularNames}">
-								<a href="#vernacularNames"><spring:message code="vernacularNames" /></a>
-							</c:if>
-						</li>
-						<li>
-							<c:if test="${not empty bibliography.references}">
-								<a href="#bibliography"><spring:message code="bibliography" /></a>
-							</c:if>
-						</li>
+						<c:if test="${not empty taxon.descriptions}">
+								<li><a href="#description"><spring:message code="description" /></a></li>
+						</c:if>
+						<c:if test="${not empty taxon.distribution}">
+								<li><a href="#distributionMap"><spring:message code="distributionMap" /></a></li>
+						</c:if>						
+						<c:if test="${not empty taxon.childNameUsages}">
+								<li><a href="#children">${childrenHeader}${childrenRank}</a></li>
+						</c:if>
+						<c:if test="${not empty taxon.synonymNameUsages}">
+								<li><a href="#synonyms"><spring:message code="synonyms" /></a></li>
+						</c:if>
+						<c:if test="${not empty taxon.vernacularNames}">
+								<li><a href="#vernacularNames"><spring:message code="vernacularNames" /></a></li>
+						</c:if>						
+						<c:if test="${not empty bibliography.references}">
+							<li><a href="#bibliography"><spring:message code="bibliography" /></a></li>
+						</c:if>						
 					</ul>
 				</div>
 			</c:if>
@@ -162,6 +149,14 @@
 						$('#textBox').show();
 						$('#clickMe').text('Hide details');
 					});
+			});
+			var offset = 90;
+			$(document).ready(function(){
+                $("a[href^='#']").click(function(event) {
+                    event.preventDefault();
+                    $($(this).attr('href'))[0].scrollIntoView();
+                    scrollBy(0, -offset);
+                });
 			});
 		</script>
 
@@ -242,7 +237,7 @@
 										    <p class="justified">${description.description}</p>
 										    <ul class="citations">
 											    <li>
-												    <a href="#">${em:provenancekey(provenance, description)}</a>
+												    <a href="#${em:provenancekey(provenance, description)}">${em:provenancekey(provenance, description)}</a>
 											    </li>
 											    <c:if test="${not empty description.references}">
 												    <c:forEach var="reference" items="${description.references}">
@@ -492,7 +487,7 @@
 								<spring:message code="bibliography" var="bibliographyHeader"/>
 								<h2>
 									<i class="glyphicons-icon book">&#160;</i> ${bibliographyHeader}
-									<tags:feedbackLink selector="$(option:contains(${bibliographyHeader}))" dataName="${bibliographyHeader}" />
+									<tags:feedbackLink selector="option:contains(${bibliographyHeader})" dataName="${bibliographyHeader}" />
 								</h2>
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
@@ -676,7 +671,7 @@
 							<h2>
 								<i class="glyphicons-icon table"><!-- --></i>
 								<spring:message code="taxonData" var="dataHeader"/>${dataHeader}
-								<tags:feedbackLink selector="option#data" dataName="${dataHeader}" />
+								<tags:feedbackLink selector="option:contains(${dataHeader})" dataName="${dataHeader}" />
 							</h2>
 							<table class="table" id="data">
 								<tbody>
@@ -872,7 +867,10 @@
 								<c:if test="${taxon.acceptedNameUsage == null}">
 									<option id="aboutData_higherClassification" value="higherClassification">${treeHeader}</option>
 								</c:if>
-								<option id="aboutData_measurementsOrFacts" value="measurementsOrFacts">${dataHeader}</option>
+								<option id="aboutData_measurementsOrFacts" value="measurementsOrFacts">${dataHeader}</option>								
+								<c:if test="${not empty taxon.references}">
+									<option id="aboutData_references" value="references">${bibliographyHeader}</option>
+								</c:if>
 								<option id="aboutData_other" value="other"><spring:message code="feedback.option.other" /></option>
 							</select>
 						</div>
