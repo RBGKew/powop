@@ -1578,6 +1578,7 @@
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
@@ -1647,6 +1648,7 @@
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 			<build>
 			  <plugins>
@@ -1778,6 +1780,7 @@
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
@@ -1844,6 +1847,7 @@
 				<portal.profile.image.directory>file:/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
@@ -1869,9 +1873,9 @@
 				<cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>tomcat</cargo.remote.password>
-				<cargo.context.path>emonocot-harvester</cargo.context.path>				
-				<http.proxyHost />
-				<http.proxyPort />
+				<cargo.context.path>emonocot-harvester</cargo.context.path>
+                <http.proxyHost />
+                <http.proxyPort />
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
@@ -1920,6 +1924,7 @@
                 <comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
                 <comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
                 <comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
@@ -1996,6 +2001,7 @@
                 <comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
                 <comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
                 <comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>	
 	</profiles>
