@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_nlmcatalog" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_nlmcatalog" 
+    elementFormDefault="qualified">
+    
+    <!--    version="2.0" -->
+    <!-- http://www.nlm.nih.gov/databases/dtd/nlmcatalogrecord_100101.dtd -->
+
+	<xs:complexType name="AbstractType">
+		<xs:sequence>
+			<xs:element ref="tns:AbstractText"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="AbstractText" type="xs:string"/>
+	<xs:complexType name="AcquisitionInfoType">
+		<xs:sequence>
+			<xs:element ref="tns:StockNumber" minOccurs="0"/>
+			<xs:element ref="tns:AcquisitionSource" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AcquisitionInfoListType">
+		<xs:sequence>
+			<xs:element name="AcquisitionInfo" type="tns:AcquisitionInfoType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="AcquisitionSource" type="xs:string"/>
+	<xs:element name="Affiliation" type="xs:string"/>
+	<xs:complexType name="AuthorType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="tns:LastName"/>
+					<xs:element ref="tns:ForeName" minOccurs="0"/>
+					<xs:element ref="tns:Initials" minOccurs="0"/>
+					<xs:element ref="tns:Suffix" minOccurs="0"/>
+				</xs:sequence>
+				<xs:element ref="tns:CollectiveName"/>
+			</xs:choice>
+			<xs:element ref="tns:Affiliation" minOccurs="0"/>
+			<xs:element ref="tns:DatesAssociatedWithName" minOccurs="0"/>
+			<xs:element ref="tns:NameQualifier" minOccurs="0"/>
+			<xs:element ref="tns:OtherInformation" minOccurs="0"/>
+			<xs:element ref="tns:TitleAssociatedWithName" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AuthorListType">
+		<xs:sequence>
+			<xs:element name="Author" type="tns:AuthorType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="CompleteYN" default="Y">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Y"/>
+					<xs:enumeration value="N"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="BroadJournalHeading" type="xs:string"/>
+	<xs:complexType name="BroadJournalHeadingListType">
+		<xs:sequence>
+			<xs:element ref="tns:BroadJournalHeading" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="CarrierType" type="xs:string"/>
+	<xs:element name="ChapterPgn" type="xs:string"/>
+	<xs:complexType name="ChemicalType">
+		<xs:sequence>
+			<xs:element ref="tns:RegistryNumber"/>
+			<xs:element ref="tns:NameOfSubstance"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChemicalListType">
+		<xs:sequence>
+			<xs:element name="Chemical" type="tns:ChemicalType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClassificationType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="NLMCallNumberYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="Authority" default="Undetermined">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="KIE"/>
+							<xs:enumeration value="MARC"/>
+							<xs:enumeration value="NLM"/>
+							<xs:enumeration value="Other"/>
+							<xs:enumeration value="Undetermined"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="CallNumberType" default="Other">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="NLMClass"/>
+							<xs:enumeration value="Other"/>
+							<xs:enumeration value="ShelvingNumber"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="Coden" type="xs:string"/>
+	<xs:complexType name="CollaborativePartnerDateType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Owner" default="Undetermined">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="CIT"/>
+							<xs:enumeration value="HMD"/>
+							<xs:enumeration value="HSR"/>
+							<xs:enumeration value="IHM"/>
+							<xs:enumeration value="KIE"/>
+							<xs:enumeration value="NASA"/>
+							<xs:enumeration value="NCBI"/>
+							<xs:enumeration value="NLM"/>
+							<xs:enumeration value="NOTNLM"/>
+							<xs:enumeration value="NYA"/>
+							<xs:enumeration value="PIP"/>
+							<xs:enumeration value="Undetermined"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="CollaborativeStatus" default="Other">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Create"/>
+							<xs:enumeration value="In-House-Review"/>
+							<xs:enumeration value="Other"/>
+							<xs:enumeration value="Released"/>
+							<xs:enumeration value="Review"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="CollectiveName" type="xs:string"/>
+	<xs:element name="ContentType" type="xs:string"/>
+	<xs:element name="ContentsNote" type="xs:string"/>
+	<xs:element name="Country" type="xs:string"/>
+	<xs:element name="Coverage" type="xs:string"/>
+	<xs:complexType name="DateAuthorizedType">
+		<xs:sequence>
+			<xs:element ref="tns:Year"/>
+			<xs:element ref="tns:Month"/>
+			<xs:element ref="tns:Day"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DateCompletedType">
+		<xs:sequence>
+			<xs:element ref="tns:Year"/>
+			<xs:element ref="tns:Month"/>
+			<xs:element ref="tns:Day"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DateCreatedType">
+		<xs:sequence>
+			<xs:element ref="tns:Year"/>
+			<xs:element ref="tns:Month"/>
+			<xs:element ref="tns:Day"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DateIssuedType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ImprintType" default="Current">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Current"/>
+							<xs:enumeration value="Original"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="DateRevisedType">
+		<xs:sequence>
+			<xs:element ref="tns:Year"/>
+			<xs:element ref="tns:Month"/>
+			<xs:element ref="tns:Day"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DateRevisedMajorType">
+		<xs:sequence>
+			<xs:element ref="tns:Year"/>
+			<xs:element ref="tns:Month"/>
+			<xs:element ref="tns:Day"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DatesAssociatedWithName" type="xs:string"/>
+	<xs:element name="DatesOfSerialPublication" type="xs:string"/>
+	<xs:element name="Day" type="xs:string"/>
+	<xs:element name="DescriptiveInformation" type="xs:string"/>
+	<xs:complexType name="DescriptorNameType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="MajorTopicYN" default="N">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ELocationType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="ELocationID" type="tns:ELocationIDType"/>
+				<xs:element ref="tns:DescriptiveInformation" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="tns:DescriptiveInformation"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ELocationIDType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="EIdType" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="url"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ELocationListType">
+		<xs:sequence>
+			<xs:element name="ELocation" type="tns:ELocationType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Edition" type="xs:string"/>
+	<xs:element name="Extent" type="xs:string"/>
+	<xs:element name="ForeName" type="xs:string"/>
+	<xs:element name="Form" type="xs:string"/>
+	<xs:complexType name="FrequencyType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="FrequencyType" default="Current">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Current"/>
+							<xs:enumeration value="Former"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="GeneralNoteType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Owner" default="Undetermined">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="CIT"/>
+							<xs:enumeration value="HMD"/>
+							<xs:enumeration value="HSR"/>
+							<xs:enumeration value="IHM"/>
+							<xs:enumeration value="KIE"/>
+							<xs:enumeration value="NASA"/>
+							<xs:enumeration value="NCBI"/>
+							<xs:enumeration value="NLM"/>
+							<xs:enumeration value="NOTNLM"/>
+							<xs:enumeration value="NYA"/>
+							<xs:enumeration value="PIP"/>
+							<xs:enumeration value="Undetermined"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="NoteType">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Binding"/>
+							<xs:enumeration value="Biography"/>
+							<xs:enumeration value="BoundWith"/>
+							<xs:enumeration value="CiteAs"/>
+							<xs:enumeration value="Dissertation"/>
+							<xs:enumeration value="FindingAid"/>
+							<xs:enumeration value="LinkComplexNote"/>
+							<xs:enumeration value="Provenance"/>
+							<xs:enumeration value="ProvHistory"/>
+							<xs:enumeration value="Restriction"/>
+							<xs:enumeration value="Usage"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="Genre" type="xs:string"/>
+	<xs:complexType name="GenreListType">
+		<xs:sequence>
+			<xs:element ref="tns:Genre" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GovDocClassNumberType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="Host" type="xs:string"/>
+	<xs:complexType name="ISBNType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ISSNType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="IssnType" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Electronic"/>
+							<xs:enumeration value="Print"/>
+							<xs:enumeration value="Undetermined"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ISSNLinkingType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ImprintType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ImprintType" default="Current">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Current"/>
+							<xs:enumeration value="Original"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="IndexingSourceType">
+		<xs:sequence>
+			<xs:element name="IndexingSourceName" type="tns:IndexingSourceNameType"/>
+			<xs:element ref="tns:Coverage" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndexingSourceListType">
+		<xs:sequence>
+			<xs:element name="IndexingSource" type="tns:IndexingSourceType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndexingSourceNameType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="IndexingTreatment">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Unknown"/>
+							<xs:enumeration value="Full"/>
+							<xs:enumeration value="Selective"/>
+							<xs:enumeration value="ReferencedIn"/>
+							<xs:enumeration value="ReferencedInNoDetails"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="IndexingStatus">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Ceased-publication"/>
+							<xs:enumeration value="Continued-by-another-indexed-title"/>
+							<xs:enumeration value="Currently-indexed"/>
+							<xs:enumeration value="Currently-indexed-Title-changed"/>
+							<xs:enumeration value="Date-range-of-indexed-citations-unspecified"/>
+							<xs:enumeration value="Deselected"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="Initials" type="xs:string"/>
+	<xs:complexType name="InvestigatorType">
+		<xs:sequence>
+			<xs:element ref="tns:LastName"/>
+			<xs:element ref="tns:ForeName" minOccurs="0"/>
+			<xs:element ref="tns:Initials" minOccurs="0"/>
+			<xs:element ref="tns:Suffix" minOccurs="0"/>
+			<xs:element ref="tns:Affiliation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="ValidYN" default="Y">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Y"/>
+					<xs:enumeration value="N"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="InvestigatorListType">
+		<xs:sequence>
+			<xs:element name="Investigator" type="tns:InvestigatorType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Issuance" type="xs:string"/>
+	<xs:complexType name="KeywordType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="MajorTopicYN" default="N">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="KeywordListType">
+		<xs:sequence>
+			<xs:element name="Keyword" type="tns:KeywordType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Owner" default="NLM">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="CIT"/>
+					<xs:enumeration value="HMD"/>
+					<xs:enumeration value="HSR"/>
+					<xs:enumeration value="IHM"/>
+					<xs:enumeration value="KIE"/>
+					<xs:enumeration value="NASA"/>
+					<xs:enumeration value="NCBI"/>
+					<xs:enumeration value="NLM"/>
+					<xs:enumeration value="NOTNLM"/>
+					<xs:enumeration value="NYA"/>
+					<xs:enumeration value="PIP"/>
+					<xs:enumeration value="Undetermined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="LCCNType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="Language" type="xs:string"/>
+	<xs:complexType name="LanguageAlternateType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="LangType" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Original"/>
+							<xs:enumeration value="Summary"/>
+							<xs:enumeration value="TableOfContents"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="LastName" type="xs:string"/>
+	<xs:complexType name="LocalNoteType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="LocalNoteType" default="Other">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="DashedOn"/>
+							<xs:enumeration value="Other"/>
+							<xs:enumeration value="PreservationAction"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="MediaType" type="xs:string"/>
+	<xs:element name="MedlineTA" type="xs:string"/>
+	<xs:complexType name="MeshHeadingType">
+		<xs:sequence>
+			<xs:element name="DescriptorName" type="tns:DescriptorNameType"/>
+			<xs:element name="QualifierName" type="tns:QualifierNameType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MeshHeadingListType">
+		<xs:sequence>
+			<xs:element name="MeshHeading" type="tns:MeshHeadingType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Month" type="xs:string"/>
+	<xs:element name="NCBIIssnAlias" type="xs:string"/>
+	<xs:complexType name="NLMCatalogRecordType">
+		<xs:sequence>
+			<xs:element ref="tns:NlmUniqueID"/>
+			<xs:element name="DateCreated" type="tns:DateCreatedType"/>
+			<xs:element name="DateRevised" type="tns:DateRevisedType"/>
+			<xs:element name="DateAuthorized" type="tns:DateAuthorizedType" minOccurs="0"/>
+			<xs:element name="DateCompleted" type="tns:DateCompletedType" minOccurs="0"/>
+			<xs:element name="DateRevisedMajor" type="tns:DateRevisedMajorType" minOccurs="0"/>
+			<xs:element name="CollaborativePartnerDate" type="tns:CollaborativePartnerDateType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TitleMain" type="tns:TitleMainType"/>
+			<xs:element ref="tns:MedlineTA" minOccurs="0"/>
+			<xs:element name="TitleOther" type="tns:TitleOtherType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AuthorList" type="tns:AuthorListType" minOccurs="0"/>
+			<xs:element name="InvestigatorList" type="tns:InvestigatorListType" minOccurs="0"/>
+			<xs:element name="ResourceInfo" type="tns:ResourceInfoType"/>
+			<xs:element name="PublicationTypeList" type="tns:PublicationTypeListType" minOccurs="0"/>
+			<xs:element name="GenreList" type="tns:GenreListType" minOccurs="0"/>
+			<xs:element name="PublicationInfo" type="tns:PublicationInfoType"/>
+			<xs:element ref="tns:Language" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LanguageAlternate" type="tns:LanguageAlternateType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PhysicalDescription" type="tns:PhysicalDescriptionType" minOccurs="0"/>
+			<xs:element name="Abstract" type="tns:AbstractType" minOccurs="0"/>
+			<xs:element ref="tns:Affiliation" minOccurs="0"/>
+			<xs:element name="OtherAbstract" type="tns:OtherAbstractType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:ContentsNote" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="IndexingSourceList" type="tns:IndexingSourceListType" minOccurs="0"/>
+			<xs:element ref="tns:NLMIndexNote" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="GeneralNote" type="tns:GeneralNoteType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LocalNote" type="tns:LocalNoteType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PersonalNameSubjectList" type="tns:PersonalNameSubjectListType" minOccurs="0"/>
+			<xs:element name="MeshHeadingList" type="tns:MeshHeadingListType" minOccurs="0"/>
+			<xs:element name="OtherSubjectList" type="tns:OtherSubjectListType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:SpaceFlightMission" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="KeywordList" type="tns:KeywordListType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="BroadJournalHeadingList" type="tns:BroadJournalHeadingListType" minOccurs="0"/>
+			<xs:element name="ChemicalList" type="tns:ChemicalListType" minOccurs="0"/>
+			<xs:element name="Classification" type="tns:ClassificationType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="GovDocClassNumber" type="tns:GovDocClassNumberType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ELocationList" type="tns:ELocationListType" minOccurs="0"/>
+			<xs:element ref="tns:Host" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="LCCN" type="tns:LCCNType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ISBN" type="tns:ISBNType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ISSN" type="tns:ISSNType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ISSNLinking" type="tns:ISSNLinkingType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:NCBIIssnAlias" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:STRN" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:Coden" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="OtherID" type="tns:OtherIDType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AcquisitionInfoList" type="tns:AcquisitionInfoListType" minOccurs="0"/>
+			<xs:element name="ReportNumber" type="tns:ReportNumberType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Owner" default="Undetermined">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="CIT"/>
+					<xs:enumeration value="HMD"/>
+					<xs:enumeration value="HSR"/>
+					<xs:enumeration value="IHM"/>
+					<xs:enumeration value="KIE"/>
+					<xs:enumeration value="NASA"/>
+					<xs:enumeration value="NCBI"/>
+					<xs:enumeration value="NLM"/>
+					<xs:enumeration value="NOTNLM"/>
+					<xs:enumeration value="NYA"/>
+					<xs:enumeration value="PIP"/>
+					<xs:enumeration value="Undetermined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Status" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Brief"/>
+					<xs:enumeration value="Cataloging-In-Publication"/>
+					<xs:enumeration value="Completed"/>
+					<xs:enumeration value="In-Process"/>
+					<xs:enumeration value="Not-Our-Cataloging"/>
+					<xs:enumeration value="On-Order"/>
+					<xs:enumeration value="Undetermined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="NLMCatalogRecordSet">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NLMCatalogRecord" type="tns:NLMCatalogRecordType" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NLMIndexNote" type="xs:string"/>
+	<xs:element name="NameOfSubstance" type="xs:string"/>
+	<xs:element name="NameQualifier" type="xs:string"/>
+	<xs:element name="NlmUniqueID" type="xs:string"/>
+	<xs:complexType name="OtherAbstractType">
+		<xs:sequence>
+			<xs:element ref="tns:AbstractText"/>
+		</xs:sequence>
+		<xs:attribute name="Type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="AAMC"/>
+					<xs:enumeration value="HMD"/>
+					<xs:enumeration value="HSR"/>
+					<xs:enumeration value="KIE"/>
+					<xs:enumeration value="NASA"/>
+					<xs:enumeration value="NCBI"/>
+					<xs:enumeration value="NLM"/>
+					<xs:enumeration value="NTIS"/>
+					<xs:enumeration value="NYA"/>
+					<xs:enumeration value="PIP"/>
+					<xs:enumeration value="Producer"/>
+					<xs:enumeration value="Undetermined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="OtherIDType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Prefix" type="xs:string"/>
+				<xs:attribute name="Source" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="CIT"/>
+							<xs:enumeration value="HMD"/>
+							<xs:enumeration value="HSR"/>
+							<xs:enumeration value="IDM"/>
+							<xs:enumeration value="IHM"/>
+							<xs:enumeration value="KIE"/>
+							<xs:enumeration value="NASA"/>
+							<xs:enumeration value="NLM"/>
+							<xs:enumeration value="NYA"/>
+							<xs:enumeration value="OCLC"/>
+							<xs:enumeration value="PIP"/>
+							<xs:enumeration value="Undetermined"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="OtherInformation" type="xs:string"/>
+	<xs:complexType name="OtherSubjectType">
+		<xs:sequence>
+			<xs:element name="OtherSubjectName" type="tns:OtherSubjectNameType"/>
+			<xs:element ref="tns:OtherInformation" minOccurs="0"/>
+			<xs:element ref="tns:TitleAssociatedWithName" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OtherSubjectListType">
+		<xs:sequence>
+			<xs:element name="OtherSubject" type="tns:OtherSubjectType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Owner" default="Undetermined">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="CIT"/>
+					<xs:enumeration value="HMD"/>
+					<xs:enumeration value="HSR"/>
+					<xs:enumeration value="IHM"/>
+					<xs:enumeration value="KIE"/>
+					<xs:enumeration value="NASA"/>
+					<xs:enumeration value="NCBI"/>
+					<xs:enumeration value="NLM"/>
+					<xs:enumeration value="NOTNLM"/>
+					<xs:enumeration value="NYA"/>
+					<xs:enumeration value="PIP"/>
+					<xs:enumeration value="Undetermined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="OtherSubjectNameType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="MajorTopicYN" default="N">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="SubjectType" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="CorpName"/>
+							<xs:enumeration value="Title"/>
+							<xs:enumeration value="Other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PersonalNameSubjectType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element ref="tns:LastName"/>
+				<xs:element ref="tns:ForeName" minOccurs="0"/>
+				<xs:element ref="tns:Initials" minOccurs="0"/>
+				<xs:element ref="tns:Suffix" minOccurs="0"/>
+			</xs:sequence>
+			<xs:element ref="tns:DatesAssociatedWithName" minOccurs="0"/>
+			<xs:element ref="tns:NameQualifier" minOccurs="0"/>
+			<xs:element ref="tns:OtherInformation" minOccurs="0"/>
+			<xs:element ref="tns:TitleAssociatedWithName" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonalNameSubjectListType">
+		<xs:sequence>
+			<xs:element name="PersonalNameSubject" type="tns:PersonalNameSubjectType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhysicalDescriptionType">
+		<xs:sequence>
+			<xs:element ref="tns:Form" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:Extent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:Runtime" minOccurs="0"/>
+			<xs:element ref="tns:ChapterPgn" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PlaceType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ImprintType" default="Current">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Current"/>
+							<xs:enumeration value="Original"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PlaceCodeType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="Authority" default="Undetermined">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="KIE"/>
+							<xs:enumeration value="MARC"/>
+							<xs:enumeration value="NLM"/>
+							<xs:enumeration value="Other"/>
+							<xs:enumeration value="Undetermined"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="ProjectedPublicationDate" type="xs:string"/>
+	<xs:element name="PublicationEndYear" type="xs:string"/>
+	<xs:element name="PublicationFirstYear" type="xs:string"/>
+	<xs:complexType name="PublicationInfoType">
+		<xs:sequence>
+			<xs:element ref="tns:Country" minOccurs="0"/>
+			<xs:element name="PlaceCode" type="tns:PlaceCodeType" minOccurs="0"/>
+			<xs:element name="Imprint" type="tns:ImprintType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Place" type="tns:PlaceType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Publisher" type="tns:PublisherType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DateIssued" type="tns:DateIssuedType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:ProjectedPublicationDate" minOccurs="0"/>
+			<xs:element ref="tns:PublicationFirstYear" minOccurs="0"/>
+			<xs:element ref="tns:PublicationEndYear" minOccurs="0"/>
+			<xs:element ref="tns:Edition" minOccurs="0"/>
+			<xs:element ref="tns:DatesOfSerialPublication" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Frequency" type="tns:FrequencyType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="PublicationType" type="xs:string"/>
+	<xs:complexType name="PublicationTypeListType">
+		<xs:sequence>
+			<xs:element ref="tns:PublicationType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PublisherType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ImprintType" default="Current">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Current"/>
+							<xs:enumeration value="Original"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="QualifierNameType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="MajorTopicYN" default="N">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="RegistryNumber" type="xs:string"/>
+	<xs:complexType name="ReportNumberType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="ValidYN" default="Y">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">
+							<xs:enumeration value="Y"/>
+							<xs:enumeration value="N"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ResourceInfoType">
+		<xs:sequence>
+			<xs:element ref="tns:TypeOfResource"/>
+			<xs:element ref="tns:Issuance"/>
+			<xs:element ref="tns:ResourceUnit" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:ContentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:MediaType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:CarrierType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ResourceUnit" type="xs:string"/>
+	<xs:element name="Runtime" type="xs:string"/>
+	<xs:element name="STRN" type="xs:string"/>
+	<xs:element name="SpaceFlightMission" type="xs:string"/>
+	<xs:element name="StockNumber" type="xs:string"/>
+	<xs:element name="Suffix" type="xs:string"/>
+	<xs:element name="Title" type="xs:string"/>
+	<xs:element name="TitleAlternate" type="xs:string"/>
+	<xs:element name="TitleAssociatedWithName" type="xs:string"/>
+	<xs:complexType name="TitleMainType">
+		<xs:sequence>
+			<xs:element ref="tns:Title"/>
+			<xs:element ref="tns:OtherInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="Sort" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+					<xs:enumeration value="2"/>
+					<xs:enumeration value="3"/>
+					<xs:enumeration value="4"/>
+					<xs:enumeration value="5"/>
+					<xs:enumeration value="6"/>
+					<xs:enumeration value="7"/>
+					<xs:enumeration value="8"/>
+					<xs:enumeration value="9"/>
+					<xs:enumeration value="N"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="TitleOtherType">
+		<xs:sequence>
+			<xs:element ref="tns:TitleAlternate"/>
+			<xs:element ref="tns:OtherInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="Sort" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+					<xs:enumeration value="2"/>
+					<xs:enumeration value="3"/>
+					<xs:enumeration value="4"/>
+					<xs:enumeration value="5"/>
+					<xs:enumeration value="6"/>
+					<xs:enumeration value="7"/>
+					<xs:enumeration value="8"/>
+					<xs:enumeration value="9"/>
+					<xs:enumeration value="N"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Owner" default="Undetermined">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="CIT"/>
+					<xs:enumeration value="HMD"/>
+					<xs:enumeration value="HSR"/>
+					<xs:enumeration value="IHM"/>
+					<xs:enumeration value="KIE"/>
+					<xs:enumeration value="NASA"/>
+					<xs:enumeration value="NCBI"/>
+					<xs:enumeration value="NLM"/>
+					<xs:enumeration value="NOTNLM"/>
+					<xs:enumeration value="NYA"/>
+					<xs:enumeration value="PIP"/>
+					<xs:enumeration value="Undetermined"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="TitleType" default="Undetermined">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="Absorbed"/>
+					<xs:enumeration value="AbsorbedBy"/>
+					<xs:enumeration value="AbsorbedInPart"/>
+					<xs:enumeration value="AbsorbedInPartBy"/>
+					<xs:enumeration value="Analytic"/>
+					<xs:enumeration value="Key"/>
+					<xs:enumeration value="MergedTo"/>
+					<xs:enumeration value="MergerOf"/>
+					<xs:enumeration value="Other"/>
+					<xs:enumeration value="OtherTA"/>
+					<xs:enumeration value="Preceding"/>
+					<xs:enumeration value="PrecedingInPart"/>
+					<xs:enumeration value="Related"/>
+					<xs:enumeration value="Reversion"/>
+					<xs:enumeration value="Series"/>
+					<xs:enumeration value="SeriesAuthority"/>
+					<xs:enumeration value="SplitFrom"/>
+					<xs:enumeration value="SplitTo"/>
+					<xs:enumeration value="Succeeding"/>
+					<xs:enumeration value="SucceedingInPart"/>
+					<xs:enumeration value="SupersededBy"/>
+					<xs:enumeration value="SupersededInPartBy"/>
+					<xs:enumeration value="Supersedes"/>
+					<xs:enumeration value="SupersedesInPart"/>
+					<xs:enumeration value="Translated"/>
+					<xs:enumeration value="Undetermined"/>
+					<xs:enumeration value="Uniform"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="TypeOfResource" type="xs:string"/>
+	<xs:element name="Year" type="xs:string"/>
+</xs:schema>

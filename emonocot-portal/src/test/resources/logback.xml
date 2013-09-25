@@ -9,7 +9,7 @@
 		<level value="debug" />
 		<appender-ref ref="stdout" />
 	</logger>-->
-	<!-- <logger name="org.emonocot.portal.remoting" additivity="false">
+	<!-- <logger name="org.emonocot.portal" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="stdout" />
 	</logger>-->

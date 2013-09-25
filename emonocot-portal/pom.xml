@@ -283,6 +283,30 @@
 	      <groupId>org.restdoc</groupId>
 	      <artifactId>restdoc-api</artifactId>
 	    </dependency>
+	    <dependency>
+           <groupId>org.apache.axis2</groupId>
+           <artifactId>axis2</artifactId>
+        </dependency>
+        <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2-jaxws</artifactId>
+        </dependency>
+        <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2-transport-local</artifactId>
+        </dependency>
+        <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2-transport-http</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>org.apache.ws.commons.axiom</groupId>
+           <artifactId>axiom-api</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>org.apache.ws.commons.axiom</groupId>
+           <artifactId>axiom-impl</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>emonocot-portal</finalName>		
@@ -313,6 +337,15 @@
 					<encoding />
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+                <version>1.5.4</version>
+                <configuration>
+                    <packageName>org.emonocot.portal.ws.ncbi</packageName>
+                    <wsdlFile>src/main/wsdl/eutils.wsdl</wsdlFile>                            
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>

@@ -779,23 +779,44 @@
 								<spring:message code="external.links"/>
 							</h2>
 							<ul class="unstyled">
-								<li><a id="NCBILink"><spring:message code="ncbi"/><!--  --></a></li>
-								<li><a id="boldLink"><spring:message code="boldSystems"/><!--  --></a></li>
-								<li><a id="GBIFLink"><spring:message code="gbif"/><!--  --></a></li>
+							    <c:url var="ncbiUrl" value="http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi">
+							      <c:param name="term" value="${taxon.scientificName}[orgn]"/>
+							    </c:url>
+								<li><a id="NCBILink" href="${ncbiUrl}"><spring:message code="ncbi"/><!--  --></a></li>
+								<c:url var="boldUrl" value="http://www.boldsystems.org/index.php/Taxbrowser_Taxonpage">
+							      <c:param name="taxon" value="${taxon.scientificName}"/>
+							    </c:url>
+								<li><a id="boldLink" href="${boldUrl}"><spring:message code="boldSystems"/><!--  --></a></li>
+								<c:url var="gbifUrl" value="http://data.gbif.org/species/${taxon.scientificName}"/>
+								<li><a id="GBIFLink" href="${gbifUrl}"><spring:message code="gbif"/><!--  --></a></li>
 							</ul>
+							
 						</section>
 					</div>
 				</div>
-				
+				<c:url value="/ncbi" var="ncbiAjaxUrl">
+				  <c:param name="query" value="${taxon.scientificName}"/>
+				</c:url>
 				<script type="text/javascript">
 					$(document).ready(function(){
-						var obj = $('.taxonName').text();
-						var boldUrl = 'http://www.boldsystems.org/index.php/Taxbrowser_Taxonpage?taxon=' + obj;
-						var ncbiUrl = 'http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi?term=' + obj;
-						var GBIFUrl = 'http://data.gbif.org/species/' + obj;
-						$('#boldLink').attr("href", boldUrl);
-						$('#NCBILink').attr("href", ncbiUrl);
-						$('#GBIFLink').attr("href", GBIFUrl);
+						$.ajax({
+							dataType: "json",
+							url: "${ncbiAjaxUrl}",
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('Accept', 'application/json');
+						        xhr.setRequestHeader('Content-Type', 'application/json');
+							},
+							success: function( data ) {
+								var items = [];
+								items.push( "<li>" + data.nucleotideEntries + " nucleotides</li>" );
+								items.push( "<li>" + data.protienEntries + " proteins</li>" );
+								items.push( "<li>" + data.pubMedEntries + " publications</li>" );
+								 $( "<ul/>", {
+									 html: items.join( "" )
+									 }).appendTo( "#NCBILink" );
+							  
+							}
+						});
 					});
 				</script>
 				

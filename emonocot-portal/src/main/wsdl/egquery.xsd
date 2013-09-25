@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/egquery" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/egquery" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    elementFormDefault="qualified"
+>
+
+    <!--  version="2.0" -->
+    <!--  http://www.ncbi.nlm.nih.gov/entrez/query/DTD/egquery.dtd  date: 2004/05/03 16:19:48  -->
+    
+    <xs:element name="Result">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Term" type="xs:string"/>
+                <xs:element name="eGQueryResult" type="tns:eGQueryResultType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="ResultItemType">
+        <xs:sequence>
+            <xs:element name="DbName" type="xs:string"/>
+            <xs:element name="MenuName" type="xs:string"/>
+            <xs:element name="Count" type="xs:string"/>
+            <xs:element name="Status" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="eGQueryResultType">
+        <xs:sequence>
+            <xs:element name="ERROR" type="xs:string" minOccurs="0"/>
+            <xs:element name="ResultItem" type="tns:ResultItemType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+	<!-- input params -->
+    <xs:element name="term" type="xs:string" />
+    <xs:element name="tool" type="xs:string" />
+    <xs:element name="email" type="xs:string" />
+	
+    <xs:element name="eGqueryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:term" minOccurs="0"/>
+                <xs:element ref="tns:tool" minOccurs="0"/>
+                <xs:element ref="tns:email" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+</xs:schema>

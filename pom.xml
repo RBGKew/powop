@@ -1063,7 +1063,42 @@
 	         <groupId>org.restdoc</groupId>
 	         <artifactId>restdoc-api</artifactId>
 	         <version>1.2.0</version>
-           </dependency> 
+           </dependency>
+           <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2</artifactId>
+             <version>1.5.4</version>
+           </dependency>
+           <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2-jaxws</artifactId>
+             <version>1.5.4</version>
+           </dependency>
+           <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2-transport-local</artifactId>
+             <version>1.5.4</version>
+           </dependency>
+           <dependency>
+             <groupId>org.apache.axis2</groupId>
+             <artifactId>axis2-transport-http</artifactId>
+             <version>1.5.4</version>
+           </dependency>
+           <dependency>
+             <groupId>org.apache.ws.commons.axiom</groupId>
+             <artifactId>axiom-api</artifactId>
+             <version>1.2.10</version>
+           </dependency>
+           <dependency>
+             <groupId>org.apache.ws.commons.axiom</groupId>
+             <artifactId>axiom-impl</artifactId>
+             <version>1.2.10</version>
+           </dependency>
+           <dependency>
+             <groupId>org.apache.ws.commons.axiom</groupId>
+             <artifactId>axiom-dom</artifactId>
+             <version>1.2.10</version>
+           </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -1122,7 +1157,7 @@
 						<exclude>**/*FunctionalTest.java</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
+			</plugin>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
