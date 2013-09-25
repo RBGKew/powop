@@ -51,9 +51,6 @@
 	</bean>
 
 	<beans profile="default">
-		<bean id="clientHttpRequestFactory"	class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
-	</beans>
-	<beans profile="proxy">
 		<bean id="clientHttpRequestFactory"
 			class="org.emonocot.portal.http.AuthenticatingHttpClientFactory">
 			<property name="proxy">
@@ -64,4 +61,7 @@
 			</property>
 		</bean>
 	</beans>
+    <beans profile="emonocot.no.proxy">
+        <bean id="clientHttpRequestFactory" class="org.emonocot.portal.http.AuthenticatingHttpClientFactory" />
+    </beans>
 </beans>

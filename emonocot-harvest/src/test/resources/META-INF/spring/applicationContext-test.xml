@@ -164,8 +164,6 @@
         <property name="proxyHost" value="${http.proxyHost}" />
         <property name="proxyPort" value="${http.proxyPort}"/>
     </bean>
-    <!-- default beans -->
-        <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
         <bean name="dataSource"
             class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
             <property name="testDatabaseName" value="testdb" />
@@ -269,7 +267,7 @@
         </property>
     </bean>
     
-    <beans profile="proxy">
+    <beans profile="default">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
             <property name="proxy">
                 <bean class="java.net.Proxy">
@@ -283,5 +281,9 @@
                 </bean>
             </property>
         </bean>
+    </beans>
+    
+    <beans profile="emonocot.no.proxy">
+        <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
     </beans>
 </beans>

@@ -1575,6 +1575,7 @@
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
@@ -1644,6 +1645,7 @@
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 			<build>
 			  <plugins>
