@@ -4,10 +4,10 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>0.0.38-preview1</version>
+		<version>0.0.38-SNAPSHOT</version>
 	</parent>
 	<artifactId>emonocot-static</artifactId>
-	<version>0.0.38-preview1</version>
+	<version>0.0.38-SNAPSHOT</version>
 	<name>eMonocot Static Files</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
