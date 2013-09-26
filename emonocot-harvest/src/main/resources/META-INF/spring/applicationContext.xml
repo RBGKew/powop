@@ -326,11 +326,6 @@
       <prop key="mail.debug">${email.debug}</prop>
     </util:properties>
 
-	<beans profile="emonocot.no.proxy">
-	  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
-	  <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
-	</beans>
-
 	<beans profile="default">
 	  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
 	    <property name="proxyHost" value="${http.proxyHost}" />
@@ -351,4 +346,9 @@
         </property>
       </bean>
 	</beans>
+
+    <beans profile="emonocot.no.proxy">
+      <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
+      <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
+    </beans>
 </beans>

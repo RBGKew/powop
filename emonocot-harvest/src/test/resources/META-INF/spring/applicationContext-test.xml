@@ -267,21 +267,19 @@
         </property>
     </bean>
     
-    <beans profile="default">
-        <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-            <property name="proxy">
-                <bean class="java.net.Proxy">
-                    <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}"/>
-                    <constructor-arg>
-                        <bean class="java.net.InetSocketAddress">
-                            <constructor-arg value="${http.proxyHost}" type="String" />
-                            <constructor-arg value="${http.proxyPort}" type="int" />
-                        </bean>
-                    </constructor-arg>
-                </bean>
-            </property>
-        </bean>
-    </beans>
+    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="proxy">
+            <bean class="java.net.Proxy">
+                <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}"/>
+                <constructor-arg>
+                    <bean class="java.net.InetSocketAddress">
+                        <constructor-arg value="${http.proxyHost}" type="String" />
+                        <constructor-arg value="${http.proxyPort}" type="int" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
     
     <beans profile="emonocot.no.proxy">
         <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
