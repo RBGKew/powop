@@ -294,7 +294,7 @@
         <property name="jobRepository" ref="jobRepository"/>
     </bean>
     
-    <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+    <bean id="mailSender" class="org.emonocot.service.impl.JavaMailSenderImplFactory">
         <property name="username" value="${email.smtp.username}" />
         <property name="password" value="${email.smtp.password}" />
         <property name="javaMailProperties">
@@ -308,12 +308,12 @@
         </property>
     </bean>
     
-    <int-mail:inbound-channel-adapter id="imapAdapter" 
-      store-uri="${email.mailbox.uri}" 
-      java-mail-properties="javaMailProperties" 
+    <int-mail:inbound-channel-adapter id="imapAdapter"
+      store-uri="${email.mailbox.uri}"
+      java-mail-properties="javaMailProperties"
       channel="inboundEmailChannel"
       should-delete-messages="true"
-      should-mark-messages-as-read="true"      
+      should-mark-messages-as-read="true"
       auto-startup="true">
       <integration:poller max-messages-per-poll="1" fixed-rate="5000"/>
     </int-mail:inbound-channel-adapter>
