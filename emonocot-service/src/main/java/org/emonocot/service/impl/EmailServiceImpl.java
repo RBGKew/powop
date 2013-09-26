@@ -18,7 +18,7 @@ public class EmailServiceImpl implements EmailService {
     /**
      * Email addresses are expected to be separated by commas, semi-colons, spaces or any combination thereof 
      */
-    public static final Pattern ADDRESS_DELIMITERS = Pattern.compile("(,|;| )+");
+    protected static final Pattern ADDRESS_DELIMITERS = Pattern.compile("(,|;| )+");
     
     private JavaMailSender mailSender;
 	
