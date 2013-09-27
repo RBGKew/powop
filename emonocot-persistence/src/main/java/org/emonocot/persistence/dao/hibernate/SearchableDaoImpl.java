@@ -433,6 +433,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             solrQuery.setQuery(searchString);
 
         } else {
+        	solrQuery.set("defType","edismax");
+            solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
             solrQuery.setQuery("*:*");
         }
         
