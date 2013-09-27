@@ -97,7 +97,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         solrQuery.set("spellcheck", "true");
         solrQuery.set("spellcheck.collate", "true");
         solrQuery.set("spellcheck.count", "1");
-        
+        solrQuery.set("bq", "base.class_s:org.emonocot.model.Taxon^2.0");
         
         // Filter the searchable objects out
         solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
@@ -433,6 +433,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             solrQuery.setQuery(searchString);
 
         } else {
+        	solrQuery.set("defType","edismax");
+            solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
             solrQuery.setQuery("*:*");
         }
         
