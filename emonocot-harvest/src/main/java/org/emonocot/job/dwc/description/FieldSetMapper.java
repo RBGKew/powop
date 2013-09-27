@@ -74,7 +74,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
             case references:
                 object.setSource(value);
                 break;
-            case type:
+            case type:            	
                 object.setType(conversionService.convert(value, DescriptionType.class));
                 break;            
             default:

@@ -68,6 +68,9 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 			for (PhylogeneticTree tree : taxon.getTrees()) {
 				addProvenance(tree);
 			}
+			for (PhylogeneticTree tree : taxon.getPhylogenies()) {
+				addProvenance(tree);
+			}
 		} else if(baseData instanceof Image) {
 			Image image = (Image)baseData;
 			addProvenance(image);

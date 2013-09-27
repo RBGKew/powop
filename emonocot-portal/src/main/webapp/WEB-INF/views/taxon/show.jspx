@@ -640,7 +640,7 @@
 						</div>
 					</div>
 				</c:if>
-				<c:if test="${not empty taxon.trees}">
+				<c:if test="${not empty taxon.trees or not empty taxon.phylogenies}">
 					<div class="inner">
 						<div class="box">
 							<section class="sidebarBox" id="trees">
@@ -653,9 +653,18 @@
 										<spring:url var="treeUrl" value="/phylo/${tree.id}" />
 										<li><a href="${treeUrl}" title="${tree.title}">${tree.title}</a></li>
 									</c:forEach>
+									<c:forEach var="tree" items="${taxon.phylogenies}">
+										<spring:url var="treeUrl" value="/phylo/${tree.id}" />
+										<li><a href="${treeUrl}" title="${tree.title}">${tree.title}</a></li>
+									</c:forEach>
 								</ul>
 								<ul class="citations">
 									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.trees)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.phylogenies)}">
 										<li>
 											<a href="#${provenanceHolder}">${provenanceHolder}</a>
 										</li>

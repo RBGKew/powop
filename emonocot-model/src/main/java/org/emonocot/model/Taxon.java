@@ -134,7 +134,11 @@ public class Taxon extends SearchableObject {
 
 	private Set<IdentificationKey> keys = new HashSet<IdentificationKey>();
 	
+	// The Phylogenies I am the root taxon of
 	private Set<PhylogeneticTree> trees = new HashSet<PhylogeneticTree>();
+	
+	// The Phylogenies I appear in
+	private Set<PhylogeneticTree> phylogenies = new HashSet<PhylogeneticTree>();
 
 	private Set<Reference> references = new HashSet<Reference>();
 
@@ -969,6 +973,17 @@ public class Taxon extends SearchableObject {
 	@JsonIgnore
 	public Set<PhylogeneticTree> getTrees() {
 		return trees;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "leaves")
+	@JsonIgnore
+	public Set<PhylogeneticTree> getPhylogenies() {
+		return phylogenies;
+	}
+
+	@JsonIgnore
+	public void setPhylogenies(Set<PhylogeneticTree> phylogenies) {
+		this.phylogenies = phylogenies;
 	}
 
 	@JsonIgnore
