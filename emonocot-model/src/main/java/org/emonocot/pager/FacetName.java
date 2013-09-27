@@ -16,7 +16,7 @@ public enum FacetName {
     GENUS("taxon.genus_ss", false),
     SPECIES("taxon.specific_epithet_s", false),
     CONTINENT("taxon.distribution_TDWG_0_ss", false),
-    REGION("taxon.distribution_TDWG_1_ss", false),
+    REGION("taxon.distribution_TDWG_1_ss", false, CONTINENT),
     SOURCE("searchable.sources_ss", false),
     AUTHORITY("base.authority_s", false),
     RANK("taxon.taxon_rank_s", false),
@@ -45,10 +45,21 @@ public enum FacetName {
         this.solrField = solrField;
         this.includeMissing = includeMissing;
     }
+    
+    private FacetName(String solrField, boolean includeMissing, FacetName parent) {
+        this.solrField = solrField;
+        this.includeMissing = includeMissing;
+        this.parent = parent;
+        this.parent.child = this;
+    }
 
     private String solrField;
     
     private boolean includeMissing;
+    
+    private FacetName parent;
+    
+    private FacetName child;
     
 	/**
      * @return the solrField
@@ -71,6 +82,10 @@ public enum FacetName {
 			}
 		}
 		throw new IllegalArgumentException(string + " is not a valid value for a facet");
+	}
+
+	public FacetName getChild() {
+		return child;
 	}
 
 }
