@@ -185,8 +185,8 @@ public class SearchController {
 	 *            Set the class name
 	 * @return the default view
 	 */
-	private String setView(final String view, final String className) {
-		if (view == null || view == "") {
+	/*private String setView(final String view, final String className) {
+		if (view == null || view == "") {*/
 			/*if (className == null) {
 				return null;
 			} else if (className.equals("org.emonocot.model.Image")) {
@@ -194,7 +194,7 @@ public class SearchController {
 			} else {
 				return null;
 			}*/
-			return null;
+		/*	return null;
 		} else if (view.equals("grid")) {
 			if (className == null) {
 				return null;
@@ -205,7 +205,7 @@ public class SearchController {
 			}
 		}
 		return view; 
-	}
+	}*/
 	
 	
 
@@ -298,7 +298,7 @@ public class SearchController {
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
 		limit = setLimit(view, className);
-		view = setView (view,className);
+		/*view = setView (view,className);*/
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -451,7 +451,7 @@ public class SearchController {
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
 		limit = setLimit(view, className);
-		view = setView (view,className);
+		/*view = setView (view,className);*/
 		
 
 		// Run the search
