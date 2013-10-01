@@ -173,7 +173,8 @@
 								</c:when>
 								<c:when test="${result.params['view'] == 'grid'}">
 									<br />
-									<c:choose>
+									<results:grid pager="${result}" />
+									<!-- <c:choose>
 										<c:when test="${imageClass}">
 											<results:grid pager="${result}" />
 										</c:when>
@@ -181,6 +182,7 @@
 											<results:list pager="${result}" />
 										</c:otherwise>
 									</c:choose>
+									 -->
 								</c:when>
 								<c:when test="${result.params['view'] == 'simpleList'}">
 									<br />
