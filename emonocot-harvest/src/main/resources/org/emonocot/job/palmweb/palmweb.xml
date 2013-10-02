@@ -160,9 +160,10 @@
 	</bean>
 		
 	<bean name="taxonLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="	"/>
+	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+         <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,scientificName,scientificNameAuthorship,taxonRank,taxonomicStatus,acceptedNameUsageID,genus,subgenus,specificEpithet,infraspecificEpithet,source,modified,created,parentNameUsageID,namePublishedIn,namePublishedInID,nomenclaturalStatus"/>
 	   </bean>
 	 </property>
@@ -189,9 +190,10 @@
 	</bean>
 	
 	<bean name="descriptionLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="	"/>
+	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+         <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
 	   </bean>
 	 </property>
@@ -218,9 +220,10 @@
 	</bean>
 	
 	<bean name="imageLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="	"/>
+	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+         <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,identifier,title,creator,modified,created"/>
 	   </bean>
 	 </property>
@@ -247,9 +250,10 @@
 	</bean>
 	
 	<bean name="referenceLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="	"/>
+	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+         <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
 	   </bean>
 	 </property>
@@ -276,9 +280,10 @@
 	</bean>
 	
 	<bean name="identifierLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="	"/>
+	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+         <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,modified,created,identifier,title,format"/>
 	   </bean>
 	 </property>
