@@ -104,7 +104,7 @@
 	</tags:pageheader>
 
 	<div class="container">
-	    <div class="row">
+		<div class="row">
 			<div class="span12">
 				<tags:info />
 			</div>
@@ -140,7 +140,7 @@
 								<tags:view url="/search" result="${result}" />
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="offset3" />
-						</div>					
+						</div>	
 						<div class="row">
 							<div id="pages" class="span4">
 								<tags:results pager="${result}" />
@@ -173,8 +173,7 @@
 								</c:when>
 								<c:when test="${result.params['view'] == 'grid'}">
 									<br />
-									<!--<results:grid pager="${result}" />	 -->
-									 <c:choose>
+									<c:choose>
 										<c:when test="${imageClass}">
 											<results:grid pager="${result}" />
 										</c:when>
@@ -182,7 +181,7 @@
 											<results:list pager="${result}" />
 										</c:otherwise>
 									</c:choose>
-								
+									
 								</c:when>
 								<c:when test="${result.params['view'] == 'simpleList'}">
 									<br />
