@@ -43,6 +43,7 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
@@ -106,6 +107,16 @@ public class Functions {
 
 	public static String escape(final String string) {
 		return StringEscapeUtils.escapeXml(string);
+	}
+	
+	public static Boolean isChildFacet(String parent, String facet) {
+		FacetName parentFacetName = FacetName.fromString(parent);
+		FacetName facetName = FacetName.fromString(facet);
+		if(parentFacetName.getChild() == null || !parentFacetName.getChild().equals(facetName)) {
+			return Boolean.FALSE;
+		} else {
+			return Boolean.TRUE;
+		}
 	}
 
 	/**

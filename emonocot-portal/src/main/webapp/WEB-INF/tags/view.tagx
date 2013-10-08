@@ -72,5 +72,14 @@
 		<a title="${fn:escapeXml(gridTitle)}" class="btn ${gridViewIcon}" href="${gridUrl}">
 			<i class="icon-th">&amp;nbsp;</i>
 		</a>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('body').on('click', 'a.disabled', function(event) {
+					event.preventDefault();
+				});
+			});
+		</script>
+		
 	</div>
 </jsp:root>

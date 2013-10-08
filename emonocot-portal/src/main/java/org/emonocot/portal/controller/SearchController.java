@@ -150,6 +150,8 @@ public class SearchController {
 
 		return result;
 	}
+	
+	
 
 	/**
 	 * 
@@ -176,6 +178,9 @@ public class SearchController {
 			return 24;
 		}
 	}
+	
+	
+
 
 	/**
 	 * 
@@ -222,29 +227,29 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-        if(selectedFacets == null) {
-            responseFacetList.add(FacetName.FAMILY.getSolrField());
-        } else {
-            int taxFacetIdx = 1; //Start from FacetName.FAMILY
-            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-                if(!responseFacetList.contains(fn.getSolrField())){
-                    responseFacetList.add(fn.getSolrField());
-                }
-                if(!selectedFacets.containsKey(fn.getSolrField())) {
-                    break;
-                }
-            }
-            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-            }
-        }
+		if(selectedFacets == null) {
+			responseFacetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+			int taxFacetIdx = 1; //Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if(!responseFacetList.contains(fn.getSolrField())){
+					responseFacetList.add(fn.getSolrField());
+				}
+				if(!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
+				}
+			}
+			for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+			}
+		}
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
 		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
-        responseFacetList.add("taxon.taxon_rank_s");
-        responseFacetList.add("taxon.taxonomic_status_s");
+		responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
+		responseFacetList.add("taxon.taxon_rank_s");
+		responseFacetList.add("taxon.taxonomic_status_s");
 		responseFacetList.add("searchable.sources_ss");
 		String className = null;
 		if (selectedFacets == null) {
@@ -266,6 +271,7 @@ public class SearchController {
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
 		limit = setLimit(view, className);
+
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -380,28 +386,28 @@ public class SearchController {
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		responseFacetList.add("base.class_s");
-        if(selectedFacets == null) {
-            responseFacetList.add(FacetName.FAMILY.getSolrField());
-        } else {
-            int taxFacetIdx = 1; //Start from FacetName.FAMILY
-            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-                if(!responseFacetList.contains(fn.getSolrField())){
-                    responseFacetList.add(fn.getSolrField());
-                }
-                if(!selectedFacets.containsKey(fn.getSolrField())) {
-                    break;
-                }
-            }
-            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-            }
-        }
+		if(selectedFacets == null) {
+			responseFacetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+			int taxFacetIdx = 1; //Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if(!responseFacetList.contains(fn.getSolrField())){
+					responseFacetList.add(fn.getSolrField());
+				}
+				if(!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
+				}
+			}
+			for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+			}
+		}
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
-        responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
-        responseFacetList.add("taxon.taxon_rank_s");
-        responseFacetList.add("taxon.taxonomic_status_s");
+		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
+		responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
+		responseFacetList.add("taxon.taxon_rank_s");
+		responseFacetList.add("taxon.taxonomic_status_s");
 		responseFacetList.add("searchable.sources_ss");
 		String className = null;
 		if (selectedFacets == null) {
@@ -418,6 +424,7 @@ public class SearchController {
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
 		limit = setLimit(view, className);
+		
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -448,9 +455,8 @@ public class SearchController {
 			@RequestParam(value = "firstCol", required = false, defaultValue = "0") Integer firstCol,
 			@RequestParam(value = "maxCols", required = false, defaultValue = "5") Integer maxCols,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-			@RequestParam(value = "view", required = false, defaultValue = "bar") String view
-			)
-			throws Exception {		
+			@RequestParam(value = "view", required = false, defaultValue = "bar") String view)
+			throws Exception {
 
 		Map<String, String> selectedFacets = null;
 		if (facets != null && !facets.isEmpty()) {
@@ -460,32 +466,33 @@ public class SearchController {
 						facetRequest.getSelected());
 			}
 		}
-		
+
 		List<String> facetList = new ArrayList<String>();
-		if(selectedFacets == null) {
+		if (selectedFacets == null) {
 			facetList.add(FacetName.FAMILY.getSolrField());
-        } else {
-            int taxFacetIdx = 1; //Start from FacetName.FAMILY
-            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-                if(!facetList.contains(fn.getSolrField())){
-                	facetList.add(fn.getSolrField());
-                }
-                if(!selectedFacets.containsKey(fn.getSolrField())) {
-                    break;
-                }
-            }
-            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-            }
-        }
+		} else {
+			int taxFacetIdx = 1; // Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if (!facetList.contains(fn.getSolrField())) {
+					facetList.add(fn.getSolrField());
+				}
+				if (!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
+				}
+			}
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx]
+						.getSolrField());
+			}
+		}
 		facetList.add("taxon.distribution_TDWG_0_ss");
 		facetList.add("taxon.taxon_rank_s");
 		facetList.add("taxon.taxonomic_status_s");
 		facetList.add("searchable.sources_ss");
 		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
-        facetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        facetList.add("taxon.measurement_or_fact_Habitat_txt");
+		facetList.add("taxon.measurement_or_fact_Lifeform_txt");
+		facetList.add("taxon.measurement_or_fact_Habitat_txt");
 
 		Cube cube = new Cube(selectedFacets);
 		cube.setDefaultLevel("taxon.order_s");
@@ -513,28 +520,31 @@ public class SearchController {
 		Dimension taxonomicStatus = new Dimension("taxonomicStatus");
 		cube.addDimension(taxonomicStatus);
 		taxonomicStatus.addLevel("taxon.taxonomic_status_s", false);
-		
+
 		Dimension lifeForm = new Dimension("lifeForm");
 		cube.addDimension(lifeForm);
 		lifeForm.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
-		
+
 		Dimension habitat = new Dimension("habitat");
 		cube.addDimension(habitat);
 		habitat.addLevel("taxon.measurement_or_fact_Habitat_txt", false);
-		
+
 		Dimension conservationStatus = new Dimension("conservationStatus");
 		cube.addDimension(conservationStatus);
-		conservationStatus.addLevel("taxon.measurement_or_fact_threatStatus_txt", false);
-		
+		conservationStatus.addLevel(
+				"taxon.measurement_or_fact_threatStatus_txt", false);
+
 		Dimension withDescriptions = new Dimension("hasDescriptions");
 		cube.addDimension(withDescriptions);
 		withDescriptions.addLevel("taxon.descriptions_not_empty_b", false);
-		
+
 		Dimension withImages = new Dimension("hasImages");
 		cube.addDimension(withImages);
 		withImages.addLevel("taxon.images_not_empty_b", false);
 
-		CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol, maxCols,firstRow, maxRows, selectedFacets,	facetList.toArray(new String[facetList.size()]), cube);
+		CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol,
+				maxCols, firstRow, maxRows, selectedFacets,
+				facetList.toArray(new String[facetList.size()]), cube);
 
 		uiModel.addAttribute("cellSet", cellSet);
 		uiModel.addAttribute("view", view);
