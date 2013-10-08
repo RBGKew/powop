@@ -128,14 +128,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         		} else {
                     solrQuery.addFacetField(facet);
         		}
-        		try {
-        		    FacetName fn = FacetName.fromString(facet);
-                    if(fn != null && fn.isIncludeMissing()) {
-                        solrQuery.set("f." + fn.getSolrField() + ".facet.missing", true);
-                    }
-        		} catch (IllegalArgumentException e) {
-                    logger.debug("Unable to find a facet for " + facet);
-                }
+        		includeMissing(solrQuery, facet);
         	}
             if(facetPrefixes != null) {
             	for(String facet : facetPrefixes.keySet()) {
@@ -162,7 +155,18 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
         return page;
     }
     
-    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException {
+    private void includeMissing(SolrQuery solrQuery, String facet) {
+    	try {
+		    FacetName fn = FacetName.fromString(facet);
+            if(fn != null && fn.isIncludeMissing()) {
+                solrQuery.set("f." + fn.getSolrField() + ".facet.missing", true);
+            }
+		} catch (IllegalArgumentException e) {
+            logger.debug("Unable to find a facet for " + facet);
+        }
+	}
+
+	public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException {
     	SolrQuery solrQuery = new SolrQuery();        
 
         if (query != null && !query.trim().equals("")) {
@@ -294,10 +298,13 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             query.setFacetMinCount(1);
             query.setFacetSort(FacetParams.FACET_SORT_INDEX);
             query.addFacetField(cube.getDefaultLevel());
+            includeMissing(query,cube.getDefaultLevel());
+            includeMissing(totalQuery,cube.getDefaultLevel());
             if (maxRows != null) {
             	totalQuery.setFacet(true);
             	totalQuery.setFacetMinCount(1);
             	totalQuery.addFacetField("{!key=totalRows}" + cube.getDefaultLevel());
+            	
     			query.add("f." + cube.getDefaultLevel() + ".facet.limit", maxRows.toString()); 
     			query.add("f." + cube.getDefaultLevel() + ".facet.mincount", "1");
     			if (firstRow != null) {
@@ -309,6 +316,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             query.setFacetMinCount(1);
             query.setFacetSort(FacetParams.FACET_SORT_INDEX);
             query.addFacetField(rows);
+            includeMissing(query,rows);
+            includeMissing(totalQuery,rows);
             if (maxRows != null) {
             	totalQuery.setFacet(true);
             	totalQuery.setFacetMinCount(1);
@@ -329,6 +338,8 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             query.setFacetMinCount(1);
             query.setFacetSort(FacetParams.FACET_SORT_INDEX);
             query.addFacetField(rows);
+            includeMissing(query,rows);
+            includeMissing(totalQuery,rows);
             if (maxRows != null) {
             	totalQuery.setFacet(true);
             	totalQuery.setFacetMinCount(1);
@@ -345,6 +356,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
             	query.add("f." + rows + ".facet.prefix",selectedFacets.get(higher.getFacet()) + "_");
             }
             query.addFacetField(cols);
+            includeMissing(query,cols);
             if (maxCols != null) {
             	totalQuery.setFacet(true);
             	totalQuery.setFacetMinCount(1);
@@ -368,8 +380,14 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 	    
 	    if (selectedFacets != null && !selectedFacets.isEmpty()) {
             for (String facetName : selectedFacets.keySet()) {
-            	totalQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
-                query.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));  
+            	String facetValue = selectedFacets.get(facetName);
+            	if(StringUtils.isNotEmpty(facetValue)) {
+            		totalQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+            		query.addFilterQuery(facetName + ":" + selectedFacets.get(facetName)); 
+                } else {//Subtract/Exclude documents with any value for the facet
+                	totalQuery.addFilterQuery("-" + facetName + ":[* TO *]");
+                	query.addFilterQuery("-" + facetName + ":[* TO *]");
+                }
             }
         }
         
@@ -383,11 +401,11 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
                 } else if(cols != null && cols.equals(facetName)) {
                 } else if(rows == null && facetName.equals(cube.getDefaultLevel())) {
                 } else {
-            	  query.addFacetField(facetName);
+                    includeMissing(query,facetName);
+            	    query.addFacetField(facetName);
             	}
             }
-        }
-	    
+        }	    
 
 		QueryResponse response = solrServer.query(query);
 		QueryResponse totalResponse = solrServer.query(totalQuery);			

@@ -450,17 +450,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "view", required = false, defaultValue = "bar") String view
 			)
-			throws Exception {
-
-		List<String> facetList = new ArrayList<String>();
-		facetList.add("taxon.family_ss");
-		facetList.add("taxon.distribution_TDWG_0_ss");
-		facetList.add("taxon.taxon_rank_s");
-		facetList.add("taxon.taxonomic_status_s");
-		facetList.add("searchable.sources_ss");
-		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
-        facetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        facetList.add("taxon.measurement_or_fact_Habitat_txt");
+			throws Exception {		
 
 		Map<String, String> selectedFacets = null;
 		if (facets != null && !facets.isEmpty()) {
@@ -470,6 +460,32 @@ public class SearchController {
 						facetRequest.getSelected());
 			}
 		}
+		
+		List<String> facetList = new ArrayList<String>();
+		if(selectedFacets == null) {
+			facetList.add(FacetName.FAMILY.getSolrField());
+        } else {
+            int taxFacetIdx = 1; //Start from FacetName.FAMILY
+            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+                if(!facetList.contains(fn.getSolrField())){
+                	facetList.add(fn.getSolrField());
+                }
+                if(!selectedFacets.containsKey(fn.getSolrField())) {
+                    break;
+                }
+            }
+            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+            }
+        }
+		facetList.add("taxon.distribution_TDWG_0_ss");
+		facetList.add("taxon.taxon_rank_s");
+		facetList.add("taxon.taxonomic_status_s");
+		facetList.add("searchable.sources_ss");
+		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
+        facetList.add("taxon.measurement_or_fact_Lifeform_txt");
+        facetList.add("taxon.measurement_or_fact_Habitat_txt");
 
 		Cube cube = new Cube(selectedFacets);
 		cube.setDefaultLevel("taxon.order_s");
@@ -478,6 +494,9 @@ public class SearchController {
 
 		taxonomy.addLevel("taxon.order_s", false);
 		taxonomy.addLevel("taxon.family_ss", false);
+		taxonomy.addLevel("taxon.subfamily_ss", false);
+		taxonomy.addLevel("taxon.tribe_ss", false);
+		taxonomy.addLevel("taxon.subtribe_ss", false);
 		taxonomy.addLevel("taxon.genus_ss", false);
 
 		Dimension distribution = new Dimension("distribution");
