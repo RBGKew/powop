@@ -449,87 +449,109 @@ public class SearchController {
 
 	@RequestMapping(value = "/visualise", method = RequestMethod.GET, produces = "text/html")
 	public String visualise(
-		Model uiModel,
-		@RequestParam(value = "rows", required = false) String rows,
-		@RequestParam(value = "firstRow", required = false, defaultValue = "0") Integer firstRow,
-		@RequestParam(value = "maxRows", required = false, defaultValue = "10") Integer maxRows,
-		@RequestParam(value = "cols", required = false) String cols,
-		@RequestParam(value = "firstCol", required = false, defaultValue = "0") Integer firstCol,
-		@RequestParam(value = "maxCols", required = false, defaultValue = "5") Integer maxCols,
-		@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-		@RequestParam(value = "view", required = false, defaultValue = "bar") String view
-		)
-		throws Exception {
+			Model uiModel,
+			@RequestParam(value = "rows", required = false) String rows,
+			@RequestParam(value = "firstRow", required = false, defaultValue = "0") Integer firstRow,
+			@RequestParam(value = "maxRows", required = false, defaultValue = "10") Integer maxRows,
+			@RequestParam(value = "cols", required = false) String cols,
+			@RequestParam(value = "firstCol", required = false, defaultValue = "0") Integer firstCol,
+			@RequestParam(value = "maxCols", required = false, defaultValue = "5") Integer maxCols,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			@RequestParam(value = "view", required = false, defaultValue = "bar") String view)
+			throws Exception {
 
-			List<String> facetList = new ArrayList<String>();
-			facetList.add("taxon.family_ss");
-			facetList.add("taxon.distribution_TDWG_0_ss");
-			facetList.add("taxon.taxon_rank_s");
-			facetList.add("taxon.taxonomic_status_s");
-			facetList.add("searchable.sources_ss");
-			facetList.add("taxon.measurement_or_fact_threatStatus_txt");
-			facetList.add("taxon.measurement_or_fact_Lifeform_txt");
-			facetList.add("taxon.measurement_or_fact_Habitat_txt");
+		Map<String, String> selectedFacets = null;
+		if (facets != null && !facets.isEmpty()) {
+			selectedFacets = new HashMap<String, String>();
+			for (FacetRequest facetRequest : facets) {
+				selectedFacets.put(facetRequest.getFacet(),
+						facetRequest.getSelected());
+			}
+		}
 
-			Map<String, String> selectedFacets = null;
-			if (facets != null && !facets.isEmpty()) {
-				selectedFacets = new HashMap<String, String>();
-				for (FacetRequest facetRequest : facets) {
-					selectedFacets.put(facetRequest.getFacet(),
-					facetRequest.getSelected());
+		List<String> facetList = new ArrayList<String>();
+		if (selectedFacets == null) {
+			facetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+			int taxFacetIdx = 1; // Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if (!facetList.contains(fn.getSolrField())) {
+					facetList.add(fn.getSolrField());
+				}
+				if (!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
 				}
 			}
-
-			Cube cube = new Cube(selectedFacets);
-			cube.setDefaultLevel("taxon.order_s");
-			Dimension taxonomy = new Dimension("taxonomy");
-			cube.addDimension(taxonomy);
-
-			taxonomy.addLevel("taxon.order_s", false);
-			taxonomy.addLevel("taxon.family_ss", false);
-			taxonomy.addLevel("taxon.genus_ss", false);
-
-			Dimension distribution = new Dimension("distribution");
-			cube.addDimension(distribution);
-
-			distribution.addLevel("taxon.distribution_TDWG_0_ss", true);
-			distribution.addLevel("taxon.distribution_TDWG_1_ss", true);
-			distribution.addLevel("taxon.distribution_TDWG_2_ss", true);
-
-			Dimension taxonRank = new Dimension("taxonRank");
-			cube.addDimension(taxonRank);
-			taxonRank.addLevel("taxon.taxon_rank_s", false);
-
-			Dimension taxonomicStatus = new Dimension("taxonomicStatus");
-			cube.addDimension(taxonomicStatus);
-			taxonomicStatus.addLevel("taxon.taxonomic_status_s", false);
-			
-			Dimension lifeForm = new Dimension("lifeForm");
-			cube.addDimension(lifeForm);
-			lifeForm.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
-			
-			Dimension habitat = new Dimension("habitat");
-			cube.addDimension(habitat);
-			habitat.addLevel("taxon.measurement_or_fact_Habitat_txt", false);
-			
-			Dimension conservationStatus = new Dimension("conservationStatus");
-			cube.addDimension(conservationStatus);
-			conservationStatus.addLevel("taxon.measurement_or_fact_threatStatus_txt", false);
-			
-			Dimension withDescriptions = new Dimension("hasDescriptions");
-			cube.addDimension(withDescriptions);
-			withDescriptions.addLevel("taxon.descriptions_not_empty_b", false);
-			
-			Dimension withImages = new Dimension("hasImages");
-			cube.addDimension(withImages);
-			withImages.addLevel("taxon.images_not_empty_b", false);
-
-			CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol, maxCols,firstRow, maxRows, selectedFacets,	facetList.toArray(new String[facetList.size()]), cube);
-
-			uiModel.addAttribute("cellSet", cellSet);
-			uiModel.addAttribute("view", view);
-			return "visualise";
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx]
+						.getSolrField());
+			}
 		}
+		facetList.add("taxon.distribution_TDWG_0_ss");
+		facetList.add("taxon.taxon_rank_s");
+		facetList.add("taxon.taxonomic_status_s");
+		facetList.add("searchable.sources_ss");
+		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
+		facetList.add("taxon.measurement_or_fact_Lifeform_txt");
+		facetList.add("taxon.measurement_or_fact_Habitat_txt");
+
+		Cube cube = new Cube(selectedFacets);
+		cube.setDefaultLevel("taxon.order_s");
+		Dimension taxonomy = new Dimension("taxonomy");
+		cube.addDimension(taxonomy);
+
+		taxonomy.addLevel("taxon.order_s", false);
+		taxonomy.addLevel("taxon.family_ss", false);
+		taxonomy.addLevel("taxon.subfamily_ss", false);
+		taxonomy.addLevel("taxon.tribe_ss", false);
+		taxonomy.addLevel("taxon.subtribe_ss", false);
+		taxonomy.addLevel("taxon.genus_ss", false);
+
+		Dimension distribution = new Dimension("distribution");
+		cube.addDimension(distribution);
+
+		distribution.addLevel("taxon.distribution_TDWG_0_ss", true);
+		distribution.addLevel("taxon.distribution_TDWG_1_ss", true);
+		distribution.addLevel("taxon.distribution_TDWG_2_ss", true);
+
+		Dimension taxonRank = new Dimension("taxonRank");
+		cube.addDimension(taxonRank);
+		taxonRank.addLevel("taxon.taxon_rank_s", false);
+
+		Dimension taxonomicStatus = new Dimension("taxonomicStatus");
+		cube.addDimension(taxonomicStatus);
+		taxonomicStatus.addLevel("taxon.taxonomic_status_s", false);
+
+		Dimension lifeForm = new Dimension("lifeForm");
+		cube.addDimension(lifeForm);
+		lifeForm.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
+
+		Dimension habitat = new Dimension("habitat");
+		cube.addDimension(habitat);
+		habitat.addLevel("taxon.measurement_or_fact_Habitat_txt", false);
+
+		Dimension conservationStatus = new Dimension("conservationStatus");
+		cube.addDimension(conservationStatus);
+		conservationStatus.addLevel(
+				"taxon.measurement_or_fact_threatStatus_txt", false);
+
+		Dimension withDescriptions = new Dimension("hasDescriptions");
+		cube.addDimension(withDescriptions);
+		withDescriptions.addLevel("taxon.descriptions_not_empty_b", false);
+
+		Dimension withImages = new Dimension("hasImages");
+		cube.addDimension(withImages);
+		withImages.addLevel("taxon.images_not_empty_b", false);
+
+		CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol,
+				maxCols, firstRow, maxRows, selectedFacets,
+				facetList.toArray(new String[facetList.size()]), cube);
+
+		uiModel.addAttribute("cellSet", cellSet);
+		uiModel.addAttribute("view", view);
+		return "visualise";
+	}
 
 	/**
 	 * @param term

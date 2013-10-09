@@ -80,14 +80,19 @@ public class CellSet {
 			} else {
 				nCols = maxCols;
 			}
-			for(int i = 0; i < nCols; i++) {
+			for(int i = 0; i < nCols; i++) {				
 				this.columns.addMember(i, columns, colField.getValues().get(firstCol + i).getName());
 			}
 	        cells = new Number[nRows][nCols];
 	        for(PivotField rField : response.getFacetPivot().get(rows + "," + columns)) {
 			    int i = this.rows.getMember(rField.getValue().toString()).getOrdinal();
 				for(PivotField cField : rField.getPivot()) {
-					Member cMember = this.columns.getMember(cField.getValue().toString());
+					Member cMember = null;
+					if(cField.getValue() != null) {
+					    cMember = this.columns.getMember(cField.getValue().toString());
+					} else {
+						cMember = this.columns.getMember((String)cField.getValue());
+					}
 					if(cMember != null) {
 					    int j = cMember.getOrdinal();
 					    cells[i][j] = cField.getCount();

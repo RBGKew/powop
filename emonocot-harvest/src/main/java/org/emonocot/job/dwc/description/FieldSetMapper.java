@@ -10,7 +10,6 @@ import org.gbif.dwc.terms.ConceptTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.validation.BindException;
 
 /**

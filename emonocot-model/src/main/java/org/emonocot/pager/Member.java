@@ -1,9 +1,23 @@
 package org.emonocot.pager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
 
-public class Member implements Comparable<Member> {  
+import org.apache.commons.collections.comparators.NullComparator;
+
+public class Member implements Comparable<Member> { 
+	
+  private static NullComparator nullSafeStringComparator;
+  static {
+	  Comparator<String> stringComparator = new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
+
+	  };
+	  nullSafeStringComparator = new NullComparator(stringComparator, false);
+  }
   
   private int ordinal;
   
@@ -21,7 +35,7 @@ public class Member implements Comparable<Member> {
   }
   
   public int compareTo(Member o) {
-	  return this.value.compareTo(o.value);
+	  return nullSafeStringComparator.compare(this.value, o.value);
   }
 
   /**

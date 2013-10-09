@@ -74,28 +74,44 @@
 								</li>
 								<c:choose>
 									<c:when test="${cellSet.isFacetSelected(facetName)}">
+									    <c:set var="selectedFacetName" value="${cellSet.selectedFacets[facetName]}"/>
+									    <c:choose>
+									      <c:when test="${empty selectedFacetName}">
+                                            <spring:message code="${facetName}" var="facetDisplayName" />
+                                            <spring:message code="facet.missing" var="facetValue" arguments="${facetDisplayName}"/>
+	                                      </c:when>
+	                                      <c:otherwise>
+	                                        <spring:message code="${selectedFacetName}" text="${selectedFacetName}" var="facetValue"/>
+	                                      </c:otherwise>
+	                                    </c:choose>
 										<li class="${facetName}">
 											<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" clearFacet="${facetName}">
-												<c:set var="selectedFacetName" value="${cellSet.selectedFacets[facetName]}"/>
 												<i class="halflings-icon check">&#160;</i>
-												<span class="facetValue">
-													<spring:message code="${selectedFacetName}" text="${selectedFacetName}"/>
-												</span>
+												<span class="facetValue">${facetValue}</span>
 											</analyse:cubeUrl>
 										</li>
 									</c:when>
 									<c:otherwise>
 										<c:set var="values" value="${cellSet.getFacetField(facetName).getValues()}"/>
 										<c:forEach var="facet" begin="0" end="9" step="1" items="${values}">
+										    <c:choose>
+									          <c:when test="${empty facet.name}">
+                                                <spring:message code="${facetName}" var="facetDisplayName" />
+                                                <spring:message code="facet.missing" var="facetValue" arguments="${facetDisplayName}"/>
+	                                          </c:when>
+	                                          <c:otherwise>
+	                                            <spring:message code="${facet.name}" text="${facet.name}" var="facetValue"/>
+	                                          </c:otherwise>
+	                                        </c:choose>	
 											<li class="${facetName}">
 												<c:choose>
 													<c:when test="${facet.count == 0}">
-														<a href="#"><i class="halflings-icon unchecked">&#160;</i><spring:message code="${facet.name}" text="${facet.name}"/></a>
+														<a href="#"><i class="halflings-icon unchecked">&#160;</i>${facetValue}</a>
 													</c:when>
 													<c:otherwise>
 														<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" facet="${facetName}:${facet.name}">
 															<i class="halflings-icon unchecked">&#160;</i>
-															<span><spring:message code="${facet.name}" text="${facet.name}"/></span>
+															<span>${facetValue}</span>
 															<span class="facetCount"> [${facet.count}]</span>
 														</analyse:cubeUrl>
 													</c:otherwise>
@@ -106,15 +122,24 @@
 											<c:set var="escapedFacetName" value="${em:escapeHtmlIdentifier(facetName)}"/>
 											<div id="${escapedFacetName}-collapse" class="collapse">
 												<c:forEach var="facet" begin="10" items="${values}">
+												    <c:choose>
+									                  <c:when test="${empty facet.name}">
+                                                        <spring:message code="${facetName}" var="facetDisplayName" />
+                                                        <spring:message code="facet.missing" var="facetValue" arguments="${facetDisplayName}"/>
+	                                                  </c:when>
+	                                                  <c:otherwise>
+	                                                    <spring:message code="${facet.name}" text="${facet.name}" var="facetValue"/>
+	                                                  </c:otherwise>
+	                                                </c:choose>
 													<li class="${facetName}"> 
 														<c:choose>
 															<c:when test="${facet.count == 0}">
-																<a href="#"><i class="halflings-icon unchecked">&#160;</i><span class="facetValue"><spring:message code="${facet.name}" text="${facet.name}"/></span></a>
+																<a href="#"><i class="halflings-icon unchecked">&#160;</i><span class="facetValue">${facetName}</span></a>
 															</c:when>
 															<c:otherwise>
 																<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" facet="${facetName}:${facet.name}">
 																	<i class="halflings-icon unchecked">&#160;</i>
-																	<span><spring:message code="${facet.name}" text="${facet.name}"/></span>
+																	<span>${facetName}</span>
 																	<span class="facetCount"> [${facet.count}]</span>
 																</analyse:cubeUrl>
 															</c:otherwise>
@@ -202,10 +227,17 @@
 										<c:choose>
 											<c:when test="${cellSet.totalRows.valueCount gt 10}">
 												<c:forEach var="row" begin="0" end="8" items="${cellSet.totalRows.values}" varStatus="status">
+												    <c:choose>
+										              <c:when test="${empty row.name}">
+                                                        <spring:message code="${cellSet.rows.facet}" var="rowDisplayName" />
+                                                        <spring:message code="facet.missing" var="rowValue" arguments="${rowDisplayName}"/>
+	                                                  </c:when>
+	                                                  <c:otherwise>
+	                                                    <spring:message code="${row.name}" text="${row.name}" var="rowValue"/>
+	                                                  </c:otherwise>
+										            </c:choose>
 													<tr>
-														<th scope="row">
-															<spring:message code="${row.name}" text="${row.name}"/>
-														</th>
+														<th scope="row">${rowValue}</th>
 														<td>${row.count}</td>
 													</tr>
 												</c:forEach>
@@ -218,10 +250,17 @@
 											</c:when>
 											<c:otherwise>
 												<c:forEach var="row" items="${cellSet.totalRows.values}" varStatus="status">
+												    <c:choose>
+										              <c:when test="${empty row.name}">
+                                                        <spring:message code="${cellSet.rows.facet}" var="rowDisplayName" />
+                                                        <spring:message code="facet.missing" var="rowValue" arguments="${rowDisplayName}"/>
+	                                                  </c:when>
+	                                                  <c:otherwise>
+	                                                    <spring:message code="${row.name}" text="${row.name}" var="rowValue"/>
+	                                                  </c:otherwise>
+										            </c:choose>
 													<tr>
-														<th scope="row">
-															<spring:message code="${row.name}" text="${row.name}"/>
-														</th>
+														<th scope="row">${rowValue}</th>
 														<td>${row.count}</td>
 													</tr>
 												</c:forEach>
@@ -300,31 +339,63 @@
 									<c:choose>
 										<c:when test="${not empty cellSet.rows.higher and not empty cellSet.columns.higher}">
 											<td>
-												<c:set var="rowLabel" value="${cellSet.getValue(cellSet.rows.higher)}"/>
+											    <c:choose>
+										          <c:when test="${empty cellSet.getValue(cellSet.rows.higher)}">
+                                                    <spring:message code="${cellSet.rows.higher.facet}" var="higherRowDisplayName" />
+                                                    <spring:message code="facet.missing" var="higherRowValue" arguments="${higherRowDisplayName}"/>
+	                                              </c:when>
+	                                              <c:otherwise>
+	                                                <spring:message code="${cellSet.getValue(cellSet.rows.higher)}" text="${cellSet.getValue(cellSet.rows.higher)}" var="higherRowValue"/>
+	                                              </c:otherwise>
+										        </c:choose>
 												<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" rows="${cellSet.rows.higher}" firstCol="${cellSet.firstCol}" maxCols="${cellSet.maxCols}" view="${view}">
 													<spring:message code="${cellSet.rows.higher.facet}" text="${cellSet.rows.higher.facet}"/>
-												</analyse:cubeUrl> : <spring:message code="${rowLabel}" text="${rowLabel}"/>
+												</analyse:cubeUrl> : ${higherRowValue}
 												/
-												<c:set var="colLabel" value="${cellSet.getValue(cellSet.columns.higher)}"/>
+												<c:choose>
+										          <c:when test="${empty cellSet.getValue(cellSet.columns.higher)}">
+                                                    <spring:message code="${cellSet.columns.higher.facet}" var="higherColumnDisplayName" />
+                                                    <spring:message code="facet.missing" var="higherColumnValue" arguments="${higherColumnDisplayName}"/>
+	                                              </c:when>
+	                                              <c:otherwise>
+	                                                <spring:message code="${cellSet.getValue(cellSet.columns.higher)}" text="${cellSet.getValue(cellSet.columns.higher)}" var="higherColumnValue"/>
+	                                              </c:otherwise>
+										        </c:choose>
 												<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" columns="${cellSet.columns.higher}" firstRow="${cellSet.firstRow}" maxRows="${cellSet.maxRows}"  view="${view}">
 													<spring:message code="${cellSet.columns.higher.facet}" text="${cellSet.columns.higher.facet}"/>
-												</analyse:cubeUrl>  : <spring:message code="${colLabel}" text="${colLabel}"/>
+												</analyse:cubeUrl>  : ${higherColumnValue}
 											</td>
 										</c:when>
 										<c:when test="${not empty cellSet.rows.higher}">
 											<td>
-												<c:set var="rowLabel" value="${cellSet.getValue(cellSet.rows.higher)}"/>
+												<c:choose>
+										          <c:when test="${empty cellSet.getValue(cellSet.rows.higher)}">
+                                                    <spring:message code="${cellSet.rows.higher.facet}" var="higherRowDisplayName" />
+                                                    <spring:message code="facet.missing" var="higherRowValue" arguments="${higherRowDisplayName}"/>
+	                                              </c:when>
+	                                              <c:otherwise>
+	                                                <spring:message code="${cellSet.getValue(cellSet.rows.higher)}" text="${cellSet.getValue(cellSet.rows.higher)}" var="higherRowValue"/>
+	                                              </c:otherwise>
+										        </c:choose>
 												<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" rows="${cellSet.rows.higher}" firstCol="${cellSet.firstCol}" maxCols="${cellSet.maxCols}"  view="${view}">
 													<spring:message code="${cellSet.rows.higher.facet}" text="${cellSet.rows.higher.facet}"/>
-												</analyse:cubeUrl> : <spring:message code="${rowLabel}" text="${rowLabel}"/>
+												</analyse:cubeUrl> : ${higherRowValue}
 											</td>
 										</c:when>
 										<c:when test="${not empty cellSet.columns.higher}">
 											<td>
-												<c:set var="colLabel" value="${cellSet.getValue(cellSet.columns.higher)}"/>
+												<c:choose>
+										          <c:when test="${empty cellSet.getValue(cellSet.columns.higher)}">
+                                                    <spring:message code="${cellSet.columns.higher.facet}" var="higherColumnDisplayName" />
+                                                    <spring:message code="facet.missing" var="higherColumnValue" arguments="${higherColumnDisplayName}"/>
+	                                              </c:when>
+	                                              <c:otherwise>
+	                                                <spring:message code="${cellSet.getValue(cellSet.columns.higher)}" text="${cellSet.getValue(cellSet.columns.higher)}" var="higherColumnValue"/>
+	                                              </c:otherwise>
+										        </c:choose>
 												<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" columns="${cellSet.columns.higher}" firstRow="${cellSet.firstRow}" maxRows="${cellSet.maxRows}"  view="${view}">
 													<spring:message code="${cellSet.columns.higher.facet}" text="${cellSet.columns.higher.facet}"/>
-												</analyse:cubeUrl> : <spring:message code="${colLabel}" text="${colLabel}"/>
+												</analyse:cubeUrl> : ${higherColumnValue}
 											</td>
 										</c:when>
 										<c:otherwise>
@@ -332,14 +403,23 @@
 										</c:otherwise>
 									</c:choose>
 									<c:forEach var="col" items="${cellSet.columns.members}">
+									    <c:choose>
+										   <c:when test="${empty col.value}">
+                                             <spring:message code="${cellSet.columns.facet}" var="colDisplayName" />
+                                             <spring:message code="facet.missing" var="colValue" arguments="${colDisplayName}"/>
+	                                       </c:when>
+	                                       <c:otherwise>
+	                                         <spring:message code="${col.value}" text="${col.value}" var="colValue"/>
+	                                       </c:otherwise>
+										</c:choose>
 										<th scope="col">
 											<c:choose>
 												<c:when test="${not empty cellSet.columns.lower}">
 													<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" columns="${cellSet.columns.lower}" facet="${cellSet.columns.facet}:${col.value}"  view="${view}">
-														<spring:message code="${col.value}" text="${col.value}"/>
+														${colValue}
 													</analyse:cubeUrl>
 												</c:when>
-												<c:otherwise><spring:message code="${col.value}" text="${col.value}"/></c:otherwise>
+												<c:otherwise>${colValue}</c:otherwise>
 											</c:choose>
 										</th>
 									</c:forEach>
@@ -352,13 +432,22 @@
 								<c:forEach var="row" items="${cellSet.rows.members}" varStatus="status">
 									<tr>
 										<th scope="row">
+										   <c:choose>
+										     <c:when test="${empty row.value}">
+                                               <spring:message code="${cellSet.rows.facet}" var="rowDisplayName" />
+                                               <spring:message code="facet.missing" var="rowValue" arguments="${rowDisplayName}"/>
+	                                         </c:when>
+	                                         <c:otherwise>
+	                                           <spring:message code="${row.value}" text="${row.value}" var="rowValue"/>
+	                                         </c:otherwise>
+										   </c:choose>										   
 											<c:choose>
 												<c:when test="${not empty cellSet.rows.lower}">
 													<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" rows="${cellSet.rows.lower}" facet="${cellSet.rows.facet}:${row.value}" view="${view}">
-														<spring:message code="${row.value}" text="${row.value}"/>
+														${rowValue}
 													</analyse:cubeUrl>
 												</c:when>
-												<c:otherwise><spring:message code="${row.value}" text="${row.value}"/></c:otherwise>
+												<c:otherwise>${rowValue}</c:otherwise>
 											</c:choose>
 										</th>
 										<c:forEach var="col" items="${cellSet.columns.members}">
