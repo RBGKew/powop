@@ -105,7 +105,7 @@ public class SearchControllerTest {
 		
 		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be 'null'", page.getParams().get("view"),"null");
+		assertEquals("The view attribute should be 'null'", page.getParams().get("view"));
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class SearchControllerTest {
 		
 		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be 'null'", page.getParams().get("view"),"null");
+		assertEquals("The view attribute should be 'null'", page.getParams().get("view"));
 	}
 
 }
