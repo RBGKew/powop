@@ -93,7 +93,7 @@ public class SearchControllerTest {
 	}
 	
 	/**
-	 * When the class is all and the view is grid, then the limit should be 24 and the view should be grid
+	 * When the class is all and the view is grid, then the limit should be 24 and the view should be null
 	 */
 	@Test
 	public void testSearchForAllGridView() throws Exception {
@@ -105,7 +105,7 @@ public class SearchControllerTest {
 		
 		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be 'grid'", page.getParams().get("view"),"grid");
+		assertEquals("The view attribute should be 'null'", page.getParams().get("view"),"null");
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class SearchControllerTest {
 		
 		EasyMock.verify(searchableObjectService);
 		assertEquals("View should equal 'search'","search",view);
-		assertEquals("The view attribute should be ''", page.getParams().get("view"),"");
+		assertEquals("The view attribute should be 'null'", page.getParams().get("view"),"");
 	}
 
 }
