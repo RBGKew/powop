@@ -51,7 +51,7 @@
 										items[title] = {
 											label : title,
 											action : function() {
-												window.location = url;
+												window.open(url,'_blank');
 											}
 										}
 									}
@@ -80,7 +80,12 @@
 													"plugins" : [
 															"contextmenu",
 															"json_data" ]
-												});
+												})
+								 .bind('select_node.jstree', function(event, data){
+	                                    href = data.result.obj.attr("href");
+	                                    href = data.attr("href");
+	                                    window.open(href, '_blank');
+	                                });
 							});
 						</script>
 
@@ -88,7 +93,7 @@
 							<ul>
 								<c:forEach var="item" items="${result}">
 									<li><c:url var="taxonUrl"
-											value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.scientificName}</a>
+											value="/taxon/${item.identifier}" /><a href="${taxonUrl}" target="_blank">${item.scientificName}</a>
 									</li>
 								</c:forEach>
 							</ul>
