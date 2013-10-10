@@ -294,6 +294,16 @@
         <function-signature>java.lang.String getLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
+        <name>hasLevel4Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.Boolean hasLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+    </function>
+    <function>
+        <name>getLevel4Features</name>
+        <function-class>org.emonocot.portal.view.Functions</function-class>
+        <function-signature>java.lang.String getLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+    </function>
+    <function>
         <name>hasDistribution</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.lang.Boolean hasDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
