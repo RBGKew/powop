@@ -85,7 +85,13 @@ public class CellSet {
 			}
 	        cells = new Number[nRows][nCols];
 	        for(PivotField rField : response.getFacetPivot().get(rows + "," + columns)) {
-			    int i = this.rows.getMember(rField.getValue().toString()).getOrdinal();
+	        	Member rMember = null;
+	        	if(rField.getValue() != null) {
+	        		rMember = this.rows.getMember(rField.getValue().toString());
+	        	} else {
+	        		rMember = this.rows.getMember((String)rField.getValue());
+	        	}
+			    int i = rMember.getOrdinal();
 				for(PivotField cField : rField.getPivot()) {
 					Member cMember = null;
 					if(cField.getValue() != null) {
