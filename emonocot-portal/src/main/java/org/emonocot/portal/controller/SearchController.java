@@ -151,7 +151,8 @@ public class SearchController {
 		return result;
 	}
 	
-	
+
+
 
 	/**
 	 * 
@@ -161,22 +162,21 @@ public class SearchController {
 	 *            Set the class name
 	 * @return the default limit
 	 */
-	private Integer setLimit(String view, String className) {
+
+	private String setView(String view, String className) {
 		if (view == null || view == "") {
-			if (className == null) {
-				return 10;
-			} else if (className.equals("org.emonocot.model.Image")) {
-				return 24;
-			} else {
-				return 10;
+			return null;
+		}	else if (view.equals("grid")){
+			if (className == null || className == "") {
+				return null;
+			} else if (className.equals("org.emonocot.model.Image")){
+				return "grid";
+				}
+			else {
+				return null;
 			}
-		} else if (view.equals("list")) {
-			return 10;
-		} else if (view.equals("grid")) {
-			return 24;
-		} else {
-			return 24;
-		}
+			
+		} return view;
 	}
 	
 	
@@ -202,7 +202,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String search(
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
@@ -270,7 +270,8 @@ public class SearchController {
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
-		limit = setLimit(view, className);
+		view = setView(view,className);
+		//limit = setLimit(view, className);
 
 
 		// Run the search
@@ -286,7 +287,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Page> searchAPI(
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "x1", required = false) Double x1,
@@ -303,7 +304,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/javascript")
 	public ResponseEntity<JSONPObject> searchAPIJSONP(
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "x1", required = false) Double x1,
@@ -351,7 +352,7 @@ public class SearchController {
 			@RequestParam(value = "x2", required = false) Double x2,
 			@RequestParam(value = "y2", required = false) Double y2,
 			@RequestParam(value = "featureId", required = false) String featureId,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
@@ -423,7 +424,8 @@ public class SearchController {
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
-		limit = setLimit(view, className);
+		view = setView(view,className);
+		//limit = setLimit(view, className);
 		
 
 		// Run the search
