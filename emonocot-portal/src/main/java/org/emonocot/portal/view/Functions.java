@@ -110,12 +110,16 @@ public class Functions {
 	}
 	
 	public static Boolean isChildFacet(String parent, String facet) {
-		FacetName parentFacetName = FacetName.fromString(parent);
-		FacetName facetName = FacetName.fromString(facet);
-		if(parentFacetName.getChild() == null || !parentFacetName.getChild().equals(facetName)) {
+		try {
+		    FacetName parentFacetName = FacetName.fromString(parent);
+		    FacetName facetName = FacetName.fromString(facet);
+		    if(parentFacetName.getChild() == null || !parentFacetName.getChild().equals(facetName)) {
+  			    return Boolean.FALSE;
+		    } else {
+			    return Boolean.TRUE;
+		    }
+		} catch(IllegalArgumentException iae) {
 			return Boolean.FALSE;
-		} else {
-			return Boolean.TRUE;
 		}
 	}
 

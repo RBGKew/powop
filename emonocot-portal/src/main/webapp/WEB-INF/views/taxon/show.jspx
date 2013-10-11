@@ -377,22 +377,18 @@
 										</c:if>
 									</div>
 								</div>
-								<div class="row">
-								   <div class="span7">
-										<ul class="citations">
-											<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.distribution)}">
-												<li>
-													<a href="#${provenanceHolder}">${provenanceHolder}</a>
-												</li>
-											</c:forEach>
-											<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">												
-												<li>
-													<a href="#citation${citationKey}">${citationKey}</a>
-												</li>
-											</c:forEach>
-										</ul>
-									</div>
-								</div>
+								<ul class="citations">
+									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.distribution)}">
+										<li>
+											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+									<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">												
+										<li>
+											<a href="#citation${citationKey}">${citationKey}</a>
+										</li>
+									</c:forEach>
+								</ul>
 							</div>
 						</div>
 					</section>

@@ -259,7 +259,12 @@ public class CellSet {
     public Long getRowTotal(Member row) {
     	FacetField.Count count = null;
     	for(FacetField.Count c : totalRows.getValues()) {
-    		if(c.getName().equals(row.getValue())) {
+    		if(c.getName() == null) {
+    			if(row.getValue() == null){
+    				count = c;
+        			break;
+    			}
+    		} else if(c.getName().equals(row.getValue())) {
     			count = c;
     			break;
     		}
@@ -274,7 +279,12 @@ public class CellSet {
     public Long getColumnTotal(Member col) {
     	FacetField.Count count = null;
     	for(FacetField.Count c : totalCols.getValues()) {
-    		if(c.getName().equals(col.getValue())) {
+    		if(c.getName() == null) {
+    			if(col.getValue() == null) {
+    			    count = c;
+    			    break;
+    			}
+    		} else if(c.getName().equals(col.getValue())) {
     			count = c;
     			break;
     		}
