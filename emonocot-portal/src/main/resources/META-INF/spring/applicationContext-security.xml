@@ -61,15 +61,15 @@
 			<list>
 				<bean
 					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-					<constructor-arg value="PERMISSION_CHANGE_OWNERSHIP" />
+					<constructor-arg value="PERMISSION_ADMINISTRATE" />
 				</bean>
 				<bean
 					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-					<constructor-arg value="PERMISSION_MODIFY_AUDIT" />
+					<constructor-arg value="PERMISSION_ADMINISTRATE" />
 				</bean>
 				<bean
 					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-					<constructor-arg value="PERMISSION_MODIFY_ACE" />
+					<constructor-arg value="PERMISSION_ADMINISTRATE" />
 				</bean>
 			</list>
 		</constructor-arg>
