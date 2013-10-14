@@ -89,7 +89,7 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
      * @param imageAnnotator the imageAnnotator to set
      */
     public final void setImageAnnotator(ImageAnnotator imageAnnotator) {
-        
+        this.imageAnnotator = imageAnnotator;
     }
 
     /**
