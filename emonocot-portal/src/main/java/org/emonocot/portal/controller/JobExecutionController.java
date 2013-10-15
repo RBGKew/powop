@@ -93,7 +93,7 @@ public class JobExecutionController {
             @RequestBody final JobExecution jobExecution) {
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            httpHeaders.setLocation(new URI(baseUrl + "jobExecution/"
+            httpHeaders.setLocation(new URI(baseUrl + "/jobExecution/"
                     + jobExecution.getId()));
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
