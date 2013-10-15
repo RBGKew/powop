@@ -93,7 +93,7 @@ public class JobInstanceController {
       public final ResponseEntity<JobInstance> create(@RequestBody final JobInstance jobInstance) {
           HttpHeaders httpHeaders = new HttpHeaders();
           try {
-              httpHeaders.setLocation(new URI(baseUrl + "jobInstance/"
+              httpHeaders.setLocation(new URI(baseUrl + "/jobInstance/"
                       + jobInstance.getId()));
           } catch (URISyntaxException e) {
               logger.error(e.getMessage());
