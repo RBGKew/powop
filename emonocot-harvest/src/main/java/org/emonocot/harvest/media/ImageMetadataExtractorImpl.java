@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,9 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +59,20 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
     private ImageAnnotator imageAnnotator;
     
     private Validator validator;
+    
+    private List<DateTimeFormatter> dateTimeFormatters = new ArrayList<DateTimeFormatter>();
+    
+    public ImageMetadataExtractorImpl() {
+   	
+    	dateTimeFormatters.add(ISODateTimeFormat.dateTimeParser());
+    	dateTimeFormatters.add(DateTimeFormat.fullDate());
+    	dateTimeFormatters.add(DateTimeFormat.fullDateTime());
+    	dateTimeFormatters.add(DateTimeFormat.shortDate());
+    	dateTimeFormatters.add(DateTimeFormat.shortDateTime());
+    	dateTimeFormatters.add(DateTimeFormat.mediumDate());
+    	dateTimeFormatters.add(DateTimeFormat.mediumDateTime());
+
+    }
 
     
     /**
@@ -358,13 +376,22 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
             //TODO Match Taxon?
         }
         if(embeddedMetadata.getCreated() == null && photoshopSchema.getDateCreated() != null) {
-            try{
-                DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
-                embeddedMetadata.setCreated(dateCreated);
-            } catch (IllegalArgumentException e) {
-                imageAnnotator.annotate(image, AnnotationType.Warn, AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
-                logger.warn("Unable to set the Date Created for image" + embeddedMetadata.getId() + " identifier: " + embeddedMetadata.getIdentifier(), e);
-            }
+        	IllegalArgumentException iae = null;
+        	DateTime dateCreated = null;
+			for (DateTimeFormatter dateTimeFormatter : dateTimeFormatters) {
+				try {
+					dateCreated = dateTimeFormatter.parseDateTime(photoshopSchema.getDateCreated());
+					
+				} catch (IllegalArgumentException e) {
+					iae = e;
+				}
+			}
+			if(dateCreated == null) {
+			    imageAnnotator.annotate(image, AnnotationType.Warn,	AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
+			    logger.warn("Unable to set the Date Created for image"	+ embeddedMetadata.getId() + " identifier: " + embeddedMetadata.getIdentifier(), iae);
+			} else {
+				embeddedMetadata.setCreated(dateCreated);
+			}
         }
         return isSomethingDifferent;
     }

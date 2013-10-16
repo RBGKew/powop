@@ -99,6 +99,10 @@ insert into Distribution (id, location, taxon_id, license) values (2,'NOR',23,'h
 insert into Distribution (id, location, taxon_id, license) values (3,'SVA',23,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Description (id, identifier, description, type, taxon_id, authority_id, license) values (1,'description1','lorem ipsum', 'general', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Description (id, identifier, description, type, taxon_id, authority_id, license) values (2,'description2','lorem ipsum', 'diagnostic', 76,15,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
+insert into Description_Reference (Description_id, references_id) values (1,1);
+insert into Description_Reference (Description_id, references_id) values (1,2);
+insert into Description_Reference (Description_id, references_id) values (2,1);
+insert into Description_Reference (Description_id, references_id) values (2,2);
 insert into Image (id, identifier, format, taxon_id, authority_id, license) values (1,'http://www.kew.org/ucm/groups/public/documents/image/kewdev_005089.jpg','jpg', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Image (id, identifier, format, taxon_id, authority_id, license) values (2,'http://www.nhm.ac.uk/includes/images/generic/logos/nhm/nhmLobeliaLogo.jpg','jpg', 76,10,'http://creativecommons.org/licenses/by-nc-sa/3.0/');
 insert into Taxon_Image (Taxon_id, images_id) values (76,1);

@@ -13,6 +13,7 @@ import org.emonocot.model.Concept;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.IdentificationKey;
+import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.PhylogeneticTree;
@@ -48,8 +49,10 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 			for (Taxon synonymNameUsages : taxon.getSynonymNameUsages()) {
 				addProvenance(synonymNameUsages);
 			}
-			for (TypeAndSpecimen typesAndSpecimens : taxon
-					.getTypesAndSpecimens()) {
+			for(Identifier identifier : taxon.getIdentifiers()) {
+				addProvenance(identifier);
+			}
+			for (TypeAndSpecimen typesAndSpecimens : taxon.getTypesAndSpecimens()) {
 				addProvenance(typesAndSpecimens);
 			}
 			for (VernacularName vernacularName : taxon.getVernacularNames()) {
@@ -58,8 +61,7 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 			for (Taxon higherClassification : taxon.getHigherClassification()) {
 				addProvenance(higherClassification);
 			}
-			for (MeasurementOrFact measurementOrFact : taxon
-					.getMeasurementsOrFacts()) {
+			for (MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
 				addProvenance(measurementOrFact);
 			}
 			for (IdentificationKey key : taxon.getKeys()) {
