@@ -247,6 +247,13 @@ function updateUI(key) {
       $("#unselectedCharacters li.character a").click(function(event) {
           characterModal(event.target.id, key); 
       });
+      /**
+       * BUG #569 UI issue with selecting characters
+       */
+      $("#unselectedCharacters li.character a i").click(function(event) {
+          characterModal(event.target.parentNode.id, key);
+      });
+
       
       $(".thumbnail").click(function(event) {
 
