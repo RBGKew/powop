@@ -93,6 +93,7 @@ public class DarwinCorePropertyMap {
    	distributionTerms.put(DwcTerm.occurrenceRemarks, "occurrenceRemarks");
    	distributionTerms.put(DwcTerm.occurrenceStatus, "occurrenceStatus");
    	distributionTerms.put(DwcTerm.establishmentMeans, "establishmentMeans");
+   	distributionTerms.put(DcTerm.source, "references");
    	
    	descriptionTerms.put(DcTerm.accessRights,"accessRights");
    	descriptionTerms.put(DwcTerm.datasetID,"authority.identifier");
@@ -110,6 +111,7 @@ public class DarwinCorePropertyMap {
    	descriptionTerms.put(DcTerm.description, "description");
    	descriptionTerms.put(DcTerm.language, "language");
    	descriptionTerms.put(DcTerm.references, "source");
+   	descriptionTerms.put(DcTerm.source, "references");
    	descriptionTerms.put(DcTerm.type, "type");
    	
    	referenceTerms.put(DcTerm.accessRights,"accessRights");

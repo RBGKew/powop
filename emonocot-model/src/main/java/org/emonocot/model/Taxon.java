@@ -1106,16 +1106,25 @@ public class Taxon extends SearchableObject {
 			case 0:
 				for(Location r : (Set<Location>)d.getLocation().getChildren()) {
 					for(Location c : (Set<Location>)r.getChildren()) {
-						indexLocality(c,sid);
+						for(Location l : (Set<Location>)c.getChildren()) {
+						    indexLocality(l,sid);
+						}
 					}
 				}
 				break;
 			case 1:
 				for(Location c : (Set<Location>)d.getLocation().getChildren()) {
-					indexLocality(c,sid);
+					for(Location l : (Set<Location>)c.getChildren()) {
+					    indexLocality(l,sid);
+					}
 				}
 				break;
 			case 2:
+				for(Location l : (Set<Location>)d.getLocation().getChildren()) {
+				    indexLocality(l,sid);
+				}				
+				break;
+			case 3:
 				indexLocality(d.getLocation(),sid);
 				break;
 			default:

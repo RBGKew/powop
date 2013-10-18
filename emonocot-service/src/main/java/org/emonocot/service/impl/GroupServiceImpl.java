@@ -119,8 +119,7 @@ public class GroupServiceImpl extends SearchableServiceImpl<Group, GroupDao> imp
             acl = aclService.createAcl(oid);
         }
 
-        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(
-                recipient), true);
+        acl.insertAce(acl.getEntries().size(), permission, new PrincipalSid(recipient), true);
         aclService.updateAcl(acl);
 
         if (logger.isDebugEnabled()) {

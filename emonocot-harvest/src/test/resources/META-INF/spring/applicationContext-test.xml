@@ -53,6 +53,7 @@
 				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
 				<bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
 				<bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
+				<bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
 			</list>
 		</property>
 	</bean>

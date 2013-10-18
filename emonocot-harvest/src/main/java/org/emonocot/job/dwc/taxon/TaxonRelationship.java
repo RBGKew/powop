@@ -13,24 +13,31 @@ public class TaxonRelationship {
    private Taxon from;
 
    private String toIdentifier;
+   
+   private String toScientificName;
 
    private TaxonRelationshipType term;
 
-   public TaxonRelationship(Taxon newFrom, TaxonRelationshipType newTerm, String toIdentifier) {
-       this.from = newFrom;
+   public TaxonRelationship(Taxon from, TaxonRelationshipType term, String toIdentifier, String toScientificName) {
+       this.from = from;
        this.toIdentifier = toIdentifier;
-       this.term = newTerm;
+       this.term = term;
+       this.toScientificName = toScientificName;
    }
 
-   public final TaxonRelationshipType getTerm() {
+   public TaxonRelationshipType getTerm() {
        return term;
    }
 
-    public final Taxon getFrom() {
+    public Taxon getFrom() {
         return from;
     }
 
-    public final String getToIdentifier() {
+    public String getToIdentifier() {
         return toIdentifier;
+    }
+    
+    public String getToScientificName() {
+    	return toScientificName;
     }
 }

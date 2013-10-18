@@ -110,12 +110,16 @@ public class Functions {
 	}
 	
 	public static Boolean isChildFacet(String parent, String facet) {
-		FacetName parentFacetName = FacetName.fromString(parent);
-		FacetName facetName = FacetName.fromString(facet);
-		if(parentFacetName.getChild() == null || !parentFacetName.getChild().equals(facetName)) {
+		try {
+		    FacetName parentFacetName = FacetName.fromString(parent);
+		    FacetName facetName = FacetName.fromString(facet);
+		    if(parentFacetName.getChild() == null || !parentFacetName.getChild().equals(facetName)) {
+  			    return Boolean.FALSE;
+		    } else {
+			    return Boolean.TRUE;
+		    }
+		} catch(IllegalArgumentException iae) {
 			return Boolean.FALSE;
-		} else {
-			return Boolean.TRUE;
 		}
 	}
 
@@ -1061,6 +1065,21 @@ public class Functions {
 		}
 		return Boolean.FALSE;
 	}
+	
+	public static Boolean hasLevel4Features(Taxon taxon,
+			OccurrenceStatus occurrenceStatus,
+			EstablishmentMeans establishmentMeans) {
+		for (Distribution d : taxon.getDistribution()) {
+			if (d.getLocation().getLevel().equals(3)
+					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
+							occurrenceStatus)
+					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
+							establishmentMeans)) {
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
 
 	/**
 	 * 
@@ -1075,6 +1094,27 @@ public class Functions {
 		StringBuffer features = new StringBuffer();
 		for (Distribution d : taxon.getDistribution()) {
 			if (d.getLocation().getLevel().equals(2)
+					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
+							occurrenceStatus)
+					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
+							establishmentMeans)) {
+				if (!first) {
+					features.append(",");
+				}
+				features.append(d.getLocation().getFeatureId());
+				first = false;
+			}
+		}
+		return features.toString();
+	}
+	
+	public static String getLevel4Features(Taxon taxon,
+			OccurrenceStatus occurrenceStatus,
+			EstablishmentMeans establishmentMeans) {
+		boolean first = true;
+		StringBuffer features = new StringBuffer();
+		for (Distribution d : taxon.getDistribution()) {
+			if (d.getLocation().getLevel().equals(3)
 					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
 							occurrenceStatus)
 					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(

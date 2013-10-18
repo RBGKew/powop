@@ -139,7 +139,7 @@
 															<c:otherwise>
 																<analyse:cubeUrl cellSet="${cellSet}" url="/visualise" facet="${facetName}:${facet.name}">
 																	<i class="halflings-icon unchecked">&#160;</i>
-																	<span>${facetName}</span>
+																	<span>${facetValue}</span>
 																	<span class="facetCount"> [${facet.count}]</span>
 																</analyse:cubeUrl>
 															</c:otherwise>

@@ -85,7 +85,13 @@ public class CellSet {
 			}
 	        cells = new Number[nRows][nCols];
 	        for(PivotField rField : response.getFacetPivot().get(rows + "," + columns)) {
-			    int i = this.rows.getMember(rField.getValue().toString()).getOrdinal();
+	        	Member rMember = null;
+	        	if(rField.getValue() != null) {
+	        		rMember = this.rows.getMember(rField.getValue().toString());
+	        	} else {
+	        		rMember = this.rows.getMember((String)rField.getValue());
+	        	}
+			    int i = rMember.getOrdinal();
 				for(PivotField cField : rField.getPivot()) {
 					Member cMember = null;
 					if(cField.getValue() != null) {
@@ -253,7 +259,12 @@ public class CellSet {
     public Long getRowTotal(Member row) {
     	FacetField.Count count = null;
     	for(FacetField.Count c : totalRows.getValues()) {
-    		if(c.getName().equals(row.getValue())) {
+    		if(c.getName() == null) {
+    			if(row.getValue() == null){
+    				count = c;
+        			break;
+    			}
+    		} else if(c.getName().equals(row.getValue())) {
     			count = c;
     			break;
     		}
@@ -268,7 +279,12 @@ public class CellSet {
     public Long getColumnTotal(Member col) {
     	FacetField.Count count = null;
     	for(FacetField.Count c : totalCols.getValues()) {
-    		if(c.getName().equals(col.getValue())) {
+    		if(c.getName() == null) {
+    			if(col.getValue() == null) {
+    			    count = c;
+    			    break;
+    			}
+    		} else if(c.getName().equals(col.getValue())) {
     			count = c;
     			break;
     		}

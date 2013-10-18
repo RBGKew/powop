@@ -139,13 +139,13 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	private void bindRelationships(Taxon t, Taxon u) {
 		bindTaxon(u);
 		if(t.getParentNameUsage() != null) {
-			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.parent, t.getParentNameUsage().getIdentifier()));
+			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.parent, t.getParentNameUsage().getIdentifier(), t.getParentNameUsage().getScientificName()));
 		}
 		if(t.getAcceptedNameUsage() != null) {
-			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.accepted, t.getAcceptedNameUsage().getIdentifier()));
+			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.accepted, t.getAcceptedNameUsage().getIdentifier(), t.getAcceptedNameUsage().getScientificName()));
 		}
 		if(t.getOriginalNameUsage() != null) {
-			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.original, t.getOriginalNameUsage().getIdentifier()));
+			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.original, t.getOriginalNameUsage().getIdentifier(), t.getOriginalNameUsage().getScientificName()));
 		}
 		
 		u.setParentNameUsage(null);
@@ -165,9 +165,9 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		
 	}
 	
-	private Taxon resolveTaxon(String identifier) {
+	private Taxon resolveTaxon(String identifier, String scientificName) {
         if (boundTaxa.containsKey(identifier)) {
-            logger.info("Found taxon with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
+            logger.info("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
             return boundTaxa.get(identifier);
         } else {
             Taxon taxon = getTaxonService().find(identifier);
@@ -179,10 +179,11 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
     			taxon.getAnnotations().add(annotation);
                 taxon.setAuthority(getSource());
                 taxon.setIdentifier(identifier);
-                logger.info("Didn't find taxon with identifier " + identifier + " from service returning new taxon");
+                taxon.setScientificName(scientificName);
+                logger.info("Didn't find taxon " + scientificName + " with identifier " + identifier + " from service returning new taxon");
                 bindTaxon(taxon);
               } else {
-                  logger.info("Found taxon with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
+                  logger.info("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
                   bindTaxon(taxon);                       
               }
               return taxon;
@@ -229,7 +230,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	public void beforeWrite(List<? extends Taxon> items) {
 		logger.info("Before Write");
         for (TaxonRelationship taxonRelationship : taxonRelationships) {
-        	Taxon to = resolveTaxon(taxonRelationship.getToIdentifier());
+        	Taxon to = resolveTaxon(taxonRelationship.getToIdentifier(), taxonRelationship.getToScientificName());
         	Taxon from = taxonRelationship.getFrom();
         	
             switch(taxonRelationship.getTerm()) {

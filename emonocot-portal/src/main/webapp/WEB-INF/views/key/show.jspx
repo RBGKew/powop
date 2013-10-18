@@ -216,6 +216,21 @@
 			<c:url value="${baseUrl}/images/fullsize/" var="fullsizeImagePath"/>
 		
 			<script language="javascript">
+			 saveKey = function(key) {                 
+                 $.totalStorage('jskey.selectedCharacters', key.getSelectedCharacters());
+             }
+			 
+			 loadKey = function(key) {                 
+                 var storedState = $.totalStorage('jskey.selectedCharacters');
+                 if(Key.isUndefined(storedState) || storedState == null) {
+                     // do nothing
+                 } else {                     
+                     key.setSelectedCharacters(storedState);
+                 }
+               }
+
+			 
+			 $(document).ready(function(){
 				var data = ${identificationKey.matrix};
 				var key = new Key(data);
 				key.setTaxonPath("${taxonPath}");
@@ -242,7 +257,15 @@
 					key.calculate();
 				});
 				key.setUpdateUI(updateUI);
+				window.onbeforeunload = function(){
+                    saveKey(key);
+                };
+                if(window.location.hash == "#keyStarted") {
+                   loadKey(key);
+                }
 				key.calculate();
+				window.location.hash = "keyStarted";
+			 });
 			</script>
 			<script type="text/javascript">
 			  $(document).ready(function(){

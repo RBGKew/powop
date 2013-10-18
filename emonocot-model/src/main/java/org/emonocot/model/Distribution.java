@@ -40,55 +40,24 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Distribution extends OwnedEntity {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -970244833684895241L;
 
-    /**
-    *
-    */
     private Taxon taxon;
 
-    /**
-     *
-     */
     private Location location;
     
-    /**
-     *
-     */
     private String locality;
-    
-    /**
-     *
-     */
+
     private String occurrenceRemarks;
-    
-    /**
-     *
-     */
+
     private OccurrenceStatus occurrenceStatus;
-    
-    /**
-     *
-     */
+
     private EstablishmentMeans establishmentMeans;
-    
 
-    /**
-    *
-    */
     private Set<Annotation> annotations = new HashSet<Annotation>();
-    
-    /**
-    *
-    */
-   private Set<Reference> references = new HashSet<Reference>();
 
-    /**
-   *
-   */
+    private Set<Reference> references = new HashSet<Reference>();
+
     private Long id;
 
     /**

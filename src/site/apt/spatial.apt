@@ -34,6 +34,7 @@ ogr2ogr -f MySQL MySQL:gis,user=user,password=passwd shapefile.shp  -nln tablena
 > select concat('Location_',level1_cod),level1_cod,level1_nam,AsText(SHAPE) from level1 into outfile '/tmp/level1.txt' fields terminated by '\t' lines terminated by '\n';
 > select concat('Location_',level2_cod),level2_cod,level2_nam,AsText(SHAPE) from level2 into outfile '/tmp/level2.txt' fields terminated by '\t' lines terminated by '\n';
 > select concat('Location_',level3_cod),level3_cod,level3_nam,AsText(SHAPE) from level3 into outfile '/tmp/level3.txt' fields terminated by '\t' lines terminated by '\n';
+> select concat('Location_',level4_cod),level3_cod,level_4_na,AsText(SHAPE) from level4 into outfile '/tmp/level4.txt' fields terminated by '\t' lines terminated by '\n';
 
 ---------------------------------------------------------
 
@@ -44,6 +45,7 @@ ogr2ogr -f MySQL MySQL:gis,user=user,password=passwd shapefile.shp  -nln tablena
 > curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/level1.txt&fieldnames=id,location.tdwg_code_s,location.name_s,geo'
 > curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/level2.txt&fieldnames=id,location.tdwg_code_s,location.name_s,geo'
 > curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/level3.txt&fieldnames=id,location.tdwg_code_s,location.name_s,geo'
+> curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/level4.txt&fieldnames=id,location.tdwg_code_s,location.name_s,geo'
 
 ---------------------------------------------------------
 
