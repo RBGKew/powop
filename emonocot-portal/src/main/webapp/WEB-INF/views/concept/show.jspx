@@ -134,7 +134,7 @@
 						});
 			</script>
 			
-			<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+			<div id="modal-gallery" class="modal modal-gallery hide fade  modal-fullscreen">
 				<div class="modal-header">
 					<a class="close" data-dismiss="modal">&#215;</a>
 				</div>

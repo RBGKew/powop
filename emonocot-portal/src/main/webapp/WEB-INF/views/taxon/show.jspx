@@ -67,7 +67,7 @@
 								<li><a href="#description"><spring:message code="description" /></a></li>
 						</c:if>
 						<c:if test="${not empty taxon.distribution}">
-								<li><a href="#distributionMap"><spring:message code="distributionMap" /></a></li>
+								<li><a href="#map"><spring:message code="distributionMap" /></a></li>
 						</c:if>						
 						<c:if test="${not empty taxon.childNameUsages}">
 								<li><a href="#children">${childrenHeader}${childrenRank}</a></li>
@@ -150,17 +150,10 @@
 						$('#clickMe').text('Hide details');
 					});
 			});
-			var offset = 90;
-			$(document).ready(function(){
-                $("a[href^='#']").click(function(event) {
-                    event.preventDefault();
-                    $($(this).attr('href'))[0].scrollIntoView();
-                    scrollBy(0, -offset);
-                });
-			});
+			
 		</script>
 
-		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen no-print">
+		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen modal-fullscreen-stretch no-print">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">&#215;</a>
 			</div>

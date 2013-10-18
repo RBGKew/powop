@@ -194,7 +194,7 @@
 				</div>
 			</div>
 			
-			<div class="modal modal-gallery hide fade modal-fullscreen" id="modal-gallery">
+			<div class="modal modal-gallery hide fade modal-fullscreen modal-fullscreen-stretch" id="modal-gallery">
 				<div class="modal-header">
 					<a data-dismiss="modal" class="close"><i class="halflings-icon remove"><!--  --></i></a>
 					<h3 class="modal-title"><!--  --></h3>

@@ -49,11 +49,11 @@
 										var url = titleAndURL[1];
 
 										items[title] = {
-											label : title,
-											action : function() {
-												window.open(url,'_blank');
-											}
-										}
+												label : title,
+												action : function() {
+													window.location = url;
+												}
+										};
 									}
 
 									return items;
@@ -80,12 +80,7 @@
 													"plugins" : [
 															"contextmenu",
 															"json_data" ]
-												})
-								 .bind('select_node.jstree', function(event, data){
-	                                    href = data.result.obj.attr("href");
-	                                    href = data.attr("href");
-	                                    window.open(href, '_blank');
-	                                });
+												});
 							});
 						</script>
 

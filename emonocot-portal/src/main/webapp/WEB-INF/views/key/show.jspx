@@ -19,21 +19,40 @@
 		<div class="row">
 			<tags:overlayHelp >
 				t.addStep({
-					element: ".comments", // string (jQuery selector) - html element next to which the step popover should be shown
+					element: ".submitComment", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Comment",
-					content: "If you are a registered user you can submit comments about the key which will be sent to the owner.Your comment will appear at the bottom of the key page.",
+					content: "If you are a registered user you can submit comments about the key which will be sent to the owner.",
 					placement: "left",
 					prev: 6,
 					next: 8,
 					backdrop: !0
 				});
 				t.addStep({
+					element: ".commentList", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Comment",
+					content: "Your comment will appear at the bottom of the key page.",
+					placement: "top",
+					prev: 7,
+					next: 9,
+					backdrop: !0
+				});
+				t.addStep({
+					element: ".commentPage", // string (jQuery selector) - html element next to which the step popover should be shown
+					title: "Comment",
+					content: "All the comments are also available in the comment page",
+					placement: "left",
+					prev: 8,
+					next: 10,
+					backdrop: !0
+				});
+				
+				t.addStep({
 					element: ".identifyOverlay", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "More Identification Tools",
 					content: "Look at the other identification tools available in the portal",
 					placement: "bottom",
-					prev: 7,
-					next: 9,
+					prev: 9,
+					next: 11,
 					backdrop: !0
 				});
 				t.addStep({
@@ -41,8 +60,8 @@
 					title: "Visit our Help page",
 					content: "If you need more assistance you can visit our help page where you can find more information on how to use the portal.",
 					placement: "top",
-					prev: 8,
-					next: 10,
+					prev: 10,
+					next: 12,
 					backdrop: !0
 				});
 				t.addStep({
@@ -50,7 +69,7 @@
 					title: "Contact us",
 					content: "Please contact us with any questions",
 					placement: "top",
-					prev: 9,
+					prev: 11,
 					next: -1,
 					backdrop: !0
 				});
@@ -167,7 +186,7 @@
 			</div>
 			<c:if test="${not empty identificationKey.comments}">
 				<div class="row">
-					<section id="comments" class="span12">
+					<section id="comments" class="span12 commentList">
 						<div class="inner">
 							<div class="box">
 								<h2>
@@ -238,7 +257,7 @@
 					});
 			  });
 		    </script>
-		    <div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen">
+		    <div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen modal-fullscreen-stretch">
 			  <div class="modal-header">
 				<a class="close" data-dismiss="modal">&#215;</a>
 			  </div>

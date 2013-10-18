@@ -65,7 +65,7 @@
 							</li>
 							<li>
 								<c:url value="/comment" var="commentUrl" />
-								<a href="${commentUrl}"><spring:message code="comments.title" />&#160;<i class="halflings-icon white comments"><!--  --></i></a>
+								<a href="${commentUrl}"><spring:message code="comments.title" />&#160;<i class="halflings-icon white comments commentPage"><!--  --></i></a>
 							</li>
 							<li>
 								<c:url value="/user" var="userUrl" />
