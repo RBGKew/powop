@@ -67,7 +67,7 @@
 					<div class="box">
 						<h3>Content</h3>
 						<h2>eMonocot at a glance</h2>
-						<div class="row">
+						<!-- <div class="row">
 							
 							<c:if test="${not empty stats}">
 								<c:forEach var="s" items="${stats.getFacetField('base.class_s').getValues()}">
@@ -109,7 +109,7 @@
 									<td><spring:message code="phylogeny.stats" arguments="${phylogeneticTreesUrl}|${phylogeneticTrees}" argumentSeparator="|"/></td>
 								</tr>
 							</table>
-						</div>
+						</div>-->
 						
 						<p class="justified">Assembling content for ~90k accepted taxa is a significant challenge.</p>
 						<ul>
