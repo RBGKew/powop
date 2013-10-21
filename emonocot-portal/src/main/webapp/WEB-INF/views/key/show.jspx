@@ -31,7 +31,7 @@
 					element: ".commentList", // string (jQuery selector) - html element next to which the step popover should be shown
 					title: "Comment",
 					content: "Your comment will appear at the bottom of the key page.",
-					placement: "top",
+					placement: "right",
 					prev: 7,
 					next: 9,
 					backdrop: !0

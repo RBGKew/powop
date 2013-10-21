@@ -150,7 +150,14 @@
 						$('#clickMe').text('Hide details');
 					});
 			});
-			
+			var offset = 90;
+			$(document).ready(function(){
+                $("a[href^='#']").click(function(event) {
+                    event.preventDefault();
+                    $($(this).attr('href'))[0].scrollIntoView();
+                    scrollBy(0, -offset);
+                });
+			});
 		</script>
 
 		<div id="modal-gallery" class="modal modal-gallery hide fade modal-fullscreen modal-fullscreen-stretch no-print">

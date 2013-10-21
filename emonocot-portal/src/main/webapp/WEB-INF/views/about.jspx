@@ -4,7 +4,8 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:spring="http://www.springframework.org/tags">
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<tags:pageheader>
@@ -23,7 +24,7 @@
 							<div class="span5">
 								<h4 style="text-align:center;padding-top:150px">eMonocot is linking together monocot taxonomists by providing support and tools to enable communities to manage their taxonomic data online and in doing so contribute to eMonocot.</h4>
 							</div>
-							<div class="span6">
+							<div class="span6 pull-right">
 								<c:url var="aboutUs" value="/css/images/about.png" />
 								<img src="${aboutUs}" height="420" width="420" alt="eMonocot Portal" />
 							</div>
@@ -43,7 +44,7 @@
 							<li class="justify">eMonocot is a global online biodiversity information resource for monocotyledons, which include grasses, orchids, sedges, palms, lilies and yams and are 20% of flowering plants.</li>
 							<br/>
 							<li>All of the information is brought together in this site, the eMonocot portal.</li>
-							</br>
+							<br/>
 							<li class="justify">You can use eMonocot to identify Monocot plants anywhere in the world, understand their diversity and evolutionary relationships, and explore a wealth of information including descriptions, images, conservation, geographical and ecological data. Find out more about the eMonocot portal <a href="${tourUrl}" title="eMonocot portal features">features</a>.</li>
 						</ul>
 					</div>
@@ -52,10 +53,10 @@
 					<div class="box">
 						<h3>The project</h3>
 						<ul>
-							<li class="justified">The project is being funded by the <a href="http://www.nerc.ac.uk/" title="NERC">Natural Environment Research Council</a> (NERC) via a consortium grant to the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Gardens, Kew</a>, <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> and the <aa href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum (NHM)</a>.</li>
+							<li class="justified">The project is being funded by the <a href="http://www.nerc.ac.uk/" title="NERC">Natural Environment Research Council</a> (NERC) via a consortium grant to the <a href="http://www.kew.org/" title="Royal Botanic Gardens, Kew">Royal Botanic Gardens, Kew</a>, <a href="http://www.ox.ac.uk/" title="Oxford University">Oxford University</a> and the <a href="http://www.nhm.ac.uk/" title="Natural History Museum">Natural History Museum (NHM)</a>.</li>
 							<br/>
 							<li>The content in eMonocot is being compiled by monocot plant systematists from many different institutions both within the UK and globally. Their data is being contributed through community focused online taxonomic information resources, including new websites created as part of this project.</li>
-							</br>
+							<br/>
 							<li>Compiling taxonomic information about plants is a huge task that relies on specialist knowledge. Global participation is essential in developing and sustaining both the data and the expert taxonomic communities that generate and enhance it. Therefore, in addition to project staff dedicated to compiling content, eMonocot is linking together monocot taxonomists by providing support and tools to enable communities to manage their taxonomic data online and in doing so contribute to eMonocot.</li>
 						</ul>
 					</div>
@@ -67,7 +68,7 @@
 					<div class="box">
 						<h3>Content</h3>
 						<h2>eMonocot at a glance</h2>
-						<!-- <div class="row">
+						<div class="row">
 							
 							<c:if test="${not empty stats}">
 								<c:forEach var="s" items="${stats.getFacetField('base.class_s').getValues()}">
@@ -109,7 +110,7 @@
 									<td><spring:message code="phylogeny.stats" arguments="${phylogeneticTreesUrl}|${phylogeneticTrees}" argumentSeparator="|"/></td>
 								</tr>
 							</table>
-						</div>-->
+						</div>
 						
 						<p class="justified">Assembling content for ~90k accepted taxa is a significant challenge.</p>
 						<ul>
