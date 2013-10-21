@@ -67,7 +67,7 @@
 								<li><a href="#description"><spring:message code="description" /></a></li>
 						</c:if>
 						<c:if test="${not empty taxon.distribution}">
-								<li><a href="#map"><spring:message code="distributionMap" /></a></li>
+								<li><a href="#distributionMap"><spring:message code="distributionMap" /></a></li>
 						</c:if>						
 						<c:if test="${not empty taxon.childNameUsages}">
 								<li><a href="#children">${childrenHeader}${childrenRank}</a></li>
