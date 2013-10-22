@@ -4,15 +4,11 @@
 package org.emonocot.portal.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrServerException;
-import org.emonocot.api.CommentService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.SearchableObjectService;
-import org.emonocot.model.Comment;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;

@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class Processor extends OwnedEntityProcessor<Distribution, DistributionService> implements ChunkListener{
+public class Processor extends OwnedEntityProcessor<Distribution, DistributionService> {
 	
 	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
 		
@@ -37,8 +37,8 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
 	}
 	
     @Autowired
-    public final void setReferenceService(final ReferenceService newReferenceService) {
-        this.referenceService = newReferenceService;
+    public void setReferenceService(ReferenceService referenceService) {
+        this.referenceService = referenceService;
     }
     
     private Logger logger = LoggerFactory.getLogger(Processor.class);
@@ -87,7 +87,7 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
     * @param value
     *            the source of the reference to resolve
     */
-   private void resolveReference(final Distribution object, final String value) {
+   private void resolveReference(Distribution object, String value) {
        if (value == null || value.trim().length() == 0) {
            // there is not citation identifier
            return;
@@ -111,17 +111,15 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
        }
    }
    
-   /**
-   *
-   */
-   public final void afterChunk() {
+   @Override
+   public void afterChunk() {
+	   super.afterChunk();
        logger.info("After Chunk");
    }
 
-   /**
-   *
-   */
-   public final void beforeChunk() {
+   @Override
+   public void beforeChunk() {
+	   super.beforeChunk();
        logger.info("Before Chunk");
        boundReferences = new HashMap<String, Reference>();
    }
