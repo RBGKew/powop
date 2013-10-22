@@ -122,11 +122,11 @@
 								accepted taxa (ca. 70,000 species).
 							</li>
 							<br/>
-							<li>In addition to the World Checklist, we are aggregating content
-								from <a href="http://e-monocot.org/organisation" title="eMonocot organisations">37 systems</a>, which cover particular
-								taxonomic groups in greater depth or which provide additional types of data.
+							<li><p name="sourcesParagraph">In addition to the World Checklist, we are aggregating content
+								from ${fn:length(organisations)} systems, which cover particular
+								taxonomic groups in greater depth or which provide additional types of data.</p>
 							</li>
-							<br/>
+							
 							<li>
 								<p>eMonocot builds upon existing collaborations and projects within <a href="http://www.e-taxonomy.eu/" title="European Distributed Institute of Taxonomy">European Distributed Institute of Taxonomy</a> (EDIT) such as <a href="http://www.palmweb.org/" title="PalmWeb">Palmweb</a> and <a href="http://scratchpads.eu/" title="Scratchpads">Scratchpads</a>, 
 								in addition to CATE (including <a href="http://araceae.e-monocot.org/" title="Cate-Araceae">CATE-Araceae</a>) and <a href="http://www.kew.org/data/grasses-db.html" title="GrassBase">GrassBase</a> – The online world grass flora. Content from these taxonomic resources and eMonocot scratchpads are aggregated together in the <a href="http://www.e-monocot.org" title="eMonocot portal">eMonocot portal</a>.</p>

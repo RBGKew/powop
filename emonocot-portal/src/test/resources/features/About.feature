@@ -15,6 +15,6 @@ Scenario: About
   When I am on the portal home page
   And I select the about link in the footer
   Then I should be on the about page
-  #And the paragraph named "sourcesParagraph" should contain the text "content from 1 systems"
+  And the paragraph named "sourcesParagraph" should contain the text "content from 1 systems"
   #And there should be a "A Test Source" link on the page
   And the contact link in the footer should be "mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry"
