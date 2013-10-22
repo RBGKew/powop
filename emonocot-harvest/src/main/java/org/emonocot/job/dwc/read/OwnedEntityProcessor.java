@@ -47,13 +47,12 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 
 				checkAuthority(getRecordType(), t, persisted.getAuthority());
 
-				if (skipUnmodified
-						&& ((persisted.getModified() != null && t.getModified() != null) && !persisted
+				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted
 								.getModified().isBefore(t.getModified()))) {
 					// The content hasn't changed, skip it
 					logger.info("Skipping " + t);
-					replaceAnnotation(persisted, AnnotationType.Info,
-							AnnotationCode.Skipped);
+					bind(persisted);
+					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 					return persisted;
 				} else {
 					persisted.setTaxon(t.getTaxon());
@@ -65,15 +64,15 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 					persisted.setRightsHolder(t.getRightsHolder());
 					doUpdate(persisted, t);
 					validate(t);
-
-					replaceAnnotation(persisted, AnnotationType.Info,
-							AnnotationCode.Update);
+					bind(persisted);
+					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 					logger.info("Updating " + t);
 					return persisted;
 				}
 			} else {
 				doCreate(t);
 				validate(t);
+				bind(t);
 				Annotation annotation = createAnnotation(t, getRecordType(),
 						AnnotationCode.Create, AnnotationType.Info);
 				t.getAnnotations().add(annotation);
@@ -96,6 +95,10 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	
 	protected T lookupBound(T t) {
 		return boundObjects.get(t.getIdentifier());
+	}
+
+	protected void bind(T t) {
+		boundObjects.put(t.getIdentifier(), t);
 	}
 	
 	@Override
