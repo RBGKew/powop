@@ -201,22 +201,24 @@
 	function onFeatureSelect(feature) {
 	
 		selectedFeature = feature;
+		map.setCenter(feature.geometry.getBounds().getCenterLonLat());
+		
 		if(feature.cluster.length == 1) {
 		    var contents = "<dl>";
-		    if(feature.cluster[0].attributes.catalogNumber !== undefined) {
+		    if(feature.cluster[0].attributes.catalogNumber !== undefined &amp;&amp; feature.cluster[0].attributes.catalogNumber != "") {
 		       contents += "<dt>Catalog Number:</dt><dd>" + feature.cluster[0].attributes.catalogNumber + "</dd>";
 		    }
-		    if(feature.cluster[0].attributes.collectionCode !== undefined) {
+		    if(feature.cluster[0].attributes.collectionCode !== undefined &amp;&amp; feature.cluster[0].attributes.collectionCode != "") {
 		        contents += "<dt>Collection Code:</dt><dd>" + feature.cluster[0].attributes.collectionCode + "</dd>";
 		    }
-		    if(feature.cluster[0].attributes.institutionCode !== undefined) { 
+		    if(feature.cluster[0].attributes.institutionCode !== undefined &amp;&amp; feature.cluster[0].attributes.institutionCode != "") { 
 			    contents += "<dt>Institution Code:</dt><dd>" + feature.cluster[0].attributes.institutionCode + "</dd>";
 			}
-			if(feature.cluster[0].attributes.locality !== undefined) {
+			if(feature.cluster[0].attributes.locality !== undefined &amp;&amp; feature.cluster[0].attributes.locality != "") {
 				contents += "<dt>Locality:</dt><dd>" + feature.cluster[0].attributes.locality + "</dd>";
 		    }
 		    
-			contents += "<dt>Source Link:</dt><dd>&lt;a href='" + feature.cluster[0].attributes.source + "'&gt;" + feature.cluster[0].attributes.source + "&lt;/a&gt;</dd></dl>"
+			contents += "<dt>&lt;a href='" + feature.cluster[0].attributes.source + "'&gt;Source Link&lt;/a&gt;</dt></dl>"
 			popup = new OpenLayers.Popup.FramedCloud(
 				"specimenPopup",
 				feature.geometry.getBounds().getCenterLonLat(),
