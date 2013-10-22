@@ -179,7 +179,7 @@
 							<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator">&#160;</span>
 						</li>
 						<li>
-							<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
+							<em><spring:message code="image.license"/></em>&#160;<span class="modal-license-icon">&#160;</span>
 							<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
 						</li>
 					</ul>
