@@ -41,8 +41,8 @@
 						
 						<ul>
 							<c:forEach var="member" items="${group.members}">
-								<c:url value="/user/${member.identifier}" var="memberUrl" />
-								<li><a href="${memberUrl}">${member.identifier}</a></li>
+								<c:url value="/user/${member.id}" var="memberUrl" />
+								<li><a href="${memberUrl}">${member.name}</a></li>
 							</c:forEach>
 						</ul>
 					</div>

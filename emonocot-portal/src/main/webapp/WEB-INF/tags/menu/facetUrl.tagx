@@ -24,9 +24,13 @@
 			<c:param name="facet" value="${facetName}:[${rangeFacet.value} TO ${rangeFacet.value}${rangeFacet.rangeFacet.gap}]" />
 		</c:if>
 		<c:forEach var="selectedFacetName" items="${pager.selectedFacetNames}">
-			<c:if test="${selectedFacetName ne facetName}">
+		    <c:choose>
+		      <c:when test="${selectedFacetName eq facetName}"><!-- do nothing --></c:when>
+		      <c:when test="${em:isChildFacet(facetName,selectedFacetName)}"><!-- do nothing --></c:when>
+			  <c:otherwise>
 				<c:param name="facet" value="${selectedFacetName}:${pager.selectedFacets[selectedFacetName]}" />
-			</c:if>
+			  </c:otherwise>
+			</c:choose>
 		</c:forEach>
 	</c:url>
 	<a href="${facetUrl}">

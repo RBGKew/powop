@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<wsdl:definitions 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+    xmlns:s0="http://www.ncbi.nlm.nih.gov/soap/eutils/" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns="http://schemas.xmlsoap.org/wsdl/" 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/"
+    xmlns:nseg="http://www.ncbi.nlm.nih.gov/soap/eutils/egquery" 
+    xmlns:nsei="http://www.ncbi.nlm.nih.gov/soap/eutils/einfo" 
+    xmlns:nsel="http://www.ncbi.nlm.nih.gov/soap/eutils/elink" 
+    xmlns:nsese="http://www.ncbi.nlm.nih.gov/soap/eutils/esearch" 
+    xmlns:nsesu="http://www.ncbi.nlm.nih.gov/soap/eutils/esummary" 
+    xmlns:nsesp="http://www.ncbi.nlm.nih.gov/soap/eutils/espell" 
+    xmlns:nseps="http://www.ncbi.nlm.nih.gov/soap/eutils/epost" 
+>
+<!--    version="2.0" -->
+
+	<types>
+		<xs:schema>
+			<xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/egquery"  schemaLocation="egquery.xsd"/>
+			<xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/einfo"    schemaLocation="einfo.xsd"  />
+			<xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/esearch"  schemaLocation="esearch.xsd"  />
+			<xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/esummary" schemaLocation="esummary.xsd"  />
+			<xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/elink"    schemaLocation="elink.xsd"  />
+			<xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/espell"   schemaLocation="espell.xsd"  />
+            <xs:import namespace="http://www.ncbi.nlm.nih.gov/soap/eutils/epost"    schemaLocation="epost.xsd"  />
+		</xs:schema>
+	</types>
+
+	<!-- eGQuery -->
+	<message name="eGqueryRequest_m">
+		<part name="request" element="nseg:eGqueryRequest" />
+	</message>
+	<message name="eGqueryResponse_m">
+		<part name="result" element="nseg:Result"/>
+	</message>
+	<message name="eGqueryRequestMS_m">
+	    <part name="term"  element="nseg:term" />
+    	<part name="tool"  element="nseg:tool" />
+    	<part name="email" element="nseg:email" />
+	</message>
+
+    
+	<!-- eInfo -->
+	<message name="eInfoRequest_m">
+		<part name="request" element="nsei:eInfoRequest" />
+	</message>
+	<message name="eInfoResponse_m">
+		<part name="result" element="nsei:eInfoResult" />
+	</message>
+    <message name="eInfoRequestMS_m">
+	    <part name="db"  element="nsei:db" />
+    	<part name="tool"  element="nsei:tool" />
+    	<part name="email" element="nsei:email" />
+	</message>
+
+    
+	<!-- eSearch -->
+	<message name="eSearchRequest_m">
+		<part name="request" element="nsese:eSearchRequest" />
+	</message>
+	<message name="eSearchResponse_m">
+		<part name="result" element="nsese:eSearchResult" />
+	</message>
+    <message name="eSearchRequestMS_m">
+    	<part name="db" element="nsese:db" />
+    	<part name="term" element="nsese:term" />
+    	<part name="WebEnv" element="nsese:WebEnv" />
+    	<part name="QueryKey" element="nsese:QueryKey" />
+    	<part name="usehistory" element="nsese:usehistory" />
+    	<part name="tool" element="nsese:tool" />
+    	<part name="email" element="nsese:email" />
+    	<part name="field" element="nsese:field" />
+    	<part name="reldate" element="nsese:reldate" />
+    	<part name="mindate" element="nsese:mindate" />
+    	<part name="maxdate" element="nsese:maxdate" />
+    	<part name="datetype" element="nsese:datetype" />
+    	<part name="RetStart" element="nsese:RetStart" />
+    	<part name="RetMax" element="nsese:RetMax" />
+    	<part name="rettype" element="nsese:rettype" />
+    	<part name="sort" element="nsese:sort" />
+	</message>
+
+
+	<!-- eSummary -->
+    <message name="eSummaryRequest_m">
+		<part name="request" element="nsesu:eSummaryRequest" />
+	</message>
+	<message name="eSummaryResponse_m">
+		<part name="result" element="nsesu:eSummaryResult" />
+	</message>
+    <message name="eSummaryRequestMS_m">
+    	<part name="db" element="nsesu:db" />
+    	<part name="id" element="nsesu:id" />
+    	<part name="WebEnv" element="nsesu:WebEnv" />
+    	<part name="query_key" element="nsesu:query_key" />
+    	<part name="retstart" element="nsesu:retstart" />
+    	<part name="retmax" element="nsesu:retmax" />
+    	<part name="tool" element="nsesu:tool" />
+    	<part name="email" element="nsesu:email" />
+	</message>
+
+
+	<!-- eLink -->
+    <message name="eLinkRequest_m">
+		<part name="request" element="nsel:eLinkRequest" />
+	</message>
+	<message name="eLinkResponse_m">
+		<part name="result" element="nsel:eLinkResult" />
+	</message>
+    <message name="eLinkRequestMS_m">
+    	<part name="db" element="nsel:db"/>
+    	<part name="id" element="nsel:id"/>
+    	<part name="reldate" element="nsel:reldate"/>
+    	<part name="mindate" element="nsel:mindate"/>
+    	<part name="maxdate" element="nsel:maxdate"/>
+    	<part name="datetype" element="nsel:datetype"/>
+    	<part name="term" element="nsel:term"/>
+    	<part name="dbfrom" element="nsel:dbfrom"/>
+    	<part name="linkname" element="nsel:linkname"/>
+    	<part name="WebEnv" element="nsel:WebEnv"/>
+    	<part name="query_key" element="nsel:query_key"/>
+    	<part name="cmd" element="nsel:cmd"/>
+    	<part name="tool" element="nsel:tool"/>
+    	<part name="email" element="nsel:email"/>
+	</message>
+
+
+	<!-- eSpell -->
+	<message name="eSpellRequest_m">
+		<part name="request" element="nsesp:eSpellRequest"/>
+	</message>
+	<message name="eSpellResponse_m">
+		<part name="result" element="nsesp:eSpellResult"/>
+	</message>
+	<message name="eSpellRequestMS_m">
+    	<part name="db" element="nsesp:db" />
+    	<part name="term" element="nsesp:term" />
+    	<part name="tool" element="nsesp:tool" />
+    	<part name="email" element="nsesp:email" />
+	</message>
+
+
+	<!-- ePost -->
+    <message name="ePostRequest_m">
+        <part name="request" element="nseps:ePostRequest"/>
+    </message>
+    <message name="ePostResponse_m">
+        <part name="result" element="nseps:ePostResult"/>
+    </message>
+    <message name="ePostRequestMS_m">
+    	<part name="db" element="nseps:db"/>
+    	<part name="id" element="nseps:id"/>
+    	<part name="WebEnv" element="nseps:WebEnv"/>
+    	<part name="tool" element="nseps:tool"/>
+    	<part name="email" element="nseps:email"/>
+    </message>
+
+
+	<!-- operations and bindings -->
+	
+	<portType name="eUtilsServiceSoap">
+		<operation name="run_eGquery">
+			<input message="s0:eGqueryRequest_m"/>
+			<output message="s0:eGqueryResponse_m"/>
+		</operation>
+		<operation name="run_eGquery_MS">
+			<input message="s0:eGqueryRequestMS_m"/>
+			<output message="s0:eGqueryResponse_m"/>
+		</operation>
+
+		<operation name="run_eInfo">
+			<input message="s0:eInfoRequest_m"/>
+			<output message="s0:eInfoResponse_m"/>
+		</operation>
+		<operation name="run_eInfo_MS">
+			<input message="s0:eInfoRequestMS_m"/>
+			<output message="s0:eInfoResponse_m"/>
+		</operation>
+
+		<operation name="run_eSearch">
+			<input message="s0:eSearchRequest_m"/>
+			<output message="s0:eSearchResponse_m"/>
+		</operation>
+		<operation name="run_eSearch_MS">
+			<input message="s0:eSearchRequestMS_m"/>
+			<output message="s0:eSearchResponse_m"/>
+		</operation>
+
+		<operation name="run_eSummary">
+			<input message="s0:eSummaryRequest_m"/>
+			<output message="s0:eSummaryResponse_m"/>
+		</operation>
+		<operation name="run_eSummary_MS">
+			<input message="s0:eSummaryRequestMS_m"/>
+			<output message="s0:eSummaryResponse_m"/>
+		</operation>
+
+		<operation name="run_eLink">
+			<input message="s0:eLinkRequest_m"/>
+			<output message="s0:eLinkResponse_m"/>
+		</operation>
+		<operation name="run_eLink_MS">
+			<input message="s0:eLinkRequestMS_m"/>
+			<output message="s0:eLinkResponse_m"/>
+		</operation>
+
+		<operation name="run_eSpell">
+			<input message="s0:eSpellRequest_m"/>
+			<output message="s0:eSpellResponse_m"/>
+		</operation>
+		<operation name="run_eSpell_MS">
+			<input message="s0:eSpellRequestMS_m"/>
+			<output message="s0:eSpellResponse_m"/>
+		</operation>
+		
+        <operation name="run_ePost">
+            <input message="s0:ePostRequest_m"/>
+            <output message="s0:ePostResponse_m"/>
+        </operation>
+        <operation name="run_ePost_MS">
+            <input message="s0:ePostRequestMS_m"/>
+            <output message="s0:ePostResponse_m"/>
+        </operation>
+		
+	</portType>
+
+	<binding name="eUtilsServiceSoap" type="s0:eUtilsServiceSoap">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="run_eGquery">
+			<soap:operation soapAction="egquery" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="run_eGquery_MS">
+			<soap:operation soapAction="egquery" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+
+		<operation name="run_eInfo">
+			<soap:operation soapAction="einfo" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="run_eInfo_MS">
+			<soap:operation soapAction="einfo" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+
+		<operation name="run_eSearch">
+			<soap:operation soapAction="esearch" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="run_eSearch_MS">
+			<soap:operation soapAction="esearch" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+
+		<operation name="run_eSummary">
+			<soap:operation soapAction="esummary" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="run_eSummary_MS">
+			<soap:operation soapAction="esummary" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+
+		<operation name="run_eLink">
+			<soap:operation soapAction="elink" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="run_eLink_MS">
+			<soap:operation soapAction="elink" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+
+		<operation name="run_eSpell">
+			<soap:operation soapAction="espell" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="run_eSpell_MS">
+			<soap:operation soapAction="espell" style="document"/>
+			<input>
+				<soap:body use="literal"  />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		
+       <operation name="run_ePost">
+            <soap:operation soapAction="epost" style="document"/>
+            <input>
+                <soap:body use="literal"  />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+       </operation>
+       <operation name="run_ePost_MS">
+            <soap:operation soapAction="epost" style="document"/>
+            <input>
+                <soap:body use="literal"  />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+       </operation>
+
+
+		
+	</binding>
+
+    <service name="eUtilsService">
+        <port name="eUtilsServiceSoap" binding="s0:eUtilsServiceSoap">
+            <soap:address location="http://eutils.ncbi.nlm.nih.gov/soap/v2.0/soap_adapter_2_0.cgi"/>
+        </port>
+    </service>
+    
+</wsdl:definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/epost" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/epost" 
+    elementFormDefault="qualified"
+>
+
+    <!--   version="2.0" -->
+    <!--   http://www.ncbi.nlm.nih.gov/entrez/query/DTD/ePost_020511.dtd  -->
+
+    <xs:complexType name="InvalidIdListType">
+        <xs:sequence>
+            <xs:element  name="Id" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ePostResult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="InvalidIdList" type="tns:InvalidIdListType" minOccurs="0"/>
+                <xs:element name="QueryKey" type="xs:string" minOccurs="0"/>
+                <xs:element name="WebEnv" type="xs:string" minOccurs="0"/>
+                <xs:element name="ERROR" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+	<!-- input params -->
+    <xs:element name="db" type="xs:string"/>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="WebEnv" type="xs:string"/>
+    <xs:element name="tool" type="xs:string"/>
+    <xs:element name="email" type="xs:string"/>
+    <xs:element name="ePostRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:db" minOccurs="0"/>
+                <xs:element ref="tns:id" minOccurs="0"/>
+                <xs:element ref="tns:WebEnv" minOccurs="0"/>
+                <xs:element ref="tns:tool" minOccurs="0"/>
+                <xs:element ref="tns:email" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+       
+</xs:schema>

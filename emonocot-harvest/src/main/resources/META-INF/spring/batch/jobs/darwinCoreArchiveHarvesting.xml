@@ -609,10 +609,8 @@
 			<batch:tasklet>
 				<batch:chunk reader="identifierReader" processor="identifierProcessor"	writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include
-							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
-						<batch:include
-							class="org.springframework.batch.item.file.FlatFileParseException" />
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
@@ -669,10 +667,8 @@
 			<batch:tasklet>
 				<batch:chunk reader="distributionReader" processor="distributionProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
 					<batch:skippable-exception-classes>
-						<batch:include
-							class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
-						<batch:include
-							class="org.springframework.batch.item.file.FlatFileParseException" />
+						<batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+						<batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
@@ -971,12 +967,10 @@
 		scope="step">
 		<property name="resources">
 			<list>
-				<bean class="org.springframework.core.io.FileSystemResource"
-					scope="step">
+				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 					<constructor-arg value="#{jobExecutionContext['temporary.file.name']}" />
 				</bean>
-				<bean class="org.springframework.core.io.FileSystemResource"
-					scope="step">
+				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 					<constructor-arg value="#{jobExecutionContext['unpack.directory.name']}" />
 				</bean>
 			</list>

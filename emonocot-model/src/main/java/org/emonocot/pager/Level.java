@@ -6,17 +6,24 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Level {
+	Logger logger = LoggerFactory.getLogger(Level.class);
+	
 	private Dimension dimension;
 	
 	private String facet;
 	
 	private boolean multiValued;
 	
+	private Member nullMember = null;
+	
     private Map<String,Member> members = new HashMap<String,Member>();
     
     public Level(String facet, Dimension dimension, boolean multiValued) {
-		this.facet = facet;
+		this.facet = facet;	
 		this.dimension = dimension;
 		this.multiValued = multiValued;
 	}
@@ -33,11 +40,19 @@ public class Level {
 	}
 	
 	public void addMember(int ordinal, String field, String value) {
-		this.members.put(value, new Member(this, ordinal, field, value));
+		Member member = new Member(this, ordinal, field, value);
+		this.members.put(value, member);
+		if(value == null) {
+			this.nullMember = member;
+		}
 	}
 	
 	public Member getMember(String value) {
-		return members.get(value);
+		if(value == null) {
+		    return nullMember;	
+		} else {
+		    return members.get(value);
+		}
 	}
 
   /**

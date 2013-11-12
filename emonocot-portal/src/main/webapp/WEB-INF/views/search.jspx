@@ -104,7 +104,7 @@
 	</tags:pageheader>
 
 	<div class="container">
-	    <div class="row">
+		<div class="row">
 			<div class="span12">
 				<tags:info />
 			</div>
@@ -140,7 +140,7 @@
 								<tags:view url="/search" result="${result}" />
 							</div>
 							<tags:sort url="/search" result="${result}" spanClass="offset3" />
-						</div>					
+						</div>	
 						<div class="row">
 							<div id="pages" class="span4">
 								<tags:results pager="${result}" />
@@ -173,14 +173,7 @@
 								</c:when>
 								<c:when test="${result.params['view'] == 'grid'}">
 									<br />
-									<c:choose>
-										<c:when test="${imageClass}">
-											<results:grid pager="${result}" />
-										</c:when>
-										<c:otherwise>
-											<results:list pager="${result}" />
-										</c:otherwise>
-									</c:choose>
+									<results:grid pager="${result}" />
 								</c:when>
 								<c:when test="${result.params['view'] == 'simpleList'}">
 									<br />
@@ -201,7 +194,7 @@
 				</div>
 			</div>
 			
-			<div class="modal modal-gallery hide fade modal-fullscreen" id="modal-gallery">
+			<div class="modal modal-gallery hide fade modal-fullscreen modal-fullscreen-stretch" id="modal-gallery">
 				<div class="modal-header">
 					<a data-dismiss="modal" class="close"><i class="halflings-icon remove"><!--  --></i></a>
 					<h3 class="modal-title"><!--  --></h3>
@@ -221,7 +214,7 @@
 								<em><spring:message code="image.creator"/></em>&#160;<span class="modal-creator"><!--  --></span>
 							</li>
 							<li>
-								<em><spring:message code="image.license"/></em>&#160;<span class="modal-license">&#160;</span>
+								<em><spring:message code="image.license"/></em>&#160;<span class="modal-license-icon">&#160;</span>
 								<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000"><i class="icon-white icon-play"><!-- --></i></a>
 							</li>
 						</ul>

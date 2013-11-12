@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/espell" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/espell" 
+    elementFormDefault="qualified"
+>
+
+    <!--   version="2.0"  -->
+    <!--   http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eSpell.dtd  date: 2005/03/02 17:46:05  -->
+	<xs:element name="CorrectedQuery" type="xs:string"/>
+	<xs:element name="Database" type="xs:string"/>
+	<xs:element name="ERROR" type="xs:string"/>
+	<xs:element name="Original" type="xs:string"/>
+	<xs:element name="Query" type="xs:string"/>
+	<xs:element name="Replaced" type="xs:string"/>
+	<xs:element name="SpelledQuery">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="tns:Replaced"/>
+				<xs:element ref="tns:Original"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="eSpellResult">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Database"/>
+				<xs:element ref="tns:Query"/>
+				<xs:element ref="tns:CorrectedQuery"/>
+				<xs:element ref="tns:SpelledQuery"/>
+				<xs:element ref="tns:ERROR"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- input params -->
+    <xs:element name="db" type="xs:string"/>
+    <xs:element name="term" type="xs:string"/>
+    <xs:element name="tool" type="xs:string"/>
+    <xs:element name="email" type="xs:string"/>
+    <xs:element name="eSpellRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:db" minOccurs="0"/>
+                <xs:element ref="tns:term" minOccurs="0"/>
+                <xs:element ref="tns:tool" minOccurs="0"/>
+                <xs:element ref="tns:email" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

@@ -1,0 +1,1283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_pubmed" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_pubmed" elementFormDefault="qualified">
+
+    <!--    version="2.0" -->
+
+    <!-- http://www.ncbi.nlm.nih.gov/entrez/query/DTD/pubmed_110101.dtd -->
+
+    <xs:complexType name="AbstractType">
+        <xs:sequence>
+            <xs:element name="AbstractText" type="tns:AbstractTextType" maxOccurs="unbounded"/>
+            <xs:element ref="tns:CopyrightInformation" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="AbstractTextType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Label" type="xs:string"/>
+                <xs:attribute name="NlmCategory">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="UNLABELLED"/>
+                            <xs:enumeration value="BACKGROUND"/>
+                            <xs:enumeration value="OBJECTIVE"/>
+                            <xs:enumeration value="METHODS"/>
+                            <xs:enumeration value="RESULTS"/>
+                            <xs:enumeration value="CONCLUSIONS"/>
+                            <xs:enumeration value="UNASSIGNED"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+<!--
+    <xs:complexType name="AbstractTextType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+        <xs:attribute name="Label" type="xs:string"/>
+        <xs:attribute name="NlmCategory">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="UNLABELLED"/>
+                    <xs:enumeration value="BACKGROUND"/>
+                    <xs:enumeration value="OBJECTIVE"/>
+                    <xs:enumeration value="METHODS"/>
+                    <xs:enumeration value="RESULTS"/>
+                    <xs:enumeration value="CONCLUSIONS"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+-->    
+    
+    <xs:element name="AccessionNumber" type="xs:string"/>
+    <xs:complexType name="AccessionNumberListType">
+        <xs:sequence>
+            <xs:element ref="tns:AccessionNumber" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Acronym" type="xs:string"/>
+
+<!--    
+    <xs:complexType name="AffiliationType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->    
+    <xs:element name="Agency" type="xs:string"/>
+    <xs:complexType name="ArticleType">
+        <xs:sequence>
+            <xs:element name="Journal" type="tns:JournalType"/>
+            <xs:element name="ArticleTitle" type="tns:ArticleTitleType"/>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element name="Pagination" type="tns:PaginationType"/>
+                    <xs:element name="ELocationID" type="tns:ELocationIDType" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:element name="ELocationID" type="tns:ELocationIDType" maxOccurs="unbounded"/>
+            </xs:choice>
+            <xs:element name="Abstract" type="tns:AbstractType" minOccurs="0"/>
+            <!-- xs:element name="Affiliation" type="tns:AffiliationType" minOccurs="0"/ -->
+            <xs:element name="Affiliation" type="xs:string" minOccurs="0"/>
+            <xs:element name="AuthorList" type="tns:AuthorListType" minOccurs="0"/>
+            <xs:element ref="tns:Language" maxOccurs="unbounded"/>
+            <xs:element name="DataBankList" type="tns:DataBankListType" minOccurs="0"/>
+            <xs:element name="GrantList" type="tns:GrantListType" minOccurs="0"/>
+            <xs:element name="PublicationTypeList" type="tns:PublicationTypeListType"/>
+            <!-- xs:element name="VernacularTitle" type="tns:VernacularTitleType" minOccurs="0"/ -->
+            <xs:element name="VernacularTitle" type="xs:string" minOccurs="0"/>
+            <xs:element name="ArticleDate" type="tns:ArticleDateType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="PubModel" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Print"/>
+                    <xs:enumeration value="Print-Electronic"/>
+                    <xs:enumeration value="Electronic"/>
+                    <xs:enumeration value="Electronic-Print"/>
+                    <xs:enumeration value="Electronic-eCollection"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="ArticleDateType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:element ref="tns:Month"/>
+            <xs:element ref="tns:Day"/>
+        </xs:sequence>
+        <xs:attribute name="DateType" type="xs:string" fixed="Electronic"/>
+    </xs:complexType>
+    <xs:complexType name="ArticleIdType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="IdType" default="pubmed">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="doi"/>
+                            <xs:enumeration value="pii"/>
+                            <xs:enumeration value="pmcpid"/>
+                            <xs:enumeration value="pmpid"/>
+                            <xs:enumeration value="pmc"/>
+                            <xs:enumeration value="mid"/>
+                            <xs:enumeration value="sici"/>
+                            <xs:enumeration value="pubmed"/>
+                            <xs:enumeration value="medline"/>
+                            <xs:enumeration value="pmcid"/>
+                            <xs:enumeration value="pmcbook"/>
+                            <xs:enumeration value="bookaccession"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="ArticleIdListType">
+        <xs:sequence>
+            <xs:element name="ArticleId" type="tns:ArticleIdType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ArticleTitleType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="book" type="xs:string"/>
+                <xs:attribute name="part" type="xs:string"/>
+                <xs:attribute name="sec" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+<!--    
+    <xs:complexType name="ArticleTitleType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+        <xs:attribute name="book" type="xs:string"/>
+        <xs:attribute name="part" type="xs:string"/>
+        <xs:attribute name="sec" type="xs:string"/>
+    </xs:complexType>
+-->    
+    <xs:complexType name="AuthorType">
+        <xs:sequence>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element ref="tns:LastName"/>
+                    <xs:element ref="tns:ForeName" minOccurs="0"/>
+                    <xs:element ref="tns:Initials" minOccurs="0"/>
+                    <!-- xs:element name="Suffix" type="tns:SuffixType" minOccurs="0"/ -->
+                    <xs:element name="Suffix" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+                <!-- xs:element name="CollectiveName" type="tns:CollectiveNameType"/ -->
+                <xs:element name="CollectiveName" type="xs:string"/>
+            </xs:choice>
+            <!-- backward compatibility 
+                 NameID is renamed to Identifier
+            -->
+            <xs:element name="NameID" type="tns:IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Identifier" type="tns:IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="ValidYN" default="Y">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Y"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="AuthorListType">
+        <xs:sequence>
+            <xs:element name="Author" type="tns:AuthorType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="CompleteYN" default="Y">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Y"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="Type" default="authors">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="authors"/>
+                    <xs:enumeration value="editors"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="BeginningDateType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:choice minOccurs="0">
+                <xs:sequence>
+                    <xs:element ref="tns:Month"/>
+                    <xs:element ref="tns:Day" minOccurs="0"/>
+                </xs:sequence>
+                <xs:element ref="tns:Season"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BookType">
+        <xs:sequence>
+            <xs:element name="Publisher" type="tns:PublisherType"/>
+            <xs:element name="BookTitle" type="tns:BookTitleType"/>
+            <xs:element name="PubDate" type="tns:PubDateType"/>
+            <xs:element name="BeginningDate" type="tns:BeginningDateType" minOccurs="0"/>
+            <xs:element name="EndingDate" type="tns:EndingDateType" minOccurs="0"/>
+            <xs:element name="AuthorList" type="tns:AuthorListType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="tns:Volume" minOccurs="0"/>
+            <!-- xs:element name="VolumeTitle" type="tns:VolumeTitleType" minOccurs="0"/ -->
+            <xs:element name="VolumeTitle" type="xs:string" minOccurs="0"/>
+            <xs:element ref="tns:Edition" minOccurs="0"/>
+            <xs:element name="CollectionTitle" type="tns:CollectionTitleType" minOccurs="0"/>
+            <xs:element ref="tns:Isbn" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ELocationID" type="tns:ELocationIDType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="tns:Medium" minOccurs="0"/>
+            <xs:element ref="tns:ReportNumber" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BookDocumentType">
+        <xs:sequence>
+            <xs:element name="PMID" type="tns:PMIDType"/>
+            <xs:element name="ArticleIdList" type="tns:ArticleIdListType"/>
+            <xs:element name="Book" type="tns:BookType"/>
+            <xs:element name="LocationLabel" type="tns:LocationLabelType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ArticleTitle" type="tns:ArticleTitleType" minOccurs="0"/>
+            <!-- xs:element name="VernacularTitle" type="tns:VernacularTitleType" minOccurs="0"/ -->
+            <xs:element name="VernacularTitle" type="xs:string" minOccurs="0"/>
+            <xs:element name="Pagination" type="tns:PaginationType" minOccurs="0"/>
+            <xs:element ref="tns:Language" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="AuthorList" type="tns:AuthorListType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="tns:GroupList" minOccurs="0"/>
+            <xs:element ref="tns:PublicationType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Abstract" type="tns:AbstractType" minOccurs="0"/>
+            <xs:element name="Sections" type="tns:SectionsType" minOccurs="0"/>
+            <xs:element name="KeywordList" type="tns:KeywordListType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ContributionDate" type="tns:ContributionDateType" minOccurs="0"/>
+            <xs:element name="DateRevised" type="tns:DateRevisedType" minOccurs="0"/>
+            <!-- xs:element name="CitationString" type="tns:CitationStringType" minOccurs="0"/ -->
+            <xs:element name="CitationString" type="xs:string" minOccurs="0"/>
+            <xs:element name="GrantList" type="tns:GrantListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="BookDocumentSet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="BookDocument" type="tns:BookDocumentType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="DeleteDocument" type="tns:DeleteDocumentType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="BookTitleType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="book" type="xs:string"/>
+                <xs:attribute name="part" type="xs:string"/>
+                <xs:attribute name="sec" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+<!--    
+    <xs:complexType name="BookTitleType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+        <xs:attribute name="book" type="xs:string"/>
+        <xs:attribute name="part" type="xs:string"/>
+        <xs:attribute name="sec" type="xs:string"/>
+    </xs:complexType>
+-->    
+    <xs:complexType name="ChemicalType">
+        <xs:sequence>
+            <xs:element ref="tns:RegistryNumber"/>
+            <xs:element ref="tns:NameOfSubstance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ChemicalListType">
+        <xs:sequence>
+            <xs:element name="Chemical" type="tns:ChemicalType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+<!--
+    <xs:complexType name="CitationStringType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->    
+    <xs:element name="CitationSubset" type="xs:string"/>
+
+    <xs:complexType name="CollectionTitleType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="book" type="xs:string"/>
+                <xs:attribute name="part" type="xs:string"/>
+                <xs:attribute name="sec" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+<!--    
+    <xs:complexType name="CollectionTitleType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+        <xs:attribute name="book" type="xs:string"/>
+        <xs:attribute name="part" type="xs:string"/>
+        <xs:attribute name="sec" type="xs:string"/>
+    </xs:complexType>
+-->
+<!--
+    <xs:complexType name="CollectiveNameType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->    
+
+    <xs:complexType name="CommentsCorrectionsType">
+        <xs:sequence>
+            <xs:element ref="tns:RefSource"/>
+            <xs:element name="PMID" type="tns:PMIDType" minOccurs="0"/>
+            <xs:element ref="tns:Note" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="RefType" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="CommentOn"/>
+                    <xs:enumeration value="CommentIn"/>
+                    <xs:enumeration value="ErratumIn"/>
+                    <xs:enumeration value="ErratumFor"/>
+                    <xs:enumeration value="PartialRetractionIn"/>
+                    <xs:enumeration value="PartialRetractionOf"/>
+                    <xs:enumeration value="RepublishedFrom"/>
+                    <xs:enumeration value="RepublishedIn"/>
+                    <xs:enumeration value="RetractionOf"/>
+                    <xs:enumeration value="RetractionIn"/>
+                    <xs:enumeration value="UpdateIn"/>
+                    <xs:enumeration value="UpdateOf"/>
+                    <xs:enumeration value="SummaryForPatientsIn"/>
+                    <xs:enumeration value="OriginalReportIn"/>
+                    <xs:enumeration value="ReprintOf"/>
+                    <xs:enumeration value="ReprintIn"/>
+                    <xs:enumeration value="Cites"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="CommentsCorrectionsListType">
+        <xs:sequence>
+            <xs:element name="CommentsCorrections" type="tns:CommentsCorrectionsType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ContractNumber" type="xs:string"/>
+    <xs:complexType name="ContributionDateType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:choice minOccurs="0">
+                <xs:sequence>
+                    <xs:element ref="tns:Month"/>
+                    <xs:element ref="tns:Day" minOccurs="0"/>
+                </xs:sequence>
+                <xs:element ref="tns:Season"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="CopyrightInformation" type="xs:string"/>
+    <xs:element name="Country" type="xs:string"/>
+    <xs:complexType name="DataBankType">
+        <xs:sequence>
+            <xs:element ref="tns:DataBankName"/>
+            <xs:element name="AccessionNumberList" type="tns:AccessionNumberListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataBankListType">
+        <xs:sequence>
+            <xs:element name="DataBank" type="tns:DataBankType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="CompleteYN" default="Y">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Y"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="DataBankName" type="xs:string"/>
+    <xs:complexType name="DateCompletedType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:element ref="tns:Month"/>
+            <xs:element ref="tns:Day"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DateCreatedType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:element ref="tns:Month"/>
+            <xs:element ref="tns:Day"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DateRevisedType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:element ref="tns:Month"/>
+            <xs:element ref="tns:Day"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Day" type="xs:string"/>
+    <xs:complexType name="DeleteCitationType">
+        <xs:sequence>
+            <xs:element name="PMID" type="tns:PMIDType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DeleteDocumentType">
+        <xs:sequence>
+            <xs:element name="PMID" type="tns:PMIDType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DescriptorNameType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="MajorTopicYN" default="N">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Y"/>
+                            <xs:enumeration value="N"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="Type">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Geographic"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="ELocationIDType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="EIdType" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="doi"/>
+                            <xs:enumeration value="pii"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="ValidYN" default="Y">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Y"/>
+                            <xs:enumeration value="N"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="Edition" type="xs:string"/>
+    <xs:element name="EndPage" type="xs:string"/>
+    <xs:complexType name="EndingDateType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:choice minOccurs="0">
+                <xs:sequence>
+                    <xs:element ref="tns:Month"/>
+                    <xs:element ref="tns:Day" minOccurs="0"/>
+                </xs:sequence>
+                <xs:element ref="tns:Season"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ForeName" type="xs:string"/>
+    <xs:element name="GeneSymbol" type="xs:string"/>
+    <xs:complexType name="GeneSymbolListType">
+        <xs:sequence>
+            <xs:element ref="tns:GeneSymbol" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="GeneralNoteType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Owner" default="NLM">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="NLM"/>
+                            <xs:enumeration value="NASA"/>
+                            <xs:enumeration value="PIP"/>
+                            <xs:enumeration value="KIE"/>
+                            <xs:enumeration value="HSR"/>
+                            <xs:enumeration value="HMD"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="GrantType">
+        <xs:sequence>
+            <xs:element ref="tns:GrantID" minOccurs="0"/>
+            <xs:element ref="tns:Acronym" minOccurs="0"/>
+            <xs:element ref="tns:Agency"/>
+            <xs:element ref="tns:Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="GrantID" type="xs:string"/>
+    <xs:complexType name="GrantListType">
+        <xs:sequence>
+            <xs:element name="Grant" type="tns:GrantType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="CompleteYN" default="Y">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Y"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="GroupList">
+        <xs:complexType/>
+    </xs:element>
+    <xs:complexType name="HistoryType">
+        <xs:sequence>
+            <xs:element name="PubMedPubDate" type="tns:PubMedPubDateType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Hour" type="xs:string"/>
+    <xs:element name="ISOAbbreviation" type="xs:string"/>
+    <xs:complexType name="ISSNType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="IssnType" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Electronic"/>
+                            <xs:enumeration value="Print"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="ISSNLinking" type="xs:string"/>
+    <xs:element name="Initials" type="xs:string"/>
+    <xs:complexType name="InvestigatorType">
+        <xs:sequence>
+            <xs:element ref="tns:LastName"/>
+            <xs:element ref="tns:ForeName" minOccurs="0"/>
+            <xs:element ref="tns:Initials" minOccurs="0"/>
+            <!-- xs:element name="Suffix" type="tns:SuffixType" minOccurs="0"/ -->
+            <xs:element name="Suffix" type="xs:string" minOccurs="0"/>
+            <!-- backward compatibility 
+                 NameID is renamed to Identifier
+            -->
+            <xs:element name="NameID" type="tns:IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Identifier" type="tns:IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <!-- xs:element name="Affiliation" type="tns:AffiliationType" minOccurs="0"/ -->
+            <xs:element name="Affiliation" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="ValidYN" default="Y">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Y"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="InvestigatorListType">
+        <xs:sequence>
+            <xs:element name="Investigator" type="tns:InvestigatorType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Isbn" type="xs:string"/>
+    <xs:element name="Issue" type="xs:string"/>
+    <xs:complexType name="JournalType">
+        <xs:sequence>
+            <xs:element name="ISSN" type="tns:ISSNType" minOccurs="0"/>
+            <xs:element name="JournalIssue" type="tns:JournalIssueType"/>
+            <xs:element ref="tns:Title" minOccurs="0"/>
+            <xs:element ref="tns:ISOAbbreviation" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="JournalIssueType">
+        <xs:sequence>
+            <xs:element ref="tns:Volume" minOccurs="0"/>
+            <xs:element ref="tns:Issue" minOccurs="0"/>
+            <xs:element name="PubDate" type="tns:PubDateType"/>
+        </xs:sequence>
+        <xs:attribute name="CitedMedium" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Internet"/>
+                    <xs:enumeration value="Print"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    
+    <xs:complexType name="KeywordType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="MajorTopicYN" default="N">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Y"/>
+                            <xs:enumeration value="N"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+<!--    
+    <xs:complexType name="KeywordType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+        <xs:attribute name="MajorTopicYN" default="N">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Y"/>
+                    <xs:enumeration value="N"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+-->    
+
+    <xs:complexType name="KeywordListType">
+        <xs:sequence>
+            <xs:element name="Keyword" type="tns:KeywordType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Owner" default="NLM">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="NLM"/>
+                    <xs:enumeration value="NLM-AUTO"/>
+                    <xs:enumeration value="NASA"/>
+                    <xs:enumeration value="PIP"/>
+                    <xs:enumeration value="KIE"/>
+                    <xs:enumeration value="NOTNLM"/>
+                    <xs:enumeration value="HHS"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="Language" type="xs:string"/>
+    <xs:element name="LastName" type="xs:string"/>
+    <xs:complexType name="LocationLabelType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Type">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="part"/>
+                            <xs:enumeration value="chapter"/>
+                            <xs:enumeration value="section"/>
+                            <xs:enumeration value="appendix"/>
+                            <xs:enumeration value="figure"/>
+                            <xs:enumeration value="table"/>
+                            <xs:enumeration value="box"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="Medium" type="xs:string"/>
+    <xs:complexType name="MedlineCitationType">
+        <xs:sequence>
+            <xs:element name="PMID" type="tns:PMIDType"/>
+            <xs:element name="DateCreated" type="tns:DateCreatedType"/>
+            <xs:element name="DateCompleted" type="tns:DateCompletedType" minOccurs="0"/>
+            <xs:element name="DateRevised" type="tns:DateRevisedType" minOccurs="0"/>
+            <xs:element name="Article" type="tns:ArticleType"/>
+            <xs:element name="MedlineJournalInfo" type="tns:MedlineJournalInfoType"/>
+            <xs:element name="ChemicalList" type="tns:ChemicalListType" minOccurs="0"/>
+            <xs:element name="SupplMeshList" type="tns:SupplMeshListType" minOccurs="0"/>
+            <xs:element ref="tns:CitationSubset" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="CommentsCorrectionsList" type="tns:CommentsCorrectionsListType" minOccurs="0"/>
+            <xs:element name="GeneSymbolList" type="tns:GeneSymbolListType" minOccurs="0"/>
+            <xs:element name="MeshHeadingList" type="tns:MeshHeadingListType" minOccurs="0"/>
+            <xs:element ref="tns:NumberOfReferences" minOccurs="0"/>
+            <xs:element name="PersonalNameSubjectList" type="tns:PersonalNameSubjectListType" minOccurs="0"/>
+            <xs:element name="OtherID" type="tns:OtherIDType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="OtherAbstract" type="tns:OtherAbstractType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="KeywordList" type="tns:KeywordListType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="tns:SpaceFlightMission" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="InvestigatorList" type="tns:InvestigatorListType" minOccurs="0"/>
+            <xs:element name="GeneralNote" type="tns:GeneralNoteType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Owner" default="NLM">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="NLM"/>
+                    <xs:enumeration value="NASA"/>
+                    <xs:enumeration value="PIP"/>
+                    <xs:enumeration value="KIE"/>
+                    <xs:enumeration value="HSR"/>
+                    <xs:enumeration value="HMD"/>
+                    <xs:enumeration value="NOTNLM"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="Status" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Completed"/>
+                    <xs:enumeration value="In-Process"/>
+                    <xs:enumeration value="PubMed-not-MEDLINE"/>
+                    <xs:enumeration value="In-Data-Review"/>
+                    <xs:enumeration value="Publisher"/>
+                    <xs:enumeration value="MEDLINE"/>
+                    <xs:enumeration value="OLDMEDLINE"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="VersionID" type="xs:string"/>
+        <xs:attribute name="VersionDate" type="xs:string"/>
+    </xs:complexType>
+    <xs:element name="MedlineCitationSet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MedlineCitation" type="tns:MedlineCitationType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="DeleteCitation" type="tns:DeleteCitationType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MedlineDate" type="xs:string"/>
+    <xs:complexType name="MedlineJournalInfoType">
+        <xs:sequence>
+            <xs:element ref="tns:Country" minOccurs="0"/>
+            <xs:element ref="tns:MedlineTA"/>
+            <xs:element ref="tns:NlmUniqueID" minOccurs="0"/>
+            <xs:element ref="tns:ISSNLinking" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="MedlinePgn" type="xs:string"/>
+    <xs:element name="MedlineTA" type="xs:string"/>
+    <xs:complexType name="MeshHeadingType">
+        <xs:sequence>
+            <xs:element name="DescriptorName" type="tns:DescriptorNameType"/>
+            <xs:element name="QualifierName" type="tns:QualifierNameType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MeshHeadingListType">
+        <xs:sequence>
+            <xs:element name="MeshHeading" type="tns:MeshHeadingType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Minute" type="xs:string"/>
+    <xs:element name="Month" type="xs:string"/>
+    <xs:complexType name="IdentifierType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Source" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="NameOfSubstance" type="xs:string"/>
+    <xs:element name="NlmUniqueID" type="xs:string"/>
+    <xs:element name="Note" type="xs:string"/>
+    <xs:element name="NumberOfReferences" type="xs:string"/>
+    <xs:complexType name="ObjectType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Param" type="tns:ParamType"/>
+        </xs:sequence>
+        <xs:attribute name="Type" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="ObjectListType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element name="Object" type="tns:ObjectType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OtherAbstractType">
+        <xs:sequence>
+            <xs:element name="AbstractText" type="tns:AbstractTextType" maxOccurs="unbounded"/>
+            <xs:element ref="tns:CopyrightInformation" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="Type" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="AAMC"/>
+                    <xs:enumeration value="AIDS"/>
+                    <xs:enumeration value="KIE"/>
+                    <xs:enumeration value="PIP"/>
+                    <xs:enumeration value="NASA"/>
+                    <xs:enumeration value="Publisher"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="Language" type="xs:string" default="eng"/>
+    </xs:complexType>
+    <xs:complexType name="OtherIDType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Source" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="NASA"/>
+                            <xs:enumeration value="KIE"/>
+                            <xs:enumeration value="PIP"/>
+                            <xs:enumeration value="POP"/>
+                            <xs:enumeration value="ARPL"/>
+                            <xs:enumeration value="CPC"/>
+                            <xs:enumeration value="IND"/>
+                            <xs:enumeration value="CPFH"/>
+                            <xs:enumeration value="CLML"/>
+                            <xs:enumeration value="NRCBL"/>
+                            <xs:enumeration value="NLM"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="PMIDType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <!-- xs:attribute name="Version" type="xs:string" use="required"/ -->
+                <!-- 2011 - 2010 backward compatibility ; return use=required after switching to new DTD -->
+                <xs:attribute name="Version" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="PaginationType">
+        <xs:choice>
+            <xs:sequence>
+                <xs:element ref="tns:StartPage"/>
+                <xs:element ref="tns:EndPage" minOccurs="0"/>
+                <xs:element ref="tns:MedlinePgn" minOccurs="0"/>
+            </xs:sequence>
+            <xs:element ref="tns:MedlinePgn"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="ParamType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Name" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="PersonalNameSubjectType">
+        <xs:sequence>
+            <xs:element ref="tns:LastName"/>
+            <xs:element ref="tns:ForeName" minOccurs="0"/>
+            <xs:element ref="tns:Initials" minOccurs="0"/>
+            <!-- xs:element name="Suffix" type="tns:SuffixType" minOccurs="0"/ -->
+            <xs:element name="Suffix" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PersonalNameSubjectListType">
+        <xs:sequence>
+            <xs:element name="PersonalNameSubject" type="tns:PersonalNameSubjectType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PubDateType">
+        <xs:choice>
+            <xs:sequence>
+                <xs:element ref="tns:Year"/>
+                <xs:choice minOccurs="0">
+                    <xs:sequence>
+                        <xs:element ref="tns:Month"/>
+                        <xs:element ref="tns:Day" minOccurs="0"/>
+                    </xs:sequence>
+                    <xs:element ref="tns:Season"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:element ref="tns:MedlineDate"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="PubMedPubDateType">
+        <xs:sequence>
+            <xs:element ref="tns:Year"/>
+            <xs:element ref="tns:Month"/>
+            <xs:element ref="tns:Day"/>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="tns:Hour"/>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="tns:Minute"/>
+                    <xs:element ref="tns:Second" minOccurs="0"/>
+                </xs:sequence>
+            </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="PubStatus" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="received"/>
+                    <xs:enumeration value="accepted"/>
+                    <xs:enumeration value="epublish"/>
+                    <xs:enumeration value="ppublish"/>
+                    <xs:enumeration value="revised"/>
+                    <xs:enumeration value="aheadofprint"/>
+                    <xs:enumeration value="retracted"/>
+                    <xs:enumeration value="ecollection"/>
+                    <xs:enumeration value="pmc"/>
+                    <xs:enumeration value="pmcr"/>
+                    <xs:enumeration value="pubmed"/>
+                    <xs:enumeration value="pubmedr"/>
+                    <xs:enumeration value="premedline"/>
+                    <xs:enumeration value="medline"/>
+                    <xs:enumeration value="medliner"/>
+                    <xs:enumeration value="entrez"/>
+                    <xs:enumeration value="pmc-release"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="PublicationStatus" type="xs:string"/>
+    <xs:element name="PublicationType" type="xs:string"/>
+    <xs:complexType name="PublicationTypeListType">
+        <xs:sequence>
+            <xs:element ref="tns:PublicationType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PublisherType">
+        <xs:sequence>
+            <!-- xs:element name="PublisherName" type="tns:PublisherNameType"/ -->
+            <xs:element name="PublisherName" type="xs:string"/>
+            <xs:element ref="tns:PublisherLocation" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="PublisherLocation" type="xs:string"/>
+
+<!--
+    <xs:complexType name="PublisherNameType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->
+    
+    <xs:complexType name="PubmedArticleType">
+        <xs:sequence>
+            <xs:element name="MedlineCitation" type="tns:MedlineCitationType"/>
+            <xs:element name="PubmedData" type="tns:PubmedDataType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="PubmedArticleSet">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="PubmedArticle" type="tns:PubmedArticleType"/>
+                <xs:element name="PubmedBookArticle" type="tns:PubmedBookArticleType"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="PubmedBookArticleType">
+        <xs:sequence>
+            <xs:element name="BookDocument" type="tns:BookDocumentType"/>
+            <xs:element name="PubmedBookData" type="tns:PubmedBookDataType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="PubmedBookArticleSet">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="PubmedBookArticle" type="tns:PubmedBookArticleType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="PubmedBookDataType">
+        <xs:sequence>
+            <xs:element name="History" type="tns:HistoryType" minOccurs="0"/>
+            <xs:element ref="tns:PublicationStatus"/>
+            <xs:element name="ArticleIdList" type="tns:ArticleIdListType"/>
+            <xs:element name="ObjectList" type="tns:ObjectListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PubmedDataType">
+        <xs:sequence>
+            <xs:element name="History" type="tns:HistoryType" minOccurs="0"/>
+            <xs:element ref="tns:PublicationStatus"/>
+            <xs:element name="ArticleIdList" type="tns:ArticleIdListType"/>
+            <xs:element name="ObjectList" type="tns:ObjectListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="QualifierNameType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="MajorTopicYN" default="N">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Y"/>
+                            <xs:enumeration value="N"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="RefSource" type="xs:string"/>
+    <xs:element name="RegistryNumber" type="xs:string"/>
+    <xs:element name="ReportNumber" type="xs:string"/>
+    <xs:element name="Season" type="xs:string"/>
+    <xs:element name="Second" type="xs:string"/>
+    <xs:complexType name="SectionType">
+        <xs:sequence>
+            <xs:element name="LocationLabel" type="tns:LocationLabelType" minOccurs="0"/>
+            <xs:element name="SectionTitle" type="tns:SectionTitleType"/>
+            <xs:element name="Section" type="tns:SectionType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="SectionTitleType">
+       <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="book" type="xs:string"/>
+                <xs:attribute name="part" type="xs:string"/>
+                <xs:attribute name="sec" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+<!--
+    <xs:complexType name="SectionTitleType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+        <xs:attribute name="book" type="xs:string"/>
+        <xs:attribute name="part" type="xs:string"/>
+        <xs:attribute name="sec" type="xs:string"/>
+    </xs:complexType>
+-->    
+    <xs:complexType name="SectionsType">
+        <xs:sequence>
+            <xs:element name="Section" type="tns:SectionType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="SpaceFlightMission" type="xs:string"/>
+    <xs:element name="StartPage" type="xs:string"/>
+
+<!--
+    <xs:complexType name="SuffixType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->
+
+    <xs:complexType name="SupplMeshListType">
+        <xs:sequence>
+            <xs:element name="SupplMeshName" type="tns:SupplMeshNameType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SupplMeshNameType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="Type" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Disease"/>
+                            <xs:enumeration value="Protocol"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="Title" type="xs:string"/>
+    <xs:element name="URL">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="lang">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                                <xs:enumeration value="AF"/>
+                                <xs:enumeration value="AR"/>
+                                <xs:enumeration value="AZ"/>
+                                <xs:enumeration value="BG"/>
+                                <xs:enumeration value="CS"/>
+                                <xs:enumeration value="DA"/>
+                                <xs:enumeration value="DE"/>
+                                <xs:enumeration value="EN"/>
+                                <xs:enumeration value="EL"/>
+                                <xs:enumeration value="ES"/>
+                                <xs:enumeration value="FA"/>
+                                <xs:enumeration value="FI"/>
+                                <xs:enumeration value="FR"/>
+                                <xs:enumeration value="HE"/>
+                                <xs:enumeration value="HU"/>
+                                <xs:enumeration value="HY"/>
+                                <xs:enumeration value="IN"/>
+                                <xs:enumeration value="IS"/>
+                                <xs:enumeration value="IT"/>
+                                <xs:enumeration value="IW"/>
+                                <xs:enumeration value="JA"/>
+                                <xs:enumeration value="KA"/>
+                                <xs:enumeration value="KO"/>
+                                <xs:enumeration value="LT"/>
+                                <xs:enumeration value="MK"/>
+                                <xs:enumeration value="ML"/>
+                                <xs:enumeration value="NL"/>
+                                <xs:enumeration value="NO"/>
+                                <xs:enumeration value="PL"/>
+                                <xs:enumeration value="PT"/>
+                                <xs:enumeration value="PS"/>
+                                <xs:enumeration value="RO"/>
+                                <xs:enumeration value="RU"/>
+                                <xs:enumeration value="SL"/>
+                                <xs:enumeration value="SK"/>
+                                <xs:enumeration value="SQ"/>
+                                <xs:enumeration value="SR"/>
+                                <xs:enumeration value="SV"/>
+                                <xs:enumeration value="SW"/>
+                                <xs:enumeration value="TH"/>
+                                <xs:enumeration value="TR"/>
+                                <xs:enumeration value="UK"/>
+                                <xs:enumeration value="VI"/>
+                                <xs:enumeration value="ZH"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Type">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                                <xs:enumeration value="FullText"/>
+                                <xs:enumeration value="Summary"/>
+                                <xs:enumeration value="fulltext"/>
+                                <xs:enumeration value="summary"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    
+<!--
+    <xs:complexType name="VernacularTitleType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->
+    
+    <xs:element name="Volume" type="xs:string"/>
+    
+<!--    
+    <xs:complexType name="VolumeTitleType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->    
+    <xs:element name="Year" type="xs:string"/>
+    
+<!--
+    <xs:complexType name="bType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="iType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="subType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="supType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="uType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="b" type="tns:bType"/>
+            <xs:element name="i" type="tns:iType"/>
+            <xs:element name="sup" type="tns:supType"/>
+            <xs:element name="sub" type="tns:subType"/>
+            <xs:element name="u" type="tns:uType"/>
+        </xs:choice>
+    </xs:complexType>
+-->
+    
+</xs:schema>

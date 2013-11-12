@@ -34,6 +34,7 @@ import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
+import org.emonocot.model.PhylogeneticTree;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.TypeAndSpecimen;
@@ -257,6 +258,8 @@ public class CommentController extends GenericController<Comment, CommentService
             return "redirect:taxon/" + commentPage.getIdentifier();
         }  else if (commentPage instanceof Image) {
             return "redirect:image/" + commentPage.getId();
+        }  else if (commentPage instanceof PhylogeneticTree) {
+            return "redirect:phylo/" + commentPage.getId();
         } else if (commentPage instanceof IdentificationKey) {
             return "redirect:key/" + commentPage.getId();
         } else if (commentPage instanceof Concept) {

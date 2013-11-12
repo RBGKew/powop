@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/esearch" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/esearch" 
+    elementFormDefault="qualified"
+>
+    
+    <!--  version="2.0" -->
+    <!--  http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eSearch_020511.dtd  date: 2006-06-28  -->
+    
+    <xs:element name="Count" type="xs:string"/>
+    <xs:element name="ERROR" type="xs:string"/>
+    <xs:element name="Explode" type="xs:string"/>
+    <xs:element name="FieldNotFound" type="xs:string"/>
+    <xs:element name="From" type="xs:string"/>
+    <xs:element name="Id" type="xs:string"/>
+    <xs:element name="OutputMessage" type="xs:string"/>
+    <xs:element name="PhraseIgnored" type="xs:string"/>
+    <xs:element name="PhraseNotFound" type="xs:string"/>
+    <xs:element name="QueryKey" type="xs:string"/>
+    <xs:element name="QueryTranslation" type="xs:string"/>
+    <xs:element name="QuotedPhraseNotFound" type="xs:string"/>
+    <xs:element name="RetMax" type="xs:string"/>
+    <xs:element name="RetStart" type="xs:string"/>
+    <xs:element name="To" type="xs:string"/>
+    <xs:element name="WebEnv" type="xs:string"/>
+    <xs:complexType name="ErrorListType">
+        <xs:sequence>
+            <xs:element ref="tns:PhraseNotFound" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="tns:FieldNotFound" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="IdListType">
+        <xs:sequence>
+            <xs:element ref="tns:Id" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TermSetType">
+        <xs:sequence>
+            <xs:element name="Term" type="xs:string" />
+            <xs:element name="Field" type="xs:string" />
+            <xs:element ref="tns:Count"/>
+            <xs:element ref="tns:Explode"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TranslationType">
+        <xs:sequence>
+            <xs:element ref="tns:From"/>
+            <xs:element ref="tns:To"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TranslationSetType">
+        <xs:sequence>
+            <xs:element name="Translation" type="tns:TranslationType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TranslationStackType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="TermSet" type="tns:TermSetType"/>
+            <xs:element name="OP" type="xs:string" />
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="WarningListType">
+        <xs:sequence>
+            <xs:element ref="tns:PhraseIgnored" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="tns:QuotedPhraseNotFound" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="tns:OutputMessage" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="eSearchResult">
+        <xs:complexType>
+            <xs:sequence>
+				<xs:element ref="tns:ERROR" minOccurs="0"/>
+				<xs:element ref="tns:Count" minOccurs="0"/>
+				<xs:element ref="tns:RetMax" minOccurs="0"/>
+				<xs:element ref="tns:RetStart" minOccurs="0"/>
+				<xs:element ref="tns:QueryKey" minOccurs="0"/>
+				<xs:element ref="tns:WebEnv" minOccurs="0"/>
+				<xs:element name="IdList" type="tns:IdListType" minOccurs="0"/>
+				<xs:element name="TranslationSet" type="tns:TranslationSetType" minOccurs="0"/>
+				<xs:element name="TranslationStack" type="tns:TranslationStackType" minOccurs="0"/>
+				<xs:element ref="tns:QueryTranslation" minOccurs="0"/>
+				<xs:element name="ErrorList" type="tns:ErrorListType" minOccurs="0"/>
+				<xs:element name="WarningList" type="tns:WarningListType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+<!--  TOO COMPLEX FOR AXIS2
+    <xs:element name="eSearchResult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:sequence minOccurs="0">
+                    <xs:element ref="tns:ERROR" minOccurs="0"/>
+                    <xs:sequence minOccurs="0">
+                        <xs:element ref="tns:Count" minOccurs="0"/>
+                        <xs:sequence minOccurs="0">
+                            <xs:element ref="tns:RetMax" minOccurs="0"/>
+                            <xs:element ref="tns:RetStart" minOccurs="0"/>
+                            <xs:element ref="tns:QueryKey" minOccurs="0"/>
+                            <xs:element ref="tns:WebEnv" minOccurs="0"/>
+                            <xs:element name="IdList" type="tns:IdListType" minOccurs="0"/>
+                            <xs:element name="TranslationSet" type="tns:TranslationSetType" minOccurs="0"/>
+                            <xs:element name="TranslationStack" type="tns:TranslationStackType" minOccurs="0"/>
+                            <xs:element ref="tns:QueryTranslation" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:sequence>
+                </xs:sequence>
+                <xs:element name="ErrorList" type="tns:ErrorListType" minOccurs="0"/>
+                <xs:element name="WarningList" type="tns:WarningListType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+-->
+	
+	<!-- input params -->
+    <xs:element name="db" type="xs:string" />
+    <xs:element name="term" type="xs:string" />
+    <xs:element name="usehistory" type="xs:string" />
+    <xs:element name="tool" type="xs:string" />
+    <xs:element name="email" type="xs:string" />
+    <xs:element name="field" type="xs:string" />
+    <xs:element name="reldate" type="xs:string" />
+    <xs:element name="mindate" type="xs:string" />
+    <xs:element name="maxdate" type="xs:string" />
+    <xs:element name="datetype" type="xs:string" />
+    <xs:element name="rettype" type="xs:string" />
+    <xs:element name="sort" type="xs:string" />
+    <xs:element name="eSearchRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:db" minOccurs="0"/>
+                <xs:element ref="tns:term" minOccurs="0"/>
+                <xs:element ref="tns:WebEnv" minOccurs="0"/>
+                <xs:element ref="tns:QueryKey" minOccurs="0"/>
+                <xs:element ref="tns:usehistory" minOccurs="0"/>
+                <xs:element ref="tns:tool" minOccurs="0"/>
+                <xs:element ref="tns:email" minOccurs="0"/>
+                <xs:element ref="tns:field" minOccurs="0"/>
+                <xs:element ref="tns:reldate" minOccurs="0"/>
+                <xs:element ref="tns:mindate" minOccurs="0"/>
+                <xs:element ref="tns:maxdate" minOccurs="0"/>
+                <xs:element ref="tns:datetype" minOccurs="0"/>
+                <xs:element ref="tns:RetStart" minOccurs="0"/>
+                <xs:element ref="tns:RetMax" minOccurs="0"/>
+                <xs:element ref="tns:rettype" minOccurs="0"/>
+                <xs:element ref="tns:sort" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

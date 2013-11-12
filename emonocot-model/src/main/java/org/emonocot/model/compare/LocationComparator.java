@@ -18,64 +18,25 @@ public class LocationComparator implements
      * @return -1 if o1 comes before o2, 1 if o1 comes after o2 and 0 if the two
      *         regions are equal
      */
-    public final int compare(final Location o1,
-            final Location o2) {
-    	switch(o1.getLevel()) {
-    	case 0:
-    		switch(o2.getLevel()) {
-        	case 0:
-        		return o1.compareNames(o2);
-        	case 1:
-        		return o1.compareNames(o2.getParent());
-        	case 2:
-        		return o1.compareNames(o2.getParent().getParent());
-        	default:
-        		return 0;    	
-        	}
-    	case 1:
-    		switch(o2.getLevel()) {
-        	case 0:
-        		return o1.getParent().compareNames(o2);
-        	case 1:
-        		if (o1.getParent().compareNames(o2.getParent()) == 0) {
-                    return o1.compareNames(o2);
-                } else {
-                    return o1.getParent().compareNames(o2.getParent());
-                }
-        	case 2:
-                if (o1.getParent().compareNames(o2.getParent().getParent()) == 0) {
-                    return o1.compareNames(o2.getParent());
-                } else {
-                    return o1.getParent().compareNames(o2.getParent().getParent());
-                }
-        	default:
-        		return 0;    	
-        	}
-    	case 2:
-    		switch(o2.getLevel()) {
-        	case 0:
-        		return o1.getParent().getParent().compareNames(o2);
-        	case 1:
-        		if (o1.getParent().getParent().compareNames(o2.getParent()) == 0) {
-                    return o1.getParent().compareNames(o2);
-                } else {
-                    return o1.getParent().getParent().compareNames(o2.getParent());
-                }
-        	case 2:
-        		if (o1.getParent().getParent().compareNames(o2.getParent().getParent()) == 0) {
-                    if (o1.getParent().compareNames(o2.getParent()) == 0) {
-                        return o1.compareNames(o2);
-                    } else {
-                        return o1.getParent().compareNames(o2.getParent());
-                    }
-                } else {
-                    return o1.getParent().getParent().compareNames(o2.getParent().getParent());
-                }
-        	default:
-        		return 0;    	
-        	}
-    	default:
-    		return 0;    	
+    public int compare(Location o1, Location o2) {    	
+    	if(o1.isChildOf(o2)) { 
+    		// o1 is child of o2, returning MAX_VALUE
+    		return Integer.MAX_VALUE;
+    	} else if(o2.isChildOf(o1)) {
+    		// o2 is child of o1, returning MIN_VALUE
+    		return Integer.MIN_VALUE;
+    	} else if(o1.getLevel() < o2.getLevel()) {
+    		// o1 higher level than o2, comparing o1 to o2.parent
+    		return compare(o1,o2.getParent());
+    	} else if(o1.getLevel() > o2.getLevel()) {
+    		// o1 lower level than o2, comparing o1.parent to o2
+    		return compare(o1.getParent(),o2);
+    	} else if(o1.isSiblingOf(o2)) {
+    		// o1 and o2 are siblings, comparing directly
+    		return o1.compareNames(o2);
+    	} else {
+    		// o1 and o2 are of the same level, but are not siblings, comparing o1.parent to o2.parent
+    		return compare(o1.getParent(), o2.getParent());
     	}
     }
 

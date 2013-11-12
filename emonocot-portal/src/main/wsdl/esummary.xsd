@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/esummary" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/esummary" 
+    elementFormDefault="qualified"
+>
+
+    <!--   version="2.0"  -->
+    <!--   http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eSummary_041029.dtd  date:  2004-10-29  -->
+
+    <xs:complexType name="DocSumType">
+        <xs:sequence>
+            <xs:element name="Id" type="xs:string" />
+  	        <xs:element name="Item" type="tns:ItemType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+	
+<!-- Too complex for Axis2 
+    <xs:complexType name="ItemType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Item" type="tns:ItemType"/>
+        </xs:choice>
+        <xs:attribute name="Name" type="xs:string" use="required"/>
+        <xs:attribute name="Type" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Integer"/>
+                    <xs:enumeration value="Date"/>
+                    <xs:enumeration value="String"/>
+                    <xs:enumeration value="Structure"/>
+                    <xs:enumeration value="List"/>
+                    <xs:enumeration value="Flags"/>
+                    <xs:enumeration value="Qualifier"/>
+                    <xs:enumeration value="Enumerator"/>
+                    <xs:enumeration value="Unknown"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+-->	
+    <xs:complexType name="ItemType">
+        <xs:sequence>
+            <xs:element name="Item" type="tns:ItemType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ItemContent" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="Name" type="xs:string" use="required"/>
+        <xs:attribute name="Type" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Integer"/>
+                    <xs:enumeration value="Date"/>
+                    <xs:enumeration value="String"/>
+                    <xs:enumeration value="Structure"/>
+                    <xs:enumeration value="List"/>
+                    <xs:enumeration value="Flags"/>
+                    <xs:enumeration value="Qualifier"/>
+                    <xs:enumeration value="Enumerator"/>
+                    <xs:enumeration value="Unknown"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:element name="eSummaryResult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ERROR"  type="xs:string" minOccurs="0"/>
+                <xs:element name="DocSum" type="tns:DocSumType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<!-- input params -->
+    <xs:element name="db" type="xs:string" />
+    <xs:element name="id" type="xs:string" />
+    <xs:element name="WebEnv" type="xs:string" />
+    <xs:element name="query_key" type="xs:string" />
+    <xs:element name="retstart" type="xs:string" />
+    <xs:element name="retmax" type="xs:string" />
+    <xs:element name="tool" type="xs:string" />
+    <xs:element name="email" type="xs:string" />
+    <xs:element name="eSummaryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:db" minOccurs="0"/>
+                <xs:element ref="tns:id" minOccurs="0"/>
+                <xs:element ref="tns:WebEnv" minOccurs="0"/>
+                <xs:element ref="tns:query_key" minOccurs="0"/>
+                <xs:element ref="tns:retstart" minOccurs="0"/>
+                <xs:element ref="tns:retmax" minOccurs="0"/>
+                <xs:element ref="tns:tool" minOccurs="0"/>
+                <xs:element ref="tns:email" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -84,7 +84,7 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
 			<location>reference.txt</location>
 		</files>
 		<coreid index="0" />
-		<field index="1" term="http://purl.org/dc/terms/modified" />
+		<field index="1" term="http://rs.tdwg.org/dwc/terms/occurrenceID" />
 		<field index="2" term="http://purl.org/dc/terms/created" />
 		<field index="3" term="http://purl.org/dc/terms/identifier" />
 		<field index="4" term="http://purl.org/dc/terms/bibliographicCitation" />
@@ -95,6 +95,27 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
 		<field index="9" term="http://purl.org/ontology/bibo/pages" />
 		<field index="10" term="http://purl.org/dc/terms/description" />
 		<field index="11" term="http://purl.org/dc/terms/date" />
-		<field index="12" term="http://purl.org/dc/terms/creator" />
+		<field index="12" term="http://purl.org/dc/terms/creator" />		
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t"
+		linesTerminatedBy="\n" ignoreHeaderLines="0"
+		rowType="http://rs.gbif.org/terms/1.0/TypesAndSpecimen">
+		<files>
+			<location>specimen.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://rs.tdwg.org/dwc/terms/occurrenceID" />
+		<field index="2" term="http://rs.tdwg.org/dwc/terms/scientificName" />
+		<field index="3" term="http://rs.tdwg.org/dwc/terms/eventDate" />
+		<field index="4" term="http://rs.tdwg.org/dwc/terms/lifeStage" />
+		<field index="5" term="http://rs.tdwg.org/dwc/terms/decimalLatitude" />
+		<field index="6" term="	http://rs.tdwg.org/dwc/terms/decimalLongitude" />
+		<field index="7" term="	http://rs.tdwg.org/dwc/terms/sex" />
+		<field index="8" term="http://purl.org/dc/terms/bibliographicCitation" />
+		<field index="9" term="http://rs.tdwg.org/dwc/terms/recordedBy" />
+		<field index="10" term="http://rs.tdwg.org/dwc/terms/catalogNumber" />
+		<field index="11" term="http://rs.tdwg.org/dwc/terms/collectionCode" />
+		<field index="12" term="http://rs.tdwg.org/dwc/terms/typeStatus" />
+		<field index="13" term="http://rs.gbif.org/terms/1.0/typeDesignationType" />
 	</extension>
 </archive>

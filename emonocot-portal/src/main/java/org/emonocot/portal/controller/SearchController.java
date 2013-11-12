@@ -1,5 +1,6 @@
 package org.emonocot.portal.controller;
 
+import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +25,11 @@ import org.emonocot.pager.Cube;
 import org.emonocot.pager.Dimension;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
+import org.emonocot.portal.controller.form.NcbiDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.view.geojson.Feature;
 import org.emonocot.portal.view.geojson.FeatureCollection;
+import org.emonocot.portal.ws.ncbi.NcbiService;
 import org.restdoc.api.GlobalHeader;
 import org.restdoc.api.MethodDefinition;
 import org.restdoc.api.ParamValidation;
@@ -79,6 +82,8 @@ public class SearchController {
 	
 	private UserService userService;
 	
+	private NcbiService ncbiService;
+	
 	private ObjectMapper objectMapper;
 	
 	@Autowired
@@ -115,6 +120,11 @@ public class SearchController {
     public void setTypeAndSpecimenService(TypeAndSpecimenService typeAndSpecimenService) {
     	this.typeAndSpecimenService = typeAndSpecimenService;
     }
+    
+    @Autowired
+    public void setNcbiService(NcbiService ncbiService) {
+    	this.ncbiService = ncbiService;
+    }
 
 	/**
 	 * @param query
@@ -140,6 +150,9 @@ public class SearchController {
 
 		return result;
 	}
+	
+
+
 
 	/**
 	 * 
@@ -149,23 +162,25 @@ public class SearchController {
 	 *            Set the class name
 	 * @return the default limit
 	 */
-	private Integer setLimit(String view, String className) {
+
+	private String setView(String view, String className) {
 		if (view == null || view == "") {
-			if (className == null) {
-				return 10;
-			} else if (className.equals("org.emonocot.model.Image")) {
-				return 24;
-			} else {
-				return 10;
+			return null;
+		}	else if (view.equals("grid")){
+			if (className == null || className == "") {
+				return null;
+			} else if (className.equals("org.emonocot.model.Image")){
+				return "grid";
+				}
+			else {
+				return null;
 			}
-		} else if (view.equals("list")) {
-			return 10;
-		} else if (view.equals("grid")) {
-			return 24;
-		} else {
-			return 24;
-		}
+			
+		} return view;
 	}
+	
+	
+
 
 	/**
 	 * 
@@ -187,7 +202,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String search(
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
@@ -212,29 +227,29 @@ public class SearchController {
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
 		responseFacetList.add("base.class_s");
-        if(selectedFacets == null) {
-            responseFacetList.add(FacetName.FAMILY.getSolrField());
-        } else {
-            int taxFacetIdx = 1; //Start from FacetName.FAMILY
-            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-                if(!responseFacetList.contains(fn.getSolrField())){
-                    responseFacetList.add(fn.getSolrField());
-                }
-                if(!selectedFacets.containsKey(fn.getSolrField())) {
-                    break;
-                }
-            }
-            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-            }
-        }
+		if(selectedFacets == null) {
+			responseFacetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+			int taxFacetIdx = 1; //Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if(!responseFacetList.contains(fn.getSolrField())){
+					responseFacetList.add(fn.getSolrField());
+				}
+				if(!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
+				}
+			}
+			for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+			}
+		}
 		responseFacetList.add("taxon.distribution_TDWG_0_ss");
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
 		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
-        responseFacetList.add("taxon.taxon_rank_s");
-        responseFacetList.add("taxon.taxonomic_status_s");
+		responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
+		responseFacetList.add("taxon.taxon_rank_s");
+		responseFacetList.add("taxon.taxonomic_status_s");
 		responseFacetList.add("searchable.sources_ss");
 		String className = null;
 		if (selectedFacets == null) {
@@ -255,7 +270,9 @@ public class SearchController {
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
-		limit = setLimit(view, className);
+		view = setView(view,className);
+		//limit = setLimit(view, className);
+
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -270,7 +287,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Page> searchAPI(
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "x1", required = false) Double x1,
@@ -287,7 +304,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/javascript")
 	public ResponseEntity<JSONPObject> searchAPIJSONP(
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "x1", required = false) Double x1,
@@ -335,7 +352,7 @@ public class SearchController {
 			@RequestParam(value = "x2", required = false) Double x2,
 			@RequestParam(value = "y2", required = false) Double y2,
 			@RequestParam(value = "featureId", required = false) String featureId,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
@@ -370,28 +387,28 @@ public class SearchController {
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		responseFacetList.add("base.class_s");
-        if(selectedFacets == null) {
-            responseFacetList.add(FacetName.FAMILY.getSolrField());
-        } else {
-            int taxFacetIdx = 1; //Start from FacetName.FAMILY
-            for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-                FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-                if(!responseFacetList.contains(fn.getSolrField())){
-                    responseFacetList.add(fn.getSolrField());
-                }
-                if(!selectedFacets.containsKey(fn.getSolrField())) {
-                    break;
-                }
-            }
-            for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-                selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-            }
-        }
+		if(selectedFacets == null) {
+			responseFacetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+			int taxFacetIdx = 1; //Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if(!responseFacetList.contains(fn.getSolrField())){
+					responseFacetList.add(fn.getSolrField());
+				}
+				if(!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
+				}
+			}
+			for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
+			}
+		}
 		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
-        responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
-        responseFacetList.add("taxon.taxon_rank_s");
-        responseFacetList.add("taxon.taxonomic_status_s");
+		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
+		responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
+		responseFacetList.add("taxon.taxon_rank_s");
+		responseFacetList.add("taxon.taxonomic_status_s");
 		responseFacetList.add("searchable.sources_ss");
 		String className = null;
 		if (selectedFacets == null) {
@@ -407,7 +424,9 @@ public class SearchController {
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
-		limit = setLimit(view, className);
+		view = setView(view,className);
+		//limit = setLimit(view, className);
+		
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -438,19 +457,8 @@ public class SearchController {
 			@RequestParam(value = "firstCol", required = false, defaultValue = "0") Integer firstCol,
 			@RequestParam(value = "maxCols", required = false, defaultValue = "5") Integer maxCols,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-			@RequestParam(value = "view", required = false, defaultValue = "bar") String view
-			)
+			@RequestParam(value = "view", required = false, defaultValue = "bar") String view)
 			throws Exception {
-
-		List<String> facetList = new ArrayList<String>();
-		facetList.add("taxon.family_ss");
-		facetList.add("taxon.distribution_TDWG_0_ss");
-		facetList.add("taxon.taxon_rank_s");
-		facetList.add("taxon.taxonomic_status_s");
-		facetList.add("searchable.sources_ss");
-		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
-        facetList.add("taxon.measurement_or_fact_Lifeform_txt");
-        facetList.add("taxon.measurement_or_fact_Habitat_txt");
 
 		Map<String, String> selectedFacets = null;
 		if (facets != null && !facets.isEmpty()) {
@@ -461,6 +469,33 @@ public class SearchController {
 			}
 		}
 
+		List<String> facetList = new ArrayList<String>();
+		if (selectedFacets == null) {
+			facetList.add(FacetName.FAMILY.getSolrField());
+		} else {
+			int taxFacetIdx = 1; // Start from FacetName.FAMILY
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
+				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
+				if (!facetList.contains(fn.getSolrField())) {
+					facetList.add(fn.getSolrField());
+				}
+				if (!selectedFacets.containsKey(fn.getSolrField())) {
+					break;
+				}
+			}
+			for (; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
+				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx]
+						.getSolrField());
+			}
+		}
+		facetList.add("taxon.distribution_TDWG_0_ss");
+		facetList.add("taxon.taxon_rank_s");
+		facetList.add("taxon.taxonomic_status_s");
+		facetList.add("searchable.sources_ss");
+		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
+		facetList.add("taxon.measurement_or_fact_Lifeform_txt");
+		facetList.add("taxon.measurement_or_fact_Habitat_txt");
+
 		Cube cube = new Cube(selectedFacets);
 		cube.setDefaultLevel("taxon.order_s");
 		Dimension taxonomy = new Dimension("taxonomy");
@@ -468,6 +503,9 @@ public class SearchController {
 
 		taxonomy.addLevel("taxon.order_s", false);
 		taxonomy.addLevel("taxon.family_ss", false);
+		taxonomy.addLevel("taxon.subfamily_ss", false);
+		taxonomy.addLevel("taxon.tribe_ss", false);
+		taxonomy.addLevel("taxon.subtribe_ss", false);
 		taxonomy.addLevel("taxon.genus_ss", false);
 
 		Dimension distribution = new Dimension("distribution");
@@ -484,28 +522,31 @@ public class SearchController {
 		Dimension taxonomicStatus = new Dimension("taxonomicStatus");
 		cube.addDimension(taxonomicStatus);
 		taxonomicStatus.addLevel("taxon.taxonomic_status_s", false);
-		
+
 		Dimension lifeForm = new Dimension("lifeForm");
 		cube.addDimension(lifeForm);
 		lifeForm.addLevel("taxon.measurement_or_fact_Lifeform_txt", false);
-		
+
 		Dimension habitat = new Dimension("habitat");
 		cube.addDimension(habitat);
 		habitat.addLevel("taxon.measurement_or_fact_Habitat_txt", false);
-		
+
 		Dimension conservationStatus = new Dimension("conservationStatus");
 		cube.addDimension(conservationStatus);
-		conservationStatus.addLevel("taxon.measurement_or_fact_threatStatus_txt", false);
-		
+		conservationStatus.addLevel(
+				"taxon.measurement_or_fact_threatStatus_txt", false);
+
 		Dimension withDescriptions = new Dimension("hasDescriptions");
 		cube.addDimension(withDescriptions);
 		withDescriptions.addLevel("taxon.descriptions_not_empty_b", false);
-		
+
 		Dimension withImages = new Dimension("hasImages");
 		cube.addDimension(withImages);
 		withImages.addLevel("taxon.images_not_empty_b", false);
 
-		CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol, maxCols,firstRow, maxRows, selectedFacets,	facetList.toArray(new String[facetList.size()]), cube);
+		CellSet cellSet = searchableObjectService.analyse(rows, cols, firstCol,
+				maxCols, firstRow, maxRows, selectedFacets,
+				facetList.toArray(new String[facetList.size()]), cube);
 
 		uiModel.addAttribute("cellSet", cellSet);
 		uiModel.addAttribute("view", view);
@@ -616,6 +657,20 @@ public class SearchController {
         
         return new ResponseEntity<RestDoc>(restDoc,HttpStatus.OK);
     }
+	
+	@RequestMapping(value = "/ncbi", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<NcbiDto> ncbi(@RequestParam(value = "query", required = true) String query) {
+		NcbiDto ncbiDto = new NcbiDto();
+		try {
+			ncbiDto = ncbiService.issueRequest(query);
+		} catch (RemoteException re) {
+			logger.error("Exception using NCBI Service :" + re.getMessage());
+			return new ResponseEntity<NcbiDto>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<NcbiDto>(ncbiDto,HttpStatus.OK);
+	}
+	
 	
 	@RequestMapping(value = "/geo", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	public ResponseEntity<FeatureCollection> spatial(

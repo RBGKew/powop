@@ -107,6 +107,12 @@ public class ArchiveMetadataWriter implements Tasklet {
 	private String subject;
 	
 	private String title;
+
+	private int ignoreHeaderLines = 0;
+	
+	public void setIgnoreHeaderLines(int ignoreHeaderLines) {
+		this.ignoreHeaderLines = ignoreHeaderLines;
+	}
 	
 	public void setCitationString(String citationString) {
 		this.citationString = citationString;
@@ -270,31 +276,31 @@ public class ArchiveMetadataWriter implements Tasklet {
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
 		Archive archive = new Archive();		
 		
-		archive.setCore(buildArchiveFile(taxonFields,taxonDefaultValues,DwcTerm.Taxon, DwcTerm.taxonID,"taxon.txt",0,"UTF-8",quoteCharacter,delimiter));
+		archive.setCore(buildArchiveFile(taxonFields,taxonDefaultValues,DwcTerm.Taxon, DwcTerm.taxonID,"taxon.txt",ignoreHeaderLines ,"UTF-8",quoteCharacter,delimiter));
 		
 		if(descriptionFields != null) {
-			archive.addExtension(buildArchiveFile(descriptionFields,descriptionDefaultValues,GbifTerm.Description, DwcTerm.taxonID,"description.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(descriptionFields,descriptionDefaultValues,GbifTerm.Description, DwcTerm.taxonID,"description.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(distributionFields != null) {
-			archive.addExtension(buildArchiveFile(distributionFields,distributionDefaultValues,GbifTerm.Distribution, DwcTerm.taxonID,"distribution.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(distributionFields,distributionDefaultValues,GbifTerm.Distribution, DwcTerm.taxonID,"distribution.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(referenceFields != null) {
-			archive.addExtension(buildArchiveFile(referenceFields,referenceDefaultValues,GbifTerm.Reference, DwcTerm.taxonID,"reference.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(referenceFields,referenceDefaultValues,GbifTerm.Reference, DwcTerm.taxonID,"reference.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(imageFields != null) {
-			archive.addExtension(buildArchiveFile(imageFields,imageDefaultValues,GbifTerm.Image, DwcTerm.taxonID,"image.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(imageFields,imageDefaultValues,GbifTerm.Image, DwcTerm.taxonID,"image.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(typeAndSpecimenFields != null) {
-			archive.addExtension(buildArchiveFile(typeAndSpecimenFields,typeAndSpecimenDefaultValues,GbifTerm.TypesAndSpecimen, DwcTerm.taxonID,"typeAndSpecimen.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(typeAndSpecimenFields,typeAndSpecimenDefaultValues,GbifTerm.TypesAndSpecimen, DwcTerm.taxonID,"typeAndSpecimen.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(measurementOrFactFields != null) {
-			archive.addExtension(buildArchiveFile(measurementOrFactFields,measurementOrFactDefaultValues,DwcTerm.MeasurementOrFact, DwcTerm.taxonID,"measurementOrFact.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(measurementOrFactFields,measurementOrFactDefaultValues,DwcTerm.MeasurementOrFact, DwcTerm.taxonID,"measurementOrFact.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(vernacularNameFields != null) {
-			archive.addExtension(buildArchiveFile(vernacularNameFields,vernacularNameDefaultValues,GbifTerm.VernacularName, DwcTerm.taxonID,"vernacularName.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(vernacularNameFields,vernacularNameDefaultValues,GbifTerm.VernacularName, DwcTerm.taxonID,"vernacularName.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(identifierFields != null) {
-			archive.addExtension(buildArchiveFile(identifierFields,identifierDefaultValues,GbifTerm.Identifier, DwcTerm.taxonID,"identifier.txt",0,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(identifierFields,identifierDefaultValues,GbifTerm.Identifier, DwcTerm.taxonID,"identifier.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		
 		archive.setMetadataLocation("eml.xml");

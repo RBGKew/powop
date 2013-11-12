@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/einfo" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/einfo" 
+    elementFormDefault="qualified"
+>
+
+    <!--   version="2.0" -->
+    <!--   http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eInfo_020511.dtd  date: 2006-12-04 -->
+
+    <xs:complexType name="DbInfoType">
+        <xs:sequence>
+            <xs:element name="DbName" type="xs:string"/>
+            <xs:element name="MenuName" type="xs:string"/>
+            <xs:element name="Description" type="xs:string"/>
+            <xs:element name="Count" type="xs:string"/>
+            <xs:element name="LastUpdate" type="xs:string"/>
+            <xs:element name="FieldList" type="tns:FieldListType"/>
+            <xs:element name="LinkList" type="tns:LinkListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DbListType">
+        <xs:choice>
+            <xs:element name="DbName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="FieldType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="FullName" type="xs:string"/>
+            <xs:element name="Description" type="xs:string"/>
+            <xs:element name="TermCount" type="xs:string"/>
+            <xs:element name="IsDate" type="xs:string"/>
+            <xs:element name="IsNumerical" type="xs:string"/>
+            <xs:element name="SingleToken" type="xs:string"/>
+            <xs:element name="Hierarchy" type="xs:string"/>
+            <xs:element name="IsHidden" type="xs:string"/>
+			<xs:element name="IsRangable" type="xs:string" minOccurs="0"/>
+			<xs:element name="IsTruncatable" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="FieldListType">
+        <xs:sequence>
+            <xs:element name="Field" type="tns:FieldType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LinkType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Menu" type="xs:string"/>
+            <xs:element name="Description" type="xs:string"/>
+            <xs:element name="DbTo" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LinkListType">
+        <xs:sequence>
+            <xs:element name="Link" type="tns:LinkType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+	<!-- input params -->
+    <xs:element name="db" type="xs:string" />
+    <xs:element name="tool" type="xs:string" />
+    <xs:element name="email" type="xs:string" />
+
+    <xs:element name="eInfoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:db" minOccurs="0"/>
+                <xs:element ref="tns:tool" minOccurs="0"/>
+                <xs:element ref="tns:email" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<!-- output params -->
+    <xs:element name="eInfoResult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ERROR" type="xs:string" minOccurs="0"/>
+                <xs:element name="DbList" type="tns:DbListType" minOccurs="0"/>
+                <xs:element name="DbInfo" type="tns:DbInfoType" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>

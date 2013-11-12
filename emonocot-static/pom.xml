@@ -150,6 +150,7 @@
                           <include>${basedir}/src/main/js/jquery-ui.min.js</include>
                           <include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
                           <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
+                          <include>${basedir}/src/main/js/jquery.cookie.js</include>
                           <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
                           <include>${basedir}/src/main/js/jsphylosvg/jsphylosvg.js</include>
                           <include>${basedir}/src/main/js/jsphylosvg/raphael-min.js</include>
@@ -175,7 +176,7 @@
                           <include>${basedir}/src/main/js/html5shiv.js</include>
                           <include>${basedir}/src/main/js/jsKey/keys.js</include>
                           <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
-                          <include>${basedir}/src/main/js/jquery.cookie.js</include>
+                          <include>${basedir}/src/main/js/jquery.total-storage.js</include>
                           <include>${basedir}/src/main/js/jquery.zrssfeed.min.js</include>
                           <include>${basedir}/src/main/js/jquery.cookiebar.js</include>
                         </includes>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_snp"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_snp"
+    elementFormDefault="qualified"
+    >
+<!--    version="2.0" -->
+
+<xs:include schemaLocation="efetch_snp.xsd" />
+
+  <xs:complexType name="IdListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Id" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+<!-- Request/Response -->
+
+  <xs:element name="eFetchRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="id" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="WebEnv" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="query_key" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="tool" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="email" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="retstart" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="retmax" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  
+  <xs:element name="eFetchResult">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ERROR" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="tns:ExchangeSet" /> 
+        <xs:element minOccurs="0" maxOccurs="1" name="IdList" type="tns:IdListType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  
+</xs:schema>

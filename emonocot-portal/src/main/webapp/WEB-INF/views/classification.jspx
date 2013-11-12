@@ -49,11 +49,11 @@
 										var url = titleAndURL[1];
 
 										items[title] = {
-											label : title,
-											action : function() {
-												window.location = url;
-											}
-										}
+												label : title,
+												action : function() {
+													window.location = url;
+												}
+										};
 									}
 
 									return items;
@@ -88,7 +88,7 @@
 							<ul>
 								<c:forEach var="item" items="${result}">
 									<li><c:url var="taxonUrl"
-											value="/taxon/${item.identifier}" /><a href="${taxonUrl}">${item.scientificName}</a>
+											value="/taxon/${item.identifier}" /><a href="${taxonUrl}" target="_blank">${item.scientificName}</a>
 									</li>
 								</c:forEach>
 							</ul>

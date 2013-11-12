@@ -1,5 +1,9 @@
 package org.emonocot.model.geography;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -23,6 +27,8 @@ public class JtsGeometryTest {
 	private ClassPathResource regionsResource = new ClassPathResource("org/emonocot/model/level2_simplified.txt");
 	
 	private ClassPathResource continentsResource = new ClassPathResource("org/emonocot/model/level1.txt");
+	
+	private ClassPathResource level4Resource = new ClassPathResource("org/emonocot/model/level4.txt");
 	
 	/**
 	 * Simplfied AND, KRA, NFL, NOR and SCI using 
@@ -105,4 +111,26 @@ public class JtsGeometryTest {
 		}
 	}
 
+	@Test
+	@Ignore
+	public void testSimplifyLevel4() throws Exception {
+		JtsSpatialContext ctx = new JtsSpatialContext(false);
+		SampleDataReader sampleDataReader = new SampleDataReader(level4Resource.getInputStream());
+		PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter("level4_simplified.txt")));
+		WKTReader wktreader = new WKTReader();
+		WKTWriter wktwriter = new WKTWriter();
+		
+		while(sampleDataReader.hasNext()) {
+			SampleData sampleData = sampleDataReader.next();
+			
+			Geometry geom = wktreader.read(sampleData.shape);
+			if(!geom.isValid()) {
+			    logger.warn(sampleData.name + " is not valid");	
+			}
+			
+			printWriter.print(sampleData.id +"\t" + sampleData.code + "\t" + sampleData.name +"\t" + wktwriter.write(TopologyPreservingSimplifier.simplify(geom,0.2)) + "\n");
+			
+		}
+		printWriter.flush();
+	}
 }

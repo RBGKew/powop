@@ -6,7 +6,7 @@
   <jsp:output omit-xml-declaration="true" />
   <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
   <tiles:insertAttribute name="head" />
-  <body data-spy="scroll" data-target=".subnav" data-offset="500" data-twttr-rendered="true">
+  <body data-spy="scroll" data-target=".subnav" data-offset="100">
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />

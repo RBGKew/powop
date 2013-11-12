@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_seq"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_seq"
+    elementFormDefault="qualified"
+    >
+<!--    version="2.0" -->
+
+<xs:include schemaLocation="efetch_seq.xsd" />
+
+  <xs:complexType name="IdListType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Id" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+<!-- Request/Response -->
+
+  <xs:element name="eFetchRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="db" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="id" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="WebEnv" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="query_key" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="tool" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="email" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="retstart" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="retmax" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="rettype" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="strand" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="seq_start" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="seq_stop" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="complexity" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="report" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  
+  <xs:element name="eFetchResult">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ERROR" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="tns:TSeqSet"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="tns:GBSet" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="tns:INSDSet" />
+        <!-- xs:element minOccurs="0" maxOccurs="1" name="Bioseq-set" type="tns:Bioseq-setType" / -->
+        <xs:element minOccurs="0" maxOccurs="1" name="IdList" type="tns:IdListType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

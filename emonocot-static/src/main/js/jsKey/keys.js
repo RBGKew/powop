@@ -88,6 +88,10 @@ Key.prototype.setAutoPrune = function(prune) {
     this.autoPrune = prune;
 };
 
+Key.prototype.setSelectedCharacters = function(selectedCharacters) {    
+    this.selectedCharacters = selectedCharacters;
+};
+
 Key.prototype.getSelectedCharacters = function() {    
     this.selectedCharacters.sort(function comparator(obj1, obj2){
       return obj1.id - obj2.id; });

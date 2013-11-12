@@ -143,8 +143,8 @@
                       	        
                                 var width = $("#phylogeny").width();
                                 var height = (${phylogeneticTree.numberOfExternalNodes} * 30);
-                                var type = "rectangular";
-                                var chart;
+                                var type = "circular";
+                                var chart = "order";
                                 var colors = {
                                         <c:forEach var="category" items="${phyloColors.keySet()}" varStatus="categoryStatus">
                                         "${category}" : {
@@ -184,7 +184,7 @@
                                                  width, width,type,callback);
                                     	zpd = phylocanvas.getZpd();
                                         var g = zpd.gelem;     	
-                                        zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).scale(0.8));
+                                        zpd.setCTM(g, g.getCTM().multiply(g.getCTM().inverse()).scale($("#phylogeny").innerHeight() / g.getBoundingClientRect().height));
                                     }
                                     $("#phylogeny-reset").unbind("click");
                                     $("#phylogeny-reset").click(function() {

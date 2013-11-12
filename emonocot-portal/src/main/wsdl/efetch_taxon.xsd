@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:tns="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_taxonomy"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ncbi.nlm.nih.gov/soap/eutils/efetch_taxonomy"
+    elementFormDefault="qualified"
+>
+
+<!--    version="2.0" -->
+<!-- http://www.ncbi.nlm.nih.gov/entrez/query/DTD/taxon.dtd 5/1/2008 -->
+
+    <xs:element name="Acronym" type="xs:string"/>
+    <xs:complexType name="AkaTaxIdsType">
+        <xs:sequence>
+            <xs:element ref="tns:TaxId" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Anamorph" type="xs:string"/>
+    <xs:element name="BlastName" type="xs:string"/>
+    <xs:element name="CitId" type="xs:string"/>
+    <xs:element name="CitKey" type="xs:string"/>
+    <xs:element name="CitMedlineId" type="xs:string"/>
+    <xs:element name="CitPubmedId" type="xs:string"/>
+    <xs:element name="CitText" type="xs:string"/>
+    <xs:element name="CitUrl" type="xs:string"/>
+    <xs:complexType name="CitationType">
+        <xs:sequence>
+            <xs:element ref="tns:CitId"/>
+            <xs:element ref="tns:CitKey"/>
+            <xs:element ref="tns:CitUrl" minOccurs="0"/>
+            <xs:element ref="tns:CitText" minOccurs="0"/>
+            <xs:element ref="tns:CitPubmedId" minOccurs="0"/>
+            <xs:element ref="tns:CitMedlineId" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CitationsType">
+        <xs:sequence>
+            <xs:element name="Citation" type="tns:CitationType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ClassCDE" type="xs:string"/>
+    <xs:element name="CommonName" type="xs:string"/>
+    <xs:element name="CreateDate" type="xs:string"/>
+    <xs:element name="DispName" type="xs:string"/>
+    <xs:element name="Division" type="xs:string"/>
+    <xs:element name="EquivalentName" type="xs:string"/>
+    <xs:element name="GCId" type="xs:string"/>
+    <xs:element name="GCName" type="xs:string"/>
+    <xs:element name="GenbankAcronym" type="xs:string"/>
+    <xs:element name="GenbankAnamorph" type="xs:string"/>
+    <xs:element name="GenbankCommonName" type="xs:string"/>
+    <xs:element name="GenbankSynonym" type="xs:string"/>
+    <xs:complexType name="GeneticCodeType">
+        <xs:sequence>
+            <xs:element ref="tns:GCId"/>
+            <xs:element ref="tns:GCName"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Includes" type="xs:string"/>
+    <xs:element name="Inpart" type="xs:string"/>
+    <xs:element name="Lineage" type="xs:string"/>
+    <xs:complexType name="LineageExType">
+        <xs:sequence>
+            <xs:element name="Taxon" type="tns:TaxonType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="MGCId" type="xs:string"/>
+    <xs:element name="MGCName" type="xs:string"/>
+    <xs:element name="Misnomer" type="xs:string"/>
+    <xs:element name="Misspelling" type="xs:string"/>
+    <xs:complexType name="MitoGeneticCodeType">
+        <xs:sequence>
+            <xs:element ref="tns:MGCId"/>
+            <xs:element ref="tns:MGCName"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ModGBhidden" type="xs:string"/>
+    <xs:element name="ModId" type="xs:string"/>
+    <xs:element name="ModName" type="xs:string"/>
+    <xs:element name="ModType" type="xs:string"/>
+    <xs:complexType name="ModifierType">
+        <xs:sequence>
+            <xs:element ref="tns:ModId"/>
+            <xs:element ref="tns:ModType"/>
+            <xs:element ref="tns:ModName"/>
+            <xs:element ref="tns:ModGBhidden"/>
+            <xs:choice minOccurs="0">
+                <xs:element ref="tns:RModId"/>
+                <xs:element ref="tns:RTaxId"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ModifiersType">
+        <xs:sequence>
+            <xs:element name="Modifier" type="tns:ModifierType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="NameType">
+        <xs:sequence>
+            <xs:element ref="tns:ClassCDE"/>
+            <xs:element ref="tns:DispName"/>
+            <xs:element ref="tns:UniqueName" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+<!-- Axis2 v1.4.1 infinite parser loop bug workaround  -->
+    <xs:complexType name="OtherNamesType">
+        <xs:sequence>
+            <xs:element ref="tns:GenbankCommonName" minOccurs="0"/>
+            <xs:element ref="tns:GenbankAcronym" minOccurs="0"/>
+            <xs:element ref="tns:BlastName" minOccurs="0"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="tns:EquivalentName"/>
+                <xs:element ref="tns:Synonym"/>
+                <xs:element ref="tns:Acronym"/>
+                <xs:element ref="tns:Misspelling"/>
+                <xs:element ref="tns:Anamorph"/>
+                <xs:element ref="tns:Includes"/>
+                <xs:element ref="tns:CommonName"/>
+                <xs:element ref="tns:Inpart"/>
+                <xs:element ref="tns:Misnomer"/>
+                <xs:element ref="tns:Teleomorph"/>
+                <xs:element ref="tns:GenbankSynonym"/>
+                <xs:element ref="tns:GenbankAnamorph"/>
+                <xs:element name="Name" type="tns:NameType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+<!--
+    <xs:complexType name="OtherNamesType">
+        <xs:sequence>
+            <xs:element ref="tns:GenbankCommonName" minOccurs="0"/>
+            <xs:element ref="tns:GenbankAcronym" minOccurs="0"/>
+            <xs:element ref="tns:BlastName" minOccurs="0"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="tns:EquivalentName"/>
+                <xs:element ref="tns:Synonym"/>
+                <xs:element ref="tns:Acronym"/>
+                <xs:element ref="tns:Misspelling"/>
+                <xs:element ref="tns:Anamorph"/>
+                <xs:element ref="tns:Includes"/>
+                <xs:element ref="tns:CommonName"/>
+                <xs:element ref="tns:Inpart"/>
+                <xs:element ref="tns:Misnomer"/>
+                <xs:element ref="tns:Teleomorph"/>
+                <xs:element ref="tns:GenbankSynonym"/>
+                <xs:element ref="tns:GenbankAnamorph"/>
+            </xs:choice>
+            <xs:element name="Name" type="tns:NameType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+-->
+    <xs:element name="ParentTaxId" type="xs:string"/>
+    <xs:element name="PropName" type="xs:string"/>
+    <xs:element name="PropValueBool" type="xs:string"/>
+    <xs:element name="PropValueInt" type="xs:string"/>
+    <xs:element name="PropValueString" type="xs:string"/>
+    <xs:complexType name="PropertiesType">
+        <xs:sequence>
+            <xs:element name="Property" type="tns:PropertyType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PropertyType">
+        <xs:sequence>
+            <xs:element ref="tns:PropName"/>
+            <xs:choice>
+                <xs:element ref="tns:PropValueInt"/>
+                <xs:element ref="tns:PropValueBool"/>
+                <xs:element ref="tns:PropValueString"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="PubDate" type="xs:string"/>
+    <xs:element name="RModId" type="xs:string"/>
+    <xs:element name="RTaxId" type="xs:string"/>
+    <xs:element name="Rank" type="xs:string"/>
+    <xs:element name="ScientificName" type="xs:string"/>
+    <xs:element name="Synonym" type="xs:string"/>
+    <xs:element name="TaxId" type="xs:string"/>
+    <xs:element name="TaxaSet">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Taxon" type="tns:TaxonType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="TaxonType">
+        <xs:sequence>
+            <xs:element ref="tns:TaxId"/>
+            <xs:element ref="tns:ScientificName"/>
+            <xs:element name="OtherNames" type="tns:OtherNamesType" minOccurs="0"/>
+            <xs:element ref="tns:ParentTaxId" minOccurs="0"/>
+            <xs:element ref="tns:Rank" minOccurs="0"/>
+            <xs:element ref="tns:Division" minOccurs="0"/>
+            <xs:element name="GeneticCode" type="tns:GeneticCodeType" minOccurs="0"/>
+            <xs:element name="MitoGeneticCode" type="tns:MitoGeneticCodeType" minOccurs="0"/>
+            <xs:element ref="tns:Lineage" minOccurs="0"/>
+            <xs:element name="LineageEx" type="tns:LineageExType" minOccurs="0"/>
+            <xs:element name="Citations" type="tns:CitationsType" minOccurs="0"/>
+            <xs:element name="Modifiers" type="tns:ModifiersType" minOccurs="0"/>
+            <xs:element name="Properties" type="tns:PropertiesType" minOccurs="0"/>
+            <xs:element ref="tns:CreateDate" minOccurs="0"/>
+            <xs:element ref="tns:UpdateDate" minOccurs="0"/>
+            <xs:element ref="tns:PubDate" minOccurs="0"/>
+            <xs:element name="AkaTaxIds" type="tns:AkaTaxIdsType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Teleomorph" type="xs:string"/>
+    <xs:element name="UniqueName" type="xs:string"/>
+    <xs:element name="UpdateDate" type="xs:string"/>
+</xs:schema>

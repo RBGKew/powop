@@ -37,6 +37,8 @@
 		location="classpath*:META-INF/spring/application.properties" />
 
     <context:component-scan base-package="org.emonocot.portal.remoting" />
+    
+    <bean id="ncbiService" class="org.emonocot.portal.ws.ncbi.NcbiService" init-method="afterPropertiesSet"/>
 
 	<context:component-scan base-package="org.emonocot.service.impl">
 		<context:exclude-filter type="assignable"

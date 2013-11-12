@@ -238,7 +238,7 @@
 				</div>
 			</div>
 
-			<div class="modal modal-gallery hide fade modal-fullscreen" id="modal-gallery">
+			<div class="modal modal-gallery hide fade modal-fullscreen modal-fullscreen-stretch" id="modal-gallery">
 				<div class="modal-header">
 					<a data-dismiss="modal" class="close"><i class="halflings-icon remove"><!--  --></i></a>
 					<h3 class="modal-title"><!--  --></h3>
@@ -261,8 +261,7 @@
 								<span class="modal-creator">&#160;</span>
 							</li>
 							<li>
-								<em><spring:message code="image.license" /></em>&#160;
-								<span class="modal-license">&#160;</span>
+								<em><spring:message code="image.license"/></em>&#160;<span class="modal-license-icon">&#160;</span>
 								<a class="btn btn-success modal-play modal-slideshow pull-right" data-slideshow="3000">
 									<i class="icon-white icon-play"> <!-- --></i>
 								</a>

@@ -3,10 +3,15 @@
  */
 package org.emonocot.portal.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.OrganisationService;
+import org.emonocot.api.SearchableObjectService;
+import org.emonocot.model.SearchableObject;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.pager.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +30,19 @@ public class AboutController {
 	 */
 	private String[] excludeIdentifiers = {"WCS", "e-monocot.org"};
 
-    /**
-     *
-     */
-    private OrganisationService organisationService;
+	/**
+	*
+	*/
+	private OrganisationService organisationService;
+
+	private SearchableObjectService searchableObjectService;
+
+	
+	@Autowired
+	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
+		this.searchableObjectService = searchableObjectService;
+	}
+
 
     /**
      * @param service Set the Source service
@@ -57,6 +71,16 @@ public class AboutController {
 		}
         
     	model.addAttribute("organisations", organisations);
+    	
+    	// Cope with solr unavailability
+    			try {
+    			    List<String> responseFacets = new ArrayList<String>();
+    			    responseFacets.add("base.class_s");
+    			    Page<SearchableObject> stats = searchableObjectService.search("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
+    			    model.addAttribute("stats", stats);
+    			} catch (SolrServerException sse) {
+    				
+    			}	
         return "about";
     }
 

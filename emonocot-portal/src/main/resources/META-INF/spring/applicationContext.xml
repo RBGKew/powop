@@ -24,6 +24,11 @@
 
 	<tx:annotation-driven />
 	
+	<bean id="ncbiService" class="org.emonocot.portal.ws.ncbi.NcbiService" init-method="afterPropertiesSet">
+	  <property name="httpProxyHost" value="${http.proxyHost}"/>
+	  <property name="httpProxyPort" value="${http.proxyPort}"/>
+	</bean>
+	
 	<bean name="customObjectMapper"	class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
 		<property name="referenceService" ref="referenceServiceImpl" />
 		<property name="taxonService" ref="taxonServiceImpl" />

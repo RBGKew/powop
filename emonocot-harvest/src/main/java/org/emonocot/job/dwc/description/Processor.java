@@ -17,7 +17,6 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -25,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ben
  *
  */
-public class Processor extends OwnedEntityProcessor<Description, DescriptionService> implements ChunkListener {
+public class Processor extends OwnedEntityProcessor<Description, DescriptionService> {
 	
     private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
     
@@ -87,7 +86,9 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 	    return RecordType.Description;
     }
     
+    @Override
     public void afterChunk() {
+    	super.afterChunk();
         logger.info("After Chunk");
     }
     
@@ -122,7 +123,9 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
        }
    }
 
+    @Override
     public void beforeChunk() {
+    	super.beforeChunk();
         logger.info("Before Chunk");
         boundReferences = new HashMap<String, Reference>();
     }

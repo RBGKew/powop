@@ -718,6 +718,9 @@ section {
 	li {
 		float:left; 
 		padding-left:0.5em;
+		* {
+		    float:left;
+		}
 		&:first-child {
 			&:before {
 				padding-left: 0em;
@@ -766,6 +769,16 @@ ul.citations {
 	}
 }
 
+td ul.citations {
+   &:before {
+		content: "";
+	}
+	
+	&:after {
+		content: "";
+	}  
+}
+
 section#bibliography ul {
 	list-style: none;
 
@@ -804,7 +817,6 @@ section#sources dl dd ul li a.licenseLogo {
 
 .taxon-page-map{
 	height: 470px;
-	width: 580px
 }
 
 #gallery{

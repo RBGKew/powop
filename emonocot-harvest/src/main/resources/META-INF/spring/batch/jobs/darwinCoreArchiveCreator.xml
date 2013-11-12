@@ -151,6 +151,7 @@
 		<property name="typeAndSpecimenFields" value="#{jobParameters['download.typeAndSpecimen']}"/>
 		<property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
 		<property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
+		<property name="ignoreHeaderLines" value="1"/>
 		<property name="outputDirectory" value="${harvester.output.directory}"/>
 		<property name="citationString" value="${download.citation.string}"/>
 		<property name="creatorEmail" value="${download.creator.email}"/>
@@ -228,12 +229,14 @@
 		<property name="resource" ref="downloadFile"/>
 	    <property name="lineAggregator" ref="lineAggregator"/>
 		<property name="type" value="#{jobExecutionContext['download.type']}"/>
+		<property name="headerCallback" ref="dwcHeaderWriter"/>
 	</bean>
 	
 	<bean id="downloadManyToManyFileWriter" class="org.emonocot.job.dwc.write.ManyToManyWriter" scope="step">
 		<property name="resource" ref="downloadFile"/>
 	    <property name="lineAggregator" ref="lineAggregator"/>
 		<property name="type" value="#{jobExecutionContext['download.type']}"/>
+		<property name="headerCallback" ref="dwcHeaderWriter"/>
 	</bean>
 			
 	<bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
@@ -251,6 +254,12 @@
 	<bean id="downloadFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource" ref="downloadFile"/>
 	  <property name="lineAggregator" ref="lineAggregator"/>
+	  <property name="headerCallback" ref="dwcHeaderWriter"/>
+	</bean>
+	
+	<bean id="dwcHeaderWriter" class="org.emonocot.job.dwc.write.DwcHeaderWriter" scope="step">
+	  <property name="header" value="#{jobExecutionContext['download.fields']}"/>
+	  <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
 	</bean>
 	
 	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">

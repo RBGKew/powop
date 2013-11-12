@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,9 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +59,20 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
     private ImageAnnotator imageAnnotator;
     
     private Validator validator;
+    
+    private List<DateTimeFormatter> dateTimeFormatters = new ArrayList<DateTimeFormatter>();
+    
+    public ImageMetadataExtractorImpl() {
+   	
+    	dateTimeFormatters.add(ISODateTimeFormat.dateTimeParser());
+    	dateTimeFormatters.add(DateTimeFormat.fullDate());
+    	dateTimeFormatters.add(DateTimeFormat.fullDateTime());
+    	dateTimeFormatters.add(DateTimeFormat.shortDate());
+    	dateTimeFormatters.add(DateTimeFormat.shortDateTime());
+    	dateTimeFormatters.add(DateTimeFormat.mediumDate());
+    	dateTimeFormatters.add(DateTimeFormat.mediumDateTime());
+
+    }
 
     
     /**
@@ -81,15 +99,15 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
      * @param newImageDirectory
      *            Set the image directory
      */
-    public final void setImageDirectory(final String newImageDirectory) {
+    public void setImageDirectory(String newImageDirectory) {
         this.imageDirectory = newImageDirectory;
     }
     
     /**
      * @param imageAnnotator the imageAnnotator to set
      */
-    public final void setImageAnnotator(ImageAnnotator imageAnnotator) {
-        
+    public void setImageAnnotator(ImageAnnotator imageAnnotator) {
+        this.imageAnnotator = imageAnnotator;
     }
 
     /**
@@ -103,7 +121,7 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
 	 * @see org.emonocot.harvest.media.ImageMetadataExtractor#process(org.emonocot.model.Image)
 	 */
     @Override
-	public final Image process(final Image image) throws Exception {
+	public Image process(Image image) throws Exception {
         String imageFileName = imageDirectory + File.separatorChar + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
@@ -139,7 +157,7 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
 								+ schema.getElement().getTextContent());
 					} else if (schema instanceof XMPSchemaPhotoshop) {
 						XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
-						metadataFound = addPhotoshopProperties(photoshopSchema,	embeddedMetadata) || metadataFound;
+						metadataFound = addPhotoshopProperties(photoshopSchema,	embeddedMetadata, image) || metadataFound;
 						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
 								+ schema.getElement().getTextContent());
 					} else {
@@ -327,15 +345,14 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
 
     /**
      * @param photoshopSchema
-     * @param image
+     * @param embeddedMetadata
      * @return Whether any properties has been updated
      */
-    private boolean addPhotoshopProperties(XMPSchemaPhotoshop photoshopSchema,
-            Image image) {
+    private boolean addPhotoshopProperties(XMPSchemaPhotoshop photoshopSchema, Image embeddedMetadata, Image image) {
         boolean isSomethingDifferent = false;
         StringBuffer newSpatial = new StringBuffer();
-        if(StringUtils.isNotBlank(image.getSpatial())) {
-            newSpatial.append(image.getSpatial());
+        if(StringUtils.isNotBlank(embeddedMetadata.getSpatial())) {
+            newSpatial.append(embeddedMetadata.getSpatial());
         }
         if(StringUtils.isNotBlank(photoshopSchema.getState())) {
             if(newSpatial.length() > 0 ) {
@@ -349,8 +366,8 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
             }
             newSpatial.append(sanitizer.sanitize(photoshopSchema.getCountry()));
         }
-        if(!newSpatial.toString().equals(image.getSpatial())) {
-            image.setSpatial(newSpatial.toString());
+        if(!newSpatial.toString().equals(embeddedMetadata.getSpatial())) {
+            embeddedMetadata.setSpatial(newSpatial.toString());
             isSomethingDifferent = true;
         }
         if(StringUtils.isNotBlank(photoshopSchema.getInstructions())) {
@@ -358,14 +375,23 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
             logger.info("Photoshop instruction found: " + photoshopSchema.getInstructions());
             //TODO Match Taxon?
         }
-        if(image.getCreated() == null && photoshopSchema.getDateCreated() != null) {
-            try{
-                DateTime dateCreated = ISODateTimeFormat.dateTimeParser().parseDateTime(photoshopSchema.getDateCreated());
-                image.setCreated(dateCreated);
-            } catch (IllegalArgumentException e) {
-                imageAnnotator.annotate(image, AnnotationType.Warn, AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
-                logger.warn("Unable to set the Date Created for image" + image.getId() + " identifier: " + image.getIdentifier(), e);
-            }
+        if(embeddedMetadata.getCreated() == null && photoshopSchema.getDateCreated() != null) {
+        	IllegalArgumentException iae = null;
+        	DateTime dateCreated = null;
+			for (DateTimeFormatter dateTimeFormatter : dateTimeFormatters) {
+				try {
+					dateCreated = dateTimeFormatter.parseDateTime(photoshopSchema.getDateCreated());
+					
+				} catch (IllegalArgumentException e) {
+					iae = e;
+				}
+			}
+			if(dateCreated == null) {
+			    imageAnnotator.annotate(image, AnnotationType.Warn,	AnnotationCode.BadField, photoshopSchema.getDateCreated() + " is not a well-formed date");
+			    logger.warn("Unable to set the Date Created for image"	+ embeddedMetadata.getId() + " identifier: " + embeddedMetadata.getIdentifier(), iae);
+			} else {
+				embeddedMetadata.setCreated(dateCreated);
+			}
         }
         return isSomethingDifferent;
     }

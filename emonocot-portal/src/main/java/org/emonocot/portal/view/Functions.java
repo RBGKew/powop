@@ -43,6 +43,7 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
 import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
@@ -106,6 +107,20 @@ public class Functions {
 
 	public static String escape(final String string) {
 		return StringEscapeUtils.escapeXml(string);
+	}
+	
+	public static Boolean isChildFacet(String parent, String facet) {
+		try {
+		    FacetName parentFacetName = FacetName.fromString(parent);
+		    FacetName facetName = FacetName.fromString(facet);
+		    if(parentFacetName.getChild() == null || !parentFacetName.getChild().equals(facetName)) {
+  			    return Boolean.FALSE;
+		    } else {
+			    return Boolean.TRUE;
+		    }
+		} catch(IllegalArgumentException iae) {
+			return Boolean.FALSE;
+		}
 	}
 
 	/**
@@ -1050,6 +1065,21 @@ public class Functions {
 		}
 		return Boolean.FALSE;
 	}
+	
+	public static Boolean hasLevel4Features(Taxon taxon,
+			OccurrenceStatus occurrenceStatus,
+			EstablishmentMeans establishmentMeans) {
+		for (Distribution d : taxon.getDistribution()) {
+			if (d.getLocation().getLevel().equals(3)
+					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
+							occurrenceStatus)
+					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
+							establishmentMeans)) {
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
 
 	/**
 	 * 
@@ -1064,6 +1094,27 @@ public class Functions {
 		StringBuffer features = new StringBuffer();
 		for (Distribution d : taxon.getDistribution()) {
 			if (d.getLocation().getLevel().equals(2)
+					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
+							occurrenceStatus)
+					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
+							establishmentMeans)) {
+				if (!first) {
+					features.append(",");
+				}
+				features.append(d.getLocation().getFeatureId());
+				first = false;
+			}
+		}
+		return features.toString();
+	}
+	
+	public static String getLevel4Features(Taxon taxon,
+			OccurrenceStatus occurrenceStatus,
+			EstablishmentMeans establishmentMeans) {
+		boolean first = true;
+		StringBuffer features = new StringBuffer();
+		for (Distribution d : taxon.getDistribution()) {
+			if (d.getLocation().getLevel().equals(3)
 					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
 							occurrenceStatus)
 					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(

@@ -172,6 +172,7 @@
                 license = this.getLicense(this.$links[index]),  // eMonocot
                 description = this.getDescription(this.$links[index]),  // eMonocot
                 icon = this.getIcon(this.$links[index]),        // eMonocot
+                htmlLicense = "",
                 oldImg;
             this.abortLoad();
             this.stopSlideShow();
@@ -186,9 +187,31 @@
             window.setTimeout(function () {
                 oldImg.remove();
             }, 3000);
+            
+            if ( license.indexOf("by/3.0") != -1) {
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/by.png' alt='by' /></a>";
+            } else if (license.indexOf("by-sa/3.0") != -1){
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/by-sa.png' alt='by-sa' /></a>";
+            } else if (license.indexOf("by-nd/3.0") != -1){
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/by-nd.png' alt='by-nd' /></a>";
+            } else if (license.indexOf("by-nc/3.0") != -1){
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/by-nc.png' alt='by-nc' /></a>";
+            } else if (license.indexOf("by-nc-sa/3.0") != -1){
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/by-nc-sa.png' alt='by-nc-sa' /></a>";
+            } else if (license.indexOf("by-nc-nd/3.0") != -1){
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/by-nc-nd.png' alt='by-nc-nd' /></a>";
+            } else if (license.indexOf("publicdomain/zero/1.0") != -1){
+            	htmlLicense += "<a class='licenseLogo' href='"+ license +"'><img class='cclogos' src='/css/images/creativeCommonsLogos/publicdomain.png' alt='public' /></a>";
+            } else if (license === "" ){
+            	htmlLicense += "All rights reserved"
+            }else {
+            	htmlLicense += license;
+            }
+ 
+
             modal.find('.modal-caption').text(title);        // eMonocot
             modal.find('.modal-creator').text(creator);                         // eMonocot
-            modal.find('.modal-license').text(license);                         // eMonocot
+            modal.find('.modal-license-icon').html(htmlLicense);
             modal.find('.modal-icon').addClass(icon + " glyphicons-icon");      // eMonocot
             modal.find('.modal-description').text(description);      // eMonocot
             modal.find('.modal-download').prop('href',link);                    // eMonocot
