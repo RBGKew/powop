@@ -1337,19 +1337,6 @@
 			<url>http://repository.gbif.org/content/groups/gbif</url>
 		</repository>
 		<repository>
-			<id>emonocot.release</id>
-			<name>eMonocot Releases</name>
-			<url>http://build.e-monocot.org/repository</url>
-		</repository>
-		<repository>
-			<id>emonocot.snapshots</id>
-			<name>eMonocot Snapshots</name>
-			<url>http://build.e-monocot.org/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>opengeo</id>
 			<name>OpenGeo Maven Repository</name>
 			<url>http://repo.opengeo.org/</url>
