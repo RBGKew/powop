@@ -1,18 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.emonocot</groupId>
-	<artifactId>emonocot</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
-	<description>eMonocot aims to create a global online resource for monocot plants. It will
-        provide a focus for taxonomists working on monocots and will help people discover
-        information about monocots by providing tools for identification, up-to-date checklists,
+	<groupId>org.kew.world-flora</groupId>
+	<artifactId>world-flora</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<description>The World Flora aims to create a global online resource for all plants. It will
+        provide a focus for taxonomists working on plants and will help people discover
+        information about plants by providing tools for identification, up-to-date checklists,
         descriptions and links to other resources.</description>
 	<packaging>pom</packaging>
-	<name>eMonocot</name>
-	<url>http://e-monocot.org</url>
+	<name>World Flora</name>
+	<url>http://www.kew.org</url>
 	<organization>
-		<name>eMonocot</name>
-		<url>http://e-monocot.org</url>
+		<name>Royal Botanic Gardens, Kew</name>
+		<url>http://www.kew.org</url>
 	</organization>
 	<licenses>
       <license>
@@ -31,8 +31,8 @@
 		<module>emonocot-static</module>
 	</modules>
 	<properties>
-	    <portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-	    <harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
+	    <portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
+	    <harvester.webAppRootKey>world-flora-harvester</harvester.webAppRootKey>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
 		<spring.version>3.2.1.RELEASE</spring.version>
@@ -98,31 +98,31 @@
 		</developer>
 	</developers>
 	<scm>
-      <connection>scm:git:git://git.ad.kew.org/emonocot.git</connection> 
-      <developerConnection>scm:git:ssh://gerrit.ad.kew.org:29418/emonocot.git</developerConnection> 
-      <url>http://git.ad.kew.org/git/?p=emonocot.git</url> 
+      <connection>scm:git:git://git.ad.kew.org/wf/world-flora.git</connection> 
+      <developerConnection>scm:git:ssh://gerrit.ad.kew.org:29418/wf/world-flora.git</developerConnection> 
+      <url>http://git.ad.kew.org/git/?p=wf/world-flora.git</url> 
     </scm>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-model</artifactId>
+				<groupId>org.kew.world-flora</groupId>
+				<artifactId>world-flora-model</artifactId>
 				<version>${project.version}</version>
 				<type>jar</type>
 			</dependency>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-persistence</artifactId>
+				<groupId>org.kew.world-flora</groupId>
+				<artifactId>world-flora-persistence</artifactId>
 				<version>${project.version}</version>
 			</dependency>
             <dependency>
-                <groupId>org.emonocot</groupId>
-                <artifactId>emonocot-service</artifactId>
+                <groupId>org.kew.world-flora</groupId>
+                <artifactId>world-flora-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.emonocot</groupId>
-                <artifactId>emonocot-service</artifactId>
+                <groupId>org.kew.world-flora</groupId>
+                <artifactId>world-flora-service</artifactId>
                 <version>${project.version}</version>
                 <classifier>tests</classifier>
                 <scope>test</scope>
@@ -1541,20 +1541,20 @@
 				<amq.broker.uri>tcp://kptuapp01:6166</amq.broker.uri>
 				<amq.broker.userName>emonocot</amq.broker.userName>
 				<amq.broker.password>emonocot</amq.broker.password>
-                <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot-portal</portal.baseUrl>
+                <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/world-flora-portal</portal.baseUrl>
 				<google.analytics.id />
-				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
+				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/emonocot-portal</cargo.tomcat.url>
+				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/world-flora-portal</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>sadmin</cargo.remote.username>
 				<cargo.remote.password>kewadmin</cargo.remote.password>
-				<cargo.context.path>/emonocot-portal</cargo.context.path>
+				<cargo.context.path>/world-flora-portal</cargo.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
-				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
-				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
+				<logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
+				<logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
+				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/world-flora-portal/</wagon.static.url>
 				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
@@ -1562,7 +1562,7 @@
 				<liquibase.password>m0n0pa55</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
+				<ehcache.diskstore.path>/var/cache/tomcat7/work/world-flora-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
@@ -1571,7 +1571,7 @@
 				<jdbc.driver.username>emonocot</jdbc.driver.username>
 				<jdbc.driver.password>m0n0pa55</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
-				<functional.test.basePath>emonocot-portal</functional.test.basePath>
+				<functional.test.basePath>world-flora-portal</functional.test.basePath>
 				<functional.test.port>8080</functional.test.port>
 				<functional.test.solr.url>http://kpttapp01.ad.kew.org:8983/solr</functional.test.solr.url>
 				<functional.test.username>test@e-monocot.org</functional.test.username>
@@ -1613,7 +1613,7 @@
 				<amq.broker.password>emonocot</amq.broker.password>				
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
-				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
+				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
 				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
@@ -1622,8 +1622,8 @@
 				<cargo.context.path>/</cargo.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
-				<logging.location>target/tomcat/logs/emonocot-portal.log</logging.location>
-				<logging.querylog.location>target/tomcat/logs/emonocot-portal-query.log</logging.querylog.location>
+				<logging.location>target/tomcat/logs/world-flora-portal.log</logging.location>
+				<logging.querylog.location>target/tomcat/logs/world-flora-portal-query.log</logging.querylog.location>
 				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
@@ -1632,13 +1632,13 @@
 				<liquibase.password>l1qu1ba53</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.geodb.GeoDBDialect</hibernate.dialect>				
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
+				<ehcache.diskstore.path>/var/cache/tomcat7/work/world-flora-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
 				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>call identity()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
+				<jdbc.driver.username>world-flora-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />
@@ -1676,9 +1676,9 @@
                   <artifactId>maven-dependency-plugin</artifactId>
                   <version>2.2</version>
                   <configuration>
-                    <includeGroupIds>org.emonocot</includeGroupIds>
-                    <includeArtifactIds>emonocot-static</includeArtifactIds>
-                    <outputDirectory>${project.build.directory}/emonocot-portal/WEB-INF/classes/static</outputDirectory>
+                    <includeGroupIds>org.kew.world-flora</includeGroupIds>
+                    <includeArtifactIds>world-flora-static</includeArtifactIds>
+                    <outputDirectory>${project.build.directory}/world-flora-portal/WEB-INF/classes/static</outputDirectory>
                   </configuration>
                   <executions>
                     <execution>
@@ -1699,7 +1699,7 @@
                           <phase>pre-integration-test</phase>
                           <configuration>
                             <tasks>                            
-                              <copy todir="${project.build.directory}/emonocot-portal/WEB-INF/classes">
+                              <copy todir="${project.build.directory}/world-flora-portal/WEB-INF/classes">
                                 <fileset dir="${basedir}/src/test/resources/tomcat" includes="**/*" />
                               </copy>
                             </tasks>

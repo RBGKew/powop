@@ -1,0 +1,13 @@
+target
+*~
+*.bak
+.#*
+.~*#
+*.log
+.classpath
+.settings
+.project
+**/.springBeans
+pom.xml.versionsBackup
+*.orig
+dependency-reduced-pom.xml
