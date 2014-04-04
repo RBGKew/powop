@@ -41,7 +41,7 @@ public class ReadPhylogenyFileTest {
 		List<Uri> uris = new ArrayList<Uri>();
 		uris.add(new Uri("http://en.wikipedia.org/wiki/Espresso",null,null));
 		annotation.setUris(uris);
-		node.getNodeData().addAnnotation(annotation);
+		//node.getNodeData().addAnnotation(annotation);
 		addBranchLengths(phylogeny.getRoot());
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
 		logger.debug(stringBuffer.toString().replaceAll("\r\n", ""));

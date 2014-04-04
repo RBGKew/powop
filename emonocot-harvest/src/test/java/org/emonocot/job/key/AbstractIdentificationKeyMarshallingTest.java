@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.job.common.AbstractXmlEventReaderTest;
-import org.emonocot.model.marshall.xml.StaxDriver;
-import org.emonocot.model.marshall.xml.UriConverter;
 import org.junit.Before;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.xstream.XStreamMarshaller;
@@ -19,8 +17,9 @@ import org.tdwg.ubif.marshall.xml.IgnoreConverter;
 import org.tdwg.ubif.marshall.xml.QNameMapFactory;
 import org.tdwg.ubif.marshall.xml.ReflectionProviderFactory;
 
-import com.bea.xml.stream.MXParserFactory;
 import com.thoughtworks.xstream.converters.ConverterMatcher;
+import com.thoughtworks.xstream.converters.basic.URIConverter;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 public abstract class AbstractIdentificationKeyMarshallingTest extends
         AbstractXmlEventReaderTest {
@@ -43,7 +42,7 @@ public abstract class AbstractIdentificationKeyMarshallingTest extends
 
         StaxDriver streamDriver = new StaxDriver(qNameMapFactory.getObject());
         streamDriver.setRepairingNamespace(false);
-        streamDriver.setXmlInputFactory(new MXParserFactory());
+        //streamDriver.setXmlInputFactory(new MXParserFactory());
 
         unmarshaller = new XStreamMarshaller();
 
@@ -60,7 +59,7 @@ public abstract class AbstractIdentificationKeyMarshallingTest extends
 
         ((XStreamMarshaller) unmarshaller).setStreamDriver(streamDriver);
         ((XStreamMarshaller) unmarshaller)
-                .setConverters(new ConverterMatcher[] { new UriConverter(), new IgnoreConverter() });
+                .setConverters(new ConverterMatcher[] { new URIConverter(), new IgnoreConverter() });
         ((XStreamMarshaller) unmarshaller).afterPropertiesSet();
 
     }

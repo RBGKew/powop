@@ -2,7 +2,9 @@ package org.emonocot.job.map;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Place;
@@ -49,7 +51,7 @@ public class PrintMapWriter implements ItemWriter<BaseData> {
 		this.objectMapper = objectMapper;
 	}
 
-	private String referer = null;
+	private Map<String,String> referer = new HashMap<>();
 
 	@Override
 	public void write(List<? extends BaseData> items) throws Exception {

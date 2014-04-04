@@ -1,5 +1,8 @@
 package org.emonocot.job.map;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.mapfish.print.MapPrinter;
 import org.mapfish.print.utils.PJsonObject;
 import org.springframework.batch.core.StepContribution;
@@ -20,7 +23,7 @@ public class PrintMapTasklet implements Tasklet {
 	
 	private String json;
 	
-	private String referer = null;
+	private Map<String,String> referer = new HashMap<String,String>();
 	
 	public void setConfig(Resource config) {
 		this.config = config;

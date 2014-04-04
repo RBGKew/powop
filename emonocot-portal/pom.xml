@@ -152,10 +152,10 @@
 		      <groupId>com.yahoo.platform.yui</groupId>
 		      <artifactId>yuicompressor</artifactId>
 	      </dependency>
-	      <dependency>
+	      <!--dependency>
 		      <groupId>com.yahoo.platform.yui</groupId>
 		      <artifactId>YUIAnt</artifactId>
-	      </dependency>	      
+	      </dependency-->
           <dependency>
              <groupId>org.emonocot</groupId>
              <artifactId>emonocot-task</artifactId>
@@ -261,7 +261,7 @@
            <artifactId>javax.inject</artifactId>
         </dependency>
         <dependency>
-             <groupId>org.forester</groupId>
+             <groupId>com.google.code.forester</groupId>
              <artifactId>forester</artifactId>
         </dependency>
         <dependency>
