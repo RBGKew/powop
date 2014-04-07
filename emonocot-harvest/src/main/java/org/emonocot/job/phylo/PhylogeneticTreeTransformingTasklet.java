@@ -250,8 +250,7 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			List<Uri> uris = new ArrayList<Uri>();
 			uris.add(new Uri(baseUri + "/taxon/" + taxon.getIdentifier(), null,	null));
 			annotation.setUris(uris);
-			// Following line commented out as Maven dependency isn't correct.
-			// node.getNodeData().addAnnotation(annotation);
+			node.getNodeData().addAnnotation(annotation);
 			if(node.isExternal()) {
 				phylogeneticTree.getLeaves().add(taxon);
 			}
