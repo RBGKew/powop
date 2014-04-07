@@ -42,12 +42,11 @@ public abstract class AbstractIdentificationKeyMarshallingTest extends
 
         StaxDriver streamDriver = new StaxDriver(qNameMapFactory.getObject());
         streamDriver.setRepairingNamespace(false);
-        //streamDriver.setXmlInputFactory(new MXParserFactory());
 
         unmarshaller = new XStreamMarshaller();
 
         ((XStreamMarshaller) unmarshaller).setAutodetectAnnotations(true);
-        Map<String, Class> aliases = new HashMap<String, Class>();
+        Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
         aliases.put("Representation", Representation.class);
         aliases.put("Agent", Agent.class);
         aliases.put("TaxonName", TaxonName.class);

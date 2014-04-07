@@ -457,12 +457,12 @@
 		</property>
 	</bean>
 
-	<bean id="keyUnmarshaller" class="org.emonocot.model.marshall.xml.XStreamMarshaller">
+	<bean id="keyUnmarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
 		<property name="autodetectAnnotations" value="true" />
 		<property name="streamDriver" ref="streamDriver" />
 		<property name="converters">
 			<list>
-				<bean class="org.emonocot.model.marshall.xml.UriConverter" />
+				<bean class="com.thoughtworks.xstream.converters.basic.URIConverter" />
 				<bean class="org.tdwg.ubif.marshall.xml.IgnoreConverter" />
 			</list>
 		</property>
@@ -514,12 +514,9 @@
 		</property>
 	</bean>
 
-	<bean id="streamDriver" class="org.emonocot.model.marshall.xml.StaxDriver">
+	<bean id="streamDriver" class="com.thoughtworks.xstream.io.xml.StaxDriver">
 		<constructor-arg ref="qNameMap" />
 		<property name="repairingNamespace" value="false" />
-		<property name="xmlInputFactory">
-			<bean class="com.bea.xml.stream.MXParserFactory" />
-		</property>
 	</bean>
 
 	<bean id="qNameMap" class="org.tdwg.ubif.marshall.xml.QNameMapFactory" />
