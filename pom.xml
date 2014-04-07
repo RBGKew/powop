@@ -1403,7 +1403,7 @@
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-                <test.resource.baseUrl>http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
+				<test.resource.baseUrl>http://web.ad.kew.org/~mb10kg/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1442,7 +1442,7 @@
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-                <test.resource.baseUrl>http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
+				<test.resource.baseUrl>http://web.ad.kew.org/~mb10kg/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
 				<plugins>
