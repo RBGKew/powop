@@ -1376,29 +1376,10 @@
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
+			<name>oss.sonatype.org</name>
+			<id>oss.sonatype.org</id>
+			<url>http://oss.sonatype.org/content/groups/public</url>
 		</pluginRepository>
-		<pluginRepository>
-			<id>cukes</id>
-			<name>Cucumber maven repo</name>
-			<url>http://cukes.info/maven</url>
-		</pluginRepository>
-		<!--pluginRepository>
-			<id>emonocot.release</id>
-			<name>eMonocot Releases</name>
-			<url>http://build.e-monocot.org/repository</url>
-		</pluginRepository-->
 	</pluginRepositories>
 	<distributionManagement>
       <downloadUrl>http://jenkins.ad.kew.org/repository</downloadUrl> 
