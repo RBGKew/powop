@@ -299,7 +299,7 @@
               <artifactId>antisamy</artifactId>
         </dependency>
         <dependency>
-             <groupId>com.google.code.forester</groupId>
+             <groupId>org.forester</groupId>
              <artifactId>forester</artifactId>
         </dependency>
         <dependency>

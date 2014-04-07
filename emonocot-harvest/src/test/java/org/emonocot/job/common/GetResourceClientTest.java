@@ -49,6 +49,10 @@ public class GetResourceClientTest {
      */
     private Resource content = new ClassPathResource(
             "/org/emonocot/job/common/dwc.zip");
+
+    // Only a mock URL.
+    private final String testzip = "http://build.e-monocot.org/test/test.zip";
+
     /**
      *
      * @throws IOException
@@ -82,7 +86,7 @@ public class GetResourceClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/test/test.zip",
+                .getResource(testzip,
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
@@ -113,7 +117,7 @@ public class GetResourceClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/test/test.zip",
+                .getResource(testzip,
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 
@@ -144,7 +148,7 @@ public class GetResourceClientTest {
         EasyMock.replay(httpClient);
 
         ExitStatus exitStatus = getResourceClient
-                .getResource("http://build.e-monocot.org/test/test.zip",
+                .getResource(testzip,
                         Long.toString(new Date().getTime()),
                         tempFile.getAbsolutePath());
 

@@ -365,23 +365,23 @@ public class DownloadController {
     		                                Model model) throws Exception {
         PhylogeneticTree tree = phylogeneticTreeService.load(id);        
         String output = null;
-        //PhylogenyParser parser = new PhyloXmlParser();
-		//parser.setSource(new ByteArrayInputStream(tree.getPhylogeny().getBytes()));
-		//Phylogeny phylogeny = parser.parse()[0];
+        PhylogenyParser parser = new PhyloXmlParser();
+		parser.setSource(new ByteArrayInputStream(tree.getPhylogeny().getBytes()));
+		Phylogeny phylogeny = parser.parse()[0];
     	PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
     	StringBuffer stringBuffer = null;
         switch (format) {
         case NEXUS:        	
-    		//stringBuffer = phylogenyWriter.toNexus(phylogeny, NH_CONVERSION_SUPPORT_VALUE_STYLE.IN_SQUARE_BRACKETS);
+    		stringBuffer = phylogenyWriter.toNexus(phylogeny, NH_CONVERSION_SUPPORT_VALUE_STYLE.IN_SQUARE_BRACKETS);
     		output = stringBuffer.toString();
         	break;
         case NHX:
-        	//stringBuffer = phylogenyWriter.toNewHampshireX(phylogeny);
+        	stringBuffer = phylogenyWriter.toNewHampshireX(phylogeny);
     		output = stringBuffer.toString();
         	break;
         case NH:
         default:
-    		//stringBuffer = phylogenyWriter.toNewHampshire(phylogeny, false, tree.getHasBranchLengths());
+    		stringBuffer = phylogenyWriter.toNewHampshire(phylogeny, false, tree.getHasBranchLengths());
     		output = stringBuffer.toString();        	
         	break;        
         }

@@ -1050,9 +1050,10 @@
 	          <version>1.9.18</version>
            </dependency>
            <dependency>
-             <groupId>com.google.code.forester</groupId>
+             <!--groupId>com.google.code.forester</groupId-->
+             <groupId>org.forester</groupId>
              <artifactId>forester</artifactId>
-             <version>1030</version>
+             <version>1029</version>
            </dependency>
            <dependency>
 	         <groupId>org.restdoc</groupId>
@@ -1403,7 +1404,7 @@
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-                <test.resource.baseUrl>http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
+				<test.resource.baseUrl>http://bitbucket.matt.blissett.me.uk/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1442,7 +1443,7 @@
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
 				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-                <test.resource.baseUrl>http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
+				<test.resource.baseUrl>http://bitbucket.matt.blissett.me.uk/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
 				<plugins>
@@ -1514,9 +1515,11 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://kptuapp01:6166</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
+				<amq.broker.uri>tcp://kpttapp01:6166</amq.broker.uri>
+				<amq.broker.userName>worldflora</amq.broker.userName>
+				<amq.broker.password>woldflora</amq.broker.password>
+				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
+				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
                 <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/world-flora-portal</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
@@ -1585,8 +1588,10 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>				
+				<amq.broker.userName>worldflora</amq.broker.userName>
+				<amq.broker.password>worldflora</amq.broker.password>
+				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
+				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
