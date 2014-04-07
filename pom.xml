@@ -1515,9 +1515,11 @@
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://kptuapp01:6166</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
+				<amq.broker.uri>tcp://kpttapp01:6166</amq.broker.uri>
+				<amq.broker.userName>worldflora</amq.broker.userName>
+				<amq.broker.password>woldflora</amq.broker.password>
+				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
+				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
                 <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/world-flora-portal</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
@@ -1586,8 +1588,10 @@
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>				
+				<amq.broker.userName>worldflora</amq.broker.userName>
+				<amq.broker.password>worldflora</amq.broker.password>
+				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
+				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
 				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
