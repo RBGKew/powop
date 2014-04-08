@@ -46,7 +46,7 @@
 							<h1 id="identify">
 								<spring:message code="identification.tools" />
 							</h1>
-							<p class="justified">The eMonocot portal offers different tools and functionalities to help you to identify monocot plants. 
+							<p class="justified">The <spring:message code="application.title" /> portal offers different tools and functionalities to help you to identify plants. 
 							Use the illustrated, multi-access identification keys to identify specimens to family or species level. 
 							You can select characters in any order (unlike traditional identification keys). 
 							Browse for images and view them in a grid or an image gallery.
@@ -119,10 +119,10 @@
 							<h1 id="classify">
 								<spring:message code="classify.header" />
 							</h1>
-							<p class="justified">The taxa presented in eMonocot are
+							<p class="justified">The taxa presented in <spring:message code="application.title" /> are
 								organised according to a dynamic, consensus classification. This
 								classification is based on the opinions of the taxonomic
-								communities contributing to eMonocot and is updated regularly as
+								communities contributing to <spring:message code="application.title" /> and is updated regularly as
 								new information becomes available.
 							</p>							
 							<hr/>

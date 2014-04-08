@@ -27,7 +27,7 @@
 	<div class="navbar-inner">
 		<div class="container">
 			<c:url value="/" var="brandUrl"/>
-			<a href="${brandUrl}" class="brand"><span>eMonocot</span></a>
+			<a href="${brandUrl}" class="brand"><span><spring:message code="application.title" /></span></a>
 			<button type="button" class="btn btn-navbar no-print" data-toggle="collapse" data-target=".nav-collapse">
 				<span class="icon-bar"><!--  --></span>
 				<span class="icon-bar"><!--  --></span>
