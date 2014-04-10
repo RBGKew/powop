@@ -72,8 +72,8 @@
         <property name="jobClass" value="org.emonocot.portal.scheduling.HarvestDataJob" />
         <property name="jobDataAsMap">
             <map>
-                <entry key="workingWeekCronExpression" value="* * 0-9,17-23 ? * MON-FRI" />
-                <entry key="weekendCronExpression" value="* * 0-23 ? * SAT-SUN" />
+                <entry key="workingWeekCronExpression" value="* */10 0-9,17-23 ? * MON-FRI" />
+                <entry key="weekendCronExpression" value="* */10 0-23 ? * SAT-SUN" />
                 <entry key="resourceServiceName" value="resourceServiceImpl" />
                 <entry key="jobLauncherName" value="messageBasedReadWriteJobLauncher" />
             </map>
