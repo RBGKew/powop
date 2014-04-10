@@ -376,7 +376,7 @@
 								<pingURL>${harvester.baseUrl}/jobs</pingURL>
 								<pingTimeout>10000</pingTimeout>
 								<properties>
-									<context>${cargo.context.path}</context>
+									<context>${cargo.harvester.context.path}</context>
 								</properties>
 							</deployable>
 						</deployables>

@@ -374,7 +374,7 @@
 								<pingURL>${cargo.tomcat.url}/login</pingURL>
 								<pingTimeout>10000</pingTimeout>
 								<properties>
-									<context>${cargo.context.path}</context>
+									<context>${cargo.portal.context.path}</context>
 								</properties>
 							</deployable>
 						</deployables>

@@ -1588,20 +1588,22 @@
 				<amq.broker.password>woldflora</amq.broker.password>
 				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:18080/world-flora-portal</portal.baseUrl>
+				<portal.baseUrl>http://localhost:18080/</portal.baseUrl>
+				<harvester.baseUrl>http://localhost:18080/world-flora-harvester</harvester.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:18080/world-flora-portal</cargo.tomcat.url>
+				<cargo.tomcat.url>http://localhost:18080/</cargo.tomcat.url>
 				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>letmein</cargo.remote.password>
-				<cargo.context.path>/world-flora-portal</cargo.context.path>
+				<cargo.portal.context.path>/</cargo.portal.context.path>
+				<cargo.harvester.context.path>/world-flora-harvester</cargo.harvester.context.path>
 				<logging.level>WARN</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://vagrant:/var/lib/tomcat7/webapps/world-flora-portal/</wagon.static.url>
+				<wagon.static.url>scp://vagrant:/var/lib/tomcat7/webapps/ROOT/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
@@ -1618,7 +1620,7 @@
 				<jdbc.driver.username>worldflora</jdbc.driver.username>
 				<jdbc.driver.password>worldflora</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
-				<functional.test.basePath>world-flora-portal</functional.test.basePath>
+				<functional.test.basePath>/</functional.test.basePath>
 				<functional.test.port>18080</functional.test.port>
 				<functional.test.solr.url>http://localhost:18983/solr</functional.test.solr.url>
 				<functional.test.username>test@e-monocot.org</functional.test.username>
