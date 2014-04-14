@@ -6,12 +6,12 @@
 	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 		
-	<context:property-override ignore-resource-not-found="true" ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
+	<context:property-override ignore-resource-not-found="true" ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/world-flora-portal.properties,classpath*:META-INF/spring/world-flora-portal-db.properties"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 	    <property name="basenames">
 		    <list>
-		        <value>classpath:META-INF/spring/emonocot-portal-messages</value>
+				<value>classpath:META-INF/spring/world-flora-portal-messages</value>
 				<value>WEB-INF/i18n/messages</value>
 				<value>WEB-INF/i18n/application</value>				
 			</list>

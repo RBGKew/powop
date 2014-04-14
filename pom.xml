@@ -1533,18 +1533,18 @@
 				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>emonocot</liquibase.username>
-				<liquibase.password>m0n0pa55</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
+				<liquibase.username>worldflora</liquibase.username>
+				<liquibase.password>w0rldfl0ra</liquibase.password>
+				<liquibase.default.schema.name>worldflora</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/world-flora-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot</jdbc.driver.username>
-				<jdbc.driver.password>m0n0pa55</jdbc.driver.password>
+				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/worldflora</jdbc.driver.url>
+				<jdbc.driver.username>worldflora</jdbc.driver.username>
+				<jdbc.driver.password>w0rldfl0ra</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
 				<functional.test.basePath>world-flora-portal</functional.test.basePath>
 				<functional.test.port>8080</functional.test.port>
@@ -1568,8 +1568,8 @@
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
-				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
-				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
+				<portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
+				<portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
                 <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
@@ -1730,7 +1730,7 @@
                   <configuration>
                     <includeGroupIds>org.kew.world-flora</includeGroupIds>
                     <includeArtifactIds>world-flora-static</includeArtifactIds>
-                    <outputDirectory>${project.build.directory}/world-flora-portal/WEB-INF/classes/static</outputDirectory>
+                    <outputDirectory>${project.build.directory}/emonocot-portal/WEB-INF/classes/static</outputDirectory>
                   </configuration>
                   <executions>
                     <execution>
@@ -1751,7 +1751,7 @@
                           <phase>pre-integration-test</phase>
                           <configuration>
                             <tasks>                            
-                              <copy todir="${project.build.directory}/world-flora-portal/WEB-INF/classes">
+                              <copy todir="${project.build.directory}/emonocot-portal/WEB-INF/classes">
                                 <fileset dir="${basedir}/src/test/resources/tomcat" includes="**/*" />
                               </copy>
                             </tasks>
