@@ -1513,7 +1513,7 @@
 				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://kpttapp01:6166</amq.broker.uri>
 				<amq.broker.userName>worldflora</amq.broker.userName>
-				<amq.broker.password>woldflora</amq.broker.password>
+				<amq.broker.password>w0rldfl0ra</amq.broker.password>
 				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
                 <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/world-flora-portal</portal.baseUrl>
@@ -1603,7 +1603,7 @@
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://vagrant:/var/lib/tomcat7/webapps/ROOT/</wagon.static.url>
+				<wagon.static.url>scp://localhost:2222/var/www</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
