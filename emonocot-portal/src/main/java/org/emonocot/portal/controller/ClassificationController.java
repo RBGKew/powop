@@ -29,6 +29,7 @@ public class ClassificationController {
      *
      */
     private TaxonService taxonService;
+    private static final int NUM_CHILDREN=70;
 
     /**
      * @param service Set the taxon service
@@ -40,7 +41,7 @@ public class ClassificationController {
     
     @RequestMapping(value = "/classification" , method = RequestMethod.GET)
     public final String classification(final Model model){
-    	List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");
+    	List<Taxon> results = taxonService.loadChildren(null, NUM_CHILDREN, 0, "classification-tree");
     	model.addAttribute("result", results);
     	return "classification";
     }
@@ -50,7 +51,7 @@ public class ClassificationController {
     @RequestMapping(value = "/taxonTree", method = RequestMethod.GET, produces = "application/json")
     public final @ResponseBody
     List<Node> getTaxonTreeRoots() {
-        List<Taxon> results = taxonService.loadChildren(null, 20, 0, "classification-tree");
+        List<Taxon> results = taxonService.loadChildren(null, NUM_CHILDREN, 0, "classification-tree");
         List<Node> nodes = new ArrayList<Node>();
         for (Taxon result : results) {
             nodes.add(new Node(result));
