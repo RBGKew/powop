@@ -393,7 +393,7 @@
 	          <groupId>org.apache.lucene</groupId>
 	          <artifactId>lucene-core</artifactId>
 	          <version>${lucene.version}</version>
-            </dependency>            
+            </dependency>
             <dependency>
 	          <groupId>org.apache.lucene</groupId>
 	          <artifactId>lucene-queries</artifactId>
@@ -561,7 +561,7 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -572,6 +572,12 @@
 				<artifactId>logback-core</artifactId>
 				<version>1.0.9</version>
 			</dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <scope>test</scope>
+            </dependency>
 			<dependency>
 				<groupId>janino</groupId>
 				<artifactId>janino</artifactId>
@@ -592,7 +598,7 @@
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>3.0</version>
-				<scope>test</scope>				
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.dbunit</groupId>
@@ -742,7 +748,7 @@
 				    <artifactId>commons-logging-api</artifactId>
 				  </exclusion>
 				</exclusions>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.apache.xbean</groupId>
 				<artifactId>xbean-spring</artifactId>
@@ -804,7 +810,7 @@
 				<groupId>org.geotools</groupId>
 				<artifactId>gt-epsg-hsql</artifactId>
 				<version>${geotools.version}</version>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
@@ -910,7 +916,7 @@
 				      <artifactId>commons-logging</artifactId>
 				    </exclusion>
 				</exclusions>
-			</dependency>	
+			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jsp-api</artifactId>
@@ -1149,7 +1155,7 @@
 						<exclude>**/*FunctionalTest.java</exclude>
 					</excludes>
 				</configuration>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -1243,7 +1249,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
 				<version>1.0-beta-4</version>
-				<configuration>           
+				<configuration>
                   <url>${wagon.static.url}</url>
                   <serverId>${wagon.server.id}</serverId>
                 </configuration>
@@ -1379,10 +1385,10 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
-      <downloadUrl>http://jenkins.ad.kew.org/repository</downloadUrl> 
+      <downloadUrl>http://jenkins.ad.kew.org/repository</downloadUrl>
       <repository>
-        <id>kew.server</id> 
-        <url>file:/var/lib/jenkins/repository</url> 
+        <id>kew.server</id>
+        <url>file:/var/lib/jenkins/repository</url>
       </repository>
     </distributionManagement>
 	<profiles>
@@ -1399,7 +1405,6 @@
 				<jdbc.driver.username>sa</jdbc.driver.username>
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
-				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<test.resource.baseUrl>http://bitbucket.matt.blissett.me.uk/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
@@ -1438,7 +1443,6 @@
 				<skip.global.tests>true</skip.global.tests>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
-				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<test.resource.baseUrl>http://bitbucket.matt.blissett.me.uk/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
@@ -1463,7 +1467,7 @@
 									</includes>
 									<excludes>
 										<exclude>**/*FunctionalTest.jav</exclude>
-									</excludes>									
+									</excludes>
 								</configuration>
 							</execution>
 						</executions>
@@ -1474,7 +1478,7 @@
 		<profile>
 			<id>functional</id>
 			<properties>
-				<skip.global.tests>true</skip.global.tests>				
+				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
 				<plugins>
@@ -1568,6 +1572,7 @@
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+                <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
@@ -1642,6 +1647,7 @@
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+                <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
@@ -1663,7 +1669,7 @@
 				<amq.broker.password>worldflora</amq.broker.password>
 				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1715,6 +1721,7 @@
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+                <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
@@ -1738,9 +1745,9 @@
                       <phase>pre-integration-test</phase>
                       <goals>
                         <goal>unpack-dependencies</goal>
-                      </goals>                      
+                      </goals>
                     </execution>
-                  </executions> 
+                  </executions>
                   </plugin>
                   <plugin>
                       <groupId>org.apache.maven.plugins</groupId>
@@ -1750,7 +1757,7 @@
                           <id>copy.local.resources</id>
                           <phase>pre-integration-test</phase>
                           <configuration>
-                            <tasks>                            
+                            <tasks>
                               <copy todir="${project.build.directory}/emonocot-portal/WEB-INF/classes">
                                 <fileset dir="${basedir}/src/test/resources/tomcat" includes="**/*" />
                               </copy>
@@ -1760,14 +1767,14 @@
                             <goal>run</goal>
                           </goals>
                         </execution>
-                      </executions>                      
+                      </executions>
                 </plugin>
 			    <plugin>
 			      <groupId>org.apache.tomcat.maven</groupId>
 			      <artifactId>tomcat7-maven-plugin</artifactId>
 		          <version>2.1</version>
 		          <configuration>
-                    <path>/</path>             
+                    <path>/</path>
                   </configuration>
 		          <executions>
 		            <execution>
@@ -1776,11 +1783,11 @@
                       <goals>
                         <goal>run-war-only</goal>
                       </goals>
-                      <configuration> 
+                      <configuration>
                         <systemProperties>
                             <spring.profiles.active>${spring.profiles.active}</spring.profiles.active>
                         </systemProperties>
-                        <fork>true</fork>                                                                 
+                        <fork>true</fork>
                       </configuration>
                     </execution>
                     <execution>
