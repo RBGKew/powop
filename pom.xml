@@ -1529,7 +1529,7 @@
 				<cargo.remote.username>sadmin</cargo.remote.username>
 				<cargo.remote.password>kewadmin</cargo.remote.password>
 				<cargo.context.path>/world-flora-portal</cargo.context.path>
-				<logging.level>WARN</logging.level>
+				<logging.level>DEBUG</logging.level>
 				<logging.method>file</logging.method>
 				<logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
 				<logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
