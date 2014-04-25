@@ -6,7 +6,7 @@
       <pattern>%d{ISO8601} | %-5p | %t | %c | %m%n</pattern>
     </encoder>
   </appender>
-  <root level="WARN">
+  <root level="DEBUG">
     <appender-ref ref="stdout"/>
   </root>
   <!-- Uncomment to debug job output -->
