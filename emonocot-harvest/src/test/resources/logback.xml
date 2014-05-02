@@ -6,7 +6,21 @@
       <pattern>%d{ISO8601} | %-5p | %t | %c | %m%n</pattern>
     </encoder>
   </appender>
-  <root level="DEBUG">
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>target/test.log</File>
+    <encoder>
+      <pattern>%d{ISO8601} | %X{req.remoteHost} | %X{req.requestURI} | %X{req.userAgent}  | %-5p | %t | %c | %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <maxIndex>10</maxIndex>
+      <FileNamePattern>target/test.log.%i</FileNamePattern>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <MaxFileSize>100MB</MaxFileSize>
+    </triggeringPolicy>
+  </appender>
+  <root level="WARN">
+    <appender-ref ref="file"/>
     <appender-ref ref="stdout"/>
   </root>
   <!-- Uncomment to debug job output -->
