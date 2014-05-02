@@ -1546,7 +1546,7 @@
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/worldflora</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://kpttdb01.ad.kew.org:3306/worldflora</jdbc.driver.url>
 				<jdbc.driver.username>worldflora</jdbc.driver.username>
 				<jdbc.driver.password>w0rldfl0ra</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
