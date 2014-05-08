@@ -393,7 +393,7 @@
 	          <groupId>org.apache.lucene</groupId>
 	          <artifactId>lucene-core</artifactId>
 	          <version>${lucene.version}</version>
-            </dependency>            
+            </dependency>
             <dependency>
 	          <groupId>org.apache.lucene</groupId>
 	          <artifactId>lucene-queries</artifactId>
@@ -561,7 +561,7 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -572,6 +572,12 @@
 				<artifactId>logback-core</artifactId>
 				<version>1.0.9</version>
 			</dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <scope>test</scope>
+            </dependency>
 			<dependency>
 				<groupId>janino</groupId>
 				<artifactId>janino</artifactId>
@@ -592,7 +598,7 @@
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>3.0</version>
-				<scope>test</scope>				
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.dbunit</groupId>
@@ -742,7 +748,7 @@
 				    <artifactId>commons-logging-api</artifactId>
 				  </exclusion>
 				</exclusions>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.apache.xbean</groupId>
 				<artifactId>xbean-spring</artifactId>
@@ -804,7 +810,7 @@
 				<groupId>org.geotools</groupId>
 				<artifactId>gt-epsg-hsql</artifactId>
 				<version>${geotools.version}</version>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
@@ -910,7 +916,7 @@
 				      <artifactId>commons-logging</artifactId>
 				    </exclusion>
 				</exclusions>
-			</dependency>	
+			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jsp-api</artifactId>
@@ -1149,7 +1155,7 @@
 						<exclude>**/*FunctionalTest.java</exclude>
 					</excludes>
 				</configuration>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -1243,7 +1249,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
 				<version>1.0-beta-4</version>
-				<configuration>           
+				<configuration>
                   <url>${wagon.static.url}</url>
                   <serverId>${wagon.server.id}</serverId>
                 </configuration>
@@ -1379,10 +1385,10 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<distributionManagement>
-      <downloadUrl>http://jenkins.ad.kew.org/repository</downloadUrl> 
+      <downloadUrl>http://jenkins.ad.kew.org/repository</downloadUrl>
       <repository>
-        <id>kew.server</id> 
-        <url>file:/var/lib/jenkins/repository</url> 
+        <id>kew.server</id>
+        <url>file:/var/lib/jenkins/repository</url>
       </repository>
     </distributionManagement>
 	<profiles>
@@ -1399,7 +1405,6 @@
 				<jdbc.driver.username>sa</jdbc.driver.username>
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
-				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<test.resource.baseUrl>http://bitbucket.matt.blissett.me.uk/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
@@ -1438,7 +1443,6 @@
 				<skip.global.tests>true</skip.global.tests>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
-				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<test.resource.baseUrl>http://bitbucket.matt.blissett.me.uk/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
@@ -1463,7 +1467,7 @@
 									</includes>
 									<excludes>
 										<exclude>**/*FunctionalTest.jav</exclude>
-									</excludes>									
+									</excludes>
 								</configuration>
 							</execution>
 						</executions>
@@ -1474,7 +1478,7 @@
 		<profile>
 			<id>functional</id>
 			<properties>
-				<skip.global.tests>true</skip.global.tests>				
+				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
 				<plugins>
@@ -1542,7 +1546,7 @@
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/worldflora</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://kpttdb01.ad.kew.org:3306/worldflora</jdbc.driver.url>
 				<jdbc.driver.username>worldflora</jdbc.driver.username>
 				<jdbc.driver.password>w0rldfl0ra</jdbc.driver.password>
 				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
@@ -1568,6 +1572,7 @@
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+                <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
@@ -1576,79 +1581,155 @@
 			</properties>
 		</profile>
 
-		<profile>
-			<id>portal.test.vm</id>
-			<properties>
-				<use.remote.solr>false</use.remote.solr>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:6166</amq.broker.uri>
-				<amq.broker.userName>worldflora</amq.broker.userName>
-				<amq.broker.password>woldflora</amq.broker.password>
-				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:18080/</portal.baseUrl>
-				<harvester.baseUrl>http://localhost:18080/world-flora-harvester</harvester.baseUrl>
-				<google.analytics.id />
-				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:18080/</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>letmein</cargo.remote.password>
-				<cargo.portal.context.path>/</cargo.portal.context.path>
-				<cargo.harvester.context.path>/world-flora-harvester</cargo.harvester.context.path>
-				<logging.level>WARN</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
-				<logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://localhost:2222/var/www</wagon.static.url>
-				<wagon.server.id>vagrant</wagon.server.id>
-				<liquibase.drop.database.first>true</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
-				<liquibase.username>worldflora</liquibase.username>
-				<liquibase.password>worldflora</liquibase.password>
-				<liquibase.default.schema.name>public</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/world-flora-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
-				<spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
-				<spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
-				<jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:postgresql://localhost/worldflora</jdbc.driver.url>
-				<jdbc.driver.username>worldflora</jdbc.driver.username>
-				<jdbc.driver.password>worldflora</jdbc.driver.password>
-				<functional.test.baseUri>http://localhost</functional.test.baseUri>
-				<functional.test.basePath>/</functional.test.basePath>
-				<functional.test.port>18080</functional.test.port>
-				<functional.test.solr.url>http://localhost:18983/solr</functional.test.solr.url>
-				<functional.test.username>test@e-monocot.org</functional.test.username>
-				<functional.test.password>t35t.pa55w0rd</functional.test.password>
-				<selenium.webdriver.impl>com.opera.core.systems.OperaDriver</selenium.webdriver.impl>
-				<selenium.webdriver.mode>local</selenium.webdriver.mode>
-				<selenium.display.port>:0</selenium.display.port>
-				<solr.url>http://localhost:8983/solr</solr.url>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
-				<email.debug>false</email.debug>
-				<email.smtp.username />
-				<email.smtp.password />
-				<email.smtp.host>smtp.ad.kew.org</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>test-portal@kpttapp01</email.fromAddress>
-				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
-				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>
-				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
-				<portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
-				<portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
-				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
-				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-				<spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
-			</properties>
-		</profile>
+        <profile>
+            <id>portal.test.vm</id>
+            <properties>
+                <use.remote.solr>false</use.remote.solr>
+                <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+                <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+                <web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
+                <amq.broker.uri>tcp://localhost:6166</amq.broker.uri>
+                <amq.broker.userName>worldflora</amq.broker.userName>
+                <amq.broker.password>woldflora</amq.broker.password>
+                <amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
+                <amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
+                <portal.baseUrl>http://localhost:18080/</portal.baseUrl>
+                <harvester.baseUrl>http://localhost:18080/world-flora-harvester</harvester.baseUrl>
+                <google.analytics.id />
+                <portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
+                <cargo.containerId>tomcat7x</cargo.containerId>
+                <cargo.tomcat.url>http://localhost:18080/</cargo.tomcat.url>
+                <cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
+                <cargo.remote.username>admin</cargo.remote.username>
+                <cargo.remote.password>letmein</cargo.remote.password>
+                <cargo.portal.context.path>/</cargo.portal.context.path>
+                <cargo.harvester.context.path>/world-flora-harvester</cargo.harvester.context.path>
+                <logging.level>WARN</logging.level>
+                <logging.method>file</logging.method>
+                <logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
+                <logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
+                <wagon.static.url>scp://localhost:2222/var/www</wagon.static.url>
+                <wagon.server.id>vagrant</wagon.server.id>
+                <liquibase.drop.database.first>true</liquibase.drop.database.first>
+                <liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
+                <liquibase.username>worldflora</liquibase.username>
+                <liquibase.password>worldflora</liquibase.password>
+                <liquibase.default.schema.name>public</liquibase.default.schema.name>
+                <hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/world-flora-portal/cache</ehcache.diskstore.path>
+                <ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
+                <spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
+                <jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
+                <jdbc.driver.url>jdbc:postgresql://localhost/worldflora</jdbc.driver.url>
+                <jdbc.driver.username>worldflora</jdbc.driver.username>
+                <jdbc.driver.password>worldflora</jdbc.driver.password>
+                <functional.test.baseUri>http://localhost</functional.test.baseUri>
+                <functional.test.basePath>/</functional.test.basePath>
+                <functional.test.port>18080</functional.test.port>
+                <functional.test.solr.url>http://localhost:18983/solr</functional.test.solr.url>
+                <functional.test.username>test@e-monocot.org</functional.test.username>
+                <functional.test.password>t35t.pa55w0rd</functional.test.password>
+                <selenium.webdriver.impl>com.opera.core.systems.OperaDriver</selenium.webdriver.impl>
+                <selenium.webdriver.mode>local</selenium.webdriver.mode>
+                <selenium.display.port>:0</selenium.display.port>
+                <solr.url>http://localhost:8983/solr</solr.url>
+                <http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+                <http.proxyPort>8080</http.proxyPort>
+                <email.debug>false</email.debug>
+                <email.smtp.username />
+                <email.smtp.password />
+                <email.smtp.host>smtp.ad.kew.org</email.smtp.host>
+                <email.smtp.port>25</email.smtp.port>
+                <email.smtp.auth>false</email.smtp.auth>
+                <email.smtp.enable.starttls>false</email.smtp.enable.starttls>
+                <email.fromAddress>test-portal@kpttapp01</email.fromAddress>
+                <quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
+                <quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>
+                <portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+                <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
+                <portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
+                <portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
+                <support.email.address>ict-team@about.e-monocot.org</support.email.address>
+                <support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>portal.test.windows</id>
+            <properties>
+                <use.remote.solr>false</use.remote.solr>
+                <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+                <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+                <web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
+                <amq.broker.uri>tcp://localhost:6166</amq.broker.uri>
+                <amq.broker.userName>worldflora</amq.broker.userName>
+                <amq.broker.password>woldflora</amq.broker.password>
+                <amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
+                <amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
+                <portal.baseUrl>http://localhost:18080/</portal.baseUrl>
+                <harvester.baseUrl>http://localhost:18080/world-flora-harvester</harvester.baseUrl>
+                <google.analytics.id />
+                <portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
+                <cargo.containerId>tomcat7x</cargo.containerId>
+                <cargo.tomcat.url>http://localhost:18080/</cargo.tomcat.url>
+                <cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
+                <cargo.remote.username>admin</cargo.remote.username>
+                <cargo.remote.password>letmein</cargo.remote.password>
+                <cargo.portal.context.path>/</cargo.portal.context.path>
+                <cargo.harvester.context.path>/world-flora-harvester</cargo.harvester.context.path>
+                <logging.level>INFO</logging.level>
+                <logging.method>file</logging.method>
+                <logging.location>/var/log/tomcat7/world-flora-portal.log</logging.location>
+                <logging.querylog.location>/var/log/tomcat7/world-flora-portal-query.log</logging.querylog.location>
+                <wagon.static.url>scp://localhost:2222/var/www</wagon.static.url>
+                <wagon.server.id>vagrant</wagon.server.id>
+                <liquibase.drop.database.first>true</liquibase.drop.database.first>
+                <liquibase.changelog>changelog.postgres.xml</liquibase.changelog>
+                <liquibase.username>worldflora</liquibase.username>
+                <liquibase.password>worldflora</liquibase.password>
+                <liquibase.default.schema.name>public</liquibase.default.schema.name>
+                <hibernate.dialect>org.hibernatespatial.postgis.PostgisDialect</hibernate.dialect>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/world-flora-portal/cache</ehcache.diskstore.path>
+                <ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
+                <spring.security.sid.identity.query>select currval(pg_get_serial_sequence('acl_sid', 'id'))</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>select currval(pg_get_serial_sequence('acl_class', 'id'))</spring.security.class.identity.query>
+                <jdbc.driver.classname>org.postgresql.Driver</jdbc.driver.classname>
+                <jdbc.driver.url>jdbc:postgresql://localhost/worldflora</jdbc.driver.url>
+                <jdbc.driver.username>worldflora</jdbc.driver.username>
+                <jdbc.driver.password>worldflora</jdbc.driver.password>
+                <functional.test.baseUri>http://localhost</functional.test.baseUri>
+                <functional.test.basePath>/</functional.test.basePath>
+                <functional.test.port>10080</functional.test.port>
+                <functional.test.solr.url>http://localhost:18983/solr</functional.test.solr.url>
+                <functional.test.username>test@e-monocot.org</functional.test.username>
+                <functional.test.password>t35t.pa55w0rd</functional.test.password>
+                <selenium.webdriver.impl>com.opera.core.systems.OperaDriver</selenium.webdriver.impl>
+                <selenium.webdriver.mode>local</selenium.webdriver.mode>
+                <selenium.display.port>:0</selenium.display.port>
+                <solr.url>http://localhost:8983/solr</solr.url>
+                <http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+                <http.proxyPort>8080</http.proxyPort>
+                <email.debug>false</email.debug>
+                <email.smtp.username />
+                <email.smtp.password />
+                <email.smtp.host>smtp.ad.kew.org</email.smtp.host>
+                <email.smtp.port>25</email.smtp.port>
+                <email.smtp.auth>false</email.smtp.auth>
+                <email.smtp.enable.starttls>false</email.smtp.enable.starttls>
+                <email.fromAddress>test-portal@dev</email.fromAddress>
+                <quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
+                <quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.PostgreSQLDelegate</quartz.jobstore.delegate>
+                <portal.imagemagick.path>/Program Files/Image Magick</portal.imagemagick.path>
+                <harvester.imagemagick.path>/Program Files/Image Magick</harvester.imagemagick.path>
+                <portal.image.temporary.directory>/var/spool/worldflora</portal.image.temporary.directory>
+                <portal.profile.image.directory>/var/lib/worldflora/images/profiles</portal.profile.image.directory>
+                <support.email.address>ict-team@about.e-monocot.org</support.email.address>
+                <support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
+            </properties>
+        </profile>
 
 		<profile>
 			<id>portal.test.local</id>
@@ -1663,7 +1744,7 @@
 				<amq.broker.password>worldflora</amq.broker.password>
 				<amq.broker.readOnlyQueue>worldflora.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>worldflora.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>world-flora-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1715,6 +1796,7 @@
 				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
 				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
 				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
+                <harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
@@ -1738,9 +1820,9 @@
                       <phase>pre-integration-test</phase>
                       <goals>
                         <goal>unpack-dependencies</goal>
-                      </goals>                      
+                      </goals>
                     </execution>
-                  </executions> 
+                  </executions>
                   </plugin>
                   <plugin>
                       <groupId>org.apache.maven.plugins</groupId>
@@ -1750,7 +1832,7 @@
                           <id>copy.local.resources</id>
                           <phase>pre-integration-test</phase>
                           <configuration>
-                            <tasks>                            
+                            <tasks>
                               <copy todir="${project.build.directory}/emonocot-portal/WEB-INF/classes">
                                 <fileset dir="${basedir}/src/test/resources/tomcat" includes="**/*" />
                               </copy>
@@ -1760,14 +1842,14 @@
                             <goal>run</goal>
                           </goals>
                         </execution>
-                      </executions>                      
+                      </executions>
                 </plugin>
 			    <plugin>
 			      <groupId>org.apache.tomcat.maven</groupId>
 			      <artifactId>tomcat7-maven-plugin</artifactId>
 		          <version>2.1</version>
 		          <configuration>
-                    <path>/</path>             
+                    <path>/</path>
                   </configuration>
 		          <executions>
 		            <execution>
@@ -1776,11 +1858,11 @@
                       <goals>
                         <goal>run-war-only</goal>
                       </goals>
-                      <configuration> 
+                      <configuration>
                         <systemProperties>
                             <spring.profiles.active>${spring.profiles.active}</spring.profiles.active>
                         </systemProperties>
-                        <fork>true</fork>                                                                 
+                        <fork>true</fork>
                       </configuration>
                     </execution>
                     <execution>
