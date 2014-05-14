@@ -64,6 +64,7 @@
 	
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
 
+	<mvc:view-controller path="/contribute" view-name="contribute"/>
 	<mvc:view-controller path="/tour" view-name="tour"/>
 	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
 	<mvc:view-controller path="/badRequest" view-name="badRequest"/>
