@@ -69,6 +69,9 @@
                             <copy todir="${project.build.directory}/static/css/fonts">
                               <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
                             </copy>
+                            <copy todir="${project.build.directory}/static/css/data">
+                              <fileset dir="${basedir}/src/main/data" includes="**/*" />
+                            </copy>
                             <delete dir="${project.build.directory}/static/tiles/" />
                             <mkdir dir="${project.build.directory}/static/tiles/" />
                             <copy todir="${project.build.directory}/static/tiles">
