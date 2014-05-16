@@ -469,8 +469,8 @@
 									<tbody>
 										<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
 											<tr>
-												<td>${vernacularName}</td>
-												<td>${vernacularName.language}</td>
+												<td>${vernacularName.vernacularName}</td>
+												<td><c:if test="${vernacularName.language != ''}">${vernacularName.language.displayLanguage}</c:if></td>
 												<td>
 													<ul class="citations">
 														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,vernacularName)}"/>

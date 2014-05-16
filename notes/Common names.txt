@@ -1,0 +1,18 @@
+To do common names properly, including showing references:
+
+- The data model will need changing.
+  /world-flora-model/src/main/java/org/emonocot/model/VernacularName.java
+  doesn't have a Set<References> references property, so the data
+  model would need changing — see Distribution.
+
+- Then, the harvester needs changing.  See
+  /world-flora-harvest/src/main/java/org/emonocot/job/dwc/distribution/FieldSetMapper.java
+  for how distributions work.
+
+- Then, the portal view function in
+  /world-flora-portal/src/main/java/org/emonocot/portal/view/bibliography/SimpleBibliographyImpl.java
+  needs updating to add bibliography entries from vernacular names in #setReferences.
+
+- Finally, the view itself
+  /world-flora-portal/src/main/webapp/WEB-INF/views/taxon/show.jspx
+  needs updating to include the bibliographic citations.
