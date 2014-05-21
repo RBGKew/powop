@@ -5,6 +5,7 @@
   <jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
   <jsp:output omit-xml-declaration="true" />
   <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <tiles:insertAttribute name="head" />
   <body data-spy="scroll" data-target=".subnav" data-offset="100">
 	<tiles:insertAttribute name="header" />
