@@ -82,12 +82,14 @@ public class VernacularName extends OwnedEntity {
 		this.temporal = temporal;
 	}
 
+	@Override
 	@ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference("vernacularNames-taxon")
 	public Taxon getTaxon() {
 		return taxon;
 	}
 	
+	@Override
 	@JsonBackReference("vernacularNames-taxon")
 	public void setTaxon(Taxon taxon) {
 		this.taxon = taxon;
@@ -208,6 +210,7 @@ public class VernacularName extends OwnedEntity {
         return "VernacularName";
     }
 	
+	@Override
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "annotatedObjId")
     @Where(clause = "annotatedObjType = 'VernacularName'")
@@ -221,6 +224,7 @@ public class VernacularName extends OwnedEntity {
      * @param annotations
      *            the annotations to set
      */
+    @Override
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
@@ -229,7 +233,7 @@ public class VernacularName extends OwnedEntity {
     public String toString() {
     	StringBuffer stringBuffer = new StringBuffer();
     	stringBuffer.append(vernacularName);
-    	if(language != null) {
+    	if (language != null && !language.getDisplayLanguage().isEmpty()) {
     		stringBuffer.append(" (" + language.getDisplayLanguage() + ")");
     	}
     	return stringBuffer.toString();

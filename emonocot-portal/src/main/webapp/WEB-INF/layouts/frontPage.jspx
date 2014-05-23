@@ -6,6 +6,7 @@
 	<jsp:output omit-xml-declaration="true" />
 	<jsp:output doctype-root-element="HTML"
 		doctype-system="about:legacy-compat" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <tiles:insertAttribute name="head" />
   <body>
 	<tiles:insertAttribute name="header" />

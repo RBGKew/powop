@@ -35,7 +35,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 			doValidate(t);
 
 			T persisted = null;
-
+//TODO Review issue of creating & deleting
 			if (t.getIdentifier() != null) {
 				persisted = service.find(t.getIdentifier(),
 						"object-with-annotations");
