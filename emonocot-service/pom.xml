@@ -4,10 +4,10 @@
   <parent>
     <artifactId>world-flora</artifactId>
     <groupId>org.kew.world-flora</groupId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
   </parent>
   <artifactId>world-flora-service</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1-SNAPSHOT</version>
   <name>World Flora Service Layer</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
