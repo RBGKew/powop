@@ -22,6 +22,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.convert.TaxonomicStatusToStringConverter;
 import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,9 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     protected Boolean skipUnmodified = Boolean.TRUE;
 
 	private int itemsRead;
-    
+
+	private static final String WCS_UNPLACED_IDENTIFIER = "urn:kew.org:wcs:taxon:-9999";
+	
     @Autowired
     public void setValidator(Validator validator) {
     	this.validator = validator;
@@ -109,19 +112,19 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
     	if(taxon == null) {
     		throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
-    	} else if(subtribe != null && (inSubtribe(taxon) && (taxon.getAcceptedNameUsage() != null && inSubtribe(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
-                    recordType, getLineNumber());
-    	} else if(tribe != null && (inTribe(taxon) && (taxon.getAcceptedNameUsage() != null && inTribe(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
-                    recordType, getLineNumber());
-    	} else if(subfamily != null && (inSubfamily(taxon) && (taxon.getAcceptedNameUsage() != null && inSubfamily(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
-                    recordType, getLineNumber());
-    	} else if(family != null && (inFamily(taxon) && (taxon.getAcceptedNameUsage() != null && inFamily(taxon.getAcceptedNameUsage())))) {
-    		throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
-                    recordType, getLineNumber());
-    	}
+		} else if(subtribe != null && subtribeOutOfScope(taxon)) {
+			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
+	                recordType, getLineNumber());    		
+		} else if(tribe != null && tribeOutOfScope(taxon)) {
+			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
+	                recordType, getLineNumber());
+    	} else if(subfamily != null && subfamilyOutOfScope(taxon)) {
+			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
+	                recordType, getLineNumber());
+		} else if(family != null && familyOutOfScope(taxon)) {
+			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
+	                recordType, getLineNumber());
+		}
     }
     
     protected void  checkAuthority(RecordType recordType, Base record, Organisation authority) throws DarwinCoreProcessingException {
@@ -146,22 +149,94 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
 		return itemsRead;
 	}
 
-	private boolean inSubtribe(Taxon taxon) {
-    	return taxon.getSubtribe() == null || !taxon.getSubtribe().equals(subtribe);
+    private boolean subtribeOutOfScope(Taxon taxon) {
+    	boolean outOfScope = false;
+    	Taxon t = taxon;
+    	if (t != null){
+    		// Traverse all the way up to the acc name
+    		while(t.getAcceptedNameUsage() != null){
+    			if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
+    				break;
+    			else	
+    				t = t.getAcceptedNameUsage();
+    		}
+    		// Check for unplaced taxa, which are OK
+	    	String identifier = t.getIdentifier();
+	    	if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
+	    		// If not unplaced, its acc taxon must have a null subtribe or a different one 
+	    		// to that in which we are interested to be out of scope. 
+	    		outOfScope = t.getSubtribe() == null || !t.getSubtribe().equals(subtribe);
+	    	}
+    	}
+    	return outOfScope;
+    }
+	
+    private boolean tribeOutOfScope(Taxon taxon) {
+    	boolean outOfScope = false;
+    	Taxon t = taxon;
+    	if (t != null){
+    		// Traverse all the way up to the acc name
+    		while(t.getAcceptedNameUsage() != null){
+    			if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
+    				break;
+    			else	
+    				t = t.getAcceptedNameUsage();
+    		}
+    		// Check for unplaced taxa, which are OK
+	    	String identifier = t.getIdentifier();
+	    	if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
+	    		// If not unplaced, its acc taxon must have a null tribe or a different one 
+	    		// to that in which we are interested to be out of scope. 
+	    		outOfScope = t.getTribe() == null || !t.getTribe().equals(tribe);
+	    	}
+    	}
+    	return outOfScope;
     }
     
-    private boolean inTribe(Taxon taxon) {
-    	return taxon.getTribe() == null || !taxon.getTribe().equals(tribe);
+    private boolean subfamilyOutOfScope(Taxon taxon) {
+    	boolean outOfScope = false;
+    	Taxon t = taxon;
+    	if (t != null){
+    		// Traverse all the way up to the acc name
+    		while(t.getAcceptedNameUsage() != null){
+    			if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
+    				break;
+    			else	
+    				t = t.getAcceptedNameUsage();
+    		}
+    		// Check for unplaced taxa, which are OK
+	    	String identifier = t.getIdentifier();
+	    	if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
+	    		// If not unplaced, its acc taxon must have a null subfamily or a different one 
+	    		// to that in which we are interested to be out of scope. 
+	    		outOfScope = t.getSubfamily() == null || !t.getSubfamily().equals(subfamily);
+	    	}
+    	}
+    	return outOfScope;
     }
     
-    private boolean inSubfamily(Taxon taxon) {
-    	return taxon.getSubfamily() == null || !taxon.getSubfamily().equals(subfamily);
+    private boolean familyOutOfScope(Taxon taxon) {
+    	boolean outOfScope = false;
+    	Taxon t = taxon;
+    	if (t != null){
+    		// Traverse all the way up to the acc name
+    		while(t.getAcceptedNameUsage() != null){
+    			if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
+    				break;
+    			else	
+    				t = t.getAcceptedNameUsage();
+    		}
+    		// Check for unplaced taxa, which are OK
+	    	String identifier = t.getIdentifier();
+	    	if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
+	    		// If not unplaced, its acc taxon must have a null family or a different one 
+	    		// to that in which we are interested to be out of scope. 
+	    		outOfScope = t.getFamily() == null || !t.getFamily().equals(family);
+	    	}
+    	}
+    	return outOfScope;
     }
-    
-    private boolean inFamily(Taxon taxon) {
-    	return taxon.getFamily() == null || !taxon.getFamily().equals(family);
-    }
-    
+
     protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {
     	boolean annotationPresent = false;
 
