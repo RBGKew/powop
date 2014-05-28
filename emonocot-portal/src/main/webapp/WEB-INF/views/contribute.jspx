@@ -102,7 +102,7 @@
 								<a href="${fzSingle}">This example Darwin Core Archive</a> contains a single species record from <cite>Flora Zambesiaca</cite>
 								with general, distribution, habitat, morphology, and literature descriptions, as well as references.  Compare the
 								<a href="http://apps.kew.org/efloras/namedetail.do?flora=fz&amp;taxon=9342&amp;nameid=24415">record on the online version of
-								Flora Zambesiaca</a>, or the <a href="fzInPortal">record as it appears in this portal</a>.
+								Flora Zambesiaca</a>, or the <a href="${fzInPortal}">record as it appears in this portal</a>.
 							</p>
 						</div>
 					</div>
