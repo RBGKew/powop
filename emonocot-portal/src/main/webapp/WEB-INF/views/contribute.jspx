@@ -97,7 +97,7 @@
 							<p class="justified">Additional terms can be included, they will be ignored.</p>
 							<h2>Example dataset</h2>
 							<p class="justified">
-								<c:url value="/css/data/fz-nervilia-balliii.zip" var="fzSingle" />
+								<c:url value="/css/data/fz-nervilia-ballii.zip" var="fzSingle" />
 								<c:url value="/taxon/urn:kew.org:wcs:taxon:135257" var="fzInPortal" />
 								<a href="${fzSingle}">This example Darwin Core Archive</a> contains a single species record from <cite>Flora Zambesiaca</cite>
 								with general, distribution, habitat, morphology, and literature descriptions, as well as references.  Compare the
