@@ -19,6 +19,14 @@
 					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
 					<c:url var="emonocotImageUrl" value="/css/images/footer/e-monocot.png"/>
 					<li><a href="http://e-monocot.org/"><img src="${emonocotImageUrl}" width="172" height="auto" alt="e-monocot" target="_blank" /></a></li>
+					<c:url var="ildisImageUrl" value="/css/images/footer/ildis.png"/>
+					<li><a href="http://www.ildis.org/"><img src="${ildisImageUrl}" width="56" height="auto" alt="ILDIS" target="_blank" /></a></li>
+				</ul>
+				<ul class="nav">
+					<c:url var="solanaceaeImageUrl" value="/css/images/footer/solanaceae.png"/>
+					<li><a href="http://www.solanaceaesource.org/"><img src="${solanaceaeImageUrl}" width="271" height="60" alt="Solanaceae Source" target="_blank" /></a></li>
+					<c:url var="wienImageUrl" value="/css/images/footer/nhm-wien.png"/>
+					<li><a href="http://www.nhm-wien.ac.at/"><img src="${wienImageUrl}" width="177" height="60" alt="Naturhistorisches Museum Wien" target="_blank" /></a></li>
 					<c:url var="rbgeImageUrl" value="/css/images/footer/rbge.png"/>
 					<li><a href="http://www.rbge.org.uk/"><img src="${rbgeImageUrl}" width="169" height="60" alt="Royal Botanic Gardens, Edinburgh" target="_blank" /></a></li>
 				</ul>
@@ -37,6 +45,14 @@
 					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
 					<c:url var="emonocotImageUrl" value="/css/images/footer/e-monocot.png"/>
 					<li><a href="http://e-monocot.org/"><img src="${emonocotImageUrl}" width="172" height="auto" alt="e-monocot" target="_blank" /></a></li>
+					<c:url var="ildisImageUrl" value="/css/images/footer/ildis.png"/>
+					<li><a href="http://www.ildis.org/"><img src="${ildisImageUrl}" width="56" height="auto" alt="ILDIS" target="_blank" /></a></li>
+				</ul>
+				<ul class="nav">
+					<c:url var="solanaceaeImageUrl" value="/css/images/footer/solanaceae.png"/>
+					<li><a href="http://www.solanaceaesource.org/"><img src="${solanaceaeImageUrl}" width="271" height="60" alt="Solanaceae Source" target="_blank" /></a></li>
+					<c:url var="wienImageUrl" value="/css/images/footer/nhm-wien.png"/>
+					<li><a href="http://www.nhm-wien.ac.at/"><img src="${wienImageUrl}" width="177" height="60" alt="Naturhistorisches Museum Wien" target="_blank" /></a></li>
 					<c:url var="rbgeImageUrl" value="/css/images/footer/rbge.png"/>
 					<li><a href="http://www.rbge.org.uk/"><img src="${rbgeImageUrl}" width="169" height="60" alt="Royal Botanic Gardens, Edinburgh" target="_blank" /></a></li>
 				</ul>
