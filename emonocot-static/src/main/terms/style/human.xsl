@@ -34,7 +34,7 @@
                           <div class="span12">
                             <div class="page-header">
                               <h3>Darwin Core <xsl:value-of select="$defType"/>
-                                   <span style="font-size:60%;color:#888;"> (<a href="/">index</a>)</span>
+                                   <span style="font-size:60%;color:#888;"> (<a href="../">index</a>)</span>
                               </h3>
                               <h2><xsl:value-of select="@dc:title"/></h2>
                             </div>

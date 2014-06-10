@@ -165,7 +165,6 @@
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,scientificName,scientificNameAuthorship,taxonRank,taxonomicStatus,acceptedNameUsageID,genus,subgenus,specificEpithet,infraspecificEpithet,source,modified,created,parentNameUsageID,namePublishedIn,namePublishedInID,nomenclaturalStatus"/>
-	     <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	   </bean>
 	 </property>
 	</bean>
@@ -196,14 +195,13 @@
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
-	     <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	   </bean>
 	 </property>
 	</bean>
 	
 	<bean id="imageReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
       <property name="dataSource" ref="dataSource"/>
-      <property name="sql" value="select taxonID, identifier, title, creator, modified, created FROM (select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(part.uri,'') as identifier, IFNULL(media.titleCache,'') as title, IFNULL(agent.titleCache,'') as creator, IFNULL(IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')),'') as modified, IFNULL(DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),'') as created, mimetype as format from media  join mediarepresentation as rep on (media.id = rep.media_id) join mediarepresentationpart as part on (rep.id = part.representation_id) left join media_rights on (media.id = media_rights.Media_id) left join rights on (media_rights.rights_id = rights.id) left join agentbase as agent on (rights.agent_id = Agent.id) join descriptionelementbase_media as deb_media on (media.id = deb_media.media_id) join descriptionelementbase as element on(element.id = deb_media.DescriptionElementBase_id) join DescriptionBase as description on (element.indescription_id = description.id) join species on (description.taxon_id = species.child) join taxonbase as taxon on (species.parent = taxon.id) union select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(part.uri,'') as identifier, IFNULL(media.titleCache,'') as title, IFNULL(agent.titleCache,'') as creator, IFNULL(IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')),'') as modified, IFNULL(DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),'') as created, mimetype as format from media join mediarepresentation as rep on (media.id = rep.media_id) join mediarepresentationpart as part on (rep.id = part.representation_id)left join media_rights on (media.id = media_rights.Media_id) left join rights on (media_rights.rights_id = rights.id) left join AgentBase as agent on (rights.agent_id = Agent.id) left join descriptionelementbase_media as deb_media on (media.id = deb_media.media_id) left join descriptionelementbase as element on (element.id = deb_media.DescriptionElementBase_id) left join DescriptionBase as description on (element.indescription_id = description.id) left join taxonbase as taxon on (description.taxon_id = taxon.id)) as images where (format = 'image/jpeg' and length(identifier) > 0)"/>
+      <property name="sql" value="select taxonID, identifier, title, creator, modified, created FROM (select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(part.uri,'') as identifier, IFNULL(media.titleCache,'') as title, IFNULL(agent.titleCache,'') as creator, IFNULL(IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')),'') as modified, IFNULL(DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),'') as created, mimetype as format from media  join mediarepresentation as rep on (media.id = rep.media_id) join mediarepresentationpart as part on (rep.id = part.representation_id) left join media_rightsinfo on (media.id = media_rightsinfo.Media_id) left join rightsinfo on (media_rightsinfo.rights_id = rightsinfo.id) left join agentbase as agent on (rightsinfo.agent_id = Agent.id) join descriptionelementbase_media as deb_media on (media.id = deb_media.media_id) join descriptionelementbase as element on(element.id = deb_media.DescriptionElementBase_id) join DescriptionBase as description on (element.indescription_id = description.id) join species on (description.taxon_id = species.child) join taxonbase as taxon on (species.parent = taxon.id) union select IFNULL(taxon.lsid_lsid,'') as taxonID, IFNULL(part.uri,'') as identifier, IFNULL(media.titleCache,'') as title, IFNULL(agent.titleCache,'') as creator, IFNULL(IF(media.updated is NULL, DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(media.updated,'%Y-%m-%dT%TZ')),'') as modified, IFNULL(DATE_FORMAT(media.created,'%Y-%m-%dT%TZ'),'') as created, mimetype as format from media join mediarepresentation as rep on (media.id = rep.media_id) join mediarepresentationpart as part on (rep.id = part.representation_id)left join media_rightsinfo on (media.id = media_rightsinfo.Media_id) left join rightsinfo on (media_rightsinfo.rights_id = rightsinfo.id) left join AgentBase as agent on (rightsinfo.agent_id = Agent.id) left join descriptionelementbase_media as deb_media on (media.id = deb_media.media_id) left join descriptionelementbase as element on (element.id = deb_media.DescriptionElementBase_id) left join DescriptionBase as description on (element.indescription_id = description.id) left join taxonbase as taxon on (description.taxon_id = taxon.id)) as images where (format = 'image/jpeg' and length(identifier) > 0)"/>
       <property name="rowMapper" ref="rowToMapRowMapper"/>
     </bean>
     
@@ -227,7 +225,6 @@
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,identifier,title,creator,modified,created"/>
-	     <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	   </bean>
 	 </property>
 	</bean>
@@ -258,7 +255,6 @@
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
-	     <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	   </bean>
 	 </property>
 	</bean>
@@ -289,7 +285,6 @@
 	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,modified,created,identifier,title,format"/>
-	     <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	   </bean>
 	 </property>
 	</bean>
