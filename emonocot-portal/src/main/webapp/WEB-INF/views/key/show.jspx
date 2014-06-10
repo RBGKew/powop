@@ -109,7 +109,7 @@
 					<ul id="selectedCharacters" class="box nav nav-list"><!--  --></ul>
 				</div>
 				<br/>
-				<div class="tourHelp inner"  data-tour-title="Select features" data-tour-content="Select the features of the plant you want to identify and choose one or more matching states. This will narrow down the list of remaining taxa." data-tour-placement="top" data-tour-prev="3" data-tour-next="5">
+				<div class="tourHelp inner"  data-tour-title="Select features" data-tour-content="Select the features of the monocot you want to identify and choose one or more matching states. This will narrow down the list of remaining taxa." data-tour-placement="top" data-tour-prev="3" data-tour-next="5">
 					<ul id="unselectedCharacters" class="box nav nav-list"><!--  --></ul>
 				</div>
 				<br/>

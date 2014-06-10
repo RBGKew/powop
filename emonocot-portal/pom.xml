@@ -2,35 +2,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>world-flora</artifactId>
-		<groupId>org.kew.world-flora</groupId>
-		<version>0.1.2-SNAPSHOT</version>
+		<artifactId>emonocot</artifactId>
+		<groupId>org.emonocot</groupId>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>world-flora-portal</artifactId>
+	<artifactId>emonocot-portal</artifactId>
 	<packaging>war</packaging>
-	<name>World Flora Portal</name>
+	<name>eMonocot Portal</name>
 	<dependencies>
         <dependency>
-            <groupId>org.kew.world-flora</groupId>
-            <artifactId>world-flora-service</artifactId>
+            <groupId>org.emonocot</groupId>
+            <artifactId>emonocot-service</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kew.world-flora</groupId>
-            <artifactId>world-flora-service</artifactId>
+            <groupId>org.emonocot</groupId>
+            <artifactId>emonocot-service</artifactId>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.kew.world-flora</groupId>
-            <artifactId>world-flora-static</artifactId>
+            <groupId>org.emonocot</groupId>
+            <artifactId>emonocot-static</artifactId>
             <version>${project.version}</version>
             <classifier>static</classifier>
             <type>tar.gz</type>
             <scope>test</scope>
         </dependency>
 		<dependency>
-			<groupId>org.kew.world-flora</groupId>
-			<artifactId>world-flora-model</artifactId>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-model</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
@@ -309,7 +309,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>world-flora-portal</finalName>		
+		<finalName>emonocot-portal</finalName>		
 		<testResources>
           <testResource>
             <directory>src/test/resources</directory>

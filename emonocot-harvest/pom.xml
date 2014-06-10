@@ -2,30 +2,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>world-flora</artifactId>
-		<groupId>org.kew.world-flora</groupId>
-		<version>0.1.2-SNAPSHOT</version>
+		<artifactId>emonocot</artifactId>
+		<groupId>org.emonocot</groupId>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>world-flora-harvest</artifactId>
+	<artifactId>emonocot-harvest</artifactId>
 	<packaging>war</packaging>
-	<name>World Flora Harvesting</name>
+	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
 	<dependencies>
         <dependency>
-			<groupId>org.kew.world-flora</groupId>
-			<artifactId>world-flora-model</artifactId>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-model</artifactId>			
 		</dependency>
 		<dependency>
-			<groupId>org.kew.world-flora</groupId>
-			<artifactId>world-flora-service</artifactId>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-service</artifactId>
 		</dependency>
 		<dependency>
 		  <groupId>org.hibernatespatial</groupId>
           <artifactId>hibernate-spatial-h2-geodb</artifactId>
 	    </dependency>
 		<dependency>
-          <groupId>org.kew.world-flora</groupId>
-          <artifactId>world-flora-persistence</artifactId>
+          <groupId>org.emonocot</groupId>
+          <artifactId>emonocot-persistence</artifactId>
           <type>test-jar</type>
           <version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
           <scope>test</scope>
@@ -317,7 +317,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>world-flora-harvest</finalName>
+		<finalName>emonocot-harvest</finalName>
 		<testResources>
           <testResource>
             <directory>src/test/resources</directory>

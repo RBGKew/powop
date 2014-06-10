@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
 
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/world-flora-harvest.properties,classpath*:META-INF/spring/world-flora-harvest-db.properties"/>
+    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
     
     <!-- 
       Copied from spring-batch-admin-manager.jar/META-INF/spring/batch/bootstrap/manager/jmx-context.xml
