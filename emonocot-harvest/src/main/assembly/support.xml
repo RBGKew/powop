@@ -42,8 +42,8 @@
         <file>
             <source>${project.basedir}/src/main/assembly/logback.xml</source>
             <outputDirectory>/</outputDirectory>
-        </file>     
-    </files> 
+        </file>
+    </files>
     <fileSets>
       <fileSet>
         <outputDirectory>/</outputDirectory>

@@ -19,6 +19,7 @@ import org.apache.jempbox.xmp.XMPSchemaDublinCore;
 import org.apache.jempbox.xmp.XMPSchemaIptc4xmpCore;
 import org.apache.jempbox.xmp.XMPSchemaPhotoshop;
 import org.apache.jempbox.xmp.XMPSchemaRightsManagement;
+import org.apache.sanselan.ImageReadException;
 import org.apache.sanselan.Sanselan;
 import org.apache.sanselan.common.IImageMetadata;
 import org.apache.sanselan.common.ImageMetadata;
@@ -126,7 +127,8 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
         File file = new File(imageFileName);
         logger.debug("Image File " + imageFileName);
         if (!file.exists()) {
-            logger.error("File does not exist in image directory, skipping");
+            logger.error("File {} does not exist in image directory for image ({}), {}, skipping record",
+                    file.getCanonicalPath(), image.getId(), image);
             //TODO error annotation
             return null;
         }
@@ -165,19 +167,26 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
 					}
 				}
 			} catch (IOException ioe) {
-				logger.error("Exception parsing XMP XML " + xmpXml, ioe);
+				logger.error("Exception parsing XMP XML for image (" + image.getId() + ") " + image 
+				        + " The XML was:\n" + xmpXml, ioe);
+				//TODO error annotation
 			}
 		} else {
 			logger.debug("Image " + file + " does not contain embedded XMP metadata");
 		}
         
-        IImageMetadata metadata = Sanselan.getMetadata(new File(imageFileName));
-        if(metadata != null) {
-             logger.debug("The metadata visible to Sanselan is: " +  metadata.toString("*"));
-             metadataFound = addSanselanProperties(metadata, embeddedMetadata) || metadataFound;
-        } else {
-        	logger.debug("There is no metadata available from Sanselan");
-        }
+		try {
+	        IImageMetadata metadata = Sanselan.getMetadata(new File(imageFileName));
+	        if(metadata != null) {
+	             logger.debug("The metadata visible to Sanselan is: " +  metadata.toString("*"));
+	             metadataFound = addSanselanProperties(metadata, embeddedMetadata) || metadataFound;
+	        } else {
+	            logger.debug("There is no metadata available from Sanselan");
+	        }
+		} catch (IOException | ImageReadException e) {
+            logger.error("Error extracting information with Sanselan for image (" + image.getId() + ") " + image, e);
+		    //TODO Annotate with error
+		}
         //Apply any supplementary metadata
         if(metadataFound && update(image, embeddedMetadata)) {
             validate(image);
@@ -260,10 +269,10 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
     		 RecordType recordType = RecordType.Image;
     		 StringBuffer stringBuffer = new StringBuffer();
     		 stringBuffer.append(violations.size()).append(" constraint violations:");
-    		for(ConstraintViolation<Image> violation : violations) {			
+    		for(ConstraintViolation<Image> violation : violations) {
     			stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
     		}
-    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  -1);    		
+    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  -1);
     	}
     }
 

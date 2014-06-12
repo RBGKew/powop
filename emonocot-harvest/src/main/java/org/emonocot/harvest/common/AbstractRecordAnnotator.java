@@ -63,7 +63,7 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implem
      *
      * @param annotation Set the annotation
      */
-    public final void annotate(final Annotation annotation) {    	
+    public final void annotate(final Annotation annotation) {
         try {
             transactionTemplate.execute(new TransactionCallback() {
                public Serializable doInTransaction(
