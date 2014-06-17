@@ -317,8 +317,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
                 .getLocationFile().getAbsolutePath());
         executionContext.put("dwca." + prefix + ".fieldsTerminatedBy",
                 archiveFile.getFieldsTerminatedBy());
-        executionContext.put("dwca." + prefix + ".linesTerminatedBy",
-                archiveFile.getLinesTerminatedBy());
         if(archiveFile.getFieldsEnclosedBy() != null) {
             executionContext.put("dwca." + prefix + ".fieldsEnclosedBy", archiveFile.getFieldsEnclosedBy());
         } else { 

@@ -2,6 +2,7 @@ package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
+import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;

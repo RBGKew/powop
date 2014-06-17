@@ -275,7 +275,7 @@
 		<batch:step id="deleteAbsentTerms">
 			<batch:description>Delete the terms which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-                <batch:chunk reader="deleteTermsReader" writer="deletingWriter" commit-interval="100" />
+                <batch:chunk reader="deleteTermsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexTerms" />
 			<batch:listeners>
@@ -362,7 +362,7 @@
 		<batch:step id="deleteAbsentImages">
 			<batch:description>Delete the images which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-                <batch:chunk reader="deleteImagesReader" writer="imageDeletingWriter" commit-interval="100" />
+                <batch:chunk reader="deleteImagesReader" writer="imageDeletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexImages" />
 			<batch:listeners>
@@ -431,7 +431,7 @@
 		<batch:step id="deleteAbsentKeys">
 			<batch:description>Delete the identification keys which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-                <batch:chunk reader="deleteKeysReader" writer="deletingWriter" commit-interval="100" />
+                <batch:chunk reader="deleteKeysReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexKeys" />
 			<batch:listeners>
@@ -500,7 +500,7 @@
 		<batch:step id="deleteAbsentPhylogenies">
 			<batch:description>Delete the phylogenies which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-                <batch:chunk reader="deletePhylogeniesReader" writer="deletingWriter" commit-interval="100" />
+                <batch:chunk reader="deletePhylogeniesReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="indexPhylogenies" />
 			<batch:listeners>
@@ -684,7 +684,8 @@
 		<batch:step id="deleteAbsentDistribution">
 			<batch:description>Delete the distribution which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="deleteDistributionReader" writer="deletingWriter" commit-interval="100" />
+				<batch:chunk reader="deleteDistributionReader" writer="deletingWriter"
+					commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkMeasurementOrFactProcessingMode" />
 			<batch:listeners>
@@ -742,7 +743,8 @@
 		<batch:step id="deleteAbsentMeasurementOrFacts">
 			<batch:description>Delete the measurement or facts which we expected to be present in the archive but which were absent</batch:description>
 			<batch:tasklet>
-				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter" commit-interval="100" />
+				<batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter"
+					commit-interval="100" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="checkVernacularNameProcessingMode" />
 			<batch:listeners>
@@ -909,7 +911,7 @@
 		<batch:step id="deleteOldAnnotations">
 		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
 		    <batch:tasklet>
-				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="100" />
+				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResources" />
 			<batch:listeners>
@@ -936,7 +938,7 @@
 		<batch:step id="deleteOldAnnotationsFailed">
 		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
 		    <batch:tasklet>
-				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="100" />
+				<batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="10" />
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="cleanupResourcesFailed" />
 			<batch:listeners>

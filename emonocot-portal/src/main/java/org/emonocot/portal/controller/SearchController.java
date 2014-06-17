@@ -664,7 +664,7 @@ public class SearchController {
 		try {
 			ncbiDto = ncbiService.issueRequest(query);
 		} catch (RemoteException re) {
-			logger.error("Exception using NCBI Service :" + re.getMessage(), re);
+			logger.error("Exception using NCBI Service :" + re.getMessage());
 			return new ResponseEntity<NcbiDto>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

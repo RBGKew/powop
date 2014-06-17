@@ -579,7 +579,7 @@
 								</h2>
 								<c:forEach var="identifier" items="${taxon.identifiers}">
 									<c:choose>
-									  <c:when test="${empty identifier.title}">
+									  <c:when test="${not empty identifier.title}">
 									    <a href="${identifier.identifier}">${identifier.identifier}</a>
 									  </c:when>
 									  <c:otherwise>
