@@ -90,7 +90,7 @@
     <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
     
     <integration:channel id="commentChannel">
-        <integration:interceptors>            
+        <integration:interceptors>
             <integration:wire-tap channel="loggingChannel"/>
             <integration:wire-tap channel="indexingChannel"/>
         </integration:interceptors>
@@ -115,7 +115,6 @@
             </bean>
         </integration:splitter>
         <integration:header-enricher>
-            <!-- The expression is temporarily set explicitly for beta-phase from "headers.destination" -->
             <integration:header name="toAddress" expression="${comment.emailedTo}" />
             <integration:header name="subject" expression="'${comment.email.subject}' + ' - ' + payload.identifier" />
         </integration:header-enricher>
@@ -123,7 +122,7 @@
     
     <integration:publish-subscribe-channel id="enrichedCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />            
+            <integration:wire-tap channel="loggingChannel" />
         </integration:interceptors>
     </integration:publish-subscribe-channel>
     
@@ -151,14 +150,14 @@
     <!-- service channels/endpoints -->
     <integration:channel id="emailCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />            
+            <integration:wire-tap channel="loggingChannel" />
         </integration:interceptors>
     </integration:channel>
     <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
     
     <integration:channel id="scratchpadCommentChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />            
+            <integration:wire-tap channel="loggingChannel" />
         </integration:interceptors>
     </integration:channel>
     <integration:service-activator input-channel="scratchpadCommentChannel" expression="@scratchpadCommentService.sendComment(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
@@ -173,7 +172,7 @@
     
     <integration:channel id="inboundEmailChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />            
+            <integration:wire-tap channel="loggingChannel" />
         </integration:interceptors>
     </integration:channel>
     
@@ -185,9 +184,9 @@
     
     <integration:channel id="commentReplyChannel">
         <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />    
+            <integration:wire-tap channel="loggingChannel" />
         </integration:interceptors>
-    </integration:channel>  
+    </integration:channel>
     
     <integration:service-activator input-channel="commentReplyChannel" expression="@commentServiceImpl.save(payload)" />
     

@@ -115,10 +115,10 @@
 			</list>
 		</property>
 		<property name="eventListeners">
-      	  <map>        	
+      	  <map>
             <entry key="post-delete" value-ref="solrIndexingListener" />
       	  </map>
-    	</property>	
+    	</property>
 		<property name="annotatedPackages" value="org.emonocot.model" />
 	</bean>
 	
@@ -148,7 +148,7 @@
         <property name="dataSource" ref="liquibaseDataSource" />
         <property name="changeLog" value="classpath:${liquibase.changelog}" />
         <property name="dropFirst" value="${liquibase.drop.database.first}"/>
-        <property name="defaultSchema" value="${liquibase.default.schema.name}"/>            
+        <property name="defaultSchema" value="${liquibase.default.schema.name}"/>
     </bean>
     
     <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -228,11 +228,13 @@
         <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
         <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
         <property name="imageDirectory" value="${harvester.image.directory}"/>
+        <property name="imageAnnotator" ref="imageAnnotator"/>
     </bean>
     
     <bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizerImpl" scope="step">
         <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
         <property name="imageDirectory" value="${harvester.image.directory}"/>
+        <property name="imageAnnotator" ref="imageAnnotator"/>
     </bean>
     
     <bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractorImpl" scope="step"
@@ -254,7 +256,7 @@
 	
 	<bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" scope="step">
 	    <property name="nameParser" ref="nameParser"/>
-	    <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>     
+	    <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>
     </bean>
 	
     <!-- <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.CompositeTaxonMatcher">

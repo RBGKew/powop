@@ -5,6 +5,8 @@ import java.io.File;
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
 import org.emonocot.model.Image;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
 import org.im4java.core.MogrifyCmd;
@@ -26,6 +28,8 @@ public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>,
     private String searchPath;
 
     private String imageDirectory;
+    
+    private ImageAnnotator imageAnnotator;
 
     private String thumbnailDirectory;
     
@@ -62,6 +66,13 @@ public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>,
         this.imageDirectory = newImageDirectory;
     }
 
+    /**
+     * @param imageAnnotator the imageAnnotator to set
+     */
+    public void setImageAnnotator(ImageAnnotator imageAnnotator) {
+        this.imageAnnotator = imageAnnotator;
+    }
+
     /* (non-Javadoc)
 	 * @see org.emonocot.harvest.media.ImageThumbnailGenerator#process(org.emonocot.model.Image)
 	 */
@@ -74,9 +85,10 @@ public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>,
         String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
         File file = new File(imageFileName);
         if(!file.exists()) {
-        	logger.warn("File does not exist in image directory, skipping");
+            logger.warn("File does not exist in image directory, skipping");
+            imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "A thumbnail could not be generated as the local file was not found.");
         } else if(thumbnailFile.exists() && skipUnmodified) {
-        	logger.info("Thumbnail File exists in image directory, skipping");
+            logger.info("Thumbnail File exists in image directory, skipping");
         } else {
             try {
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
@@ -144,6 +156,7 @@ public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>,
                 }
             } catch (Exception e) {
                 logger.error("Unable to generate thumbnail for image " + image.getIdentifier(), e);
+                imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "There was an error generating a thumbnail");
             }
         }
         return image;

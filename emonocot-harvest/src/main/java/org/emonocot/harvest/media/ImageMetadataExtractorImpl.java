@@ -129,71 +129,71 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
         if (!file.exists()) {
             logger.error("File {} does not exist in image directory for image ({}), {}, skipping record",
                     file.getCanonicalPath(), image.getId(), image);
-            //TODO error annotation
+            imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadField, "Unable to get embedded metadata as the local file was not found");
             return null;
         }
         boolean metadataFound = false;
         //Search for additional metadata
         Image embeddedMetadata = new Image();
         String xmpXml = Sanselan.getXmpXml(file);
-		if (xmpXml != null && !xmpXml.isEmpty()) {
-			logger.debug("Attempting to extract metadata from xmp-xml:\n" + xmpXml);
-			try {
-				XMPMetadata xmp = XMPMetadata.load(new InputSource(new StringReader(xmpXml)));
-				for (Class schemaClass : schemas) {
-					XMPSchema schema = xmp.getSchemaByClass(schemaClass);
-					if (schema instanceof XMPSchemaIptc4xmpCore) {
-						XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
-						metadataFound = addIptcProperies(iptcSchema,embeddedMetadata) || metadataFound;
-						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
-								+ schema.getElement().getTextContent());
-					} else if (schema instanceof XMPSchemaDublinCore) {
-						XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
-						metadataFound = addDcProperies(dcSchema, embeddedMetadata) || metadataFound;
-						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
-								+ schema.getElement().getTextContent());
-					} else if (schema instanceof XMPSchemaRightsManagement) {
-						XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
-						metadataFound = addRightsProprties(rightsSchema,embeddedMetadata) || metadataFound;
-						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
-								+ schema.getElement().getTextContent());
-					} else if (schema instanceof XMPSchemaPhotoshop) {
-						XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
-						metadataFound = addPhotoshopProperties(photoshopSchema,	embeddedMetadata, image) || metadataFound;
-						logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
-								+ schema.getElement().getTextContent());
-					} else {
-						logger.info("Unable to process a schema of: " + schemaClass);
-					}
-				}
-			} catch (IOException ioe) {
-				logger.error("Exception parsing XMP XML for image (" + image.getId() + ") " + image 
-				        + " The XML was:\n" + xmpXml, ioe);
-				//TODO error annotation
-			}
-		} else {
-			logger.debug("Image " + file + " does not contain embedded XMP metadata");
-		}
+        if (xmpXml != null && !xmpXml.isEmpty()) {
+            logger.debug("Attempting to extract metadata from xmp-xml:\n" + xmpXml);
+            try {
+                XMPMetadata xmp = XMPMetadata.load(new InputSource(new StringReader(xmpXml)));
+                for (Class schemaClass : schemas) {
+                    XMPSchema schema = xmp.getSchemaByClass(schemaClass);
+                    if (schema instanceof XMPSchemaIptc4xmpCore) {
+                        XMPSchemaIptc4xmpCore iptcSchema = (XMPSchemaIptc4xmpCore) schema;
+                        metadataFound = addIptcProperies(iptcSchema,embeddedMetadata) || metadataFound;
+                        logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+                                + schema.getElement().getTextContent());
+                    } else if (schema instanceof XMPSchemaDublinCore) {
+                        XMPSchemaDublinCore dcSchema = (XMPSchemaDublinCore) schema;
+                        metadataFound = addDcProperies(dcSchema, embeddedMetadata) || metadataFound;
+                        logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+                                + schema.getElement().getTextContent());
+                    } else if (schema instanceof XMPSchemaRightsManagement) {
+                        XMPSchemaRightsManagement rightsSchema = (XMPSchemaRightsManagement) schema;
+                        metadataFound = addRightsProprties(rightsSchema,embeddedMetadata) || metadataFound;
+                        logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+                                + schema.getElement().getTextContent());
+                    } else if (schema instanceof XMPSchemaPhotoshop) {
+                        XMPSchemaPhotoshop photoshopSchema = (XMPSchemaPhotoshop) schema;
+                        metadataFound = addPhotoshopProperties(photoshopSchema,	embeddedMetadata, image) || metadataFound;
+                        logger.debug("Known schema that will be added:"	+ schema.toString() + "\n"
+                                + schema.getElement().getTextContent());
+                    } else {
+                        logger.info("Unable to process a schema of: " + schemaClass);
+                    }
+                }
+            } catch (IOException ioe) {
+                logger.error("Exception parsing XMP XML for image (" + image.getId() + ") " + image 
+                        + " The XML was:\n" + xmpXml, ioe);
+                imageAnnotator.annotate(image, AnnotationType.Warn, AnnotationCode.BadField, "There was an issue with the XMP metadata");
+            }
+        } else {
+            logger.debug("Image " + file + " does not contain embedded XMP metadata");
+        }
         
-		try {
-	        IImageMetadata metadata = Sanselan.getMetadata(new File(imageFileName));
-	        if(metadata != null) {
-	             logger.debug("The metadata visible to Sanselan is: " +  metadata.toString("*"));
-	             metadataFound = addSanselanProperties(metadata, embeddedMetadata) || metadataFound;
-	        } else {
-	            logger.debug("There is no metadata available from Sanselan");
-	        }
-		} catch (IOException | ImageReadException e) {
+        try {
+            IImageMetadata metadata = Sanselan.getMetadata(new File(imageFileName));
+            if(metadata != null) {
+                logger.debug("The metadata visible to Sanselan is: " +  metadata.toString("*"));
+                metadataFound = addSanselanProperties(metadata, embeddedMetadata) || metadataFound;
+            } else {
+                logger.debug("There is no metadata available from Sanselan");
+            }
+        } catch (IOException | ImageReadException e) {
             logger.error("Error extracting information with Sanselan for image (" + image.getId() + ") " + image, e);
-		    //TODO Annotate with error
-		}
+            imageAnnotator.annotate(image, AnnotationType.Warn, AnnotationCode.BadField, "There was an issue with EXIF metadata");
+        }
         //Apply any supplementary metadata
         if(metadataFound && update(image, embeddedMetadata)) {
             validate(image);
             return image;
         } else {
-        	logger.debug("No metadata was updated, skipping");
-        	return null;
+            logger.debug("No metadata was updated, skipping");
+            return null;
         }
     }
     
@@ -266,13 +266,12 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
     protected void validate(Image image) {
     	Set<ConstraintViolation<Image>> violations = validator.validate(image);
     	if(!violations.isEmpty()) {
-    		 RecordType recordType = RecordType.Image;
     		 StringBuffer stringBuffer = new StringBuffer();
     		 stringBuffer.append(violations.size()).append(" constraint violations:");
     		for(ConstraintViolation<Image> violation : violations) {
     			stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
     		}
-    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  -1);
+    		throw new InvalidValuesException(stringBuffer.toString(), RecordType.Image, -1);
     	}
     }
 

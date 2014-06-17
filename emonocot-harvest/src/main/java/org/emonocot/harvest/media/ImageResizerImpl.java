@@ -5,6 +5,8 @@ import java.io.File;
 import org.apache.sanselan.ImageInfo;
 import org.apache.sanselan.Sanselan;
 import org.emonocot.model.Image;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
 import org.im4java.core.IMOperation;
 import org.im4java.core.MogrifyCmd;
 import org.slf4j.Logger;
@@ -26,12 +28,21 @@ public class ImageResizerImpl implements ItemProcessor<Image, Image>, ImageResiz
 
     private String imageDirectory;
     
+    private ImageAnnotator imageAnnotator;
+    
     public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
         this.searchPath = imageMagickSearchPath;
     }
 
     public final void setImageDirectory(final String newImageDirectory) {
         this.imageDirectory = newImageDirectory;
+    }
+
+    /**
+     * @param imageAnnotator the imageAnnotator to set
+     */
+    public void setImageAnnotator(ImageAnnotator imageAnnotator) {
+        this.imageAnnotator = imageAnnotator;
     }
 
     /* (non-Javadoc)
@@ -44,6 +55,7 @@ public class ImageResizerImpl implements ItemProcessor<Image, Image>, ImageResiz
         File file = new File(imageFileName);
         if(!file.exists()) {
         	logger.warn("File does not exist in image directory, skipping");
+        	imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "The local file was not found, so cannot be resized");
         } else {
             try {
                 ImageInfo imageInfo = Sanselan.getImageInfo(file);
@@ -70,6 +82,7 @@ public class ImageResizerImpl implements ItemProcessor<Image, Image>, ImageResiz
                 }
             } catch (Exception e) {
                 logger.error("There was an error resizing the image", e);
+                imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "The file could not be resized");
             }
         }
         return image;

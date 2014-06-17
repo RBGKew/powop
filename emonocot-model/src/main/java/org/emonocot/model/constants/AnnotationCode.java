@@ -53,5 +53,9 @@ public enum AnnotationCode {
     /**
      * If we find that the record belongs to another organisation
      */
-    WrongAuthority
+    WrongAuthority,
+    /**
+     * There was a problem with the data held for a record 
+     */
+    BadData
 }
