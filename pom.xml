@@ -1360,11 +1360,6 @@
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
 		<repository>
-			<id>repo.pentaho.org</id>
-			<name>repo.pentaho.org-releases</name>
-			<url>http://repository.pentaho.org/artifactory/repo</url>
-		</repository>
-		<repository>
 			<id>mapfish</id>
 			<name>mapfish.org releases</name>
 			<url>http://dev.mapfish.org/maven/repository/</url>
