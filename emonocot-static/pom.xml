@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>world-flora</artifactId>
 		<groupId>org.kew.world-flora</groupId>
-		<version>0.1.2</version>
+		<version>0.1.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>world-flora-static</artifactId>
 	<name>World Flora Static Files</name>
