@@ -65,7 +65,7 @@
 			</div>
 			<div class="row">
 				<ul class="span12 nav no-print">
-					<li>
+					<!--li>
 						<ul class="footerColumn span3">
 							<li>
 								<c:url value="/about" var="aboutUrl" />
@@ -79,7 +79,7 @@
 								<a href="https://twitter.com/eMonocot" alt="eMonocot twitter"> <spring:message code="twitter.title" /><img src="${twitterImageUrl}"/></a>
 							</li>
 						</ul>
-					</li>
+					</li-->
 					
 					<li>
 						<ul class="footerColumn span3">
