@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kew.world-flora</groupId>
 	<artifactId>world-flora</artifactId>
-	<version>0.1.5</version>
+	<version>0.1.6-SNAPSHOT</version>
 	<description>The World Flora aims to create a global online resource for all plants. It will
         provide a focus for taxonomists working on plants and will help people discover
         information about plants by providing tools for identification, up-to-date checklists,
