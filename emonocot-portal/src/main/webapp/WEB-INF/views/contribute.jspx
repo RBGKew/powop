@@ -44,7 +44,7 @@
 								Overview
 							</h1>
 							<p class="justified">
-								Data is read into the <spring:message code="application.title" /> portal in <!--a href=""-->Darwin Core Archive<!--/a--> format.
+								Data is read into the portal in <!--a href=""-->Darwin Core Archive<!--/a--> format.
 								A Darwin Core Archive is a zip file containing one or more delimited (e.g. CSV) files, and a metadata file which defines
 								what data type each column contains.  Darwin Core Archives can be produced by Scratchpads, BioCASe, the GBIF IPT system,
 								or manually.  GBIF provide a <a href="http://tools.gbif.org/dwca-validator/">Darwin Core Archive Validator</a>.

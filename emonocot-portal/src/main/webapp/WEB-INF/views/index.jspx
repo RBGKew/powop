@@ -45,12 +45,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<!--div class="row">
 		<div id="news" class="span8">
 			<div class="inner">
 				<div class="box">
-					<h2><a href="http://families.e-monocot.org/blog/feed"><i class="glyphicons-icon rss"><!--  --></i></a> <spring:message code="news.title"/></h2>
-					<div id="testNews"><!--  --></div>
+					<h2><a href="http://families.e-monocot.org/blog/feed"><i class="glyphicons-icon rss"><!- -  - -></i></a> <spring:message code="news.title"/></h2>
+					<div id="testNews"><!- -  - -></div>
 					
 					<script type="text/javascript">
 						$(document).ready(function () {
@@ -93,7 +93,7 @@
 		<div id="" class="span4">
 			<div class="inner">
 				<div class="box">
-					<h2><i class="glyphicons-icon comments"><!--  --></i> <spring:message code="comments.title"/></h2>
+					<h2><i class="glyphicons-icon comments"><!- -  - -></i> <spring:message code="comments.title"/></h2>
 					<c:choose>
 					  <c:when test="${not empty comments}">
 					    <ul class="media-list">
@@ -119,5 +119,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div-->
 </div>
