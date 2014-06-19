@@ -72,7 +72,7 @@
 								<a href="${aboutUrl}"><spring:message code="about.title" /></a>
 							</li>
 							<li>								
-								<a class="contactLinkOverlay" href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" alt="eMonocot email"><spring:message code="contact.title" />&#160;<i class="halflings-icon white envelope"><!--  --></i></a>
+								<a class="contactLinkOverlay" href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" alt="eMonocot email"><spring:message code="contact.title" />&#160;<i class="halflings-icon white envelope"><!- -  - -></i></a>
 							</li>
 							<li>
 								<c:url var="twitterImageUrl" value="/css/images/glyphicons_white_twitter.png"/>
