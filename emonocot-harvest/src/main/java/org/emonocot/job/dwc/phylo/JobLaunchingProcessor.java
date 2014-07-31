@@ -52,7 +52,7 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		    case txt:
 		      phylogeny = doProcess(item);
 		    default:
-		    	break;		    
+		    	break;
 		    }
 		}
 		return phylogeny;
@@ -61,7 +61,7 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 	private PhylogeneticTree doProcess(Image item) throws Exception {
 		logger.debug("doProcess " + item);
 		Resource resource = resourceService.findByResourceUri(item.getIdentifier());
-		PhylogeneticTree PhylogeneticTree = null;
+		PhylogeneticTree phylogeneticTree = null;
 		if(resource == null) {
 			logger.debug("No Resource prexisting for " + item.getIdentifier());
 			Tika tika = new Tika();
@@ -69,23 +69,23 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 				
 				String mimeType = tika.detect(new URL(item.getIdentifier()));
 				logger.debug("Mime type is " + mimeType);
-				PhylogeneticTree = mapPhylogeneticTree(item);
+				phylogeneticTree = mapPhylogeneticTree(item);
 				resource = new Resource();
 				resource.setOrganisation(getSource());
 				resource.setIdentifier(UUID.randomUUID().toString());
 				resource.setUri(item.getIdentifier());
-				resource.setResourceType(ResourceType.PHYLOGENETIC_TREE);				
+				resource.setResourceType(ResourceType.PHYLOGENETIC_TREE);
 				resource.setTitle("Resource " + item.getIdentifier());
 				if(mimeType.equals("application/phyloxml+xml")) {
 					resource.getParameters().put("input.file.extension", "xml");
 					resourceService.saveOrUpdate(resource);
-				} else if(mimeType.equals("application/newick")) {					
+				} else if(mimeType.equals("application/newick")) {
 					resource.getParameters().put("input.file.extension", "nwk");
 					resourceService.saveOrUpdate(resource);
-				} else if(mimeType.equals("application/nexus")) {					
+				} else if(mimeType.equals("application/nexus")) {
 					resource.getParameters().put("input.file.extension", "nex");
 					resourceService.saveOrUpdate(resource);
-				} else if(mimeType.equals("application/new-hampshire-extended")) {					
+				} else if(mimeType.equals("application/new-hampshire-extended")) {
 					resource.getParameters().put("input.file.extension", "nhx");
 					resourceService.saveOrUpdate(resource);
 				} else {
@@ -97,14 +97,14 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 			}
 		} else if(resource.getResourceType().equals(ResourceType.PHYLOGENETIC_TREE)) {
 			logger.debug("Resource " + resource + " exists for " + item.getIdentifier());
-			PhylogeneticTree = mapPhylogeneticTree(item);
+			phylogeneticTree = mapPhylogeneticTree(item);
 		} else {
 			return null;
 		}
-		logger.debug("Processing " + PhylogeneticTree);
-		PhylogeneticTree = processor.process(PhylogeneticTree);
+		logger.debug("Processing " + phylogeneticTree);
+		phylogeneticTree = processor.process(phylogeneticTree);
 		
-		if(PhylogeneticTree != null) {
+		if(phylogeneticTree != null) {
 			try {
     			resourceService.harvestResource(resource.getId(), true);
 			} catch(ResourceAlreadyBeingHarvestedException rabhe) {
@@ -112,7 +112,7 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 			}
 		}		
 		
-		return PhylogeneticTree;
+		return phylogeneticTree;
 	}
 
 	private PhylogeneticTree mapPhylogeneticTree(Image image) {

@@ -68,7 +68,7 @@
 						</c:if>
 						<c:if test="${not empty taxon.distribution}">
 								<li><a href="#distributionMap"><spring:message code="distributionMap" /></a></li>
-						</c:if>						
+						</c:if>
 						<c:if test="${not empty taxon.childNameUsages}">
 								<li><a href="#children">${childrenHeader}${childrenRank}</a></li>
 						</c:if>
@@ -77,10 +77,10 @@
 						</c:if>
 						<c:if test="${not empty taxon.vernacularNames}">
 								<li><a href="#vernacularNames"><spring:message code="vernacularNames" /></a></li>
-						</c:if>						
+						</c:if>
 						<c:if test="${not empty bibliography.references}">
 							<li><a href="#bibliography"><spring:message code="bibliography" /></a></li>
-						</c:if>						
+						</c:if>
 					</ul>
 				</div>
 			</c:if>
@@ -89,7 +89,7 @@
 		<tags:error />
 		<c:if test="${not empty taxon.images}">
 			<div class="container">
-				<div id="images"  data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
+				<div id="images" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.slideshow">
 					<div class="row">
 						<div class="carousel slide span12" id="carousel">
 							<div class="carousel-inner">
@@ -116,7 +116,7 @@
 													</c:choose>
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 													<c:url var="imageUrl" value="/image/${image.id}"/>
-													<a class="slideshow" href="${fullsize}" 
+													<a class="slideshow" href="${fullsize}"
 														data-link="${imageUrl}" data-icon="icon-white icon-picture" 
 														data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
@@ -152,11 +152,11 @@
 			});
 			var offset = 90;
 			$(document).ready(function(){
-                $("a[href^='#']").click(function(event) {
-                    event.preventDefault();
-                    $($(this).attr('href'))[0].scrollIntoView();
-                    scrollBy(0, -offset);
-                });
+				$("a[href^='#']").click(function(event) {
+					event.preventDefault();
+					$($(this).attr('href'))[0].scrollIntoView();
+					scrollBy(0, -offset);
+				});
 			});
 		</script>
 
@@ -233,22 +233,22 @@
 											<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
 										</h2>
 										<c:forEach var="description" items="${descriptions}">
-										  <div class="description-with-citations">
-										    <p class="justified">${description.description}</p>
-										    <ul class="citations">
-											    <li>
-												    <a href="#${em:provenancekey(provenance, description)}">${em:provenancekey(provenance, description)}</a>
-											    </li>
-											    <c:if test="${not empty description.references}">
-												    <c:forEach var="reference" items="${description.references}">
-													    <li>
-													        <c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
-														    <a href="#citation${citationKey}">${citationKey}</a>
-													    </li>
-												    </c:forEach>
-											    </c:if>
-										    </ul>
-										  </div>
+											<div class="description-with-citations">
+											<p class="justified">${description.description}</p>
+											<ul class="citations">
+												<li>
+													<a href="#${em:provenancekey(provenance, description)}">${em:provenancekey(provenance, description)}</a>
+												</li>
+												<c:if test="${not empty description.references}">
+													<c:forEach var="reference" items="${description.references}">
+														<li>
+															<c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
+															<a href="#citation${citationKey}">${citationKey}</a>
+														</li>
+													</c:forEach>
+												</c:if>
+											</ul>
+											</div>
 										</c:forEach>
 									</div>
 								</div>
@@ -265,17 +265,17 @@
 								<h2>
 									<i class="glyphicons-icon globe"><!--  --></i> ${messageDistribution}
 									<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
-								</h2>							
-								<c:set var="hasNativeDistribution" value="false"/>	
+								</h2>
+								<c:set var="hasNativeDistribution" value="false"/>
 								<c:set var="hasIntroducedDistribution" value="false"/>
-								<div id="map-wrapper">	
+								<div id="map-wrapper">
 								<geo:map bounds="${em:boundingBox(taxon,present)}"	mapClass="taxon-page-map">
 									<c:if test="${em:hasLevel1Features(taxon,present,nativ)}">
 										<c:set var="hasNativeDistribution" value="true"/>
 										<geo:layer name="level1_native" layer="tdwg:level1" style="eMonocot1_native" featureId="${em:getLevel1Features(taxon,present,nativ)}" />
 									</c:if>
 									<c:if test="${em:hasLevel1Features(taxon,present,introduced)}">
-										<c:set var="hasIntroducedDistribution" value="true"/>	
+										<c:set var="hasIntroducedDistribution" value="true"/>
 										<geo:layer name="level1_introduced" layer="tdwg:level1" style="eMonocot1_introduced" featureId="${em:getLevel1Features(taxon,present,introduced)}" />
 									</c:if>
 									<c:if test="${em:hasLevel2Features(taxon,present,nativ)}">
@@ -338,9 +338,9 @@
 								<div class="row">
 									<div class="span7">
 										<c:if test="${em:hasDistribution(taxon,present,nativ)}">
-										    <h5><spring:message code="present.native"/></h5>
+											<h5><spring:message code="present.native"/></h5>
 											<ul class="distribution-textual">
-											    <c:set var="previousDistribution" value="${null}"/>
+												<c:set var="previousDistribution" value="${null}"/>
 												<c:forEach var="distribution" items="${em:getDistribution(taxon,present,nativ)}">
 													<li><tags:distribution distribution="${distribution}" occurrenceStatus="Present" previousDistribution="${previousDistribution}"/></li>
 													<c:set var="previousDistribution" value="${distribution}"/>
@@ -350,11 +350,11 @@
 									</div>
 								</div>
 								<div class="row">
-								    <div class="span7">
+									<div class="span7">
 										<c:if test="${em:hasDistribution(taxon,present,introduced)}">
-										    <h5><spring:message code="present.introduced"/></h5>
+											<h5><spring:message code="present.introduced"/></h5>
 											<ul class="distribution-textual">
-											    <c:set var="previousDistribution" value="${null}"/>
+												<c:set var="previousDistribution" value="${null}"/>
 												<c:forEach var="distribution" items="${em:getDistribution(taxon,present,introduced)}">
 													<li><tags:distribution distribution="${distribution}" occurrenceStatus="Present" previousDistribution="${previousDistribution}"/></li>
 													<c:set var="previousDistribution" value="${distribution}"/>
@@ -364,11 +364,11 @@
 									</div>
 								</div>
 								<div class="row">
-								    <div class="span7">
+									<div class="span7">
 										<c:if test="${em:hasDistribution(taxon,absent,nativ)}">
-										    <h5><spring:message code="absent.native"/></h5>
+											<h5><spring:message code="absent.native"/></h5>
 											<ul class="distribution-textual">
-											    <c:set var="previousDistribution" value="${null}"/>
+												<c:set var="previousDistribution" value="${null}"/>
 												<c:forEach var="distribution" items="${em:getDistribution(taxon,absent,nativ)}">
 													<li><tags:distribution distribution="${distribution}" occurrenceStatus="Absent" previousDistribution="${previousDistribution}"/></li>
 													<c:set var="previousDistribution" value="${distribution}"/>
@@ -383,7 +383,7 @@
 											<a href="#${provenanceHolder}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
-									<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">												
+									<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">
 										<li>
 											<a href="#citation${citationKey}">${citationKey}</a>
 										</li>
@@ -449,7 +449,6 @@
 						</div>
 					</section>
 				</c:if>
-
 				<c:if test="${not empty taxon.vernacularNames}">
 					<section id="vernacularNames" class="section-box">
 						<div class="inner">
@@ -487,7 +486,7 @@
 						</div>
 					</section>
 				</c:if>
-                <c:if test="${not empty bibliography.references}">
+				<c:if test="${not empty bibliography.references}">
 					<section id="bibliography" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
@@ -499,7 +498,7 @@
 								<ul>
 									<c:forEach var="reference" items="${bibliography.references}">
 										<li>
-										    <c:set var="citationKey" value="${em:citekey(bibliography,reference)}"/>
+											<c:set var="citationKey" value="${em:citekey(bibliography,reference)}"/>
 											<a id="citation${citationKey}">${citationKey}</a>
 											<c:choose>
 												<c:when test="${not empty reference.uri}">
@@ -577,16 +576,22 @@
 									<spring:message code="identifiers" var="idHeader"/>${idHeader}
 									<tags:feedbackLink selector="option:contains(${idHeader})" dataName="${idHeader}" />
 								</h2>
-								<c:forEach var="identifier" items="${taxon.identifiers}">
-									<c:choose>
-									  <c:when test="${empty identifier.title}">
-									    <a href="${identifier.identifier}">${identifier.identifier}</a>
-									  </c:when>
-									  <c:otherwise>
-									    <a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
-									  </c:otherwise>
-									</c:choose>
-								</c:forEach>
+								<ul class="unstyled">
+									<c:forEach var="identifier" items="${taxon.identifiers}">
+										<c:choose>
+											<c:when test="${empty identifier.title}">
+												<li>
+													<a href="${identifier.identifier}">${identifier.identifier}</a>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<li>
+													<a href="${identifier.identifier}" title="${fn:escapeXml(identifier.title)}">${identifier.title}</a>
+												</li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</ul>
 								<ul class="citations">
 									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.identifiers)}">
 										<li>
@@ -795,13 +800,13 @@
 								<spring:message code="external.links"/>
 							</h2>
 							<ul class="unstyled">
-							    <c:url var="ncbiUrl" value="http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi">
-							      <c:param name="term" value="${taxon.scientificName}[orgn]"/>
-							    </c:url>
+								<c:url var="ncbiUrl" value="http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi">
+									<c:param name="term" value="${taxon.scientificName}[orgn]"/>
+								</c:url>
 								<li><a id="NCBILink" href="${ncbiUrl}"><spring:message code="ncbi"/><!--  --></a></li>
 								<c:url var="boldUrl" value="http://www.boldsystems.org/index.php/Taxbrowser_Taxonpage">
-							      <c:param name="taxon" value="${taxon.scientificName}"/>
-							    </c:url>
+									<c:param name="taxon" value="${taxon.scientificName}"/>
+								</c:url>
 								<li><a id="boldLink" href="${boldUrl}"><spring:message code="boldSystems"/><!--  --></a></li>
 								<c:url var="gbifUrl" value="http://data.gbif.org/species/${taxon.scientificName}"/>
 								<li><a id="GBIFLink" href="${gbifUrl}"><spring:message code="gbif"/><!--  --></a></li>
@@ -811,7 +816,7 @@
 					</div>
 				</div>
 				<c:url value="/ncbi" var="ncbiAjaxUrl">
-				  <c:param name="query" value="${taxon.scientificName}"/>
+					<c:param name="query" value="${taxon.scientificName}"/>
 				</c:url>
 				<script type="text/javascript">
 					$(document).ready(function(){
@@ -820,7 +825,7 @@
 							url: "${ncbiAjaxUrl}",
 							beforeSend: function(xhr) {
 								xhr.setRequestHeader('Accept', 'application/json');
-						        xhr.setRequestHeader('Content-Type', 'application/json');
+								xhr.setRequestHeader('Content-Type', 'application/json');
 							},
 							success: function( data ) {
 								var items = [];
@@ -830,7 +835,6 @@
 								 $( "<ul/>", {
 									 html: items.join( "" )
 									 }).appendTo( "#NCBILink" );
-							  
 							}
 						});
 					});
@@ -864,15 +868,15 @@
 								<c:forEach var="feature" items="${em:features()}">
 									<c:set var="descriptions" value="${em:content(taxon,feature)}" />
 									<c:if test="${descriptions != null}">
-									    <c:forEach var="description" items="${descriptions}">
-									      <option id="aboutData_${description.identifier}" value="${description.identifier}">
-									        <spring:message code="${feature}" />:&#160;
-									        <c:choose>
-									          <c:when test="${fn:length(description.description) lt 32}">${description.description}</c:when>
-											  <c:otherwise>${fn:substring(description.description,0,31)} &#8230;</c:otherwise>
-									        </c:choose>
-									      </option>
-									    </c:forEach>
+										<c:forEach var="description" items="${descriptions}">
+										<option id="aboutData_${description.identifier}" value="${description.identifier}">
+											<spring:message code="${feature}" />:&#160;
+											<c:choose>
+											<c:when test="${fn:length(description.description) lt 32}">${description.description}</c:when>
+											<c:otherwise>${fn:substring(description.description,0,31)} &#8230;</c:otherwise>
+											</c:choose>
+										</option>
+										</c:forEach>
 									</c:if>
 								</c:forEach>
 								<c:if test="${not empty taxon.distribution}">
@@ -904,7 +908,7 @@
 								<c:if test="${taxon.acceptedNameUsage == null}">
 									<option id="aboutData_higherClassification" value="higherClassification">${treeHeader}</option>
 								</c:if>
-								<option id="aboutData_measurementsOrFacts" value="measurementsOrFacts">${dataHeader}</option>								
+								<option id="aboutData_measurementsOrFacts" value="measurementsOrFacts">${dataHeader}</option>
 								<c:if test="${not empty taxon.references}">
 									<option id="aboutData_references" value="references">${bibliographyHeader}</option>
 								</c:if>

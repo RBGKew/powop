@@ -12,12 +12,9 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.core.ItemReadListener;
 import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.validation.BindException;
 
@@ -41,19 +38,28 @@ public class DwCProcessingExceptionProcessListener extends
     }
 
     public final void onProcessError(final Base item, final Exception e) {
-        logger.error("Process Error " + e.getMessage());
+        logger.error("Process Error " + e.getMessage(), e);
+        Annotation annotation = new Annotation();
+        try {
+            annotation.setRecordType(RecordType.valueOf(item.getClass().getSimpleName()));
+        } catch (Exception ex) {
+            annotation.setRecordType(getRecordType());
+        }
+        annotation.setJobId(stepExecution.getJobExecutionId());
         if (e instanceof DarwinCoreProcessingException) {
             DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
             logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
-            Annotation annotation = new Annotation();
-            annotation.setRecordType(dwcpe.getRecordType());
-            annotation.setJobId(stepExecution.getJobExecutionId());
             annotation.setCode(dwcpe.getCode());
             annotation.setValue(dwcpe.getValue());
             annotation.setType(dwcpe.getType());
-            annotation.setText(dwcpe.getMessage());
-            super.annotate(annotation);
+        } else {
+            annotation.setCode(AnnotationCode.BadData);//TODO Replace with generic 'Something went wrong'
+            annotation.setValue(stepExecution.getStepName() + " for " + 
+                    item == null ? " unparsed item" : item.getIdentifier());
+            annotation.setType(AnnotationType.Error);
         }
+        annotation.setText(e.getMessage());
+        super.annotate(annotation);
     }
     
     private RecordType getRecordType() {

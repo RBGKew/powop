@@ -56,7 +56,8 @@
             </batch:listeners>
         </batch:step>
         <batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
-            <batch:next on="CHECK_TAXA" to="markTaxonRecords" />
+            <!-- CHECK_TAXA is default -->
+            <batch:next on="*" to="markTaxonRecords" />
             <batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
             <batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
             <batch:next on="SKIP_TAXA" to="markTaxonRecordsForSkipping" />
@@ -167,7 +168,8 @@
         </batch:step>
         <batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
             <batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
-            <batch:next on="IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL" to="markRelatedDescriptionRecords" />
+            <!-- IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL is the default -->
+            <batch:next on="*" to="markRelatedDescriptionRecords" />
             <batch:next on="SKIP_DESCRIPTIONS" to="checkTermProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkTermProcessingMode" />
         </batch:decision>
@@ -226,6 +228,7 @@
             </batch:listeners>
         </batch:step>
         <batch:decision decider="termProcessingModeDecider" id="checkTermProcessingMode">
+            <!-- IMPORT_TERMS is the default -->
             <batch:next on="IMPORT_TERMS" to="markTermRecords" />
             <batch:next on="IMPORT_TERMS_DONT_DELETE_GLOBAL" to="markRelatedTermRecords" />
             <batch:next on="SKIP_TERMS" to="checkImageProcessingMode" />
@@ -294,7 +297,8 @@
             </batch:listeners>
         </batch:step>
         <batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
-            <batch:next on="IMPORT_IMAGES" to="markImageRecords" />
+            <!-- IMPORT_IMAGES is the default  -->
+            <batch:next on="*" to="markImageRecords" />
             <batch:next on="IMPORT_IMAGES_DONT_DELETE_GLOBAL" to="markRelatedImageRecords" />
             <batch:next on="SKIP_IMAGES" to="checkKeyProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkKeyProcessingMode" />
@@ -383,7 +387,8 @@
         <batch:decision decider="keyProcessingModeDecider" id="checkKeyProcessingMode">
             <batch:next on="IMPORT_KEYS" to="markKeyRecords" />
             <batch:next on="IMPORT_KEYS_DONT_DELETE_GLOBAL" to="markRelatedKeyRecords" />
-            <batch:next on="SKIP_KEYS" to="checkPhylogenyProcessingMode" />
+            <!-- SKIP_KEYS is the default -->
+            <batch:next on="*" to="checkPhylogenyProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkPhylogenyProcessingMode" />
         </batch:decision>
         <batch:step id="markKeyRecords">
@@ -452,7 +457,8 @@
         <batch:decision decider="phylogenyProcessingModeDecider" id="checkPhylogenyProcessingMode">
             <batch:next on="IMPORT_PHYLOGENIES" to="markPhylogenyRecords" />
             <batch:next on="IMPORT_PHYLOGENIES_DONT_DELETE_GLOBAL" to="markRelatedPhylogenyRecords" />
-            <batch:next on="SKIP_PHYLOGENIES" to="checkReferenceProcessingMode" />
+            <!-- SKIP_PHYLOGENIES is the default -->
+            <batch:next on="*" to="checkReferenceProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkReferenceProcessingMode" />
         </batch:decision>
         <batch:step id="markPhylogenyRecords">
@@ -519,7 +525,8 @@
             </batch:listeners>
         </batch:step>
         <batch:decision decider="referenceProcessingModeDecider" id="checkReferenceProcessingMode">
-            <batch:next on="IMPORT_REFERENCES" to="markReferenceRecords" />
+            <!-- IMPORT_REFERENCES is the default -->
+            <batch:next on="*" to="markReferenceRecords" />
             <batch:next on="IMPORT_REFERENCES_DONT_DELETE_GLOBAL" to="markRelatedReferenceRecords" />
             <batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkIdentifierProcessingMode" />
@@ -578,7 +585,8 @@
         </batch:step>
         <batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
             <batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
-            <batch:next on="IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL" to="markRelatedIdentifierRecords" />
+            <!-- IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL is the default -->
+            <batch:next on="*" to="markRelatedIdentifierRecords" />
             <batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkDistributionProcessingMode" />
         </batch:decision>
@@ -636,7 +644,8 @@
         </batch:step>
         <batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
             <batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
-            <batch:next on="IMPORT_DISTRIBUTION_DONT_DELETE_GLOBAL" to="markRelatedDistributionRecords" />
+            <!-- IMPORT_DISTRIBUTION_DONT_DELETE_GLOBAL is the default -->
+            <batch:next on="*" to="markRelatedDistributionRecords" />
             <batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkMeasurementOrFactProcessingMode" />
         </batch:decision>
@@ -694,7 +703,8 @@
         </batch:step>
         <batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
             <batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
-            <batch:next on="IMPORT_MEASUREMENT_OR_FACT_DONT_DELETE_GLOBAL" to="markRelatedMeasurementOrFactRecords" />
+            <!-- IMPORT_MEASUREMENT_OR_FACT_DONT_DELETE_GLOBAL is the default -->
+            <batch:next on="*" to="markRelatedMeasurementOrFactRecords" />
             <batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkVernacularNameProcessingMode" />
         </batch:decision>
@@ -752,7 +762,8 @@
         </batch:step>
         <batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
             <batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
-            <batch:next on="IMPORT_VERNACULAR_NAME_DONT_DELETE_GLOBAL" to="markRelatedVernacularNameRecords" />
+            <!-- IMPORT_VERNACULAR_NAME_DONT_DELETE_GLOBAL is the default -->
+            <batch:next on="*" to="markRelatedVernacularNameRecords" />
             <batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
             <batch:next on="SKIP_WITH_ERROR" to="checkTypeAndSpecimenProcessingMode" />
         </batch:decision>
@@ -809,7 +820,8 @@
             </batch:listeners>
         </batch:step>
         <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
-            <batch:next on="IMPORT_TYPE_AND_SPECIMEN" to="markTypeAndSpecimenRecords" />
+            <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
+            <batch:next on="*" to="markTypeAndSpecimenRecords" />
             <batch:next on="IMPORT_TYPE_AND_SPECIMEN_DONT_DELETE_GLOBAL" to="markRelatedTypeAndSpecimenRecords" />
             <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
             <batch:next on="SKIP_WITH_ERROR" to="calculateDerivedProperties" />
@@ -1428,7 +1440,8 @@
     
     <bean id="keyProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
         <property name="processingModeKey" value="key.processing.mode" />
-        <property name="defaultProcessingMode" value="SKIP_KEYS" /><!-- By default skip keys as the majority are configured and imported individually -->
+        <!-- By default skip keys as the majority are configured and imported individually -->
+        <property name="defaultProcessingMode" value="SKIP_KEYS" />
     </bean>
     
     <bean id="processKeysDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -1521,7 +1534,8 @@
     
     <bean id="phylogenyProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
         <property name="processingModeKey" value="phylogeny.processing.mode" />
-        <property name="defaultProcessingMode" value="SKIP_PHYLOGENIES" /><!-- By default skip phylogenies as the majority are configured and imported individually -->
+        <!-- By default skip phylogenies as the majority are configured and imported individually -->
+        <property name="defaultProcessingMode" value="SKIP_PHYLOGENIES" />
     </bean>
     
     <bean id="processPhylogeniesDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">

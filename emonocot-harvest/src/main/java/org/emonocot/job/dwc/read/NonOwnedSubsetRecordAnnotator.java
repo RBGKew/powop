@@ -71,7 +71,9 @@ public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator imple
 	    } else if(family != null) {
 	    	subsetRank = "family";
 	    	subsetValue = family;
-	    }	      
+	    } else {
+	        throw new IllegalStateException("No known subset was specified but one is needed for this processing mode.");
+	    }
 	   
 	    Map<String,Object> annotationParameters = new HashMap<String,Object>();
 	    queryString = queryString.replaceAll("#subsetRank", subsetRank);

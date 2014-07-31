@@ -1,5 +1,7 @@
 package org.emonocot.job;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.job.flow.FlowExecutionStatus;
@@ -11,10 +13,12 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
  *
  */
 public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
+    
+    Logger logger = LoggerFactory.getLogger(ConfigurableProcessingModeDecider.class);
 	
 	private String processingModeKey = null;
 	
-	private String defaultProcessingMode = null;	
+	private String defaultProcessingMode = null;
 
     /**
 	 * @param processingModeKey the processingModeKey to set
@@ -38,6 +42,7 @@ public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
     public final FlowExecutionStatus decide(final JobExecution jobExecution,
             final StepExecution stepExecution) {
         if(processingModeKey == null && defaultProcessingMode == null) {
+            logger.error("No processing mode was found.  Unable to continue", new IllegalArgumentException("A processing mode must exist if specified"));
             return FlowExecutionStatus.FAILED;
         }
         if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
