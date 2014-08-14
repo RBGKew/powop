@@ -6,9 +6,7 @@
 		<groupId>org.emonocot</groupId>
 		<version>1.0.3-SNAPSHOT</version>
 	</parent>
-	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot-site</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
 	<name>eMonocot Maven Site Theme</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
