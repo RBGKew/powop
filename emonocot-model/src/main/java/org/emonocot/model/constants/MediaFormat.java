@@ -5,7 +5,8 @@ public enum MediaFormat {
 	xml(false),
 	jpg(true),
 	png(true),
-	gif(true);
+    gif(true),
+    tif(true);
 	
 	private boolean image = false;
 	

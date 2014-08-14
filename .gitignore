@@ -1,13 +1,6 @@
-target
-*~
-*.bak
-.#*
-.~*#
-*.log
 .classpath
-.settings
+.gitignore
 .project
-**/.springBeans
-pom.xml.versionsBackup
-*.orig
-dependency-reduced-pom.xml
+.settings
+.springBeans
+target

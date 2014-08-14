@@ -104,7 +104,7 @@
     </dependency>
     <dependency>
        <groupId>net.sourceforge.hatbox</groupId>
-       <artifactId>org.emonocot.hatbox</artifactId>
+       <artifactId>hatbox</artifactId>
     </dependency>
     <dependency>
 	    <groupId>javax.servlet</groupId>

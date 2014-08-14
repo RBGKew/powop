@@ -14,6 +14,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
+import org.emonocot.api.match.Matcher;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
@@ -30,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author jk00kg
  */
-public class DefaultTaxonMatcher implements TaxonMatcher {
+public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon> {
 
     private Logger logger = LoggerFactory.getLogger(DefaultTaxonMatcher.class);
 
@@ -194,5 +195,18 @@ public class DefaultTaxonMatcher implements TaxonMatcher {
 		ParsedName<String> parsed = nameParser.parse(name);
 		return match(parsed);
 	}
+
+    /* (non-Javadoc)
+     * @see org.emonocot.api.match.Matcher#findMatches(java.lang.Object)
+     */
+    @Override
+    public List<Match<Taxon>> getMatches(String input) {
+            try {
+                return match(input);
+            } catch (UnparsableException e) {
+                logger.error("Couldn't parse the string");
+                return null;
+            }
+    }
 
 }

@@ -98,12 +98,27 @@
 		</developer>
 	</developers>
 	<scm>
-      <connection>scm:git:git://git.ad.kew.org/emonocot.git</connection> 
+      <connection>scm:git:git://git.ad.kew.org/emonocot.git</connection>
       <developerConnection>scm:git:ssh://gerrit.ad.kew.org:29418/emonocot.git</developerConnection> 
-      <url>http://git.ad.kew.org/git/?p=emonocot.git</url> 
+      <url>http://git.ad.kew.org/git/?p=emonocot.git</url>
     </scm>
 	<dependencyManagement>
 		<dependencies>
+            <dependency>
+                <groupId>org.kew.rmf</groupId>
+                <artifactId>deduplicator</artifactId>
+                <version>0.2.0-rc5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.lucene</groupId>
+                        <artifactId>lucene-analyzers-common</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.lucene</groupId>
+                        <artifactId>lucene-queryparser</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 			<dependency>
 				<groupId>org.emonocot</groupId>
 				<artifactId>emonocot-model</artifactId>
@@ -362,7 +377,7 @@
 				<artifactId>hibernate-spatial-h2-geodb</artifactId>
 				<version>1.1</version>
 				<scope>test</scope>
-			</dependency>			
+			</dependency>
 			<dependency>
 			    <groupId>org.aspectj</groupId>
 			    <artifactId>aspectjrt</artifactId>
@@ -635,12 +650,9 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			<!-- /** * To cope with the fact that hatbox is compiled with support 
-				for both java 6 and java 1.5, * leading to "java.lang.SecurityException: 
-				Prohibited package name: java.sql" */ -->
 			<dependency>
 				<groupId>net.sourceforge.hatbox</groupId>
-				<artifactId>org.emonocot.hatbox</artifactId>
+				<artifactId>hatbox</artifactId>
 				<version>1.0.b9</version>
 				<scope>test</scope>
 			</dependency>
@@ -1540,9 +1552,9 @@
 				<liquibase.username>emonocot</liquibase.username>
 				<liquibase.password>m0n0pa55</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>				
+				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
+				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
@@ -1580,6 +1592,78 @@
                 <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
+        <profile>
+            <id>portal.test.windows</id>
+            <properties>
+                <use.remote.solr>false</use.remote.solr>
+                <portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
+                <portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
+                <web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
+                <amq.broker.uri>tcp://kpttapp01:6166</amq.broker.uri>
+                <amq.broker.userName>emonocot</amq.broker.userName>
+                <amq.broker.password>emonocot</amq.broker.password>
+                <amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
+                <amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
+                <portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot-portal</portal.baseUrl>
+                <google.analytics.id />
+                <portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
+                <cargo.containerId>tomcat7x</cargo.containerId>
+                <cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/emonocot-portal</cargo.tomcat.url>
+                <cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
+                <cargo.remote.username>sadmin</cargo.remote.username>
+                <cargo.remote.password>kewadmin</cargo.remote.password>
+                <cargo.context.path>/emonocot-portal</cargo.context.path>
+                <logging.level>WARN</logging.level>
+                <logging.method>file</logging.method>
+                <logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
+                <logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
+                <wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
+                <wagon.server.id>kpttapp01</wagon.server.id>
+                <liquibase.drop.database.first>true</liquibase.drop.database.first>
+                <liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
+                <liquibase.username>emonocot</liquibase.username>
+                <liquibase.password>m0n0pa55</liquibase.password>
+                <liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
+                <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+                <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
+                <ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
+                <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
+                <spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
+                <jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+                <jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/emonocot</jdbc.driver.url>
+                <jdbc.driver.username>emonocot</jdbc.driver.username>
+                <jdbc.driver.password>m0n0pa55</jdbc.driver.password>
+                <functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
+                <functional.test.basePath>emonocot-portal</functional.test.basePath>
+                <functional.test.port>8080</functional.test.port>
+                <functional.test.solr.url>http://kpttapp01.ad.kew.org:8983/solr</functional.test.solr.url>
+                <functional.test.username>test@e-monocot.org</functional.test.username>
+                <functional.test.password>t35t.pa55w0rd</functional.test.password>
+                <selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
+                <selenium.webdriver.mode>local</selenium.webdriver.mode>
+                <selenium.display.port>:1</selenium.display.port>
+                <solr.url>http://localhost:8983/solr</solr.url>
+                <http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+                <http.proxyPort>8080</http.proxyPort>
+                <email.debug>false</email.debug>
+                <email.smtp.username />
+                <email.smtp.password />
+                <email.smtp.host>smtp.ad.kew.org</email.smtp.host>
+                <email.smtp.port>25</email.smtp.port>
+                <email.smtp.auth>false</email.smtp.auth>
+                <email.smtp.enable.starttls>false</email.smtp.enable.starttls>
+                <email.fromAddress>test-portal@kpttapp01</email.fromAddress>
+                <quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
+                <quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
+                <portal.imagemagick.path>/Program Files/Image Magick</portal.imagemagick.path>
+                <harvester.imagemagick.path>/Program Files/Image Magick</harvester.imagemagick.path>
+                <portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
+                <portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
+                <support.email.address>ict-team@about.e-monocot.org</support.email.address>
+                <support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
+            </properties>
+        </profile>
 		<profile>
 			<id>portal.test.local</id>
 			<properties>
@@ -1590,8 +1674,8 @@
 				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>				
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>				
+				<amq.broker.password>emonocot</amq.broker.password>
+				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
 				<google.analytics.id />
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
@@ -1611,9 +1695,9 @@
 				<liquibase.username>liquibase</liquibase.username>
 				<liquibase.password>l1qu1ba53</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.geodb.GeoDBDialect</hibernate.dialect>				
+				<hibernate.dialect>org.hibernatespatial.geodb.GeoDBDialect</hibernate.dialect>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>				
+				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
 				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>call identity()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>

@@ -63,11 +63,11 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.xbean</groupId>
 			<artifactId>xbean-spring</artifactId>
@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 		    <groupId>org.hibernatespatial</groupId>
             <artifactId>hibernate-spatial-mysql</artifactId>
@@ -119,7 +119,7 @@
 	    <dependency>
 	        <groupId>postgresql</groupId>
 	        <artifactId>postgresql</artifactId>
-	    </dependency>	  
+	    </dependency>
 	    <dependency>
 			<groupId>org.hibernatespatial</groupId>
 			<artifactId>hibernate-spatial-postgis</artifactId>
@@ -143,7 +143,7 @@
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
-		</dependency>		
+		</dependency>
     	<dependency>
     	    <groupId>org.liquibase</groupId>
 		    <artifactId>liquibase-core</artifactId>
@@ -215,7 +215,7 @@
           <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-         </dependency>	  
+         </dependency>
           <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -276,7 +276,7 @@
 		</dependency>
 		<dependency>
           <groupId>net.sourceforge.hatbox</groupId>
-          <artifactId>org.emonocot.hatbox</artifactId>
+          <artifactId>hatbox</artifactId>
           <scope>compile</scope>
         </dependency>
         <dependency>
@@ -309,7 +309,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>emonocot-portal</finalName>		
+		<finalName>emonocot-portal</finalName>
 		<testResources>
           <testResource>
             <directory>src/test/resources</directory>
@@ -322,7 +322,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-				    <nonFilteredFileExtensions>           
+				    <nonFilteredFileExtensions>
                       <nonFilteredFileExtension>jsp</nonFilteredFileExtension>
                       <nonFilteredFileExtensions>jspx</nonFilteredFileExtensions>
                       <nonFilteredFileExtensions>tag</nonFilteredFileExtensions>
@@ -343,7 +343,7 @@
                 <version>1.5.4</version>
                 <configuration>
                     <packageName>org.emonocot.portal.ws.ncbi</packageName>
-                    <wsdlFile>src/main/wsdl/eutils.wsdl</wsdlFile>                            
+                    <wsdlFile>src/main/wsdl/eutils.wsdl</wsdlFile>
                 </configuration>
             </plugin>
 			<plugin>
@@ -380,7 +380,7 @@
 						</deployables>
 					</deployer>
 				</configuration>
-			</plugin>			
+			</plugin>
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>

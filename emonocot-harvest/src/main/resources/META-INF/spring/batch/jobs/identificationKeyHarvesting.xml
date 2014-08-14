@@ -79,12 +79,12 @@
 				<batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor" writer="itemWriter" commit-interval="10" skip-limit="100">
 					<batch:skippable-exception-classes>
 						<batch:include class="org.apache.sanselan.ImageReadException" />
-						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />				
+						<batch:include	class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
 					</batch:skippable-exception-classes>
 				</batch:chunk>
 			</batch:tasklet>
 			<batch:next on="COMPLETED" to="transformFileToJson" />
-			<batch:next on="FAILED" to="indexAnnotationsFailed"/>		
+			<batch:next on="FAILED" to="indexAnnotationsFailed"/>
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
 			    <batch:listener ref="processingExceptionProcessListener" />
@@ -127,7 +127,7 @@
 			<batch:next on="COMPLETED" to="deleteOldAnnotations" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
-			</batch:listeners>			
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteOldAnnotations">
 		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
@@ -155,7 +155,7 @@
 			<batch:next on="COMPLETED" to="deleteOldAnnotationsFailed" />
 			<batch:listeners>
 			    <batch:listener ref="stepStatusListener" />
-			</batch:listeners>			
+			</batch:listeners>
 		</batch:step>
 		<batch:step id="deleteOldAnnotationsFailed">
 		    <batch:description>Delete the annotations no longer associated with this job</batch:description>
@@ -179,7 +179,7 @@
 		  <batch:listener ref="jobStatusListener"/>
 		</batch:listeners>
 	</batch:job>
-	
+
 	<bean id="processingExceptionProcessListener"
 		class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener"
 		scope="step">
@@ -250,7 +250,7 @@
 		  </map>
 		</property>
 	</bean>
-	
+
 	<bean id="xmlTransformingTaskletErrorListener" class="org.emonocot.job.key.XmlTransformingTaskletErrorListener" scope="step">
 	  <property name="jobExecutionId" value="#{jobExecutionContext['job.execution.id']}"/>
 	  <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -472,43 +472,43 @@
 					<key>
 						<value>TaxonName</value>
 					</key>
-					<value>org.tdwg.ubif.TaxonName</value>					
+					<value>org.tdwg.ubif.TaxonName</value>
 				</entry>
 				<entry>
 					<key>
 						<value>TechnicalMetadata</value>
 					</key>
-					<value>org.tdwg.ubif.TechnicalMetadata</value>					
+					<value>org.tdwg.ubif.TechnicalMetadata</value>
 				</entry>
 				<entry>
 					<key>
 						<value>CodedDescription</value>
 					</key>
-					<value>org.tdwg.ubif.CodedDescription</value>					
+					<value>org.tdwg.ubif.CodedDescription</value>
 				</entry>
 				<entry>
 					<key>
 						<value>Dataset</value>
 					</key>
-					<value>org.tdwg.ubif.Dataset</value>					
+					<value>org.tdwg.ubif.Dataset</value>
 				</entry>
 				<entry>
 					<key>
 						<value>Representation</value>
 					</key>
-					<value>org.tdwg.ubif.Representation</value>					
+					<value>org.tdwg.ubif.Representation</value>
 				</entry>
 				<entry>
 					<key>
 						<value>Agent</value>
 					</key>
-					<value>org.tdwg.ubif.Agent</value>					
+					<value>org.tdwg.ubif.Agent</value>
 				</entry>
 				<entry>
 					<key>
 						<value>MediaObject</value>
 					</key>
-					<value>org.tdwg.ubif.MediaObject</value>					
+					<value>org.tdwg.ubif.MediaObject</value>
 				</entry>
 			</map>
 		</property>
@@ -544,7 +544,7 @@
 		<property name="queryString" value="select a from Annotation a join a.authority auth where a.jobId not in (select r.jobId from Resource r join r.organisation org where org.identifier = :authorityIdentifier) and auth.identifier = :authorityIdentifier" />
 		<property name="parameterValues">
 			<map>
-			    <entry key="authorityIdentifier" value="#{jobParameters['authority.name']}"/>				
+			    <entry key="authorityIdentifier" value="#{jobParameters['authority.name']}"/>
 			</map>
 		</property>
 	</bean>

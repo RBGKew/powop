@@ -1,39 +1,15 @@
 package org.emonocot.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.emonocot.model.constants.MediaFormat;
-import org.emonocot.model.marshall.json.TaxonDeserializer;
-import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,19 +24,13 @@ import com.vividsolutions.jts.io.WKTWriter;
  *
  */
 @Entity
-public class Image extends SearchableObject implements NonOwned, Media {
+public class Image extends Multimedia {
 	
 	private static Logger logger = LoggerFactory.getLogger(Image.class);
 	
-    private static long serialVersionUID = 3341900807619517602L;
-
-    private String title;
-
-    private String description;
+    private static final long serialVersionUID = 3341900807619517602L;
 
     private String spatial;
-
-    private MediaFormat format;
 
     private String subject;
 
@@ -70,59 +40,11 @@ public class Image extends SearchableObject implements NonOwned, Media {
 
     private Double longitude;
 
-    private Taxon taxon;
-
-    private Set<Taxon> taxa = new HashSet<Taxon>();
-
-    private Set<Annotation> annotations = new HashSet<Annotation>();
-
+    @Id
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     private Long id;
-    
-    private String creator;
 
-    private String references;
-    
-    private String contributor;
-
-    private String publisher;
-    
-    private String audience;
-    
-    private List<Comment> comments = new ArrayList<Comment>();
-
-    @Size(max = 255)
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	/**
-	 * REMEMBER: references is a reserved word in mysql
-	 * @return the references
-	 */
-	@Column(name = "source")
-	@Size(max = 255)
-	public String getReferences() {
-		return references;
-	}
-
-	public void setReferences(String references) {
-		this.references = references;
-	}
-
-   @Lob
-   public String getDescription() {
-       return description;
-   }
-
-   public void setDescription(String description) {
-       this.description = description;
-   }
-
-   /**
+/**
     * REMEMBER: spatial is a reserved word in mysql!
     * @return the location as a string
     */
@@ -134,15 +56,6 @@ public class Image extends SearchableObject implements NonOwned, Media {
 
    public void setSpatial(final String locality) {
        this.spatial = locality;
-   }
-
-   @Enumerated(EnumType.STRING)
-   public MediaFormat getFormat() {
-       return format;
-   }
-
-   public void setFormat(MediaFormat format) {
-       this.format = format;
    }
 
    @Size(max = 255)
@@ -164,29 +77,15 @@ public class Image extends SearchableObject implements NonOwned, Media {
    }
 
 
-    public void setId(Long newId) {
-        this.id = newId;
-    }
+   public void setId(Long newId) {
+       this.id = newId;
+   }
 
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
-
-    @Size(max = 255)
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Size(max = 255)
-	public String getContributor() {
-		return contributor;
-	}
+   @Id
+   @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+   public Long getId() {
+       return id;
+   }
 
 	public Double getLatitude() {
 		return latitude;
@@ -207,63 +106,6 @@ public class Image extends SearchableObject implements NonOwned, Media {
 		updateLocation();
 	}
 
-	public void setContributor(String contributor) {
-		this.contributor = contributor;
-	}
-
-	@Size(max = 255)
-	public String getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-
-	@Size(max = 255)
-	public String getAudience() {
-		return audience;
-	}
-
-	public void setAudience(String audience) {
-		this.audience = audience;
-	}
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    public Taxon getTaxon() {
-        return taxon;
-    }
-
-
-    public void setTaxon(Taxon taxon) {
-        this.taxon = taxon;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public Set<Taxon> getTaxa() {
-        return taxa;
-    }
-
-    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
-
-    /**
-     * @return the annotations
-     */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Image'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
-    
     private void updateLocation() {
     	if(this.latitude != null && this.longitude != null) {
     	    GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
@@ -273,48 +115,10 @@ public class Image extends SearchableObject implements NonOwned, Media {
     	}
 	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
-    
-    /**
-	 * @return the comments
-	 */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'Image'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	/**
-	 * @param comments the comments to set
-	 */
-    @JsonIgnore
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-    
     @Override
     public SolrInputDocument toSolrInputDocument() {
     	SolrInputDocument sid = super.toSolrInputDocument();
-    	sid.addField("searchable.label_sort", getTitle());
-    	//addField(sid,"image.audience_t", getAudience());
-    	//addField(sid,"image.creator_t", getCreator());
-    	//addField(sid,"image.description_t", getDescription());
-    	//addField(sid,"image.publisher_t", getPublisher());
-    	//addField(sid,"image.references_t", getReferences());
-    	//addField(sid,"image.spatial_t", getSpatial());
-    	//addField(sid,"image.subject_t", getSubject());
-    	//sid.addField("image.title_t", getTitle());    	
-    	
+
 		StringBuilder summary = new StringBuilder().append(getAudience())
 				.append(" ").append(getCreator()).append(" ")
 				.append(getDescription()).append(" ").append(getPublisher())
@@ -322,16 +126,6 @@ public class Image extends SearchableObject implements NonOwned, Media {
 				.append(getSpatial()).append(" ").append(getSubject())
 				.append(" ").append(getTitle()).append(" ");
     	if(getTaxon() != null) {
-    		//addField(sid,"taxon.class_s", getTaxon().getClazz());
-    	    addField(sid,"taxon.family_ss", getTaxon().getFamily());
-    	    addField(sid,"taxon.genus_ss", getTaxon().getGenus());
-    	    //addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
-    	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
-    	    addField(sid,"taxon.order_s", getTaxon().getOrder());    	    
-    	    addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
-    	    addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
-    	    addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
-    	    addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
     	    summary.append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getFamily())
@@ -355,13 +149,13 @@ public class Image extends SearchableObject implements NonOwned, Media {
 		}
     	return sid;
     }
-    
+
     @Override
     public String toString() {
     	StringBuffer stringBuffer = new StringBuffer();
     	stringBuffer.append(identifier);
-    	if(title != null) {
-    		stringBuffer.append(": \"" + title + "\"");
+    	if(getTitle() != null) {
+    		stringBuffer.append(": \"" + getTitle() + "\"");
     	}
     	return stringBuffer.toString();
     }

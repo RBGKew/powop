@@ -1,6 +1,6 @@
 create table Content (DTYPE varchar(31) not null, id bigint not null, created datetime, creator varchar(255), identifier varchar(255), license varchar(255), modified datetime, source varchar(255), feature varchar(255), content varchar(255), taxon_id bigint, primary key (id));
 create table Distribution (id bigint not null, created datetime, creator varchar(255), identifier varchar(255), license varchar(255), modified datetime, source varchar(255), region varchar(255), taxon_id bigint, primary key (id));
-create table Image (id bigint not null, created datetime, creator varchar(255), identifier varchar(255), license varchar(255), modified datetime, source varchar(255), url varchar(255), primary key (id));
+create table Image (id bigint not null, created datetime, creator varchar(255), identifier varchar(255), license varchar(255), modified datetime, source varchar(255), `references` varchar(255), url varchar(255), primary key (id));
 create table Reference (id bigint not null, created datetime, creator varchar(255), identifier varchar(255), license varchar(255), modified datetime, source varchar(255), primary key (id));
 create table Taxon (id bigint not null, created datetime, creator varchar(255), identifier varchar(255), license varchar(255), modified datetime, source varchar(255), name varchar(255), accepted_id bigint, parent_id bigint, primary key (id));
 create table Taxon_Image (Taxon_id bigint not null, images_id bigint not null);

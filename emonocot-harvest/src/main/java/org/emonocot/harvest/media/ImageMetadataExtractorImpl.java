@@ -36,7 +36,6 @@ import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -331,6 +330,9 @@ public class ImageMetadataExtractorImpl implements ItemProcessor<Image, Image>, 
                 isSomethingDifferent = true;
             } else if(format.contains("png")) {
                 image.setFormat(MediaFormat.png);
+                isSomethingDifferent = true;
+            } else if (format.contains("tiff")) {
+                image.setFormat(MediaFormat.tif);
                 isSomethingDifferent = true;
             }
         }

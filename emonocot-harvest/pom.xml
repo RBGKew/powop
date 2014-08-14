@@ -13,7 +13,7 @@
 	<dependencies>
         <dependency>
 			<groupId>org.emonocot</groupId>
-			<artifactId>emonocot-model</artifactId>			
+			<artifactId>emonocot-model</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>
@@ -225,7 +225,7 @@
         </dependency>
         <dependency>
           <groupId>net.sourceforge.hatbox</groupId>
-          <artifactId>org.emonocot.hatbox</artifactId>
+          <artifactId>hatbox</artifactId>
         </dependency>
         <dependency>
 			<groupId>org.springframework</groupId>

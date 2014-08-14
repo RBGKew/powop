@@ -11,6 +11,7 @@ import java.util.Set;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
+import org.emonocot.api.match.Matcher;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
@@ -24,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author jk00kg
  */
-public class ExampleTaxonMatcher implements TaxonMatcher {
+public class ExampleTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon> {
 
     private Logger logger = LoggerFactory.getLogger(ExampleTaxonMatcher.class);
 
@@ -52,7 +53,7 @@ public class ExampleTaxonMatcher implements TaxonMatcher {
      * org.emonocot.api.match.TaxonMatcher#match(org.gbif.ecat.model.ParsedName
      * )
      */
-    public List<Match<Taxon>> match(ParsedName<String> parsed) {    	
+    public List<Match<Taxon>> match(ParsedName<String> parsed) {
     	
         List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
         Taxon emonocotTaxon = new Taxon();
@@ -129,4 +130,14 @@ public class ExampleTaxonMatcher implements TaxonMatcher {
 		ParsedName<String> parsed = nameParser.parse(name);
 		return match(parsed);
 	}
+
+    @Override
+    public List<Match<Taxon>> getMatches(String input) {
+            try {
+                return match(input);
+            } catch (UnparsableException e) {
+                logger.error("Couldn't parse the string");
+                return null;
+            }
+    }
 }

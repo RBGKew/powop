@@ -191,17 +191,17 @@
     </changeSet>
     <changeSet author="ben" id="1303384038461-24">
       <insert tableName="BATCH_STEP_EXECUTION_SEQ" >
-        <column name="ID" valueNumeric="0"/>         
+        <column name="ID" valueNumeric="0"/>
       </insert>
     </changeSet>
     <changeSet author="ben" id="1303384038461-25">
       <insert tableName="BATCH_JOB_EXECUTION_SEQ" >
-        <column name="ID" valueNumeric="0"/>         
+        <column name="ID" valueNumeric="0"/>
       </insert>
     </changeSet>
     <changeSet author="ben" id="1303384038461-26">
       <insert tableName="BATCH_JOB_SEQ" >
-        <column name="ID" valueNumeric="0"/>         
+        <column name="ID" valueNumeric="0"/>
       </insert>
     </changeSet>
     <changeSet author="ben" id="2011-05-25_1">
@@ -548,47 +548,47 @@
       <modifyDataType tableName="Content" columnName="content" newDataType="longtext"/>
     </changeSet>
     <changeSet author="ben" id="2011-08-18_2">
-      <modifyDataType tableName="Annotation" columnName="text" newDataType="longtext"/>      
+      <modifyDataType tableName="Annotation" columnName="text" newDataType="longtext"/>
     </changeSet>
     <changeSet author="ben" id="2011-08-18_3">
       <addColumn tableName="Image">
         <column name="caption" type="varchar(255)"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="jk00kg" id="2011-08-19_1">
       <addColumn tableName="Image">
         <column name="taxon_id" type="bigint"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_1">
       <addColumn tableName="Reference">
         <column name="datePublished" type="varchar(255)"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_2">
       <addColumn tableName="Reference">
         <column name="pages" type="varchar(255)"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_3">
       <addColumn tableName="Reference">
         <column name="title" type="varchar(255)"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_4">
       <addColumn tableName="Reference">
         <column name="volume" type="varchar(255)"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_5">
       <addColumn tableName="Reference">
         <column name="type" type="integer"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_7">
       <addColumn tableName="Taxon">
         <column name="protologue_id" type="bigint"/>
-      </addColumn> 
+      </addColumn>
     </changeSet>
     <changeSet author="ben" id="2011-08-26_8">
         <addForeignKeyConstraint baseColumnNames="protologue_id" baseTableName="Taxon" constraintName="FK4CD9EAACA0AED" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="Reference"/>
@@ -817,7 +817,7 @@
     <changeSet id="2011-08-31_25" author="ben">
       <createProcedure>
         CREATE PROCEDURE populateDate()
-        BEGIN          
+        BEGIN
           DECLARE dt DATE;
           SET @i = 0;
           REPEAT
@@ -827,12 +827,12 @@
             UNTIL @i > 365
           END REPEAT;
         END;
-      </createProcedure>        
+      </createProcedure>
     </changeSet>
     <changeSet id="2011-08-31_26" author="ben">
       <sql>
         call populateDate();
-      </sql>        
+      </sql>
     </changeSet>
     <changeSet id="2011-09-01_1" author="ben">
       <dropColumn tableName="Annotation" columnName="present"/>
@@ -1182,7 +1182,7 @@
         <column name="User_id" type="bigint">
             <constraints nullable="false"/>
         </column>
-        <column name="permissions" type="integer"/>      
+        <column name="permissions" type="integer"/>
       </createTable>
     </changeSet>
     <changeSet id="2011-10-07_15" author="ben">
@@ -1197,7 +1197,7 @@
         <column name="Group_id" type="bigint">
             <constraints nullable="false"/>
         </column>
-        <column name="permissions" type="integer"/>      
+        <column name="permissions" type="integer"/>
       </createTable>
     </changeSet>
     <changeSet id="2011-10-10_02" author="ben">
@@ -1214,7 +1214,7 @@
         </column>
         <column name="groups_id" type="bigint">
             <constraints nullable="false" primaryKey="true"/>
-        </column>      
+        </column>
       </createTable>
     </changeSet>
     <changeSet id="2011-10-10_04" author="ben">
@@ -4561,5 +4561,20 @@
       <addColumn tableName="Resource">
         <column name="lastAttempt" type="datetime"/>
       </addColumn>
+    </changeSet>
+    <changeSet id="2014-08-13_01" author="jk00kg">
+        <addColumn tableName="Image">
+            <column name="`references`" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2014-08-13_02" author="jk00kg">
+        <update tableName="Image">
+            <column name="references" valueComputed="source"/>
+        </update>
+    </changeSet>
+    <changeSet id="2014-08-13_03" author="jk00kg">
+        <update tableName="Image">
+            <column name="source" value="NULL"/>
+        </update>
     </changeSet>
 </databaseChangeLog>
