@@ -92,7 +92,7 @@
 			  <value>identifier</value>
 			  <value>scientificName</value>
 			</list>
-		</property>		
+		</property>
 		<property name="delimiter">
 			<value>,</value>
 		</property>
@@ -102,7 +102,7 @@
 	<bean id="fieldSetMapper" class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 	    <property name="targetType">
 			<value>org.emonocot.model.Taxon</value>
-		</property>		
+		</property>
 	</bean>
 	
 </beans>

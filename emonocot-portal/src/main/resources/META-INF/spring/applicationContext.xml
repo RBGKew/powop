@@ -143,12 +143,12 @@
 			    </list>
 		    </property>
 		    <property name="eventListeners">
-      	      <map>        	
+      	      <map>
       	        <entry key="post-insert" value-ref="solrIndexingListener" />
       	        <entry key="post-update" value-ref="solrIndexingListener" />
                 <entry key="post-delete" value-ref="solrIndexingListener" />
       	      </map>
-    	    </property>	
+    	    </property>
 		    <property name="annotatedPackages" value="org.emonocot.model"/>
 	    </bean>
 	    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
@@ -199,7 +199,7 @@
             <property name="dataSource" ref="liquibaseDataSource" />
             <property name="changeLog" value="classpath:${liquibase.changelog}" />
             <property name="dropFirst" value="${liquibase.drop.database.first}"/>
-            <property name="defaultSchema" value="${liquibase.default.schema.name}"/>        
+            <property name="defaultSchema" value="${liquibase.default.schema.name}"/>
         </bean>
     
         <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -259,7 +259,7 @@
 			    <value>
 				    hibernate.dialect=${hibernate.dialect}
 				    hibernate.hbm2ddl.auto=validate
-                    hibernate.validator.autoregister_listeners=false                   
+                    hibernate.validator.autoregister_listeners=false
 			    </value>
 		    </property>
 		    <property name="annotatedClasses">
@@ -285,12 +285,12 @@
 			    </list>
 		    </property>
 		    <property name="eventListeners">
-      	      <map>        	
+      	      <map>
       	        <entry key="post-insert" value-ref="solrIndexingListener" />
       	        <entry key="post-update" value-ref="solrIndexingListener" />
                 <entry key="post-delete" value-ref="solrIndexingListener" />
       	      </map>
-    	    </property>	
+    	    </property>
 		    <property name="annotatedPackages" value="org.emonocot.model"/>
 	    </bean>
 	    <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" >
