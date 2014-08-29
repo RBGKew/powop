@@ -4564,7 +4564,7 @@
     </changeSet>
     <changeSet id="2014-08-13_01" author="jk00kg">
         <addColumn tableName="Image">
-            <column name="`references`" type="varchar(255)"/>
+            <column name="references" type="varchar(255)"/>
         </addColumn>
     </changeSet>
     <changeSet id="2014-08-13_02" author="jk00kg">
