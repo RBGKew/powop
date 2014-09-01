@@ -1,18 +1,37 @@
 package org.emonocot.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.marshall.json.TaxonDeserializer;
+import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -40,9 +59,13 @@ public class Image extends Multimedia {
 
     private Double longitude;
 
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     private Long id;
+
+    private Set<Taxon> taxa = new HashSet<Taxon>();
+
+    private List<Comment> comments = new ArrayList<>();
+
+    private Set<Annotation> annotations = new HashSet<Annotation>();
 
 /**
     * REMEMBER: spatial is a reserved word in mysql!
@@ -77,15 +100,15 @@ public class Image extends Multimedia {
    }
 
 
-   public void setId(Long newId) {
-       this.id = newId;
-   }
+    public void setId(Long newId) {
+        this.id = newId;
+    }
 
-   @Id
-   @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-   public Long getId() {
-       return id;
-   }
+    @Id
+    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+    public Long getId() {
+        return id;
+    }
 
 	public Double getLatitude() {
 		return latitude;
@@ -114,6 +137,70 @@ public class Image extends Multimedia {
     		this.location = null;
     	}
 	}
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#getTaxa()
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+    @JsonSerialize(contentUsing = TaxonSerializer.class)
+    public Set<Taxon> getTaxa() {
+        return taxa;
+    }
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#setTaxa(java.util.Set)
+     */
+    @Override
+    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
+    public void setTaxa(Set<Taxon> taxa) {
+        this.taxa = taxa;
+    }
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#getAnnotations()
+     */
+    @Override
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "annotatedObjId")
+    @Where(clause = "annotatedObjType = 'Image'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public Set<Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#setAnnotations(java.util.Set)
+     */
+    @Override
+    public void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#getComments()
+     */
+    @Override
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "commentPage_id")
+    @OrderBy("created DESC")
+    @Where(clause = "commentPage_type = 'Image'")
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+    @JsonIgnore
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#setComments(java.util.List)
+     */
+    @Override
+    @JsonIgnore
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     @Override
     public SolrInputDocument toSolrInputDocument() {

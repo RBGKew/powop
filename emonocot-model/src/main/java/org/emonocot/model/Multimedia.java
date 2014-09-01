@@ -3,35 +3,20 @@
  */
 package org.emonocot.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.MediaFormat;
-import org.emonocot.model.marshall.json.TaxonDeserializer;
-import org.emonocot.model.marshall.json.TaxonSerializer;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Where;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @author jk00kg
@@ -51,10 +36,6 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
 
     private Taxon taxon;
 
-    private Set<Taxon> taxa = new HashSet<Taxon>();
-
-    private Set<Annotation> annotations = new HashSet<Annotation>();
-
     private String creator;
 
     private String references;
@@ -65,8 +46,6 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
 
     private String audience;
 
-    private List<Comment> comments = new ArrayList<Comment>();
-    
     private String source;
 
     /**
@@ -132,21 +111,13 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     /**
      * @return the taxa
      */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public Set<Taxon> getTaxa() {
-        return taxa;
-    }
+    @Transient
+    abstract public Set<Taxon> getTaxa();
 
     /**
      * @param taxa the taxa to set
      */
-    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
+    abstract public void setTaxa(Set<Taxon> taxa);
 
     /**
      * @return the creator
@@ -226,43 +197,24 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     /**
      * @return the comments
      */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'Image'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public List<Comment> getComments() {
-        return comments;
-    }
+    @Transient
+    abstract public List<Comment> getComments();
 
     /**
      * @param comments the comments to set
      */
-    @JsonIgnore
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+    abstract public void setComments(List<Comment> comments);
 
     /**
      * @return the annotations
      */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Image'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+    @Transient
+    abstract public Set<Annotation> getAnnotations();
 
-    /* (non-Javadoc)
+    /*(non-Javadoc)
      * @see org.emonocot.model.Annotated#setAnnotations(java.util.Set)
      */
-    @Override
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+    abstract public void setAnnotations(Set<Annotation> annotations);
 
     /**
      * @return the source
