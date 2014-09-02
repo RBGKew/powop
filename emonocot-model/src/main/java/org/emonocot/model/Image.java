@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
@@ -60,6 +61,8 @@ public class Image extends Multimedia {
     private Double longitude;
 
     private Long id;
+
+    private Taxon taxon;
 
     private Set<Taxon> taxa = new HashSet<Taxon>();
 
@@ -138,6 +141,21 @@ public class Image extends Multimedia {
     	}
 	}
 
+    /**
+     * @return the taxon
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Taxon getTaxon() {
+        return taxon;
+    }
+
+    /**
+     * @param taxon the taxon to set
+     */
+    public void setTaxon(Taxon taxon) {
+        this.taxon = taxon;
+    }
+
     /* (non-Javadoc)
      * @see org.emonocot.model.Multimedia#getTaxa()
      */
@@ -213,6 +231,16 @@ public class Image extends Multimedia {
 				.append(getSpatial()).append(" ").append(getSubject())
 				.append(" ").append(getTitle()).append(" ");
     	if(getTaxon() != null) {
+            //addField(sid,"taxon.class_s", getTaxon().getClazz());
+            addField(sid,"taxon.family_ss", getTaxon().getFamily());
+            addField(sid,"taxon.genus_ss", getTaxon().getGenus());
+            //addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
+            //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+            addField(sid,"taxon.order_s", getTaxon().getOrder());           
+            addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
+            addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
+            addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
+            addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
     	    summary.append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getClazz())
     	    .append(" ").append(getTaxon().getFamily())

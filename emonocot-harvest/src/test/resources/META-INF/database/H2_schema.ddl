@@ -33,7 +33,7 @@ create table MeasurementOrFact (id bigint not null, identifier varchar(255), acc
 drop table if exists Place;
 create table Place (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, modified timestamp, title varchar(255), fipsCode varchar(5), shape blob, point blob, license varchar(255), rights clob, rightsHolder varchar(255), source varchar(255), creator varchar(255), authority_id bigint, mapFeatureId bigint, primary key (id), unique (identifier));
 drop table if exists PhylogeneticTree;
-create table PhylogeneticTree (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), phylogeny clob, numberOfExternalNodes bigint, hasBranchLengths boolean, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, source_id bigint, primary key (id), unique (identifier));
+create table PhylogeneticTree (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), phylogeny clob, numberOfExternalNodes bigint, hasBranchLengths boolean, modified timestamp, rights clob, rightsHolder varchar(255), description clob, source varchar(255), format varchar(255), contributor varchar(255), publisher varchar(255), audience varchar(255), `references` varchar(255), title varchar(255), authority_id bigint, bibliographicReference_id bigint, primary key (id), unique (identifier));
 drop table if exists PhylogeneticTree_Taxon;
 create table PhylogeneticTree_Taxon (PhylogeneticTree_id bigint not null, leaves_id bigint not null);
 drop table if exists Principal;
@@ -86,7 +86,7 @@ alter table Resource_parameters add constraint FKB4682A309E0AAB54 foreign key (R
 alter table MeasurementOrFact add constraint FK424D5F2B6B53D29C foreign key (taxon_id) references Taxon;
 alter table MeasurementOrFact add constraint FK414D5F2B6B53D29C foreign key (authority_id) references Organisation;
 alter table PhylogeneticTree add constraint FKC35AE4F16B53D29D foreign key (authority_id) references Organisation;
-alter table PhylogeneticTree add constraint FKC35AE4F16B53D39D foreign key (source_id) references Reference;
+alter table PhylogeneticTree add constraint FKC35AE4F16B53D39D foreign key (bibliographicReference_id) references Reference;
 alter table Reference add constraint FK404D5F2B6B53D29C foreign key (authority_id) references Organisation;
 alter table Organisation add constraint FK93F5543B6B53D29C foreign key (authority_id) references Organisation;
 alter table Taxon add constraint FK4CD9EAA54493690 foreign key (acceptedNameUsage_id) references Taxon;

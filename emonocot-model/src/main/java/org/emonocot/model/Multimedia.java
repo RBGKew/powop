@@ -8,9 +8,7 @@ import java.util.Set;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -33,8 +31,6 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     private String description;
 
     private MediaFormat format;
-
-    private Taxon taxon;
 
     private String creator;
 
@@ -91,21 +87,6 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
      */
     public void setFormat(MediaFormat format) {
         this.format = format;
-    }
-
-    /**
-     * @return the taxon
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    public Taxon getTaxon() {
-        return taxon;
-    }
-
-    /**
-     * @param taxon the taxon to set
-     */
-    public void setTaxon(Taxon taxon) {
-        this.taxon = taxon;
     }
 
     /**
@@ -234,19 +215,6 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     public SolrInputDocument toSolrInputDocument() {
         SolrInputDocument sid = super.toSolrInputDocument();
         sid.addField("searchable.label_sort", getTitle());
-
-        if(getTaxon() != null) {
-            //addField(sid,"taxon.class_s", getTaxon().getClazz());
-            addField(sid,"taxon.family_ss", getTaxon().getFamily());
-            addField(sid,"taxon.genus_ss", getTaxon().getGenus());
-            //addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
-            //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
-            addField(sid,"taxon.order_s", getTaxon().getOrder());           
-            addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
-            addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
-            addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
-            addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
-        }
 
         return sid;
     }
