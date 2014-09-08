@@ -6,9 +6,26 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<div class="row">
-		<div class="span12">
+		<div class="span10 text-center">
 			<h4 class="index-message"><spring:message code="index.message"/></h4>
+            <a href="#youtubeModal" role="button" data-toggle="modal"><spring:message code="youtube.watch" /></a>
 		</div>
+        <div class="span2">
+            <a href="#youtubeModal" role="button" data-toggle="modal">
+                <c:url var="youtubelinkImg" value="/css/images/youtubelink.png" />
+                <img src="${youtubelinkImg}" alt="Youtube Image" />
+                <spring:message code="youtube.watch" />
+            </a>
+        </div>
+        <div id="youtubeModal" class="modal hide fade">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>
+                <h3><spring:message code="youtube.title" /></h3>
+            </div>
+            <div class="modal-body">
+                <iframe width="100%" height="340px" frameborder="0" src="http://www.youtube.com/embed/yOJWXQ4A_eQ?feature=player_detailpage" allowfullscreen="true"><!-- Preserving the iframe --></iframe>
+            </div>
+        </div>
 	</div>
 	<div class="row">
 		<div class="span4">
@@ -71,7 +88,7 @@
 								         stale = false;
 								     }
 								  });
-								  if(stale) {								   
+								  if(stale) {
 								    $("#news").removeClass("span8").addClass("hide");
 								    $("#comments").removeClass("span4").addClass("span12");
 								  }
@@ -107,7 +124,7 @@
 					      <spring:message code="comments.unavailable"/>
 					    </div>
 					  </c:otherwise>
-					</c:choose>					
+					</c:choose>
 					<div class="row">
 						<div class="span6">
 							<c:url var="commentsUrl" value="/comment"/>
