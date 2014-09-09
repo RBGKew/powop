@@ -7,8 +7,10 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<div class="row">
 		<div class="span10 text-center">
-			<h4 class="index-message"><spring:message code="index.message"/></h4>
-            <a href="#youtubeModal" role="button" data-toggle="modal"><spring:message code="youtube.watch" /></a>
+			<h4 class="index-message">
+                <spring:message code="index.message"/>
+                <a href="#youtubeModal" role="button" data-toggle="modal"><spring:message code="youtube.watch" /></a>
+            </h4>
 		</div>
         <div class="span2">
             <a href="#youtubeModal" role="button" data-toggle="modal">
