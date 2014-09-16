@@ -9,13 +9,12 @@
 		<div class="span10 text-center">
 			<h4 class="index-message">
                 <spring:message code="index.message"/>
-                <a href="#youtubeModal" role="button" data-toggle="modal"><spring:message code="youtube.watch" /></a>
             </h4>
 		</div>
         <div class="span2">
             <a href="#youtubeModal" role="button" data-toggle="modal">
                 <c:url var="youtubelinkImg" value="/css/images/youtubelink.png" />
-                <img src="${youtubelinkImg}" alt="Youtube Image" />
+                <img src="${youtubelinkImg}" alt="Image from YouTube video" />
                 <spring:message code="youtube.watch" />
             </a>
         </div>
