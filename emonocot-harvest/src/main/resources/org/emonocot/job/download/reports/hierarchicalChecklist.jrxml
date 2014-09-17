@@ -4,15 +4,15 @@
     <property name="ireport.zoom" value="1.0"/>
     <property name="ireport.x" value="0"/>
     <property name="ireport.y" value="0"/>
-    <style name="Title" hAlign="Center" fontSize="26" isBold="true"/>
-    <style name="Footer" hAlign="Center" fontSize="12"/>
-    <style name="Secondary" forecolor="#666666" hAlign="Center" fontSize="10"/>
-    <style name="Detail" forecolor="#444444" fontSize="12"/>
-    <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
-    <style name="Generic" forecolor="#000000" fontSize="12" isBold="true"/>
-    <style name="Specific" forecolor="#000000" fontSize="12" isBold="true"/>
-    <style name="InfraSpecific" forecolor="#000000" fontSize="12" isBold="true"/>
-    <style name="SubDetail" fontSize="8"/>
+    <style name="Title" hAlign="Center" fontSize="26" isBold="true" fontName="Museo 500"/>
+    <style name="Footer" hAlign="Center" fontSize="12" fontName="Museo 500"/>
+    <style name="Secondary" forecolor="#666666" hAlign="Center" fontSize="10" fontName="Museo 500"/>
+    <style name="Detail" forecolor="#444444" fontSize="12" fontName="Museo 500"/>
+    <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true" fontName="Museo 500"/>
+    <style name="Generic" forecolor="#000000" fontSize="12" isBold="true" fontName="Museo 500"/>
+    <style name="Specific" forecolor="#000000" fontSize="12" isBold="true" fontName="Museo 500"/>
+    <style name="InfraSpecific" forecolor="#000000" fontSize="12" isBold="true" fontName="Museo 500"/>
+    <style name="SubDetail" fontSize="8" fontName="Museo 500"/>
     <parameter name="username" class="java.lang.String" isForPrompting="false"/>
     <parameter name="searchDefinition" class="java.lang.String" isForPrompting="false"/>
     <parameter name="nameListReport" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
@@ -110,7 +110,7 @@
             <textField isStretchWithOverflow="true">
                 <reportElement style="Footer" x="50" y="0" width="400" height="20"/>
                 <textElement/>
-                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " of your search results. They are licenced as: " + 
+                <textFieldExpression><![CDATA["This report describes " + $V{REPORT_COUNT} + " search results. They are licenced as: " + 
                     ($V{licenses}.size() > 0 ? $V{licenses}.toString() : $P{defaultLicense})]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true">

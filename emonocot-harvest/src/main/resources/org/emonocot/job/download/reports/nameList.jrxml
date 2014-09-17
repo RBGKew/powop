@@ -4,9 +4,9 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-    <style name="Detail" forecolor="#444444" fontSize="12"/>
-    <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true"/>
-	<style name="SubDetail" fontSize="8"/>
+    <style name="Detail" forecolor="#444444" fontSize="12" fontName="Museo 500"/>
+    <style name="AcceptedName" forecolor="#000000" fontSize="12" isBold="true" fontName="Museo 500"/>
+	<style name="SubDetail" fontSize="8" fontName="Museo 500"/>
 	<field name="scientificName" class="java.lang.String"/>
     <field name="scientificNameAuthorship" class="java.lang.String"/>
     <field name="namePublishedInString" class="java.lang.String"/>
