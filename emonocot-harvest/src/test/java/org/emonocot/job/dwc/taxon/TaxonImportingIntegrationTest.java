@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.emonocot.api.ReferenceService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -60,6 +61,9 @@ public class TaxonImportingIntegrationTest {
     private JobLauncher jobLauncher;
     
     private Properties properties;
+    
+    @Autowired
+    private ReferenceService referenceService;
 
     /**
      * 1288569600 in unix time.
@@ -127,5 +131,9 @@ public class TaxonImportingIntegrationTest {
                     + stepExecution.getFilterCount() + " "
                     + stepExecution.getWriteCount());
         }
+        
+        //Test namePublishedIn is saved
+        //assertNotNull("The namePublishedIn should have been saved.",
+        //        referenceService.findByBibliographicCitation("Pageter, A (2014) Hedgerow Woe"));
     }
 }
