@@ -92,7 +92,7 @@
 						<ul class="dropdown-menu">
 							
 							<li>
-								<c:url value="/key/2" var="familyKeyUrl"/>
+								<c:url value="/key/425996" var="familyKeyUrl"/>
 								<a href="${familyKeyUrl}"><i class="halflings-icon keys"><!--  --></i>&#160;<spring:message code="family.key.title"/></a>
 							</li>
 							<li>
