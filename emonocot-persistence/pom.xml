@@ -4,7 +4,7 @@
   <parent>
     <artifactId>emonocot</artifactId>
     <groupId>org.emonocot</groupId>
-    <version>1.0.3a</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
   <artifactId>emonocot-persistence</artifactId>
   <name>eMonocot Persistence Layer</name>
