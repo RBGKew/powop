@@ -68,7 +68,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                         Taxon taxon = new Taxon();
                         object.setAcceptedNameUsage(taxon);
                 	}
-                    object.getAcceptedNameUsage().setIdentifier(value);                    
+                    object.getAcceptedNameUsage().setIdentifier(value);
                 }
                 break;
             case acceptedNameUsage:
@@ -77,7 +77,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                         Taxon taxon = new Taxon();
                         object.setAcceptedNameUsage(taxon);
                 	}
-                    object.getAcceptedNameUsage().setScientificName(value);                    
+                    object.getAcceptedNameUsage().setScientificName(value);
                 }
                 break;
             case classs:
@@ -94,10 +94,14 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                 break;
             case kingdom:
                 object.setKingdom(value);
-                break; 
+                break;
             case nameAccordingToID:
                 object.setNameAccordingTo(handleReference(value));
-                break;  
+                break;
+            /*TODO: Add a string as exists for namePublishedIn
+            case nameAccordingTo:
+                object.setNameAccordingTo(handleReference(value));
+                break;*/
             case namePublishedInID:
             	object.setNamePublishedIn(handleReference(value));
                 break;
@@ -142,7 +146,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                 	    Taxon taxon = new Taxon();
                 	    object.setParentNameUsage(taxon);
                 	}
-                    object.getParentNameUsage().setIdentifier(value);                    
+                    object.getParentNameUsage().setIdentifier(value);
                 }
                 break;
             case parentNameUsage:
@@ -151,7 +155,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                 	    Taxon taxon = new Taxon();
                 	    object.setParentNameUsage(taxon);
                 	}
-                    object.getParentNameUsage().setScientificName(value);                    
+                    object.getParentNameUsage().setScientificName(value);
                 }
                 break;
             case phylum:
@@ -183,7 +187,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                 }
                 break;
             case taxonRank:
-                try {                    
+                try {
                     object.setTaxonRank(conversionService.convert(value, Rank.class));
                 } catch (ConversionException ce) {
                     logger.error(ce.getMessage());
@@ -214,7 +218,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
             	break;
             default:
             	break;
-            }            
+            }
         }
     }
     
@@ -222,7 +226,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 		if (value != null && value.trim().length() > 0) {
 		    Reference reference = new Reference();
     	    reference.setIdentifier(value);
-            return reference;            
+            return reference;
 		} else {
 			return null;
 		}

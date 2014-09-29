@@ -184,7 +184,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
                 bindTaxon(taxon);
               } else {
                   logger.info("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
-                  bindTaxon(taxon);                       
+                  bindTaxon(taxon);
               }
               return taxon;
         }
@@ -232,7 +232,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
         for (TaxonRelationship taxonRelationship : taxonRelationships) {
         	Taxon to = resolveTaxon(taxonRelationship.getToIdentifier(), taxonRelationship.getToScientificName());
         	Taxon from = taxonRelationship.getFrom();
-        	
             switch(taxonRelationship.getTerm()) {
             case original:
             	from.setOriginalNameUsage(to);
@@ -242,7 +241,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
             	break;
             case parent:
             	from.setParentNameUsage(to);
-            	break;            
+            	break;
             }
         }
 	}

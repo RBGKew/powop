@@ -124,7 +124,7 @@ public class TaxonImportingIntegrationTest {
         Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
         assertNotNull("DarwinCoreArchiveHarvesting must not be null", darwinCoreArchiveHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(darwinCoreArchiveHarvestingJob, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+        assertEquals("The job should complete successfully","COMPLETED",jobExecution.getExitStatus().getExitCode());
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
             logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "
@@ -133,7 +133,7 @@ public class TaxonImportingIntegrationTest {
         }
         
         //Test namePublishedIn is saved
-        //assertNotNull("The namePublishedIn should have been saved.",
-        //        referenceService.findByBibliographicCitation("Pageter, A (2014) Hedgerow Woe"));
+//        assertNotNull("The namePublishedIn should have been saved.",
+//                referenceService.find("urn:example.com:test:ref:numerouno"));
     }
 }

@@ -15,7 +15,7 @@ public class NonOwnedRecordAnnotator extends AbstractRecordAnnotator implements 
 	private Logger logger = LoggerFactory.getLogger(NonOwnedRecordAnnotator.class);
 
 	private String annotatedObjType;
-	
+
 	public void setAnnotatedObjType(String annotatedObjType) {
 		this.annotatedObjType = annotatedObjType;
 	}
@@ -25,7 +25,7 @@ public class NonOwnedRecordAnnotator extends AbstractRecordAnnotator implements 
 		String annotationQuery = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from #annotatedObjType o where o.authority_id = :authorityId";
 	    annotationQuery = annotationQuery.replaceAll("#annotatedObjType", annotatedObjType);
 	    Map<String,Object> annotationParameters = new HashMap<String,Object>();
-		annotationParameters.put("annotatedObjType", annotatedObjType);	 
+		annotationParameters.put("annotatedObjType", annotatedObjType);
 	    super.annotate(annotationQuery, annotationParameters);
 		return RepeatStatus.FINISHED;
 	}

@@ -36,7 +36,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
     public final void mapField(final Reference object, final String fieldName,
             final String value) throws BindException {
     	super.mapField(object, fieldName, value);
-    	
+
         ConceptTerm term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
@@ -53,7 +53,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
             case description:
                 object.setDescription(value);
                 break;
-            case identifier:                
+            case identifier:
                 object.setIdentifier(value);
                 break;
             case language:
@@ -72,13 +72,13 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
                 object.setTitle(htmlSanitizer.sanitize(value));
                 break;
             case type:
-                object.setType(conversionService.convert(value, ReferenceType.class));                
+                object.setType(conversionService.convert(value, ReferenceType.class));
                 break;
             default:
                 break;
             }
         }
-        
+
         // DwcTerms
         if (term instanceof DwcTerm) {
             DwcTerm dwcTerm = (DwcTerm) term;

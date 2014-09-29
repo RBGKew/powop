@@ -1752,7 +1752,7 @@
         <property name="annotatedObjType" value="Reference"/>
     </bean>
     
-    <bean id="markRelatedReferenceRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">     
+    <bean id="markRelatedReferenceRecordsTasklet" class="org.emonocot.job.dwc.read.NonOwnedSubsetRecordAnnotator" scope="step">
         <property name="dataSource" ref="dataSource" />
         <property name="authorityName" value="#{jobParameters['authority.name']}"/>
         <property name="annotatedObjType" value="Reference"/>
@@ -1848,7 +1848,7 @@
     </bean>
 
     <!-- Identifiers -->
-    
+
     <bean id="markIdentifierRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
         <property name="dataSource" ref="dataSource" />
         <property name="authorityName" value="#{jobParameters['authority.name']}"/>
@@ -2395,6 +2395,9 @@
     </bean>
 
     <bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
+        <!-- <property name="taxonService" ref="taxonServiceImpl"/>
+        <property name="conceptService" ref="conceptServiceImpl"/>
+        <property name="phylogeneticTreeService" ref="phylogeneticTreeServiceImpl"/> -->
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
