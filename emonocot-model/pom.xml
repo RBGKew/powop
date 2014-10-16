@@ -5,7 +5,6 @@
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
 		<version>1.0.4-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>emonocot-model</artifactId>
 	<name>eMonocot Data Model</name>

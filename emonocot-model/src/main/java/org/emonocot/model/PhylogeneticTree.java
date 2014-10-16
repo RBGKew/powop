@@ -17,11 +17,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
@@ -31,8 +35,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
 @Entity
-public class PhylogeneticTree extends Multimedia implements NonOwned,
-		Media {
+public class PhylogeneticTree extends Multimedia {
 
 	/**
 	 * 
@@ -154,6 +157,9 @@ public class PhylogeneticTree extends Multimedia implements NonOwned,
 		return comments;
 	}
 
+    /**
+     * @param comments - Comments made about this tree
+     */
 	@JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
@@ -162,6 +168,15 @@ public class PhylogeneticTree extends Multimedia implements NonOwned,
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#getType()
+     */
+    @Override
+    @Transient
+    public MediaType getType() {
+        return MediaType.InteractiveResource;
+    }
 	
 	@Override
     public SolrInputDocument toSolrInputDocument() {

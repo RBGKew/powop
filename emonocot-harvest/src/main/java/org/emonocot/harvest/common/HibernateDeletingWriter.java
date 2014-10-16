@@ -36,7 +36,7 @@ public class HibernateDeletingWriter<T extends Base> extends HibernateDaoSupport
                 example.setNameAccordingTo((Reference) t);
                 linkedTaxa = taxonService.searchByExample(example, false, false).getRecords();
                 for (Taxon taxon : linkedTaxa) {
-                    taxon.setNamePublishedIn(null);
+                    taxon.setNameAccordingTo(null);
                 }
                 getHibernateTemplate().saveOrUpdateAll(linkedTaxa);
             }

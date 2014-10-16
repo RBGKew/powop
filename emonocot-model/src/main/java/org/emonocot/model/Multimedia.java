@@ -3,9 +3,9 @@
  */
 package org.emonocot.model;
 
-import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.MediaFormat;
+import org.emonocot.model.constants.MediaType;
 
 /**
  * @author jk00kg
@@ -118,6 +119,7 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     /**
      * @return the references
      */
+    @Column(name = "`references`")
     @Size(max = 255)
     public String getReferences() {
         return references;
@@ -176,28 +178,6 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     }
 
     /**
-     * @return the comments
-     */
-    @Transient
-    abstract public List<Comment> getComments();
-
-    /**
-     * @param comments the comments to set
-     */
-    abstract public void setComments(List<Comment> comments);
-
-    /**
-     * @return the annotations
-     */
-    @Transient
-    abstract public Set<Annotation> getAnnotations();
-
-    /*(non-Javadoc)
-     * @see org.emonocot.model.Annotated#setAnnotations(java.util.Set)
-     */
-    abstract public void setAnnotations(Set<Annotation> annotations);
-
-    /**
      * @return the source
      */
     public String getSource() {
@@ -210,6 +190,9 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     public void setSource(String source) {
         this.source = source;
     }
+
+    @Transient
+    public abstract MediaType getType();//TODO Change once there's a better idea of how/when to handle conversion 
 
     @Override
     public SolrInputDocument toSolrInputDocument() {

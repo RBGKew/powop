@@ -1578,7 +1578,7 @@
                 <jdbc.driver.password>wf</jdbc.driver.password>
                 <http.proxyHost />
                 <http.proxyPort />
-                <email.debug>true</email.debug>
+                <email.debug>false</email.debug>
                 <email.smtp.username>portal</email.smtp.username>
                 <email.smtp.password>portal</email.smtp.password>
                 <email.smtp.host>localhost</email.smtp.host>
@@ -1689,7 +1689,7 @@
                 <cargo.remote.username>admin</cargo.remote.username>
                 <cargo.remote.password />
                 <cargo.portal.context.path>/</cargo.portal.context.path>
-                <logging.level>WARN</logging.level>
+                <logging.level>INFO</logging.level>
                 <logging.method>file</logging.method>
                 <logging.location>C:/apache/tomcat/logs/emonocot-portal.log</logging.location>
                 <logging.querylog.location>C:/apache/tomcat/logs/emonocot-portal-query.log</logging.querylog.location>
@@ -1793,7 +1793,7 @@
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
-				<email.debug>true</email.debug>
+				<email.debug>false</email.debug>
 				<email.smtp.username>portal</email.smtp.username>
 				<email.smtp.password>portal</email.smtp.password>
 				<email.smtp.host>localhost</email.smtp.host>
@@ -1942,7 +1942,7 @@
                 <download.rights>Rights Statement</download.rights>
                 <download.subject>Subject Keywords</download.subject>
                 <download.title>eMonocot Download</download.title>
-                <email.debug>true</email.debug>
+                <email.debug>false</email.debug>
                 <email.smtp.username>portal</email.smtp.username>
                 <email.smtp.password>portal</email.smtp.password>
                 <email.smtp.host>localhost</email.smtp.host>
@@ -1992,7 +1992,7 @@
                 <cargo.harvester.context.path>emonocot-harvester</cargo.harvester.context.path>
                 <http.proxyHost>proxy.ad.kew.org</http.proxyHost>
                 <http.proxyPort>8080</http.proxyPort>
-                <logging.level>WARN</logging.level>
+                <logging.level>INFO</logging.level>
                 <logging.method>file</logging.method>
                 <logging.location>C:/apache/tomcat/logs/emonocot-harvester.log</logging.location>
                 <liquibase.drop.database.first>false</liquibase.drop.database.first>
@@ -2021,7 +2021,7 @@
                 <download.rights>Rights Statement</download.rights>
                 <download.subject>Subject Keywords</download.subject>
                 <download.title>eMonocot Download</download.title>
-                <email.debug>true</email.debug>
+                <email.debug>false</email.debug>
                 <email.smtp.username>portal</email.smtp.username>
                 <email.smtp.password>portal</email.smtp.password>
                 <email.smtp.host>localhost</email.smtp.host>

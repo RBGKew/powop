@@ -17,9 +17,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -200,7 +202,6 @@ public class Image extends Multimedia {
     /* (non-Javadoc)
      * @see org.emonocot.model.Multimedia#getComments()
      */
-    @Override
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "commentPage_id")
     @OrderBy("created DESC")
@@ -211,13 +212,21 @@ public class Image extends Multimedia {
         return comments;
     }
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#setComments(java.util.List)
+    /**
+     * @param comments - Comments made about this image
      */
-    @Override
     @JsonIgnore
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#getType()
+     */
+    @Override
+    @Transient
+    public MediaType getType() {
+        return MediaType.StillImage;
     }
 
     @Override
@@ -231,12 +240,9 @@ public class Image extends Multimedia {
 				.append(getSpatial()).append(" ").append(getSubject())
 				.append(" ").append(getTitle()).append(" ");
     	if(getTaxon() != null) {
-            //addField(sid,"taxon.class_s", getTaxon().getClazz());
             addField(sid,"taxon.family_ss", getTaxon().getFamily());
             addField(sid,"taxon.genus_ss", getTaxon().getGenus());
-            //addField(sid,"taxon.kingdom_s", getTaxon().getKingdom());
-            //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
-            addField(sid,"taxon.order_s", getTaxon().getOrder());           
+            addField(sid,"taxon.order_s", getTaxon().getOrder());
             addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
             addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
             addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
