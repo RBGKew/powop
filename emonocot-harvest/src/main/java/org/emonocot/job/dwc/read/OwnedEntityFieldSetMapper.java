@@ -4,7 +4,7 @@ import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.exception.CannotFindRecordException;
 import org.emonocot.model.OwnedEntity;
 import org.emonocot.model.Taxon;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
     }
 
 	public OwnedEntityFieldSetMapper(Class<T> newType) {
-		super(newType);		
+		super(newType);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
 			throws BindException {
 		super.mapField(object, fieldName, value);
 		
-		ConceptTerm term = getTermFactory().findTerm(fieldName);
+		Term term = getTermFactory().findTerm(fieldName);
 		
 		// DwcTerms
         if (term instanceof DwcTerm) {

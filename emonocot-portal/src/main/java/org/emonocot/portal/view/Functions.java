@@ -50,7 +50,7 @@ import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
 import org.emonocot.portal.view.provenance.ProvenanceHolder;
 import org.emonocot.portal.view.provenance.ProvenanceManager;
 import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.EstablishmentMeans;
 import org.gbif.ecat.voc.OccurrenceStatus;
@@ -63,7 +63,6 @@ import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
@@ -1133,8 +1132,8 @@ public class Functions {
 	 * 
 	 * @return the list of measurements or facts
 	 */
-	public static ConceptTerm[] measurements() {
-		return new ConceptTerm[] { WCSPTerm.Habitat, WCSPTerm.Lifeform,
+	public static Term[] measurements() {
+		return new Term[] { WCSPTerm.Habitat, WCSPTerm.Lifeform,
 				IucnTerm.threatStatus, EmonocotTerm.SRLI };
 	}
 
@@ -1147,7 +1146,7 @@ public class Functions {
 	 * @return a Content object, or null
 	 */
 	public static Set<MeasurementOrFact> facts(Taxon taxon,
-			ConceptTerm measurements) {
+			Term measurements) {
 		Set<MeasurementOrFact> facts = new HashSet<MeasurementOrFact>();
 
 		for (MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {

@@ -10,7 +10,7 @@
   @org.hibernate.annotations.TypeDef(name = "dateTimeUserType", typeClass = org.joda.time.contrib.hibernate.PersistentDateTime.class),
   @org.hibernate.annotations.TypeDef(name = "durationUserType", typeClass = org.joda.time.contrib.hibernate.PersistentDuration.class),
   @org.hibernate.annotations.TypeDef(name = "spatialType", typeClass = org.hibernatespatial.GeometryUserType.class),
-  @org.hibernate.annotations.TypeDef(name = "conceptTermUserType", typeClass = org.emonocot.model.hibernate.ConceptTermUserType.class) })
+  @org.hibernate.annotations.TypeDef(name = "termUserType", typeClass = org.emonocot.model.hibernate.TermUserType.class) })
 @org.hibernate.annotations.AnyMetaDefs({
 	@org.hibernate.annotations.AnyMetaDef(name ="AnnotationMetaDef", idType = "long", metaType = "string", metaValues = {
             @org.hibernate.annotations.MetaValue(targetEntity = Taxon.class, value = "Taxon"),
@@ -43,7 +43,7 @@
             @org.hibernate.annotations.MetaValue(targetEntity = VernacularName.class, value = "VernacularName"),
             @org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree"),
             @org.hibernate.annotations.MetaValue(targetEntity = Concept.class, value = "Concept")
-    })    
+    })
 })
 package org.emonocot.model;
 

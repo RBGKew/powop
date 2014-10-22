@@ -18,7 +18,7 @@ import javax.validation.Validator;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.job.SkosTerm;
 import org.emonocot.model.registry.Organisation;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.text.Archive;
@@ -160,6 +160,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             	getMetadata(archive.getExtension(SkosTerm.Concept),
                         "term", DwcTerm.taxonID, failOnError);
             }
+//TODO update Gbif API dependancy            if (archive.getExtension(GbifTerm.Multimedia) != null) {
+//                getMetadata(archive.getExtension(GbifTerm.Multimedia), "multimedia", DwcTerm.taxonID, failOnError);
+//            }
         } catch (UnsupportedArchiveException uae) {
             logger.error("Unsupported Archive Exception reading "
                     + archiveDirectoryName + " " + uae.getLocalizedMessage());
@@ -308,7 +311,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
      * @throws IOException 
      */
     private void getMetadata(final ArchiveFile archiveFile,
-            final String prefix, final ConceptTerm identifierTerm, boolean failOnError) throws IOException {
+            final String prefix, final Term identifierTerm, boolean failOnError) throws IOException {
     	logger.info("Processing " + archiveFile.getRowType());
         ExecutionContext executionContext = this.stepExecution
                 .getJobExecution().getExecutionContext();
@@ -378,7 +381,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         	// Note java.lang.String.split does not include trailing empty string
             totalColumns = firstDataLine.split(archiveFile.getFieldsTerminatedBy(), -1).length;
         } else {
-        	totalColumns = maxIndex + 1;        	
+        	totalColumns = maxIndex + 1;
         }
         
         if((maxIndex + 1) > totalColumns) {
@@ -441,7 +444,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
         }
             
         for (ArchiveField field : fields) {
-        	logger.info("Archive contains field " + field.getTerm().qualifiedName());    
+        	logger.info("Archive contains field " + field.getTerm().qualifiedName());
         	if(field.getIndex() != null) {
         		if(field.getDefaultValue() != null) {
         			names.set(field.getIndex(), field.getTerm().qualifiedName() + " " + field.getDefaultValue());

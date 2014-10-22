@@ -15,13 +15,13 @@
 		<batch:description>Create a darwin core archive from a delta TONAT file and associated resources</batch:description>
 		<batch:step id="readTaxonFile">
 			<batch:tasklet>
-			    <batch:chunk reader="taxonReader" writer="mapBackedTaxonMatcher" commit-interval="10"/>    
+			    <batch:chunk reader="taxonReader" writer="mapBackedTaxonMatcher" commit-interval="10"/>
 		    </batch:tasklet>
 		    <batch:next on="COMPLETED" to="createDescriptionFile"/>
 		</batch:step>
 		<batch:step id="createDescriptionFile">
 			<batch:tasklet>
-			    <batch:chunk reader="deltaItemItemReader" processor="deltaNaturalLanguageProcessor" writer="deltaDescriptionFileWriter" commit-interval="10"/>    
+			    <batch:chunk reader="deltaItemItemReader" processor="deltaNaturalLanguageProcessor" writer="deltaDescriptionFileWriter" commit-interval="10"/>
 		    </batch:tasklet>
 		    <batch:next on="COMPLETED" to="createMetadataFile"/>
 		</batch:step>
@@ -73,11 +73,11 @@
 	</bean>
 	
 	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
-		<property name="archiveFile" value="#{jobParameters['archive.file']}"/>		
+		<property name="archiveFile" value="#{jobParameters['archive.file']}"/>
 		<property name="taxonFields" value="#{jobParameters['taxon.file.field.names']}"/>
 		<property name="taxonDefaultValues" value="#{jobParameters['taxon.default.values']}"/>
 		<property name="descriptionFields" value="#{jobParameters['description.file.field.names']}"/>
-	    <property name="descriptionDefaultValues" value="#{jobParameters['description.default.values']}"/>		
+	    <property name="descriptionDefaultValues" value="#{jobParameters['description.default.values']}"/>
 		<property name="delimiter" value="#{jobParameters['fields.terminated.by']}"/>
 		<property name="quoteCharacter" value="#{jobParameters['fields.enclosed.by']}"/>
 		<property name="outputDirectory" value="${harvester.output.directory}"/>
@@ -138,8 +138,8 @@
 	    <bean class="org.springframework.core.io.FileSystemResource" scope="step">
 		    <constructor-arg value="#{jobParameters['items.file']}" />
 		</bean>
-	  </property>	  
-	  <property name="deltaContextHolder" ref="deltaContextHolder"/>	  
+	  </property>
+	  <property name="deltaContextHolder" ref="deltaContextHolder"/>
 	</bean>
 	
 	<bean id="deltaNaturalLanguageProcessor" class="org.emonocot.job.delta.DeltaNaturalLanguageProcessor" scope="step">
@@ -180,7 +180,6 @@
 	 </property>
 	</bean>
     
-    
     <bean id="workingDirectoryResourceDeletingTasklet"
 		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
 		scope="step">
@@ -188,7 +187,7 @@
 			<list>
 				<bean class="org.springframework.core.io.FileSystemResource" scope="step">
 					<constructor-arg value="${harvester.output.directory}/#{jobParameters['archive.file']}" />
-				</bean>				
+				</bean>
 			</list>
 		</property>
 	</bean>

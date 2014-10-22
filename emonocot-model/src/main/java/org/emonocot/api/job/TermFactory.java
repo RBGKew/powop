@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -17,7 +17,7 @@ import org.gbif.dwc.terms.UnknownTerm;
 public class TermFactory {
 
 	private static final Pattern QUOTE_PATTERN = Pattern.compile("\"");
-	private final static Set<ConceptTerm> unkownTerms = new HashSet<ConceptTerm>();
+	private final static Set<Term> unkownTerms = new HashSet<Term>();
 
 	public static String normaliseTerm(String term) {
 		// no quotes or whitespace in term names
@@ -30,14 +30,18 @@ public class TermFactory {
 		unkownTerms.clear();
 	}
 
-	public static ConceptTerm findTerm(String termName) {
-		if (termName == null) {
+	/**
+	 * @param termName - A string containing a fully qualified URI for a {@link Term}
+	 * @return The {@link Term} represented by the parameter 
+	 */
+	public static Term findTerm(String termName) {
+        // normalise termName
+	    String normTermName;
+		if (termName == null || StringUtils.isBlank(normTermName = normaliseTerm(termName))) {
 			return null;
 		}
-		// normalise terms
-		String normTermName = normaliseTerm(termName);
 		// try known term enums first
-		ConceptTerm term = findTermInEnum(normTermName, DwcTerm.values(),
+		Term term = findTermInEnum(normTermName, DwcTerm.values(),
 				new String[] {DwcTerm.PREFIX, DwcTerm.NS});
 		if (term == null) {
 			term = findTermInEnum(normTermName, DcTerm.values(),
@@ -71,32 +75,26 @@ public class TermFactory {
 			term = findTermInEnum(normTermName, unkownTerms);
 		}
 		if (term == null) {
-			term = new UnknownTerm(termName, StringUtils.substringAfterLast(
-					termName, "/"));
+			term = UnknownTerm.build(termName);
 			unkownTerms.add(term);
 		}
 		return term;
 	}
 
-	private static ConceptTerm findTermInEnum(String termName,
-			Collection<ConceptTerm> vocab) {
-		for (ConceptTerm term : vocab) {
-			if (term.qualifiedNormalisedName().equalsIgnoreCase(termName)) {				
+	private static Term findTermInEnum(String termName,
+			Collection<Term> vocab) {
+		for (Term term : vocab) {
+			if (term.qualifiedName().equalsIgnoreCase(termName)) {				
 				return term;
 			}
-			if (term.simpleNormalisedName().equalsIgnoreCase(termName)) {			
+			if (term.simpleName().equalsIgnoreCase(termName)) {			
 				return term;
-			}
-			for (String alt : term.simpleNormalisedAlternativeNames()) {
-				if (alt.equalsIgnoreCase(termName)) {
-					return term;
-				}
 			}
 		}
 		return null;
 	}
 
-	private static ConceptTerm findTermInEnum(String termName, ConceptTerm[] vocab,
+	private static Term findTermInEnum(String termName, Term[] vocab,
 			String[] prefixes) {
 		for (String prefix : prefixes) {
 			if (termName.startsWith(prefix)) {

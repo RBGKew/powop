@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 
@@ -40,7 +40,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 	
 	private Pattern defaultValuesPattern = Pattern.compile("((?:[^\\\\,]|\\\\.)*)(?:,|$)");
 	
-	private String archiveFile;	
+	private String archiveFile;
 
 	private String[] taxonFields;
 	
@@ -257,9 +257,9 @@ public class ArchiveMetadataWriter implements Tasklet {
 	Map<String,String> toDefaultValues(String defaultValueList) {
 		
 		Map<String,String> defaultValues = new HashMap<String,String>();
-		if (defaultValueList != null && !defaultValueList.isEmpty()) { 
+		if (defaultValueList != null && !defaultValueList.isEmpty()) {
 			Matcher matcher = defaultValuesPattern.matcher(defaultValueList);
-			while (matcher.find()) { 
+			while (matcher.find()) {
 				String defaultValue = matcher.group(1);
 				if (defaultValue.indexOf("=") != -1) {
 					int i = defaultValue.indexOf("=");
@@ -268,13 +268,13 @@ public class ArchiveMetadataWriter implements Tasklet {
 					value = value.replace("\\", "");
 					defaultValues.put(key, value);
 				}
-			}			
+			}
 		}
 		return defaultValues;
 	}
 
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
-		Archive archive = new Archive();		
+		Archive archive = new Archive();
 		
 		archive.setCore(buildArchiveFile(taxonFields,taxonDefaultValues,DwcTerm.Taxon, DwcTerm.taxonID,"taxon.txt",ignoreHeaderLines ,"UTF-8",quoteCharacter,delimiter));
 		
@@ -352,7 +352,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 		return eml;
 	}
 
-	private ArchiveFile buildArchiveFile(String[] fieldNames, Map<String,String> defaultValues, ConceptTerm rowType, ConceptTerm idTerm, String location,
+	private ArchiveFile buildArchiveFile(String[] fieldNames, Map<String,String> defaultValues, Term rowType, Term idTerm, String location,
 	    Integer ignoreHeaderLines, String encoding, Character fieldsEnclosedBy, String fieldsTerminatedBy) {
 		ArchiveFile archiveFile = new ArchiveFile();
 		ArchiveField idField = new ArchiveField();
@@ -361,7 +361,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 		archiveFile.setId(idField);
 		
 		for(int i = 1; i < fieldNames.length; i++) {
-			ConceptTerm term = termFactory.findTerm(fieldNames[i]);
+			Term term = termFactory.findTerm(fieldNames[i]);
 			ArchiveField archiveField = new ArchiveField();
 			archiveField.setTerm(term);
 			archiveField.setIndex(i);
@@ -372,7 +372,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 			archiveFile.addField(archiveField);
 		}
 		for(String fieldName : defaultValues.keySet()) {
-			ConceptTerm term = termFactory.findTerm(fieldName);
+			Term term = termFactory.findTerm(fieldName);
 			ArchiveField archiveField = new ArchiveField();
 			archiveField.setTerm(term);
 			archiveField.setDefaultValue(defaultValues.get(fieldName));
@@ -384,8 +384,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 		archiveFile.setFieldsEnclosedBy(fieldsEnclosedBy);
 		archiveFile.setFieldsTerminatedBy(fieldsTerminatedBy);
 		archiveFile.addLocation(location);
-				
+		
 		return archiveFile;
 	}
-	
 }

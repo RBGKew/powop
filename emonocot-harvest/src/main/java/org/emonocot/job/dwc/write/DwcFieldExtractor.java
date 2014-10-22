@@ -5,7 +5,7 @@ import java.util.Map;
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.model.BaseData;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.file.transform.FieldExtractor;
@@ -52,12 +52,12 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 	@Override
 	public Object[] extract(BaseData item) {
 		Object[] values = new Object[names.length];
-		ConceptTerm extensionTerm = termFactory.findTerm(extension);
-		Map<ConceptTerm,String> propertyMap = DarwinCorePropertyMap.getPropertyMap(extensionTerm);		
+		Term extensionTerm = termFactory.findTerm(extension);
+		Map<Term,String> propertyMap = DarwinCorePropertyMap.getPropertyMap(extensionTerm);
 		BeanWrapper beanWrapper = new BeanWrapperImpl(item);
 		for(int i = 0; i < names.length; i++) {
-			String property = names[i];			
-			ConceptTerm propertyTerm = termFactory.findTerm(property);			
+			String property = names[i];
+			Term propertyTerm = termFactory.findTerm(property);
 		    String propertyName = propertyMap.get(propertyTerm);
 		     try {
 		    	 String value = conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class);

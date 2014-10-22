@@ -5,33 +5,33 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.emonocot.model.compare.ConceptTermComparator;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.emonocot.model.compare.TermComparator;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 
 public class DarwinCorePropertyMap {
 	
-   public static Map<ConceptTerm,String> taxonTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> taxonTerms = new HashMap<Term,String>();
     
-   public static Map<ConceptTerm,String> distributionTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> distributionTerms = new HashMap<Term,String>();
     
-   public static Map<ConceptTerm,String> descriptionTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> descriptionTerms = new HashMap<Term,String>();
     
-   public static Map<ConceptTerm,String> referenceTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> referenceTerms = new HashMap<Term,String>();
     
-   public static Map<ConceptTerm,String> imageTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> imageTerms = new HashMap<Term,String>();
    
-   public static Map<ConceptTerm,String> identifierTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> identifierTerms = new HashMap<Term,String>();
    
-   public static Map<ConceptTerm,String> typeAndSpecimenTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> typeAndSpecimenTerms = new HashMap<Term,String>();
    
-   public static Map<ConceptTerm,String> vernacularNameTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> vernacularNameTerms = new HashMap<Term,String>();
    
-   public static Map<ConceptTerm,String> measurementOrFactTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> measurementOrFactTerms = new HashMap<Term,String>();
    
-   public static Map<ConceptTerm,String> skosTerms = new HashMap<ConceptTerm,String>();
+   public static Map<Term,String> skosTerms = new HashMap<Term,String>();
    
    static {
 	   taxonTerms.put(DcTerm.accessRights,"accessRights");
@@ -47,7 +47,7 @@ public class DarwinCorePropertyMap {
    	taxonTerms.put(DwcTerm.acceptedNameUsageID,"acceptedNameUsage.identifier");
    	taxonTerms.put(EmonocotTerm.acceptedNameUsageFamily,"acceptedNameUsage.family");
    	taxonTerms.put(DcTerm.bibliographicCitation,"bibliographicCitation");
-   	taxonTerms.put(DwcTerm.classs,"clazz");
+   	taxonTerms.put(DwcTerm.class_,"clazz");
    	taxonTerms.put(DwcTerm.family,"family");
    	taxonTerms.put(DwcTerm.genus,"genus");
    	taxonTerms.put(DwcTerm.infraspecificEpithet,"infraspecificEpithet");
@@ -268,7 +268,7 @@ public class DarwinCorePropertyMap {
    	
    }
 
-    public static Map<ConceptTerm, String> getPropertyMap(ConceptTerm conceptTerm) {
+    public static Map<Term, String> getPropertyMap(Term conceptTerm) {
 	    if(conceptTerm.equals(DwcTerm.Taxon)) {
 	    	return taxonTerms;
 	    } else if(conceptTerm.equals(GbifTerm.Description)) {
@@ -294,8 +294,8 @@ public class DarwinCorePropertyMap {
 	    }
     }
     
-    public static SortedSet<ConceptTerm> getConceptTerms(ConceptTerm conceptTerm) {
-    	SortedSet<ConceptTerm> conceptTerms = new TreeSet<ConceptTerm>(new ConceptTermComparator());
+    public static SortedSet<Term> getConceptTerms(Term conceptTerm) {
+    	SortedSet<Term> conceptTerms = new TreeSet<Term>(new TermComparator());
 	    if(conceptTerm.equals(DwcTerm.Taxon)) {
 	    	conceptTerms.addAll(taxonTerms.keySet());
 	    } else if(conceptTerm.equals(GbifTerm.Description)) {

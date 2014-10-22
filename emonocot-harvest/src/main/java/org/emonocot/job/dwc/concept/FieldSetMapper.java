@@ -5,7 +5,7 @@ import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Concept;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,21 +29,21 @@ public class FieldSetMapper extends
     /**
     *
     */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);   
+    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
    @Override
    public void mapField(final Concept object, final String fieldName,
             final String value) throws BindException {
 	    super.mapField(object, fieldName, value);
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {            
+            switch (dcTerm) {
             case creator:
                 object.setCreator(htmlSanitizer.sanitize(value));
-                break;            
+                break;
             case identifier:
-                object.setIdentifier(value);                
+                object.setIdentifier(value);
                 break;
             case source:
             	addReference(object,value);
@@ -68,7 +68,7 @@ public class FieldSetMapper extends
             	break;
             case prefSymbol:
             	addImage(object,value);
-            	break;                                   
+            	break;
             default:
                 break;
             }

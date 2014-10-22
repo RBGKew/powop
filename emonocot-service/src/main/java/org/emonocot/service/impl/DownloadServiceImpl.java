@@ -17,7 +17,7 @@ import org.emonocot.model.auth.Permission;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.service.DownloadService;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,11 +162,11 @@ public class DownloadServiceImpl implements DownloadService {
         
     }
     
-    private String toParameter(Collection<ConceptTerm> terms) {
+    private String toParameter(Collection<Term> terms) {
         StringBuffer stringBuffer = new StringBuffer();
         if (terms != null && !terms.isEmpty()) {           
              boolean isFirst = true;
-            for (ConceptTerm term : terms) {
+            for (Term term : terms) {
                  if(!isFirst) {
                     stringBuffer.append(",");
                  } else {

@@ -22,7 +22,6 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
-import org.emonocot.model.convert.TaxonomicStatusToStringConverter;
 import org.emonocot.model.registry.Organisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,7 +113,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     		throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
 		} else if(subtribe != null && subtribeOutOfScope(taxon)) {
 			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
-	                recordType, getLineNumber());    		
+	                recordType, getLineNumber());
 		} else if(tribe != null && tribeOutOfScope(taxon)) {
 			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
 	                recordType, getLineNumber());
@@ -128,11 +127,10 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     }
     
     protected void  checkAuthority(RecordType recordType, Base record, Organisation authority) throws DarwinCoreProcessingException {
-    	if(authority.getIdentifier().equals(getSource().getIdentifier())) {
-    		
-    	} else {
-    		throw new WrongAuthorityException("Expected content at line " + getLineNumber() +  " to belong to " + getSource().getIdentifier() + " but found content belonging to " + authority.getIdentifier(), recordType, getLineNumber());
-    	}
+        if(authority.getIdentifier().equals(getSource().getIdentifier())) {
+        } else {
+            throw new WrongAuthorityException("Expected content at line " + getLineNumber() +  " to belong to " + getSource().getIdentifier() + " but found content belonging to " + authority.getIdentifier(), recordType, getLineNumber());
+        }
     }
     
     public void afterChunk() {
@@ -140,7 +138,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     }
 
     public void beforeChunk() {
-        logger.info("Before Chunk");        
+        logger.info("Before Chunk");
         itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
     }
 
@@ -179,7 +177,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     		while(t.getAcceptedNameUsage() != null){
     			if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
     				break;
-    			else	
+    			else
     				t = t.getAcceptedNameUsage();
     		}
     		// Check for unplaced taxa, which are OK
@@ -247,7 +245,7 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     			annotationPresent = true;
     			break;
     		}
-    	}   	
+    	}
     	
     }
 
@@ -274,10 +272,10 @@ public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityA
     		 RecordType recordType = DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
     		 StringBuffer stringBuffer = new StringBuffer();
     		 stringBuffer.append(violations.size()).append(" constraint violations:");
-    		for(ConstraintViolation<T> violation : violations) {			
+    		for(ConstraintViolation<T> violation : violations) {
     			stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
     		}
-    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  stepExecution.getReadCount());    		
+    		throw new InvalidValuesException(stringBuffer.toString(), recordType,  stepExecution.getReadCount());
     	}
     }
 

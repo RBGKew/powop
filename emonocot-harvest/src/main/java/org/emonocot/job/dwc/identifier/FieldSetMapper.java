@@ -2,7 +2,7 @@ package org.emonocot.job.dwc.identifier;
 
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Identifier;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Identifier> {
             final String value) throws BindException {
     	
     	super.mapField(object, fieldName, value);
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
@@ -47,7 +47,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Identifier> {
                 break;
             case title:
                 object.setTitle(value);
-                break;            
+                break;
             default:
                 break;
             }

@@ -4,7 +4,7 @@ import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.Location;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.ecat.voc.EstablishmentMeans;
@@ -32,16 +32,16 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
             final String fieldName, final String value) throws BindException {
     	super.mapField(object, fieldName, value);
     	
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         logger.info("Mapping " + fieldName + " " + " " + value + " to "
                 + object);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {            
+            switch (dcTerm) {
             case identifier:
                 object.setIdentifier(value);
                 break;
-            case source: 
+            case source:
             	if (value.indexOf(",") != -1) {
                     String[] values = value.split(",");
                     for (String v : values) {
@@ -53,7 +53,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
             default:
                 break;
             }
-        }        
+        }
 
         // DwcTerms
         if (term instanceof DwcTerm) {

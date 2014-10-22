@@ -6,7 +6,7 @@ import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Description;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.DescriptionType;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
             final String fieldName, final String value) throws BindException {
     	super.mapField(object, fieldName, value);
     	
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         logger.info("Mapping " + fieldName + " " + " " + value + " to "
                 + object);
         if (term instanceof DcTerm) {
@@ -73,9 +73,9 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
             case references:
                 object.setSource(value);
                 break;
-            case type:            	
+            case type:
                 object.setType(conversionService.convert(value, DescriptionType.class));
-                break;            
+                break;
             default:
                 break;
             }

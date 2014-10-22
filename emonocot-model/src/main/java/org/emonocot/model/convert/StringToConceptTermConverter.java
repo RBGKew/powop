@@ -1,15 +1,15 @@
 package org.emonocot.model.convert;
 
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.springframework.core.convert.converter.Converter;
 
-public class StringToConceptTermConverter implements Converter<String, ConceptTerm> {
+public class StringToConceptTermConverter implements Converter<String, Term> {
 
 	private TermFactory termFactory = new TermFactory();
 	
 	@Override
-	public ConceptTerm convert(String source) {
+	public Term convert(String source) {
 		if (source == null) {
 			return null;
 		}
@@ -17,7 +17,7 @@ public class StringToConceptTermConverter implements Converter<String, ConceptTe
 		if (source.isEmpty()) {
 			return null;
 		}
-		ConceptTerm conceptTerm = termFactory.findTerm(source);
+		Term conceptTerm = termFactory.findTerm(source);
 
 		return conceptTerm;
 	}

@@ -45,6 +45,8 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
 
     private String source;
 
+    private MediaType type;
+
     /**
      * @return the title
      */
@@ -192,7 +194,18 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     }
 
     @Transient
-    public abstract MediaType getType();//TODO Change once there's a better idea of how/when to handle conversion 
+    public MediaType getType() {
+        //TODO Review once there's a better idea of how/when to handle conversion
+        return type;
+    }
+
+    /**
+     * @param mediaType
+     */
+    public void setType(MediaType mediaType) {
+        type = mediaType;
+        
+    }
 
     @Override
     public SolrInputDocument toSolrInputDocument() {

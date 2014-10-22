@@ -74,6 +74,10 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			t.setAuthority(getSource());
 			logger.info("Adding taxon " + t);
 			return t;
+		} else if(boundTaxa.containsKey(t.getIdentifier())) { 
+		    logger.error(t.getIdentifier() + " was found earlier in this archive");
+		    createAnnotation(boundTaxa.get(t.getIdentifier()), RecordType.Taxon, AnnotationCode.AlreadyProcessed, AnnotationType.Warn);
+		    return null;
 		} else {
 			checkAuthority(RecordType.Taxon, t, persisted.getAuthority());
 			if (skipUnmodified
@@ -125,7 +129,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				replaceAnnotation(persisted, AnnotationType.Info,
 						AnnotationCode.Update);
 			}
-
 			logger.info("Overwriting taxon " + persisted);
 			return persisted;
 
@@ -161,10 +164,8 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	}
 
 	@Override
-	public void afterChunk() {
-		
-	}
-	
+	public void afterChunk() {}
+
 	private Taxon resolveTaxon(String identifier, String scientificName) {
         if (boundTaxa.containsKey(identifier)) {
             logger.info("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());

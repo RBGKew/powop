@@ -5,7 +5,7 @@ import org.emonocot.job.dwc.exception.CannotFindRecordException;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.NonOwned;
 import org.emonocot.model.Taxon;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
 			throws BindException {
 		super.mapField(object, fieldName, value);
 		
-		ConceptTerm term = getTermFactory().findTerm(fieldName);
+		Term term = getTermFactory().findTerm(fieldName);
 		
 		// DwcTerms
         if (term instanceof DwcTerm) {
@@ -49,7 +49,7 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
 						taxon.setIdentifier(value);
 						((NonOwned)object).getTaxa().add(taxon);
 					}
-				}            	
+				}
                 break;
             default:
                 break;

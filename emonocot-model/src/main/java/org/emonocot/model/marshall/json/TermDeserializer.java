@@ -7,15 +7,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 
 
-public class ConceptTermDeserializer extends JsonDeserializer<ConceptTerm> {
+public class TermDeserializer extends JsonDeserializer<Term> {
 	
 	private TermFactory termFactory = new TermFactory();
 
 	@Override
-	public ConceptTerm deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+	public Term deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
 			throws IOException, JsonProcessingException {
 		String value = jsonParser.getText();
         return termFactory.findTerm(value);

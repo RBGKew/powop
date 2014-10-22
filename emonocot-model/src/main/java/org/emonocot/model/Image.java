@@ -229,6 +229,15 @@ public class Image extends Multimedia {
         return MediaType.StillImage;
     }
 
+    /* (non-Javadoc)
+     * @see org.emonocot.model.Multimedia#getType()
+     */
+    @Override
+    @Transient
+    public void setType(MediaType mediaType) {
+        throw new UnsupportedOperationException("MediaType for Image is always" + MediaType.StillImage);
+    }
+
     @Override
     public SolrInputDocument toSolrInputDocument() {
     	SolrInputDocument sid = super.toSolrInputDocument();

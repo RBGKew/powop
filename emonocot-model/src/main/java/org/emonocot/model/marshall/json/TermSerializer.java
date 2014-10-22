@@ -6,15 +6,15 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 
-public class ConceptTermSerializer extends JsonSerializer<ConceptTerm> {
+public class TermSerializer extends JsonSerializer<Term> {
 
 	@Override
-	public void serialize(ConceptTerm value, JsonGenerator jsonGenerator,
+	public void serialize(Term value, JsonGenerator jsonGenerator,
 			SerializerProvider provider) throws IOException,
 			JsonProcessingException {
-		jsonGenerator.writeString(value.qualifiedNormalisedName());
+		jsonGenerator.writeString(value.qualifiedName());
 	}
 
 }

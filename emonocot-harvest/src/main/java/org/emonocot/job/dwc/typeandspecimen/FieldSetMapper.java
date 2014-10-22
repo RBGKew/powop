@@ -3,7 +3,7 @@ package org.emonocot.job.dwc.typeandspecimen;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.constants.TypeDesignationType;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -39,7 +39,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             final String value) throws BindException {
     	super.mapField(object, fieldName, value);
     	
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
@@ -48,7 +48,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
                 break;
             case source:
                 object.setSource(value);
-                break;           
+                break;
             
             default:
                 break;
@@ -80,7 +80,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             	break;
             case occurrenceID:
             	object.setIdentifier(value);
-            	break;	
+            	break;
             case recordedBy:
             	object.setRecordedBy(value);
             	break;
@@ -104,7 +104,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             	break;
             case verbatimLongitude:
             	object.setVerbatimLongitude(value);
-            	break;	
+            	break;
             default:
             	break;
             }
@@ -125,7 +125,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<TypeAndSpecimen> {
             	break;
             default:
             	break;
-            }            
+            }
         }
     }
 }

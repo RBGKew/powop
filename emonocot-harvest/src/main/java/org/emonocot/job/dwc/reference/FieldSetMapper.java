@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.ReferenceType;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
             final String value) throws BindException {
     	super.mapField(object, fieldName, value);
 
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {

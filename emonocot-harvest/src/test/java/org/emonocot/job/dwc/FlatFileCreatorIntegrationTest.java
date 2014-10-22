@@ -20,7 +20,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.Taxon;
 import org.emonocot.persistence.hibernate.SolrIndexingListener;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -153,12 +153,12 @@ public class FlatFileCreatorIntegrationTest {
         assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());        
     }
 	
-	private String toParameter(Collection<ConceptTerm> terms) {
+	private String toParameter(Collection<Term> terms) {
 		
 		   StringBuffer stringBuffer = new StringBuffer();
 	       if (terms != null && !terms.isEmpty()) {           
 				boolean isFirst = true;
-	           for (ConceptTerm term : terms) {
+	           for (Term term : terms) {
 					if(!isFirst) {
 	                   stringBuffer.append(",");
 					} else {

@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
@@ -779,7 +779,7 @@ public class TestDataManager {
      * @param reference
      *            Set the reference
      */
-     private void createMeasurement(Taxon taxon, String text, ConceptTerm measurement){
+     private void createMeasurement(Taxon taxon, String text, Term measurement){
     	MeasurementOrFact fact = new MeasurementOrFact();
     	fact.setMeasurementValue(text);
     	fact.setIdentifier(UUID.randomUUID().toString());
@@ -1003,34 +1003,34 @@ public class TestDataManager {
 	public void cleanDatabase() {
 		enableAuthentication();
 		Page<Image> images = imageService.list(null, null, null);
-    	for(Image image : images.getRecords()) {    		
+    	for(Image image : images.getRecords()) {
     		imageService.delete(image.getIdentifier());
     	}
     	
     	Page<IdentificationKey> identificationKeys = identificationKeyService.list(null, null, null);
-    	for(IdentificationKey identificationKey : identificationKeys.getRecords()) {    		
+    	for(IdentificationKey identificationKey : identificationKeys.getRecords()) {
     		identificationKeyService.delete(identificationKey.getIdentifier());
     	}
     	
     	Page<PhylogeneticTree> phylogeneticTrees = phylogeneticTreeService.list(null, null, null);
-    	for(PhylogeneticTree phylogeneticTree : phylogeneticTrees.getRecords()) {    		
+    	for(PhylogeneticTree phylogeneticTree : phylogeneticTrees.getRecords()) {
     		phylogeneticTreeService.delete(phylogeneticTree.getIdentifier());
     	}
     	
     	Page<Taxon> taxa = taxonService.list(null, null, null);
-    	for(Taxon taxon : taxa.getRecords()) {    		
+    	for(Taxon taxon : taxa.getRecords()) {
     		taxonService.delete(taxon.getIdentifier());
     	}
     	
     	Page<Group> groups = groupService.list(null, null, null);
-    	for(Group group : groups.getRecords()) {    		
+    	for(Group group : groups.getRecords()) {
     		if(!group.getIdentifier().equals("administrators")) {
     		    groupService.delete(group.getIdentifier());
     		}
     	}
     	
     	Page<Reference> references = referenceService.list(null, null, null);
-    	for(Reference reference : references.getRecords()) {    		
+    	for(Reference reference : references.getRecords()) {
     		referenceService.delete(reference.getIdentifier());
     	}   
     	
@@ -1042,7 +1042,7 @@ public class TestDataManager {
     	}
     	
     	List<JobExecution> jobExecutions = jobExecutionService.listJobExecutions(null, null, null);
-    	for(JobExecution jobExecution : jobExecutions) {    		
+    	for(JobExecution jobExecution : jobExecutions) {
     		jobExecutionService.delete(jobExecution.getId());
     	}
     	
@@ -1058,7 +1058,7 @@ public class TestDataManager {
     	
     	
     	Page<Organisation> organisations = organisationService.list(null, null, null);
-    	for(Organisation organisation : organisations.getRecords()) {   
+    	for(Organisation organisation : organisations.getRecords()) {
     		organisationService.delete(organisation.getIdentifier());
     	}
     	

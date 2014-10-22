@@ -1,7 +1,7 @@
 package org.emonocot.job.dwc.read;
 
 import org.emonocot.model.BaseData;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class BaseDataFieldSetMapper<T extends BaseData> extends DarwinCoreFieldS
 	protected ConversionService conversionService;
 	
 	public BaseDataFieldSetMapper(Class<T> newType) {
-		super(newType);		
+		super(newType);
 	}
 	
     @Autowired
@@ -28,7 +28,7 @@ public class BaseDataFieldSetMapper<T extends BaseData> extends DarwinCoreFieldS
 	@Override
 	public void mapField(T object, String fieldName, String value)
 			throws BindException {
-		ConceptTerm term = getTermFactory().findTerm(fieldName);
+		Term term = getTermFactory().findTerm(fieldName);
         logger.info("Mapping " + fieldName + " " + " " + value + " to " + object);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
@@ -54,6 +54,6 @@ public class BaseDataFieldSetMapper<T extends BaseData> extends DarwinCoreFieldS
             default:
                 break;
             }
-        }        
+        }
     }
 }

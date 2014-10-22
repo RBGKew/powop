@@ -3,7 +3,7 @@ package org.emonocot.job.dwc.measurementorfact;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.MeasurementUnit;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.joda.time.DateTime;
@@ -36,7 +36,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<MeasurementOrFact>
             final String fieldName, final String value) throws BindException {
     	super.mapField(object, fieldName, value);
     	
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         logger.info("Mapping " + fieldName + " " + " " + value + " to "
                 + object);
         if (term instanceof DcTerm) {
@@ -51,7 +51,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<MeasurementOrFact>
             default:
                 break;
             }
-        }        
+        }
 
         // DwcTerms
         if (term instanceof DwcTerm) {
@@ -63,7 +63,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<MeasurementOrFact>
             case measurementDeterminedBy:
             	object.setMeasurementDeterminedBy(value);
             	break;
-            case measurementDeterminedDate:            	
+            case measurementDeterminedDate:
             	object.setMeasurementDeterminedDate(conversionService.convert(value, DateTime.class));
             	break;
             case measurementMethod:
@@ -73,7 +73,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<MeasurementOrFact>
             	object.setMeasurementRemarks(value);
             	break;
             case measurementType:
-            	object.setMeasurementType(conversionService.convert(value, ConceptTerm.class));
+            	object.setMeasurementType(conversionService.convert(value, Term.class));
             	break;
             case measurementUnit:
             	object.setMeasurementUnit(conversionService.convert(value,MeasurementUnit.class));

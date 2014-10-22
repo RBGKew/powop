@@ -8,12 +8,12 @@ import java.sql.Types;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 
-public class ConceptTermUserType implements UserType {
+public class TermUserType implements UserType {
 	
 	private static TermFactory TERM_FACTORY = new TermFactory();
 
@@ -59,20 +59,20 @@ public class ConceptTermUserType implements UserType {
 	public Object nullSafeGet(ResultSet resultSet, String[] names, Object owner)
 			throws HibernateException, SQLException {
 		String value = (String) Hibernate.STRING.nullSafeGet(resultSet, names[0]);
-        return ((value != null) ? ConceptTermUserType.TERM_FACTORY.findTerm(value) : null);
+        return ((value != null) ? TermUserType.TERM_FACTORY.findTerm(value) : null);
 	}
 
 	@Override
 	public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index)
 			throws HibernateException, SQLException {
-		 ConceptTerm conceptTerm = (ConceptTerm)value;
+		 Term term = (Term)value;
 		 Hibernate.STRING.nullSafeSet(preparedStatement,
-	                (value != null) ? conceptTerm.qualifiedNormalisedName() : null, index);
+	                (value != null) ? term.qualifiedName() : null, index);
 	}
 
 	@Override
 	public Class returnedClass() {
-		return ConceptTerm.class;
+		return Term.class;
 	}
 
 	@Override

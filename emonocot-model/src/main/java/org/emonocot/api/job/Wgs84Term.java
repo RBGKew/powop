@@ -1,8 +1,8 @@
 package org.emonocot.api.job;
 
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 
-public enum Wgs84Term implements ConceptTerm {
+public enum Wgs84Term implements Term {
 	latitude,
 	longitude;
 
@@ -26,7 +26,7 @@ public enum Wgs84Term implements ConceptTerm {
 	    return NS + name();
 	  }
 
-	  @Override
+	  @Deprecated
 	  public String qualifiedNormalisedName() {
 	    return normQName;
 	  }
@@ -36,12 +36,12 @@ public enum Wgs84Term implements ConceptTerm {
 	    return name();
 	  }
 
-	  @Override
+	  @Deprecated
 	  public String[] simpleNormalisedAlternativeNames() {
 	    return normAlts;
 	  }
 
-	  @Override
+	  @Deprecated
 	  public String simpleNormalisedName() {
 	    return TermFactory.normaliseTerm(simpleName());
 	  }

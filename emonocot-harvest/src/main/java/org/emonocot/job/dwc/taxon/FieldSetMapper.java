@@ -4,7 +4,7 @@ import org.emonocot.api.job.EmonocotTerm;
 import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
@@ -42,7 +42,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
             final String value) throws BindException {
     	super.mapField(object, fieldName, value);
     	
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         logger.info("Mapping " + fieldName + " " + " " + value + " to "
                 + object);
         if (term instanceof DcTerm) {
@@ -80,7 +80,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
                     object.getAcceptedNameUsage().setScientificName(value);
                 }
                 break;
-            case classs:
+            case class_:
                 object.setClazz(value);
                 break;
             case family:

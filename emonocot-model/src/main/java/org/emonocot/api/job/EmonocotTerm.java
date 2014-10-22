@@ -1,8 +1,13 @@
 package org.emonocot.api.job;
 
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 
-public enum EmonocotTerm implements ConceptTerm {
+/**
+ * @author ben
+ * @author jk00kg
+ * Preserving normalised and alternative name methods for potenial backward compatibility 
+ */
+public enum EmonocotTerm implements Term {
   subfamily,
   tribe,
   subtribe,
@@ -29,7 +34,7 @@ public enum EmonocotTerm implements ConceptTerm {
     return NS + name();
   }
 
-  @Override
+  @Deprecated
   public String qualifiedNormalisedName() {
     return normQName;
   }
@@ -39,12 +44,12 @@ public enum EmonocotTerm implements ConceptTerm {
     return name();
   }
 
-  @Override
+  @Deprecated
   public String[] simpleNormalisedAlternativeNames() {
     return normAlts;
   }
 
-  @Override
+  @Deprecated
   public String simpleNormalisedName() {
     return TermFactory.normaliseTerm(simpleName());
   }

@@ -1,7 +1,7 @@
 package org.emonocot.job.dwc.read;
 
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.text.Archive;
@@ -126,7 +126,7 @@ public class ArchiveFactory {
      */
     private ArchiveField buildField(Attributes attributes) {
       // build field
-      ConceptTerm term = TermFactory.findTerm(getAttr(attributes, "term"));
+      Term term = TermFactory.findTerm(getAttr(attributes, "term"));
       String defaultValue = getAttr(attributes, "default");
       DataType type = DataType.findByXmlSchemaType(getAttr(attributes, "type"));
       if (type == null) {
@@ -336,7 +336,7 @@ public class ArchiveFactory {
    *
    * @return the ConceptTerm either as one of the existing enums or an UnknownTerm singleton
    */
-  public static ConceptTerm findTerm(String termName) {
+  public static Term findTerm(String termName) {
     return TERM_FACTORY.findTerm(termName);
   }
 
@@ -358,7 +358,7 @@ public class ArchiveFactory {
     for (String head : headers) {
       // there are never any quotes in term names - remove them just in case the csvreader didnt recognize them
       if (head != null && head.length() > 1) {
-        ConceptTerm dt = TERM_FACTORY.findTerm(head);
+        Term dt = TERM_FACTORY.findTerm(head);
         if (dt != null) {
           ArchiveField field = new ArchiveField(index, dt, null, DataType.string);
           if (dwcFile.getId() == null &&

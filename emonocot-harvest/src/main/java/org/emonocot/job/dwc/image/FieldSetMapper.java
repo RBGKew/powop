@@ -4,7 +4,7 @@ import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.MediaFormat;
-import org.gbif.dwc.terms.ConceptTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +28,13 @@ public class FieldSetMapper extends
     /**
     *
     */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);   
+    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
    @Override
    public void mapField(final Image object, final String fieldName,
             final String value) throws BindException {
 	    super.mapField(object, fieldName, value);
-        ConceptTerm term = getTermFactory().findTerm(fieldName);
+        Term term = getTermFactory().findTerm(fieldName);
         if (term instanceof DcTerm) {
             DcTerm dcTerm = (DcTerm) term;
             switch (dcTerm) {
@@ -54,23 +54,23 @@ public class FieldSetMapper extends
                 object.setFormat(conversionService.convert(value, MediaFormat.class));
                 break;
             case identifier:
-                object.setIdentifier(value);                
+                object.setIdentifier(value);
                 break;
             case publisher:
-                object.setPublisher(htmlSanitizer.sanitize(value));                
+                object.setPublisher(htmlSanitizer.sanitize(value));
                 break;
             case references:
                 object.setReferences(value);
                 break;
             case spatial:
-                object.setSpatial(htmlSanitizer.sanitize(value));                
+                object.setSpatial(htmlSanitizer.sanitize(value));
                 break;
             case subject:
-                object.setSubject(htmlSanitizer.sanitize(value));                
+                object.setSubject(htmlSanitizer.sanitize(value));
                 break;
             case title:
                 object.setTitle(htmlSanitizer.sanitize(value));
-                break;                                    
+                break;
             default:
                 break;
             }
@@ -85,7 +85,7 @@ public class FieldSetMapper extends
             	break;
             case longitude:
             	object.setLongitude(conversionService.convert(value, Double.class));
-            	break;                                   
+            	break;
             default:
                 break;
             }
