@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.emonocot.model.Taxon;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemProcessListener;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 
 /**
@@ -12,7 +15,7 @@ import org.springframework.batch.item.file.FlatFileFooterCallback;
  * @author ben
  *
  */
-public class FooterCallback implements ItemProcessListener<Taxon, Result>,
+public class StatusTallyingFooterCallback implements ItemProcessListener<Taxon, Result>, StepExecutionListener,
         FlatFileFooterCallback {
 
     /**
@@ -101,6 +104,27 @@ public class FooterCallback implements ItemProcessListener<Taxon, Result>,
         if (cannotParse > 0) {
             writer.write("Could not understand," + cannotParse + ",\n");
         }
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.batch.core.StepExecutionListener#beforeStep(org.springframework.batch.core.StepExecution)
+     */
+    @Override
+    public void beforeStep(StepExecution stepExecution) {
+        //Initialise totals
+        singleMatches = 0;
+        multipleMatches = 0;
+        noExactMatches = 0;
+        noMatches = 0;
+        cannotParse = 0;
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.batch.core.StepExecutionListener#afterStep(org.springframework.batch.core.StepExecution)
+     */
+    @Override
+    public ExitStatus afterStep(StepExecution stepExecution) {
+        return stepExecution.getExitStatus();
     }
 
 }

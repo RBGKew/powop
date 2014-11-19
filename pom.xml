@@ -1557,6 +1557,7 @@
                 <liquibase.password>l1qu1ba53</liquibase.password>
                 <liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+                <hibernate.show_sql>true</hibernate.show_sql>
                 <solr.url>http://localhost:8983/solr</solr.url>
                 <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
                 <ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
@@ -1619,6 +1620,7 @@
 				<liquibase.password>m0n0pa55</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+                <hibernate.show_sql>false</hibernate.show_sql>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
 				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1691,6 +1693,7 @@
                 <liquibase.password>letmein</liquibase.password>
                 <liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+                <hibernate.show_sql>false</hibernate.show_sql>
                 <ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
                 <ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
                 <spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
@@ -1763,6 +1766,7 @@
 				<liquibase.password>l1qu1ba53</liquibase.password>
 				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.geodb.GeoDBDialect</hibernate.dialect>
+                <hibernate.show_sql>false</hibernate.show_sql>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
 				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
@@ -1912,6 +1916,7 @@
                 <liquibase.password>l1qu1ba53</liquibase.password>
                 <liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+                <hibernate.show_sql>false</hibernate.show_sql>
                 <solr.url>http://localhost:8983/solr</solr.url>
                 <solr.core>collection1</solr.core>
                 <solr.max.segments>5</solr.max.segments>
@@ -1991,6 +1996,7 @@
                 <liquibase.password>letmein</liquibase.password>
                 <liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
                 <hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
+                <hibernate.show_sql>false</hibernate.show_sql>
                 <solr.url>http://localhost:8983/solr</solr.url>
                 <solr.core>collection1</solr.core>
                 <solr.max.segments>5</solr.max.segments>

@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.emonocot.api.ImageService;
+import org.emonocot.api.PhylogeneticTreeService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -59,6 +61,12 @@ public class DarwinCoreJobIntegrationTest {
 	@Qualifier("readWriteJobLauncher")
     private JobLauncher jobLauncher;
     
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private PhylogeneticTreeService phylogeneticTreeService;
+
     private Properties properties;
 
     /**
@@ -109,26 +117,20 @@ public class DarwinCoreJobIntegrationTest {
             JobParametersInvalidException {
         Map<String, JobParameter> parameters =
             new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter(
-                "test"));
-        parameters.put("family", new JobParameter(
-        "Arecaceae"));
+        parameters.put("authority.name", new JobParameter("test"));
+        parameters.put("family", new JobParameter("Arecaceae"));
         String repository = properties.getProperty("test.resource.baseUrl",
                 "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
         parameters.put("authority.uri", new JobParameter(repository + "dwc.zip"));
-        parameters.put(
-                "authority.last.harvested",
-                new JobParameter(Long
-                        .toString((DarwinCoreJobIntegrationTest.PAST_DATETIME
-                                .getMillis()))));
+        parameters.put("authority.last.harvested",
+                new JobParameter(Long.toString((DarwinCoreJobIntegrationTest.PAST_DATETIME.getMillis()))));
+        parameters.put("phylogeny.processing.mode", new JobParameter("IMPORT_PHYLOGENIES_DONT_DELETE_GLOBAL"));
         JobParameters jobParameters = new JobParameters(parameters);
 
-        Job darwinCoreArchiveHarvestingJob = jobLocator
-                .getJob("DarwinCoreArchiveHarvesting");
-        assertNotNull("DarwinCoreArchiveHarvesting must not be null",
-                darwinCoreArchiveHarvestingJob);
+        Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
+        assertNotNull("DarwinCoreArchiveHarvesting must not be null", darwinCoreArchiveHarvestingJob);
         JobExecution jobExecution = jobLauncher.run(darwinCoreArchiveHarvestingJob, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+        assertEquals("The job should complete successfully", "COMPLETED", jobExecution.getExitStatus().getExitCode());
         for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
         	logger.info(stepExecution.getStepName() + " "
                     + stepExecution.getReadCount() + " "
@@ -136,6 +138,11 @@ public class DarwinCoreJobIntegrationTest {
                     + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
         }
         logger.info(jobExecution.getExitStatus().getExitCode() + " | " + jobExecution.getExitStatus().getExitDescription());
-        
+
+        assertNotNull("The image in the image file should have been persisted", imageService.load("http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_170762_1.jpg"));
+        assertNotNull("The image in the multimedia file should have been persisted", imageService.load("http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_170762_8.jpg"));
+        //This is a slightly fragile assertion as it depends on a fixed location of the test resource.
+        //I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny as it is in a pre-packaged zip file
+        assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load("http://lion.ad.kew.org/~jk00kg/emonocottestresources/1_1326150157_Strelitziaceae_Cron.nexorg"));
     }
 }

@@ -160,9 +160,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
             	getMetadata(archive.getExtension(SkosTerm.Concept),
                         "term", DwcTerm.taxonID, failOnError);
             }
-//TODO update Gbif API dependancy            if (archive.getExtension(GbifTerm.Multimedia) != null) {
-//                getMetadata(archive.getExtension(GbifTerm.Multimedia), "multimedia", DwcTerm.taxonID, failOnError);
-//            }
+            if (archive.getExtension(GbifTerm.Multimedia) != null) {
+                getMetadata(archive.getExtension(GbifTerm.Multimedia), "multimedia", DwcTerm.taxonID, failOnError);
+            }
         } catch (UnsupportedArchiveException uae) {
             logger.error("Unsupported Archive Exception reading "
                     + archiveDirectoryName + " " + uae.getLocalizedMessage());

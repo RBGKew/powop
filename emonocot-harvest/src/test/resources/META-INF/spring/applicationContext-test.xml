@@ -54,6 +54,8 @@
 				<bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
 				<bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
 				<bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
+                <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
+                <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
 			</list>
 		</property>
 	</bean>
@@ -188,6 +190,7 @@
                     hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
                     hibernate.hbm2ddl.auto=validate
                     hibernate.validator.autoregister_listeners=false
+                    hibernate.show_sql=${hibernate.show_sql}
                 </value>
             </property>
             <property name="annotatedClasses">

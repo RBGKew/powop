@@ -9,8 +9,7 @@ import org.emonocot.api.job.ResourceAlreadyBeingHarvestedException;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.job.dwc.exception.ImageRetrievalException;
 import org.emonocot.job.dwc.exception.NoIdentifierException;
-import org.emonocot.model.PhylogeneticTree;
-import org.emonocot.model.Image;
+import org.emonocot.model.Multimedia;
 import org.emonocot.model.PhylogeneticTree;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
@@ -18,13 +17,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 
-public class JobLaunchingProcessor extends AuthorityAware implements ItemProcessor<Image, PhylogeneticTree> {
+public class JobLaunchingProcessor extends AuthorityAware implements ItemProcessor<Multimedia, PhylogeneticTree> {
 	
 	private static Logger logger = LoggerFactory.getLogger(JobLaunchingProcessor.class);
 	
 		
 	private ResourceService resourceService;
+	
+	private ConversionService conversionService;
 	
 	private ItemProcessor<PhylogeneticTree,PhylogeneticTree> processor;
 	
@@ -33,12 +35,17 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		this.resourceService = resourceService;
 	}
 	
-	public void setProcessor(ItemProcessor<PhylogeneticTree,PhylogeneticTree> processor) {
+	@Autowired
+	public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
+
+    public void setProcessor(ItemProcessor<PhylogeneticTree,PhylogeneticTree> processor) {
 		this.processor = processor;
 	}
 
 	@Override
-	public PhylogeneticTree process(Image item) throws Exception {
+	public PhylogeneticTree process(Multimedia item) throws Exception {
 		PhylogeneticTree phylogeny = null;
 		if(item.getIdentifier() == null || item.getIdentifier().isEmpty()) {
 			throw new NoIdentifierException(item);
@@ -52,13 +59,14 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		    case txt:
 		      phylogeny = doProcess(item);
 		    default:
+		        logger.info(item.getFormat() + " is not a recognised format for a PhylogeneticTree");
 		    	break;
 		    }
 		}
 		return phylogeny;
 	}
 
-	private PhylogeneticTree doProcess(Image item) throws Exception {
+	private PhylogeneticTree doProcess(Multimedia item) throws Exception {
 		logger.debug("doProcess " + item);
 		Resource resource = resourceService.findByResourceUri(item.getIdentifier());
 		PhylogeneticTree phylogeneticTree = null;
@@ -66,10 +74,9 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 			logger.debug("No Resource prexisting for " + item.getIdentifier());
 			Tika tika = new Tika();
 			try {
-				
 				String mimeType = tika.detect(new URL(item.getIdentifier()));
 				logger.debug("Mime type is " + mimeType);
-				phylogeneticTree = mapPhylogeneticTree(item);
+	            phylogeneticTree = conversionService.convert(item, PhylogeneticTree.class);
 				resource = new Resource();
 				resource.setOrganisation(getSource());
 				resource.setIdentifier(UUID.randomUUID().toString());
@@ -93,16 +100,19 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 					return null;
 				}
 			} catch (Exception e) {
-				throw new ImageRetrievalException(item.getIdentifier());
+			    ImageRetrievalException ire = new ImageRetrievalException(item.getIdentifier());
+			    ire.initCause(e);
+				throw ire;
 			}
 		} else if(resource.getResourceType().equals(ResourceType.PHYLOGENETIC_TREE)) {
 			logger.debug("Resource " + resource + " exists for " + item.getIdentifier());
-			phylogeneticTree = mapPhylogeneticTree(item);
+			phylogeneticTree = conversionService.convert(item, PhylogeneticTree.class);
 		} else {
 			return null;
 		}
 		logger.debug("Processing " + phylogeneticTree);
 		phylogeneticTree = processor.process(phylogeneticTree);
+        logger.debug("Processing delegate returned " + phylogeneticTree);
 		
 		if(phylogeneticTree != null) {
 			try {
@@ -113,21 +123,5 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		}		
 		
 		return phylogeneticTree;
-	}
-
-	private PhylogeneticTree mapPhylogeneticTree(Image image) {
-		PhylogeneticTree PhylogeneticTree = new PhylogeneticTree();
-		PhylogeneticTree.setAccessRights(image.getAccessRights());
-		PhylogeneticTree.setCreated(image.getCreated());
-		PhylogeneticTree.setCreator(image.getCreator());
-		PhylogeneticTree.setDescription(image.getDescription());
-		PhylogeneticTree.setIdentifier(image.getIdentifier());
-		PhylogeneticTree.setLicense(image.getLicense());
-		PhylogeneticTree.setModified(image.getModified());
-		PhylogeneticTree.setRights(image.getRights());
-		PhylogeneticTree.setRightsHolder(image.getRightsHolder());
-		PhylogeneticTree.setTaxa(image.getTaxa());
-		PhylogeneticTree.setTitle(image.getTitle());
-		return PhylogeneticTree;
 	}
 }

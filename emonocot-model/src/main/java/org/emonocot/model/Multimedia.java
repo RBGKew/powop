@@ -3,6 +3,7 @@
  */
 package org.emonocot.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ import org.emonocot.model.constants.MediaType;
  * See <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">http://rs.gbif.org/extension/gbif/1.0/multimedia.xml</a>
  */
 @MappedSuperclass
-public abstract class Multimedia extends SearchableObject implements NonOwned, Media {
+public class Multimedia extends SearchableObject implements NonOwned, Media {
 
     private static final long serialVersionUID = -8178055800655899536L;
 
@@ -44,6 +45,8 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
     private String audience;
 
     private String source;
+
+    private Set<Taxon> taxa = new HashSet<Taxon>();
 
     private MediaType type;
 
@@ -96,12 +99,16 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
      * @return the taxa
      */
     @Transient
-    abstract public Set<Taxon> getTaxa();
+    public Set<Taxon> getTaxa(){
+        return taxa;
+    };
 
     /**
      * @param taxa the taxa to set
      */
-    abstract public void setTaxa(Set<Taxon> taxa);
+    public void setTaxa(Set<Taxon> taxa) {
+        this.taxa = taxa;
+    }
 
     /**
      * @return the creator
@@ -214,5 +221,16 @@ public abstract class Multimedia extends SearchableObject implements NonOwned, M
 
         return sid;
     }
+    
+    
+    @Transient
+    public Long getId() {
+        return null;
+    }
+    @Transient
+    public Set<Annotation> getAnnotations() {
+        return null;
+    }
+    public void setAnnotations(Set<Annotation> annotations) {}
 
 }

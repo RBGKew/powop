@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.job.TermFactory;
-import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Base;
 import org.slf4j.Logger;
@@ -84,16 +83,18 @@ public abstract class DarwinCoreFieldSetMapper<T extends Base> implements
      * @throws BindException if there is a problem binding
      *         the values to the object
      */
-    public T mapFieldSet(FieldSet fieldSet) throws BindException {    	
+    public T mapFieldSet(FieldSet fieldSet) throws BindException {
         T t;
         try {
             t = type.newInstance();
         } catch (InstantiationException e) {
-            BindException be = new BindException(null, "target");
+            logger.info("Unable to create an instance of " + type, e);
+            BindException be = new BindException(this, "target");
             be.reject("could not instantiate", e.getMessage());
             throw be;
         } catch (IllegalAccessException e) {
-            BindException be = new BindException(null, "target");
+            logger.info("Unable to create an instance of " + type, e);
+            BindException be = new BindException(this, "target");
             be.reject("could not instantiate", e.getMessage());
             throw be;
         }

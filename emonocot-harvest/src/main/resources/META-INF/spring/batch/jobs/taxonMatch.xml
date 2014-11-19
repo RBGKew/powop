@@ -40,7 +40,7 @@
 		<property name="footerCallback" ref="footerCallback"/>
 	</bean>
 	
-	<bean name="footerCallback" class="org.emonocot.job.taxonmatch.FooterCallback" scope="step"/>
+	<bean name="footerCallback" class="org.emonocot.job.taxonmatch.StatusTallyingFooterCallback" scope="step"/>
 	
 	<bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
 	 <property name="delimiter" value=","/>

@@ -328,7 +328,7 @@
         <batch:step id="processImageFile">
             <batch:description>Process the extension file containing the images</batch:description>
             <batch:tasklet>
-                <batch:chunk reader="imageReader" processor="imageProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+                <batch:chunk reader="compositeImageReader" processor="imageProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
                     <batch:skippable-exception-classes>
                         <batch:include  class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
                         <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -486,7 +486,7 @@
         <batch:step id="processPhylogenyFile">
             <batch:description>Process the extension file containing the phylogenies</batch:description>
             <batch:tasklet>
-                <batch:chunk reader="phylogenyReader" processor="phylogenyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+                <batch:chunk reader="compositePhylogenyReader" processor="phylogenyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
                     <batch:skippable-exception-classes>
                         <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
                         <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -1032,6 +1032,57 @@
 
     <bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader"/>
 
+    <!-- Multimedia - used for images, phylogenies and identification keys -->
+    <bean id="multimediaReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+        scope="step">
+        <property name="encoding"
+            value="#{jobExecutionContext['dwca.multimedia.encoding']}" />
+        <property name="linesToSkip"
+            value="#{jobExecutionContext['dwca.multimedia.ignoreHeaderLines']}" />
+        <property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+        <property name="resource">
+            <bean class="org.springframework.core.io.FileSystemResource"
+                scope="step">
+                <constructor-arg value="#{jobExecutionContext['dwca.multimedia.file']}" />
+            </bean>
+        </property>
+        <property name="recordSeparatorPolicy" ref="multimediaRecordSeparatorPolicy"/>
+        <property name="lineMapper" ref="multimediaLineMapper" />
+    </bean>
+
+    <bean id="multimediaRecordSeparatorPolicy" class="org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy"
+        scope="step">
+        <property name="quoteCharacter" value="#{jobExecutionContext['dwca.multimedia.fieldsEnclosedBy']}" />
+    </bean>
+    
+    <bean id="multimediaLineMapper"
+        class="org.springframework.batch.item.file.mapping.DefaultLineMapper"
+        scope="step">
+        <property name="lineTokenizer" ref="multimediaLineTokenizer" />
+        <property name="fieldSetMapper" ref="multimediaFieldSetMapper" />
+    </bean>
+
+    <bean id="multimediaLineTokenizer"
+        class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"
+        scope="step">
+        <property name="names"
+            value="#{jobExecutionContext['dwca.multimedia.fieldNames']}" />
+        <property name="quoteCharacter"
+            value="#{jobExecutionContext['dwca.multimedia.fieldsEnclosedBy']}" />
+        <property name="delimiter"
+            value="#{jobExecutionContext['dwca.multimedia.fieldsTerminatedBy']}" />
+        <property name="strict" value="false" />
+    </bean>
+
+    <bean id="multimediaFieldSetMapper" class="org.emonocot.job.dwc.multimedia.FieldSetMapper"
+        scope="step">
+        <property name="fieldNames"
+            value="#{jobExecutionContext['dwca.multimedia.fieldNames']}" />
+        <property name="defaultValues"
+            value="#{jobExecutionContext['dwca.multimedia.defaultValues']}" />
+        <property name="taxonService" ref="taxonServiceImpl" />
+    </bean>
+
     <!-- Taxa -->
 
     <bean id="taxonProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
@@ -1318,6 +1369,16 @@
         <property name="tribe" value="#{jobParameters['tribe']}" />
         <property name="subtribe" value="#{jobParameters['subtribe']}" />
     </bean>
+    
+    <bean id="compositeImageReader" class="org.emonocot.harvest.common.CompositeItemReader" scope="step">
+    <!-- N.B. This approach requires some filtering in the processors as exists for Phylos & Keys -->
+        <property name="delegates">
+            <list>
+                <ref bean="imageReader"/>
+                <ref bean="multimediaReader"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
         scope="step">
@@ -1557,6 +1618,15 @@
         <property name="subfamily" value="#{jobParameters['subfamily']}" />
         <property name="tribe" value="#{jobParameters['tribe']}" />
         <property name="subtribe" value="#{jobParameters['subtribe']}" />
+    </bean>
+    
+    <bean id="compositePhylogenyReader" class="org.emonocot.harvest.common.CompositeItemReader" scope="step">
+        <property name="delegates">
+            <list>
+                <ref bean="phylogenyReader"/>
+                <ref bean="multimediaReader"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="phylogenyReader" class="org.springframework.batch.item.file.FlatFileItemReader"
