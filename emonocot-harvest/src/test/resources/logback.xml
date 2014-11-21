@@ -19,7 +19,7 @@
       <MaxFileSize>100MB</MaxFileSize>
     </triggeringPolicy>
   </appender>
-  <root level="WARN">
+  <root level="${logging.level:-WARN}">
     <appender-ref ref="file"/>
     <appender-ref ref="stdout"/>
   </root>

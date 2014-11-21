@@ -72,7 +72,7 @@ public class CompositeItemReader<T> implements ItemReader<T> {
                 }
                 currentDelegate = delegates.remove(0);
                 logger.info("The current ItemReader is now " +  currentDelegate);
-                if(ItemStream.class.isAssignableFrom(currentDelegate.getClass())) {
+                if(currentDelegate != null && ItemStream.class.isAssignableFrom(currentDelegate.getClass())) {
                     ((ItemStream) currentDelegate).open(new ExecutionContext());
                 }
             } catch (IndexOutOfBoundsException e) {
@@ -91,7 +91,7 @@ public class CompositeItemReader<T> implements ItemReader<T> {
                 item = (T) conversionService.convert(item, targetType);
             }
         }
-        logger.debug("Returning " + item.getClass().getSimpleName() + " " + item);
+        logger.debug("Returning " + item);
         return item;
     }
 

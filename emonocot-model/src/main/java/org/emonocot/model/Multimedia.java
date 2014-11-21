@@ -202,7 +202,6 @@ public class Multimedia extends SearchableObject implements NonOwned, Media {
 
     @Transient
     public MediaType getType() {
-        //TODO Review once there's a better idea of how/when to handle conversion
         return type;
     }
 

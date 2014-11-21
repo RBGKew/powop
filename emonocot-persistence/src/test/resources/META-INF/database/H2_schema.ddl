@@ -19,7 +19,7 @@ create table Group_permissions (Group_id bigint not null, permissions integer);
 drop table if exists hibernate_sequences;
 create table hibernate_sequences (sequence_name varchar(255), sequence_next_hi_value bigint);
 drop table if exists IdentificationKey;
-create table IdentificationKey (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), matrix clob, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, primary key (id), unique (identifier));
+create table IdentificationKey (id bigint not null, accessRights varchar(255), created timestamp, creator varchar(255), identifier varchar(255) not null, license varchar(255), matrix clob, modified timestamp, rights clob, rightsHolder varchar(255), description clob, title varchar(255), authority_id bigint, audience varchar(255), contributor varchar(255), format varchar(255), publisher varchar(255), "references" varchar(255), source varchar(255), primary key (id), unique (identifier));
 drop table if exists Identifier;
 create table Identifier (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), source varchar(255), format varchar(255), subject varchar(255), title varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Image;

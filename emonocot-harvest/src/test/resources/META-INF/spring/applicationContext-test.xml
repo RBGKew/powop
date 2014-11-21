@@ -56,6 +56,7 @@
 				<bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
                 <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
                 <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
+                <bean class="org.emonocot.model.convert.MultimediaToIdentificationKeyConverter" />
 			</list>
 		</property>
 	</bean>

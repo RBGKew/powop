@@ -16,12 +16,15 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.validation.constraints.Size;
+import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -34,33 +37,19 @@ import org.hibernate.annotations.Where;
  *
  */
 @Entity
-public class IdentificationKey extends SearchableObject implements NonOwned, Media {
+public class IdentificationKey extends Multimedia implements NonOwned, Media {
 
     private static final long serialVersionUID = 7893868318442314512L;
 
     private Long id;
-
-    private String title;
-
-    private String description;
     
     private Set<Taxon> taxa = new HashSet<Taxon>();
-    
-    private String creator;
     
     private Set<Annotation> annotations = new HashSet<Annotation>();
     
     private String matrix;
     
     private List<Comment> comments = new ArrayList<Comment>();
-
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
 
     @Id
     @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
@@ -71,25 +60,6 @@ public class IdentificationKey extends SearchableObject implements NonOwned, Med
     public void setId(Long id) {
         this.id = id;
     }
-
-    @Size(max = 255)
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Lob
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Taxon_IdentificationKey", joinColumns = {@JoinColumn(name = "keys_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
@@ -161,23 +131,22 @@ public class IdentificationKey extends SearchableObject implements NonOwned, Med
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+    
+    @Override
+    @Transient
+    public MediaType getType() {
+        return MediaType.Dataset;
+    }
 
 	@Override
     public SolrInputDocument toSolrInputDocument() {
     	SolrInputDocument sid = super.toSolrInputDocument();
-    	sid.addField("searchable.label_sort", getTitle());
-    	//sid.addField("key.title_t", getTitle());
-    	//addField(sid,"key.creator_t", getCreator());
-    	//addField(sid,"key.description_t", getDescription());
     	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
     	.append(getCreator()).append(" ").append(getDescription());
     	if(getTaxa() != null) {
     		boolean first = true; 
     		for(Taxon t : getTaxa()) {
     			if(first) {
-    		        //addField(sid,"taxon.class_s", t.getClazz());
-    		        //addField(sid,"taxon.kingdom_s", t.getKingdom());
-        	        //addField(sid,"taxon.phylum_s", t.getPhylum());
         	        addField(sid,"taxon.order_s", t.getOrder());
         	        addField(sid,"taxon.subgenus_s", t.getSubgenus());
     			}
@@ -187,7 +156,6 @@ public class IdentificationKey extends SearchableObject implements NonOwned, Med
     	        addField(sid,"taxon.subtribe_ss", t.getSubtribe());
     	        addField(sid,"taxon.tribe_ss", t.getTribe());
     	        summary.append(" ").append(t.getClazz())
-    	        .append(" ").append(t.getClazz())
     	        .append(" ").append(t.getFamily())
     	        .append(" ").append(t.getGenus())
           	    .append(" ").append(t.getKingdom())

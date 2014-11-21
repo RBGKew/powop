@@ -416,7 +416,7 @@
         <batch:step id="processKeyFile">
             <batch:description>Process the extension file containing the identification keys</batch:description>
             <batch:tasklet>
-                <batch:chunk reader="keyReader" processor="keyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+                <batch:chunk reader="compositeKeyReader" processor="keyProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
                     <batch:skippable-exception-classes>
                         <batch:include  class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
                         <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -1372,12 +1372,8 @@
     
     <bean id="compositeImageReader" class="org.emonocot.harvest.common.CompositeItemReader" scope="step">
     <!-- N.B. This approach requires some filtering in the processors as exists for Phylos & Keys -->
-        <property name="delegates">
-            <list>
-                <ref bean="imageReader"/>
-                <ref bean="multimediaReader"/>
-            </list>
-        </property>
+        <property name="delegates" value="#{{((jobExecutionContext['dwca.image.file'] == null)? null: imageReader),
+                                            ((jobExecutionContext['dwca.multimedia.file'] == null)? null: multimediaReader)}}"/>
     </bean>
 
     <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1526,6 +1522,12 @@
         <property name="subtribe" value="#{jobParameters['subtribe']}" />
     </bean>
 
+    <bean id="compositeKeyReader" class="org.emonocot.harvest.common.CompositeItemReader" scope="step">
+        <property name="delegates" value="#{{((jobExecutionContext['dwca.image.file'] == null)? null: keyReader),
+                                            ((jobExecutionContext['dwca.multimedia.file'] == null)? null: multimediaReader)}}"/>
+        <property name="targetType" value="org.emonocot.model.IdentificationKey" />
+    </bean>
+    
     <bean id="keyReader" class="org.springframework.batch.item.file.FlatFileItemReader"
         scope="step">
         <property name="encoding"
@@ -1621,12 +1623,9 @@
     </bean>
     
     <bean id="compositePhylogenyReader" class="org.emonocot.harvest.common.CompositeItemReader" scope="step">
-        <property name="delegates">
-            <list>
-                <ref bean="phylogenyReader"/>
-                <ref bean="multimediaReader"/>
-            </list>
-        </property>
+        <property name="delegates" value="#{{((jobExecutionContext['dwca.image.file'] == null)? null: phylogenyReader),
+                                            ((jobExecutionContext['dwca.multimedia.file'] == null)? null: multimediaReader)}}"/>
+        <property name="targetType" value="org.emonocot.model.PhylogeneticTree" />
     </bean>
 
     <bean id="phylogenyReader" class="org.springframework.batch.item.file.FlatFileItemReader"

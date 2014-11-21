@@ -4609,4 +4609,14 @@
     <changeSet id="2013-09-02_04" author="jk00kg">
       <addForeignKeyConstraint constraintName="PhylogeneticTree_Reference_FK" baseTableName="PhylogeneticTree" baseColumnNames="bibliographicReference_id" referencedTableName="Reference" referencedColumnNames="id" />
     </changeSet>
+    <changeSet id="2014-11-18_01" author="jk00kg">
+        <addColumn tableName="IdentificationKey">
+            <column name="audience" type="varchar(255)" />
+            <column name="contributor" type="varchar(255)" />
+            <column name="format" type="varchar(255)" />
+            <column name="publisher" type="varchar(255)" />
+            <column name="references" type="varchar(255)" />
+            <column name="source" type="varchar(255)" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

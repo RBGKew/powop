@@ -69,6 +69,7 @@
 				<bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
                 <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
                 <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
+                <bean class="org.emonocot.model.convert.MultimediaToIdentificationKeyConverter" />
 				<!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource 
 					resolution -->
 				<bean class="org.emonocot.model.convert.FileConverter" />

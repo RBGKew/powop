@@ -24,8 +24,6 @@ public class MultimediaToPhylogeneticTreeConverter implements Converter<Multimed
             return (PhylogeneticTree) source;
         } else {
             PhylogeneticTree phylogeneticTree = new PhylogeneticTree();
-            //Shortcut for image.setAccessRights(source.getAccessRights()); etc. but does more than it should!!!
-            //BeanUtils.copyProperties(image, source);
             phylogeneticTree.setAccessRights(source.getAccessRights());
             phylogeneticTree.setAudience(source.getAudience());
             phylogeneticTree.setAuthority(source.getAuthority());
