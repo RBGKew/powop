@@ -2,7 +2,6 @@ package org.emonocot.harvest.common;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -141,7 +140,7 @@ public class GetResourceClient {
         backOffPolicy.setBackOffPeriod(backoffPeriod);
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(retryAttempts);
-        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>(); 
+        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>();
         retryableExceptions.put(ClientProtocolException.class, Boolean.TRUE);
         retryableExceptions.put(IOException.class, Boolean.TRUE);
         retryPolicy.setRetryableExceptions(retryableExceptions);
@@ -159,11 +158,11 @@ public class GetResourceClient {
 					InputStreamReader inputStreamReader = null;
 			        OutputStreamWriter outputStreamWriter = null;
 
-			        HttpGet httpGet = new HttpGet(resource);			        
+			        HttpGet httpGet = new HttpGet(resource);
 			        httpGet.setHeader("If-Modified-Since", DateUtils
 			                .formatDate(new Date(Long.parseLong(ifModifiedSince))));
 			        try {
-			            HttpResponse httpResponse = httpClient.execute(httpGet);			           
+			            HttpResponse httpResponse = httpClient.execute(httpGet);
 
 			            switch(httpResponse.getStatusLine().getStatusCode()) {
 			              case HttpURLConnection.HTTP_NOT_MODIFIED:
@@ -219,7 +218,7 @@ public class GetResourceClient {
 			            throw cpe;
 			        } catch (IOException ioe) {
 			            logger.error("Input Output Exception getting document "
-			                    + resource + " " + ioe.getLocalizedMessage());
+			                    + resource + " " + ioe.getLocalizedMessage(), ioe);
 			            throw ioe;
 			        } finally {
 			            httpGet.releaseConnection();
@@ -229,7 +228,7 @@ public class GetResourceClient {
 			                } catch (IOException ioe) {
 			                    logger.error(
 			                            "Input Output Exception closing inputStream for "
-			                            + resource + " " + ioe.getLocalizedMessage());
+			                            + resource + " " + ioe.getLocalizedMessage(), ioe);
 			                }
 			            }
 			            if (outputStreamWriter != null) {
@@ -238,7 +237,7 @@ public class GetResourceClient {
 			                } catch (IOException ioe) {
 			                    logger.error(
 			                            "Input Output Exception closing outputStream for "
-			                            + resource + " " + ioe.getLocalizedMessage());
+			                            + resource + " " + ioe.getLocalizedMessage(), ioe);
 			                }
 			            }
 			        }
@@ -246,11 +245,9 @@ public class GetResourceClient {
 				
 			});
 		} catch (Exception e) {
-			logger.error("Retry processing failed " + e.getMessage());
+			logger.error("Retry processing failed " + e.getMessage(), e);
 			return ExitStatus.FAILED;
 		}
-        
-        
     }
 
     /**
@@ -291,7 +288,7 @@ public class GetResourceClient {
         backOffPolicy.setBackOffPeriod(backoffPeriod);
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(retryAttempts);
-        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>(); 
+        Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>();
         retryableExceptions.put(ClientProtocolException.class, Boolean.TRUE);
         retryableExceptions.put(IOException.class, Boolean.TRUE);
         retryPolicy.setRetryableExceptions(retryableExceptions);
@@ -407,7 +404,7 @@ public class GetResourceClient {
 			logger.error("Retry processing failed " + e.getMessage());
 			return ExitStatus.FAILED;
 			
-		}        
+		}
     }
     
     public ExitStatus postBody(final String authorityURI, final Map<String,String> params, final StringBuffer response, final Map<String,String> responseHeaders) {
@@ -501,12 +498,12 @@ public class GetResourceClient {
 			                        + " with status code " + hre.getStatusCode());
 			        	} else {
 			                logger.error("Client Protocol Exception getting document "
-			                    + authorityURI + " " + cpe.getMessage());
+			                    + authorityURI + " " + cpe.getMessage(), cpe);
 			        	}
 			            throw cpe;
 			        } catch (IOException ioe) {
 			            logger.error("Input Output Exception getting document "
-			                    + authorityURI + " " + ioe.getLocalizedMessage());
+			                    + authorityURI + " " + ioe.getLocalizedMessage(), ioe);
 			            throw ioe;
 			        } finally {
                         httpPost.releaseConnection();
@@ -516,14 +513,14 @@ public class GetResourceClient {
 			                } catch (IOException ioe) {
 			                    logger.error(
 			                            "Input Output Exception closing inputStream for "
-			                            + authorityURI + " " + ioe.getLocalizedMessage());
+			                            + authorityURI + " " + ioe.getLocalizedMessage(), ioe);
 			                }
-			            }			            
+			            }
 			        }
 				}
 			});
 		} catch (Exception e) {
-			logger.error("Retry processing failed " + e.getMessage());
+			logger.error("Retry processing failed " + e.getMessage(), e);
 			return ExitStatus.FAILED;
 			
 		} 

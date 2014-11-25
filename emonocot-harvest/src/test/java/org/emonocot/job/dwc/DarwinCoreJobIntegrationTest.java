@@ -1,7 +1,6 @@
 package org.emonocot.job.dwc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.PhylogeneticTreeService;
+import org.emonocot.model.IdentificationKey;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -60,9 +61,12 @@ public class DarwinCoreJobIntegrationTest {
     @Autowired
 	@Qualifier("readWriteJobLauncher")
     private JobLauncher jobLauncher;
-    
+
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private IdentificationKeyService identificationKeyService;
 
     @Autowired
     private PhylogeneticTreeService phylogeneticTreeService;
@@ -125,6 +129,7 @@ public class DarwinCoreJobIntegrationTest {
         parameters.put("authority.last.harvested",
                 new JobParameter(Long.toString((DarwinCoreJobIntegrationTest.PAST_DATETIME.getMillis()))));
         parameters.put("phylogeny.processing.mode", new JobParameter("IMPORT_PHYLOGENIES_DONT_DELETE_GLOBAL"));
+        parameters.put("key.processing.mode", new JobParameter("IMPORT_KEYS_DONT_DELETE_GLOBAL"));
         JobParameters jobParameters = new JobParameters(parameters);
 
         Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
@@ -142,7 +147,13 @@ public class DarwinCoreJobIntegrationTest {
         assertNotNull("The image in the image file should have been persisted", imageService.load("http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_170762_1.jpg"));
         assertNotNull("The image in the multimedia file should have been persisted", imageService.load("http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_170762_8.jpg"));
         //This is a slightly fragile assertion as it depends on a fixed location of the test resource.
-        //I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny as it is in a pre-packaged zip file
+        //I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny and ID Key as the data is in a pre-packaged zip file
         assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load("http://lion.ad.kew.org/~jk00kg/emonocottestresources/1_1326150157_Strelitziaceae_Cron.nexorg"));
+
+        IdentificationKey localKey = null;
+        try {
+            localKey = identificationKeyService.load("http://lion.ad.kew.org/~jk00kg/emonocottestresources/European_Pontederiaceae.xml");
+        } catch (Exception e) {}//Prefer test failure than a test error
+        assertNotNull("The key in the image file should have been persisted but was :" + localKey, localKey);
     }
 }

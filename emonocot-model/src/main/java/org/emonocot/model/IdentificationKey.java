@@ -37,7 +37,7 @@ import org.hibernate.annotations.Where;
  *
  */
 @Entity
-public class IdentificationKey extends Multimedia implements NonOwned, Media {
+public class IdentificationKey extends Multimedia {
 
     private static final long serialVersionUID = 7893868318442314512L;
 
