@@ -7,54 +7,58 @@
 		<div class="container">
 			<div id="footer-icons" class="row visible-desktop no-print">
 				<ul class="nav">
-					<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
-					<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
-					<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
-					<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
-					<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
-					<li><a href="http://www.nhm.org/"><img src="${nhmImageUrl}" width="110" height="60" alt="Natural History Museum" target="_blank" /></a></li>
-				</ul>
-				<ul class="nav">
-					<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
-					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
-					<c:url var="emonocotImageUrl" value="/css/images/footer/e-monocot.png"/>
-					<li><a href="http://e-monocot.org/"><img src="${emonocotImageUrl}" width="172" height="auto" alt="e-monocot" target="_blank" /></a></li>
-					<c:url var="ildisImageUrl" value="/css/images/footer/ildis.png"/>
-					<li><a href="http://www.ildis.org/"><img src="${ildisImageUrl}" width="56" height="auto" alt="ILDIS" target="_blank" /></a></li>
-				</ul>
-				<ul class="nav">
 					<c:url var="solanaceaeImageUrl" value="/css/images/footer/solanaceae.png"/>
 					<li><a href="http://www.solanaceaesource.org/"><img src="${solanaceaeImageUrl}" width="271" height="60" alt="Solanaceae Source" target="_blank" /></a></li>
 					<c:url var="wienImageUrl" value="/css/images/footer/nhm-wien.png"/>
 					<li><a href="http://www.nhm-wien.ac.at/"><img src="${wienImageUrl}" width="177" height="60" alt="Naturhistorisches Museum Wien" target="_blank" /></a></li>
 					<c:url var="rbgeImageUrl" value="/css/images/footer/rbge.png"/>
 					<li><a href="http://www.rbge.org.uk/"><img src="${rbgeImageUrl}" width="169" height="60" alt="Royal Botanic Gardens, Edinburgh" target="_blank" /></a></li>
+					<c:url var="ildisImageUrl" value="/css/images/footer/ildis.png"/>
+					<li><a href="http://www.ildis.org/"><img src="${ildisImageUrl}" width="56" height="auto" alt="ILDIS" target="_blank" /></a></li>
+					<c:url var="nybgImageUrl" value="/css/images/footer/nybg.png"/>
+					<li><a href="http://www.nybg.org/"><img src="${nybgImageUrl}" width="100" height="53" alt="New York Botanical Garden" target="_blank" /></a></li>
+				</ul>
+				<ul class="nav">
+					<c:url var="emonocotImageUrl" value="/css/images/footer/e-monocot.png"/>
+					<li><a href="http://e-monocot.org/"><img src="${emonocotImageUrl}" width="172" height="auto" alt="e-monocot" target="_blank" /></a></li>
+				</ul>
+				<ul class="nav">
+					<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
+					<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
+					<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
+					<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
+					<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
+					<li><a href="http://www.nhm.org/"><img src="${nhmImageUrl}" width="110" height="60" alt="Natural History Museum" target="_blank" /></a></li>
+					<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
+					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
 				</ul>
 			</div>
 			<div id="footer-icons-mobile" class="row visible-phone visible-tablet no-print">
 				<ul class="nav">
-					<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
-					<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
-					<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
-					<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
-					<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
-					<li><a href="http://www.nhm.org/"><img src="${nhmImageUrl}" width="110" height="60" alt="Natural History Museum" target="_blank" /></a></li>
-				</ul>
-				<ul class="nav">
-					<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
-					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
-					<c:url var="emonocotImageUrl" value="/css/images/footer/e-monocot.png"/>
-					<li><a href="http://e-monocot.org/"><img src="${emonocotImageUrl}" width="172" height="auto" alt="e-monocot" target="_blank" /></a></li>
-					<c:url var="ildisImageUrl" value="/css/images/footer/ildis.png"/>
-					<li><a href="http://www.ildis.org/"><img src="${ildisImageUrl}" width="56" height="auto" alt="ILDIS" target="_blank" /></a></li>
-				</ul>
-				<ul class="nav">
 					<c:url var="solanaceaeImageUrl" value="/css/images/footer/solanaceae.png"/>
 					<li><a href="http://www.solanaceaesource.org/"><img src="${solanaceaeImageUrl}" width="271" height="60" alt="Solanaceae Source" target="_blank" /></a></li>
 					<c:url var="wienImageUrl" value="/css/images/footer/nhm-wien.png"/>
 					<li><a href="http://www.nhm-wien.ac.at/"><img src="${wienImageUrl}" width="177" height="60" alt="Naturhistorisches Museum Wien" target="_blank" /></a></li>
 					<c:url var="rbgeImageUrl" value="/css/images/footer/rbge.png"/>
 					<li><a href="http://www.rbge.org.uk/"><img src="${rbgeImageUrl}" width="169" height="60" alt="Royal Botanic Gardens, Edinburgh" target="_blank" /></a></li>
+					<c:url var="ildisImageUrl" value="/css/images/footer/ildis.png"/>
+					<li><a href="http://www.ildis.org/"><img src="${ildisImageUrl}" width="56" height="auto" alt="ILDIS" target="_blank" /></a></li>
+					<c:url var="nybgImageUrl" value="/css/images/footer/nybg.png"/>
+					<li><a href="http://www.nybg.org/"><img src="${nybgImageUrl}" width="100" height="53" alt="New York Botanical Garden" target="_blank" /></a></li>
+				</ul>
+				<ul class="nav">
+					<c:url var="emonocotImageUrl" value="/css/images/footer/e-monocot.png"/>
+					<li><a href="http://e-monocot.org/"><img src="${emonocotImageUrl}" width="172" height="auto" alt="e-monocot" target="_blank" /></a></li>
+				</ul>
+				<ul class="nav">
+					<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
+					<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
+					<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
+					<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
+					<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
+					<li><a href="http://www.nhm.org/"><img src="${nhmImageUrl}" width="110" height="60" alt="Natural History Museum" target="_blank" /></a></li>
+					<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
+					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
 				</ul>
 			</div>
 			<div id="footer-brand" class="row">

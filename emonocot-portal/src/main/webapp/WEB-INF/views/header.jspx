@@ -34,10 +34,10 @@
 				<span class="icon-bar"><!--  --></span>
 			</button>
 			<div class="no-print">
-				<div class="pull-right no-print">
+				<!--div class="pull-right no-print">
 					<c:url value="http://www.kew.org/" var="kewUrl"/>
 					<a href="${kewUrl}" class="kewBrand"><span><spring:message code="application.kew" /></span></a>
-				</div>
+				</div-->
 				<tiles:insertAttribute name="searchBox" ignore="true"/>
 				<div class="pull-right no-print">
 					<security:authorize access="!isAuthenticated()">
