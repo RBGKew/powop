@@ -4,7 +4,7 @@
   <parent>
     <artifactId>world-flora</artifactId>
     <groupId>org.kew.world-flora</groupId>
-    <version>0.1.6</version>
+    <version>0.1.7-SNAPSHOT</version>
   </parent>
   <artifactId>world-flora-persistence</artifactId>
   <name>World Flora Persistence Layer</name>
