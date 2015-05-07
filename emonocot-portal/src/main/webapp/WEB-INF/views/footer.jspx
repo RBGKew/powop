@@ -97,7 +97,7 @@
 			<div class="row">
 				<ul class="nav no-print">
 					<li>
-						<a>eMonocot <spring:message code="application.version" /></a>
+						<a><spring:message code="application.title"/> <spring:message code="application.version" /></a>
 					</li>
 					<li>
 						<spring:message code="design.by.designers" />
