@@ -24,7 +24,7 @@
             <groupId>org.emonocot</groupId>
             <artifactId>emonocot-static</artifactId>
             <version>${project.version}</version>
-            <classifier>static</classifier>
+            <classifier>default</classifier>
             <type>tar.gz</type>
             <scope>test</scope>
         </dependency>
