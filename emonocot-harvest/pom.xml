@@ -267,10 +267,6 @@
 	      <groupId>org.jyaml</groupId>
 	      <artifactId>jyaml</artifactId>
         </dependency>
-		<dependency>
-	      <groupId>com.lowagie</groupId>
-	      <artifactId>itext</artifactId>
-        </dependency>
         <dependency>
 	      <groupId>org.json</groupId>
 	      <artifactId>json</artifactId>
@@ -282,10 +278,6 @@
         <dependency>
            <groupId>ch.thus</groupId>
            <artifactId>pvalsecc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-transcoder</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.media</groupId>
