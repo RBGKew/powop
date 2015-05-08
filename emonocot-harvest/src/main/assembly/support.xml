@@ -39,10 +39,6 @@
             <source>${project.basedir}/src/main/assembly/META-INF/spring/grassbase.default.properties</source>
             <outputDirectory>META-INF/spring</outputDirectory>
         </file>
-        <file>
-            <source>${project.basedir}/src/main/assembly/logback.xml</source>
-            <outputDirectory>/</outputDirectory>
-        </file>
     </files>
     <fileSets>
       <fileSet>

@@ -92,7 +92,6 @@
 				hibernate.hbm2ddl.auto=validate
 				hibernate.validator.autoregister_listeners=false
 				hibernate.default_schema=${liquibase.default.schema.name}
-                hibernate.show_sql=${hibernate.show_sql}
 			</value>
 		</property>
 		<property name="annotatedClasses">
