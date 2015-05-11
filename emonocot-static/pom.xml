@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>emonocot</artifactId>
 		<groupId>org.emonocot</groupId>
-		<version>1.0.6-SNAPSHOT</version>
+		<version>1.0.6</version>
 	</parent>
 	<artifactId>emonocot-static</artifactId>
 	<name>eMonocot Static Files</name>
