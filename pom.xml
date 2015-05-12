@@ -3,17 +3,21 @@
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
 	<version>1.0.7-SNAPSHOT</version>
-	<description>eMonocot aims to create a global online resource for monocot plants. It will
-        provide a focus for taxonomists working on monocots and will help people discover
-        information about monocots by providing tools for identification, up-to-date checklists,
-        descriptions and links to other resources.</description>
 	<packaging>pom</packaging>
+
 	<name>eMonocot</name>
 	<url>http://e-monocot.org</url>
 	<organization>
 		<name>eMonocot</name>
 		<url>http://e-monocot.org</url>
 	</organization>
+	<description>
+		eMonocot is a global online resource for monocot plants. It
+		provides a focus for taxonomists working on monocots and helps people discover
+		information about monocots by providing tools for identification, up-to-date checklists,
+		descriptions and links to other resources.
+	</description>
+
 	<licenses>
 		<license>
 			<name>GNU Affero General Public License version 3</name>
@@ -30,6 +34,7 @@
 		<module>emonocot-portal</module>
 		<module>emonocot-static</module>
 	</modules>
+
 	<properties>
 	    <portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 	    <harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
@@ -47,61 +52,64 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<skip.global.tests>true</skip.global.tests>
 	</properties>
-	<issueManagement>
+
+	<!--issueManagement>
 		<system>Bugzilla</system>
 		<url>http://build.e-monocot.org/bugzilla/</url>
-	</issueManagement>
-	<ciManagement>
+	</issueManagement-->
+
+	<!--ciManagement>
 		<system>jenkins</system>
 		<url>http://build.e-monocot.org/ci</url>
-	</ciManagement>
+	</ciManagement-->
+
 	<inceptionYear>2010</inceptionYear>
-	<mailingLists>
-		<mailingList>
-			<name>eMonocot ICT Team</name>
-			<post>ict-team@e-monocot.org</post>
-			<archive>http://e-monocot.org/node/1395/og/forum/1731</archive>
-		</mailingList>
-	</mailingLists>
+
 	<developers>
+		<!-- Current developers. -->
 		<developer>
+			<name>Matthew Blissett</name>
+			<email>M.Blissett@kew.org</email>
+			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
+			<organizationUrl>http://www.kew.org/</organizationUrl>
+			<timezone>Europe/London</timezone>
+			<roles><role>Developer 2014–</role></roles>
+		</developer>
+	</developers>
+
+	<contributors>
+		<!-- Contributors and previous developers. -->
+		<contributor>
 			<name>Ben Clark</name>
-			<id>ben</id>
 			<email>benjamin.clark@zoo.ox.ac.uk</email>
 			<organization>Department of Zoology, University of Oxford</organization>
 			<organizationUrl>http://www.zoo.ox.ac.uk/</organizationUrl>
-			<timezone>+1</timezone>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
+			<timezone>Europe/London</timezone>
+			<roles><role>Developer 2011–2013</role></roles>
+		</contributor>
+		<contributor>
 			<name>Joseph Kelly</name>
-			<id>jk00kg</id>
 			<organization>Science Applications, IT Department, Royal Botanic Gardens, Kew</organization>
 			<organizationUrl>http://www.kew.org/</organizationUrl>
-			<timezone>+1</timezone>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
+			<timezone>Europe/London</timezone>
+			<roles><role>Developer 2011–2014</role></roles>
+		</contributor>
+		<contributor>
 			<name>Annapaola Santarsiero</name>
-			<id>annapaola</id>
 			<email>annapaola.santarsiero@zoo.ox.ac.uk</email>
 			<organization>Department of Zoology, University of Oxford</organization>
 			<organizationUrl>http://www.zoo.ox.ac.uk/</organizationUrl>
-			<timezone>+1</timezone>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-	</developers>
+			<timezone>Europe/London</timezone>
+			<roles><role>Developer 2011–2013</role></roles>
+		</contributor>
+	</contributors>
+
 	<scm>
       <connection>scm:git:git://git.ad.kew.org/emonocot.git</connection>
       <developerConnection>scm:git:ssh://gerrit.ad.kew.org:29418/emonocot.git</developerConnection> 
       <url>http://git.ad.kew.org/git/?p=emonocot.git</url>
     </scm>
+
 	<dependencyManagement>
 		<dependencies>
             <dependency>
