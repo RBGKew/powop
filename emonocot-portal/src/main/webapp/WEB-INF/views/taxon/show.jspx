@@ -808,7 +808,7 @@
 									<c:param name="taxon" value="${taxon.scientificName}"/>
 								</c:url>
 								<li><a id="boldLink" href="${boldUrl}"><spring:message code="boldSystems"/><!--  --></a></li>
-								<c:url var="gbifUrl" value="http://data.gbif.org/species/${taxon.scientificName}"/>
+								<c:url var="gbifUrl" value="http://www.gbif.org/species/search?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&amp;highertaxon_key=6&amp;q=${taxon.scientificName}"/>
 								<li><a id="GBIFLink" href="${gbifUrl}"><spring:message code="gbif"/><!--  --></a></li>
 							</ul>
 							
