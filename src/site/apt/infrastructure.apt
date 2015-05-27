@@ -3,27 +3,22 @@
  ------
  Ben Clark
  ------
- Date
  
 Infrastructure
 
  The current eMonocot infrastructure consists of
 
- * {{{http://build.e-monocot.org}build.e-monocot.org}} - the SCM / CI server
- 
- * {{{http://zoo-bclark05.zoo.ox.ac.uk}zoo-bclark.zoo.ox.ac.uk}} - the UAT server
- 
- * {{{http://zoo-bclark01.zoo.ox.ac.uk}zoo-bclark01.zoo.ox.ac.uk}} Web server and frontend load balancer for the two application servers
- 
- * {{{http://zoo-bclark02.zoo.ox.ac.uk}zoo-bclark02.zoo.ox.ac.uk}} Master application server
- 
- * {{{http://zoo-bclark03.zoo.ox.ac.uk}zoo-bclark03.zoo.ox.ac.uk}} Slave application server and message broker
- 
- * {{{http://zoo-bclark04.zoo.ox.ac.uk}zoo-bclark04.zoo.ox.ac.uk}} Database server
+ * {{http://jenkins.ad.kew.org}} — continuous integration server
+
+ * UAT servers (separate servers for Apache, Tomcat, Solr, MySQL)
+
+ * Production servers (separate servers for Apache, Tomcat, Solr, MySQL)
 
 []
  
 Bare Metal install using KickStart
+
+  <<This section is out of date.>>
 
  * Mount the installation image found {{{http://mirror.ox.ac.uk/sites/mirror.centos.org/5/isos/x86_64/CentOS-5.9-x86_64-netinstall.iso}here}} on the server
  
@@ -46,6 +41,8 @@ Bare Metal install using KickStart
  []
  
 Restoring data from backup
+
+  <<This section is out of date.>>
 
  * Restore the database from backup by executing the following on the database server {{{http://zoo-bclark04.zoo.ox.ac.uk}zoo-bclark04.zoo.ox.ac.uk}}
 
@@ -76,4 +73,3 @@ Restoring data from backup
  
     []
  [] 
- 

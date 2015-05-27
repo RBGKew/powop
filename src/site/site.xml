@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <skin>
-    <groupId>org.emonocot</groupId>
-    <artifactId>emonocot-site</artifactId>
-    <version>0.0.13</version>
-  </skin>
-  <bannerLeft>
-    <name>eMonocot</name>
-    <src>http://build.e-monocot.org/images/logo.png</src>
-    <href>http://e-monocot.org/</href>
-  </bannerLeft>
-  <body>
-    <links>
-      
-    </links>
-    <menu>
-      <item name="Introduction" href="index.html"/>
-      <item name="Dashboard" href="dashboard.html"/>
-      <item name="Development Process" href="process.html"/>
-      <item name="Using the Issue Tracker" href="issues.html"/>
-      <item name="Portal Features" href="portal.html"/>
-    </menu>
-    <menu name="Development">
-      <item name="Development Stack" href="stack.html"/>
-      <item name="Functional Testing" href="functional.html"/>
-      <item name="Secure Access" href="secure.html"/>
-      <item name="Eclipse Integration" href="eclipse.html"/>
-      <item name="Maven" href="maven.html"/>
-      <item name="Spatial Data" href="spatial.html"/>
-    </menu>
-    <menu name="Infrastructure">
-      <item name="Infrastructure" href="infrastructure.html"/>
-      <item name="Support Tasks" href="support.html"/>
-    </menu>
-    <menu ref="modules"/>
-    <menu ref="reports"/>
-  </body>
+	<skin>
+		<groupId>lt.velykis.maven.skins</groupId>
+		<artifactId>reflow-maven-skin</artifactId>
+		<version>1.1.1</version>
+	</skin>
+	<bannerLeft>
+		<name>eMonocot</name>
+		<src>http://emonocot.org/css/images/footer/logo.png</src>
+		<href>http://emonocot.org/</href>
+	</bannerLeft>
+	<body>
+		<links/>
+		<menu>
+			<item name="Introduction" href="index.html" />
+			<!--item name="Dashboard" href="dashboard.html"/ -->
+			<!--item name="Development Process" href="process.html"/ -->
+			<!--item name="Using the Issue Tracker" href="issues.html"/ -->
+			<item name="Portal Features" href="portal.html" />
+		</menu>
+		<menu name="Development">
+			<item name="Development Stack" href="stack.html" />
+			<item name="Functional Testing" href="functional.html" />
+			<!--item name="Secure Access" href="secure.html"/ -->
+			<!--item name="Eclipse Integration" href="eclipse.html"/ -->
+			<item name="Maven" href="maven.html" />
+			<item name="Spatial Data" href="spatial.html" />
+		</menu>
+		<menu name="Infrastructure">
+			<item name="Infrastructure" href="infrastructure.html" />
+			<item name="Support Tasks" href="support.html" />
+		</menu>
+		<!--menu ref="modules"/ -->
+		<menu ref="reports" />
+	</body>
 </project>

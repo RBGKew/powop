@@ -1,42 +1,41 @@
  ------
  eMonocot
  ------
- Ben Clark
+ Ben Clark, Matthew Blissett
  ------
- Date
  
+  This site contains developer documentation for the eMonocot software.
+
 About eMonocot
 
-  eMonocot aims to create a global online resource for monocot plants. It will provide a focus for taxonomists working on monocots and will help people discover information about monocots by providing tools for identification, up-to-date checklists, descriptions and links to other resources.
-  
-  * Documentation is {{{http://e-monocot.org/category/document-store/ict-team}here}}
+  eMonocot is a global online resource for monocot plants. It provides a focus for taxonomists working on monocots and helps people discover information about monocots by providing tools for identification, up-to-date checklists, descriptions and links to other resources.  The portal is hosted by the {{{http://www.kew.org/}Royal Botanic Gardens, Kew}} (Kew).
 
-  * You can email the whole team using {{{mailto:ict-team@about.e-monocot.org}ict-team@about.e-monocot.org}} - emails are archived {{{http://e-monocot.org/node/1395/og/forum/1731}here}}
- 
-  * Mock web pages are {{{http://build.e-monocot.org/mocks/}here}}
+  The software is currently being extended for use as the <Plants of the World Online Portal> and <World Flora Online>.
 
-  * The latest portal prototype is {{{http://build.e-monocot.org/latest/portal/}here}}
+  * The production portal is deployed at {{http://e-monocot.org/}}.
 
-  * The portal we're using for user acceptance testing is {{{http://zoo-bclark05.zoo.ox.ac.uk/}here}}
+  * The portal we're using for user acceptance testing is {{http://imonocot.ad.kew.org/}} (from within Kew only).
 
-  * The production portal is deployed {{{http://e-monocot.org/}here}}
-
-  * Please file issues {{{http://build.e-monocot.org/bugzilla/}here}}
+~~* Please file issues {{{http://build.e-monocot.org/bugzilla/}here}}
   
   []
   
-Live Issues
+~~Live Issues
   
-      These issues are actively being worked on in the current iteration:
+~~      These issues are actively being worked on in the current iteration:
 
-%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/ready.properties}
-%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/indev.properties}
-%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/finished.properties}
-%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/testing.properties}
+~~%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/ready.properties}
+~~%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/indev.properties}
+~~%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/finished.properties}
+~~%{html-template-snippet|htmlFile=src/site/snippet/kanbanColumn.html|paramFile=src/site/snippet/testing.properties}
 
 Build Status
 
-  eMonocot uses a {{{http://build.e-monocot.org/ci}build server}} to ensure that the software we're producing works.
+  eMonocot uses a build server to ensure that the software we're producing works.
+
+  * {{{http://jenkins.ad.kew.org/}eMonocot, PoWOP}} (within Kew only).
+
+Tests
 
 * Unit Tests
 

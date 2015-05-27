@@ -3,7 +3,6 @@
  ------
  Ben Clark
  ------
- Date
  
  * The TDWG Shapefiles are available here: http://www.kew.org/gis/tdwg/
  
@@ -14,49 +13,48 @@
  * The recursive prefix field type doesn't cope well with shapes which span the date-line. Fortunately, we can split geometries on the dateline (provided that we have a new version of the GEOS library) using ogr2ogr thus 
  
 --------------------------------------------------------
-
 ogr2ogr -t_srs WGS84 -overwrite -clipdst -180 -90 180 90 -wrapdateline shapefile shapefile
-
 ---------------------------------------------------------
  
  * You can import the layers into mysql thus: 
 
 ---------------------------------------------------------
-
 ogr2ogr -f MySQL MySQL:gis,user=user,password=passwd shapefile.shp  -nln tablename -update -overwrite -lco GEOMETRY_NAME=SHAPE
-
 ---------------------------------------------------------
  
  * The tab delimited files in emonocot/emonocot-model/src/main/resources/org/emonocot/model/level*.txt were created thus
 
 ---------------------------------------------------------
-
 > select concat('Location_',level1_cod),level1_cod,level1_nam,AsText(SHAPE) from level1 into outfile '/tmp/level1.txt' fields terminated by '\t' lines terminated by '\n';
 > select concat('Location_',level2_cod),level2_cod,level2_nam,AsText(SHAPE) from level2 into outfile '/tmp/level2.txt' fields terminated by '\t' lines terminated by '\n';
 > select concat('Location_',level3_cod),level3_cod,level3_nam,AsText(SHAPE) from level3 into outfile '/tmp/level3.txt' fields terminated by '\t' lines terminated by '\n';
 > select concat('Location_',level4_cod),level3_cod,level_4_na,AsText(SHAPE) from level4 into outfile '/tmp/level4.txt' fields terminated by '\t' lines terminated by '\n';
-
 ---------------------------------------------------------
 
  * This was then loaded into Solr thus:
  
----------------------------------------------------------
-
-Split into one record per file (to detect errors more easily)
-> for i in 1 2 3 4; do split -l 1 -d -a3 level$i.txt level$i-; done
-
-Upload each file in a separate request, log failures:
-> for i in level?-???; do curl -H 'Content-type:text/csv; charset=utf-8' 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/'$i'&fieldnames=id,location.tdwg_code_s,location.name_s,geo' | grep --silent code && touch $i.error; done
+   Split into one record per file (to detect errors more easily)
 
 ---------------------------------------------------------
+for i in 1 2 3 4; do
+    split -l 1 -d -a3 level$i.txt level$i-;
+done
+---------------------------------------------------------
 
- * NB: I found that level 1 continents could not be easily loaded into solr, so these have been left out totally. I also found that pre-simplfying the polygons using
+   Upload each file in a separate request, log failures:
+
+---------------------------------------------------------
+for i in level?-???; do
+    curl -H 'Content-type:text/csv; charset=utf-8' 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&stream.file=/tmp/'$i'&fieldnames=id,location.tdwg_code_s,location.name_s,geo' | \
+    grep --silent code && touch $i.error;
+done
+---------------------------------------------------------
+
+ * NB: I found that level 1 continents could not be easily loaded into Solr, so these have been left out totally. I also found that pre-simplfying the polygons using
    com.vividsolutions.jts.simplify.TopologyPreservingSimplifier.simplify(geom, 0.01) made it more likely that some of the polygons could be imported.
 
  * NB2: Some polygons don't load, including Antarctica ("found non-noded intersection between LINESTRING …") and some regions with large archipelagos ("Ring Self-intersection at or near point").
 
----------------------------------------------------------
- 
  * The documentation for the spatial extensions in MySQL is here: http://dev.mysql.com/doc/refman/5.0/en/spatial-extensions.html
  
  * You need to remember that MySQL works on Minimum Bounding Rectangles, not proper spatial queries
@@ -75,6 +73,5 @@ Upload each file in a separate request, log failures:
 |        33 | Caucasus            |
 |        13 | Southeastern Europe |
 +-----------+---------------------+
-
 ----------------------------------------
  

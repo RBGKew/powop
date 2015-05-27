@@ -3,28 +3,29 @@
  ------
  Ben Clark
  ------
- Date
  
 Development Stack
 
- * Java
+ * Java 1.7
  
- * IDE: prefer {{{http://www.springsource.com/developer/sts} SpringSource Tool Suite}} (Eclipse Helios), but vanilla Eclipse or other IDE's work well.
+ * IDE: prefer {{{http://www.springsource.com/developer/sts} SpringSource Tool Suite}} (Eclipse Helios), but vanilla Eclipse or other IDEs work well.
  
- * Build Tool: {{{http://maven.apache.org} Maven}} (2.2.1)
+ * Build Tool: {{{http://maven.apache.org} Maven}} version 3.
  
- * Build Server: {{{http://build.e-monocot.org/ci} Jenkins}}
+~~* Build Server: {{{http://build.e-monocot.org/ci} Jenkins}}
   
- * Source Code: {{{http://build.e-monocot.org/viewvc/cvsroot/emonocot/}CVS}}  :pserver:username@build.e-monocot.org:/var/cvs  co emonocot
+ * Source Code: {{{https://github.com/RBGKew/eMonocot}GitHub}}
  
- * Issue Tracker: {{{http://build.e-monocot.org/bugzilla/}Bugzilla}}.
+~~* Issue Tracker: {{{http://build.e-monocot.org/bugzilla/}Bugzilla}}.
  
- * Virtualization: {{{https://www.virtualbox.org/}Oracle Virtualbox}} plus {{{http://vagrantup.com/}Vagrant}}.
+ * Virtualization: {{{https://www.virtualbox.org/}Oracle VirtualBox}} plus {{{http://vagrantup.com/}Vagrant}}.
  
  []
  
-Using Vagrant to run functional tests
+  <<The remainder of this page is not up-to-date.>>
  
+Using Vagrant to run functional tests
+
   * Add a blank standalone portal machine
   
     *  <<<vagrant box add test http://build.e-monocot.org/boxes/standalone.box>>>

@@ -3,11 +3,10 @@
  ------
  Ben Clark
  ------
- Date
  
 Functional Testing using Embedded Tomcat
 
-  Functional tests can be run against an embedded tomcat7 / solr / H2 instance by using the firefox profile defined below and the 
+  Functional tests can be run against an embedded Tomcat7 / Solr / H2 instance by using the Firefox profile defined below and the
   portal.test.local maven profile e.g.
 
 -----------------------------------------------
@@ -24,6 +23,8 @@ emonocot-portal> mvn clean package verify -Pfunctional -Pfirefox -Pportal.test.v
 -----------------------------------------------  
 
 Functional Testing using Selenium and Selenium Grid
+
+  <<This section is not up-to-date, the Selenium Grid is not active at present.>>
 
   Functional tests can be configured to run locally against different browsers such as Internet Explorer, Chrome, Safari or Firefox 
   by supplying an appropriate parameters as part of the functional test and (in the case of Safari, Chrome or IE) installing the 
@@ -117,6 +118,3 @@ Registering your PC as a Selenium Grid Node
 -----------------------------------------------
 java -jar selenium-server-standalone-2.24.1.jar -role node -Dwebdriver.chrome.driver=${path.to.chromedriver.binary} -hub http://build.e-monocot.org:4444/grid/register
 -----------------------------------------------
-  
-
-  
