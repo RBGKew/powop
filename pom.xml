@@ -1399,7 +1399,7 @@
 				<version>2.8</version>
 				<configuration>
 					<configLocation>src/main/resources/emonocot-checkstyle.xml</configLocation>
-					<excludes>emonocot-portal/src/main/java/org/emonocot/portal/ws/ncbi/EUtilsServiceStub.java</excludes>
+					<excludes>**/EUtilsServiceStub.java</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
