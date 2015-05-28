@@ -6,12 +6,14 @@
 		<groupId>org.emonocot</groupId>
 		<version>1.0.7-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>emonocot-harvest</artifactId>
 	<packaging>war</packaging>
 	<name>eMonocot Harvesting</name>
 	<description>Backend Harvesting Routines</description>
+
 	<dependencies>
-        <dependency>
+		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
 		</dependency>
@@ -20,17 +22,17 @@
 			<artifactId>emonocot-service</artifactId>
 		</dependency>
 		<dependency>
-		  <groupId>org.hibernatespatial</groupId>
-          <artifactId>hibernate-spatial-h2-geodb</artifactId>
-	    </dependency>
+			<groupId>org.hibernatespatial</groupId>
+			<artifactId>hibernate-spatial-h2-geodb</artifactId>
+		</dependency>
 		<dependency>
-          <groupId>org.emonocot</groupId>
-          <artifactId>emonocot-persistence</artifactId>
-          <type>test-jar</type>
-          <version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
-          <scope>test</scope>
-        </dependency>
-        <dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-persistence</artifactId>
+			<type>test-jar</type>
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
@@ -150,36 +152,36 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
-          <groupId>ch.qos.logback</groupId>
-          <artifactId>logback-classic</artifactId>
-        </dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		 <dependency>
-		    <groupId>org.hibernatespatial</groupId>
-            <artifactId>hibernate-spatial-mysql</artifactId>
-	    </dependency>
-	    <dependency>
-	        <groupId>postgresql</groupId>
-	        <artifactId>postgresql</artifactId>
-	    </dependency>
-	    <dependency>
+		<dependency>
+			<groupId>org.hibernatespatial</groupId>
+			<artifactId>hibernate-spatial-mysql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernatespatial</groupId>
 			<artifactId>hibernate-spatial-postgis</artifactId>
 		</dependency>
-	    <dependency>
+		<dependency>
 			<groupId>org.postgis</groupId>
 			<artifactId>postgis-jdbc</artifactId>
 		</dependency>
@@ -208,124 +210,126 @@
 			<artifactId>javassist</artifactId>
 		</dependency>
 		<dependency>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-library</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.sanselan</groupId>
 			<artifactId>sanselan</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.im4java</groupId>
-            <artifactId>im4java</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>net.sourceforge.hatbox</groupId>
-          <artifactId>hatbox</artifactId>
-        </dependency>
-        <dependency>
+			<groupId>org.im4java</groupId>
+			<artifactId>im4java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.hatbox</groupId>
+			<artifactId>hatbox</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jms</artifactId>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-spring</artifactId>
 		</dependency>
 		<dependency>
-	       <groupId>org.apache.xbean</groupId>
-	       <artifactId>xbean-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>au.org.ala.delta</groupId>
-            <artifactId>delta-common</artifactId>
-        </dependency>
-        <dependency>
-	      <groupId>org.apache.tika</groupId>
-	      <artifactId>tika-parsers</artifactId>
-	    </dependency>
-        <dependency>
-          <groupId>org.gbif</groupId>
-          <artifactId>ecat-common</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>commons-io</groupId>
-          <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-	       <groupId>org.slf4j</groupId>
-	       <artifactId>jul-to-slf4j</artifactId>
-	    </dependency>
-	    <dependency>
-          <groupId>org.mapfish.print</groupId>
-          <artifactId>print-lib</artifactId>
-        </dependency>
-        <dependency>
-	      <groupId>org.jyaml</groupId>
-	      <artifactId>jyaml</artifactId>
-        </dependency>
-        <dependency>
-	      <groupId>org.json</groupId>
-	      <artifactId>json</artifactId>
-        </dependency>
-        <dependency>
-	      <groupId>commons-httpclient</groupId>
-	      <artifactId>commons-httpclient</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>ch.thus</groupId>
-           <artifactId>pvalsecc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.media</groupId>
-            <artifactId>jai_core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.media</groupId>
-            <artifactId>jai_imageio</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.media</groupId>
-            <artifactId>jai_codec</artifactId>
-        </dependency>
-        <dependency>
-              <groupId>org.owasp.antisamy</groupId>
-              <artifactId>antisamy</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>org.forester</groupId>
-             <artifactId>forester</artifactId>
-        </dependency>
-        <dependency>
-    	    <groupId>org.liquibase</groupId>
-		    <artifactId>liquibase-core</artifactId>
-    	</dependency>
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports</artifactId>
-        </dependency>
+			<groupId>org.apache.xbean</groupId>
+			<artifactId>xbean-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>au.org.ala.delta</groupId>
+			<artifactId>delta-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.gbif</groupId>
+			<artifactId>ecat-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mapfish.print</groupId>
+			<artifactId>print-lib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jyaml</groupId>
+			<artifactId>jyaml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.thus</groupId>
+			<artifactId>pvalsecc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jai_core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jai_imageio</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jai_codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.owasp.antisamy</groupId>
+			<artifactId>antisamy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.forester</groupId>
+			<artifactId>forester</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>emonocot-harvest</finalName>
 		<testResources>
-          <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>true</filtering>
-            <includes>
-              <include>META-INF/spring/*.properties</include>
-            </includes>
-          </testResource>
-          <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>false</filtering>
-            <excludes>
-              <exclude>META-INF/spring/*.properties</exclude>
-            </excludes>
-          </testResource>
-        </testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>META-INF/spring/*.properties</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>META-INF/spring/*.properties</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -337,14 +341,15 @@
 							<directory>src/main/webapp</directory>
 							<filtering>true</filtering>
 							<includes>
-							  <include>**/*.properties</include>
-							  <include>**/*.xml</include>
+								<include>**/*.properties</include>
+								<include>**/*.xml</include>
 							</includes>
 						</resource>
 					</webResources>
 					<useCache>true</useCache>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
@@ -380,35 +385,37 @@
 					</deployer>
 				</configuration>
 			</plugin>
+
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.8</version>
-                <configuration>
-                    <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
-                </configuration>
-            </plugin>
-            <plugin>
-              <artifactId>maven-assembly-plugin</artifactId>
-              <configuration>
-                 <archive>
-                   <manifest>
-                        <mainClass>org.springframework.batch.core.launch.support.CommandLineJobRunner</mainClass>
-                   </manifest>
-                 </archive>
-				 <descriptors>
-					<descriptor>src/main/assembly/support.xml</descriptor>
-				</descriptors>
-			  </configuration>
-              <executions>
-                <execution>
-                  <phase>package</phase>
-                  <goals>
-                    <goal>single</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.springframework.batch.core.launch.support.CommandLineJobRunner</mainClass>
+						</manifest>
+					</archive>
+					<descriptors>
+						<descriptor>src/main/assembly/support.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

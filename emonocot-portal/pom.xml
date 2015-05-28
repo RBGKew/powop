@@ -6,28 +6,30 @@
 		<groupId>org.emonocot</groupId>
 		<version>1.0.7-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>emonocot-portal</artifactId>
 	<packaging>war</packaging>
 	<name>eMonocot Portal</name>
+
 	<dependencies>
-        <dependency>
-            <groupId>org.emonocot</groupId>
-            <artifactId>emonocot-service</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.emonocot</groupId>
-            <artifactId>emonocot-service</artifactId>
-            <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.emonocot</groupId>
-            <artifactId>emonocot-static</artifactId>
-            <version>${project.version}</version>
-            <classifier>default</classifier>
-            <type>tar.gz</type>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-service</artifactId>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-static</artifactId>
+			<version>${project.version}</version>
+			<classifier>default</classifier>
+			<type>tar.gz</type>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
@@ -37,25 +39,25 @@
 			<artifactId>easymock</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.jayway.restassured</groupId>
+			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy</artifactId>
-        </dependency>
 		<dependency>
-            <groupId>org.codehaus.groovy.modules.http-builder</groupId>
-            <artifactId>http-builder</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-        </dependency>
-         <dependency>
-	      <groupId>org.gbif</groupId>
-          <artifactId>ecat-common</artifactId>
-	    </dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy.modules.http-builder</groupId>
+			<artifactId>http-builder</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.gbif</groupId>
+			<artifactId>ecat-common</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit-dep</artifactId>
@@ -89,9 +91,9 @@
 			<artifactId>spring-context</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jms</artifactId>
-        </dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -113,29 +115,29 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.hibernatespatial</groupId>
-            <artifactId>hibernate-spatial-mysql</artifactId>
-	    </dependency>
-	    <dependency>
-	        <groupId>postgresql</groupId>
-	        <artifactId>postgresql</artifactId>
-	    </dependency>
-	    <dependency>
+			<groupId>org.hibernatespatial</groupId>
+			<artifactId>hibernate-spatial-mysql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.hibernatespatial</groupId>
 			<artifactId>hibernate-spatial-postgis</artifactId>
 		</dependency>
-	    <dependency>
+		<dependency>
 			<groupId>org.postgis</groupId>
 			<artifactId>postgis-jdbc</artifactId>
 		</dependency>
 		<dependency>
-              <groupId>ch.qos.logback</groupId>
-              <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>janino</groupId>
-             <artifactId>janino</artifactId>
-        </dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>janino</groupId>
+			<artifactId>janino</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
@@ -144,79 +146,79 @@
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 		</dependency>
-    	<dependency>
-    	    <groupId>org.liquibase</groupId>
-		    <artifactId>liquibase-core</artifactId>
-    	</dependency>
-    	<dependency>
-		      <groupId>com.yahoo.platform.yui</groupId>
-		      <artifactId>yuicompressor</artifactId>
-	      </dependency>
-          <dependency>
-             <groupId>org.emonocot</groupId>
-             <artifactId>emonocot-task</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-spring</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-          </dependency>
-          <dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yahoo.platform.yui</groupId>
+			<artifactId>yuicompressor</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.emonocot</groupId>
+			<artifactId>emonocot-task</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-junit</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-		  </dependency>
-		  <dependency>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-		  </dependency>
-		  <dependency>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-		  </dependency>
-          <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-jsp</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-taglibs</artifactId>
-          </dependency>
-          <dependency>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache-core</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-          </dependency>
-          <dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
-		  </dependency>
-		  <dependency>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-		  </dependency>
-          <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-         </dependency>
-          <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-          </dependency>
-          <dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-spring</artifactId>
 		</dependency>
@@ -245,85 +247,88 @@
 			<artifactId>spring-batch-admin-manager</artifactId>
 		</dependency>
 		<dependency>
-           <groupId>org.ocpsoft.prettytime</groupId>
-           <artifactId>prettytime</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>org.quartz-scheduler</groupId>
-          <artifactId>quartz</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>javax.inject</groupId>
-           <artifactId>javax.inject</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>org.forester</groupId>
-             <artifactId>forester</artifactId>
-        </dependency>
-        <dependency>
-		  <groupId>org.hibernatespatial</groupId>
-          <artifactId>hibernate-spatial-h2-geodb</artifactId>
-          <scope>compile</scope>
-	    </dependency>
-	    <dependency>
+			<groupId>org.ocpsoft.prettytime</groupId>
+			<artifactId>prettytime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.forester</groupId>
+			<artifactId>forester</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernatespatial</groupId>
+			<artifactId>hibernate-spatial-h2-geodb</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-          <groupId>net.sourceforge.hatbox</groupId>
-          <artifactId>hatbox</artifactId>
-          <scope>compile</scope>
-        </dependency>
-        <dependency>
-	      <groupId>org.restdoc</groupId>
-	      <artifactId>restdoc-api</artifactId>
-	    </dependency>
-	    <dependency>
-           <groupId>org.apache.axis2</groupId>
-           <artifactId>axis2</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>org.apache.axis2</groupId>
-             <artifactId>axis2-jaxws</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>org.apache.axis2</groupId>
-             <artifactId>axis2-transport-local</artifactId>
-        </dependency>
-        <dependency>
-             <groupId>org.apache.axis2</groupId>
-             <artifactId>axis2-transport-http</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.apache.ws.commons.axiom</groupId>
-           <artifactId>axiom-api</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.apache.ws.commons.axiom</groupId>
-           <artifactId>axiom-impl</artifactId>
-        </dependency>
+			<groupId>net.sourceforge.hatbox</groupId>
+			<artifactId>hatbox</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.restdoc</groupId>
+			<artifactId>restdoc-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-jaxws</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-transport-local</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-transport-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ws.commons.axiom</groupId>
+			<artifactId>axiom-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ws.commons.axiom</groupId>
+			<artifactId>axiom-impl</artifactId>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>emonocot-portal</finalName>
+
 		<testResources>
-          <testResource>
-            <directory>src/test/resources</directory>
-            <filtering>true</filtering>
-          </testResource>
-        </testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-				    <nonFilteredFileExtensions>
-                      <nonFilteredFileExtension>jsp</nonFilteredFileExtension>
-                      <nonFilteredFileExtensions>jspx</nonFilteredFileExtensions>
-                      <nonFilteredFileExtensions>tag</nonFilteredFileExtensions>
-                      <nonFilteredFileExtensions>tagx</nonFilteredFileExtensions>
-                    </nonFilteredFileExtensions>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>jsp</nonFilteredFileExtension>
+						<nonFilteredFileExtensions>jspx</nonFilteredFileExtensions>
+						<nonFilteredFileExtensions>tag</nonFilteredFileExtensions>
+						<nonFilteredFileExtensions>tagx</nonFilteredFileExtensions>
+					</nonFilteredFileExtensions>
 					<webResources>
 						<resource>
 							<directory>src/main/webapp</directory>
@@ -333,15 +338,17 @@
 					<encoding />
 				</configuration>
 			</plugin>
+
 			<plugin>
-                <groupId>org.apache.axis2</groupId>
-                <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
-                <version>1.5.4</version>
-                <configuration>
-                    <packageName>org.emonocot.portal.ws.ncbi</packageName>
-                    <wsdlFile>src/main/wsdl/eutils.wsdl</wsdlFile>
-                </configuration>
-            </plugin>
+				<groupId>org.apache.axis2</groupId>
+				<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+				<version>1.5.4</version>
+				<configuration>
+					<packageName>org.emonocot.portal.ws.ncbi</packageName>
+					<wsdlFile>src/main/wsdl/eutils.wsdl</wsdlFile>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
@@ -377,14 +384,15 @@
 					</deployer>
 				</configuration>
 			</plugin>
+
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.8</version>
-                <configuration>
-                    <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
-                </configuration>
-            </plugin>
-        </plugins>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
