@@ -19,10 +19,10 @@
 		<dependency>
 		      <groupId>org.hibernatespatial</groupId>
               <artifactId>hibernate-spatial</artifactId>
-	    </dependency>
+		</dependency>
 		<dependency>
-			<groupId>org.joda</groupId>
-			<artifactId>com.springsource.org.joda.time</artifactId>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -59,10 +59,10 @@
 		<dependency>
 			<groupId>stax</groupId>
 			<artifactId>stax</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>javax.xml.stream</groupId>
-			<artifactId>com.springsource.javax.xml.stream</artifactId>
+			<artifactId>stax-api</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

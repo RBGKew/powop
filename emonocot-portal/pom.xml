@@ -74,7 +74,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>com.springsource.javax.management.j2ee</artifactId>
+			<artifactId>geronimo-j2ee-management_1.1_spec</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -97,8 +97,8 @@
 			<artifactId>servlet-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>com.springsource.javax.servlet.jsp.jstl</artifactId>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -152,10 +152,6 @@
 		      <groupId>com.yahoo.platform.yui</groupId>
 		      <artifactId>yuicompressor</artifactId>
 	      </dependency>
-	      <!--dependency>
-		      <groupId>com.yahoo.platform.yui</groupId>
-		      <artifactId>YUIAnt</artifactId>
-	      </dependency-->
           <dependency>
              <groupId>org.emonocot</groupId>
              <artifactId>emonocot-task</artifactId>
@@ -223,16 +219,16 @@
           <dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-spring</artifactId>
-		  </dependency>
-		  <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time-jsptags</artifactId>
-          </dependency>
-          <dependency>
-            <groupId>org.joda</groupId>
-            <artifactId>com.springsource.org.joda.time</artifactId>
-          </dependency>
-          <dependency>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time-jsptags</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-core</artifactId>
 		</dependency>
