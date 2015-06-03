@@ -36,7 +36,7 @@ import org.springframework.core.io.Resource;
  * @author jk00kg
  *
  */
-public class ImageResizerTest {
+public class ImageResizerIntegrationTest {
     
     /**
      * 
