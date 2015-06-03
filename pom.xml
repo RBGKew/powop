@@ -498,7 +498,7 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.2</version>
+				<version>4.3.6</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -509,7 +509,7 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpmime</artifactId>
-				<version>4.2</version>
+				<version>4.3.6</version>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -666,7 +666,7 @@
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-java</artifactId>
-				<version>2.33.0</version>
+				<version>2.45.0</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -1115,6 +1115,7 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -1125,6 +1126,7 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -1137,6 +1139,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -1205,6 +1208,7 @@
 					<serverId>${wagon.server.id}</serverId>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.7</version>
@@ -1216,6 +1220,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -1225,6 +1230,7 @@
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -1329,11 +1335,13 @@
 					<aggregate>true</aggregate>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -1343,6 +1351,7 @@
 					<excludes>**/EUtilsServiceStub.java</excludes>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
@@ -1364,6 +1373,7 @@
 				<skip.global.tests>false</skip.global.tests>
 			</properties>
 		</profile>
+
 		<profile>
 			<id>unit</id>
 			<properties>
@@ -1403,6 +1413,7 @@
 				</plugins>
 			</build>
 		</profile>
+
 		<profile>
 			<id>integration</id>
 			<properties>
@@ -1431,7 +1442,7 @@
 										<include>**/*IntegrationTest.java</include>
 									</includes>
 									<excludes>
-										<exclude>**/*FunctionalTest.jav</exclude>
+										<exclude>**/*FunctionalTest.java</exclude>
 									</excludes>
 								</configuration>
 							</execution>
@@ -1440,6 +1451,7 @@
 				</plugins>
 			</build>
 		</profile>
+
 		<profile>
 			<id>functional</id>
 			<properties>
@@ -1474,71 +1486,10 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>portal.dev.vagrant</id>
-			<properties>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
-				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:10080</portal.baseUrl>
-				<google.analytics.id />
-				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:18080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>letmein</cargo.remote.password>
-				<cargo.portal.context.path>/</cargo.portal.context.path>
-				<logging.level>WARN</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
-				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
-				<wagon.server.id>vagrant</wagon.server.id>
-				<liquibase.drop.database.first>false</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>liquibase</liquibase.username>
-				<liquibase.password>l1qu1ba53</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.show_sql>true</hibernate.show_sql>
-				<solr.url>http://localhost:8983/solr</solr.url>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
-				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
-				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/worldflora</jdbc.driver.url>
-				<jdbc.driver.username>worldflora</jdbc.driver.username>
-				<jdbc.driver.password>wf</jdbc.driver.password>
-				<http.proxyHost />
-				<http.proxyPort />
-				<email.debug>false</email.debug>
-				<email.smtp.username>portal</email.smtp.username>
-				<email.smtp.password>portal</email.smtp.password>
-				<email.smtp.host>localhost</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>portal@localhost</email.fromAddress>
-				<quartz.cron.expression>* 0/5 * * * ?</quartz.cron.expression>
-				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
-				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
-				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
-				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
-				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
-				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-				<spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
-			</properties>
-		</profile>
 
 		<profile>
 			<id>portal.test.kpttapp</id>
+			<!-- Profile for running tests against the Continuous Integration server kpttapp01.ad.kew.org. -->
 			<properties>
 				<use.remote.solr>false</use.remote.solr>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
@@ -1558,10 +1509,6 @@
 				<cargo.remote.username>sadmin</cargo.remote.username>
 				<cargo.remote.password>kewadmin</cargo.remote.password>
 				<cargo.portal.context.path>/emonocot-portal</cargo.portal.context.path>
-				<logging.level>WARN</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>/var/log/tomcat7/emonocot-portal.log</logging.location>
-				<logging.querylog.location>/var/log/tomcat7/emonocot-portal-query.log</logging.querylog.location>
 				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
 				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
@@ -1607,228 +1554,72 @@
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-				<spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
+			<!-- TODO: Pre-deployment of application to Tomcat. -->
 		</profile>
 
 		<profile>
-			<id>portal.dev.windows</id>
-			<properties>
-				<use.remote.solr>false</use.remote.solr>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
-				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://a9482.ad.kew.org/</portal.baseUrl>
-				<google.analytics.id />
-				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password />
-				<cargo.portal.context.path>/</cargo.portal.context.path>
-				<logging.level>INFO</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>C:/apache/tomcat/logs/emonocot-portal.log</logging.location>
-				<logging.querylog.location>C:/apache/tomcat/logs/emonocot-portal-query.log</logging.querylog.location>
-				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
-				<wagon.server.id>kpttapp01</wagon.server.id>
-				<liquibase.drop.database.first>false</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>root</liquibase.username>
-				<liquibase.password>letmein</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.show_sql>false</hibernate.show_sql>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
-				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
-				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>root</jdbc.driver.username>
-				<jdbc.driver.password>letmein</jdbc.driver.password>
-				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
-				<functional.test.basePath>emonocot-portal</functional.test.basePath>
-				<functional.test.port>8080</functional.test.port>
-				<functional.test.solr.url>http://kpttapp01.ad.kew.org:8983/solr</functional.test.solr.url>
-				<functional.test.username>test@e-monocot.org</functional.test.username>
-				<functional.test.password>t35t.pa55w0rd</functional.test.password>
-				<selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
-				<selenium.webdriver.mode>local</selenium.webdriver.mode>
-				<selenium.display.port />
-				<solr.url>http://localhost:8983/solr</solr.url>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
-				<email.debug>false</email.debug>
-				<email.smtp.username />
-				<email.smtp.password />
-				<email.smtp.host>smtp.ad.kew.org</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>test-portal@localhost</email.fromAddress>
-				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
-				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
-				<portal.imagemagick.path>/Program Files/Image Magick</portal.imagemagick.path>
-				<harvester.imagemagick.path>/Program Files/Image Magick</harvester.imagemagick.path>
-				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
-				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
-				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
-				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-			</properties>
-		</profile>
-
-		<profile>
-			<id>portal.test.local</id>
+			<id>portal.test.vagrant</id>
+			<!-- Profile for running tests against a local Vagrant setup. -->
+			<!-- Many of these parameters shouldn't be necessary, they should be supplied on Tomcat's classpath (external configuration). -->
 			<properties>
 				<spring.profiles.active>local.tests</spring.profiles.active>
+
 				<use.remote.solr>false</use.remote.solr>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>http://build.e-monocot.org/geoserver/wms</web.map.server.url>
+				<web.map.server.url>/geoserver/wms</web.map.server.url>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<amq.broker.userName>emonocot</amq.broker.userName>
 				<amq.broker.password>emonocot</amq.broker.password>
 				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
-				<google.analytics.id />
+				<portal.baseUrl>http://localhost:10080</portal.baseUrl>
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:8080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
+				<cargo.tomcat.url>http://localhost:18080</cargo.tomcat.url>
+				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>tomcat</cargo.remote.password>
+				<cargo.remote.password>letmein</cargo.remote.password>
 				<cargo.portal.context.path>/</cargo.portal.context.path>
-				<logging.level>WARN</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>target/tomcat/logs/emonocot-portal.log</logging.location>
-				<logging.querylog.location>target/tomcat/logs/emonocot-portal-query.log</logging.querylog.location>
 				<wagon.static.url>scp://localhost:2222/var/www/html/</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>liquibase</liquibase.username>
-				<liquibase.password>l1qu1ba53</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.geodb.GeoDBDialect</hibernate.dialect>
+				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<hibernate.show_sql>false</hibernate.show_sql>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
 				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
 				<spring.security.class.identity.query>call identity()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
+				<jdbc.driver.url>jdbc:mysql://localhost/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
 				<functional.test.baseUri>http://localhost</functional.test.baseUri>
 				<functional.test.basePath />
-				<functional.test.port>8080</functional.test.port>
-				<functional.test.solr.url>http://localhost:8999/solr</functional.test.solr.url>
+				<functional.test.port>10080</functional.test.port>
+				<functional.test.solr.url>http://localhost:18983/solr</functional.test.solr.url>
 				<functional.test.username>test@e-monocot.org</functional.test.username>
 				<functional.test.password>t35t.pa55w0rd</functional.test.password>
 				<selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
 				<selenium.webdriver.mode>local</selenium.webdriver.mode>
-				<selenium.display.port>:1</selenium.display.port>
-				<solr.url>http://localhost:8983/solr</solr.url>
+				<selenium.display.port>:0</selenium.display.port>
+				<solr.url>http://localhost:18983/solr</solr.url>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>false</email.debug>
-				<email.smtp.username>portal</email.smtp.username>
-				<email.smtp.password>portal</email.smtp.password>
+				<email.smtp.username/>
+				<email.smtp.password/>
 				<email.smtp.host>localhost</email.smtp.host>
 				<email.smtp.port>25</email.smtp.port>
 				<email.smtp.auth>false</email.smtp.auth>
 				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
 				<email.fromAddress>portal@localhost</email.fromAddress>
-				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
-				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
-				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
-				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-				<spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<version>2.2</version>
-						<configuration>
-							<includeGroupIds>org.emonocot</includeGroupIds>
-							<includeArtifactIds>emonocot-static</includeArtifactIds>
-							<outputDirectory>${project.build.directory}/emonocot-portal/WEB-INF/classes/static</outputDirectory>
-						</configuration>
-						<executions>
-							<execution>
-								<id>unpack-static</id>
-								<phase>pre-integration-test</phase>
-								<goals>
-									<goal>unpack-dependencies</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy.local.resources</id>
-								<phase>pre-integration-test</phase>
-								<configuration>
-									<tasks>
-										<copy todir="${project.build.directory}/emonocot-portal/WEB-INF/classes">
-											<fileset dir="${basedir}/src/test/resources/tomcat" includes="**/*" />
-										</copy>
-									</tasks>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.tomcat.maven</groupId>
-						<artifactId>tomcat7-maven-plugin</artifactId>
-						<version>2.1</version>
-						<configuration>
-							<path>/</path>
-						</configuration>
-						<executions>
-							<execution>
-								<id>start-tomcat</id>
-								<phase>pre-integration-test</phase>
-								<goals>
-									<goal>run-war-only</goal>
-								</goals>
-								<configuration>
-									<systemProperties>
-										<spring.profiles.active>${spring.profiles.active}</spring.profiles.active>
-									</systemProperties>
-									<fork>true</fork>
-								</configuration>
-							</execution>
-							<execution>
-								<id>stop-tomcat</id>
-								<phase>post-integration-test</phase>
-								<goals>
-									<goal>shutdown</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+			<!-- TODO: Deploy using Cargo -->
 		</profile>
 
 		<profile>
@@ -1908,7 +1699,6 @@
 				<comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
 				<comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
 				<comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
-				<spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 
@@ -1989,7 +1779,6 @@
 				<comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
 				<comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
 				<comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
-				<spring.profiles.active>emonocot.no.proxy</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>
