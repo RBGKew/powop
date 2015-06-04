@@ -590,6 +590,12 @@
 				<groupId>javax.servlet.jsp.jstl</groupId>
 				<artifactId>jstl-api</artifactId>
 				<version>1.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.easymock</groupId>
@@ -896,9 +902,9 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>javax.servlet</groupId>
+				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
-				<version>2.0</version>
+				<version>2.1</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -1322,11 +1328,13 @@
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.7</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
@@ -1494,14 +1502,13 @@
 				<use.remote.solr>false</use.remote.solr>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>http://kptweb01.ad.kew.org/geoserver/wms</web.map.server.url>
+				<web.map.server.url>http://kpttapp01.ad.kew.org:8080/geoserver/wms</web.map.server.url><!-- Change to kpttweb when fixed. -->
 				<amq.broker.uri>tcp://kpttapp01:6166</amq.broker.uri>
 				<amq.broker.userName>emonocot</amq.broker.userName>
 				<amq.broker.password>emonocot</amq.broker.password>
 				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://kpttapp01.ad.kew.org:8080/emonocot-portal</portal.baseUrl>
-				<google.analytics.id />
+				<portal.baseUrl>http://kpttapp01.ad.kew.org:18080</portal.baseUrl><!-- Change to kpttweb when fixed. -->
 				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 				<cargo.containerId>tomcat7x</cargo.containerId>
 				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/emonocot-portal</cargo.tomcat.url>
@@ -1512,23 +1519,19 @@
 				<wagon.static.url>scp://kpttapp01.ad.kew.org:/var/lib/tomcat7/webapps/emonocot-portal/</wagon.static.url>
 				<wagon.server.id>kpttapp01</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>emonocot</liquibase.username>
-				<liquibase.password>m0n0pa55</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
 				<hibernate.show_sql>false</hibernate.show_sql>
 				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
 				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
-				<spring.security.sid.identity.query>SELECT LAST_INSERT_ID()</spring.security.sid.identity.query>
-				<spring.security.class.identity.query>SELECT LAST_INSERT_ID()</spring.security.class.identity.query>
+				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
+				<spring.security.class.identity.query>call identity()</spring.security.class.identity.query>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot</jdbc.driver.username>
 				<jdbc.driver.password>m0n0pa55</jdbc.driver.password>
-				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri>
-				<functional.test.basePath>emonocot-portal</functional.test.basePath>
-				<functional.test.port>8080</functional.test.port>
+				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri><!-- Change to kpttweb when fixed. -->
+				<functional.test.basePath>/emonocot-portal</functional.test.basePath>
+				<functional.test.port>8080</functional.test.port><!-- Change to 80 when kpttweb fixed. -->
 				<functional.test.solr.url>http://kpttapp01.ad.kew.org:8983/solr</functional.test.solr.url>
 				<functional.test.username>test@e-monocot.org</functional.test.username>
 				<functional.test.password>t35t.pa55w0rd</functional.test.password>
@@ -1541,18 +1544,13 @@
 				<email.debug>false</email.debug>
 				<email.smtp.username />
 				<email.smtp.password />
-				<email.smtp.host>smtp.ad.kew.org</email.smtp.host>
+				<email.smtp.host>localhost</email.smtp.host>
 				<email.smtp.port>25</email.smtp.port>
 				<email.smtp.auth>false</email.smtp.auth>
 				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
 				<email.fromAddress>test-portal@kpttapp01</email.fromAddress>
-				<quartz.cron.expression>* 0/1 * * * ?</quartz.cron.expression>
-				<quartz.jobstore.delegate>org.quartz.impl.jdbcjobstore.StdJDBCDelegate</quartz.jobstore.delegate>
-				<portal.imagemagick.path>/usr/bin</portal.imagemagick.path>
-				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
-				<support.email.address>ict-team@about.e-monocot.org</support.email.address>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
 			</properties>
 			<!-- TODO: Pre-deployment of application to Tomcat. -->
