@@ -36,7 +36,7 @@
 
 	<properties>
 		<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-		<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
+		<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
 		<spring.version>3.2.1.RELEASE</spring.version>
@@ -1621,18 +1621,18 @@
 		</profile>
 
 		<profile>
-			<id>harvest.dev.vagrant</id>
+			<id>harvest.test.vagrant</id>
 			<properties>
-				<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
+				<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
 				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
 				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://localhost:8080</portal.baseUrl>
+				<portal.baseUrl>http://localhost:10080</portal.baseUrl>
 				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
 				<amq.broker.userName>emonocot</amq.broker.userName>
 				<amq.broker.password>emonocot</amq.broker.password>
 				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
 				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<harvester.baseUrl>http://localhost:8888/emonocot-harvester</harvester.baseUrl>
+				<harvester.baseUrl>http://localhost:10080/emonocot-harvest</harvester.baseUrl>
 				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
 				<harvester.admin.password>adm1n</harvester.admin.password>
 				<harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
@@ -1642,15 +1642,12 @@
 				<harvester.output.directory>/var/lib/emonocot/output/</harvester.output.directory>
 				<batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
 				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.manager.url>http://localhost:8888/manager/text</cargo.tomcat.manager.url>
+				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
 				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>tomcat</cargo.remote.password>
-				<cargo.harvester.context.path>emonocot-harvester</cargo.harvester.context.path>
+				<cargo.remote.password>letmein</cargo.remote.password>
+				<cargo.harvester.context.path>emonocot-harvest</cargo.harvester.context.path>
 				<http.proxyHost />
 				<http.proxyPort />
-				<logging.level>WARN</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>/var/log/tomcat7/emonocot-harvester.log</logging.location>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
@@ -1661,91 +1658,11 @@
 				<solr.url>http://localhost:8983/solr</solr.url>
 				<solr.core>collection1</solr.core>
 				<solr.max.segments>5</solr.max.segments>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvester/cache</ehcache.diskstore.path>
+				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvest/cache</ehcache.diskstore.path>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
 				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
 				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-				<download.citation.string>eMonocot Citation String</download.citation.string>
-				<download.creator.email>creator@e-monocot.org</download.creator.email>
-				<download.creator.name>Creator Name</download.creator.name>
-				<download.meta.description>Description String</download.meta.description>
-				<download.homepage.url>http://e-monocot.org</download.homepage.url>
-				<download.identifier>eMonocot</download.identifier>
-				<download.logo.url>http://e-monocot.org/css/images/logo.png</download.logo.url>
-				<download.publisher.email>publisher@e-monocot.org</download.publisher.email>
-				<download.publisher.name>Publisher Name</download.publisher.name>
-				<download.rights>Rights Statement</download.rights>
-				<download.subject>Subject Keywords</download.subject>
-				<download.title>eMonocot Download</download.title>
-				<email.debug>false</email.debug>
-				<email.smtp.username>portal</email.smtp.username>
-				<email.smtp.password>portal</email.smtp.password>
-				<email.smtp.host>localhost</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.imap.username>portal</email.imap.username>
-				<email.imap.password>portal</email.imap.password>
-				<email.imap.port>143</email.imap.port>
-				<email.imap.server>localhost</email.imap.server>
-				<email.imap.folder>INBOX</email.imap.folder>
-				<email.imap.enable.starttls>false</email.imap.enable.starttls>
-				<email.imap.socketfactory.class>javax.net.ssl.SSLSocketFactory</email.imap.socketfactory.class>
-				<email.imap.socketfactory.fallback>true</email.imap.socketfactory.fallback>
-				<email.fromAddress>portal@localhost</email.fromAddress>
-				<comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
-				<comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
-				<comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
-			</properties>
-		</profile>
-
-		<profile>
-			<id>harvest.dev.windows</id>
-			<properties>
-				<harvester.webAppRootKey>emonocot-harvester</harvester.webAppRootKey>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://localhost</portal.baseUrl>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
-				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<harvester.baseUrl>http://localhost:8080/emonocot-harvester</harvester.baseUrl>
-				<harvester.services.client.identifier>jk.dev</harvester.services.client.identifier>
-				<harvester.admin.password>adm1n</harvester.admin.password>
-				<harvester.image.directory>/work/gitRepos/emonocot/emonocot-static/target/static/images/fullsize</harvester.image.directory>
-				<harvester.thumbnail.directory>/work/gitRepos/emonocot/emonocot-static/target/static/images/thumbnails</harvester.thumbnail.directory>
-				<harvester.imagemagick.path>/Program Files/Image Magick/</harvester.imagemagick.path>
-				<harvester.spool.directory>/apache/tomcat/spool/</harvester.spool.directory>
-				<harvester.output.directory>/work/gitRepos/emonocot/emonocot-static/target/static/output/</harvester.output.directory>
-				<batch.job.configuration.file.dir>file:///apache/tomcat/temp/emonocot/</batch.job.configuration.file.dir>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.manager.url>http://localhost:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password />
-				<cargo.harvester.context.path>emonocot-harvester</cargo.harvester.context.path>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
-				<logging.level>INFO</logging.level>
-				<logging.method>file</logging.method>
-				<logging.location>C:/apache/tomcat/logs/emonocot-harvester.log</logging.location>
-				<liquibase.drop.database.first>false</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>root</liquibase.username>
-				<liquibase.password>letmein</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.show_sql>false</hibernate.show_sql>
-				<solr.url>http://localhost:8983/solr</solr.url>
-				<solr.core>collection1</solr.core>
-				<solr.max.segments>5</solr.max.segments>
-				<ehcache.diskstore.path>/apache/tomcat/work/emonocot-harvester/cache</ehcache.diskstore.path>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>root</jdbc.driver.username>
-				<jdbc.driver.password>letmein</jdbc.driver.password>
 				<download.citation.string>eMonocot Citation String</download.citation.string>
 				<download.creator.email>creator@e-monocot.org</download.creator.email>
 				<download.creator.name>Creator Name</download.creator.name>
