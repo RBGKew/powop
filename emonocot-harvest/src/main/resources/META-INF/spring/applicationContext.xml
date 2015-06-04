@@ -322,7 +322,7 @@
       should-delete-messages="true"
       should-mark-messages-as-read="true"
       auto-startup="true">
-      <integration:poller max-messages-per-poll="1" fixed-rate="5000"/>
+      <integration:poller max-messages-per-poll="1" fixed-rate="60000"/>
     </int-mail:inbound-channel-adapter>
     
     <util:properties id="javaMailProperties">
