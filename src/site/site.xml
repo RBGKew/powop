@@ -21,10 +21,9 @@
 		</menu>
 		<menu name="Development">
 			<item name="Development Stack" href="stack.html" />
-			<item name="Functional Testing" href="functional.html" />
 			<!--item name="Secure Access" href="secure.html"/ -->
 			<!--item name="Eclipse Integration" href="eclipse.html"/ -->
-			<item name="Maven" href="maven.html" />
+			<item name="Maven usage" href="maven.html" />
 			<item name="Spatial Data" href="spatial.html" />
 		</menu>
 		<menu name="Infrastructure">
