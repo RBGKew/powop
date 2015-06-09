@@ -25,16 +25,16 @@
 						<form:create path="/organisation" modelAttribute="organisation">
 							<field:input field="identifier" label="organisation.identifier"	fieldClass="span6" required="true" />
 							<field:input field="title" label="organisation.title" fieldClass="span6" required="true" />
-							<field:input field="commentsEmailedTo" label="organisation.commentsEmailedTo" fieldClass="span6" required="true"/>
-							<field:input field="uri" label="organisation.uri" fieldClass="span6" />
+							<field:input field="commentsEmailedTo" label="organisation.commentsEmailedTo" type="email" fieldClass="span6" required="true"/>
+							<field:input field="uri" label="organisation.uri" type="url" fieldClass="span6" />
 							<field:input field="logoUrl" label="organisation.logoUrl" type="url" fieldClass="span6" />
 							<field:input field="footerLogoPosition" label="organisation.footerLogoPosition" type="number" fieldClass="span6" />
 							<field:input field="creator" label="organisation.creator" fieldClass="span6" />
-							<field:input field="creatorEmail" label="organisation.creatorEmail" fieldClass="span6" />
+							<field:input field="creatorEmail" label="organisation.creatorEmail" type="email" fieldClass="span6" />
 							<field:input field="created" label="organisation.created" fieldClass="span6" />
 							<field:textarea field="description" label="organisation.description" fieldClass="span6" />
 							<field:input field="publisherName" label="organisation.publisherName" fieldClass="span6" />
-							<field:input field="publisherEmail" label="organisation.publisherEmail"	fieldClass="span6" />                            
+							<field:input field="publisherEmail" label="organisation.publisherEmail" type="email" fieldClass="span6" />
 							<field:input field="subject" label="organisation.subject" fieldClass="span6" />
 							<field:input field="bibliographicCitation" label="organisation.source" fieldClass="span6" />
 						</form:create>
