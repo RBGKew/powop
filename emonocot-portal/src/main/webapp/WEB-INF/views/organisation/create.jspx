@@ -27,7 +27,8 @@
 							<field:input field="title" label="organisation.title" fieldClass="span6" required="true" />
 							<field:input field="commentsEmailedTo" label="organisation.commentsEmailedTo" fieldClass="span6" required="true"/>
 							<field:input field="uri" label="organisation.uri" fieldClass="span6" />
-							<field:input field="logoUrl" label="organisation.logoUrl" fieldClass="span6" />
+							<field:input field="logoUrl" label="organisation.logoUrl" type="url" fieldClass="span6" />
+							<field:input field="footerLogoPosition" label="organisation.footerLogoPosition" type="number" fieldClass="span6" />
 							<field:input field="creator" label="organisation.creator" fieldClass="span6" />
 							<field:input field="creatorEmail" label="organisation.creatorEmail" fieldClass="span6" />
 							<field:input field="created" label="organisation.created" fieldClass="span6" />

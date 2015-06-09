@@ -4619,4 +4619,9 @@
             <column name="source" type="varchar(255)" />
         </addColumn>
     </changeSet>
+    <changeSet id="2015-06-08_01" author="mb10kg">
+        <addColumn tableName="Organisation">
+            <column name="footerLogoPosition" type="integer" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

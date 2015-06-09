@@ -44,6 +44,18 @@
 						<table class="table">
 							<tbody>
 								<tr><th><spring:message code="availableAt" /></th><td><a href="${organisation.uri}" id="organisation-uri">${organisation.uri}</a></td></tr>
+								<tr>
+									<th><spring:message code="organisation.logoUrl" /></th>
+									<c:choose>
+										<c:when test="${not empty organisation.logoUrl}">
+											<c:url var="logoImage" value="${organisation.logoUrl}"/>
+										</c:when>
+										<c:otherwise>
+											<c:url var="logoImage" value="/css/images/no_image.jpg"/>
+										</c:otherwise>
+									</c:choose>
+									<td id="img"><img class="thumbnail" src="${logoImage}"/></td>
+								</tr>
 								<tr><th><spring:message code="organisation.creator" /></th><td>${organisation.creator}</td></tr>
 								<tr><th><spring:message code="organisation.creatorEmail" /></th><td><a href="mailto:${organisation.creatorEmail}">${organisation.creatorEmail}</a></td></tr>
 								<tr><th><spring:message code="organisation.created" /></th><td><joda:format value="${organisation.created}" style="SS" /></td></tr>

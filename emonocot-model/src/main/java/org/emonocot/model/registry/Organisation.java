@@ -66,6 +66,8 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 
     private String logoUrl;
 
+    private Integer footerLogoPosition;
+
     private String publisherName;
 
     private String publisherEmail;
@@ -163,6 +165,20 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
      */
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    /**
+     * @return the footerLogoPosition
+     */
+    public Integer getFooterLogoPosition() {
+        return footerLogoPosition;
+    }
+
+    /**
+     * @param footerLogoPosition the footerLogoPosition to set
+     */
+    public void setFooterLogoPosition(Integer footerLogoPosition) {
+        this.footerLogoPosition = footerLogoPosition;
     }
 
     /**

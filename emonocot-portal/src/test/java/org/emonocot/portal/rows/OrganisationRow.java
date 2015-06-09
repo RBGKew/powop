@@ -52,4 +52,6 @@ public class OrganisationRow {
      * 
      */
     public String commentsEmailedTo;
+
+    public Integer footerLogoPosition;
 }

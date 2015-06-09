@@ -313,13 +313,15 @@ public class TestDataManager {
      *            Set the title
      * @param commentsEmailedTo TODO
      */
-    public void createOrganisation(String identifier, String uri, String title, String bibliographicCitation, String commentsEmailedTo) {
+    public void createOrganisation(String identifier, String uri, String title, String bibliographicCitation, String commentsEmailedTo, String logoUrl, Integer footerLogoPosition) {
         enableAuthentication();
         Organisation organisation = new Organisation();
         organisation.setIdentifier(identifier);
         organisation.setUri(uri);
         organisation.setTitle(title);
         organisation.setCommentsEmailedTo(commentsEmailedTo);
+        organisation.setLogoUrl(logoUrl);
+        organisation.setFooterLogoPosition(footerLogoPosition);
         organisationService.save(organisation);
         data.push(organisation);
         disableAuthentication();

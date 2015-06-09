@@ -6,28 +6,22 @@
 	<div class="navbar-inner">
 		<div class="container">
 			<div id="footer-icons" class="row visible-desktop no-print">
-				<ul class="nav">
-					<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
-					<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="100" height="60" alt="Kew" target="_blank" /></a></li>
-					<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
-					<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="150" height="60" alt="University of Oxford" target="_blank" /></a></li>
-					<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
-					<li><a href="http://www.nhm.ac.uk/"><img src="${nhmImageUrl}" width="110" height="60" alt="Natural History Museum" target="_blank" /></a></li>
-					<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
-					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="160" height="60" alt="Natural Environment Research Council" target="_blank" /></a></li>
-				</ul>
+				<c:forEach var="footOrgs" items="${footerOrganisations}">
+					<ul class="nav">
+						<c:forEach var="footOrg" items="${footOrgs}">
+							<li><a href="${footOrg.uri}"><img src="${footOrg.logoUrl}" height="60" alt="${footOrg.title}" target="_blank" /></a></li>
+						</c:forEach>
+					</ul>
+				</c:forEach>
 			</div>
 			<div id="footer-icons-mobile" class="row visible-phone visible-tablet no-print">
-				<ul class="nav">
-					<c:url var="kewImageUrl" value="/css/images/footer/kew.png"/>
-					<li><a href="http://www.kew.org/"><img src="${kewImageUrl}" width="50" height="auto" alt="Kew" target="_blank" /></a></li>
-					<c:url var="oxfordImageUrl" value="/css/images/footer/uni-oxford.png"/>
-					<li><a href="http://www.ox.ac.uk/"><img src="${oxfordImageUrl}" width="75" height="auto" alt="University of Oxford" target="_blank" /></a></li>
-					<c:url var="nhmImageUrl" value="/css/images/footer/nhm.png"/>
-					<li><a href="http://www.nhm.ac.uk/"><img src="${nhmImageUrl}" width="55" height="auto" alt="Natural History Museum" target="_blank" /></a></li>
-					<c:url var="nercImageUrl" value="/css/images/footer/nerc.png"/>
-					<li><a href="http://www.nerc.ac.uk/"><img src="${nercImageUrl}" width="80" height="auto" alt="Natural Environment Research Council" target="_blank" /></a></li>
-				</ul>
+				<c:forEach var="footOrgs" items="${footerOrganisations}">
+					<ul class="nav">
+						<c:forEach var="footOrg" items="${footOrgs}">
+							<li><a href="${footOrg.uri}"><img src="${footOrg.logoUrl}" width="72" alt="${footOrg.title}" target="_blank" /></a></li>
+						</c:forEach>
+					</ul>
+				</c:forEach>
 			</div>
 			<div id="footer-brand" class="row">
 				<c:url value="/" var="brandUrl"/>

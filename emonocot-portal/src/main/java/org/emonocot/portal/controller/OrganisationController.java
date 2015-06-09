@@ -222,6 +222,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		persistedSource.setSubject(organisation.getSubject());
 		persistedSource.setBibliographicCitation(organisation.getBibliographicCitation());
 		persistedSource.setLogoUrl(organisation.getLogoUrl());
+		persistedSource.setFooterLogoPosition(organisation.getFooterLogoPosition());
 		getService().saveOrUpdate(persistedSource);
 		String[] codes = new String[] { "organisation.updated" };
 		Object[] args = new Object[] { organisation.getTitle() };

@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.driver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -377,6 +378,25 @@ public class PageObject {
 		} catch (NoSuchElementException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * @return the footer icons arrangement
+	 */
+	public final List<List<String>> getFooterIconsArrangement() {
+		List<List<String>> returnRows = new ArrayList<List<String>>();
+
+		List<WebElement> footerRows = foot.findElement(By.id("footer-icons")).findElements(By.className("nav"));
+
+		for (WebElement we : footerRows) {
+			List<String> returnRow = new ArrayList<String>();
+			for (WebElement img : we.findElements(By.tagName("img"))) {
+				returnRow.add(img.getAttribute("alt"));
+			}
+			returnRows.add(returnRow);
+		}
+
+		return returnRows;
 	}
 
     /**

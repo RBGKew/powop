@@ -172,7 +172,7 @@ public class DataSetup {
     public final void thereAreOrganisationsWithTheFollowingProperties(
             final List<OrganisationRow> rows) {
         for (OrganisationRow row : rows) {
-            testDataManager.createOrganisation(row.identifier, row.uri, row.title, row.bibliographicCitation, row.commentsEmailedTo);
+            testDataManager.createOrganisation(row.identifier, row.uri, row.title, row.bibliographicCitation, row.commentsEmailedTo, row.logoUrl, row.footerLogoPosition);
         }
     }
 

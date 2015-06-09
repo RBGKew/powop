@@ -54,6 +54,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
+
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -901,6 +903,30 @@ public class StepDefinitions {
     @Then("^the contact link in the footer should be \"([^\"]*)\"$")
     public void theContactLinkInTheFooterShouldBe(String contactLink) {
         contactLink = currentPage.getContactLink();
+    }
+
+    @Then("^I should see logos in this arrangement:$")
+    public void I_should_see_logos_in_this_arrangement(List<List<String>> requiredArrangement) throws Throwable {
+
+        List<List<String>> actual = currentPage.getFooterIconsArrangement();
+        assertEquals(requiredArrangement.size(), actual.size());
+
+        for (int i = 0; i < requiredArrangement.size(); i++) {
+            List<String> row = requiredArrangement.get(i);
+
+            // Ignore empty strings, which Cucumber includes.
+            int count = 0;
+            for (int j = 0; j < row.size(); j++) {
+                if (!Strings.isNullOrEmpty(row.get(j))) count++;
+            }
+
+            assertEquals(count, actual.get(i).size());
+            for (int j = 0; j < row.size(); j++) {
+                if (!Strings.isNullOrEmpty(requiredArrangement.get(i).get(j))) {
+                    assertEquals(requiredArrangement.get(i).get(j), actual.get(i).get(j));
+                }
+            }
+        }
     }
 
     /**
