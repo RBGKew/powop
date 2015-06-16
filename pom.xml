@@ -1303,6 +1303,13 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>kew.oldserver</id>
+			<url>http://web.ad.kew.org/~mb10kg/repository</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
