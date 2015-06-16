@@ -115,7 +115,6 @@
 				<groupId>org.emonocot</groupId>
 				<artifactId>emonocot-model</artifactId>
 				<version>${project.version}</version>
-				<type>jar</type>
 			</dependency>
 			<dependency>
 				<groupId>org.emonocot</groupId>
@@ -813,12 +812,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-task</artifactId>
-				<version>0.0.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.googlecode.lesscss4j</groupId>
 				<artifactId>lesscss4j</artifactId>
 				<version>1.0.0</version>
@@ -1243,7 +1236,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.1.1</version>
+				<version>1.4</version>
 				<executions>
 					<execution>
 						<id>enforce-compatibility</id>

@@ -164,10 +164,6 @@
 			<artifactId>yuicompressor</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.emonocot</groupId>
-			<artifactId>emonocot-task</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-spring</artifactId>
 		</dependency>
