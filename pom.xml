@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.emonocot</groupId>
 	<artifactId>emonocot</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.7</version>
 	<packaging>pom</packaging>
 
 	<name>eMonocot</name>
@@ -1613,8 +1613,8 @@
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>false</email.debug>
-				<email.smtp.username/>
-				<email.smtp.password/>
+				<email.smtp.username />
+				<email.smtp.password />
 				<email.smtp.host>localhost</email.smtp.host>
 				<email.smtp.port>25</email.smtp.port>
 				<email.smtp.auth>false</email.smtp.auth>
