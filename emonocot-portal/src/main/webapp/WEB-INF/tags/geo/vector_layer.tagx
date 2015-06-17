@@ -237,20 +237,26 @@
 				true,
 				onPopupClose);
 		}
-		popup.closeOnMove = true;
+		popup.closeOnMove = false;
 		feature.popup = popup;
 		map.addPopup(popup);
 	}
 
 	function onFeatureUnselect(feature) {
-		
 		feature.popup.destroy();
 		feature.popup = null;
 	}
-	
+
+	function closePopups() {
+		while (map.popups.length > 0) {
+			map.removePopup(map.popups[0]);
+		}
+	}
+
 	select = new OpenLayers.Control.SelectFeature(${name}, {onSelect: onFeatureSelect, onUnselect: onFeatureUnselect});
 	
 	map.addControl(select);
 	select.activate();
-	
+
+	map.events.register("zoomend", map, closePopups);
 </jsp:root>
