@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.System;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.portal.driver.About;
@@ -713,10 +714,13 @@ public class StepDefinitions {
     @Then("^the citation for the \"([^\"]*)\" topic should be \"([^\"]*)\"$")
     public void theCitationForTheTopicShouldBe(String topic,
             String citations) {
-        assertEquals(
+    	String citationgen = "." + (citations.substring(0,1) + "\n" + citations.substring(1,2)).toLowerCase();
+    	System.out.println(citationgen);
+     
+    	assertEquals(
                 ((org.emonocot.portal.driver.taxon.Show) currentPage)
                         .getCitations(topic),
-                citations);
+                citationgen);
     }
 
     /**

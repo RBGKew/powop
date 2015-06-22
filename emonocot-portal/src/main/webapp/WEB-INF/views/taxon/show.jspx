@@ -237,7 +237,7 @@
 											<p class="justified">${description.description}</p>
 											<ul class="citations">
 												<li>
-													<a href="#${em:provenancekey(provenance, description)}">${em:provenancekey(provenance, description)}</a>
+													<a href="#${em:provenancekey(provenance, description)}">${em:provenanceinitial(provenance, description)}</a>
 												</li>
 												<c:if test="${not empty description.references}">
 													<c:forEach var="reference" items="${description.references}">
@@ -326,9 +326,9 @@
 											<div class="span7">
 												<span><spring:message code="specimenMessage" /></span>
 												<ul class="citations">
-													<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.typesAndSpecimens)}">
+													<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.typesAndSpecimens)}">
 														<li>
-															<a href="#${provenanceHolder}">${provenanceHolder}</a>
+															<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 														</li>
 													</c:forEach>
 												</ul>
@@ -378,9 +378,9 @@
 									</div>
 								</div>
 								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.distribution)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.distribution)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 									<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">
@@ -411,9 +411,9 @@
 									</c:forEach>
 								</ul>
 								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.childNameUsages)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.childNameUsages)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -439,9 +439,9 @@
 									</c:forEach>
 								</ul>
 								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.synonymNameUsages)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.synonymNameUsages)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -472,9 +472,9 @@
 												<td><c:if test="${vernacularName.language != ''}">${vernacularName.language.displayLanguage}</c:if></td>
 												<td>
 													<ul class="citations">
-														<c:set var="provenanceHolder" value="${em:provenancekey(provenance,vernacularName)}"/>
+														<c:set var="provenanceHolder" value="${em:provenanceinitial(provenance,vernacularName)}"/>
 														<li>
-															<a href="#${provenanceHolder}">${provenanceHolder}</a>
+															<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 														</li>
 													</ul>
 												</td>
@@ -557,9 +557,9 @@
 										
 									</ul>
 									<ul class="citations">
-										<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.higherClassification)}">
+										<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.higherClassification)}">
 											<li>
-												<a href="#${provenanceHolder}">${provenanceHolder}</a>
+												<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 											</li>
 										</c:forEach>
 									</ul>
@@ -593,9 +593,9 @@
 									</c:forEach>
 								</ul>
 								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.identifiers)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.identifiers)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -642,9 +642,9 @@
 									</c:forEach>
 								</ul>
 								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.keys)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.keys)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -671,14 +671,14 @@
 									</c:forEach>
 								</ul>
 								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.trees)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.trees)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
-									<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,taxon.phylogenies)}">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.phylogenies)}">
 										<li>
-											<a href="#${provenanceHolder}">${provenanceHolder}</a>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 										</li>
 									</c:forEach>
 								</ul>
@@ -719,9 +719,9 @@
 											<td>
 												<c:if test="${not empty facts}">
 													<ul class="citations">
-														<c:forEach var="provenanceHolder" items="${em:provenancekeys(provenance,facts)}">
+														<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,facts)}">
 															<li>
-																<a href="#${provenanceHolder}">${provenanceHolder}</a>
+																<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
 															</li>
 														</c:forEach>
 													</ul>
