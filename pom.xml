@@ -1297,15 +1297,8 @@
 			<url>http://dev.mapfish.org/maven/repository/</url>
 		</repository>
 		<repository>
-			<id>kew.server</id>
-			<url>http://kptman01.ad.kew.org/repository</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kew.oldserver</id>
-			<url>http://web.ad.kew.org/~mb10kg/repository</url>
+			<id>kew.external</id>
+			<url>http://www.kew.org/bi-downloads/maven</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
