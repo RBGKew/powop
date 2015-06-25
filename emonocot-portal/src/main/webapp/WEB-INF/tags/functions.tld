@@ -214,6 +214,21 @@
         <function-signature>java.util.SortedSet provenancekeys(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
     </function>
     <function>
+    	<name>provenanceinitial</name>
+    	<function-class>org.emonocot.portal.view.Functions</function-class>
+    	<function-signature>java.lang.String provenanceinitial(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
+    </function>
+    <function>
+    	<name>initialtokey</name>
+    	<function-class>org.emonocot.portal.view.Functions</function-class>
+    	<function-signature>java.lang.String initialtokey(java.lang.String)</function-signature>
+    </function>
+    <function>
+    	<name>provenanceinitials</name>
+    	<function-class>org.emonocot.portal.view.Functions</function-class>
+    	<function-signature>java.lang.String provenanceinitials(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
+    </function>
+    <function>
         <name>provenancesources</name>
         <function-class>org.emonocot.portal.view.Functions</function-class>
         <function-signature>java.util.SortedSet provenancesources(org.emonocot.portal.view.provenance.ProvenanceManager)</function-signature>

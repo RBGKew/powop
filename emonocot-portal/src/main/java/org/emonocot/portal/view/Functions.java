@@ -801,7 +801,46 @@ public class Functions {
 			BaseData data) {
 		return provenance.getKey(data);
 	}
+	
+	public static String initialtokey(String initial){
+		return initial.substring(initial.length() - 1).toUpperCase();
+	}
+	
+	/**
+	 * 
+	 * @param provenance
+	 *            Set the provenance
+	 * @param data
+	 *            Set the data
+	 * @return the provenance initial
+	 */
+	public static String provenanceinitial(ProvenanceManager provenance, 
+			BaseData data) {
+	String  key = provenance.getKey(data).toLowerCase();
+	String orgname = data.getAuthority().getIdentifier();
+	String initial = "";
+	for (int i = 0, n = orgname.length(); i < n; i++){
+		if (Character.isUpperCase(orgname.charAt(i))==true){
+				initial += orgname.charAt(i);
+				}
+		 	}
+	
+	
+	initial += "." + key;
+	return initial;
+	}
+	
+	public static SortedSet<String> provenanceinitials(ProvenanceManager provenance, Collection<BaseData> data)
+	{
+	SortedSet<String> initials = new TreeSet<String>();
+	for(BaseData baseData : data) {
+		initials.add(provenanceinitial(provenance, baseData));
+	}
+	return initials;
+}
 
+		
+	
 	public static SortedSet<String> provenancekeys(
 			ProvenanceManager provenance, Collection<BaseData> data) {
 		return provenance.getKeys(data);
