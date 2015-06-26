@@ -57,7 +57,9 @@ public class LayoutControllerAdvice {
 			Collections.sort(organisations, new Comparator<Organisation>() {
 				@Override
 				public int compare(Organisation o1, Organisation o2) {
-					if (o1 == null || o2 == null) return 0;
+					if (o1.getFooterLogoPosition() == null && o2.getFooterLogoPosition() == null) return 0;
+					if (o1.getFooterLogoPosition() == null) return 1;
+					if (o2.getFooterLogoPosition() == null) return -1;
 					return o1.getFooterLogoPosition().compareTo(o2.getFooterLogoPosition());
 				}
 			});
