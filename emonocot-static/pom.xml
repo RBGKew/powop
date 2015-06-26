@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>emonocot-static</artifactId>
 	<name>eMonocot Static Files</name>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -42,6 +43,25 @@
 					</execution>
 					<execution>
 						<id>default</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.3</version>
+				<executions>
+					<execution>
+						<id>default-site</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
+						<id>default-deploy</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
+						<id>jar</id>
 						<phase>none</phase>
 					</execution>
 				</executions>
