@@ -1,183 +1,47 @@
  ------
- Development Stack
- ------
- Ben Clark
+ Stack
  ------
  
 Development Stack
 
  * Java 1.7
  
- * IDE: prefer {{{http://www.springsource.com/developer/sts} SpringSource Tool Suite}} (Eclipse Helios), but vanilla Eclipse or other IDEs work well.
+ * IDE: prefer {{{http://www.springsource.com/developer/sts} SpringSource Tool Suite}}, but vanilla Eclipse or other IDEs work as well.
  
  * Build Tool: {{{http://maven.apache.org} Maven}} version 3.
  
 ~~* Build Server: {{{http://build.e-monocot.org/ci} Jenkins}}
-  
+~~  
  * Source Code: {{{https://github.com/RBGKew/eMonocot}GitHub}}
- 
+~~ 
 ~~* Issue Tracker: {{{http://build.e-monocot.org/bugzilla/}Bugzilla}}.
  
  * Virtualization: {{{https://www.virtualbox.org/}Oracle VirtualBox}} plus {{{http://vagrantup.com/}Vagrant}}.
  
- []
- 
-  <<The remainder of this page is not up-to-date.>>
- 
 Using Vagrant to run functional tests
 
-  * Add a blank standalone portal machine
+  * Clone the infrastructure Git repository (this is private).
   
-    *  <<<vagrant box add test http://build.e-monocot.org/boxes/standalone.box>>>
+  * Start the box:
+  
+    * <<<vagrant up>>>
     
-    []
-  
-  * Make a shared directory to hold the master indices
-  
-    * <<<mkdir master_index>>>
-    
-    []
-  
-  * Init the box in the current directory
-  
-    *  <<<vagrant init test>>>
-    
-    []
-  
-  * Start the box
-   
-    *  <<<vagrant up>>>
-    
-    []
-    
- * Make sure there is a server entry in your settings.xml called "vagrant" with the username and password "vagrant" (standard for vagrant boxes) 
+      (check for errors, and run <<<vagrant provision>>> to try correcting any automatically.)
 
- * Build and deploy the emonocot-portal
- 
-   * <<<BUILD_ROOT/$mvn clean install>>>
-   
-   * The first time you run wagon:upload, you need to agree to import the host key for localhost into your known_hosts file. BUILD_ROOT/emonocot-portal/$mvn wagon:upload -Pportal.test.vagrant>>>
-   
-   * <<<BUILD_ROOT/emonocot-portal/$mvn clean package liquibase:update cargo:redeploy lesscss:compile yuicompressor:compress wagon:upload -Pportal.test.vagrant>>>
- 
-   []
-   
- * Run the functional tests against it
- 
-   * Ensure that there is a profile in your settings.xml called "portal.vagrant.user" which contains the parameters "functional.test.username" and "functional.test.password"
-   
-   * <<<BUILD_ROOT/emonocot-portal/$mvn clean package integration-test -Pfunctional -Pfirefox -Pportal.test.vagrant -Pportal.vagrant.user>>>
-   
-   []
+ * Make sure there is a server entry in your Maven settings.xml called "vagrant" with the username and password "vagrant" (standard for vagrant boxes) 
 
-Using Vagrant to obtain a UAT portal instance
+ * Build and deploy the portal and harvester applications:
+ 
+   * <<<BUILD_ROOT $ mvn clean install>>>
+   
+   * <<<BUILD_ROOT/emonocot-portal $ mvn -Pportal.test.vagrant clean package cargo:redeploy>>>
+   
+   * <<<BUILD_ROOT/emonocot-harvest $ mvn -Pharvest.test.vagrant clean package cargo:redeploy>>>
 
-   * Add a blank standalone portal machine
-   
-     * <<<vagrant box add uat http://build.e-monocot.org/boxes/standalone.box>>>
-  
-     []
+   * Copy <<<./emonocot-static/target/emonocot-static-<<version>>-SNAPSHOT-<<<brand>>>.tar.gz>>> to <<<vagrant:/var/tmp/world-flora-static.tar.gz>>> and rerun <<<vagrant provision>>>
 
-  * Make a shared directory to hold the master indices
-  
-    * <<<mkdir master_index>>>
-    
-    []
-  
-  * Init the box in the current directory
-    
-    * <<<vagrant init uat>>>
-  
-    []
+ * Have a look at {{{http://localhost:10080/}the local portal}}.
 
-  * Start the box
-    
-    *  <<<vagrant up>>>
+Production Stack
 
-    []
- 
- * Restore the data from backup (by logging on to the box (<<<ssh -l vagrant -p 2222 localhost>>>, password: "vagrant") and executing the following)
- 
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/cache/emonocot/uat_harvest/master_index /mnt/>>>
-   
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/cache/emonocot/uat_harvest/index/ /var/cache/tomcat7/work/emonocot-harvester/>>>
- 
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/var/www/html/uat/harvest/images /var/www/html/>>>
-   
-   * <<<rsync -avr username@build.e-monocot.org:/.snapshots/daily.0/localhost/mysql/mysqldump.sql.gz .>>>
-   
-   * <<<gunzip mysqldump.sql.gz>>>
-   
-   * <<<mysql -uemonocot-user -peM0n0c0t emonocot < mysqldump.sql>>>
-   
-   []
-
- * Build and deploy the emonocot-portal
- 
-   * <<<BUILD_ROOT/$mvn clean install>>>
-   
-   * The first time you run wagon:upload, you need to agree to import the host key for localhost into your known_hosts file. BUILD_ROOT/emonocot-portal/$mvn wagon:upload -Pportal.uat.vagrant>>>
-   
-   * <<<BUILD_ROOT/emonocot-portal/$mvn clean package liquibase:update cargo:redeploy lesscss:compile yuicompressor:compress wagon:upload -Pportal.uat.vagrant>>>
- 
-   []
- 
- * The portal should be found at {{{http://localhost:8080/}http://localhost:8080/}}
-   
- []
- 
- Building Vagrant Boxes for the Development Environment
- 
- * Install Ruby (Ruby 1.9.3) and, under Windows
- 
-   * DevKit (DevKit-tdm-32-4.5.2)
-   
-   * Copy zlib1.dll from RUBY_HOME/bin folder to the RUBY_HOME/lib folder
-   
-   * Download iconv.dll from {{{ftp://ftp.zlatkovic.com/libxml/}ftp://ftp.zlatkovic.com/libxml/}} and put it in RUBY_HOME/lib
-   
-   * Put iconv.h in RUBY_HOME/include/ruby-{RUBY_VERSION}/
-   
-   * Download libxml2.dll from {{{ftp://ftp.zlatkovic.com/libxml/}ftp://ftp.zlatkovic.com/libxml/}} and put it in RUBY_HOME/lib
-   
-   * Put include/libxml in RUBY_HOME/include/ruby-{RUBY_VERSION}/
-   
- []
- 
- * Install an up-to-date version of veewee
- 
-   * <<<$ git clone https://github.com/jedi4ever/veewee.git>>>
- 
-   * <<<$ gem install bundler>>>
-   
-   * <<<$ bundle install>>>
-   
-   * <<<$ gem build veewee.gemspec>>>
-   
-   * <<<$ gem install veewee-${VERSION}.gem>>>
-   
- []
-
- * Checkout the latest emonocot-infrastructure package from the eMonocot {{{http://build.e-monocot.org/git/?p=emonocot-infrastructure.git/.git;a=summary}GIT repository}}
- 
- * Startup Vagrant using the command <<<vagrant up>>>
- 
- * Ensure that the Virtualbox kernel modules which are installed on the virtual machine match the current version of virtualbox you're running.
- 
-   * Logon to the virtual machine using ssh (port <<2222>>, username <<vagrant>>, password <<vagrant>>)
-   
-   * edit <<<.vbox_version>>> so that the version number matches the Virtualbox version
-   
-   * <<<sudo sh postinstall.sh>>> - you can safely ignore some of the errors which occur due to missing OpenGL libraries provided the shared library support is built successfully. Then restart the machine
-   
-   * <<<sudo /etc/init.d/vboxadd setup>>> - now restart the machine
-   
-   []
-
- * Export the virtual machine as a package
- 
-   * <<<vagrant package --vagrantfile vagrantfiles/vagrantfile.cfg>>>
-   
-   []
-   
- [] 
+ This runs from the same Puppet scripts, but at present doesn't use Vagrant.
