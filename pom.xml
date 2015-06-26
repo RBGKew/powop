@@ -1188,12 +1188,14 @@
 				<executions>
 					<execution>
 						<id>attach-descriptor</id>
+						<inherited>false</inherited>
 						<goals>
 							<goal>attach-descriptor</goal>
 						</goals>
 					</execution>
 					<execution>
 						<id>jar</id>
+						<inherited>false</inherited>
 						<goals>
 							<goal>jar</goal>
 						</goals>
