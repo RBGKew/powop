@@ -64,7 +64,7 @@ Scenario: Display Protologue
   Then the protologue should be "Sp. Pl. 1: 324 (1753)"
 #  And the protolog link should be "http://wp5.e-taxonomy.eu/media/palmae/protologe/palm_tc_100447_P.pdf"
 
-Scenario: Display texual data in sections
+Scenario: Display textual data in sections
   Textual data should be displayed on the taxon page where
   it exists for a given taxon. Each topic should have a title 
   that indicates the subject of the section (e.g. Morphology,
