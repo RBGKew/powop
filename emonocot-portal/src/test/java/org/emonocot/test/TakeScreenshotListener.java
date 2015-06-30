@@ -38,16 +38,18 @@ public class TakeScreenshotListener extends RunListener {
      * @param failure Set the failure
      */
     public final void testFailure(final Failure failure) {
+        String screenshotName = null;
         try {
             File file = ((TakesScreenshot) WebDriverFacade.getWebDriver())
                     .getScreenshotAs(OutputType.FILE);
             ClassPathResource root = new ClassPathResource("/");
-            String screenshotName = File.separator + "screenshots"
+            screenshotName = File.separator + "screenshots"
                     + File.separator
                     + failure.getDescription().getClassName() + "-"
                     + failure.getDescription().getMethodName() + ".png";
             screenshotName = screenshotName.replace(" ", "_");
             screenshotName = screenshotName.replace(":", "");
+            screenshotName = screenshotName.replaceAll("_+", "_");
 
             File screenshotDirectory = new File(root.getFile().getParentFile()
                     .getAbsolutePath()
@@ -61,6 +63,7 @@ public class TakeScreenshotListener extends RunListener {
             screenshot.createNewFile();
             FileUtils.copyFile(file, screenshot);
         } catch (IOException e) {
+            System.err.println("Error writing screenshot "+screenshotName);
             e.printStackTrace();
         }
     }
