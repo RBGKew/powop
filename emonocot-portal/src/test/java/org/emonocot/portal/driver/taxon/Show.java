@@ -278,7 +278,7 @@ public class Show extends PageObject implements IllustratedPage {
    public String getProvenanceEntry(String provenanceKey) {
        WebElement provenance = webDriver.findElement(By.id("sources"));
        WebElement provenanceElement = provenance.findElement(By
-               .xpath("div/div/dl/dd/ul/li[a/@id = '" + provenanceKey + "']"));
+               .xpath("div/div/dl/dd/ul/li[@id = '" + provenanceKey + "']"));
        return provenanceElement.getText();
    }
     

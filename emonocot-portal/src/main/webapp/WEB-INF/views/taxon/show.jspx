@@ -150,12 +150,15 @@
 						$('#clickMe').text('Hide details');
 					});
 			});
-			var offset = 90;
-			$(document).ready(function(){
+
+			$(document).ready(function() {
 				$("a[href^='#']").click(function(event) {
+					var targetId = $(this).attr('href');
 					event.preventDefault();
-					$($(this).attr('href'))[0].scrollIntoView();
-					scrollBy(0, -offset);
+					window.location.hash = targetId;
+					var dd = $(targetId).parents('dd');
+					var dt = dd.prevAll('dt');
+					dt[0].scrollIntoView();
 				});
 			});
 		</script>

@@ -16,8 +16,8 @@
 	<dd>
 		<ul class="unstyled">
 			<c:forEach var="data" items="${em:provenancedata(provenance,organisation)}">
-				<li>
-					<a id="${data.key}">${data.key}</a>
+				<li id="${data.key}">
+					<span>${data.key}</span>
 					${data.rights}
 					<c:choose>
 						<c:when	test="${data.license eq 'http://creativecommons.org/licenses/by/3.0'}">

@@ -795,7 +795,7 @@ section#bibliography ul {
 section#sources dl dd ul {
 	list-style: none;
 
-	li a {
+	li span {
 		&:before {
 			content: "[";
 		}
@@ -813,6 +813,16 @@ section#sources dl dd ul li a.licenseLogo {
 	&:after {
 		content: "" !important;
 	}
+}
+
+section#sources :target {
+	background-color: yellow;
+}
+
+section#sources :target::before {
+	content: '\27a1';
+	position: absolute;
+	left: 0em;
 }
 
 .taxon-page-map{

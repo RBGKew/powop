@@ -816,18 +816,17 @@ public class Functions {
 	 */
 	public static String provenanceinitial(ProvenanceManager provenance, 
 			BaseData data) {
-	String  key = provenance.getKey(data).toLowerCase();
-	String orgname = data.getAuthority().getIdentifier();
-	String initial = "";
-	for (int i = 0, n = orgname.length(); i < n; i++){
-		if (Character.isUpperCase(orgname.charAt(i))==true){
-				initial += orgname.charAt(i);
-				}
-		 	}
-	
-	
-	initial += "." + key;
-	return initial;
+		String key = provenance.getKey(data).toUpperCase();
+		String orgname = data.getAuthority().getTitle();
+		String initials = "";
+		for (int i = 0, n = orgname.length(); i < n; i++){
+			if (Character.isUpperCase(orgname.charAt(i))){
+				initials += orgname.charAt(i);
+			}
+		}
+
+		initials += "." + key;
+		return initials;
 	}
 	
 	public static SortedSet<String> provenanceinitials(ProvenanceManager provenance, Collection<BaseData> data)
