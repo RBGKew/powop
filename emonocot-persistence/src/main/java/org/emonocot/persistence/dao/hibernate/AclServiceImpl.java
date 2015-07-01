@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 import org.emonocot.persistence.dao.AclService;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
-import org.hibernate.proxy.HibernateProxy;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.acls.domain.AccessControlEntryImpl;
 import org.springframework.security.acls.domain.AclAuthorizationStrategy;
@@ -114,28 +113,25 @@ public class AclServiceImpl
         super(dataSource, lookupStrategy, aclCache);
     }
 
-   /**
-    *
-    * @param sid The Security ID
-    * @return a list of Acls
-    */
+    /**
+     *
+     * @param sid The Security ID
+     * @return a list of Acls
+     */
     public final List<Object[]> listAces(final PrincipalSid sid) {
         Object[] args = new Object[1];
         args[0] = sid.getPrincipal();
         rowMapper.setSid(sid);
-        List<AccessControlEntry> accessControlEntries = jdbcTemplate.query(
-                selectEntries, args, rowMapper);
+        List<AccessControlEntry> accessControlEntries = jdbcTemplate.query(selectEntries, args, rowMapper);
         List<Object[]> result = new ArrayList<Object[]>();
         for (AccessControlEntry accessControlEntry : accessControlEntries) {
             Object[] row = new Object[2];
             row[1] = accessControlEntry;
             Object obj = sessionFactory.getCurrentSession().load(
                     accessControlEntry.getAcl().getObjectIdentity().getType(),
-                    accessControlEntry.getAcl().getObjectIdentity()
-                            .getIdentifier());
+                    accessControlEntry.getAcl().getObjectIdentity().getIdentifier());
             Hibernate.initialize(obj);
-            HibernateProxy proxy = (HibernateProxy) obj;
-            row[0] = proxy.getHibernateLazyInitializer().getImplementation();
+            row[0] = obj;
             result.add(row);
         }
         return result;
