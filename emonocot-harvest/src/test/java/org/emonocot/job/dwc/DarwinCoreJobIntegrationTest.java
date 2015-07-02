@@ -164,11 +164,11 @@ public class DarwinCoreJobIntegrationTest {
         assertNotNull("The image in the multimedia file should have been persisted", imageService.load("http://wp5.e-taxonomy.eu/media/palmae/photos/palm_tc_170762_8.jpg"));
         //This is a slightly fragile assertion as it depends on a fixed location of the test resource.
         //I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny and ID Key as the data is in a pre-packaged zip file
-        assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load("http://lion.ad.kew.org/~jk00kg/emonocottestresources/1_1326150157_Strelitziaceae_Cron.nexorg"));
+        assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load("http://www.kew.org/bi-downloads/emonocottestresources/1_1326150157_Strelitziaceae_Cron.nexorg"));
 
         IdentificationKey localKey = null;
         try {
-            localKey = identificationKeyService.load("http://lion.ad.kew.org/~jk00kg/emonocottestresources/European_Pontederiaceae.xml");
+            localKey = identificationKeyService.load("http://www.kew.org/bi-downloads/emonocottestresources/European_Pontederiaceae.xml");
         } catch (Exception e) {}//Prefer test failure than a test error
         assertNotNull("The key in the image file should have been persisted but was :" + localKey, localKey);
     }
