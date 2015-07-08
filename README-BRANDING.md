@@ -1,5 +1,5 @@
-Pᴏʀᴛᴀʟ "Bʀᴀɴᴅɪɴɢ" — ­Dᴇᴠᴇʟᴏᴘᴇʀ Iɴғᴏʀᴍᴀᴛɪᴏɴ
-==========================================
+Portal "Branding" — Developer Information
+=========================================
 
 The original eMonocot project has been adapted to demonstrate a possible World Flora Online Portal (WFO), and will be used at Kew for the Plants of the World Online Project (POWOP).
 
