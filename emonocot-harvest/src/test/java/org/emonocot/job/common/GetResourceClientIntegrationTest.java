@@ -80,8 +80,7 @@ public class GetResourceClientIntegrationTest {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
         
-        String repository = properties.getProperty("test.resource.baseUrl",
-                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
+        String repository = properties.getProperty("test.resource.baseUrl");
 
         ExitStatus exitStatus = getResourceClient
                 .getResource(repository + "dwc.zip",
@@ -103,8 +102,7 @@ public class GetResourceClientIntegrationTest {
     public final void testGetResourceNotModified() throws IOException {
         File tempFile = File.createTempFile("test", "zip");
         tempFile.deleteOnExit();
-        String repository = properties.getProperty("test.resource.baseUrl",
-                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
+        String repository = properties.getProperty("test.resource.baseUrl");
 
         ExitStatus exitStatus = getResourceClient
                 .getResource(repository + "dwc.zip",

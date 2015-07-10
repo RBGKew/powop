@@ -149,8 +149,7 @@ public class XperIdentificationKeyJobIntegrationTest {
         Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
         parameters.put("authority.name", new JobParameter("test"));
         parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
-        String repository = properties.getProperty("test.resource.baseUrl",
-                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
+        String repository = properties.getProperty("test.resource.baseUrl");
         parameters.put("authority.uri", new JobParameter(repository + "testXperKey.xml"));
         parameters.put("authority.last.harvested", new JobParameter(Long.toString((XperIdentificationKeyJobIntegrationTest.PAST_DATETIME.getMillis()))));
         JobParameters jobParameters = new JobParameters(parameters);

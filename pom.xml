@@ -1391,7 +1391,7 @@
 				<jdbc.driver.username>sa</jdbc.driver.username>
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
-				<test.resource.baseUrl>http://lion.ad.kew.org/~jk00kg/emonocottestresources/</test.resource.baseUrl>
+				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1430,7 +1430,7 @@
 				<skip.global.tests>true</skip.global.tests>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
-				<test.resource.baseUrl>http://lion.ad.kew.org/~jk00kg/emonocottestresources/</test.resource.baseUrl>
+				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
 				<plugins>
@@ -1446,7 +1446,7 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort}</argLine>
+									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort} -Dhttps.proxyHost=${http.proxyHost} -Dhttps.proxyPort=${http.proxyPort}</argLine>
 									<skip>false</skip>
 									<includes>
 										<include>**/*IntegrationTest.java</include>
@@ -1481,7 +1481,7 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort}</argLine>
+									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort} -Dhttps.proxyHost=${http.proxyHost} -Dhttps.proxyPort=${http.proxyPort}</argLine>
 									<skip>false</skip>
 									<includes>
 										<include>**/*FunctionalTest.java</include>
@@ -1648,8 +1648,8 @@
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>letmein</cargo.remote.password>
 				<cargo.harvester.context.path>emonocot-harvest</cargo.harvester.context.path>
-				<http.proxyHost />
-				<http.proxyPort />
+				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
+				<http.proxyPort>8080</http.proxyPort>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>

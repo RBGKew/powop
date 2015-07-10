@@ -93,8 +93,7 @@ public class ImageFileProcessingTest {
         Properties properties = new Properties();
         properties.load(propertiesFile.getInputStream());
         
-        String repository = properties.getProperty("test.resource.baseUrl",
-                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
+        String repository = properties.getProperty("test.resource.baseUrl");
         image.setIdentifier(repository + "dwc.jpg");
         imageThumbnailGenerator.setImageDirectory(imagesDirectoryName);
         imageThumbnailGenerator.setThumbnailDirectory(thumbnailDirectoryName);
