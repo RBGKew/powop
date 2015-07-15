@@ -238,7 +238,13 @@ public class SearchController {
 		} else {
 			logger.debug("There were no facets available to select from");
 		}
-
+		if(selectedFacets != null && !selectedFacets.isEmpty()){
+			for(String key : selectedFacets.keySet()){
+				String escapeSpaceFacet =  selectedFacets.get(key).replace(" ","\\ ").replace("\\\\", "\\");
+				selectedFacets.put(key, escapeSpaceFacet);
+				
+			}
+		}
 		// Decide which facets to return
 		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
