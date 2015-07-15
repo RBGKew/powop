@@ -1040,24 +1040,11 @@ public class TestDataManager {
     		taxonService.delete(taxon.getIdentifier());
     	}
     	
-    	Page<Group> groups = groupService.list(null, null, null);
-    	for(Group group : groups.getRecords()) {
-    		if(!group.getIdentifier().equals("administrators")) {
-    		    groupService.delete(group.getIdentifier());
-    		}
-    	}
     	
     	Page<Reference> references = referenceService.list(null, null, null);
     	for(Reference reference : references.getRecords()) {
     		referenceService.delete(reference.getIdentifier());
     	}   
-    	
-    	Page<User> users = userService.list(null, null, null);
-    	for(User user : users.getRecords()) {
-    		if(!user.getIdentifier().equals("test@e-monocot.org")) {
-    		    userService.delete(user.getIdentifier());
-    		}
-    	}
     	
     	List<JobExecution> jobExecutions = jobExecutionService.listJobExecutions(null, null, null);
     	for(JobExecution jobExecution : jobExecutions) {
@@ -1074,7 +1061,6 @@ public class TestDataManager {
     		resourceService.delete(resource.getIdentifier());
     	}
     	
-    	
     	Page<Organisation> organisations = organisationService.list(null, null, null);
     	for(Organisation organisation : organisations.getRecords()) {
     		organisationService.delete(organisation.getIdentifier());
@@ -1089,7 +1075,22 @@ public class TestDataManager {
     	for(Comment comment: comments.getRecords()) {
     		commentService.delete(comment.getIdentifier());
     	}
-    	disableAuthentication();
+
+        Page<Group> groups = groupService.list(null, null, null);
+        for(Group group : groups.getRecords()) {
+            if(!group.getIdentifier().equals("administrators")) {
+                groupService.delete(group.getIdentifier());
+            }
+        }
+
+        Page<User> users = userService.list(null, null, null);
+        for(User user : users.getRecords()) {
+            if(!user.getIdentifier().equals("test@e-monocot.org")) {
+                userService.delete(user.getIdentifier());
+            }
+        }
+
+        disableAuthentication();
 	}
 
 	public void createPhylogeneticTree(String identifier, String title,	String description, String taxon, String source, String phylogeny) {
