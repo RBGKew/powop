@@ -204,7 +204,7 @@ public class DataSetup {
                     row.distribution3, row.source, row.created, row.parent, row.accepted, 
                     row.distributionSource, row.distributionRights, row.distributionLicense,
                     row.diagnosticSource, row.diagnosticRights, row.diagnosticLicense,
-                    row.habitatSource, row.habitatRights, row.habitatLicense, row.lifeForm, row.iucnConservationStatus);
+                    row.habitatSource, row.habitatRights, row.habitatLicense, row.lifeForm, row.iucnConservationStatus, row.uri);
         }
 
     }

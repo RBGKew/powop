@@ -20,6 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -32,6 +33,7 @@ import org.emonocot.model.registry.Organisation;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 import org.joda.time.DateTime;
 
 /**
@@ -57,6 +59,8 @@ public abstract class BaseData extends Base implements Annotated {
     private String accessRights;
 
     private Organisation authority;
+
+    private String uri;
 
     /**
     *
@@ -193,5 +197,15 @@ public abstract class BaseData extends Base implements Annotated {
 	 */
 	public void setAccessRights(String accessRights) {
 		this.accessRights = accessRights;
+	}
+
+	@URL
+	@Size(max = 255)
+	public String getUri() {
+	    return uri;
+	}
+
+	public void setUri(String uri) {
+	    this.uri = uri;
 	}
 }

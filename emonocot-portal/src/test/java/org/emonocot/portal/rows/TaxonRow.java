@@ -187,5 +187,7 @@ public class TaxonRow {
   *
   */
   public String iucnConservationStatus;
-	
-}  
+
+  public String uri;
+
+}

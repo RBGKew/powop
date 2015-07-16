@@ -29,7 +29,7 @@
 			</ul>
 		</h2>
 	</tags:pageheader>
-	
+
 	<section id="printHeader" class="hide print">
 		<h2 id="page-title">
 			<i class="glyphicons-icon leaf"><!--  --></i> <em>${taxon.scientificName}</em>&#160;<span>${taxon.scientificNameAuthorship}</span>
@@ -49,7 +49,7 @@
 			</ul>
 		</h2>
 	</section>
-	
+
 	<div class="container">
 		<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}" end="0">
 			<spring:message code="children" var="childrenHeader"/><spring:message code="${child.taxonRank}" var="childrenRank" />
@@ -117,7 +117,7 @@
 													<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
 													<c:url var="imageUrl" value="/image/${image.id}"/>
 													<a class="slideshow" href="${fullsize}"
-														data-link="${imageUrl}" data-icon="icon-white icon-picture" 
+														data-link="${imageUrl}" data-icon="icon-white icon-picture"
 														data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
 														<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}" />
 														<img class="thumbnail" src="${thumbnail}" title="${em:stripXml(image.title)}" />
@@ -259,7 +259,7 @@
 						</c:forEach>
 					</section>
 				</c:if>
-				
+
 				<c:if test="${not empty taxon.distribution}">
 					<spring:message code="distribution.map" var="messageDistribution"/>
 					<section id="distributionMap" class="section-box">
@@ -557,7 +557,7 @@
 												<tags:tree taxon="${taxon}" ancestors="${taxon.higherClassification}" />
 											</c:otherwise>
 										</c:choose>
-										
+
 									</ul>
 									<ul class="citations">
 										<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.higherClassification)}">
@@ -606,7 +606,7 @@
 						</div>
 					</div>
 				</c:if>
-				
+
 				<c:if test="${not empty taxon.comments}">
 					<div class="inner">
 						<div class="box">
@@ -794,7 +794,7 @@
 						</section>
 					</div>
 				</div>
-				
+
 				<div class="inner no-print">
 					<div class="box linksBox">
 						<section class="sidebarBox" id="externalLinks">
@@ -814,10 +814,27 @@
 								<c:url var="gbifUrl" value="http://www.gbif.org/species/search?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&amp;highertaxon_key=6&amp;q=${taxon.scientificName}"/>
 								<li><a id="GBIFLink" href="${gbifUrl}"><spring:message code="gbif"/><!--  --></a></li>
 							</ul>
-							
+
 						</section>
 					</div>
 				</div>
+
+        <c:if test="${not empty taxon.uri}">
+          <div class="inner no-print">
+            <div class="box linksBox">
+              <section class="sidebarBox" id="sourceUrl">
+                <h2>
+                  <i class="glyphicons-icon link">
+                    <!-- -->
+                  </i>
+                  <spring:message code="source.link" />
+                </h2>
+                <a id="sourceUrl" href="${taxon.uri}">${taxon.uri}</a>
+              </section>
+            </div>
+          </div>
+        </c:if>
+
 				<c:url value="/ncbi" var="ncbiAjaxUrl">
 					<c:param name="query" value="${taxon.scientificName}"/>
 				</c:url>
@@ -842,11 +859,11 @@
 						});
 					});
 				</script>
-				
+
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="feedbackModal" class="modal hide fade no-print">
 		<div class="modal-header">
 			<button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="halflings-icon remove"><!--  --></i></button>

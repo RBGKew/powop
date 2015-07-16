@@ -78,23 +78,6 @@ public class Reference extends BaseData implements NonOwned {
     private String subject;
 
     private String taxonRemarks;
-    
-    private String uri;
-
-    /**
-     * @return the uri
-     */
-    @Size(max = 255)
-    public String getUri() {
-        return uri;
-    }
-
-    /**
-     * @param uri the uri to set
-     */
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
 
     /**
      *

@@ -31,7 +31,6 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
-
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -409,6 +408,8 @@ public class TestDataManager {
      *            Set the parent taxon
      * @param accepted
      *            Set the accepted taxon
+     * @param uri
+     *            Set the source uri
      * @param image1
      *            Set the image1
      * @param image2
@@ -428,7 +429,8 @@ public class TestDataManager {
             String created, String parent, String accepted,
             String distributionSource, String distributionRights, String distributionLicense,
             String diagnosticSource, String diagnosticRights, String diagnosticLicense,
-            String habitatSource, String habitatRights, String habitatLicense, String lifeForm, String iucnConservationStatus) {
+            String habitatSource, String habitatRights, String habitatLicense,
+            String lifeForm, String iucnConservationStatus, String uri) {
         enableAuthentication();
         Taxon taxon = new Taxon();
         data.push(taxon);
@@ -442,6 +444,7 @@ public class TestDataManager {
         taxon.setFamily(family);
         taxon.setNamePublishedInString(protologue);
         taxon.setIdentifier(identifier);
+        taxon.setUri(uri);
         if (rank != null && rank.length() > 0) {
             taxon.setTaxonRank(Rank.valueOf(rank));
         }

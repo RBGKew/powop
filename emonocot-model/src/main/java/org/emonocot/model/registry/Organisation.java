@@ -56,8 +56,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 
     private static final long serialVersionUID = -2463044801110563816L;
 
-    private String uri;
-
     private Long id;
 
     private String creatorEmail;
@@ -99,15 +97,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
     @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
     public Long getId() {
         return id;
-    }
-
-    @URL
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String newUri) {
-        this.uri = newUri;
     }
 
     public boolean getInsertCommentsIntoScratchpad() {

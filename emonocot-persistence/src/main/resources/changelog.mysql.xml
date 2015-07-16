@@ -4624,4 +4624,18 @@
             <column name="footerLogoPosition" type="integer" />
         </addColumn>
     </changeSet>
+    <changeSet id="2015-07-03_01" author="ji10kg">
+      <addColumn tableName="concept"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="description"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="distribution"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="identificationkey"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="identifier"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="image"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="measurementorfact"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="phylogenetictree"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="place"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="taxon"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="typeandspecimen"><column name="uri" type="varchar(255)" /></addColumn>
+      <addColumn tableName="vernacularname"><column name="uri" type="varchar(255)" /></addColumn>
+    </changeSet>
 </databaseChangeLog>

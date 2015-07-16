@@ -67,6 +67,9 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
             case bibliographicCitation:
             	object.setBibliographicCitation(value);
             	break;
+            case references:
+                object.setUri(value);
+                break;
             case source:
                 object.setSource(value);
                 break;
