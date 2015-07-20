@@ -1,126 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
-	                    
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
-	
-    <context:annotation-config />
-    
-    <batch:step id="produceCoreFile">
-		<batch:description>Produce a download file</batch:description>
-		<batch:tasklet>
-			<batch:chunk reader="downloadItemsReader" processor="nullLicenseTaxonFilter" writer="downloadTextFileWriter" commit-interval="10"/>
-			<batch:listeners>
-				<batch:listener ref="stepStatusListener" />
-			</batch:listeners>
-		</batch:tasklet>
-	</batch:step>
-    
-    <batch:step id="producePdf" parent="produceCoreFile">
-        <batch:tasklet>
-            <batch:chunk writer="pdfWriter" />
-        </batch:tasklet>
-    </batch:step>
-	
-	<batch:job id="FlatFileCreation">
-		<batch:description>Create a flat file. Either a DwC/A core 'Taxon' file or a PDF checklist</batch:description>
-        <batch:decision id="formatDecider" decider="downloadFormatDecider">
-            <batch:next on="taxon" to="createCoreFile" />
-            <batch:next on="alphabeticalChecklist" to="createPdf" />
-            <batch:next on="hierarchicalChecklist" to="createPdf" />
-        </batch:decision>
-		<batch:step id="createCoreFile" parent="produceCoreFile">
-			<batch:description>Create the Taxon (core) file</batch:description>
-			<batch:end on="COMPLETED"/>
-		</batch:step>
-        <batch:step id="createPdf" parent="producePdf">
-            <batch:end on="COMPLETED"/>
-        </batch:step>
-	    <batch:listeners>
-            <batch:listener ref="jobStatusListener" />
-        </batch:listeners>
-	</batch:job>
-    
-	<bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
-	  <property name="service" ref="searchableObjectServiceImpl" />	  
-	  <property name="pageSize" value="10"/>
-	  <property name="maxItemCount" value="#{jobParameters['download.limit']}"/>
-	  <property name="queryString" value="#{jobParameters['download.query']}"/>
-	  <property name="spatialString" value="#{jobParameters['download.spatial']}"/>
-	  <property name="sort" value="#{jobParameters['download.sort']}"/>	  
-	  <property name="selectedFacets" value="#{jobParameters['download.selectedFacets']}"/>	  
-	</bean>
-    
-    <bean id="groupedTaxonListReader" class="org.springframework.batch.item.support.ListItemReader" scope="step">
-        <constructor-arg value="#{(jobExecutionContext['taxa.hierarchy.ordered'])}"/>
-    </bean>
-	
-	<bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
-    
-    <bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
-	  <property name="resource" ref="downloadFile"/>
-	  <property name="lineAggregator" ref="lineAggregator"/>
-	  <property name="headerCallback" ref="dwcHeaderWriter"/>
-	</bean>
-	
-	<bean id="dwcHeaderWriter" class="org.emonocot.job.dwc.write.DwcHeaderWriter" scope="step">
-	  <property name="header" value="#{jobParameters['download.taxon']}"/>
-	  <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
-	</bean>
-    
-    <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
-        <constructor-arg ref="jasperReport" />
-        <property name="defaultOutputDir" value="${harvester.output.directory}" />
-        <property name="outputResouce" ref="downloadFile" />
-        <property name="parameterValues">
-            <map>
-                <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
-                <entry key="username" value="#{jobParameters['download.user.displayName']}" />
-                <entry key="nameListReport" value-ref="nameList" />
-                <entry key="license" value="#{jobParameters['download.license'] ?: 'http://creativecommons.org/licenses/by-nc-sa/3.0'}" />
-            </map>
-        </property>
-    </bean>
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-	<bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
-		<constructor-arg type="java.io.File">
-			<bean class="java.io.File" scope="step">
-				<constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
-				<constructor-arg type="java.lang.String" value="#{jobParameters['download.file']}"/>
-			</bean>
-		</constructor-arg>
-	</bean>
-	
-	<bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
-	 <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
-	 <property name="fieldExtractor">
-	   <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
-	     <property name="names" value="#{jobParameters['download.taxon']}"/>
-	     <property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
-	     <property name="extension" value="Taxon"/>
-	     <property name="conversionService" ref="conversionService"/>
-	   </bean>
-	 </property>
-	</bean>
-    
-    <bean id="downloadFormatDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
-        <property name="processingModeKey" value="download.format"/>
-        <!-- Fail on unknown download format-->
-    </bean>
-    
-    <!-- Jasper Reports classes -->
-    <bean id="jasperReport" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath" scope="prototype">
-	   <constructor-arg ref="reportFilePath" />
-    </bean>
-    <bean id="reportFilePath" class="java.lang.String" scope="step">
-        <constructor-arg value="#{jobParameters['download.template.filepath']}" />
-    </bean>
-    <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath">
-	   <constructor-arg value="org/emonocot/job/download/reports/nameList.jrxml" />
-    </bean>
+  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
+
+  <context:annotation-config />
+
+  <batch:step id="produceCoreFile">
+    <batch:description>Produce a download file</batch:description>
+    <batch:tasklet>
+      <batch:chunk reader="downloadItemsReader" processor="nullLicenseTaxonFilter" writer="downloadTextFileWriter" commit-interval="10"/>
+      <batch:listeners>
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:tasklet>
+  </batch:step>
+
+  <batch:step id="producePdf" parent="produceCoreFile">
+    <batch:tasklet>
+      <batch:chunk writer="pdfWriter" />
+    </batch:tasklet>
+  </batch:step>
+
+  <batch:job id="FlatFileCreation">
+    <batch:description>Create a flat file. Either a DwC/A core 'Taxon' file or a PDF checklist</batch:description>
+    <batch:decision id="formatDecider" decider="downloadFormatDecider">
+      <batch:next on="taxon" to="createCoreFile" />
+      <batch:next on="alphabeticalChecklist" to="createPdf" />
+      <batch:next on="hierarchicalChecklist" to="createPdf" />
+    </batch:decision>
+    <batch:step id="createCoreFile" parent="produceCoreFile">
+      <batch:description>Create the Taxon (core) file</batch:description>
+      <batch:end on="COMPLETED"/>
+    </batch:step>
+    <batch:step id="createPdf" parent="producePdf">
+      <batch:end on="COMPLETED"/>
+    </batch:step>
+    <batch:listeners>
+      <batch:listener ref="jobStatusListener" />
+    </batch:listeners>
+  </batch:job>
+
+  <bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
+    <property name="service" ref="searchableObjectServiceImpl" />
+    <property name="pageSize" value="10"/>
+    <property name="maxItemCount" value="#{jobParameters['download.limit']}"/>
+    <property name="queryString" value="#{jobParameters['download.query']}"/>
+    <property name="spatialString" value="#{jobParameters['download.spatial']}"/>
+    <property name="sort" value="#{jobParameters['download.sort']}"/>
+    <property name="selectedFacets" value="#{jobParameters['download.selectedFacets']}"/>
+  </bean>
+
+  <bean id="groupedTaxonListReader" class="org.springframework.batch.item.support.ListItemReader" scope="step">
+    <constructor-arg value="#{(jobExecutionContext['taxa.hierarchy.ordered'])}"/>
+  </bean>
+
+  <bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
+
+  <bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+    <property name="resource" ref="downloadFile"/>
+    <property name="lineAggregator" ref="lineAggregator"/>
+    <property name="headerCallback" ref="dwcHeaderWriter"/>
+  </bean>
+
+  <bean id="dwcHeaderWriter" class="org.emonocot.job.dwc.write.DwcHeaderWriter" scope="step">
+    <property name="header" value="#{jobParameters['download.taxon']}"/>
+    <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
+  </bean>
+
+  <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
+    <constructor-arg ref="jasperReport" />
+    <property name="defaultOutputDir" value="${harvester.output.directory}" />
+    <property name="outputResouce" ref="downloadFile" />
+    <property name="parameterValues">
+      <map>
+        <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
+        <entry key="username" value="#{jobParameters['download.user.displayName']}" />
+        <entry key="nameListReport" value-ref="nameList" />
+        <entry key="license" value="#{jobParameters['download.license'] ?: 'http://creativecommons.org/licenses/by-nc-sa/3.0'}" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+    <constructor-arg type="java.io.File">
+      <bean class="java.io.File" scope="step">
+        <constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+        <constructor-arg type="java.lang.String" value="#{jobParameters['download.file']}"/>
+      </bean>
+    </constructor-arg>
+  </bean>
+
+  <bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+    <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
+    <property name="fieldExtractor">
+      <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
+        <property name="names" value="#{jobParameters['download.taxon']}"/>
+        <property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
+        <property name="extension" value="Taxon"/>
+        <property name="conversionService" ref="conversionService"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="downloadFormatDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+    <property name="processingModeKey" value="download.format"/>
+    <!-- Fail on unknown download format-->
+  </bean>
+
+  <!-- Jasper Reports classes -->
+  <bean id="jasperReport" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath" scope="prototype">
+    <constructor-arg ref="reportFilePath" />
+  </bean>
+  <bean id="reportFilePath" class="java.lang.String" scope="step">
+    <constructor-arg value="#{jobParameters['download.template.filepath']}" />
+  </bean>
+  <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath">
+    <constructor-arg value="org/emonocot/job/download/reports/nameList.jrxml" />
+  </bean>
 </beans>

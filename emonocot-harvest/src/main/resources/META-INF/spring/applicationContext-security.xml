@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:sec="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-	
-	<sec:authentication-manager alias="authenticationManager">
-		<sec:authentication-provider>
-			<sec:user-service>
-				<sec:user name="admin" password="${harvester.admin.password}" authorities="ROLE_ADMIN,ROLE_LAUNCH_JOBS" />
-				<sec:user name="${portalWebservice.harvester.username}" password="${portalWebservice.harvester.password}" authorities="ROLE_LAUNCH_JOBS" />
-			</sec:user-service>
-		</sec:authentication-provider>
-	</sec:authentication-manager>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sec="http://www.springframework.org/schema/security"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<sec:http auto-config='true' use-expressions="true">
-		<sec:intercept-url pattern="/jobs" access="permitAll" />
-		<sec:intercept-url pattern="/output/**" access="permitAll" />
-		<sec:intercept-url pattern="/job-requests.json" access="hasRole('ROLE_LAUNCH_JOBS')" />
-		<sec:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
-		<sec:http-basic />
-	</sec:http>
+  <sec:authentication-manager alias="authenticationManager">
+    <sec:authentication-provider>
+      <sec:user-service>
+        <sec:user name="admin" password="${harvester.admin.password}" authorities="ROLE_ADMIN,ROLE_LAUNCH_JOBS" />
+        <sec:user name="${portalWebservice.harvester.username}" password="${portalWebservice.harvester.password}" authorities="ROLE_LAUNCH_JOBS" />
+      </sec:user-service>
+    </sec:authentication-provider>
+  </sec:authentication-manager>
 
-
+  <sec:http auto-config='true' use-expressions="true">
+    <sec:intercept-url pattern="/jobs" access="permitAll" />
+    <sec:intercept-url pattern="/output/**" access="permitAll" />
+    <sec:intercept-url pattern="/job-requests.json" access="hasRole('ROLE_LAUNCH_JOBS')" />
+    <sec:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
+    <sec:http-basic />
+  </sec:http>
 </beans>

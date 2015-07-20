@@ -1,84 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-			http://java.sun.com/xml/ns/j2ee
-			http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
-    <display-name>eMonocot Harvester</display-name>
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:META-INF/spring/applicationContext*.xml</param-value>
-	</context-param>
-	<context-param>
-      <param-name>webAppRootKey</param-name>
-      <param-value>${harvester.webAppRootKey}</param-value>
-    </context-param>
-	
-	<context-param>
-		<param-name>logbackConfigLocation</param-name>
-		<param-value>classpath:logback-emonocot-harvest.xml,/WEB-INF/classes/META-INF/logback.xml</param-value>
-	</context-param>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+                      http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+  <display-name>eMonocot Harvester</display-name>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:META-INF/spring/applicationContext*.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>webAppRootKey</param-name>
+    <param-value>${harvester.webAppRootKey}</param-value>
+  </context-param>
 
-	<listener>
-		<listener-class>org.emonocot.common.logback.LogbackConfigListener</listener-class>
-	</listener>
+  <context-param>
+    <param-name>logbackConfigLocation</param-name>
+    <param-value>classpath:logback-emonocot-harvest.xml,/WEB-INF/classes/META-INF/logback.xml</param-value>
+  </context-param>
 
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+  <listener>
+    <listener-class>org.emonocot.common.logback.LogbackConfigListener</listener-class>
+  </listener>
 
-    <filter>
-		<filter-name>MDCInsertingServletFilter</filter-name>
-		<filter-class>ch.qos.logback.classic.helpers.MDCInsertingServletFilter
-		</filter-class>
-	</filter>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
-   <filter>
-		<filter-name>shallowEtagHeaderFilter</filter-name>
-		<filter-class>org.springframework.web.filter.ShallowEtagHeaderFilter</filter-class>
-	</filter>
+  <filter>
+    <filter-name>MDCInsertingServletFilter</filter-name>
+    <filter-class>ch.qos.logback.classic.helpers.MDCInsertingServletFilter
+    </filter-class>
+  </filter>
 
-	<filter>
-		<filter-name>hiddenHttpMethodFilter</filter-name>
-		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-	</filter>
-	
-	<filter>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    
-    <filter-mapping>
-		<filter-name>MDCInsertingServletFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+  <filter>
+    <filter-name>shallowEtagHeaderFilter</filter-name>
+    <filter-class>org.springframework.web.filter.ShallowEtagHeaderFilter</filter-class>
+  </filter>
 
-	<filter-mapping>
-		<filter-name>shallowEtagHeaderFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+  <filter>
+    <filter-name>hiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
 
-	<filter-mapping>
-		<filter-name>hiddenHttpMethodFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter-mapping>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
 
-	<servlet>
-        <servlet-name>harvest</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+  <filter-mapping>
+    <filter-name>MDCInsertingServletFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
-	<servlet-mapping>
-		<servlet-name>harvest</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
+  <filter-mapping>
+    <filter-name>shallowEtagHeaderFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>hiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>harvest</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>harvest</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
 </web-app>

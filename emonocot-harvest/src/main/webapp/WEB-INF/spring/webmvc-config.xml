@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:integration="http://www.springframework.org/schema/integration"
-	xmlns:http="http://www.springframework.org/schema/integration/http"
-	xsi:schemaLocation="
-	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:integration="http://www.springframework.org/schema/integration"
+  xmlns:http="http://www.springframework.org/schema/integration/http"
+  xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+  http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+  http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
 
-    <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
-    
-    <!-- 
+  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties"/>
+
+  <!--
       Copied from spring-batch-admin-manager.jar/META-INF/spring/batch/bootstrap/manager/jmx-context.xml
-      Since we need to deploy multiple harvester applications (potentially) within the same instance of tomcat 
-    -->
-    <context:mbean-server id="mbeanServer" />
+      Since we need to deploy multiple harvester applications (potentially) within the same instance of tomcat
+  -->
+  <context:mbean-server id="mbeanServer" />
 
-	<context:mbean-export default-domain="${webAppRootKey}" server="mbeanServer" />
+  <context:mbean-export default-domain="${webAppRootKey}" server="mbeanServer" />
 
-	<bean id="batchMBeanExporter" class="org.springframework.batch.admin.jmx.BatchMBeanExporter">
-		<property name="server" ref="mbeanServer" />
-		<property name="jobService">
-			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
-				<property name="target" ref="jobService" />
-				<property name="interceptorNames" value="cacheInterceptor" />
-			</bean>
-		</property>
-		<property name="defaultDomain" value="${webAppRootKey}" />
-	</bean>
+  <bean id="batchMBeanExporter" class="org.springframework.batch.admin.jmx.BatchMBeanExporter">
+    <property name="server" ref="mbeanServer" />
+    <property name="jobService">
+      <bean class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="jobService" />
+        <property name="interceptorNames" value="cacheInterceptor" />
+      </bean>
+    </property>
+    <property name="defaultDomain" value="${webAppRootKey}" />
+  </bean>
 
-	<bean id="cacheInterceptor" class="org.springframework.batch.admin.util.SimpleEhCacheInterceptor" />
-    
-    <import resource="classpath*:/META-INF/spring/batch/servlet/manager/controller-context.xml"/>
-    <!-- 
+  <bean id="cacheInterceptor" class="org.springframework.batch.admin.util.SimpleEhCacheInterceptor" />
+
+  <import resource="classpath*:/META-INF/spring/batch/servlet/manager/controller-context.xml"/>
+  <!--
       Copied from spring-batch-admin-manager.jar/META-INF/spring/batch/servlet/manager/integration-context.xml
       Since we want to return responses as json
-    -->
-    <import resource="classpath*:/META-INF/spring/batch/admin/integration-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/servlet/manager/manager-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/servlet/resources/resources-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/bootstrap/integration/configuration-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/admin/file-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/admin/launcher-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/admin/restart-context.xml"/>
-    <import resource="classpath*:/META-INF/spring/batch/bootstrap/resources/resources-context.xml"/>
-    
+  -->
+  <import resource="classpath*:/META-INF/spring/batch/admin/integration-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/servlet/manager/manager-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/servlet/resources/resources-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/bootstrap/integration/configuration-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/admin/file-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/admin/launcher-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/admin/restart-context.xml"/>
+  <import resource="classpath*:/META-INF/spring/batch/bootstrap/resources/resources-context.xml"/>
+
 </beans>

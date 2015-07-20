@@ -1,233 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:integration="http://www.springframework.org/schema/integration"
-    xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
-    xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jms="http://www.springframework.org/schema/integration/jms"
-	xmlns:integration-http="http://www.springframework.org/schema/integration/http"
-	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
-		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
-        http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:integration="http://www.springframework.org/schema/integration"
+  xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:jms="http://www.springframework.org/schema/integration/jms"
+  xmlns:integration-http="http://www.springframework.org/schema/integration/http"
+  xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+    http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+    http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties" />
+  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties" />
 
-<!-- Integration setup for read write jobs -->
-    <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="${amq.readOnlyQueue.name}" />
-	</bean>
-	
-	<jms:inbound-channel-adapter id="readWriteJobLaunchGateway"	channel="readWriteJobLaunchRequests" destination="readWriteJobLaunchRequestsQueue"	message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
-		<integration:poller fixed-rate="30000"/>
-    </jms:inbound-channel-adapter>
-	
-	<integration:channel id="readWriteJobLaunchRequests" />
+  <!-- Integration setup for read write jobs -->
+  <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="${amq.readOnlyQueue.name}" />
+  </bean>
 
-	<integration:service-activator input-channel="readWriteJobLaunchRequests" ref="readWriteJobLauncherImpl" method="launch" />
+  <jms:inbound-channel-adapter id="readWriteJobLaunchGateway"	channel="readWriteJobLaunchRequests" destination="readWriteJobLaunchRequestsQueue"	message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
+    <integration:poller fixed-rate="30000"/>
+  </jms:inbound-channel-adapter>
 
-	<bean id="readWriteJobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
-		<property name="jobLauncher" ref="readWriteJobLauncher" />
-		<property name="jobLocator" ref="jobRegistry" />
-		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-		<property name="baseUrl" value="${harvester.baseUrl}" />
-	</bean>	
-	
-	<!-- Outgoing Read write job launcher -->
+  <integration:channel id="readWriteJobLaunchRequests" />
 
-	<integration:gateway id="messageBasedReadWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="outgoingReadWriteJobLaunchRequests">
-		<integration:method name="launch" />
-	</integration:gateway>
+  <integration:service-activator input-channel="readWriteJobLaunchRequests" ref="readWriteJobLauncherImpl" method="launch" />
 
-	<integration:channel id="outgoingReadWriteJobLaunchRequests" />
+  <bean id="readWriteJobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
+    <property name="jobLauncher" ref="readWriteJobLauncher" />
+    <property name="jobLocator" ref="jobRegistry" />
+    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+    <property name="baseUrl" value="${harvester.baseUrl}" />
+  </bean>
 
-	<jms:outbound-channel-adapter id="outgoingReadWriteJobLaunchGateway" channel="outgoingReadWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
+  <!-- Outgoing Read write job launcher -->
 
-<!-- Read only job queue -->
-    <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="${amq.readWriteQueue.name}" />
-	</bean>
-	
-	<jms:inbound-channel-adapter id="readOnlyJobLaunchGateway"
-		channel="readOnlyJobLaunchRequests" destination="readOnlyJobLaunchRequestsQueue"
-		message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
-		<integration:poller fixed-rate="5000"/>
-    </jms:inbound-channel-adapter>
-	
-	<integration:channel id="readOnlyJobLaunchRequests" />
+  <integration:gateway id="messageBasedReadWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="outgoingReadWriteJobLaunchRequests">
+    <integration:method name="launch" />
+  </integration:gateway>
 
-	<integration:service-activator input-channel="readOnlyJobLaunchRequests" ref="readOnlyJobLauncherImpl" method="launch" />
+  <integration:channel id="outgoingReadWriteJobLaunchRequests" />
 
-	<bean id="readOnlyJobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
-		<property name="jobLauncher" ref="jobLauncher" />
-		<property name="jobLocator" ref="jobRegistry" />
-		<property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-		<property name="baseUrl" value="${harvester.baseUrl}" />
-	</bean>
-    
-<!-- Comment sending -->
-    <int-jdbc:inbound-channel-adapter channel="jdbcCommentChannel" data-source="dataSource" row-mapper="commentRowMapper"
-            query="SELECT * FROM Comment c WHERE c.status = 'PENDING'"
-            update="UPDATE Comment c SET status = 'SENT' WHERE c.id IN (:id)">
-        <integration:poller fixed-rate="60000" />
-    </int-jdbc:inbound-channel-adapter>
-    <bean id="commentRowMapper" class="org.emonocot.persistence.dao.jdbc.ExtensibleBeanPropertyRowMapper">
-        <property name="mappedClass" value="org.emonocot.model.Comment" />
-        <property name="editors">
-            <map>
-                <entry key="org.joda.time.DateTime"><bean class="org.emonocot.persistence.dao.jdbc.DateTimePropertyEditor" /></entry>
-            </map>
-        </property>
-    </bean>
-    
-    <integration:channel id="jdbcCommentChannel" />
-    
-    <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
-    
-    <integration:channel id="commentChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel"/>
-            <integration:wire-tap channel="indexingChannel"/>
-        </integration:interceptors>
-    </integration:channel>
-    
-    <!-- Enriching that happens regardless of outbound endpoint -->
-    <integration:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
-        <integration:enricher request-channel="loadCommentChannel" request-payload-expression="payload.identifier">
-            <integration:property name="aboutData" expression="payload.aboutData" />
-            <integration:property name="inResponseTo" expression="payload.inResponseTo" />
-            <integration:property name="commentPage" expression="payload.commentPage" />
-            <integration:property name="authority" expression="payload.authority" />
-            <integration:property name="user" expression="payload.user"/>
-        </integration:enricher>
-        <integration:header-enricher>
-            <integration:header name="destinations" ref="commentServiceImpl" method="getDestinations" />
-        </integration:header-enricher>
-        <integration:splitter>
-            <bean class="org.emonocot.harvest.integration.HeaderCollectionSplitter">
-                <property name="requestKey" value="destinations" />
-                <property name="responseKey" value="destination" />
-            </bean>
-        </integration:splitter>
-        <integration:header-enricher>
-            <integration:header name="toAddress" expression="${comment.emailedTo}" />
-            <integration:header name="subject" expression="'${comment.email.subject}' + ' - ' + payload.identifier" />
-        </integration:header-enricher>
-    </integration:chain>
-    
-    <integration:publish-subscribe-channel id="enrichedCommentChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
-        </integration:interceptors>
-    </integration:publish-subscribe-channel>
-    
-    <integration:channel id="indexingChannel"/>
-    
-    <!-- Filter out messages with no destination -->
-    <integration:filter input-channel="enrichedCommentChannel" output-channel="preventSendingToSelfChannel" expression="headers.toAddress != null" />
-    
-    <integration:channel id="preventSendingToSelfChannel" />
-    
-    <integration:filter input-channel="preventSendingToSelfChannel" output-channel="toMapCommentChannel" ref="emailServiceHelper" method="preventSelfSending" />
-    
-    <integration:channel id="toMapCommentChannel" />
-    
-    <!-- Decide which method to use to send the message -->
-    <integration:transformer input-channel="toMapCommentChannel" output-channel="toDestinationChannel" method="prepareMessage" ref="emailServiceHelper"/>
-    
-    <integration:channel id="toDestinationChannel"/>
-    
-    <integration:router input-channel="toDestinationChannel" ref="emailServiceHelper" method="getDestinationChannel">
-      <integration:mapping value="scratchpad" channel="scratchpadCommentChannel"/>
-      <integration:mapping value="email" channel="emailCommentChannel"/>
-    </integration:router>
-        
-    <!-- service channels/endpoints -->
-    <integration:channel id="emailCommentChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
-        </integration:interceptors>
-    </integration:channel>
-    <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
-    
-    <integration:channel id="scratchpadCommentChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
-        </integration:interceptors>
-    </integration:channel>
-    <integration:service-activator input-channel="scratchpadCommentChannel" expression="@scratchpadCommentService.sendComment(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
-    
-    <bean id="scratchpadCommentService" class="org.emonocot.harvest.integration.ScratchpadCommentService">
-      <property name="velocityEngine" ref="velocityEngine"/>
-      <property name="getResourceClient" ref="getResourceClient"/>
-    </bean>
-    
-    <integration:channel id="loadCommentChannel" />
-    <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
-    
-    <integration:channel id="inboundEmailChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
-        </integration:interceptors>
-    </integration:channel>
-    
-    <integration:filter input-channel="inboundEmailChannel" output-channel="cleanEmailChannel" ref="emailServiceHelper" method="filterOutOfOfficeReplies"/>
-    
-    <integration:channel id="cleanEmailChannel"/>
-    
-    <integration:transformer input-channel="cleanEmailChannel" output-channel="commentReplyChannel" ref="emailServiceHelper" method="createReply"/>
-    
-    <integration:channel id="commentReplyChannel">
-        <integration:interceptors>
-            <integration:wire-tap channel="loggingChannel" />
-        </integration:interceptors>
-    </integration:channel>
-    
-    <integration:service-activator input-channel="commentReplyChannel" expression="@commentServiceImpl.save(payload)" />
-    
-<!-- Generic logging at INFO level for channels -->
-    <integration:publish-subscribe-channel id="loggingChannel" />
-    <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG" />
-    
-<!-- Generic message converter used by both queues -->
-	<bean id="mappingMessageConverter"
-		class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
-		<property name="objectMapper" ref="objectMapper" />
-		<property name="typeIdPropertyName" value="javaType" />
-		<property name="typeIdMappings">
-			<map>
-				<entry>
-					<key>
-						<value>JobLaunchRequest</value>
-					</key>
-					<value>org.emonocot.api.job.JobLaunchRequest</value>
-				</entry>
-				<entry>
-					<key>
-						<value>JobExecutionInfo</value>
-					</key>
-					<value>org.emonocot.api.job.JobExecutionInfo</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="emailServiceHelper" class="org.emonocot.harvest.integration.EmailServiceHelper">
-       <property name="templates">
-            <map>
-                 <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
-                 <entry key="resource" value="org/emonocot/integration/comment/ResourceEmail.vm" />
-                 <entry key="reply" value="org/emonocot/integration/comment/ReplyEmail.vm" />
-            </map>
-       </property>
-       <property name="defaultTemplateName" value="comment" />
-       <property name="userService" ref="userServiceImpl"/>
-       <property name="commentService" ref="commentServiceImpl"/>
-    </bean>
+  <jms:outbound-channel-adapter id="outgoingReadWriteJobLaunchGateway" channel="outgoingReadWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
+
+  <!-- Read only job queue -->
+  <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="${amq.readWriteQueue.name}" />
+  </bean>
+
+  <jms:inbound-channel-adapter id="readOnlyJobLaunchGateway"
+    channel="readOnlyJobLaunchRequests" destination="readOnlyJobLaunchRequestsQueue"
+    message-converter="mappingMessageConverter" connection-factory="connectionFactory" >
+    <integration:poller fixed-rate="5000"/>
+  </jms:inbound-channel-adapter>
+
+  <integration:channel id="readOnlyJobLaunchRequests" />
+
+  <integration:service-activator input-channel="readOnlyJobLaunchRequests" ref="readOnlyJobLauncherImpl" method="launch" />
+
+  <bean id="readOnlyJobLauncherImpl" class="org.emonocot.harvest.integration.JobLauncherImpl">
+    <property name="jobLauncher" ref="jobLauncher" />
+    <property name="jobLocator" ref="jobRegistry" />
+    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+    <property name="baseUrl" value="${harvester.baseUrl}" />
+  </bean>
+
+  <!-- Comment sending -->
+  <int-jdbc:inbound-channel-adapter channel="jdbcCommentChannel" data-source="dataSource" row-mapper="commentRowMapper"
+    query="SELECT * FROM Comment c WHERE c.status = 'PENDING'"
+    update="UPDATE Comment c SET status = 'SENT' WHERE c.id IN (:id)">
+    <integration:poller fixed-rate="60000" />
+  </int-jdbc:inbound-channel-adapter>
+  <bean id="commentRowMapper" class="org.emonocot.persistence.dao.jdbc.ExtensibleBeanPropertyRowMapper">
+    <property name="mappedClass" value="org.emonocot.model.Comment" />
+    <property name="editors">
+      <map>
+        <entry key="org.joda.time.DateTime"><bean class="org.emonocot.persistence.dao.jdbc.DateTimePropertyEditor" /></entry>
+      </map>
+    </property>
+  </bean>
+
+  <integration:channel id="jdbcCommentChannel" />
+
+  <integration:splitter input-channel="jdbcCommentChannel" output-channel="commentChannel" />
+
+  <integration:channel id="commentChannel">
+    <integration:interceptors>
+      <integration:wire-tap channel="loggingChannel"/>
+      <integration:wire-tap channel="indexingChannel"/>
+    </integration:interceptors>
+  </integration:channel>
+
+  <!-- Enriching that happens regardless of outbound endpoint -->
+  <integration:chain id="enrichingChain" input-channel="commentChannel" output-channel="enrichedCommentChannel">
+    <integration:enricher request-channel="loadCommentChannel" request-payload-expression="payload.identifier">
+      <integration:property name="aboutData" expression="payload.aboutData" />
+      <integration:property name="inResponseTo" expression="payload.inResponseTo" />
+      <integration:property name="commentPage" expression="payload.commentPage" />
+      <integration:property name="authority" expression="payload.authority" />
+      <integration:property name="user" expression="payload.user"/>
+    </integration:enricher>
+    <integration:header-enricher>
+      <integration:header name="destinations" ref="commentServiceImpl" method="getDestinations" />
+    </integration:header-enricher>
+    <integration:splitter>
+      <bean class="org.emonocot.harvest.integration.HeaderCollectionSplitter">
+        <property name="requestKey" value="destinations" />
+        <property name="responseKey" value="destination" />
+      </bean>
+    </integration:splitter>
+    <integration:header-enricher>
+      <integration:header name="toAddress" expression="${comment.emailedTo}" />
+      <integration:header name="subject" expression="'${comment.email.subject}' + ' - ' + payload.identifier" />
+    </integration:header-enricher>
+  </integration:chain>
+
+  <integration:publish-subscribe-channel id="enrichedCommentChannel">
+    <integration:interceptors>
+      <integration:wire-tap channel="loggingChannel" />
+    </integration:interceptors>
+  </integration:publish-subscribe-channel>
+
+  <integration:channel id="indexingChannel"/>
+
+  <!-- Filter out messages with no destination -->
+  <integration:filter input-channel="enrichedCommentChannel" output-channel="preventSendingToSelfChannel" expression="headers.toAddress != null" />
+
+  <integration:channel id="preventSendingToSelfChannel" />
+
+  <integration:filter input-channel="preventSendingToSelfChannel" output-channel="toMapCommentChannel" ref="emailServiceHelper" method="preventSelfSending" />
+
+  <integration:channel id="toMapCommentChannel" />
+
+  <!-- Decide which method to use to send the message -->
+  <integration:transformer input-channel="toMapCommentChannel" output-channel="toDestinationChannel" method="prepareMessage" ref="emailServiceHelper"/>
+
+  <integration:channel id="toDestinationChannel"/>
+
+  <integration:router input-channel="toDestinationChannel" ref="emailServiceHelper" method="getDestinationChannel">
+    <integration:mapping value="scratchpad" channel="scratchpadCommentChannel"/>
+    <integration:mapping value="email" channel="emailCommentChannel"/>
+  </integration:router>
+
+  <!-- service channels/endpoints -->
+  <integration:channel id="emailCommentChannel">
+    <integration:interceptors>
+      <integration:wire-tap channel="loggingChannel" />
+    </integration:interceptors>
+  </integration:channel>
+  <integration:service-activator input-channel="emailCommentChannel" expression="@emailService.sendEmail(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
+
+  <integration:channel id="scratchpadCommentChannel">
+    <integration:interceptors>
+      <integration:wire-tap channel="loggingChannel" />
+    </integration:interceptors>
+  </integration:channel>
+  <integration:service-activator input-channel="scratchpadCommentChannel" expression="@scratchpadCommentService.sendComment(headers.templateName, payload, headers.toAddress, headers.subject + ' for ' + headers.toAddress)" />
+
+  <bean id="scratchpadCommentService" class="org.emonocot.harvest.integration.ScratchpadCommentService">
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="getResourceClient" ref="getResourceClient"/>
+  </bean>
+
+  <integration:channel id="loadCommentChannel" />
+  <integration:service-activator input-channel="loadCommentChannel" expression="@commentServiceImpl.load(payload, 'aboutData')" />
+
+  <integration:channel id="inboundEmailChannel">
+    <integration:interceptors>
+      <integration:wire-tap channel="loggingChannel" />
+    </integration:interceptors>
+  </integration:channel>
+
+  <integration:filter input-channel="inboundEmailChannel" output-channel="cleanEmailChannel" ref="emailServiceHelper" method="filterOutOfOfficeReplies"/>
+
+  <integration:channel id="cleanEmailChannel"/>
+
+  <integration:transformer input-channel="cleanEmailChannel" output-channel="commentReplyChannel" ref="emailServiceHelper" method="createReply"/>
+
+  <integration:channel id="commentReplyChannel">
+    <integration:interceptors>
+      <integration:wire-tap channel="loggingChannel" />
+    </integration:interceptors>
+  </integration:channel>
+
+  <integration:service-activator input-channel="commentReplyChannel" expression="@commentServiceImpl.save(payload)" />
+
+  <!-- Generic logging at INFO level for channels -->
+  <integration:publish-subscribe-channel id="loggingChannel" />
+  <integration:logging-channel-adapter channel="loggingChannel" log-full-message="true" level="DEBUG" />
+
+  <!-- Generic message converter used by both queues -->
+  <bean id="mappingMessageConverter"
+    class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
+    <property name="objectMapper" ref="objectMapper" />
+    <property name="typeIdPropertyName" value="javaType" />
+    <property name="typeIdMappings">
+      <map>
+        <entry>
+          <key>
+            <value>JobLaunchRequest</value>
+          </key>
+          <value>org.emonocot.api.job.JobLaunchRequest</value>
+        </entry>
+        <entry>
+          <key>
+            <value>JobExecutionInfo</value>
+          </key>
+          <value>org.emonocot.api.job.JobExecutionInfo</value>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="emailServiceHelper" class="org.emonocot.harvest.integration.EmailServiceHelper">
+    <property name="templates">
+      <map>
+        <entry key="comment" value="org/emonocot/integration/comment/CommentEmail.vm" />
+        <entry key="resource" value="org/emonocot/integration/comment/ResourceEmail.vm" />
+        <entry key="reply" value="org/emonocot/integration/comment/ReplyEmail.vm" />
+      </map>
+    </property>
+    <property name="defaultTemplateName" value="comment" />
+    <property name="userService" ref="userServiceImpl"/>
+    <property name="commentService" ref="commentServiceImpl"/>
+  </bean>
 
 </beans>

@@ -1,294 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xmlns:integration="http://www.springframework.org/schema/integration"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	                    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-	                    http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	                    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+  xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:integration="http://www.springframework.org/schema/integration"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-    <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
-    
-    <context:property-placeholder location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
-    
-	<integration:outbound-channel-adapter channel="enrichedCommentChannel" ref="testMessageHandler" method="handle" />
-	<integration:outbound-channel-adapter channel="indexingChannel" ref="testMessageHandler" method="ignore" />
-	
-	<bean id="testMessageHandler" class="org.emonocot.integration.MessageHandler" />
+  <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
 
-	<context:component-scan base-package="org.emonocot">
-	    <context:exclude-filter type="assignable" expression="org.emonocot.service.DownloadService" />
-	    <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceService" />
-		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService" />
-		<context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService" />
-		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao" />
-        <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao" />
-        <context:exclude-filter type="assignable" expression="org.emonocot.service.impl.DownloadServiceImpl" />
-	</context:component-scan>
-	
-	<bean id="resourceServiceImpl" class="org.emonocot.service.impl.ResourceServiceImpl">
-	  <property name="jobDao" ref="resourceDaoImpl"/>
-	  <property name="jobLauncher" ref="messageBasedReadWriteJobLauncher"/>
-	</bean>
+  <context:property-placeholder location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
 
-	<context:annotation-config />
+  <integration:outbound-channel-adapter channel="enrichedCommentChannel" ref="testMessageHandler" method="handle" />
+  <integration:outbound-channel-adapter channel="indexingChannel" ref="testMessageHandler" method="ignore" />
 
-	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
-		<property name="converters">
-			<list>
-			    <bean class="org.emonocot.model.convert.MediaFormatConverter" />
-			    <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
-			    <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
-			    <bean class="org.emonocot.model.convert.RankConverter" />
-			    <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
-			    <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
-			    <bean class="org.emonocot.model.convert.NomenclaturalCodeConverter" />
-			    <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
-			    <bean class="org.emonocot.model.convert.TaxonomicStatusConverter" />
-				<bean class="org.emonocot.model.convert.LocationToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToLocationConverter" />
-				<bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
-				<bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
-				<bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
-                <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
-                <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
-                <bean class="org.emonocot.model.convert.MultimediaToIdentificationKeyConverter" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="notifyingJobStatusListener" class="org.emonocot.harvest.integration.NotifyingJobStatusListener">
-        <property name="systemUser" value="${email.fromAddress}"/>
-        <property name="resourceService" ref="resourceServiceImpl"/>
-        <property name="userService" ref="userServiceImpl"/>
-        <property name="commentService" ref="commentServiceImpl"/>
-        <property name="annotationService" ref="annotationServiceImpl"/>
-        <property name="jobRepository" ref="jobRepository"/>
-    </bean>
+  <bean id="testMessageHandler" class="org.emonocot.integration.MessageHandler" />
 
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+  <context:component-scan base-package="org.emonocot">
+    <context:exclude-filter type="assignable" expression="org.emonocot.service.DownloadService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobExecutionService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.service.impl.DownloadServiceImpl" />
+  </context:component-scan>
 
-	<bean name="jobRepository"	class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+  <bean id="resourceServiceImpl" class="org.emonocot.service.impl.ResourceServiceImpl">
+    <property name="jobDao" ref="resourceDaoImpl"/>
+    <property name="jobLauncher" ref="messageBasedReadWriteJobLauncher"/>
+  </bean>
 
-	<bean
-		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
-		<property name="jobRegistry" ref="jobRegistry" />
-	</bean>
+  <context:annotation-config />
 
-	<bean id="jobRegistry"
-		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+  <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+    <property name="converters">
+      <list>
+        <bean class="org.emonocot.model.convert.MediaFormatConverter" />
+        <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
+        <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
+        <bean class="org.emonocot.model.convert.RankConverter" />
+        <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
+        <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
+        <bean class="org.emonocot.model.convert.NomenclaturalCodeConverter" />
+        <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
+        <bean class="org.emonocot.model.convert.TaxonomicStatusConverter" />
+        <bean class="org.emonocot.model.convert.LocationToStringConverter" />
+        <bean class="org.emonocot.model.convert.StringToLocationConverter" />
+        <bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
+        <bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
+        <bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
+        <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
+        <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
+        <bean class="org.emonocot.model.convert.MultimediaToIdentificationKeyConverter" />
+      </list>
+    </property>
+  </bean>
 
-   <bean id="jobLauncher"
-		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<property name="jobRepository" ref="jobRepository" />
-	</bean>
+  <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.integration.NotifyingJobStatusListener">
+    <property name="systemUser" value="${email.fromAddress}"/>
+    <property name="resourceService" ref="resourceServiceImpl"/>
+    <property name="userService" ref="userServiceImpl"/>
+    <property name="commentService" ref="commentServiceImpl"/>
+    <property name="annotationService" ref="annotationServiceImpl"/>
+    <property name="jobRepository" ref="jobRepository"/>
+  </bean>
 
-	<bean id="readWriteJobLauncher"
-		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<property name="jobRepository" ref="jobRepository" />
-	</bean>
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+  <bean name="jobRepository"	class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
 
-    <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
-    
-    <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" scope="step">
-        <property name="nameParser" ref="nameParser"/>
-        <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>
-    </bean>
+  <bean
+    class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+    <property name="jobRegistry" ref="jobRegistry" />
+  </bean>
 
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
-	  <property name="requestFactory" ref="requestFactory"/>
-	  <property name="messageConverters">
-	    <list>
-	      <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-	        <property name="objectMapper" ref="objectMapper"/>
-	      </bean>
-	    </list>
-	  </property>
-	</bean>
+  <bean id="jobRegistry"
+    class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
 
-	<bean id="connectionFactory"
-		class="org.springframework.jms.connection.CachingConnectionFactory">
-		<property name="targetConnectionFactory">
-			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-				<property name="brokerURL" value="vm://localhost" />
-			</bean>
-		</property>
-		<property name="sessionCacheSize" value="10" />
-		<property name="cacheProducers" value="false" />
-	</bean>
+  <bean id="jobLauncher"
+    class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+    <property name="jobRepository" ref="jobRepository" />
+  </bean>
 
-	<bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
-    
-    <bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessorImpl" scope="step">
-        <property name="getResourceClient" ref="getResourceClient" />
-        <property name="imageDirectory" value="${harvester.image.directory}"/>
-        <property name="imageAnnotator" ref="imageAnnotator" />
-    </bean>
-    
-    <bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGeneratorImpl" scope="step">
-        <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
-        <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-        <property name="imageDirectory" value="${harvester.image.directory}"/>
-        <property name="imageAnnotator" ref="imageAnnotator"/>
-    </bean>
-    
-    <bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizerImpl" scope="step">
-        <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-        <property name="imageDirectory" value="${harvester.image.directory}"/>
-        <property name="imageAnnotator" ref="imageAnnotator"/>
-    </bean>
-    
-    <bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractorImpl" scope="step"
-        init-method="afterPropertiesSet" >
-        <property name="imageAnnotator" ref="imageAnnotator" />
-        <property name="imageDirectory" value="${harvester.image.directory}"/>
-        <property name="sanitizer" ref="htmlSanitizer" />
-        <property name="validator" ref="validator"/>
-    </bean>
-    
-    <bean id="imageAnnotator" class="org.emonocot.harvest.media.ImageAnnotatorImpl" scope="step">
-        <property name="sourceName" value="#{jobParameters['authority.name']}" />
-        <property name="sessionFactory" ref="sessionFactory" />
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="jobId" value="#{jobExecutionContext['job.execution.id']}"></property>
-    </bean>
-	
-	<bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
-	
-	<bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
+  <bean id="readWriteJobLauncher"
+    class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+    <property name="jobRepository" ref="jobRepository" />
+  </bean>
 
-    <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
-        <property name="proxyHost" value="${http.proxyHost}" />
-        <property name="proxyPort" value="${http.proxyPort}"/>
-    </bean>
-        <bean name="dataSource"
-            class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-            <property name="testDatabaseName" value="testdb" />
-            <property name="schemaLocations">
-                <list>
-                    <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-                    <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
-                    <value>classpath:/META-INF/database/H2_schema.ddl</value>
-                </list>
-            </property>
-            <property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
+  <bean id="transactionManager"
+    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
+
+  <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" scope="step">
+    <property name="nameParser" ref="nameParser"/>
+    <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>
+  </bean>
+
+  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+    <property name="requestFactory" ref="requestFactory"/>
+    <property name="messageConverters">
+      <list>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+          <property name="objectMapper" ref="objectMapper"/>
         </bean>
+      </list>
+    </property>
+  </bean>
 
-        <bean id="sessionFactory"
-            class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-            <property name="dataSource" ref="dataSource" />
-            <property name="hibernateProperties">
-                <value>
-                    hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
-                    hibernate.hbm2ddl.auto=validate
-                    hibernate.validator.autoregister_listeners=false
-                    hibernate.show_sql=${hibernate.show_sql}
-                </value>
-            </property>
-            <property name="annotatedClasses">
-              <list>
-				<value>org.emonocot.model.Identifier</value>
-				<value>org.emonocot.model.IdentificationKey</value>
-				<value>org.emonocot.model.Annotation</value>
-				<value>org.emonocot.model.Distribution</value>
-				<value>org.emonocot.model.Description</value>
-				<value>org.emonocot.model.Image</value>
-				<value>org.emonocot.model.MeasurementOrFact</value>
-				<value>org.emonocot.model.PhylogeneticTree</value>
-				<value>org.emonocot.model.Reference</value>
-				<value>org.emonocot.model.Taxon</value>
-				<value>org.emonocot.model.TypeAndSpecimen</value>
-				<value>org.emonocot.model.VernacularName</value>
-				<value>org.emonocot.model.registry.Resource</value>
-				<value>org.emonocot.model.registry.Organisation</value>
-				<value>org.emonocot.model.auth.User</value>
-				<value>org.emonocot.model.auth.Group</value>
-				<value>org.emonocot.model.Place</value>
-                <value>org.emonocot.model.Comment</value>
-                <value>org.emonocot.model.Concept</value>
-              </list>
-            </property>
-            <property name="eventListeners">
-      	      <map>
-                <entry key="post-delete" value-ref="solrIndexingListener" />
-      	      </map>
-    	    </property>
-            <property name="annotatedPackages" value="org.emonocot.model" />
+  <bean id="connectionFactory"
+    class="org.springframework.jms.connection.CachingConnectionFactory">
+    <property name="targetConnectionFactory">
+      <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="vm://localhost" />
+      </bean>
+    </property>
+    <property name="sessionCacheSize" value="10" />
+    <property name="cacheProducers" value="false" />
+  </bean>
+
+  <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
+
+  <bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessorImpl" scope="step">
+    <property name="getResourceClient" ref="getResourceClient" />
+    <property name="imageDirectory" value="${harvester.image.directory}"/>
+    <property name="imageAnnotator" ref="imageAnnotator" />
+  </bean>
+
+  <bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGeneratorImpl" scope="step">
+    <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
+    <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
+    <property name="imageDirectory" value="${harvester.image.directory}"/>
+    <property name="imageAnnotator" ref="imageAnnotator"/>
+  </bean>
+
+  <bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizerImpl" scope="step">
+    <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
+    <property name="imageDirectory" value="${harvester.image.directory}"/>
+    <property name="imageAnnotator" ref="imageAnnotator"/>
+  </bean>
+
+  <bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractorImpl" scope="step"
+    init-method="afterPropertiesSet" >
+    <property name="imageAnnotator" ref="imageAnnotator" />
+    <property name="imageDirectory" value="${harvester.image.directory}"/>
+    <property name="sanitizer" ref="htmlSanitizer" />
+    <property name="validator" ref="validator"/>
+  </bean>
+
+  <bean id="imageAnnotator" class="org.emonocot.harvest.media.ImageAnnotatorImpl" scope="step">
+    <property name="sourceName" value="#{jobParameters['authority.name']}" />
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="transactionManager" ref="transactionManager" />
+    <property name="jobId" value="#{jobExecutionContext['job.execution.id']}"></property>
+  </bean>
+
+  <bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
+
+  <bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
+
+  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
+    <property name="proxyHost" value="${http.proxyHost}" />
+    <property name="proxyPort" value="${http.proxyPort}"/>
+  </bean>
+  <bean name="dataSource"
+    class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
+    <property name="testDatabaseName" value="testdb" />
+    <property name="schemaLocations">
+      <list>
+        <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
+        <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
+        <value>classpath:/META-INF/database/H2_schema.ddl</value>
+      </list>
+    </property>
+    <property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
+  </bean>
+
+  <bean id="sessionFactory"
+    class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="hibernateProperties">
+      <value>
+        hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
+        hibernate.hbm2ddl.auto=validate
+        hibernate.validator.autoregister_listeners=false
+        hibernate.show_sql=${hibernate.show_sql}
+      </value>
+    </property>
+    <property name="annotatedClasses">
+      <list>
+        <value>org.emonocot.model.Identifier</value>
+        <value>org.emonocot.model.IdentificationKey</value>
+        <value>org.emonocot.model.Annotation</value>
+        <value>org.emonocot.model.Distribution</value>
+        <value>org.emonocot.model.Description</value>
+        <value>org.emonocot.model.Image</value>
+        <value>org.emonocot.model.MeasurementOrFact</value>
+        <value>org.emonocot.model.PhylogeneticTree</value>
+        <value>org.emonocot.model.Reference</value>
+        <value>org.emonocot.model.Taxon</value>
+        <value>org.emonocot.model.TypeAndSpecimen</value>
+        <value>org.emonocot.model.VernacularName</value>
+        <value>org.emonocot.model.registry.Resource</value>
+        <value>org.emonocot.model.registry.Organisation</value>
+        <value>org.emonocot.model.auth.User</value>
+        <value>org.emonocot.model.auth.Group</value>
+        <value>org.emonocot.model.Place</value>
+        <value>org.emonocot.model.Comment</value>
+        <value>org.emonocot.model.Concept</value>
+      </list>
+    </property>
+    <property name="eventListeners">
+      <map>
+        <entry key="post-delete" value-ref="solrIndexingListener" />
+      </map>
+    </property>
+    <property name="annotatedPackages" value="org.emonocot.model" />
+  </bean>
+
+  <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+    <property name="solrServer" ref="solrServer"/>
+  </bean>
+
+  <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
+    destroy-method="shutdown">
+    <property name="solrHome" value="classpath:/META-INF/solr/"/>
+  </bean>
+
+  <bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">
+    <property name="core" value="${solr.core}"/>
+    <property name="maxSegments" value="${solr.max.segments}"/>
+    <property name="solrServer" ref="solrServer"/>
+  </bean>
+
+  <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+    <property name="baseUrl" value="${harvester.baseUrl}"/>
+  </bean>
+
+  <bean id="compositeJobListener" class="org.emonocot.harvest.integration.CompositeJobStatusListener">
+    <property name="jobListeners">
+      <list>
+        <ref bean="notifyingJobStatusListener"/>
+        <ref bean="jobStatusListener"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener">
+    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+    <property name="baseUrl" value="${harvester.baseUrl}"/>
+  </bean>
+
+  <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
+    <property name="resourceService" ref="resourceServiceImpl"/>
+  </bean>
+
+  <bean id="emailService" class ="org.emonocot.integration.MailSenderStubImpl" />
+
+  <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+    <property name="velocityProperties">
+      <value>
+        resource.loader=class
+        class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+      </value>
+    </property>
+  </bean>
+
+  <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory" />
+
+  <beans profile="tests.use.proxy">
+    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+      <property name="proxy">
+        <bean class="java.net.Proxy">
+          <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
+          <constructor-arg>
+            <bean class="java.net.InetSocketAddress">
+              <constructor-arg value="${http.proxyHost}" type="String" />
+              <constructor-arg value="${http.proxyPort}" type="int" />
+            </bean>
+          </constructor-arg>
         </bean>
-        
-    <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
-	  <property name="solrServer" ref="solrServer"/>
-	</bean>
-
-	<bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
-	  destroy-method="shutdown">
-		<property name="solrHome" value="classpath:/META-INF/solr/"/>
-	</bean>
-	
-	<bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">
-	  <property name="core" value="${solr.core}"/>
-	  <property name="maxSegments" value="${solr.max.segments}"/>
-	  <property name="solrServer" ref="solrServer"/>
-	</bean>
-	
-    <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
-      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-      <property name="baseUrl" value="${harvester.baseUrl}"/>
-    </bean>
-    
-    <bean id="compositeJobListener" class="org.emonocot.harvest.integration.CompositeJobStatusListener">
-      <property name="jobListeners">
-        <list>
-          <ref bean="notifyingJobStatusListener"/>
-          <ref bean="jobStatusListener"/>
-        </list>
       </property>
     </bean>
-    
-   <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener">
-      <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-      <property name="baseUrl" value="${harvester.baseUrl}"/>
-    </bean>
-    
-    <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
-	  <property name="resourceService" ref="resourceServiceImpl"/>
-	</bean>
-    
-    <bean id="emailService" class ="org.emonocot.integration.MailSenderStubImpl" />
-    
-    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-        <property name="velocityProperties">
-        <value>
-            resource.loader=class
-            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-        </value>
-        </property>
-    </bean>
-
-	<bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory" />
-
-	<beans profile="tests.use.proxy">
-		<bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-			<property name="proxy">
-				<bean class="java.net.Proxy">
-					<constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
-					<constructor-arg>
-						<bean class="java.net.InetSocketAddress">
-							<constructor-arg value="${http.proxyHost}" type="String" />
-							<constructor-arg value="${http.proxyPort}" type="int" />
-						</bean>
-					</constructor-arg>
-				</bean>
-			</property>
-		</bean>
-	</beans>
+  </beans>
 </beans>
