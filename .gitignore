@@ -1,6 +1,8 @@
+.agignore
 .classpath
 .gitignore
 .project
 .settings
 .springBeans
 target
+activemq-data
