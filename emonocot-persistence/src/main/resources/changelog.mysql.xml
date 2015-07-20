@@ -853,14 +853,6 @@
           </column>
       </createTable>
     </changeSet>
-    <!-- <changeSet id="2011-09-01_3" author="ben">
-        <loadData tableName="Region" file="../emonocot-persistence/src/main/resources/regions.csv">
-            <column name="id" index="0" type="STRING"/>
-            <column name="country" index="1" type="STRING"/>
-            <column name="region" index="2" type="STRING"/>
-            <column name="continent" index="3" type="STRING"/>
-        </loadData>
-    </changeSet>-->
     <changeSet id="2011-09-04_1" author="ben">
       <addColumn tableName="Reference">
         <column name="author" type="varchar(255)"/>
@@ -2293,11 +2285,6 @@
       <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
       <dropColumn  tableName="Job" columnName="family"/>
     </changeSet>
-    <!-- Until we know it's ok to grant SELECT to test & uat users this is commented out 
-    <changeSet id="2012-08-29" author="jk00kg">
-        <comment>N.B. http://geocommons.com/overlays/33578 data must be loaded into `gis`.`place` table</comment>
-        <sql>UPDATE gis.place g INNER JOIN Place p ON g.fipsCode = p.fipsCode SET p.mapFeatureId = g.OGR_FID</sql>
-    </changeSet> -->
     <changeSet id="2012-10-05_01" author="ben">
       <comment>Refactored Job so that an arbitrary number of parameters can be associated with it</comment>
       <renameColumn tableName="Annotation" oldColumnName="source_id" newColumnName="authority_id" columnDataType="bigint"/>
