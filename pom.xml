@@ -1618,6 +1618,8 @@
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <maven.site.skip>true</maven.site.skip>
 			</properties>
 			<!-- TODO: Deploy using Cargo -->
 		</profile>
@@ -1696,6 +1698,8 @@
 				<comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
 				<comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
 				<comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <maven.site.skip>true</maven.site.skip>
 			</properties>
 		</profile>
 	</profiles>
