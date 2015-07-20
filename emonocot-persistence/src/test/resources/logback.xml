@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">    
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%d{ISO8601} | %-5p | %t | %c | %m%n</pattern>
     </encoder>
@@ -13,7 +13,7 @@
     <appender-ref ref="stdout"/>
   </logger>-->
   <!-- uncommment to see the sql statements-->
-   <!-- <logger name="org.hibernate.SQL" level="TRACE" additivity="false">
+  <!-- <logger name="org.hibernate.SQL" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>-->
   <!--<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" additivity="false">
