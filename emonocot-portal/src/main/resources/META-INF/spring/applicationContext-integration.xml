@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:integration="http://www.springframework.org/schema/integration"
-	xmlns:jms="http://www.springframework.org/schema/integration/jms"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		                http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-		                http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:integration="http://www.springframework.org/schema/integration"
+  xmlns:jms="http://www.springframework.org/schema/integration/jms"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+  http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
 <!-- Read write job launcher -->
 
-	<integration:gateway id="messageBasedReadWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readWriteJobLaunchRequests">
-		<integration:method name="launch" />
-	</integration:gateway>
+  <integration:gateway id="messageBasedReadWriteJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readWriteJobLaunchRequests">
+    <integration:method name="launch" />
+  </integration:gateway>
 
-	<integration:channel id="readWriteJobLaunchRequests" />
+  <integration:channel id="readWriteJobLaunchRequests" />
 
-	<jms:outbound-channel-adapter id="readWriteJobLaunchGateway" channel="readWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
-	
-    <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="${amq.readWriteQueue.name}" />
-	</bean>
+  <jms:outbound-channel-adapter id="readWriteJobLaunchGateway" channel="readWriteJobLaunchRequests"	destination="readWriteJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
 
-    <!-- Read only job launcher -->
-	<integration:gateway id="messageBasedReadOnlyJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readOnlyJobLaunchRequests">
-		<integration:method name="launch" />
-	</integration:gateway>
+  <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="${amq.readWriteQueue.name}" />
+  </bean>
 
-	<integration:channel id="readOnlyJobLaunchRequests" />
+  <!-- Read only job launcher -->
+  <integration:gateway id="messageBasedReadOnlyJobLauncher" service-interface="org.emonocot.api.job.JobLauncher" default-request-channel="readOnlyJobLaunchRequests">
+    <integration:method name="launch" />
+  </integration:gateway>
 
-	<jms:outbound-channel-adapter id="readOnlyJobLaunchGateway" channel="readOnlyJobLaunchRequests"	destination="readOnlyJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
-	
-    <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
-		<constructor-arg value="${amq.readOnlyQueue.name}" />
-	</bean>
+  <integration:channel id="readOnlyJobLaunchRequests" />
+
+  <jms:outbound-channel-adapter id="readOnlyJobLaunchGateway" channel="readOnlyJobLaunchRequests"	destination="readOnlyJobLaunchRequestsQueue" connection-factory="connectionFactory" message-converter="mappingMessageConverter"/>
+
+  <bean id="readOnlyJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">
+    <constructor-arg value="${amq.readOnlyQueue.name}" />
+  </bean>
 <!-- Generic converter used by both queues -->
-		
+
     <bean id="mappingMessageConverter"
-		class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
-		<property name="objectMapper" ref="customObjectMapper"/>
-		<property name="typeIdPropertyName" value="javaType"/>
-		<property name="typeIdMappings">
-		  <map>
-		    <entry>
-		      <key>
-		        <value>JobLaunchRequest</value>
-		      </key>
-		      <value>org.emonocot.api.job.JobLaunchRequest</value>
-		    </entry>
-		    <entry>
-				<key>
-					<value>JobExecutionInfo</value>
-				</key>
-				<value>org.emonocot.api.job.JobExecutionInfo</value>
-			</entry>
-		  </map>
-		</property>
-	</bean>
-   
-</beans>
+      class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
+      <property name="objectMapper" ref="customObjectMapper"/>
+      <property name="typeIdPropertyName" value="javaType"/>
+      <property name="typeIdMappings">
+        <map>
+          <entry>
+            <key>
+              <value>JobLaunchRequest</value>
+            </key>
+            <value>org.emonocot.api.job.JobLaunchRequest</value>
+          </entry>
+          <entry>
+            <key>
+              <value>JobExecutionInfo</value>
+            </key>
+            <value>org.emonocot.api.job.JobExecutionInfo</value>
+          </entry>
+        </map>
+      </property>
+    </bean>
+
+  </beans>

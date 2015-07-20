@@ -1,239 +1,238 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-	<context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
-    
-	<bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
 
-	<sec:authentication-manager alias="authenticationManager">
-		<sec:authentication-provider user-service-ref='userServiceImpl'>
-			<sec:password-encoder ref="passwordEncoder">
-				<sec:salt-source ref="saltSource" />
-			</sec:password-encoder>
-		</sec:authentication-provider>
-		<sec:authentication-provider ref="restAuthenticationProvider"/>
-	</sec:authentication-manager>
+  <bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
-	<sec:global-method-security	pre-post-annotations="enabled">
-		<sec:expression-handler ref="expressionHandler" />
-	</sec:global-method-security>
-	
-	<bean id="restAuthenticationProvider" class="org.emonocot.portal.auth.RestAuthenticationProvider">
-	  <property name="userService" ref="userServiceImpl"/>
-	</bean>
+  <sec:authentication-manager alias="authenticationManager">
+    <sec:authentication-provider user-service-ref='userServiceImpl'>
+      <sec:password-encoder ref="passwordEncoder">
+        <sec:salt-source ref="saltSource" />
+      </sec:password-encoder>
+    </sec:authentication-provider>
+    <sec:authentication-provider ref="restAuthenticationProvider"/>
+  </sec:authentication-manager>
 
-	<bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-		<property name="permissionEvaluator" ref="permissionEvaluator" />
-	</bean>
+  <sec:global-method-security	pre-post-annotations="enabled">
+    <sec:expression-handler ref="expressionHandler" />
+  </sec:global-method-security>
 
-	<bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
-		<constructor-arg ref="aclService" />
-		<property name="sidRetrievalStrategy">
-			<bean class="org.emonocot.service.impl.GroupSidRetrievalStrategyImpl" />
-		</property>
-	</bean>
+  <bean id="restAuthenticationProvider" class="org.emonocot.portal.auth.RestAuthenticationProvider">
+    <property name="userService" ref="userServiceImpl"/>
+  </bean>
 
-	<bean id="lookupStrategy"
-		class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
-		<constructor-arg ref="dataSource" />
-		<constructor-arg ref="aclCache" />
-		<constructor-arg ref="aclAuthorizationStrategy" />
-		<constructor-arg ref="auditLogger" />
-	</bean>
+  <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+    <property name="permissionEvaluator" ref="permissionEvaluator" />
+  </bean>
 
-	<bean id="aclCache"
-		class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
-		<constructor-arg>
-			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-				<property name="cacheManager" ref="cacheManager" />
-				<property name="cacheName" value="aclCache" />
-			</bean>
-		</constructor-arg>
-	</bean>
+  <bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
+    <constructor-arg ref="aclService" />
+    <property name="sidRetrievalStrategy">
+      <bean class="org.emonocot.service.impl.GroupSidRetrievalStrategyImpl" />
+    </property>
+  </bean>
 
-	<bean id="aclAuthorizationStrategy"
-		class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
-		<constructor-arg>
-			<list>
-				<bean
-					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-					<constructor-arg value="PERMISSION_ADMINISTRATE" />
-				</bean>
-				<bean
-					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-					<constructor-arg value="PERMISSION_ADMINISTRATE" />
-				</bean>
-				<bean
-					class="org.springframework.security.core.authority.GrantedAuthorityImpl">
-					<constructor-arg value="PERMISSION_ADMINISTRATE" />
-				</bean>
-			</list>
-		</constructor-arg>
-	</bean>
+  <bean id="lookupStrategy"
+    class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+    <constructor-arg ref="dataSource" />
+    <constructor-arg ref="aclCache" />
+    <constructor-arg ref="aclAuthorizationStrategy" />
+    <constructor-arg ref="auditLogger" />
+  </bean>
 
-	<bean id="auditLogger"	class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+  <bean id="aclCache"
+    class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+    <constructor-arg>
+      <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager" ref="cacheManager" />
+        <property name="cacheName" value="aclCache" />
+      </bean>
+    </constructor-arg>
+  </bean>
 
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="${ehcache.config.location}" />
-		<property name="shared" value="true" />
-	</bean>
+  <bean id="aclAuthorizationStrategy"
+    class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+    <constructor-arg>
+      <list>
+        <bean
+          class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+          <constructor-arg value="PERMISSION_ADMINISTRATE" />
+        </bean>
+        <bean
+          class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+          <constructor-arg value="PERMISSION_ADMINISTRATE" />
+        </bean>
+        <bean
+          class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+          <constructor-arg value="PERMISSION_ADMINISTRATE" />
+        </bean>
+      </list>
+    </constructor-arg>
+  </bean>
 
-    <!-- MD5 values can be produced using 'echo -n your_desired_password{your_desired_username} | md5sum' (using normal *nix environments) -->
-	<bean id="passwordEncoder"
-		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+  <bean id="auditLogger"	class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
 
-	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
-		<property name="userPropertyToUse" value="getUsername" />
-	</bean>
+  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="configLocation" value="${ehcache.config.location}" />
+    <property name="shared" value="true" />
+  </bean>
 
-	<sec:http-firewall ref="httpFirewall" />
-	<!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should 
-		be fixed in 3.0.5.RELEASE -->
-	 <bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
+  <!-- MD5 values can be produced using 'echo -n your_desired_password{your_desired_username} | md5sum' (using normal *nix environments) -->
+  <bean id="passwordEncoder"
+    class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 
-	<bean id="webSecurityExpressionHandler"
-		class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
-		<property name="permissionEvaluator" ref="permissionEvaluator" />
-	</bean>
+  <bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+    <property name="userPropertyToUse" value="getUsername" />
+  </bean>
 
-	<bean id="webAccessDecisionManager"
-		class="org.springframework.security.access.vote.AffirmativeBased">
-		<property name="decisionVoters">
-			<list>
-				<bean
-					class="org.springframework.security.web.access.expression.WebExpressionVoter">
-					<property name="expressionHandler" ref="webSecurityExpressionHandler" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="webserviceRequestMatcher" class="org.springframework.security.web.util.ELRequestMatcher">
-        <constructor-arg value="hasHeader('Accept','application/json') or hasHeader('Accept','application/javascript')"/>
-    </bean>
-    
-    <bean id="notWebserviceRequestMatcher" class="org.springframework.security.web.util.ELRequestMatcher">
-        <constructor-arg value="!hasHeader('Accept','application/json') and !hasHeader('Accept','application/javascript')"/>
-    </bean>
-    
-    <bean id="forbiddenEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
-    
-    <sec:http use-expressions="true"
-              disable-url-rewriting="true"
-              entry-point-ref="forbiddenEntryPoint"
-              create-session="stateless"
-              request-matcher-ref="webserviceRequestMatcher"
-              access-decision-manager-ref="webAccessDecisionManager">
-              <sec:anonymous enabled="false"/>              
-        <sec:custom-filter ref="restAuthenticationFilter" after="BASIC_AUTH_FILTER"/>
-        <sec:http-basic />
-        <sec:intercept-url pattern="/annotation" method="POST" access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
-        <sec:intercept-url pattern="/annotation" method="GET" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/annotation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
-        <sec:intercept-url pattern="/annotation/*" method="GET" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/comment" method="GET" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
-        <sec:intercept-url pattern="/comment/*" method="GET" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
-        <sec:intercept-url pattern="/group" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
-		<sec:intercept-url pattern="/group/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/image" method="POST" access="hasRole('PERMISSION_CREATE_IMAGE')" />
-		<sec:intercept-url pattern="/image" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/image/*" method="DELETE" access="hasRole('PERMISSION_DELETE_IMAGE')" />
-		<sec:intercept-url pattern="/image/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/jobExecution" method="POST" access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />
-		<sec:intercept-url pattern="/jobExecution" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/jobExecution/*" method="DELETE" access="hasRole('PERMISSION_DELETE_JOBEXECUTION')" />
-		<sec:intercept-url pattern="/jobExecution/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/jobInstance" method="POST" access="hasRole('PERMISSION_CREATE_JOBINSTANCE')" />
-		<sec:intercept-url pattern="/jobInstance" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/jobInstance/*" method="DELETE"	access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
-		<sec:intercept-url pattern="/jobInstance/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/key" method="POST" access="hasRole('PERMISSION_CREATE_KEY')" />
-		<sec:intercept-url pattern="/key" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
-		<sec:intercept-url pattern="/key/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
-		<sec:intercept-url pattern="/organisation" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
-		<sec:intercept-url pattern="/organisation/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/phylo" method="POST" access="hasRole('PERMISSION_CREATE_PHYLOGENY')" />
-		<sec:intercept-url pattern="/phylo" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
-		<sec:intercept-url pattern="/phylo/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/place" method="POST" access="hasRole('PERMISSION_CREATE_PLACE')" />
-		<sec:intercept-url pattern="/place" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/place/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PLACE')" />
-		<sec:intercept-url pattern="/place/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/reference" method="POST" access="hasRole('PERMISSION_CREATE_REFERENCE')" />
-		<sec:intercept-url pattern="/reference" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/reference/*" method="DELETE" access="hasRole('PERMISSION_DELETE_REFERENCE')" />
-		<sec:intercept-url pattern="/reference/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
-		<sec:intercept-url pattern="/resource" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
-		<sec:intercept-url pattern="/resource/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/search" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')" />
-		<sec:intercept-url pattern="/taxon" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')" />
-		<sec:intercept-url pattern="/taxon/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/term" method="POST" access="hasRole('PERMISSION_CREATE_TERM')" />
-		<sec:intercept-url pattern="/term" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/term/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TERM')" />
-		<sec:intercept-url pattern="/term/*" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/typeAndSpecimen" method="POST" access="hasRole('PERMISSION_CREATE_OCCURRENCE')" />
-		<sec:intercept-url pattern="/typeAndSpecimen/*" method="DELETE" access="hasRole('PERMISSION_DELETE_OCCURRENCE')" />
-		<sec:intercept-url pattern="/typeAndSpecimen/*" method="GET" access="isAuthenticated()" />		
-		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_CREATE_USER')" />
-		<sec:intercept-url pattern="/user" method="GET" access="isAuthenticated()" />
-		<sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
-		<sec:intercept-url pattern="/user/*" method="GET" access="isAuthenticated()" />
-	</sec:http>
-	
-	<bean id="restAuthenticationFilter" class="org.emonocot.portal.auth.RestAPIKeyAuthenticationFilter">
-        <constructor-arg name="defaultFilterProcessesUrl" value="/"/>
-        <property name="authenticationManager" ref="authenticationManager"/>
-        <property name="authenticationSuccessHandler">
-            <!-- Upon successful authentication, Spring will attempt to try and move you to another URL -->
-            <!-- We have to prevent this because the request for the resource and the authentication all get done in the same request! -->
-            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
-                <property name="redirectStrategy">
-                    <bean class="org.emonocot.portal.auth.NoRedirectStrategy"/>
-                </property>
-            </bean>
+  <sec:http-firewall ref="httpFirewall" />
+  <!-- Due to SEC-1606 https://jira.springsource.org/browse/SEC-1606 should be fixed in 3.0.5.RELEASE -->
+  <bean name="httpFirewall" class="org.emonocot.portal.auth.RequestDispatcherAwareHttpFirewall" />
+
+  <bean id="webSecurityExpressionHandler"
+    class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+    <property name="permissionEvaluator" ref="permissionEvaluator" />
+  </bean>
+
+  <bean id="webAccessDecisionManager"
+    class="org.springframework.security.access.vote.AffirmativeBased">
+    <property name="decisionVoters">
+      <list>
+        <bean
+          class="org.springframework.security.web.access.expression.WebExpressionVoter">
+          <property name="expressionHandler" ref="webSecurityExpressionHandler" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="webserviceRequestMatcher" class="org.springframework.security.web.util.ELRequestMatcher">
+    <constructor-arg value="hasHeader('Accept','application/json') or hasHeader('Accept','application/javascript')"/>
+  </bean>
+
+  <bean id="notWebserviceRequestMatcher" class="org.springframework.security.web.util.ELRequestMatcher">
+    <constructor-arg value="!hasHeader('Accept','application/json') and !hasHeader('Accept','application/javascript')"/>
+  </bean>
+
+  <bean id="forbiddenEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
+
+  <sec:http use-expressions="true"
+    disable-url-rewriting="true"
+    entry-point-ref="forbiddenEntryPoint"
+    create-session="stateless"
+    request-matcher-ref="webserviceRequestMatcher"
+    access-decision-manager-ref="webAccessDecisionManager">
+    <sec:anonymous enabled="false"/>
+    <sec:custom-filter ref="restAuthenticationFilter" after="BASIC_AUTH_FILTER"/>
+    <sec:http-basic />
+    <sec:intercept-url pattern="/annotation" method="POST" access="hasRole('PERMISSION_CREATE_ANNOTATION')" />
+    <sec:intercept-url pattern="/annotation" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/annotation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_ANNOTATION')" />
+    <sec:intercept-url pattern="/annotation/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/comment" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
+    <sec:intercept-url pattern="/comment/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
+    <sec:intercept-url pattern="/group" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
+    <sec:intercept-url pattern="/group/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/image" method="POST" access="hasRole('PERMISSION_CREATE_IMAGE')" />
+    <sec:intercept-url pattern="/image" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/image/*" method="DELETE" access="hasRole('PERMISSION_DELETE_IMAGE')" />
+    <sec:intercept-url pattern="/image/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/jobExecution" method="POST" access="hasRole('PERMISSION_CREATE_JOBEXECUTION')" />
+    <sec:intercept-url pattern="/jobExecution" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/jobExecution/*" method="DELETE" access="hasRole('PERMISSION_DELETE_JOBEXECUTION')" />
+    <sec:intercept-url pattern="/jobExecution/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/jobInstance" method="POST" access="hasRole('PERMISSION_CREATE_JOBINSTANCE')" />
+    <sec:intercept-url pattern="/jobInstance" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/jobInstance/*" method="DELETE"	access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
+    <sec:intercept-url pattern="/jobInstance/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/key" method="POST" access="hasRole('PERMISSION_CREATE_KEY')" />
+    <sec:intercept-url pattern="/key" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
+    <sec:intercept-url pattern="/key/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
+    <sec:intercept-url pattern="/organisation" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
+    <sec:intercept-url pattern="/organisation/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/phylo" method="POST" access="hasRole('PERMISSION_CREATE_PHYLOGENY')" />
+    <sec:intercept-url pattern="/phylo" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
+    <sec:intercept-url pattern="/phylo/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/place" method="POST" access="hasRole('PERMISSION_CREATE_PLACE')" />
+    <sec:intercept-url pattern="/place" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/place/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PLACE')" />
+    <sec:intercept-url pattern="/place/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/reference" method="POST" access="hasRole('PERMISSION_CREATE_REFERENCE')" />
+    <sec:intercept-url pattern="/reference" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/reference/*" method="DELETE" access="hasRole('PERMISSION_DELETE_REFERENCE')" />
+    <sec:intercept-url pattern="/reference/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
+    <sec:intercept-url pattern="/resource" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
+    <sec:intercept-url pattern="/resource/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/search" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/taxon" method="POST" access="hasRole('PERMISSION_CREATE_TAXON')" />
+    <sec:intercept-url pattern="/taxon" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/taxon/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TAXON')" />
+    <sec:intercept-url pattern="/taxon/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/term" method="POST" access="hasRole('PERMISSION_CREATE_TERM')" />
+    <sec:intercept-url pattern="/term" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/term/*" method="DELETE" access="hasRole('PERMISSION_DELETE_TERM')" />
+    <sec:intercept-url pattern="/term/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/typeAndSpecimen" method="POST" access="hasRole('PERMISSION_CREATE_OCCURRENCE')" />
+    <sec:intercept-url pattern="/typeAndSpecimen/*" method="DELETE" access="hasRole('PERMISSION_DELETE_OCCURRENCE')" />
+    <sec:intercept-url pattern="/typeAndSpecimen/*" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_CREATE_USER')" />
+    <sec:intercept-url pattern="/user" method="GET" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
+    <sec:intercept-url pattern="/user/*" method="GET" access="isAuthenticated()" />
+  </sec:http>
+
+  <bean id="restAuthenticationFilter" class="org.emonocot.portal.auth.RestAPIKeyAuthenticationFilter">
+    <constructor-arg name="defaultFilterProcessesUrl" value="/"/>
+    <property name="authenticationManager" ref="authenticationManager"/>
+    <property name="authenticationSuccessHandler">
+      <!-- Upon successful authentication, Spring will attempt to try and move you to another URL -->
+      <!-- We have to prevent this because the request for the resource and the authentication all get done in the same request! -->
+      <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+        <property name="redirectStrategy">
+          <bean class="org.emonocot.portal.auth.NoRedirectStrategy"/>
         </property>
-    </bean>
+      </bean>
+    </property>
+  </bean>
 
-	<sec:http use-expressions="true" request-matcher-ref="notWebserviceRequestMatcher" access-decision-manager-ref="webAccessDecisionManager">
-		<sec:intercept-url pattern="/login*" access="permitAll" />
-		<sec:intercept-url pattern="/recovery" access="permitAll" />
-		<sec:intercept-url pattern="/home" access="!isAnonymous()" />
-		<sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
-		<sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_ADMINISTRATE')" />
-		<sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
-		<sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
-		<sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
-		<sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
-		<sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
-		<sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
-		<sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
-		<sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
-        <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
-         <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
-        <sec:intercept-url pattern="/download" access="isAuthenticated()" />
-        <sec:intercept-url pattern="/download/phylo" access="isAuthenticated()" />       
-		<sec:form-login login-page='/login'	login-processing-url="/process_login" authentication-failure-url="/login?error=true" default-target-url="/home" />
-		<sec:remember-me />
-		<sec:access-denied-handler error-page="/accessDenied" />
-		<sec:logout logout-url="/logout" />
-		<sec:http-basic />
-		<sec:anonymous/>
-	</sec:http>
+  <sec:http use-expressions="true" request-matcher-ref="notWebserviceRequestMatcher" access-decision-manager-ref="webAccessDecisionManager">
+    <sec:intercept-url pattern="/login*" access="permitAll" />
+    <sec:intercept-url pattern="/recovery" access="permitAll" />
+    <sec:intercept-url pattern="/home" access="!isAnonymous()" />
+    <sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
+    <sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_ADMINISTRATE')" />
+    <sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
+    <sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
+    <sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
+    <sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
+    <sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
+    <sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
+    <sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
+    <sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
+    <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
+    <sec:intercept-url pattern="/download" access="isAuthenticated()" />
+    <sec:intercept-url pattern="/download/phylo" access="isAuthenticated()" />
+    <sec:form-login login-page='/login'	login-processing-url="/process_login" authentication-failure-url="/login?error=true" default-target-url="/home" />
+    <sec:remember-me />
+    <sec:access-denied-handler error-page="/accessDenied" />
+    <sec:logout logout-url="/logout" />
+    <sec:http-basic />
+    <sec:anonymous/>
+  </sec:http>
 </beans>

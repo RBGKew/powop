@@ -1,353 +1,355 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-		                
-	<context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
-	<context:property-override location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties" ignore-resource-not-found="true" ignore-unresolvable="true"/>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:annotation-config />
-	<context:component-scan base-package="org.emonocot">
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.DaoImpl"/>
-		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobExecutionDaoImpl"/>
-		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobInstanceDaoImpl"/>
-		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteUserServiceImpl"/>
-		<context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteGroupServiceImpl"/>
-		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao"/>
-		<context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao"/>
-	</context:component-scan>
+  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
+  <context:property-override location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties" ignore-resource-not-found="true" ignore-unresolvable="true"/>
 
-	<tx:annotation-driven />
-	
-	<bean id="ncbiService" class="org.emonocot.portal.ws.ncbi.NcbiService" init-method="afterPropertiesSet">
-	  <property name="httpProxyHost" value="${http.proxyHost}"/>
-	  <property name="httpProxyPort" value="${http.proxyPort}"/>
-	</bean>
-	
-	<bean name="customObjectMapper"	class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
-		<property name="referenceService" ref="referenceServiceImpl" />
-		<property name="taxonService" ref="taxonServiceImpl" />
-		<property name="imageService" ref="imageServiceImpl" />
-		<property name="groupService" ref="groupServiceImpl" />
-		<property name="userService" ref="userServiceImpl" />
-		<property name="organisationService" ref="organisationServiceImpl" />
-		<property name="identificationKeyService" ref="identificationKeyServiceImpl" />
-		<property name="phylogeneticTreeService" ref="phylogeneticTreeServiceImpl" />
-		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
-	</bean>
-	
-	<bean id="connectionFactory"
-		class="org.springframework.jms.connection.CachingConnectionFactory">
-		<property name="targetConnectionFactory">
-			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-				<property name="brokerURL" value="${amq.broker.uri}" />
-				<property name="userName" value="${amq.broker.userName}" />
-				<property name="password" value="${amq.broker.password}" />
-			</bean>
-		</property>
-		<property name="sessionCacheSize" value="10" />
-		<property name="cacheProducers" value="false" />
-	</bean>
+  <context:annotation-config />
+  <context:component-scan base-package="org.emonocot">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.DaoImpl"/>
+    <context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobExecutionDaoImpl"/>
+    <context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.JobInstanceDaoImpl"/>
+    <context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteUserServiceImpl"/>
+    <context:exclude-filter type="assignable" expression="org.emonocot.portal.remoting.RemoteGroupServiceImpl"/>
+    <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobInstanceDao"/>
+    <context:exclude-filter type="assignable" expression="org.emonocot.persistence.dao.JobExecutionDao"/>
+  </context:component-scan>
 
-	<bean name="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	
-	<bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
-	  <property name="solrServer" ref="solrServer"/>
-	</bean>
-    
-    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="jobDetails" />
-        <property name="cronExpression" value="${quartz.cron.expression}"/>
-    </bean>
-    
-    <bean id="jobDetails" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="org.emonocot.portal.scheduling.HarvestDataJob" />
-        <property name="jobDataAsMap">
-            <map>
-                <entry key="workingWeekCronExpression" value="* */10 0-9,17-23 ? * MON-FRI" />
-                <entry key="weekendCronExpression" value="* */10 0-23 ? * SAT-SUN" />
-                <entry key="resourceServiceName" value="resourceServiceImpl" />
-                <entry key="jobLauncherName" value="messageBasedReadWriteJobLauncher" />
-            </map>
-        </property>
-    </bean>
-	
-	<bean id="emailService" class="org.emonocot.service.impl.EmailServiceImpl">
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="velocityEngine" ref="velocityEngine"/>
-	  <property name="fromAddress" value="${email.fromAddress}"/>
-	</bean>
-	
-	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-      <property name="velocityProperties">
-         <value>
-          resource.loader=class
-          class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-         </value>
-      </property>
-   </bean>
-	
-	<bean id="mailSender" class="org.emonocot.service.impl.JavaMailSenderImplFactory">
-        <property name="username" value="${email.smtp.username}" />
-        <property name="password" value="${email.smtp.password}" />
-        <property name="javaMailProperties">
-          <props>
-            <prop key="mail.smtp.host">${email.smtp.host}</prop>
-            <prop key="mail.smtp.port">${email.smtp.port}</prop>
-            <prop key="mail.smtp.auth">${email.smtp.auth}</prop>
-            <prop key="mail.smtp.starttls.enable">${email.smtp.enable.starttls}</prop>
-          </props>
-    </property>
-    </bean>
-    <beans profile="default,emonocot.no.proxy">
-        <bean name="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="springLiquibase">
-		    <property name="dataSource" ref="dataSource" />
-		    <property name="hibernateProperties">
-			    <value>
-				    hibernate.dialect=${hibernate.dialect}
-				    hibernate.hbm2ddl.auto=validate
-                    hibernate.validator.autoregister_listeners=false
-                    hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}
-                    hibernate.default_schema=${liquibase.default.schema.name}
-			    </value>
-		    </property>
-		    <property name="annotatedClasses">
-			    <list>
-				    <value>org.emonocot.model.Identifier</value>
-				    <value>org.emonocot.model.IdentificationKey</value>
-				    <value>org.emonocot.model.Annotation</value>
-				    <value>org.emonocot.model.Distribution</value>
-				    <value>org.emonocot.model.Description</value>
-				    <value>org.emonocot.model.Image</value>
-				    <value>org.emonocot.model.MeasurementOrFact</value>
-				    <value>org.emonocot.model.PhylogeneticTree</value>
-				    <value>org.emonocot.model.Reference</value>
-				    <value>org.emonocot.model.Taxon</value>
-				    <value>org.emonocot.model.TypeAndSpecimen</value>
-				    <value>org.emonocot.model.VernacularName</value>
-				    <value>org.emonocot.model.registry.Resource</value>
-				    <value>org.emonocot.model.registry.Organisation</value>
-				    <value>org.emonocot.model.auth.User</value>
-				    <value>org.emonocot.model.auth.Group</value>
-				    <value>org.emonocot.model.Place</value>
-                    <value>org.emonocot.model.Comment</value>
-                    <value>org.emonocot.model.Concept</value>
-			    </list>
-		    </property>
-		    <property name="eventListeners">
-      	      <map>
-      	        <entry key="post-insert" value-ref="solrIndexingListener" />
-      	        <entry key="post-update" value-ref="solrIndexingListener" />
-                <entry key="post-delete" value-ref="solrIndexingListener" />
-      	      </map>
-    	    </property>
-		    <property name="annotatedPackages" value="org.emonocot.model"/>
-	    </bean>
-	    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
-            <property name="applicationContextSchedulerContextKey" value="applicationContext" />
-            <property name="dataSource" ref="dataSource"/>
-            <property name="transactionManager" ref="transactionManager"/>
-            <property name="overwriteExistingJobs" value="true"/>
-            <property name="autoStartup" value="true" />
-            <property name="triggers">
-                <list>
-                    <ref bean="cronTrigger" />
-                </list>
-            </property>
-            <property name="quartzProperties">
-                <props>
-                    <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
-                    <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
-                    <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
-                    <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
-                    <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
-                    <prop key="org.quartz.jobStore.tablePrefix">${liquibase.default.schema.name}.qrtz_</prop>
-                    <prop key="org.quartz.jobStore.isClustered">true</prop>
-                    <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
-                    <prop key="org.quartz.threadPool.threadCount">1</prop>
-                    <prop key="org.quartz.threadPool.threadPriority">5</prop>
-                </props>
-          </property>
-        </bean>
-        <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" depends-on="springLiquibase">
-		    <constructor-arg ref="dataSource" />
-		    <constructor-arg ref="lookupStrategy" />
-		    <constructor-arg ref="aclCache" />
-		    <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
-		    <property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
-		    <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
-		    <property name="auditLogger" ref="auditLogger" />
-		    <property name="sessionFactory" ref="sessionFactory" />
-	    </bean>
+  <tx:annotation-driven />
 
-	    <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl" depends-on="springLiquibase"/>
-	    <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl" depends-on="springLiquibase"/>
-	    
-        <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
-		    <constructor-arg value="${solr.url}"/>
-	    </bean>
-	
-	    <bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">
-            <property name="dataSource" ref="liquibaseDataSource" />
-            <property name="changeLog" value="classpath:${liquibase.changelog}" />
-            <property name="dropFirst" value="${liquibase.drop.database.first}"/>
-            <property name="defaultSchema" value="${liquibase.default.schema.name}"/>
-        </bean>
-    
-        <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		    <property name="driverClassName" value="${jdbc.driver.classname}" />
-		    <property name="url" value="${jdbc.driver.url}" />
-		    <property name="username" value="${liquibase.username}" />
-		    <property name="password" value="${liquibase.password}" />
-		    <property name="initialSize" value="8" />
-		    <property name="maxActive" value="20" />
-		    <property name="maxIdle" value="10" />
-		    <property name="minIdle" value="0" />
-		    <property name="maxWait" value="10000" />
-		    <property name="removeAbandoned" value="true" />
-		    <property name="removeAbandonedTimeout" value="300" />
-		    <property name="logAbandoned" value="true" />
-		    <property name="defaultAutoCommit" value="true" />
-		    <property name="defaultReadOnly" value="false" />
-		    <property name="validationQuery" value="SELECT 1" />
-		    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-		    <property name="minEvictableIdleTimeMillis" value="30000" />
-		    <property name="numTestsPerEvictionRun" value="3" />
-		    <property name="testWhileIdle" value="true" />
-		    <property name="testOnReturn" value="true" />
-		    <property name="testOnBorrow" value="true" />
-		    <property name="defaultTransactionIsolation" value="2" />
-	    </bean>
+  <bean id="ncbiService" class="org.emonocot.portal.ws.ncbi.NcbiService" init-method="afterPropertiesSet">
+    <property name="httpProxyHost" value="${http.proxyHost}"/>
+    <property name="httpProxyPort" value="${http.proxyPort}"/>
+  </bean>
 
-	    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		    <property name="driverClassName" value="${jdbc.driver.classname}" />
-		    <property name="url" value="${jdbc.driver.url}" />
-		    <property name="username" value="${jdbc.driver.username}" />
-		    <property name="password" value="${jdbc.driver.password}" />
-		    <property name="initialSize" value="8" />
-		    <property name="maxActive" value="20" />
-		    <property name="maxIdle" value="10" />
-		    <property name="minIdle" value="1" />
-		    <property name="maxWait" value="10000" />
-		    <property name="removeAbandoned" value="true" />
-		    <property name="removeAbandonedTimeout" value="300" />
-		    <property name="logAbandoned" value="true" />
-		    <property name="defaultAutoCommit" value="true" />
-		    <property name="defaultReadOnly" value="false" />
-		    <property name="validationQuery" value="SELECT 1" />
-		    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-		    <property name="minEvictableIdleTimeMillis" value="30000" />
-		    <property name="numTestsPerEvictionRun" value="3" />
-		    <property name="testWhileIdle" value="true" />
-		    <property name="testOnReturn" value="true" />
-		    <property name="testOnBorrow" value="true" />
-		    <property name="defaultTransactionIsolation" value="2" />
-	    </bean>
-    </beans>
-    <beans profile="local.tests">
-        <bean name="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		    <property name="dataSource" ref="dataSource" />
-		    <property name="hibernateProperties">
-			    <value>
-				    hibernate.dialect=${hibernate.dialect}
-				    hibernate.hbm2ddl.auto=validate
-                    hibernate.validator.autoregister_listeners=false
-                    hibernate.show_sql=${hibernate.show_sql}
-			    </value>
-		    </property>
-		    <property name="annotatedClasses">
-			    <list>
-				    <value>org.emonocot.model.Identifier</value>
-				    <value>org.emonocot.model.IdentificationKey</value>
-				    <value>org.emonocot.model.Annotation</value>
-				    <value>org.emonocot.model.Distribution</value>
-				    <value>org.emonocot.model.Description</value>
-				    <value>org.emonocot.model.Image</value>
-				    <value>org.emonocot.model.MeasurementOrFact</value>
-				    <value>org.emonocot.model.PhylogeneticTree</value>
-				    <value>org.emonocot.model.Reference</value>
-				    <value>org.emonocot.model.Taxon</value>
-				    <value>org.emonocot.model.TypeAndSpecimen</value>
-				    <value>org.emonocot.model.VernacularName</value>
-				    <value>org.emonocot.model.registry.Resource</value>
-				    <value>org.emonocot.model.registry.Organisation</value>
-				    <value>org.emonocot.model.auth.User</value>
-				    <value>org.emonocot.model.auth.Group</value>
-				    <value>org.emonocot.model.Place</value>
-                    <value>org.emonocot.model.Comment</value>
-			    </list>
-		    </property>
-		    <property name="eventListeners">
-      	      <map>
-      	        <entry key="post-insert" value-ref="solrIndexingListener" />
-      	        <entry key="post-update" value-ref="solrIndexingListener" />
-                <entry key="post-delete" value-ref="solrIndexingListener" />
-      	      </map>
-    	    </property>
-		    <property name="annotatedPackages" value="org.emonocot.model"/>
-	    </bean>
-	    <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" >
-		    <constructor-arg ref="dataSource" />
-		    <constructor-arg ref="lookupStrategy" />
-		    <constructor-arg ref="aclCache" />
-		    <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
-		    <property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
-		    <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
-		    <property name="auditLogger" ref="auditLogger" />
-		    <property name="sessionFactory" ref="sessionFactory" />
-	    </bean>
-	    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
-            <property name="applicationContextSchedulerContextKey" value="applicationContext" />
-            <property name="dataSource" ref="dataSource"/>
-            <property name="transactionManager" ref="transactionManager"/>
-            <property name="overwriteExistingJobs" value="true"/>
-            <property name="autoStartup" value="true" />
-            <property name="triggers">
-                <list>
-                    <ref bean="cronTrigger" />
-                </list>
-            </property>
-            <property name="quartzProperties">
-                <props>
-                    <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
-                    <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
-                    <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
-                    <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
-                    <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
-                    <prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
-                    <prop key="org.quartz.jobStore.isClustered">true</prop>
-                    <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
-                    <prop key="org.quartz.threadPool.threadCount">1</prop>
-                    <prop key="org.quartz.threadPool.threadPriority">5</prop>
-                </props>
-          </property>
-        </bean>
-        <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl"/>
-	    <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl"/>
-      <bean name="dataSource"
-            class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-            <property name="testDatabaseName" value="testdb" />
-            <property name="schemaLocations">
-                <list>
-                    <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-                    <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
-                    <value>classpath:/META-INF/database/H2_schema.ddl</value>
-                    <value>classpath:/META-INF/database/H2_quartz.ddl</value>
-                    <value>classpath:/createAclSchema.sql</value>
-                </list>
-            </property>
-            <property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />          
+  <bean name="customObjectMapper"	class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+    <property name="referenceService" ref="referenceServiceImpl" />
+    <property name="taxonService" ref="taxonServiceImpl" />
+    <property name="imageService" ref="imageServiceImpl" />
+    <property name="groupService" ref="groupServiceImpl" />
+    <property name="userService" ref="userServiceImpl" />
+    <property name="organisationService" ref="organisationServiceImpl" />
+    <property name="identificationKeyService" ref="identificationKeyServiceImpl" />
+    <property name="phylogeneticTreeService" ref="phylogeneticTreeServiceImpl" />
+    <property name="jobInstanceService" ref="jobInstanceServiceImpl" />
+  </bean>
+
+  <bean id="connectionFactory"
+    class="org.springframework.jms.connection.CachingConnectionFactory">
+    <property name="targetConnectionFactory">
+      <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${amq.broker.uri}" />
+        <property name="userName" value="${amq.broker.userName}" />
+        <property name="password" value="${amq.broker.password}" />
       </bean>
-      <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean" destroy-method="shutdown">
-		<property name="solrHome" value="classpath:/META-INF/solr/"/>
-	  </bean>
-    </beans>
+    </property>
+    <property name="sessionCacheSize" value="10" />
+    <property name="cacheProducers" value="false" />
+  </bean>
+
+  <bean name="transactionManager"
+    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
+    <property name="solrServer" ref="solrServer"/>
+  </bean>
+
+  <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail" ref="jobDetails" />
+    <property name="cronExpression" value="${quartz.cron.expression}"/>
+  </bean>
+
+  <bean id="jobDetails" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <property name="jobClass" value="org.emonocot.portal.scheduling.HarvestDataJob" />
+    <property name="jobDataAsMap">
+      <map>
+        <entry key="workingWeekCronExpression" value="* */10 0-9,17-23 ? * MON-FRI" />
+        <entry key="weekendCronExpression" value="* */10 0-23 ? * SAT-SUN" />
+        <entry key="resourceServiceName" value="resourceServiceImpl" />
+        <entry key="jobLauncherName" value="messageBasedReadWriteJobLauncher" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="emailService" class="org.emonocot.service.impl.EmailServiceImpl">
+    <property name="mailSender" ref="mailSender"/>
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="fromAddress" value="${email.fromAddress}"/>
+  </bean>
+
+  <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+    <property name="velocityProperties">
+      <value>
+        resource.loader=class
+        class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+      </value>
+    </property>
+  </bean>
+
+  <bean id="mailSender" class="org.emonocot.service.impl.JavaMailSenderImplFactory">
+    <property name="username" value="${email.smtp.username}" />
+    <property name="password" value="${email.smtp.password}" />
+    <property name="javaMailProperties">
+      <props>
+        <prop key="mail.smtp.host">${email.smtp.host}</prop>
+        <prop key="mail.smtp.port">${email.smtp.port}</prop>
+        <prop key="mail.smtp.auth">${email.smtp.auth}</prop>
+        <prop key="mail.smtp.starttls.enable">${email.smtp.enable.starttls}</prop>
+      </props>
+    </property>
+  </bean>
+
+  <beans profile="default,emonocot.no.proxy">
+    <bean name="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" depends-on="springLiquibase">
+      <property name="dataSource" ref="dataSource" />
+      <property name="hibernateProperties">
+        <value>
+          hibernate.dialect=${hibernate.dialect}
+          hibernate.hbm2ddl.auto=validate
+          hibernate.validator.autoregister_listeners=false
+          hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}
+          hibernate.default_schema=${liquibase.default.schema.name}
+        </value>
+      </property>
+      <property name="annotatedClasses">
+        <list>
+          <value>org.emonocot.model.Identifier</value>
+          <value>org.emonocot.model.IdentificationKey</value>
+          <value>org.emonocot.model.Annotation</value>
+          <value>org.emonocot.model.Distribution</value>
+          <value>org.emonocot.model.Description</value>
+          <value>org.emonocot.model.Image</value>
+          <value>org.emonocot.model.MeasurementOrFact</value>
+          <value>org.emonocot.model.PhylogeneticTree</value>
+          <value>org.emonocot.model.Reference</value>
+          <value>org.emonocot.model.Taxon</value>
+          <value>org.emonocot.model.TypeAndSpecimen</value>
+          <value>org.emonocot.model.VernacularName</value>
+          <value>org.emonocot.model.registry.Resource</value>
+          <value>org.emonocot.model.registry.Organisation</value>
+          <value>org.emonocot.model.auth.User</value>
+          <value>org.emonocot.model.auth.Group</value>
+          <value>org.emonocot.model.Place</value>
+          <value>org.emonocot.model.Comment</value>
+          <value>org.emonocot.model.Concept</value>
+        </list>
+      </property>
+      <property name="eventListeners">
+        <map>
+          <entry key="post-insert" value-ref="solrIndexingListener" />
+          <entry key="post-update" value-ref="solrIndexingListener" />
+          <entry key="post-delete" value-ref="solrIndexingListener" />
+        </map>
+      </property>
+      <property name="annotatedPackages" value="org.emonocot.model"/>
+    </bean>
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" depends-on="springLiquibase">
+      <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+      <property name="dataSource" ref="dataSource"/>
+      <property name="transactionManager" ref="transactionManager"/>
+      <property name="overwriteExistingJobs" value="true"/>
+      <property name="autoStartup" value="true" />
+      <property name="triggers">
+        <list>
+          <ref bean="cronTrigger" />
+        </list>
+      </property>
+      <property name="quartzProperties">
+        <props>
+          <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
+          <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+          <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+          <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+          <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
+          <prop key="org.quartz.jobStore.tablePrefix">${liquibase.default.schema.name}.qrtz_</prop>
+          <prop key="org.quartz.jobStore.isClustered">true</prop>
+          <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+          <prop key="org.quartz.threadPool.threadCount">1</prop>
+          <prop key="org.quartz.threadPool.threadPriority">5</prop>
+        </props>
+      </property>
+    </bean>
+    <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" depends-on="springLiquibase">
+      <constructor-arg ref="dataSource" />
+      <constructor-arg ref="lookupStrategy" />
+      <constructor-arg ref="aclCache" />
+      <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
+      <property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
+      <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+      <property name="auditLogger" ref="auditLogger" />
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl" depends-on="springLiquibase"/>
+    <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl" depends-on="springLiquibase"/>
+
+    <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+      <constructor-arg value="${solr.url}"/>
+    </bean>
+
+    <bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">
+      <property name="dataSource" ref="liquibaseDataSource" />
+      <property name="changeLog" value="classpath:${liquibase.changelog}" />
+      <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+      <property name="defaultSchema" value="${liquibase.default.schema.name}"/>
+    </bean>
+
+    <bean id="liquibaseDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver.classname}" />
+      <property name="url" value="${jdbc.driver.url}" />
+      <property name="username" value="${liquibase.username}" />
+      <property name="password" value="${liquibase.password}" />
+      <property name="initialSize" value="8" />
+      <property name="maxActive" value="20" />
+      <property name="maxIdle" value="10" />
+      <property name="minIdle" value="0" />
+      <property name="maxWait" value="10000" />
+      <property name="removeAbandoned" value="true" />
+      <property name="removeAbandonedTimeout" value="300" />
+      <property name="logAbandoned" value="true" />
+      <property name="defaultAutoCommit" value="true" />
+      <property name="defaultReadOnly" value="false" />
+      <property name="validationQuery" value="SELECT 1" />
+      <property name="timeBetweenEvictionRunsMillis" value="60000" />
+      <property name="minEvictableIdleTimeMillis" value="30000" />
+      <property name="numTestsPerEvictionRun" value="3" />
+      <property name="testWhileIdle" value="true" />
+      <property name="testOnReturn" value="true" />
+      <property name="testOnBorrow" value="true" />
+      <property name="defaultTransactionIsolation" value="2" />
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+      <property name="driverClassName" value="${jdbc.driver.classname}" />
+      <property name="url" value="${jdbc.driver.url}" />
+      <property name="username" value="${jdbc.driver.username}" />
+      <property name="password" value="${jdbc.driver.password}" />
+      <property name="initialSize" value="8" />
+      <property name="maxActive" value="20" />
+      <property name="maxIdle" value="10" />
+      <property name="minIdle" value="1" />
+      <property name="maxWait" value="10000" />
+      <property name="removeAbandoned" value="true" />
+      <property name="removeAbandonedTimeout" value="300" />
+      <property name="logAbandoned" value="true" />
+      <property name="defaultAutoCommit" value="true" />
+      <property name="defaultReadOnly" value="false" />
+      <property name="validationQuery" value="SELECT 1" />
+      <property name="timeBetweenEvictionRunsMillis" value="60000" />
+      <property name="minEvictableIdleTimeMillis" value="30000" />
+      <property name="numTestsPerEvictionRun" value="3" />
+      <property name="testWhileIdle" value="true" />
+      <property name="testOnReturn" value="true" />
+      <property name="testOnBorrow" value="true" />
+      <property name="defaultTransactionIsolation" value="2" />
+    </bean>
+  </beans>
+
+  <beans profile="local.tests">
+    <bean name="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="hibernateProperties">
+        <value>
+          hibernate.dialect=${hibernate.dialect}
+          hibernate.hbm2ddl.auto=validate
+          hibernate.validator.autoregister_listeners=false
+          hibernate.show_sql=${hibernate.show_sql}
+        </value>
+      </property>
+      <property name="annotatedClasses">
+        <list>
+          <value>org.emonocot.model.Identifier</value>
+          <value>org.emonocot.model.IdentificationKey</value>
+          <value>org.emonocot.model.Annotation</value>
+          <value>org.emonocot.model.Distribution</value>
+          <value>org.emonocot.model.Description</value>
+          <value>org.emonocot.model.Image</value>
+          <value>org.emonocot.model.MeasurementOrFact</value>
+          <value>org.emonocot.model.PhylogeneticTree</value>
+          <value>org.emonocot.model.Reference</value>
+          <value>org.emonocot.model.Taxon</value>
+          <value>org.emonocot.model.TypeAndSpecimen</value>
+          <value>org.emonocot.model.VernacularName</value>
+          <value>org.emonocot.model.registry.Resource</value>
+          <value>org.emonocot.model.registry.Organisation</value>
+          <value>org.emonocot.model.auth.User</value>
+          <value>org.emonocot.model.auth.Group</value>
+          <value>org.emonocot.model.Place</value>
+          <value>org.emonocot.model.Comment</value>
+        </list>
+      </property>
+      <property name="eventListeners">
+        <map>
+          <entry key="post-insert" value-ref="solrIndexingListener" />
+          <entry key="post-update" value-ref="solrIndexingListener" />
+          <entry key="post-delete" value-ref="solrIndexingListener" />
+        </map>
+      </property>
+      <property name="annotatedPackages" value="org.emonocot.model"/>
+    </bean>
+    <bean class="org.emonocot.persistence.dao.hibernate.AclServiceImpl"	id="aclService" >
+      <constructor-arg ref="dataSource" />
+      <constructor-arg ref="lookupStrategy" />
+      <constructor-arg ref="aclCache" />
+      <property name="sidIdentityQuery" value="${spring.security.sid.identity.query}" />
+      <property name="classIdentityQuery" value="${spring.security.class.identity.query}" />
+      <property name="aclAuthorizationStrategy" ref="aclAuthorizationStrategy" />
+      <property name="auditLogger" ref="auditLogger" />
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+      <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+      <property name="dataSource" ref="dataSource"/>
+      <property name="transactionManager" ref="transactionManager"/>
+      <property name="overwriteExistingJobs" value="true"/>
+      <property name="autoStartup" value="true" />
+      <property name="triggers">
+        <list>
+          <ref bean="cronTrigger" />
+        </list>
+      </property>
+      <property name="quartzProperties">
+        <props>
+          <prop key="org.quartz.scheduler.instanceName">QuartzScheduler</prop>
+          <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+          <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+          <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+          <prop key="org.quartz.jobStore.driverDelegateClass">${quartz.jobstore.delegate}</prop>
+          <prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
+          <prop key="org.quartz.jobStore.isClustered">true</prop>
+          <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+          <prop key="org.quartz.threadPool.threadCount">1</prop>
+          <prop key="org.quartz.threadPool.threadPriority">5</prop>
+        </props>
+      </property>
+    </bean>
+    <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl"/>
+    <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl"/>
+    <bean name="dataSource"
+      class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
+      <property name="testDatabaseName" value="testdb" />
+      <property name="schemaLocations">
+        <list>
+          <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
+          <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
+          <value>classpath:/META-INF/database/H2_schema.ddl</value>
+          <value>classpath:/META-INF/database/H2_quartz.ddl</value>
+          <value>classpath:/createAclSchema.sql</value>
+        </list>
+      </property>
+      <property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
+    </bean>
+    <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean" destroy-method="shutdown">
+      <property name="solrHome" value="classpath:/META-INF/solr/"/>
+    </bean>
+  </beans>
 </beans>

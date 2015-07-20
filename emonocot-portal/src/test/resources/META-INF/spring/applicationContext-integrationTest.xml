@@ -1,97 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:integration="http://www.springframework.org/schema/integration"
-	xmlns:jms="http://www.springframework.org/schema/integration/jms"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:integration="http://www.springframework.org/schema/integration"
+  xmlns:jms="http://www.springframework.org/schema/integration/jms"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+  http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-	<context:property-placeholder
-		location="classpath*:META-INF/spring/application.properties" />
+  <context:property-placeholder
+    location="classpath*:META-INF/spring/application.properties" />
 
-	<jms:inbound-channel-adapter id="mockJobLaunchGateway"
-		channel="mockJobLaunchRequests"
-		destination="readWriteJobLaunchRequestsQueue"
-		message-converter="mappingMessageConverter"
-		connection-factory="connectionFactory">
-		<integration:poller fixed-rate="500"/>
-	</jms:inbound-channel-adapter>
-	
-	<integration:channel id="mockJobLaunchRequests"/>
-	
-	<integration:service-activator 
-	  input-channel="mockJobLaunchRequests"
-	  ref="mockJobLauncher" 
-	  method="launch"/>
-	
-	<bean id="mockJobLauncher" name="readOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
+  <jms:inbound-channel-adapter id="mockJobLaunchGateway"
+    channel="mockJobLaunchRequests"
+    destination="readWriteJobLaunchRequestsQueue"
+    message-converter="mappingMessageConverter"
+    connection-factory="connectionFactory">
+    <integration:poller fixed-rate="500"/>
+  </jms:inbound-channel-adapter>
 
-	<context:property-override
-		ignore-unresolvable="true"
-		location="classpath*:META-INF/spring/application.properties" />
+  <integration:channel id="mockJobLaunchRequests"/>
 
-    <context:component-scan base-package="org.emonocot.portal.remoting" />
-    
-    <bean id="ncbiService" class="org.emonocot.portal.ws.ncbi.NcbiService" init-method="afterPropertiesSet"/>
+  <integration:service-activator
+    input-channel="mockJobLaunchRequests"
+    ref="mockJobLauncher"
+    method="launch"/>
 
-	<context:component-scan base-package="org.emonocot.service.impl">
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.service.impl.GroupServiceImpl" />
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.service.impl.UserServiceImpl" />
-		<context:exclude-filter type="assignable"
-			expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
-        <context:exclude-filter type="assignable"
-            expression="org.emonocot.service.impl.DownloadServiceImpl"/>
-	</context:component-scan>
+  <bean id="mockJobLauncher" name="readOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
 
-	<bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
-		<constructor-arg ref="clientHttpRequestFactory" />
-		<property name="messageConverters">
-			<list>
-				<ref bean="jsonConverter" />
-			</list>
-		</property>
-		<property name="errorHandler">
-			<bean class="org.emonocot.portal.remoting.LoggingResponseErrorHandler" />
-		</property>
-	</bean>
+  <context:property-override
+    ignore-unresolvable="true"
+    location="classpath*:META-INF/spring/application.properties" />
 
-	<bean id="jsonConverter"
-		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
-		<property name="objectMapper" ref="customObjectMapper" />
-	</bean>
+  <context:component-scan base-package="org.emonocot.portal.remoting" />
 
-	<bean name="customObjectMapper"
-		class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
-		<property name="jobInstanceService" ref="jobInstanceServiceImpl" />
-	</bean>
+  <bean id="ncbiService" class="org.emonocot.portal.ws.ncbi.NcbiService" init-method="afterPropertiesSet"/>
 
-	<bean id="connectionFactory"
-		class="org.springframework.jms.connection.CachingConnectionFactory">
-		<property name="targetConnectionFactory">
-			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-				<property name="brokerURL" value="vm://localhost" />
-			</bean>
-		</property>
-		<property name="sessionCacheSize" value="10" />
-		<property name="cacheProducers" value="false" />
-	</bean>
-	
-	<bean id="clientHttpRequestFactory"
-		class="org.emonocot.portal.http.StaticUsernameAndPasswordHttpClientFactory">
-		<property name="username" value="${portalWebservice.harvester.username}" />
-		<property name="password" value="${portalWebservice.harvester.password}" />
-		<property name="proxyHost" value="${http.proxyHost}" />
-		<property name="proxyPort" value="${http.proxyPort}" />
-	</bean>
-	
-	 <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener"/>
+  <context:component-scan base-package="org.emonocot.service.impl">
+    <context:exclude-filter type="assignable"
+      expression="org.emonocot.service.impl.GroupServiceImpl" />
+    <context:exclude-filter type="assignable"
+      expression="org.emonocot.service.impl.UserServiceImpl" />
+    <context:exclude-filter type="assignable"
+      expression="org.emonocot.service.impl.SearchableObjectServiceImpl" />
+    <context:exclude-filter type="assignable"
+      expression="org.emonocot.service.impl.DownloadServiceImpl"/>
+  </context:component-scan>
+
+  <bean name="restTemplate" class="org.springframework.web.client.RestTemplate">
+    <constructor-arg ref="clientHttpRequestFactory" />
+    <property name="messageConverters">
+      <list>
+        <ref bean="jsonConverter" />
+      </list>
+    </property>
+    <property name="errorHandler">
+      <bean class="org.emonocot.portal.remoting.LoggingResponseErrorHandler" />
+    </property>
+  </bean>
+
+  <bean id="jsonConverter"
+    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    <property name="supportedMediaTypes" value="application/json" />
+    <property name="objectMapper" ref="customObjectMapper" />
+  </bean>
+
+  <bean name="customObjectMapper"
+    class="org.emonocot.model.marshall.json.CustomObjectMapperFactory">
+    <property name="jobInstanceService" ref="jobInstanceServiceImpl" />
+  </bean>
+
+  <bean id="connectionFactory"
+    class="org.springframework.jms.connection.CachingConnectionFactory">
+    <property name="targetConnectionFactory">
+      <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="vm://localhost" />
+      </bean>
+    </property>
+    <property name="sessionCacheSize" value="10" />
+    <property name="cacheProducers" value="false" />
+  </bean>
+
+  <bean id="clientHttpRequestFactory"
+    class="org.emonocot.portal.http.StaticUsernameAndPasswordHttpClientFactory">
+    <property name="username" value="${portalWebservice.harvester.username}" />
+    <property name="password" value="${portalWebservice.harvester.password}" />
+    <property name="proxyHost" value="${http.proxyHost}" />
+    <property name="proxyPort" value="${http.proxyPort}" />
+  </bean>
+
+  <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener"/>
 </beans>

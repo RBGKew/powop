@@ -9,5 +9,5 @@
 	<context:component-scan base-package="org.emonocot.portal.driver" />
 
 	<import resource="classpath*:META-INF/spring/applicationContext-functionalTest.xml"/>
-	
+
 </beans>
