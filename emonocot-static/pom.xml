@@ -1,370 +1,370 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>emonocot</artifactId>
-		<groupId>org.emonocot</groupId>
-		<version>1.0.9-SNAPSHOT</version>
-	</parent>
-	<artifactId>emonocot-static</artifactId>
-	<name>eMonocot Static Files</name>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>emonocot</artifactId>
+    <groupId>org.emonocot</groupId>
+    <version>1.0.9-SNAPSHOT</version>
+  </parent>
+  <artifactId>emonocot-static</artifactId>
+  <name>eMonocot Static Files</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-	<!-- NOTES:
-		Two final artefacts are produced, with different Maven classifiers:
-		⓪ emonocot-static-${version}-default.tar.gz
-		① emonocot-static-${version}-world-flora.tar.gz
-		The default one uses the static resources required by eMonocot.
-		The World Flora one uses the same resources as the eMonocot base, but overwrites some with different versions, from src/main/world-flora.
-	-->
+  <!-- NOTES:
+    Two final artefacts are produced, with different Maven classifiers:
+    ⓪ emonocot-static-${version}-default.tar.gz
+    ① emonocot-static-${version}-world-flora.tar.gz
+    The default one uses the static resources required by eMonocot.
+    The World Flora one uses the same resources as the eMonocot base, but overwrites some with different versions, from src/main/world-flora.
+  -->
 
-	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>1.0-beta-7</version>
-			</extension>
-		</extensions>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>1.0-beta-7</version>
+      </extension>
+    </extensions>
 
-		<plugins>
-			<!-- Disable producing JAR and tests JAR. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<id>default-jar</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>default</id>
-						<phase>none</phase>
-					</execution>
-				</executions>
-			</plugin>
+    <plugins>
+      <!-- Disable producing JAR and tests JAR. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>default</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
 
-			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.3</version>
-				<executions>
-					<execution>
-						<id>default-site</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>default-deploy</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>jar</id>
-						<phase>none</phase>
-					</execution>
-				</executions>
-			</plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <executions>
+          <execution>
+            <id>default-site</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>default-deploy</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>jar</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
 
-			<!-- Copy static resources into target/static/ and target/world-flora/static/ structure -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>static.output.dir</id>
-						<phase>process-resources</phase>
-						<configuration>
-							<tasks>
-								<delete dir="${project.build.directory}/static/" />
+      <!-- Copy static resources into target/static/ and target/world-flora/static/ structure -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>static.output.dir</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <tasks>
+                <delete dir="${project.build.directory}/static/" />
 
-								<mkdir dir="${project.build.directory}/static/js/" />
-								<mkdir dir="${project.build.directory}/static/css/" />
-								<mkdir dir="${project.build.directory}/static/tiles/" />
+                <mkdir dir="${project.build.directory}/static/js/" />
+                <mkdir dir="${project.build.directory}/static/css/" />
+                <mkdir dir="${project.build.directory}/static/tiles/" />
 
-								<!-- Copy default static resources into place. -->
-								<copy todir="${project.build.directory}/static/css/images">
-									<fileset dir="${basedir}/src/main/images" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/static/css/terms">
-									<fileset dir="${basedir}/src/main/terms" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/static/css/video">
-									<fileset dir="${basedir}/src/main/video" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/static/css/fonts">
-									<fileset dir="${basedir}/src/main/fonts" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/static/css/data">
-									<fileset dir="${basedir}/src/main/data" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/static/tiles">
-									<fileset dir="${basedir}/src/main/tiles" includes="**/*" />
-								</copy>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
+                <!-- Copy default static resources into place. -->
+                <copy todir="${project.build.directory}/static/css/images">
+                  <fileset dir="${basedir}/src/main/images" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/static/css/terms">
+                  <fileset dir="${basedir}/src/main/terms" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/static/css/video">
+                  <fileset dir="${basedir}/src/main/video" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/static/css/fonts">
+                  <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/static/css/data">
+                  <fileset dir="${basedir}/src/main/data" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/static/tiles">
+                  <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
 
-					<execution>
-						<id>world-flora-static.output.dir</id>
-						<phase>process-resources</phase>
-						<configuration>
-							<tasks>
-								<delete dir="${project.build.directory}/world-flora/static/" />
+          <execution>
+            <id>world-flora-static.output.dir</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <tasks>
+                <delete dir="${project.build.directory}/world-flora/static/" />
 
-								<mkdir dir="${project.build.directory}/world-flora/static/js/" />
-								<mkdir dir="${project.build.directory}/world-flora/static/css/" />
-								<mkdir dir="${project.build.directory}/world-flora/static/tiles/" />
+                <mkdir dir="${project.build.directory}/world-flora/static/js/" />
+                <mkdir dir="${project.build.directory}/world-flora/static/css/" />
+                <mkdir dir="${project.build.directory}/world-flora/static/tiles/" />
 
-								<!-- Copy default static resources into place. -->
-								<copy todir="${project.build.directory}/world-flora/static/css/images">
-									<fileset dir="${basedir}/src/main/images" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/world-flora/static/css/terms">
-									<fileset dir="${basedir}/src/main/terms" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/world-flora/static/css/video">
-									<fileset dir="${basedir}/src/main/video" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/world-flora/static/css/fonts">
-									<fileset dir="${basedir}/src/main/fonts" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/world-flora/static/css/data">
-									<fileset dir="${basedir}/src/main/data" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/world-flora/static/tiles">
-									<fileset dir="${basedir}/src/main/tiles" includes="**/*" />
-								</copy>
+                <!-- Copy default static resources into place. -->
+                <copy todir="${project.build.directory}/world-flora/static/css/images">
+                  <fileset dir="${basedir}/src/main/images" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/world-flora/static/css/terms">
+                  <fileset dir="${basedir}/src/main/terms" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/world-flora/static/css/video">
+                  <fileset dir="${basedir}/src/main/video" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/world-flora/static/css/fonts">
+                  <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/world-flora/static/css/data">
+                  <fileset dir="${basedir}/src/main/data" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/world-flora/static/tiles">
+                  <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
+                </copy>
 
-								<!-- Copy World Flora static resources to replace the defaults. -->
-								<copy todir="${project.build.directory}/world-flora/static/css/images" overwrite="true">
-									<fileset dir="${basedir}/src/main/world-flora/images" includes="**/*" />
-								</copy>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
+                <!-- Copy World Flora static resources to replace the defaults. -->
+                <copy todir="${project.build.directory}/world-flora/static/css/images" overwrite="true">
+                  <fileset dir="${basedir}/src/main/world-flora/images" includes="**/*" />
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
 
-					<!-- AFTER the LESS/JS has been compiled, duplicate the base version into the world-flora build directory -->
-					<execution>
-						<id>world-flora-static.copy.css.and.js</id>
-						<phase>prepare-package</phase>
-						<configuration>
-							<tasks>
-								<copy todir="${project.build.directory}/world-flora/static/css">
-									<fileset dir="${project.build.directory}/static/css/" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/world-flora/static/js">
-									<fileset dir="${project.build.directory}/static/js/" includes="**/*" />
-								</copy>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+          <!-- AFTER the LESS/JS has been compiled, duplicate the base version into the world-flora build directory -->
+          <execution>
+            <id>world-flora-static.copy.css.and.js</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <tasks>
+                <copy todir="${project.build.directory}/world-flora/static/css">
+                  <fileset dir="${project.build.directory}/static/css/" includes="**/*" />
+                </copy>
+                <copy todir="${project.build.directory}/world-flora/static/js">
+                  <fileset dir="${project.build.directory}/static/js/" includes="**/*" />
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-			<!-- Generates CSS from LESS. -->
-			<plugin>
-				<groupId>org.lesscss</groupId>
-				<artifactId>lesscss-maven-plugin</artifactId>
-				<version>1.3.0</version>
-				<executions>
-					<execution>
-						<id>generate.css</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
-							<lessJS>${basedir}/src/main/js/less-1.3.0.min.js</lessJS>
-							<includes>
-								<include>bootstrap.less</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+      <!-- Generates CSS from LESS. -->
+      <plugin>
+        <groupId>org.lesscss</groupId>
+        <artifactId>lesscss-maven-plugin</artifactId>
+        <version>1.3.0</version>
+        <executions>
+          <execution>
+            <id>generate.css</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
+              <lessJS>${basedir}/src/main/js/less-1.3.0.min.js</lessJS>
+              <includes>
+                <include>bootstrap.less</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-			<!-- Compile the CSS (including that from the LESS) and JS into a small number of files -->
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<id>compress.css.and.js</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compress</goal>
-						</goals>
-						<configuration>
-							<nosuffix>true</nosuffix>
-							<aggregations>
-								<aggregation>
-									<output>${project.build.directory}/static/css/style.css</output>
-									<includes>
-										<include>${project.build.directory}/compiled-less/bootstrap.css</include>
-										<include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
-										<include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-										<include>${basedir}/src/main/css/jsTree/jsTree.css</include>
-										<include>${basedir}/src/main/css/OpenLayers/style.css</include>
-										<include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
-										<include>${basedir}/src/main/css/bootstrap-tour.css</include>
-										<include>${basedir}/src/main/css/jquery.cookiebar.css</include>
-									</includes>
-								</aggregation>
-								<aggregation>
-									<output>${project.build.directory}/static/css/print.css</output>
-									<includes>
-										<include>${basedir}/src/main/css/print.css</include>
-									</includes>
-								</aggregation>
-								<aggregation>
-									<output>${project.build.directory}/static/css/ie9.css</output>
-									<includes>
-										<include>${basedir}/src/main/css/ie9.css</include>
-									</includes>
-								</aggregation>
-								<aggregation>
-									<output>${project.build.directory}/static/js/header.js</output>
-									<includes>
-										<include>${basedir}/src/main/js/jquery.min.js</include>
-										<include>${basedir}/src/main/js/jquery-ui.min.js</include>
-										<include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
-										<include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
-										<include>${basedir}/src/main/js/jquery.cookie.js</include>
-										<include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
-										<include>${basedir}/src/main/js/jsphylosvg/jsphylosvg.js</include>
-										<include>${basedir}/src/main/js/jsphylosvg/raphael-min.js</include>
-										<include>${basedir}/src/main/js/jsphylosvg/raphael-zpd.js</include>
-										<include>${basedir}/src/main/js/bootstrap-transition.js</include>
-										<include>${basedir}/src/main/js/bootstrap-affix.js</include>
-										<include>${basedir}/src/main/js/bootstrap-alert.js</include>
-										<include>${basedir}/src/main/js/bootstrap-modal.js</include>
-										<include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
-										<include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
-										<include>${basedir}/src/main/js/bootstrap-tab.js</include>
-										<include>${basedir}/src/main/js/bootstrap-tooltip.js</include>
-										<include>${basedir}/src/main/js/bootstrap-popover.js</include>
-										<include>${basedir}/src/main/js/bootstrap-button.js</include>
-										<include>${basedir}/src/main/js/bootstrap-collapse.js</include>
-										<include>${basedir}/src/main/js/bootstrap-carousel.js</include>
-										<include>${basedir}/src/main/js/bootstrap-typeahead.js</include>
-										<include>${basedir}/src/main/js/bootstrap-datetimepicker.js</include>
-										<include>${basedir}/src/main/js/load-image.js</include>
-										<include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
-										<include>${basedir}/src/main/js/bootstrap-tour.js</include>
-										<include>${basedir}/src/main/js/application.js</include>
-										<include>${basedir}/src/main/js/html5shiv.js</include>
-										<include>${basedir}/src/main/js/jsKey/keys.js</include>
-										<include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
-										<include>${basedir}/src/main/js/jquery.total-storage.js</include>
-										<include>${basedir}/src/main/js/jquery.zrssfeed.min.js</include>
-										<include>${basedir}/src/main/js/jquery.cookiebar.js</include>
-									</includes>
-								</aggregation>
-							</aggregations>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+      <!-- Compile the CSS (including that from the LESS) and JS into a small number of files -->
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>yuicompressor-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>compress.css.and.js</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compress</goal>
+            </goals>
+            <configuration>
+              <nosuffix>true</nosuffix>
+              <aggregations>
+                <aggregation>
+                  <output>${project.build.directory}/static/css/style.css</output>
+                  <includes>
+                    <include>${project.build.directory}/compiled-less/bootstrap.css</include>
+                    <include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
+                    <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
+                    <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
+                    <include>${basedir}/src/main/css/OpenLayers/style.css</include>
+                    <include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
+                    <include>${basedir}/src/main/css/bootstrap-tour.css</include>
+                    <include>${basedir}/src/main/css/jquery.cookiebar.css</include>
+                  </includes>
+                </aggregation>
+                <aggregation>
+                  <output>${project.build.directory}/static/css/print.css</output>
+                  <includes>
+                    <include>${basedir}/src/main/css/print.css</include>
+                  </includes>
+                </aggregation>
+                <aggregation>
+                  <output>${project.build.directory}/static/css/ie9.css</output>
+                  <includes>
+                    <include>${basedir}/src/main/css/ie9.css</include>
+                  </includes>
+                </aggregation>
+                <aggregation>
+                  <output>${project.build.directory}/static/js/header.js</output>
+                  <includes>
+                    <include>${basedir}/src/main/js/jquery.min.js</include>
+                    <include>${basedir}/src/main/js/jquery-ui.min.js</include>
+                    <include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
+                    <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
+                    <include>${basedir}/src/main/js/jquery.cookie.js</include>
+                    <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
+                    <include>${basedir}/src/main/js/jsphylosvg/jsphylosvg.js</include>
+                    <include>${basedir}/src/main/js/jsphylosvg/raphael-min.js</include>
+                    <include>${basedir}/src/main/js/jsphylosvg/raphael-zpd.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-transition.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-affix.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-alert.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-modal.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-tab.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-tooltip.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-popover.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-button.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-collapse.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-carousel.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-typeahead.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-datetimepicker.js</include>
+                    <include>${basedir}/src/main/js/load-image.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
+                    <include>${basedir}/src/main/js/bootstrap-tour.js</include>
+                    <include>${basedir}/src/main/js/application.js</include>
+                    <include>${basedir}/src/main/js/html5shiv.js</include>
+                    <include>${basedir}/src/main/js/jsKey/keys.js</include>
+                    <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
+                    <include>${basedir}/src/main/js/jquery.total-storage.js</include>
+                    <include>${basedir}/src/main/js/jquery.zrssfeed.min.js</include>
+                    <include>${basedir}/src/main/js/jquery.cookiebar.js</include>
+                  </includes>
+                </aggregation>
+              </aggregations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-			<!-- Copies to a server (for development/testing only). -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-3</version>
-				<configuration>
-					<fromDir>${project.build.directory}/static</fromDir>
-					<includes>**</includes>
-					<excludes>uncompressed/*.js</excludes>
-					<serverId>${wagon.server.id}</serverId>
-					<url>${wagon.static.url}</url>
-				</configuration>
-			</plugin>
+      <!-- Copies to a server (for development/testing only). -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0-beta-3</version>
+        <configuration>
+          <fromDir>${project.build.directory}/static</fromDir>
+          <includes>**</includes>
+          <excludes>uncompressed/*.js</excludes>
+          <serverId>${wagon.server.id}</serverId>
+          <url>${wagon.static.url}</url>
+        </configuration>
+      </plugin>
 
-			<!-- Make a TAR.GZs of the static resources. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>create-distribution</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>src/main/assembly/static.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
+      <!-- Make a TAR.GZs of the static resources. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create-distribution</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/static.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
 
-					<execution>
-						<id>world-flora.create-distribution</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>src/main/world-flora/assembly/static.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+          <execution>
+            <id>world-flora.create-distribution</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/world-flora/assembly/static.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-			<!-- Makes the TAR.GZs Maven artefacts. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-                <version>2.3.1</version>
-				<executions>
-					<execution>
-						<id>install.static.zip.file</id>
-						<phase>install</phase>
-						<goals>
-							<goal>install-file</goal>
-						</goals>
-						<configuration>
-							<file>${project.build.directory}/${project.artifactId}-${project.version}-default.tar.gz</file>
-							<artifactId>${project.artifactId}</artifactId>
-							<groupId>${project.groupId}</groupId>
-							<version>${project.version}</version>
-							<packaging>tar.gz</packaging>
-							<classifier>default</classifier>
-						</configuration>
-					</execution>
+      <!-- Makes the TAR.GZs Maven artefacts. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.3.1</version>
+        <executions>
+          <execution>
+            <id>install.static.zip.file</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/${project.artifactId}-${project.version}-default.tar.gz</file>
+              <artifactId>${project.artifactId}</artifactId>
+              <groupId>${project.groupId}</groupId>
+              <version>${project.version}</version>
+              <packaging>tar.gz</packaging>
+              <classifier>default</classifier>
+            </configuration>
+          </execution>
 
-					<execution>
-						<id>world-flora.install.static.zip.file</id>
-						<phase>install</phase>
-						<goals>
-							<goal>install-file</goal>
-						</goals>
-						<configuration>
-							<file>${project.build.directory}/${project.artifactId}-${project.version}-world-flora.tar.gz</file>
-							<artifactId>${project.artifactId}</artifactId>
-							<groupId>${project.groupId}</groupId>
-							<version>${project.version}</version>
-							<packaging>tar.gz</packaging>
-							<classifier>world-flora</classifier>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+          <execution>
+            <id>world-flora.install.static.zip.file</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/${project.artifactId}-${project.version}-world-flora.tar.gz</file>
+              <artifactId>${project.artifactId}</artifactId>
+              <groupId>${project.groupId}</groupId>
+              <version>${project.version}</version>
+              <packaging>tar.gz</packaging>
+              <classifier>world-flora</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

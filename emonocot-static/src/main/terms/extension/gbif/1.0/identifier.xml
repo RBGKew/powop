@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/css/terms/style/human.xsl"?>
 <extension xmlns="http://rs.gbif.org/extension/"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:dc="http://purl.org/dc/terms/"    
-    xsi:schemaLocation="http://rs.gbif.org/extension/ http://rs.gbif.org/schema/extension.xsd" 
-    name="Identifier" namespace="http://rs.gbif.org/terms/1.0" rowType="http://rs.gbif.org/terms/1.0/Identifier"
-    dc:title="Alternative Identifiers" 
-    dc:relation=""
-    dc:subject="dwc:Taxon dwc:Occurrence"
-    dc:description=""
-    >
-    
-    <property name='identifier' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/identifier' dc:relation='' dc:description='Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an xml or rdf document, a DOI, UUID or any other identifer' examples='urn:lsid:ipni.org:names:692570-1:1.4' required='true' ignored='false'/>
-    <property name='title' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/title' dc:relation='' dc:description='An optional display label for the URL that the publisher may prefer be displayed with the identifier or link' examples='&quot;Danaus plexippus page&quot;, &quot;COL Taxon LSID&quot;' required='false' ignored='false'/>
-    <property name='subject' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/subject' dc:relation='' dc:description='keywords qualifying the identifier' examples='' required='false' ignored='false'/>
-    <property name='format' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/format' dc:relation='' dc:description='mime type of content returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json' examples='application/rdf+xml' required='false' ignored='false'/>
-    <property name="created" namespace="http://purl.org/dc/terms/" qualName="http://purl.org/dc/terms/created" dc:description='The date and time this identifier was written or last updated' examples='2010-09-29' type="date" ignored='false'/>
-    <property name='creator' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/creator' dc:relation='' dc:description='The creator of this identifier record' examples='' required='false' ignored='false'/>
-    <property name='license' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/license' dc:relation='' dc:description='Official permission to do something with the resource. Please use Creative Commons URIs if you can.' examples='CC-BY' required='false' ignored='false'/>
-    <property name='modified' namespace="http://purl.org/dc/terms/" qualName="http://purl.org/dc/terms/modified" dc:description='The date and time this identifier was written or first created' examples='2001-01-01' type="date" required='false' ignored='false'/>
-    <property name='rightsHolder' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/rightsHolder' dc:relation='' dc:description='A person or organization owning or managing rights over the identifier.' examples='' required='false' ignored='false'/>
-    <property name='accessRights' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/accessRights' dc:relation='http://rs.tdwg.org/dwc/terms/index.htm#dcterms:accessRights' dc:description='Information about who can access the resource or an indication of its security status.' examples='' required='false' ignored='false'/>
-    <property name='rights' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/rights' dc:relation='http://rs.tdwg.org/dwc/terms/index.htm#dcterms:rights' dc:description='Information about rights held in and over the resource.' examples='' required='false'  ignored='false'/>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xsi:schemaLocation="http://rs.gbif.org/extension/ http://rs.gbif.org/schema/extension.xsd"
+  name="Identifier" namespace="http://rs.gbif.org/terms/1.0" rowType="http://rs.gbif.org/terms/1.0/Identifier"
+  dc:title="Alternative Identifiers"
+  dc:relation=""
+  dc:subject="dwc:Taxon dwc:Occurrence"
+  dc:description=""
+  >
+
+  <property name='identifier' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/identifier' dc:relation='' dc:description='Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an xml or rdf document, a DOI, UUID or any other identifer' examples='urn:lsid:ipni.org:names:692570-1:1.4' required='true' ignored='false'/>
+  <property name='title' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/title' dc:relation='' dc:description='An optional display label for the URL that the publisher may prefer be displayed with the identifier or link' examples='&quot;Danaus plexippus page&quot;, &quot;COL Taxon LSID&quot;' required='false' ignored='false'/>
+  <property name='subject' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/subject' dc:relation='' dc:description='keywords qualifying the identifier' examples='' required='false' ignored='false'/>
+  <property name='format' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/format' dc:relation='' dc:description='mime type of content returned by identifier in case the identifier is resolvable. Plain UUIDs for example do not have a dc:format return type, as they are not resolvable on their own. For a list of MIME types see the list maintained by IANA: http://www.iana.org/assignments/media-types/index.html, in particular the text http://www.iana.org/assignments/media-types/text/ and application http://www.iana.org/assignments/media-types/application/ types. Frequently used values are text/html, text/xml, application/rdf+xml, application/json' examples='application/rdf+xml' required='false' ignored='false'/>
+  <property name="created" namespace="http://purl.org/dc/terms/" qualName="http://purl.org/dc/terms/created" dc:description='The date and time this identifier was written or last updated' examples='2010-09-29' type="date" ignored='false'/>
+  <property name='creator' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/creator' dc:relation='' dc:description='The creator of this identifier record' examples='' required='false' ignored='false'/>
+  <property name='license' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/license' dc:relation='' dc:description='Official permission to do something with the resource. Please use Creative Commons URIs if you can.' examples='CC-BY' required='false' ignored='false'/>
+  <property name='modified' namespace="http://purl.org/dc/terms/" qualName="http://purl.org/dc/terms/modified" dc:description='The date and time this identifier was written or first created' examples='2001-01-01' type="date" required='false' ignored='false'/>
+  <property name='rightsHolder' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/rightsHolder' dc:relation='' dc:description='A person or organization owning or managing rights over the identifier.' examples='' required='false' ignored='false'/>
+  <property name='accessRights' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/accessRights' dc:relation='http://rs.tdwg.org/dwc/terms/index.htm#dcterms:accessRights' dc:description='Information about who can access the resource or an indication of its security status.' examples='' required='false' ignored='false'/>
+  <property name='rights' namespace='http://purl.org/dc/terms/' qualName='http://purl.org/dc/terms/rights' dc:relation='http://rs.tdwg.org/dwc/terms/index.htm#dcterms:rights' dc:description='Information about rights held in and over the resource.' examples='' required='false'  ignored='false'/>
 </extension>
