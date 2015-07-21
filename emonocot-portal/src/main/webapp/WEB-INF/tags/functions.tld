@@ -1,177 +1,177 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<taglib 
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
-    version="2.1">
-    <display-name>eMonocot Portal Custom Functions</display-name>    
+<taglib
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+  version="2.1">
+    <display-name>eMonocot Portal Custom Functions</display-name>
     <tlib-version>1.0</tlib-version>
     <short-name>emonocot</short-name>
     <uri>http://e-monocot.org/portal/functions</uri>
     <function>
-        <name>isChildFacet</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isChildFacet(java.lang.String, java.lang.String)</function-signature>
-    </function>    
-    <function>
-        <name>features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.constants.DescriptionType[] features()</function-signature>
+      <name>isChildFacet</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean isChildFacet(java.lang.String, java.lang.String)</function-signature>
     </function>
     <function>
-        <name>measurements</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.gbif.dwc.terms.Term[] measurements()</function-signature>
+      <name>features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>org.emonocot.model.constants.DescriptionType[] features()</function-signature>
     </function>
     <function>
-        <name>formatDateRange</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String formatDateRange(java.lang.String)</function-signature>
+      <name>measurements</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>org.gbif.dwc.terms.Term[] measurements()</function-signature>
     </function>
     <function>
-        <name>phylocolors</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Map phylocolors(java.util.Collection)</function-signature>
+      <name>formatDateRange</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String formatDateRange(java.lang.String)</function-signature>
     </function>
     <function>
-        <name>facts</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Collection facts(org.emonocot.model.Taxon,org.gbif.dwc.terms.Term)</function-signature>
+      <name>phylocolors</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.Map phylocolors(java.util.Collection)</function-signature>
     </function>
     <function>
-        <name>printTimeOnly</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String printTimeOnly(org.joda.time.DateTime)</function-signature>
+      <name>facts</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.Collection facts(org.emonocot.model.Taxon,org.gbif.dwc.terms.Term)</function-signature>
     </function>
     <function>
-        <name>prettyTime</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String prettyTime(org.joda.time.DateTime)</function-signature>
+      <name>printTimeOnly</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String printTimeOnly(org.joda.time.DateTime)</function-signature>
     </function>
     <function>
-        <name>duration</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String duration(org.joda.time.Duration)</function-signature>
+      <name>prettyTime</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String prettyTime(org.joda.time.DateTime)</function-signature>
     </function>
     <function>
-        <name>abbreviateRank</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String abbreviateRank(org.gbif.ecat.voc.Rank)</function-signature>
+      <name>duration</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String duration(org.joda.time.Duration)</function-signature>
     </function>
     <function>
-        <name>formatRank</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String formatRank(org.gbif.ecat.voc.Rank)</function-signature>
+      <name>abbreviateRank</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String abbreviateRank(org.gbif.ecat.voc.Rank)</function-signature>
     </function>
     <function>
-        <name>content</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Collection content(org.emonocot.model.Taxon,org.emonocot.model.constants.DescriptionType)</function-signature>
+      <name>formatRank</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String formatRank(org.gbif.ecat.voc.Rank)</function-signature>
     </function>
     <function>
-        <name>evaluate</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String evaluate(java.lang.String,javax.servlet.jsp.PageContext)</function-signature>
+      <name>content</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.Collection content(org.emonocot.model.Taxon,org.emonocot.model.constants.DescriptionType)</function-signature>
     </function>
     <function>
-        <name>isInfraspecific</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isInfraspecific(org.gbif.ecat.voc.Rank)</function-signature>
+      <name>evaluate</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String evaluate(java.lang.String,javax.servlet.jsp.PageContext)</function-signature>
     </function>
     <function>
-        <name>getPreferred</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.VernacularName getPreferred(org.emonocot.model.Taxon)</function-signature>
+      <name>isInfraspecific</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean isInfraspecific(org.gbif.ecat.voc.Rank)</function-signature>
     </function>
     <function>
-        <name>isSynonym</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.Taxon)</function-signature>
+      <name>getPreferred</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.VernacularName getPreferred(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>isAccepted</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isAccepted(org.emonocot.model.Taxon)</function-signature>
+      <name>isSynonym</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean isSynonym(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>isStartable</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isStartable(org.springframework.batch.core.BatchStatus)</function-signature>
+      <name>isAccepted</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean isAccepted(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>regions</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List regions(java.util.Collection)</function-signature>
+      <name>isStartable</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean isStartable(org.springframework.batch.core.BatchStatus)</function-signature>
     </function>
     <function>
-        <name>region</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String region(org.emonocot.model.geography.GeographicalRegion)</function-signature>
+      <name>regions</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List regions(java.util.Collection)</function-signature>
     </function>
     <function>
-        <name>country</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String country(org.emonocot.model.geography.GeographicalRegion)</function-signature>
-    </function>    
-    <function>
-        <name>map</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String map(org.emonocot.model.Taxon)</function-signature>
+      <name>region</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String region(org.emonocot.model.geography.GeographicalRegion)</function-signature>
     </function>
     <function>
-        <name>stripXml</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String stripXml(java.lang.String)</function-signature>
+      <name>country</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String country(org.emonocot.model.geography.GeographicalRegion)</function-signature>
     </function>
     <function>
-        <name>sortItems</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List sortItems()</function-signature>
+      <name>map</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String map(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>annotationSortItems</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List annotationSortItems()</function-signature>
+      <name>stripXml</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String stripXml(java.lang.String)</function-signature>
     </function>
     <function>
-        <name>resourceSortItems</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List resourceSortItems()</function-signature>
+      <name>sortItems</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List sortItems()</function-signature>
     </function>
     <function>
-        <name>organisationSortItems</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List organisationItems()</function-signature>
+      <name>annotationSortItems</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List annotationSortItems()</function-signature>
     </function>
     <function>
-        <name>commentSortItems</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List commentItems()</function-signature>
+      <name>resourceSortItems</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List resourceSortItems()</function-signature>
     </function>
     <function>
-        <name>sort</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List sort(java.util.Collection)</function-signature>
+      <name>organisationSortItems</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List organisationItems()</function-signature>
     </function>
     <function>
-        <name>deproxy</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Object deproxy(java.lang.Object)</function-signature>
+      <name>commentSortItems</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List commentItems()</function-signature>
     </function>
     <function>
-        <name>formatPeriod</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String formatPeriod(java.util.Date,java.util.Date)</function-signature>
+      <name>sort</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List sort(java.util.Collection)</function-signature>
     </function>
     <function>
-        <name>formatDate</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String formatDate(java.util.Date)</function-signature>
+      <name>deproxy</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Object deproxy(java.lang.Object)</function-signature>
     </function>
     <function>
-        <name>sublist</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.List sublist(java.util.List, java.lang.Integer)</function-signature>
+      <name>formatPeriod</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String formatPeriod(java.util.Date,java.util.Date)</function-signature>
+    </function>
+    <function>
+      <name>formatDate</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String formatDate(java.util.Date)</function-signature>
+    </function>
+    <function>
+      <name>sublist</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.List sublist(java.util.List, java.lang.Integer)</function-signature>
     </function>
     <function>
       <name>split</name>
@@ -179,153 +179,153 @@
       <function-signature>java.util.List split(java.lang.String, java.lang.String)</function-signature>
     </function>
     <function>
-        <name>bibliography</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.portal.view.bibliography.Bibliography bibliography(org.emonocot.model.Taxon)</function-signature>
+      <name>bibliography</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>org.emonocot.portal.view.bibliography.Bibliography bibliography(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>citekey</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.Reference)</function-signature>
+      <name>citekey</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String citekey(org.emonocot.portal.view.bibliography.Bibliography, org.emonocot.model.Reference)</function-signature>
     </function>
     <function>
-        <name>citekeys</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.SortedSet citekeys(org.emonocot.portal.view.bibliography.Bibliography, java.util.Collection)</function-signature>
+      <name>citekeys</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.SortedSet citekeys(org.emonocot.portal.view.bibliography.Bibliography, java.util.Collection)</function-signature>
     </function>
     <function>
-        <name>getref</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.Reference getref(org.emonocot.portal.view.bibliography.Bibliography, java.lang.String)</function-signature>
+      <name>getref</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>org.emonocot.model.Reference getref(org.emonocot.portal.view.bibliography.Bibliography, java.lang.String)</function-signature>
     </function>
     <function>
-        <name>provenance</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.portal.view.provenance.ProvenanceManager provenance(org.emonocot.model.BaseData)</function-signature>
+      <name>provenance</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>org.emonocot.portal.view.provenance.ProvenanceManager provenance(org.emonocot.model.BaseData)</function-signature>
     </function>
     <function>
-        <name>provenancekey</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String provenancekey(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
+      <name>provenancekey</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String provenancekey(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
     </function>
     <function>
-        <name>provenancekeys</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.SortedSet provenancekeys(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
+      <name>provenancekeys</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.SortedSet provenancekeys(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
     </function>
     <function>
-    	<name>provenanceinitial</name>
-    	<function-class>org.emonocot.portal.view.Functions</function-class>
-    	<function-signature>java.lang.String provenanceinitial(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
+      <name>provenanceinitial</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String provenanceinitial(org.emonocot.portal.view.provenance.ProvenanceManager, org.emonocot.model.BaseData)</function-signature>
     </function>
     <function>
-    	<name>initialtokey</name>
-    	<function-class>org.emonocot.portal.view.Functions</function-class>
-    	<function-signature>java.lang.String initialtokey(java.lang.String)</function-signature>
+      <name>initialtokey</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String initialtokey(java.lang.String)</function-signature>
     </function>
     <function>
-    	<name>provenanceinitials</name>
-    	<function-class>org.emonocot.portal.view.Functions</function-class>
-    	<function-signature>java.lang.String provenanceinitials(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
+      <name>provenanceinitials</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String provenanceinitials(org.emonocot.portal.view.provenance.ProvenanceManager, java.util.Collection)</function-signature>
     </function>
     <function>
-        <name>provenancesources</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.SortedSet provenancesources(org.emonocot.portal.view.provenance.ProvenanceManager)</function-signature>
+      <name>provenancesources</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.SortedSet provenancesources(org.emonocot.portal.view.provenance.ProvenanceManager)</function-signature>
     </function>
     <function>
-        <name>provenancedata</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.SortedSet provenancedata(org.emonocot.portal.view.provenance.ProvenanceManager,org.emonocot.model.registry.Organisation)</function-signature>
+      <name>provenancedata</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.SortedSet provenancedata(org.emonocot.portal.view.provenance.ProvenanceManager,org.emonocot.model.registry.Organisation)</function-signature>
     </function>
     <function>
-        <name>escape</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String escape(java.lang.String)</function-signature>
+      <name>escape</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String escape(java.lang.String)</function-signature>
     </function>
     <function>
-        <name>convert</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String convert(java.lang.Object)</function-signature>
+      <name>convert</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String convert(java.lang.Object)</function-signature>
     </function>
     <function>
-        <name>convertClazz</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String convertClazz(java.lang.Object)</function-signature>
+      <name>convertClazz</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String convertClazz(java.lang.Object)</function-signature>
     </function>
     <function>
-        <name>isFacetSelected</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean isFacetSelected(org.emonocot.pager.Page,java.lang.String)</function-signature>
+      <name>isFacetSelected</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean isFacetSelected(org.emonocot.pager.Page,java.lang.String)</function-signature>
     </function>
     <function>
-        <name>protologLink</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>org.emonocot.model.Identifier getProtologLink(org.emonocot.model.Taxon)</function-signature>
+      <name>protologLink</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>org.emonocot.model.Identifier getProtologLink(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>boundingBox</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String boundingBox(org.emonocot.model.Taxon, org.gbif.ecat.voc.OccurrenceStatus)</function-signature>
+      <name>boundingBox</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String boundingBox(org.emonocot.model.Taxon, org.gbif.ecat.voc.OccurrenceStatus)</function-signature>
     </function>
     <function>
-        <name>escapeHtmlIdentifier</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String escapeHtmlIdentifier(java.lang.String)</function-signature>
+      <name>escapeHtmlIdentifier</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String escapeHtmlIdentifier(java.lang.String)</function-signature>
     </function>
     <function>
-        <name>sources</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Set sources(org.emonocot.model.Taxon)</function-signature>
+      <name>sources</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.Set sources(org.emonocot.model.Taxon)</function-signature>
     </function>
     <function>
-        <name>hasLevel1Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>hasLevel1Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean hasLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>getLevel1Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>getLevel1Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String getLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>hasLevel2Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>hasLevel2Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean hasLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>getLevel2Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>getLevel2Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String getLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>hasLevel3Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>hasLevel3Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean hasLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>getLevel3Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>getLevel3Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String getLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>hasLevel4Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>hasLevel4Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean hasLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>getLevel4Features</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.String getLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>getLevel4Features</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.String getLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>hasDistribution</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.lang.Boolean hasDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      <name>hasDistribution</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.lang.Boolean hasDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
     </function>
     <function>
-        <name>getDistribution</name>
-        <function-class>org.emonocot.portal.view.Functions</function-class>
-        <function-signature>java.util.Collection getDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-    </function>    
+      <name>getDistribution</name>
+      <function-class>org.emonocot.portal.view.Functions</function-class>
+      <function-signature>java.util.Collection getDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+    </function>
 </taglib>
