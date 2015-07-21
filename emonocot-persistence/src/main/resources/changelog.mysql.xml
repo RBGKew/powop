@@ -816,17 +816,17 @@
   </changeSet>
   <changeSet id="2011-08-31_25" author="ben">
     <createProcedure>
-      CREATE PROCEDURE populateDate()
-      BEGIN
-      DECLARE dt DATE;
-      SET @i = 0;
-      REPEAT
-      SET dt = adddate('2011-08-01',@i);
-      INSERT INTO Time VALUES (datediff(dt,'2011-08-01'),year(dt),quarter(dt),month(dt),monthname(dt),week(dt),weekday(dt),dayname(dt));
-      SET @i = @i + 1;
-      UNTIL @i > 365
-      END REPEAT;
-      END;
+        CREATE PROCEDURE populateDate()
+        BEGIN
+          DECLARE dt DATE;
+          SET @i = 0;
+          REPEAT
+            SET dt = adddate('2011-08-01',@i);
+            INSERT INTO Time VALUES (datediff(dt,'2011-08-01'),year(dt),quarter(dt),month(dt),monthname(dt),week(dt),weekday(dt),dayname(dt));
+            SET @i = @i + 1;
+            UNTIL @i > 365
+          END REPEAT;
+        END;
     </createProcedure>
   </changeSet>
   <changeSet id="2011-08-31_26" author="ben">
@@ -1939,14 +1939,14 @@
   <changeSet id="2012-02-01_02" author="ben">
     <comment>Sorting duplicate images in the cate-araceae dataset</comment>
     <sql>
-      UPDATE Taxon_Image SET images_id = 3486 WHERE Taxon_id = 111 AND images_id = 3739;
-      UPDATE Taxon_Image SET images_id = 3410 WHERE Taxon_id = 115 AND images_id = 3623;
-      UPDATE Taxon_Image SET images_id = 3886 WHERE Taxon_id = 4221 AND images_id = 3480;
-      UPDATE Taxon_Image SET images_id = 3757 WHERE Taxon_id = 3569 AND images_id = 3961;
-      DELETE FROM Image WHERE id = 3739;
-      DELETE FROM Image WHERE id = 3623;
-      DELETE FROM Image WHERE id = 3480;
-      DELETE FROM Image WHERE id = 3961;
+        UPDATE Taxon_Image SET images_id = 3486 WHERE Taxon_id = 111 AND images_id = 3739;
+        UPDATE Taxon_Image SET images_id = 3410 WHERE Taxon_id = 115 AND images_id = 3623;
+        UPDATE Taxon_Image SET images_id = 3886 WHERE Taxon_id = 4221 AND images_id = 3480;
+        UPDATE Taxon_Image SET images_id = 3757 WHERE Taxon_id = 3569 AND images_id = 3961;
+        DELETE FROM Image WHERE id = 3739;
+        DELETE FROM Image WHERE id = 3623; 
+        DELETE FROM Image WHERE id = 3480; 
+        DELETE FROM Image WHERE id = 3961;  
     </sql>
   </changeSet>
   <changeSet id="2012-02-07_01" author="ben">
