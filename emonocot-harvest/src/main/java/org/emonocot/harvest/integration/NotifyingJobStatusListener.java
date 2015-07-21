@@ -182,8 +182,9 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
             jobRepository.update(jobExecution);
 
             logger.info(jobExecution.getExitStatus().getExitCode() + " " + jobExecution.getExitStatus().getExitDescription());
-			User user = userService.load(systemUser);
-            // Create comment
+            User user = userService.find(systemUser);
+            // Create comment if a systemUser exists
+            if(user != null) {
                 Comment comment = new Comment();
                 comment.setIdentifier(UUID.randomUUID().toString());
                 comment.setComment(exitDescription.toString());
@@ -193,6 +194,7 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
                 comment.setAboutData(resource);
                 comment.setCommentPage(resource);
                 commentService.save(comment);
+            }
         } else {
             exitDescription.append(jobExecution.getJobInstance().getJobName()  + " " + jobExecution.getExitStatus().getExitCode());
             exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed.");
