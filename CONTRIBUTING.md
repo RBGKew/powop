@@ -1,4 +1,4 @@
-* Code Formatting
+## Code Formatting
 
 In an effort to keep formatting consistent across the code base, please
 use the provided "Emonocot" eclipse code formatting profile.
