@@ -30,17 +30,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AnnotationServiceImpl extends
-        SearchableServiceImpl<Annotation, AnnotationDao> implements
-        AnnotationService {
+SearchableServiceImpl<Annotation, AnnotationDao> implements
+AnnotationService {
 
-    /**
-     *
-     * @param annotationDao Set the annotation dao
-     */
-    @Autowired
-    public final void setAnnotationDao(final AnnotationDao annotationDao) {
-        this.dao = annotationDao;
-    }
+	/**
+	 *
+	 * @param annotationDao Set the annotation dao
+	 */
+	@Autowired
+	public final void setAnnotationDao(final AnnotationDao annotationDao) {
+		this.dao = annotationDao;
+	}
 
 	@Override
 	public Annotation findAnnotation(RecordType recordType, Long id, Long jobId) {

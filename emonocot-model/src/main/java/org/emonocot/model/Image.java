@@ -63,73 +63,73 @@ import com.vividsolutions.jts.io.WKTWriter;
  */
 @Entity
 public class Image extends Multimedia {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(Image.class);
-	
-    private static final long serialVersionUID = 3341900807619517602L;
 
-    private String spatial;
+	private static final long serialVersionUID = 3341900807619517602L;
 
-    private String subject;
+	private String spatial;
 
-    private Point location;
-    
-    private Double latitude;
+	private String subject;
 
-    private Double longitude;
+	private Point location;
 
-    private Long id;
+	private Double latitude;
 
-    private Taxon taxon;
+	private Double longitude;
 
-    private Set<Taxon> taxa = new HashSet<Taxon>();
+	private Long id;
 
-    private List<Comment> comments = new ArrayList<>();
+	private Taxon taxon;
 
-    private Set<Annotation> annotations = new HashSet<Annotation>();
+	private Set<Taxon> taxa = new HashSet<Taxon>();
 
-/**
-    * REMEMBER: spatial is a reserved word in mysql!
-    * @return the location as a string
-    */
-   @Column(name = "locality")
-   @Size(max = 255)
-   public String getSpatial() {
-       return spatial;
-   }
+	private List<Comment> comments = new ArrayList<>();
 
-   public void setSpatial(final String locality) {
-       this.spatial = locality;
-   }
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-   @Size(max = 255)
-   public String getSubject() {
-       return subject;
-   }
+	/**
+	 * REMEMBER: spatial is a reserved word in mysql!
+	 * @return the location as a string
+	 */
+	@Column(name = "locality")
+	@Size(max = 255)
+	public String getSpatial() {
+		return spatial;
+	}
 
-   public void setSubject(String keywords) {
-       this.subject = keywords;
-   }
+	public void setSpatial(final String locality) {
+		this.spatial = locality;
+	}
 
-   @Type(type = "spatialType")
-   public Point getLocation() {
-       return location;
-   }
+	@Size(max = 255)
+	public String getSubject() {
+		return subject;
+	}
 
-   public void setLocation(Point location) {
-       this.location = location;
-   }
+	public void setSubject(String keywords) {
+		this.subject = keywords;
+	}
+
+	@Type(type = "spatialType")
+	public Point getLocation() {
+		return location;
+	}
+
+	public void setLocation(Point location) {
+		this.location = location;
+	}
 
 
-    public void setId(Long newId) {
-        this.id = newId;
-    }
+	public void setId(Long newId) {
+		this.id = newId;
+	}
 
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
 
 	public Double getLatitude() {
 		return latitude;
@@ -150,104 +150,104 @@ public class Image extends Multimedia {
 		updateLocation();
 	}
 
-    private void updateLocation() {
-    	if(this.latitude != null && this.longitude != null) {
-    	    GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
-    	    this.location = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
-    	} else {
-    		this.location = null;
-    	}
+	private void updateLocation() {
+		if(this.latitude != null && this.longitude != null) {
+			GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+			this.location = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
+		} else {
+			this.location = null;
+		}
 	}
 
-    /**
-     * @return the taxon
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    public Taxon getTaxon() {
-        return taxon;
-    }
+	/**
+	 * @return the taxon
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Taxon getTaxon() {
+		return taxon;
+	}
 
-    /**
-     * @param taxon the taxon to set
-     */
-    public void setTaxon(Taxon taxon) {
-        this.taxon = taxon;
-    }
+	/**
+	 * @param taxon the taxon to set
+	 */
+	public void setTaxon(Taxon taxon) {
+		this.taxon = taxon;
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#getTaxa()
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public Set<Taxon> getTaxa() {
-        return taxa;
-    }
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#getTaxa()
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "Taxon_Image", joinColumns = {@JoinColumn(name = "images_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	public Set<Taxon> getTaxa() {
+		return taxa;
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#setTaxa(java.util.Set)
-     */
-    @Override
-    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#setTaxa(java.util.Set)
+	 */
+	@Override
+	@JsonDeserialize(contentUsing = TaxonDeserializer.class)
+	public void setTaxa(Set<Taxon> taxa) {
+		this.taxa = taxa;
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#getAnnotations()
-     */
-    @Override
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Image'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#getAnnotations()
+	 */
+	@Override
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Image'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#setAnnotations(java.util.Set)
-     */
-    @Override
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#setAnnotations(java.util.Set)
+	 */
+	@Override
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#getComments()
-     */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'Image'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public List<Comment> getComments() {
-        return comments;
-    }
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#getComments()
+	 */
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "commentPage_id")
+	@OrderBy("created DESC")
+	@Where(clause = "commentPage_type = 'Image'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public List<Comment> getComments() {
+		return comments;
+	}
 
-    /**
-     * @param comments - Comments made about this image
-     */
-    @JsonIgnore
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+	/**
+	 * @param comments - Comments made about this image
+	 */
+	@JsonIgnore
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#getType()
-     */
-    @Override
-    @Transient
-    public MediaType getType() {
-        return MediaType.StillImage;
-    }
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#getType()
+	 */
+	@Override
+	@Transient
+	public MediaType getType() {
+		return MediaType.StillImage;
+	}
 
-    @Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = super.toSolrInputDocument();
 
 		StringBuilder summary = new StringBuilder().append(getAudience())
 				.append(" ").append(getCreator()).append(" ")
@@ -255,27 +255,27 @@ public class Image extends Multimedia {
 				.append(" ").append(getReferences()).append(" ")
 				.append(getSpatial()).append(" ").append(getSubject())
 				.append(" ").append(getTitle()).append(" ");
-    	if(getTaxon() != null) {
-            addField(sid,"taxon.family_ss", getTaxon().getFamily());
-            addField(sid,"taxon.genus_ss", getTaxon().getGenus());
-            addField(sid,"taxon.order_s", getTaxon().getOrder());
-            addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
-            addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
-            addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
-            addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
-    	    summary.append(" ").append(getTaxon().getClazz())
-    	    .append(" ").append(getTaxon().getClazz())
-    	    .append(" ").append(getTaxon().getFamily())
-    	    .append(" ").append(getTaxon().getGenus())
-    	    .append(" ").append(getTaxon().getKingdom())
-    	    .append(" ").append(getTaxon().getOrder())
-    	    .append(" ").append(getTaxon().getPhylum())
-    	    .append(" ").append(getTaxon().getSubfamily())
-    	    .append(" ").append(getTaxon().getSubgenus())
-    	    .append(" ").append(getTaxon().getSubtribe())
-    	    .append(" ").append(getTaxon().getTribe());
-    	}
-    	sid.addField("searchable.solrsummary_t", summary);
+		if(getTaxon() != null) {
+			addField(sid,"taxon.family_ss", getTaxon().getFamily());
+			addField(sid,"taxon.genus_ss", getTaxon().getGenus());
+			addField(sid,"taxon.order_s", getTaxon().getOrder());
+			addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
+			addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
+			addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
+			addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
+			summary.append(" ").append(getTaxon().getClazz())
+			.append(" ").append(getTaxon().getClazz())
+			.append(" ").append(getTaxon().getFamily())
+			.append(" ").append(getTaxon().getGenus())
+			.append(" ").append(getTaxon().getKingdom())
+			.append(" ").append(getTaxon().getOrder())
+			.append(" ").append(getTaxon().getPhylum())
+			.append(" ").append(getTaxon().getSubfamily())
+			.append(" ").append(getTaxon().getSubgenus())
+			.append(" ").append(getTaxon().getSubtribe())
+			.append(" ").append(getTaxon().getTribe());
+		}
+		sid.addField("searchable.solrsummary_t", summary);
 		if (getLocation() != null) {
 			try {
 				WKTWriter wktWriter = new WKTWriter();
@@ -284,16 +284,16 @@ public class Image extends Multimedia {
 				logger.error(e.getLocalizedMessage());
 			}
 		}
-    	return sid;
-    }
+		return sid;
+	}
 
-    @Override
-    public String toString() {
-    	StringBuffer stringBuffer = new StringBuffer();
-    	stringBuffer.append(identifier);
-    	if(getTitle() != null) {
-    		stringBuffer.append(": \"" + getTitle() + "\"");
-    	}
-    	return stringBuffer.toString();
-    }
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(identifier);
+		if(getTitle() != null) {
+			stringBuffer.append(": \"" + getTitle() + "\"");
+		}
+		return stringBuffer.toString();
+	}
 }

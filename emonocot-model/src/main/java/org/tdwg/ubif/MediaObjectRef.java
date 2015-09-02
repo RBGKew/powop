@@ -25,23 +25,23 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  */
 public class MediaObjectRef {
 
-    /**
-     *
-     */
-    @XStreamAsAttribute
-    private String ref;
+	/**
+	 *
+	 */
+	@XStreamAsAttribute
+	private String ref;
 
-    /**
-     * @return the ref
-     */
-    public final String getRef() {
-        return ref;
-    }
+	/**
+	 * @return the ref
+	 */
+	public final String getRef() {
+		return ref;
+	}
 
-    /**
-     * @param newRef the ref to set
-     */
-    public final void setRef(final String newRef) {
-        this.ref = newRef;
-    }
+	/**
+	 * @param newRef the ref to set
+	 */
+	public final void setRef(final String newRef) {
+		this.ref = newRef;
+	}
 }

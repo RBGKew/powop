@@ -30,29 +30,29 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 public class PrintMapTasklet implements Tasklet {
-	
+
 	private MapPrinter mapPrinter;
-	
+
 	private Resource config;
-	
+
 	private FileSystemResource output;
-	
+
 	private String json;
-	
+
 	private Map<String,String> referer = new HashMap<String,String>();
-	
+
 	public void setConfig(Resource config) {
 		this.config = config;
 	}
-	
+
 	public void setJson(String json) {
 		this.json = json;
 	}
-	
+
 	public void setOutput(FileSystemResource output) {
 		this.output = output;
-	}	
-	
+	}
+
 	@Autowired
 	public void setMapPrinter(MapPrinter mapPrinter) {
 		this.mapPrinter = mapPrinter;

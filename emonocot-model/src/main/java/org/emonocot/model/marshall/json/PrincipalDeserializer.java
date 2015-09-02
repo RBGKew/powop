@@ -32,60 +32,60 @@ import org.emonocot.model.auth.User;
  *
  */
 public class PrincipalDeserializer extends
-        JsonDeserializer<Principal> {
+JsonDeserializer<Principal> {
 
-    /**
-     *
-     */
-    protected Service<User> userService;
+	/**
+	 *
+	 */
+	protected Service<User> userService;
 
-    /**
-    *
-    */
-   protected Service<Group> groupService;
+	/**
+	 *
+	 */
+	protected Service<Group> groupService;
 
-    /**
-     *
-     */
-    public PrincipalDeserializer() {
-    }
+	/**
+	 *
+	 */
+	public PrincipalDeserializer() {
+	}
 
-    /**
-     *
-     * @param newGroupService
-     *            Set the group service
-     */
-    public final void setGroupService(final Service<Group> newGroupService) {
-        this.groupService = newGroupService;
-    }
+	/**
+	 *
+	 * @param newGroupService
+	 *            Set the group service
+	 */
+	public final void setGroupService(final Service<Group> newGroupService) {
+		this.groupService = newGroupService;
+	}
 
-    /**
-    *
-    * @param newUserService
-    *            Set the user service
-    */
-   public final void setUserService(final Service<User> newUserService) {
-       this.userService = newUserService;
-   }
+	/**
+	 *
+	 * @param newUserService
+	 *            Set the user service
+	 */
+	public final void setUserService(final Service<User> newUserService) {
+		this.userService = newUserService;
+	}
 
-    @Override
-    public Principal deserialize(final JsonParser jsonParser,
-            final DeserializationContext deserializationContext)
-            throws IOException {
-        String identifier = jsonParser.getText();
-        /**
-         * Hack for now should allow client side to
-         * set "return lazy initialized proxy objs"
-         */
-        if (userService != null && groupService != null) {
-            Principal principal = groupService.find(identifier);
-            if (principal == null) {
-                return userService.find(identifier);
-            } else {
-                return principal;
-            }
-        } else {
-           return null;
-        }
-    }
+	@Override
+	public Principal deserialize(final JsonParser jsonParser,
+			final DeserializationContext deserializationContext)
+					throws IOException {
+		String identifier = jsonParser.getText();
+		/**
+		 * Hack for now should allow client side to
+		 * set "return lazy initialized proxy objs"
+		 */
+		if (userService != null && groupService != null) {
+			Principal principal = groupService.find(identifier);
+			if (principal == null) {
+				return userService.find(identifier);
+			} else {
+				return principal;
+			}
+		} else {
+			return null;
+		}
+	}
 }

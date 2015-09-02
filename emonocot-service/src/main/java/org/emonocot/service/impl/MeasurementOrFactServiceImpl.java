@@ -24,11 +24,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MeasurementOrFactServiceImpl extends
-		ServiceImpl<MeasurementOrFact, MeasurementOrFactDao> implements MeasurementOrFactService {
-	
+ServiceImpl<MeasurementOrFact, MeasurementOrFactDao> implements MeasurementOrFactService {
+
 	@Autowired
-    public final void setMeasurementOrFactDao(final MeasurementOrFactDao measurementOrFactDao) {
-        super.dao = measurementOrFactDao;
-    }
+	public final void setMeasurementOrFactDao(final MeasurementOrFactDao measurementOrFactDao) {
+		super.dao = measurementOrFactDao;
+	}
 
 }

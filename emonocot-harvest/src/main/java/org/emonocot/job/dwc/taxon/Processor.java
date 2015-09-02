@@ -38,25 +38,25 @@ import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListener, ItemWriteListener<Taxon> {
-	
+
 	private Set<TaxonRelationship> taxonRelationships = new HashSet<TaxonRelationship>();
-	
+
 	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
-	
+
 	private Map<String, Taxon> boundTaxa = new HashMap<String,Taxon>();
 
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
-	
+
 	private ReferenceService referenceService;
-	
+
 	@Autowired
 	public void setReferenceService(ReferenceService referenceService) {
-	    this.referenceService = referenceService;
+		this.referenceService = referenceService;
 	}
 
 	/**
@@ -68,19 +68,19 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	 */
 	public Taxon doProcess(Taxon t) throws Exception {
 		logger.info("Processing " + t.getIdentifier());
-		
+
 		if (t.getIdentifier() == null) {
 			throw new NoIdentifierException(t);
 		}
-		
+
 		/**
 		 * replace references with persisted objects or new ones
 		 */
 		t.setNameAccordingTo(resolveReference(t.getNameAccordingTo()));
 		t.setNamePublishedIn(resolveReference(t.getNamePublishedIn()));
-		
+
 		Taxon persisted = getTaxonService().find(t.getIdentifier());
-		
+
 		if (persisted == null) {
 			// Taxon is new
 			bindRelationships(t,t);
@@ -90,10 +90,10 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			t.setAuthority(getSource());
 			logger.info("Adding taxon " + t);
 			return t;
-		} else if(boundTaxa.containsKey(t.getIdentifier())) { 
-		    logger.error(t.getIdentifier() + " was found earlier in this archive");
-		    createAnnotation(boundTaxa.get(t.getIdentifier()), RecordType.Taxon, AnnotationCode.AlreadyProcessed, AnnotationType.Warn);
-		    return null;
+		} else if(boundTaxa.containsKey(t.getIdentifier())) {
+			logger.error(t.getIdentifier() + " was found earlier in this archive");
+			createAnnotation(boundTaxa.get(t.getIdentifier()), RecordType.Taxon, AnnotationCode.AlreadyProcessed, AnnotationType.Warn);
+			return null;
 		} else {
 			checkAuthority(RecordType.Taxon, t, persisted.getAuthority());
 			if (skipUnmodified
@@ -111,7 +111,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setRights(t.getRights());
 				persisted.setRightsHolder(t.getRightsHolder());
 				persisted
-						.setBibliographicCitation(t.getBibliographicCitation());
+				.setBibliographicCitation(t.getBibliographicCitation());
 				persisted.setClazz(t.getClazz());
 				persisted.setFamily(t.getFamily());
 				persisted.setGenus(t.getGenus());
@@ -120,7 +120,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setNameAccordingTo(t.getNameAccordingTo());
 				persisted.setNamePublishedIn(t.getNamePublishedIn());
 				persisted
-						.setNamePublishedInString(t.getNamePublishedInString());
+				.setNamePublishedInString(t.getNamePublishedInString());
 				persisted.setNamePublishedInYear(t.getNamePublishedInYear());
 				persisted.setNomenclaturalCode(t.getNomenclaturalCode());
 				persisted.setNomenclaturalStatus(t.getNomenclaturalStatus());
@@ -167,7 +167,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		if(t.getOriginalNameUsage() != null) {
 			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.original, t.getOriginalNameUsage().getIdentifier(), t.getOriginalNameUsage().getScientificName()));
 		}
-		
+
 		u.setParentNameUsage(null);
 		u.setAcceptedNameUsage(null);
 		u.setOriginalNameUsage(null);
@@ -184,38 +184,38 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	public void afterChunk() {}
 
 	private Taxon resolveTaxon(String identifier, String scientificName) {
-        if (boundTaxa.containsKey(identifier)) {
-            logger.info("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
-            return boundTaxa.get(identifier);
-        } else {
-            Taxon taxon = getTaxonService().find(identifier);
+		if (boundTaxa.containsKey(identifier)) {
+			logger.info("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
+			return boundTaxa.get(identifier);
+		} else {
+			Taxon taxon = getTaxonService().find(identifier);
 
-            if (taxon == null) {
-                taxon = new Taxon();
-                Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
-    					AnnotationCode.Create, AnnotationType.Info);
-    			taxon.getAnnotations().add(annotation);
-                taxon.setAuthority(getSource());
-                taxon.setIdentifier(identifier);
-                taxon.setScientificName(scientificName);
-                logger.info("Didn't find taxon " + scientificName + " with identifier " + identifier + " from service returning new taxon");
-                bindTaxon(taxon);
-              } else {
-                  logger.info("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
-                  bindTaxon(taxon);
-              }
-              return taxon;
-        }
-    }
-	
-    /**
-    *
-    * @param object
-    *            Set the text content object
-    * @param value
-    *            the source of the reference to resolve
-    */
-   private Reference resolveReference(Reference reference) {
+			if (taxon == null) {
+				taxon = new Taxon();
+				Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
+						AnnotationCode.Create, AnnotationType.Info);
+				taxon.getAnnotations().add(annotation);
+				taxon.setAuthority(getSource());
+				taxon.setIdentifier(identifier);
+				taxon.setScientificName(scientificName);
+				logger.info("Didn't find taxon " + scientificName + " with identifier " + identifier + " from service returning new taxon");
+				bindTaxon(taxon);
+			} else {
+				logger.info("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
+				bindTaxon(taxon);
+			}
+			return taxon;
+		}
+	}
+
+	/**
+	 *
+	 * @param object
+	 *            Set the text content object
+	 * @param value
+	 *            the source of the reference to resolve
+	 */
+	private Reference resolveReference(Reference reference) {
 		if (reference == null) {
 			return null;
 		} else {
@@ -242,35 +242,35 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				}
 			}
 		}
-   }
+	}
 
 	@Override
 	public void beforeWrite(List<? extends Taxon> items) {
 		logger.info("Before Write");
-        for (TaxonRelationship taxonRelationship : taxonRelationships) {
-        	Taxon to = resolveTaxon(taxonRelationship.getToIdentifier(), taxonRelationship.getToScientificName());
-        	Taxon from = taxonRelationship.getFrom();
-            switch(taxonRelationship.getTerm()) {
-            case original:
-            	from.setOriginalNameUsage(to);
-            	break;
-            case accepted:
-            	from.setAcceptedNameUsage(to);
-            	break;
-            case parent:
-            	from.setParentNameUsage(to);
-            	break;
-            }
-        }
+		for (TaxonRelationship taxonRelationship : taxonRelationships) {
+			Taxon to = resolveTaxon(taxonRelationship.getToIdentifier(), taxonRelationship.getToScientificName());
+			Taxon from = taxonRelationship.getFrom();
+			switch(taxonRelationship.getTerm()) {
+			case original:
+				from.setOriginalNameUsage(to);
+				break;
+			case accepted:
+				from.setAcceptedNameUsage(to);
+				break;
+			case parent:
+				from.setParentNameUsage(to);
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void afterWrite(List<? extends Taxon> items) {
-		
+
 	}
 
 	@Override
 	public void onWriteError(Exception exception, List<? extends Taxon> items) {
-		
+
 	}
 }

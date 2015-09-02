@@ -40,103 +40,103 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ExampleTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon> {
 
-    private Logger logger = LoggerFactory.getLogger(ExampleTaxonMatcher.class);
+	private Logger logger = LoggerFactory.getLogger(ExampleTaxonMatcher.class);
 
-    @Autowired
-    private TaxonService taxonService;
-    
-    @Autowired
-    private NameParser nameParser;
+	@Autowired
+	private TaxonService taxonService;
 
-    /**
-     * @param taxonService
-     *            the taxonService to set
-     */
-    public void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
-    
-    public void setNameParser(NameParser nameParser) {
-    	this.nameParser = nameParser;
-    }
+	@Autowired
+	private NameParser nameParser;
 
-    /*
-     * Returns one or more match of the same status
-     * @see
-     * org.emonocot.api.match.TaxonMatcher#match(org.gbif.ecat.model.ParsedName
-     * )
-     */
-    public List<Match<Taxon>> match(ParsedName<String> parsed) {
-    	
-        List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
-        Taxon emonocotTaxon = new Taxon();
-        emonocotTaxon.setScientificName(parsed.buildName(true, true, false, false, false,
-                false, true, false, false, false, false));
-        if (parsed.getAuthorship() != null) {
-        	emonocotTaxon.setScientificNameAuthorship(parsed.getAuthorship());
-        }
-        
-        logger.debug("Attempting to match " + emonocotTaxon.getScientificName());
+	/**
+	 * @param taxonService
+	 *            the taxonService to set
+	 */
+	public void setTaxonService(TaxonService taxonService) {
+		this.taxonService = taxonService;
+	}
 
-        Page<Taxon> page = taxonService.searchByExample(emonocotTaxon, true, true);
+	public void setNameParser(NameParser nameParser) {
+		this.nameParser = nameParser;
+	}
 
-        switch (page.getRecords().size()) {
-        case 0:
-        	if(parsed.getBracketAuthorship() != null){
-        		parsed.setBracketAuthorship(null);
-        		matches = match(parsed);
-        	} else if (parsed.getAuthorship() != null) {
-        		parsed.setAuthorship(null);
-        		matches = match(parsed);
-        	}
-        	for (Match<Taxon> match : matches) {
+	/*
+	 * Returns one or more match of the same status
+	 * @see
+	 * org.emonocot.api.match.TaxonMatcher#match(org.gbif.ecat.model.ParsedName
+	 * )
+	 */
+	public List<Match<Taxon>> match(ParsedName<String> parsed) {
+
+		List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
+		Taxon emonocotTaxon = new Taxon();
+		emonocotTaxon.setScientificName(parsed.buildName(true, true, false, false, false,
+				false, true, false, false, false, false));
+		if (parsed.getAuthorship() != null) {
+			emonocotTaxon.setScientificNameAuthorship(parsed.getAuthorship());
+		}
+
+		logger.debug("Attempting to match " + emonocotTaxon.getScientificName());
+
+		Page<Taxon> page = taxonService.searchByExample(emonocotTaxon, true, true);
+
+		switch (page.getRecords().size()) {
+		case 0:
+			if(parsed.getBracketAuthorship() != null){
+				parsed.setBracketAuthorship(null);
+				matches = match(parsed);
+			} else if (parsed.getAuthorship() != null) {
+				parsed.setAuthorship(null);
+				matches = match(parsed);
+			}
+			for (Match<Taxon> match : matches) {
 				match.setStatus(MatchStatus.PARTIAL);
 			}
-            break;
-        case 1:
-            Match<Taxon> single = new Match<Taxon>();
-            single.setInternal(page.getRecords().get(0));
-            String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
-            if (emonocotTaxon.getScientificName().equals(internalName)) {
-                single.setStatus(MatchStatus.EXACT);
-            } else {
-                single.setStatus(MatchStatus.PARTIAL);
-            }
-            matches.add(single);
-            break;
-        default:
-            Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
-            for (Taxon taxon : page.getRecords()) {
-                logger.debug(taxon.getScientificName() + " " + taxon.getIdentifier());
-                Match<Taxon> m = new Match<Taxon>();
-                m.setInternal(taxon);
-                matches.add(m);
-                String name = (new NameParser().parseToCanonical(taxon.getScientificName()));
-                if (emonocotTaxon.getScientificName().equals(name)) {
-                    m.setStatus(MatchStatus.EXACT);
-                    exactMatches.add(m);
-                } else {
-                    m.setStatus(MatchStatus.PARTIAL);
-                }
-            }
-            switch (exactMatches.size()) {
-            case 0:
-                break;
-            case 1:
-                matches.retainAll(exactMatches);
-                break;
-            default:
-                logger.debug(exactMatches.size() + " exact matches:");
-                for (Match<Taxon> m : exactMatches) {
-                    logger.debug(m.getInternal().getScientificName() + " exact "
-                            + m.getInternal().getIdentifier());
-                }
-                break;
-            }
-        }
+			break;
+		case 1:
+			Match<Taxon> single = new Match<Taxon>();
+			single.setInternal(page.getRecords().get(0));
+			String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
+			if (emonocotTaxon.getScientificName().equals(internalName)) {
+				single.setStatus(MatchStatus.EXACT);
+			} else {
+				single.setStatus(MatchStatus.PARTIAL);
+			}
+			matches.add(single);
+			break;
+		default:
+			Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
+			for (Taxon taxon : page.getRecords()) {
+				logger.debug(taxon.getScientificName() + " " + taxon.getIdentifier());
+				Match<Taxon> m = new Match<Taxon>();
+				m.setInternal(taxon);
+				matches.add(m);
+				String name = (new NameParser().parseToCanonical(taxon.getScientificName()));
+				if (emonocotTaxon.getScientificName().equals(name)) {
+					m.setStatus(MatchStatus.EXACT);
+					exactMatches.add(m);
+				} else {
+					m.setStatus(MatchStatus.PARTIAL);
+				}
+			}
+			switch (exactMatches.size()) {
+			case 0:
+				break;
+			case 1:
+				matches.retainAll(exactMatches);
+				break;
+			default:
+				logger.debug(exactMatches.size() + " exact matches:");
+				for (Match<Taxon> m : exactMatches) {
+					logger.debug(m.getInternal().getScientificName() + " exact "
+							+ m.getInternal().getIdentifier());
+				}
+				break;
+			}
+		}
 
-        return matches;
-    }
+		return matches;
+	}
 
 	@Override
 	public List<Match<Taxon>> match(String name) throws UnparsableException {
@@ -144,13 +144,13 @@ public class ExampleTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 		return match(parsed);
 	}
 
-    @Override
-    public List<Match<Taxon>> getMatches(String input) {
-            try {
-                return match(input);
-            } catch (UnparsableException e) {
-                logger.error("Couldn't parse the string");
-                return null;
-            }
-    }
+	@Override
+	public List<Match<Taxon>> getMatches(String input) {
+		try {
+			return match(input);
+		} catch (UnparsableException e) {
+			logger.error("Couldn't parse the string");
+			return null;
+		}
+	}
 }

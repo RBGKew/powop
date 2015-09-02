@@ -28,42 +28,42 @@ import org.springframework.format.Formatter;
  *
  */
 public class FacetRequestFormatter
-    implements Formatter<FacetRequest> {
-	
+implements Formatter<FacetRequest> {
+
 	private static String FACET_SEPARATOR = ":";
 
-    /**
-     * @param facetRequest Set the facet request
-     * @param locale Set the locale
-     * @return the facet request as a string
-     */
-    public final String print(
-            final FacetRequest facetRequest, final Locale locale) {
-        return facetRequest.getFacet() + FacetRequestFormatter.FACET_SEPARATOR + facetRequest.getSelected();
-    }
+	/**
+	 * @param facetRequest Set the facet request
+	 * @param locale Set the locale
+	 * @return the facet request as a string
+	 */
+	public final String print(
+			final FacetRequest facetRequest, final Locale locale) {
+		return facetRequest.getFacet() + FacetRequestFormatter.FACET_SEPARATOR + facetRequest.getSelected();
+	}
 
-    /**
-     * @param facetRequest the facet request as a string
-     * @param locale Set the locale
-     * @return a FacetRequest object
-     * @throws ParseException if there is a problem parsing the string
-     */
-    public final FacetRequest parse(
-            final String facetRequest, final Locale locale)
-            throws ParseException {
-        if (-1 == facetRequest.indexOf(FacetRequestFormatter.FACET_SEPARATOR)) {
-            throw new ParseException(
-                    facetRequest + " is not a valid facet request", 0);
-        } else {
-            String facetName
-                = facetRequest.substring(0, facetRequest.indexOf(FacetRequestFormatter.FACET_SEPARATOR));
-            String selectedFacet
-                = facetRequest.substring(facetRequest.indexOf(FacetRequestFormatter.FACET_SEPARATOR) + 1);
-            FacetRequest result = new FacetRequest();
-            result.setFacet(facetName);
-            result.setSelected(selectedFacet);
-            return result;
-        }
-    }
+	/**
+	 * @param facetRequest the facet request as a string
+	 * @param locale Set the locale
+	 * @return a FacetRequest object
+	 * @throws ParseException if there is a problem parsing the string
+	 */
+	public final FacetRequest parse(
+			final String facetRequest, final Locale locale)
+					throws ParseException {
+		if (-1 == facetRequest.indexOf(FacetRequestFormatter.FACET_SEPARATOR)) {
+			throw new ParseException(
+					facetRequest + " is not a valid facet request", 0);
+		} else {
+			String facetName
+			= facetRequest.substring(0, facetRequest.indexOf(FacetRequestFormatter.FACET_SEPARATOR));
+			String selectedFacet
+			= facetRequest.substring(facetRequest.indexOf(FacetRequestFormatter.FACET_SEPARATOR) + 1);
+			FacetRequest result = new FacetRequest();
+			result.setFacet(facetName);
+			result.setSelected(selectedFacet);
+			return result;
+		}
+	}
 
 }

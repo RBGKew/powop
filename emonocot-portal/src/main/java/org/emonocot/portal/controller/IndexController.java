@@ -36,16 +36,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class IndexController {
-	
+
 	private CommentService commentService;
-	
+
 	private SearchableObjectService searchableObjectService;
 
 	@Autowired
 	public void setCommentService(CommentService commentService) {
 		this.commentService = commentService;
 	}
-	
+
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
 		this.searchableObjectService = searchableObjectService;
@@ -56,19 +56,19 @@ public class IndexController {
 	public String index(Model uiModel) throws SolrServerException {
 		// Cope with solr unavailability
 		try {
-			Map<String, String> selectedFacets = new HashMap<String, String>();		
+			Map<String, String> selectedFacets = new HashMap<String, String>();
 			selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
 			selectedFacets.put("comment.status_t", "SENT");
-		    Page<Comment> comments = commentService.search(null, null, 5, 0, null, null, selectedFacets, "comment.created_dt_desc", "aboutData");
-		    uiModel.addAttribute("comments", comments);
-		    List<String> responseFacets = new ArrayList<String>();
-		    responseFacets.add("base.class_s");
-		    Page<SearchableObject> stats = searchableObjectService.search("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
-		    uiModel.addAttribute("stats", stats);
+			Page<Comment> comments = commentService.search(null, null, 5, 0, null, null, selectedFacets, "comment.created_dt_desc", "aboutData");
+			uiModel.addAttribute("comments", comments);
+			List<String> responseFacets = new ArrayList<String>();
+			responseFacets.add("base.class_s");
+			Page<SearchableObject> stats = searchableObjectService.search("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
+			uiModel.addAttribute("stats", stats);
 		} catch (SolrServerException sse) {
-			
-		}	
-		
+
+		}
+
 		return "index";
 	}
 

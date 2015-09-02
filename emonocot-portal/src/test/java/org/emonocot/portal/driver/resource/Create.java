@@ -29,20 +29,20 @@ import org.openqa.selenium.support.How;
  *
  */
 public class Create extends AbstractCreateForm {
-	
+
 	@FindBy(how = How.ID, using = "resource")
 	private WebElement form;
-	
+
 	public Create() {
 		objectClass = Resource.class;
-    	onSubmitPageClass = org.emonocot.portal.driver.resource.List.class;
+		onSubmitPageClass = org.emonocot.portal.driver.resource.List.class;
 	}
 
 	@Override
 	protected WebElement getForm() {
 		return form;
 	}
-	
+
 	public void setObjectIdentifier() {
 		super.setObjectIdentifier(getForm().findElement(By.name("identifier")).getAttribute("value"));
 	}

@@ -40,119 +40,119 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class JobExecutionDaoImpl extends JdbcDaoSupport implements
-        JobExecutionDao {
-    /**
-     *
-     */
-    private RowMapper<JobExecution> rowMapper = new JobExecutionRowMapper();
+JobExecutionDao {
+	/**
+	 *
+	 */
+	private RowMapper<JobExecution> rowMapper = new JobExecutionRowMapper();
 
-    /**
-     *
-     * @param dataSource Set the data source
-     */
-    @Autowired
-    public final void setDatasource(final DataSource dataSource) {
-        super.setDataSource(dataSource);
-    }
+	/**
+	 *
+	 * @param dataSource Set the data source
+	 */
+	@Autowired
+	public final void setDatasource(final DataSource dataSource) {
+		super.setDataSource(dataSource);
+	}
 
-   /**
-    *
-    * @param authorityName the name of the authorty
-    * @param pageSize set the maximum size of the list of executions
-    * @param pageNumber set the page number
-    * @return a list of job executions
-    */
-    public final List<JobExecution> getJobExecutions(final String authorityName,
-            final Integer pageSize, final Integer pageNumber) {
-        if (pageSize == null && pageNumber == null) {
-        	if(authorityName == null) {
-        		return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) order by START_TIME desc", rowMapper);
-        	} else {       	
-                return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc", rowMapper, authorityName);
-        	}
-        } else if (pageNumber == null) {
-            return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ?", rowMapper, authorityName,pageSize);
-        } else {
-            return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ? OFFSET ?", rowMapper, authorityName,pageSize, pageNumber * pageSize);
-        }
-    }
+	/**
+	 *
+	 * @param authorityName the name of the authorty
+	 * @param pageSize set the maximum size of the list of executions
+	 * @param pageNumber set the page number
+	 * @return a list of job executions
+	 */
+	public final List<JobExecution> getJobExecutions(final String authorityName,
+			final Integer pageSize, final Integer pageNumber) {
+		if (pageSize == null && pageNumber == null) {
+			if(authorityName == null) {
+				return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) order by START_TIME desc", rowMapper);
+			} else {
+				return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc", rowMapper, authorityName);
+			}
+		} else if (pageNumber == null) {
+			return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ?", rowMapper, authorityName,pageSize);
+		} else {
+			return getJdbcTemplate().query("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_PARAMS as bjp on (bje.JOB_INSTANCE_ID = bjp.JOB_INSTANCE_ID) join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bjp.KEY_NAME = 'authority.name' and bjp.STRING_VAL = ? order by START_TIME desc LIMIT ? OFFSET ?", rowMapper, authorityName,pageSize, pageNumber * pageSize);
+		}
+	}
 
-    /**
-     *
-     * @author ben
-     *
-     */
-    public class JobExecutionRowMapper implements RowMapper<JobExecution> {
+	/**
+	 *
+	 * @author ben
+	 *
+	 */
+	public class JobExecutionRowMapper implements RowMapper<JobExecution> {
 
-        /**
-         * @param resultSet Set the result set
-         * @param rowNumber Set the row number
-         * @throws SQLException if there is a problem
-         * @return a job execution instance
-         */
-        public final JobExecution mapRow(final ResultSet resultSet,
-                final int rowNumber) throws SQLException {
-            JobInstance jobInstance = new JobInstance(resultSet.getBigDecimal(
-                    "JOB_INSTANCE_ID").longValue(),
-                    new JobParameters(), resultSet.getString("JOB_NAME"));
-            JobExecution jobExecution = new JobExecution(jobInstance,
-                    resultSet.getBigDecimal("JOB_EXECUTION_ID").longValue());
-            jobExecution.setStartTime(resultSet.getTimestamp("START_TIME"));
-            jobExecution.setCreateTime(resultSet.getTimestamp("CREATE_TIME"));
-            jobExecution.setEndTime(resultSet.getTimestamp("END_TIME"));
-            jobExecution.setStatus(BatchStatus.valueOf(resultSet
-                    .getString("STATUS")));
-            ExitStatus exitStatus = new ExitStatus(
-                    resultSet.getString("EXIT_CODE"),
-                    resultSet.getString("EXIT_MESSAGE"));
-            jobExecution.setExitStatus(exitStatus);
-            return jobExecution;
-        }
+		/**
+		 * @param resultSet Set the result set
+		 * @param rowNumber Set the row number
+		 * @throws SQLException if there is a problem
+		 * @return a job execution instance
+		 */
+		public final JobExecution mapRow(final ResultSet resultSet,
+				final int rowNumber) throws SQLException {
+			JobInstance jobInstance = new JobInstance(resultSet.getBigDecimal(
+					"JOB_INSTANCE_ID").longValue(),
+					new JobParameters(), resultSet.getString("JOB_NAME"));
+			JobExecution jobExecution = new JobExecution(jobInstance,
+					resultSet.getBigDecimal("JOB_EXECUTION_ID").longValue());
+			jobExecution.setStartTime(resultSet.getTimestamp("START_TIME"));
+			jobExecution.setCreateTime(resultSet.getTimestamp("CREATE_TIME"));
+			jobExecution.setEndTime(resultSet.getTimestamp("END_TIME"));
+			jobExecution.setStatus(BatchStatus.valueOf(resultSet
+					.getString("STATUS")));
+			ExitStatus exitStatus = new ExitStatus(
+					resultSet.getString("EXIT_CODE"),
+					resultSet.getString("EXIT_MESSAGE"));
+			jobExecution.setExitStatus(exitStatus);
+			return jobExecution;
+		}
 
-    }
+	}
 
-    /**
-    *
-    * @param identifier the identifier of the job
-    * @return a job execution
-    */
-    public final JobExecution load(final Long identifier) {
-        JobExecution jobExecution = getJdbcTemplate().queryForObject("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bje.JOB_EXECUTION_ID = ?", rowMapper, identifier);
-        return jobExecution;
-    }
+	/**
+	 *
+	 * @param identifier the identifier of the job
+	 * @return a job execution
+	 */
+	public final JobExecution load(final Long identifier) {
+		JobExecution jobExecution = getJdbcTemplate().queryForObject("select bje.JOB_EXECUTION_ID as JOB_EXECUTION_ID, bje.START_TIME as START_TIME, bje.CREATE_TIME as CREATE_TIME, bje.END_TIME as END_TIME, bje.STATUS as STATUS, bje.EXIT_CODE as EXIT_CODE, bje.EXIT_MESSAGE as EXIT_MESSAGE, bji.JOB_INSTANCE_ID as JOB_INSTANCE_ID, bji.JOB_NAME as JOB_NAME from BATCH_JOB_EXECUTION as bje join BATCH_JOB_INSTANCE as bji on (bje.JOB_INSTANCE_ID = bji.JOB_INSTANCE_ID) where bje.JOB_EXECUTION_ID = ?", rowMapper, identifier);
+		return jobExecution;
+	}
 
-    /**
-     *
-     * @param id The id to delete
-     */
-    public final void delete(final Long id) {
-        getJdbcTemplate().update("DELETE from BATCH_JOB_EXECUTION where JOB_EXECUTION_ID = ?", id);
-    }
+	/**
+	 *
+	 * @param id The id to delete
+	 */
+	public final void delete(final Long id) {
+		getJdbcTemplate().update("DELETE from BATCH_JOB_EXECUTION where JOB_EXECUTION_ID = ?", id);
+	}
 
-   /**
-    *
-    * @param jobExecution The jobExecution to save
-    */
-    public final void save(final JobExecution jobExecution) {
-        String exitCode = null;
-        String exitDescription = null;
-        if (jobExecution.getExitStatus() != null) {
-            exitCode = jobExecution.getExitStatus().getExitCode();
-            exitDescription = jobExecution.getExitStatus().getExitDescription();
-        }
-        getJdbcTemplate()
-                .update("INSERT INTO BATCH_JOB_EXECUTION (JOB_EXECUTION_ID, VERSION, JOB_INSTANCE_ID, CREATE_TIME, START_TIME, END_TIME, STATUS, EXIT_CODE, EXIT_MESSAGE, LAST_UPDATED) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                        jobExecution.getId(),
-                        jobExecution.getVersion(),
-                        jobExecution.getJobInstance().getId(),
-                        jobExecution.getCreateTime(),
-                        jobExecution.getStartTime(),
-                        jobExecution.getEndTime(),
-                        jobExecution.getStatus().name(),
-                        exitCode,
-                        exitDescription,
-                        jobExecution.getLastUpdated()
-                        );
-    }
+	/**
+	 *
+	 * @param jobExecution The jobExecution to save
+	 */
+	public final void save(final JobExecution jobExecution) {
+		String exitCode = null;
+		String exitDescription = null;
+		if (jobExecution.getExitStatus() != null) {
+			exitCode = jobExecution.getExitStatus().getExitCode();
+			exitDescription = jobExecution.getExitStatus().getExitDescription();
+		}
+		getJdbcTemplate()
+		.update("INSERT INTO BATCH_JOB_EXECUTION (JOB_EXECUTION_ID, VERSION, JOB_INSTANCE_ID, CREATE_TIME, START_TIME, END_TIME, STATUS, EXIT_CODE, EXIT_MESSAGE, LAST_UPDATED) VALUES (?,?,?,?,?,?,?,?,?,?)",
+				jobExecution.getId(),
+				jobExecution.getVersion(),
+				jobExecution.getJobInstance().getId(),
+				jobExecution.getCreateTime(),
+				jobExecution.getStartTime(),
+				jobExecution.getEndTime(),
+				jobExecution.getStatus().name(),
+				exitCode,
+				exitDescription,
+				jobExecution.getLastUpdated()
+				);
+	}
 }
 

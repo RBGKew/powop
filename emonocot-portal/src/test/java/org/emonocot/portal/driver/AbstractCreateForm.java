@@ -19,7 +19,7 @@ package org.emonocot.portal.driver;
 import org.emonocot.model.Base;
 
 public abstract class AbstractCreateForm extends
-		AbstractUpdateForm {
+AbstractUpdateForm {
 
 	/**
 	 *
@@ -33,19 +33,19 @@ public abstract class AbstractCreateForm extends
 	 */
 	@Override
 	public final PageObject submit() {
-	    getForm().submit();
-	    if (objectIdentifier != null) {
-	            Base t;
-				try {
-					t = objectClass.newInstance();
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-	            t.setIdentifier(objectIdentifier);
-	            testDataManager.registerObject(t);
-	            this.objectIdentifier = null;
-	    }
-	    return getPage(onSubmitPageClass);
+		getForm().submit();
+		if (objectIdentifier != null) {
+			Base t;
+			try {
+				t = objectClass.newInstance();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			t.setIdentifier(objectIdentifier);
+			testDataManager.registerObject(t);
+			this.objectIdentifier = null;
+		}
+		return getPage(onSubmitPageClass);
 	}
 
 	/**
@@ -54,12 +54,12 @@ public abstract class AbstractCreateForm extends
 	 * @param fieldName TODO
 	 */
 	public final void setObjectIdentifier(final String fieldValue, String fieldName) {
-	    objectIdentifier = fieldValue;
-	    super.setFormField(fieldName, fieldValue);
+		objectIdentifier = fieldValue;
+		super.setFormField(fieldName, fieldValue);
 	}
-	
+
 	public final void setObjectIdentifier(final String fieldValue) {
-	    objectIdentifier = fieldValue;
+		objectIdentifier = fieldValue;
 	}
 
 }

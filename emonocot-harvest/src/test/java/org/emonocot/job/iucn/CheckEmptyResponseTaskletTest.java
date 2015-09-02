@@ -34,45 +34,45 @@ import org.springframework.core.io.Resource;
  *
  */
 public class CheckEmptyResponseTaskletTest {
-	
+
 	Resource responseWithData = new ClassPathResource("org/emonocot/job/common/iucn.json");
-	
+
 	Resource emptyResponse = new ClassPathResource("org/emonocot/job/common/empty.json");
-	
+
 	StepContribution stepContribution;
-	
+
 	ChunkContext chunkContext;
-	
+
 	ExitStatus emptyResponseExitStatus;
 
-    private CheckEmptyResponseTasklet checkEmptyResponseTasklet;
+	private CheckEmptyResponseTasklet checkEmptyResponseTasklet;
 
-    @Before
-    public final void setUp() {
-    	stepContribution = EasyMock.createMock(StepContribution.class);
-    	chunkContext = EasyMock.createMock(ChunkContext.class);
-        checkEmptyResponseTasklet = new CheckEmptyResponseTasklet();
-        emptyResponseExitStatus = new ExitStatus("EMPTY_RESPONSE").addExitDescription("The webservice returned an empty list of taxa");
-    }
+	@Before
+	public final void setUp() {
+		stepContribution = EasyMock.createMock(StepContribution.class);
+		chunkContext = EasyMock.createMock(ChunkContext.class);
+		checkEmptyResponseTasklet = new CheckEmptyResponseTasklet();
+		emptyResponseExitStatus = new ExitStatus("EMPTY_RESPONSE").addExitDescription("The webservice returned an empty list of taxa");
+	}
 
-    @Test
-    public final void checkResponseWithData() throws Exception {
-    	checkEmptyResponseTasklet.setInputFile(responseWithData);
-    	EasyMock.replay(stepContribution,chunkContext);
-        assertEquals("CheckEmptyResponse should return RepeatStatus.FINISHED",
-        		checkEmptyResponseTasklet.execute(stepContribution, chunkContext), RepeatStatus.FINISHED);
-        EasyMock.verify(stepContribution,chunkContext);
-    }
-    
-    @Test
-    public final void checkEmptyResponse() throws Exception {
-    	checkEmptyResponseTasklet.setInputFile(emptyResponse);
-    	stepContribution.setExitStatus(EasyMock.eq(emptyResponseExitStatus));
-    	EasyMock.replay(stepContribution,chunkContext);
-        
-    	assertEquals("CheckEmptyResponse should return RepeatStatus.FINISHED",
-        		checkEmptyResponseTasklet.execute(stepContribution, chunkContext), RepeatStatus.FINISHED);
-        EasyMock.verify(stepContribution,chunkContext);
-    }
+	@Test
+	public final void checkResponseWithData() throws Exception {
+		checkEmptyResponseTasklet.setInputFile(responseWithData);
+		EasyMock.replay(stepContribution,chunkContext);
+		assertEquals("CheckEmptyResponse should return RepeatStatus.FINISHED",
+				checkEmptyResponseTasklet.execute(stepContribution, chunkContext), RepeatStatus.FINISHED);
+		EasyMock.verify(stepContribution,chunkContext);
+	}
+
+	@Test
+	public final void checkEmptyResponse() throws Exception {
+		checkEmptyResponseTasklet.setInputFile(emptyResponse);
+		stepContribution.setExitStatus(EasyMock.eq(emptyResponseExitStatus));
+		EasyMock.replay(stepContribution,chunkContext);
+
+		assertEquals("CheckEmptyResponse should return RepeatStatus.FINISHED",
+				checkEmptyResponseTasklet.execute(stepContribution, chunkContext), RepeatStatus.FINISHED);
+		EasyMock.verify(stepContribution,chunkContext);
+	}
 
 }

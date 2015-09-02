@@ -28,23 +28,23 @@ import org.springframework.batch.item.ItemStream;
 import org.springframework.batch.item.ItemStreamException;
 
 public class DirectoryReader implements ItemReader<File>, ItemStream {
-	
+
 	private File [] files;
-	
+
 	private int currentCount;
-	
+
 	private String key = "file.in.directory.count";
-	
+
 	private String directoryName;
 
 	@Override
 	public void open(ExecutionContext executionContext)	throws ItemStreamException {
 		File directory = new File(directoryName);
 		if(directory.isDirectory()) {
-		    this.files = directory.listFiles((FileFilter) FileFilterUtils.fileFileFilter());
-		    if(files.length > 1) {
-		        Arrays.sort(files, new NameFileComparator());
-		    }
+			this.files = directory.listFiles((FileFilter) FileFilterUtils.fileFileFilter());
+			if(files.length > 1) {
+				Arrays.sort(files, new NameFileComparator());
+			}
 		} else {
 			throw new IllegalArgumentException(directoryName + " is not a directory");
 		}
@@ -67,7 +67,7 @@ public class DirectoryReader implements ItemReader<File>, ItemStream {
 		}
 		return files[index];
 	}
-	
+
 	public void setDirectoryName(String directoryName) {
 		this.directoryName = directoryName;
 	}

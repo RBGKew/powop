@@ -57,176 +57,176 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class ACLTest extends DataManagementSupport {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(ACLTest.class);
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private TaxonService taxonService;
+	@Autowired
+	private TaxonService taxonService;
 
-    @Autowired
-    private ImageService imageService;
+	@Autowired
+	private ImageService imageService;
 
-    @Autowired
-    private AnnotationService annotationService;
+	@Autowired
+	private AnnotationService annotationService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private GroupService groupService;
+	@Autowired
+	private GroupService groupService;
 
-    @Autowired
-    private OrganisationService sourceService;
+	@Autowired
+	private OrganisationService sourceService;
 
-    private UsernamePasswordAuthenticationToken token;
+	private UsernamePasswordAuthenticationToken token;
 
-    private Group group;
+	private Group group;
 
-    private Organisation source;
+	private Organisation source;
 
-    private User user;
+	private User user;
 
-    /**
-     * @throws java.lang.Exception
-     *             if there is a problem
-     */
-    @Before
-    public final void setUp() throws Exception {
-        setUpTestData();
+	/**
+	 * @throws java.lang.Exception
+	 *             if there is a problem
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		setUpTestData();
 
-        for (Object obj : getSetUp()) {
-            if (obj.getClass().equals(Taxon.class)) {
-                taxonService.saveOrUpdate((Taxon) obj);
-            } else if (obj.getClass().equals(Image.class)) {
-                imageService.saveOrUpdate((Image) obj);
-            } else if (obj.getClass().equals(Annotation.class)) {
-                annotationService.saveOrUpdate((Annotation) obj);
-            } else if (obj.getClass().equals(Organisation.class)) {
-                sourceService.saveOrUpdate((Organisation) obj);
-            } else if (obj.getClass().equals(User.class)) {
-                userService.createUser((User) obj);
-            } else if (obj.getClass().equals(Group.class)) {
-                groupService.saveOrUpdate((Group) obj);
-            }
-        }
-        token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
-                "sPePhAz6");
-        Authentication authentication = authenticationManager
-                .authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        userService.addPermission(source, "test", BasePermission.READ,
-                Organisation.class);
-        SecurityContextHolder.clearContext();
-    }
+		for (Object obj : getSetUp()) {
+			if (obj.getClass().equals(Taxon.class)) {
+				taxonService.saveOrUpdate((Taxon) obj);
+			} else if (obj.getClass().equals(Image.class)) {
+				imageService.saveOrUpdate((Image) obj);
+			} else if (obj.getClass().equals(Annotation.class)) {
+				annotationService.saveOrUpdate((Annotation) obj);
+			} else if (obj.getClass().equals(Organisation.class)) {
+				sourceService.saveOrUpdate((Organisation) obj);
+			} else if (obj.getClass().equals(User.class)) {
+				userService.createUser((User) obj);
+			} else if (obj.getClass().equals(Group.class)) {
+				groupService.saveOrUpdate((Group) obj);
+			}
+		}
+		token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
+				"sPePhAz6");
+		Authentication authentication = authenticationManager
+				.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		userService.addPermission(source, "test", BasePermission.READ,
+				Organisation.class);
+		SecurityContextHolder.clearContext();
+	}
 
-    /**
-     * @throws java.lang.Exception
-     *             if there is a problem
-     */
-    @After
-    public final void tearDown() throws Exception {
-        setSetUp(new ArrayList<Object>());
-        token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
-        "sPePhAz6");
-        Authentication authentication = authenticationManager.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        userService.deletePermission(source, "test", BasePermission.READ,
-                Organisation.class);
-        
-        while (!getTearDown().isEmpty()) {
-            Object obj = getTearDown().pop();
-            if (obj.getClass().equals(Taxon.class)) {
-                taxonService.delete(((Taxon) obj).getIdentifier());
-            } else if (obj.getClass().equals(Image.class)) {
-                imageService.delete(((Image) obj).getIdentifier());
-            } else if (obj.getClass().equals(Annotation.class)) {
-                annotationService.delete(((Annotation) obj).getIdentifier());
-            } else if (obj.getClass().equals(Organisation.class)) {
-                sourceService.delete(((Organisation) obj).getIdentifier());
-            } else if (obj.getClass().equals(User.class)) {
-                userService.deleteUser(((User) obj).getIdentifier());
-            } else if (obj.getClass().equals(Group.class)) {
-                userService.deleteGroup(((Group) obj).getIdentifier());
-            }
-        }
-        SecurityContextHolder.clearContext();
-    }
+	/**
+	 * @throws java.lang.Exception
+	 *             if there is a problem
+	 */
+	@After
+	public final void tearDown() throws Exception {
+		setSetUp(new ArrayList<Object>());
+		token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
+				"sPePhAz6");
+		Authentication authentication = authenticationManager.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		userService.deletePermission(source, "test", BasePermission.READ,
+				Organisation.class);
 
-    /**
-     *
-     */
-    @Override
-    public final void setUpTestData() {
-        source = createSource("test", "http://example.com", "Test Organisation", "test@example.com");
-        group = createGroup("test");
-        user = createUser("authorized.user@e-monocot.org", "good.password", "authorizedUser");
-        user.getGroups().add(group);
-        User unauthorizedUser = createUser("unauthorized.user@e-monocot.org",
-                "bad.password", "unauthorizedUser");
-    }
+		while (!getTearDown().isEmpty()) {
+			Object obj = getTearDown().pop();
+			if (obj.getClass().equals(Taxon.class)) {
+				taxonService.delete(((Taxon) obj).getIdentifier());
+			} else if (obj.getClass().equals(Image.class)) {
+				imageService.delete(((Image) obj).getIdentifier());
+			} else if (obj.getClass().equals(Annotation.class)) {
+				annotationService.delete(((Annotation) obj).getIdentifier());
+			} else if (obj.getClass().equals(Organisation.class)) {
+				sourceService.delete(((Organisation) obj).getIdentifier());
+			} else if (obj.getClass().equals(User.class)) {
+				userService.deleteUser(((User) obj).getIdentifier());
+			} else if (obj.getClass().equals(Group.class)) {
+				userService.deleteGroup(((Group) obj).getIdentifier());
+			}
+		}
+		SecurityContextHolder.clearContext();
+	}
 
-    /**
-     *
-     */
-    @Test
-    public final void testACLWithoutPermission() {
-        token = new UsernamePasswordAuthenticationToken(
-                "unauthorized.user@e-monocot.org", "bad.password");
-        Authentication authentication = authenticationManager
-                .authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        boolean adeExceptionThrown = false;
+	/**
+	 *
+	 */
+	@Override
+	public final void setUpTestData() {
+		source = createSource("test", "http://example.com", "Test Organisation", "test@example.com");
+		group = createGroup("test");
+		user = createUser("authorized.user@e-monocot.org", "good.password", "authorizedUser");
+		user.getGroups().add(group);
+		User unauthorizedUser = createUser("unauthorized.user@e-monocot.org",
+				"bad.password", "unauthorizedUser");
+	}
 
-        try {
-            sourceService.load("test");
-        } catch (AccessDeniedException expected) {
-            adeExceptionThrown = true;
-        }
+	/**
+	 *
+	 */
+	@Test
+	public final void testACLWithoutPermission() {
+		token = new UsernamePasswordAuthenticationToken(
+				"unauthorized.user@e-monocot.org", "bad.password");
+		Authentication authentication = authenticationManager
+				.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		boolean adeExceptionThrown = false;
 
-        assertTrue("An Access Denied Exception was expected",
-                adeExceptionThrown);
-        SecurityContextHolder.clearContext();
-    }
+		try {
+			sourceService.load("test");
+		} catch (AccessDeniedException expected) {
+			adeExceptionThrown = true;
+		}
 
-    /**
-     *
-     */
-    @Test
-    public final void testACLWithPermission() {
-        token = new UsernamePasswordAuthenticationToken(
-                "authorized.user@e-monocot.org", "good.password");
-        Authentication authentication = authenticationManager
-                .authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        sourceService.load("test");
-        SecurityContextHolder.clearContext();
-    }
+		assertTrue("An Access Denied Exception was expected",
+				adeExceptionThrown);
+		SecurityContextHolder.clearContext();
+	}
 
-    /**
-    *
-    */
-   @Test
-   public final void testACLWithAdministratePermission() {
-       token = new UsernamePasswordAuthenticationToken(
-               "admin@e-monocot.org", "sPePhAz6");
-       Authentication authentication = authenticationManager
-               .authenticate(token);
-       SecurityContextHolder.getContext().setAuthentication(authentication);
-       sourceService.load("test");
-       SecurityContextHolder.clearContext();
-   }
+	/**
+	 *
+	 */
+	@Test
+	public final void testACLWithPermission() {
+		token = new UsernamePasswordAuthenticationToken(
+				"authorized.user@e-monocot.org", "good.password");
+		Authentication authentication = authenticationManager
+				.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		sourceService.load("test");
+		SecurityContextHolder.clearContext();
+	}
 
-  /**
-   *
-   */
-  @Test
-  public final void testListAces() {
+	/**
+	 *
+	 */
+	@Test
+	public final void testACLWithAdministratePermission() {
+		token = new UsernamePasswordAuthenticationToken(
+				"admin@e-monocot.org", "sPePhAz6");
+		Authentication authentication = authenticationManager
+				.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		sourceService.load("test");
+		SecurityContextHolder.clearContext();
+	}
 
-      for (Object[] row : userService.listAces("test")) {
-          logger.debug("Object: " + row[0] + " ACE: " + row[1]);
-      }
-  }
+	/**
+	 *
+	 */
+	@Test
+	public final void testListAces() {
+
+		for (Object[] row : userService.listAces("test")) {
+			logger.debug("Object: " + row[0] + " ACE: " + row[1]);
+		}
+	}
 }

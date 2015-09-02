@@ -39,10 +39,10 @@ public class NonOwnedRecordAnnotator extends AbstractRecordAnnotator implements 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		String annotationQuery = "insert into Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, type, code, recordType) select o.id, :annotatedObjType, :jobId, now(), :authorityId, 'Warn', 'Absent', :annotatedObjType from #annotatedObjType o where o.authority_id = :authorityId";
-	    annotationQuery = annotationQuery.replaceAll("#annotatedObjType", annotatedObjType);
-	    Map<String,Object> annotationParameters = new HashMap<String,Object>();
+		annotationQuery = annotationQuery.replaceAll("#annotatedObjType", annotatedObjType);
+		Map<String,Object> annotationParameters = new HashMap<String,Object>();
 		annotationParameters.put("annotatedObjType", annotatedObjType);
-	    super.annotate(annotationQuery, annotationParameters);
+		super.annotate(annotationQuery, annotationParameters);
 		return RepeatStatus.FINISHED;
 	}
 }

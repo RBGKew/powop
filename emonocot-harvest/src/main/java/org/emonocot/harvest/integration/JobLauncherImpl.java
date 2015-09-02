@@ -41,20 +41,20 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class JobLauncherImpl implements JobLauncher {
-	
+
 	private org.springframework.batch.core.launch.JobLauncher jobLauncher;
-	
+
 	private JobLocator jobLocator;
-	
+
 	private JobStatusNotifier jobStatusNotifier;
 
 	private String baseUrl;
-	
+
 	@Autowired
 	public void setJobLauncher(org.springframework.batch.core.launch.JobLauncher jobLauncher) {
 		this.jobLauncher = jobLauncher;
 	}
-	
+
 	@Autowired
 	public void setJobStatusNotifier(JobStatusNotifier jobStatusNotifier) {
 		this.jobStatusNotifier = jobStatusNotifier;
@@ -86,8 +86,8 @@ public class JobLauncherImpl implements JobLauncher {
 				jobParameterMap.put(parameterName, new JobParameter(request.getParameters().get(parameterName)));
 			}
 			JobParameters jobParameters = new JobParameters(jobParameterMap);
-			try {				
-				jobLauncher.run(job, jobParameters);				
+			try {
+				jobLauncher.run(job, jobParameters);
 			} catch (JobExecutionAlreadyRunningException jeare) {
 				jobStatusNotifier.notify(new JobExecutionException(jeare.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 			} catch (JobRestartException jre) {
@@ -98,7 +98,7 @@ public class JobLauncherImpl implements JobLauncher {
 				jobStatusNotifier.notify(new JobExecutionException(jpie.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 			}
 		} catch (NoSuchJobException nsje) {
-			jobStatusNotifier.notify(new JobExecutionException(nsje.getLocalizedMessage()), request.getParameters().get("resource.identifier"));			
+			jobStatusNotifier.notify(new JobExecutionException(nsje.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
 		}
 	}
 

@@ -36,27 +36,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 
 public class JobLaunchingProcessor extends AuthorityAware implements ItemProcessor<Multimedia, PhylogeneticTree> {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(JobLaunchingProcessor.class);
-	
-		
+
+
 	private ResourceService resourceService;
-	
+
 	private ConversionService conversionService;
-	
+
 	private ItemProcessor<PhylogeneticTree,PhylogeneticTree> processor;
-	
+
 	@Autowired
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
-	
+
 	@Autowired
 	public void setConversionService(ConversionService conversionService) {
-        this.conversionService = conversionService;
-    }
+		this.conversionService = conversionService;
+	}
 
-    public void setProcessor(ItemProcessor<PhylogeneticTree,PhylogeneticTree> processor) {
+	public void setProcessor(ItemProcessor<PhylogeneticTree,PhylogeneticTree> processor) {
 		this.processor = processor;
 	}
 
@@ -66,18 +66,18 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		if(item.getIdentifier() == null || item.getIdentifier().isEmpty()) {
 			throw new NoIdentifierException(item);
 		}
-		
+
 		if(item.getFormat() == null) {
 			phylogeny = doProcess(item);
 		} else {
-		    switch(item.getFormat()) {
-		    case xml:
-		    case txt:
-		      phylogeny = doProcess(item);
-		    default:
-		        logger.info(item.getFormat() + " is not a recognised format for a PhylogeneticTree");
-		    	break;
-		    }
+			switch(item.getFormat()) {
+			case xml:
+			case txt:
+				phylogeny = doProcess(item);
+			default:
+				logger.info(item.getFormat() + " is not a recognised format for a PhylogeneticTree");
+				break;
+			}
 		}
 		return phylogeny;
 	}
@@ -92,7 +92,7 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 			try {
 				String mimeType = tika.detect(new URL(item.getIdentifier()));
 				logger.debug("Mime type is " + mimeType);
-	            phylogeneticTree = conversionService.convert(item, PhylogeneticTree.class);
+				phylogeneticTree = conversionService.convert(item, PhylogeneticTree.class);
 				resource = new Resource();
 				resource.setOrganisation(getSource());
 				resource.setIdentifier(UUID.randomUUID().toString());
@@ -116,8 +116,8 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 					return null;
 				}
 			} catch (Exception e) {
-			    ImageRetrievalException ire = new ImageRetrievalException(item.getIdentifier());
-			    ire.initCause(e);
+				ImageRetrievalException ire = new ImageRetrievalException(item.getIdentifier());
+				ire.initCause(e);
 				throw ire;
 			}
 		} else if(resource.getResourceType().equals(ResourceType.PHYLOGENETIC_TREE)) {
@@ -128,16 +128,16 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		}
 		logger.debug("Processing " + phylogeneticTree);
 		phylogeneticTree = processor.process(phylogeneticTree);
-        logger.debug("Processing delegate returned " + phylogeneticTree);
-		
+		logger.debug("Processing delegate returned " + phylogeneticTree);
+
 		if(phylogeneticTree != null) {
 			try {
-    			resourceService.harvestResource(resource.getId(), true);
+				resourceService.harvestResource(resource.getId(), true);
 			} catch(ResourceAlreadyBeingHarvestedException rabhe) {
 				logger.warn("Tried to harvest " + item.getIdentifier() + " but it is already being harvested");
 			}
-		}		
-		
+		}
+
 		return phylogeneticTree;
 	}
 }

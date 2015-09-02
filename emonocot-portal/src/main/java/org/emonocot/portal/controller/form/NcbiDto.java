@@ -17,11 +17,11 @@
 package org.emonocot.portal.controller.form;
 
 public class NcbiDto {
-	
+
 	private String pubMedEntries;
-	
+
 	private String nucleotideEntries;
-	
+
 	private String protienEntries;
 
 	public String getPubMedEntries() {

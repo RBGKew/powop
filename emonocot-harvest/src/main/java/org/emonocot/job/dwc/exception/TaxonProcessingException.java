@@ -25,20 +25,20 @@ import org.emonocot.model.constants.RecordType;
  *
  */
 public abstract class TaxonProcessingException extends
-        DarwinCoreProcessingException {
+DarwinCoreProcessingException {
 
-   /**
-    *
-    */
-   private static long serialVersionUID = 999609749452018246L;
+	/**
+	 *
+	 */
+	private static long serialVersionUID = 999609749452018246L;
 
-    /**
-     *
-     * @param msg the message
-     * @param code the code
-     * @param value the value
-     */
-    public TaxonProcessingException(String msg, AnnotationCode code, String value) {
-        super(msg, code, RecordType.Taxon, value);
-    }
+	/**
+	 *
+	 * @param msg the message
+	 * @param code the code
+	 * @param value the value
+	 */
+	public TaxonProcessingException(String msg, AnnotationCode code, String value) {
+		super(msg, code, RecordType.Taxon, value);
+	}
 }

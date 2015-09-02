@@ -35,32 +35,32 @@ import org.springframework.core.convert.converter.Converter;
  *
  */
 public class ConversionServiceTest {
-    /**
-     *
-     */
-    private ConversionService conversionService;
+	/**
+	 *
+	 */
+	private ConversionService conversionService;
 
-    /**
-     *
-     */
-    @Before
-    public final void setUp() {
-        Set<Converter> converters = new HashSet<Converter>();
-        ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
-        converters.add(new TaxonomicStatusConverter());
-        factoryBean.setConverters(converters);
-        factoryBean.afterPropertiesSet();
-        conversionService = factoryBean.getObject();
-    }
+	/**
+	 *
+	 */
+	@Before
+	public final void setUp() {
+		Set<Converter> converters = new HashSet<Converter>();
+		ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+		converters.add(new TaxonomicStatusConverter());
+		factoryBean.setConverters(converters);
+		factoryBean.afterPropertiesSet();
+		conversionService = factoryBean.getObject();
+	}
 
-    /**
-     *
-     */
-    @Test
-    public final void convertValidString() {
-        assertEquals("Conversion Service should convert valid strings properly",
-                conversionService.convert("synonym",
-                        TaxonomicStatus.class), TaxonomicStatus.Synonym);
-    }
+	/**
+	 *
+	 */
+	@Test
+	public final void convertValidString() {
+		assertEquals("Conversion Service should convert valid strings properly",
+				conversionService.convert("synonym",
+						TaxonomicStatus.class), TaxonomicStatus.Synonym);
+	}
 
 }

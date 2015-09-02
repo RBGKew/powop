@@ -23,7 +23,7 @@ import org.joda.time.format.PeriodFormatter;
 import org.springframework.core.convert.converter.Converter;
 
 public class DurationToStringConverter implements Converter<Duration, String> {
-	
+
 	private PeriodFormatter formatter = ISOPeriodFormat.standard();
 
 	@Override
@@ -31,7 +31,7 @@ public class DurationToStringConverter implements Converter<Duration, String> {
 		if(source == null) {
 			return null;
 		} else {
-		    return formatter.print(new Period(source));
+			return formatter.print(new Period(source));
 		}
 	}
 

@@ -37,36 +37,36 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class AuthenticatingHttpClientFactory extends HttpComponentsClientHttpRequestFactory {
 
-    /**
-     * @param uri Set the uri
-     * @param httpMethod set the httpMethod
-     * @return a client http request object
-     * @throws IOException if there is a problem
-     */
-    public final ClientHttpRequest createRequest(final URI uri,
-            final HttpMethod httpMethod) throws IOException {
-        ClientHttpRequest clientHttpRequest = super.createRequest(uri,
-                httpMethod);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if (securityContext != null
-                && securityContext.getAuthentication() != null) {
-            Authentication authentication = securityContext.getAuthentication();
-            if (authentication != null
-                    && authentication.getPrincipal() != null
-                    && authentication.getPrincipal().getClass()
-                            .equals(User.class)) {
-                User user = (User) authentication.getPrincipal();
-                String unencoded = user.getUsername() + ":"
-                        + user.getPassword();
-                String encoded = new String(Base64.encodeBase64(unencoded.getBytes()));
-                clientHttpRequest.getHeaders().add("Authorization",
-                        "Basic " + encoded);
-            }
-        }
-        return clientHttpRequest;
-    }
-    
-    public final void setProxy(HttpHost proxy){
-    	super.getHttpClient().getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-    }
+	/**
+	 * @param uri Set the uri
+	 * @param httpMethod set the httpMethod
+	 * @return a client http request object
+	 * @throws IOException if there is a problem
+	 */
+	public final ClientHttpRequest createRequest(final URI uri,
+			final HttpMethod httpMethod) throws IOException {
+		ClientHttpRequest clientHttpRequest = super.createRequest(uri,
+				httpMethod);
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		if (securityContext != null
+				&& securityContext.getAuthentication() != null) {
+			Authentication authentication = securityContext.getAuthentication();
+			if (authentication != null
+					&& authentication.getPrincipal() != null
+					&& authentication.getPrincipal().getClass()
+					.equals(User.class)) {
+				User user = (User) authentication.getPrincipal();
+				String unencoded = user.getUsername() + ":"
+						+ user.getPassword();
+				String encoded = new String(Base64.encodeBase64(unencoded.getBytes()));
+				clientHttpRequest.getHeaders().add("Authorization",
+						"Basic " + encoded);
+			}
+		}
+		return clientHttpRequest;
+	}
+
+	public final void setProxy(HttpHost proxy){
+		super.getHttpClient().getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+	}
 }

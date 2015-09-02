@@ -26,7 +26,7 @@ public class NullLicenseTaxonFilter implements ItemProcessor<Taxon, Taxon> {
 		if(item.getLicense() != null && !item.getLicense().isEmpty()) {
 			return item;
 		} else {
-		    return null;
+			return null;
 		}
 	}
 

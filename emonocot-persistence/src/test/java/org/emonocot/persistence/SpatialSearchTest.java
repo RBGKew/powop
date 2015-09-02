@@ -43,85 +43,85 @@ import com.vividsolutions.jts.io.WKTWriter;
  *
  */
 public class SpatialSearchTest extends AbstractPersistenceTest {
-	
+
 	WKTWriter wktWriter = new WKTWriter();
-	
-    /**
-     * @throws java.lang.Exception
-     *             if there is a problem
-     */
-    @Before
-    public final void setUp() throws Exception {
-        super.doSetUp();
-        Collection<SolrInputDocument> geographicalRegions = new HashSet<SolrInputDocument>();
-        
-        geographicalRegions.add(addRegion(Location.AUSTRALASIA));
-        geographicalRegions.add(addRegion(Location.BRAZIL));
-        geographicalRegions.add(addRegion(Location.CARIBBEAN));
-        geographicalRegions.add(addRegion(Location.NEW_ZEALAND));
-        geographicalRegions.add(addRegion(Location.NSW));
-        solrServer.add(geographicalRegions);
-        solrServer.commit(true,true);
-    }
-    
-    private SolrInputDocument addRegion(Location location) {
-    	SolrInputDocument sid = new SolrInputDocument();
-    	sid.addField("id", "Location_" + location.getCode());
-        sid.addField("location.tdwg_code_s", location.getCode());
-        sid.addField("location.name_s", location.name());
-        sid.addField("geo", wktWriter.write(location.getEnvelope()));
-        return sid;
-    }
 
-    /**
-     * @throws java.lang.Exception
-     *             if there is a problem
-     */
-    @After
-    public final void tearDown() throws Exception {
-        super.doTearDown();
-    }
+	/**
+	 * @throws java.lang.Exception
+	 *             if there is a problem
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		super.doSetUp();
+		Collection<SolrInputDocument> geographicalRegions = new HashSet<SolrInputDocument>();
 
-    /**
-     *
-     */
-    @Override
-    public final void setUpTestData() {
-        Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
-                null, null, null, null, new Location[] {}, null);
-        createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
-        Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
-                null, null, null, null, null,
-                new Location[] {Location.AUSTRALASIA,
-                        Location.BRAZIL, Location.CARIBBEAN }, null);
-        Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
-                null, null, null, null, null,
-                new Location[] {Location.NEW_ZEALAND }, null);
-        createTaxon("Aus deus", "4", null, taxon2, "Aaceae", null, null, null,
-                null, null, null, new Location[] {}, null);
-        createTaxon("Aus eus", "5", null, taxon3, null, null, null, null, null,
-                null, null, new Location[] {}, null);
-        createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null,
-                null, null, new Location[] {Location.NSW}, null);
-        createTaxon(null, "6", null, null, null, null, null, null, null,
-                null, null, new Location[] {}, null);
-    }
-    
-    /**
-     *
-     */
-    @Test
-    public final void testSpatialSearch() throws Exception {
-        //testSpatialSearch() should return Aus bus but not Aus ceus
-        Page<SearchableObject> page = getSearchableObjectDao().search(
-        null, "{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"Intersects(150.00 -40.0 160.0 -20.0)\"", null, null, null,
-                null, null, null, null);
-        Set<String> names = new HashSet<String>();
-        for (SearchableObject t : page.getRecords()) {
-           names.add(((Taxon)t).getScientificName());
-        }
-        
-        assertThat(names, hasItems("Aus bus"));
-        assertThat(names, hasItems(not("Aus ceus")));
-    }
+		geographicalRegions.add(addRegion(Location.AUSTRALASIA));
+		geographicalRegions.add(addRegion(Location.BRAZIL));
+		geographicalRegions.add(addRegion(Location.CARIBBEAN));
+		geographicalRegions.add(addRegion(Location.NEW_ZEALAND));
+		geographicalRegions.add(addRegion(Location.NSW));
+		solrServer.add(geographicalRegions);
+		solrServer.commit(true,true);
+	}
+
+	private SolrInputDocument addRegion(Location location) {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", "Location_" + location.getCode());
+		sid.addField("location.tdwg_code_s", location.getCode());
+		sid.addField("location.name_s", location.name());
+		sid.addField("geo", wktWriter.write(location.getEnvelope()));
+		return sid;
+	}
+
+	/**
+	 * @throws java.lang.Exception
+	 *             if there is a problem
+	 */
+	@After
+	public final void tearDown() throws Exception {
+		super.doTearDown();
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public final void setUpTestData() {
+		Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
+				null, null, null, null, new Location[] {}, null);
+		createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
+		Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
+				null, null, null, null, null,
+				new Location[] {Location.AUSTRALASIA,
+				Location.BRAZIL, Location.CARIBBEAN }, null);
+		Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
+				null, null, null, null, null,
+				new Location[] {Location.NEW_ZEALAND }, null);
+		createTaxon("Aus deus", "4", null, taxon2, "Aaceae", null, null, null,
+				null, null, null, new Location[] {}, null);
+		createTaxon("Aus eus", "5", null, taxon3, null, null, null, null, null,
+				null, null, new Location[] {}, null);
+		createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null,
+				null, null, new Location[] {Location.NSW}, null);
+		createTaxon(null, "6", null, null, null, null, null, null, null,
+				null, null, new Location[] {}, null);
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public final void testSpatialSearch() throws Exception {
+		//testSpatialSearch() should return Aus bus but not Aus ceus
+		Page<SearchableObject> page = getSearchableObjectDao().search(
+				null, "{!join to=taxon.distribution_ss from=location.tdwg_code_s}geo:\"Intersects(150.00 -40.0 160.0 -20.0)\"", null, null, null,
+				null, null, null, null);
+		Set<String> names = new HashSet<String>();
+		for (SearchableObject t : page.getRecords()) {
+			names.add(((Taxon)t).getScientificName());
+		}
+
+		assertThat(names, hasItems("Aus bus"));
+		assertThat(names, hasItems(not("Aus ceus")));
+	}
 }

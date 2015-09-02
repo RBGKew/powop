@@ -25,23 +25,23 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
 public class ResetForm {
-	
+
 	@NotEmpty
 	@Email
 	private String username;
-	
+
 	@NotNull
 	@Size(min=8, max=25)
 	private String password;
-	
+
 	@NotNull
 	@Size(min=8, max=25)
 	private String repeatPassword;
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}

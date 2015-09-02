@@ -52,11 +52,11 @@ public class TaxonDeletingWriter extends HibernateDaoSupport implements ItemWrit
 				if(taxonToRemove != null) {
 					r.getTaxa().remove(taxonToRemove);
 				}
-				
+
 				getHibernateTemplate().update(r);
-				
+
 			}
-			
+
 			for(Image i : taxon.getImages()) {
 				Taxon taxonToRemove = null;
 				for(Taxon t : i.getTaxa()) {
@@ -72,16 +72,16 @@ public class TaxonDeletingWriter extends HibernateDaoSupport implements ItemWrit
 					if(i.getTaxa().isEmpty()) {
 						i.setTaxon(null);
 					} else if(i.getTaxa().size() == 1) {
-	                    i.setTaxon(i.getTaxa().iterator().next());
-	                } else {
-	                    List<Taxon> sorted = new ArrayList<Taxon>(i.getTaxa());
-	                    Collections.sort(sorted, comparator);
-	                    i.setTaxon(sorted.get(0));
-	                }
+						i.setTaxon(i.getTaxa().iterator().next());
+					} else {
+						List<Taxon> sorted = new ArrayList<Taxon>(i.getTaxa());
+						Collections.sort(sorted, comparator);
+						i.setTaxon(sorted.get(0));
+					}
 				}
 				getHibernateTemplate().update(i);
 			}
-			
+
 			for(TypeAndSpecimen s : taxon.getTypesAndSpecimens()) {
 				Taxon taxonToRemove = null;
 				for(Taxon t : s.getTaxa()) {
@@ -95,30 +95,30 @@ public class TaxonDeletingWriter extends HibernateDaoSupport implements ItemWrit
 				}
 				getHibernateTemplate().update(s);
 			}
-			
+
 			if (!taxon.getChildNameUsages().isEmpty()) {
-                for (Taxon child : taxon.getChildNameUsages()) {
-                    child.setParentNameUsage(null);
-                }
-                taxon.getChildNameUsages().clear();
-            }
-            if (!taxon.getSynonymNameUsages().isEmpty()) {
-                for (Taxon synonym : taxon.getSynonymNameUsages()) {
-                    synonym.setAcceptedNameUsage(null);
-                }
-                taxon.getSynonymNameUsages().clear();
-            }
-            if (!taxon.getSubsequentNameUsages().isEmpty()) {
-                for (Taxon subsequentNameUsage : taxon.getSubsequentNameUsages()) {
-                	subsequentNameUsage.setOriginalNameUsage(null);
-                }
-                taxon.getSubsequentNameUsages().clear();
-            }
+				for (Taxon child : taxon.getChildNameUsages()) {
+					child.setParentNameUsage(null);
+				}
+				taxon.getChildNameUsages().clear();
+			}
+			if (!taxon.getSynonymNameUsages().isEmpty()) {
+				for (Taxon synonym : taxon.getSynonymNameUsages()) {
+					synonym.setAcceptedNameUsage(null);
+				}
+				taxon.getSynonymNameUsages().clear();
+			}
+			if (!taxon.getSubsequentNameUsages().isEmpty()) {
+				for (Taxon subsequentNameUsage : taxon.getSubsequentNameUsages()) {
+					subsequentNameUsage.setOriginalNameUsage(null);
+				}
+				taxon.getSubsequentNameUsages().clear();
+			}
 			taxa.add(taxon);
 		}
-		
+
 		getHibernateTemplate().deleteAll(taxa);
-		getHibernateTemplate().flush();			
+		getHibernateTemplate().flush();
 	}
 
 }

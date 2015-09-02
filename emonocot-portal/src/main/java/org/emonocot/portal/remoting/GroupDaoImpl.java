@@ -39,51 +39,51 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
 
-    /**
-     *
-     */
-    public GroupDaoImpl() {
-        super(Group.class, "group");
-    }
+	/**
+	 *
+	 */
+	public GroupDaoImpl() {
+		super(Group.class, "group");
+	}
 
-    public List<String> listNames(Integer pageSize, Integer pageNumber) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public List<String> listNames(Integer pageSize, Integer pageNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public List<String> listMembers(Group group, Integer pageSize,
-            Integer pageNumber) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    @Override
-    protected Page<Group> page(Integer page, Integer size) {
-    	HttpEntity<Group> requestEntity = new HttpEntity<Group>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	ParameterizedTypeReference<DefaultPageImpl<Group>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Group>>() {};
-        HttpEntity<DefaultPageImpl<Group>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();
-    }
-    
+	public List<String> listMembers(Group group, Integer pageSize,
+			Integer pageNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Page<Group> page(Integer page, Integer size) {
+		HttpEntity<Group> requestEntity = new HttpEntity<Group>(httpHeaders);
+		Map<String,Object> uriVariables = new HashMap<String,Object>();
+		uriVariables.put("resource", resourceDir);
+		if(size == null) {
+			uriVariables.put("limit", "");
+		} else {
+			uriVariables.put("limit", size);
+		}
+
+		if(page == null) {
+			uriVariables.put("start", "");
+		} else {
+			uriVariables.put("start", page);
+		}
+
+		ParameterizedTypeReference<DefaultPageImpl<Group>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Group>>() {};
+		HttpEntity<DefaultPageImpl<Group>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+				requestEntity, typeRef,uriVariables);
+		return responseEntity.getBody();
+	}
+
 	@Override
 	public final List<Group> list(final Integer page, final Integer size, final String fetch) {
 		return this.page(page, size).getRecords();
-    }
+	}
 
 	@Override
 	public CellSet analyse(String rows, String cols, Integer firstCol,

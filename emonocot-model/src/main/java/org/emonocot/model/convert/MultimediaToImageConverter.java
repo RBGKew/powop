@@ -30,36 +30,36 @@ import org.springframework.core.convert.converter.Converter;
 public class MultimediaToImageConverter implements Converter<Multimedia, Image> {
 
 
-    /* (non-Javadoc)
-     * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
-     */
-    @Override
-    public Image convert(Multimedia source) {
-        //TODO throw exception if it is not an image type
-        if(source instanceof Image) {
-            return (Image) source;
-        } else {
-            Image image = new Image();
-            image.setAccessRights(source.getAccessRights());
-            image.setAudience(source.getAudience());
-            image.setAuthority(source.getAuthority());
-            image.setContributor(source.getContributor());
-            image.setCreated(source.getCreated());
-            image.setCreator(source.getCreator());
-            image.setDescription(source.getDescription());
-            image.setFormat(source.getFormat());
-            image.setIdentifier(source.getIdentifier());
-            image.setLicense(source.getLicense());
-            image.setModified(source.getModified());
-            image.setPublisher(source.getPublisher());
-            image.setReferences(source.getReferences());
-            image.setRights(source.getRights());
-            image.setRightsHolder(source.getRightsHolder());
-            image.setSource(source.getSource());
-            image.setTaxa(source.getTaxa());
-            image.setTitle(source.getTitle());
-            return image;
-        }
-    }
+	/* (non-Javadoc)
+	 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+	 */
+	@Override
+	public Image convert(Multimedia source) {
+		//TODO throw exception if it is not an image type
+		if(source instanceof Image) {
+			return (Image) source;
+		} else {
+			Image image = new Image();
+			image.setAccessRights(source.getAccessRights());
+			image.setAudience(source.getAudience());
+			image.setAuthority(source.getAuthority());
+			image.setContributor(source.getContributor());
+			image.setCreated(source.getCreated());
+			image.setCreator(source.getCreator());
+			image.setDescription(source.getDescription());
+			image.setFormat(source.getFormat());
+			image.setIdentifier(source.getIdentifier());
+			image.setLicense(source.getLicense());
+			image.setModified(source.getModified());
+			image.setPublisher(source.getPublisher());
+			image.setReferences(source.getReferences());
+			image.setRights(source.getRights());
+			image.setRightsHolder(source.getRightsHolder());
+			image.setSource(source.getSource());
+			image.setTaxa(source.getTaxa());
+			image.setTitle(source.getTitle());
+			return image;
+		}
+	}
 
 }

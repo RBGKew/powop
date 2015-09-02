@@ -22,7 +22,7 @@ import org.emonocot.model.Distribution;
 import org.emonocot.model.constants.Location;
 
 public class DistributionComparator  implements Comparator<Distribution> {
-	
+
 	Comparator<Location> locationComparator = new LocationComparator();
 
 	@Override
@@ -37,7 +37,7 @@ public class DistributionComparator  implements Comparator<Distribution> {
 			if(o2.getLocation() == null) {
 				return 1;
 			} else {
-				return locationComparator.compare(o1.getLocation(), o2.getLocation()); 
+				return locationComparator.compare(o1.getLocation(), o2.getLocation());
 			}
 		}
 	}

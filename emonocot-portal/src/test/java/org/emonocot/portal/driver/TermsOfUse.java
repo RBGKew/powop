@@ -17,10 +17,10 @@
 package org.emonocot.portal.driver;
 
 /**
-*
-* @author annapaola
-*
-*/
+ *
+ * @author annapaola
+ *
+ */
 public class TermsOfUse extends PageObject {
 
 }

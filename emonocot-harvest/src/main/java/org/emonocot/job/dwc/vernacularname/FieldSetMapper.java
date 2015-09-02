@@ -39,91 +39,91 @@ import org.springframework.validation.BindException;
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<VernacularName> {
 
 
-	
-    /**
-     *
-     */
-    public FieldSetMapper() {
-        super(VernacularName.class);
-    }
-    
-    /**
-    *
-    */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
-    @Override
-    public final void mapField(final VernacularName object,
-            final String fieldName, final String value) throws BindException {
-    	super.mapField(object, fieldName, value);
-    	
-        Term term = getTermFactory().findTerm(fieldName);
-        logger.info("Mapping " + fieldName + " " + " " + value + " to "
-                + object);
-        if (term instanceof DcTerm) {
-            DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {
-            case identifier:
-                object.setIdentifier(value);
-                break;
-            case language:
-            	object.setLanguage(new Locale(value));
-            	break;
-            case source:
-                object.setSource(value);
-                break;
-            case temporal:
-                object.setTemporal(value);
-                break;
-            default:
-                break;
-            }
-        }        
+	/**
+	 *
+	 */
+	public FieldSetMapper() {
+		super(VernacularName.class);
+	}
 
-        // DwcTerms
-        if (term instanceof DwcTerm) {
-            DwcTerm dwcTerm = (DwcTerm) term;
-            switch (dwcTerm) {
-            case countryCode:
-            	object.setCountryCode(value);
-            	break;
-            case lifeStage:
-            	object.setLifeStage(LifeStage.valueOf(value));
-            	break;
-            case locality:
-            	object.setLocality(value);
-            	break;
-            case locationID:
-            	object.setLocation(conversionService.convert(value, Location.class));
-            	break;
-            case sex:
-            	object.setSex(Sex.valueOf(value));
-            	break;
-            case taxonRemarks:
-            	object.setTaxonRemarks(value);
-            	break;
-            case vernacularName:
-            	object.setVernacularName(value);
-            	break;
-            default:
-            	break;
-            }
-        }
-        
-        // Gbif Terms
-        if (term instanceof GbifTerm) {
-            GbifTerm gbifTerm = (GbifTerm) term;
-            switch(gbifTerm) {
-            case organismPart:
-            	object.setOrganismPart(value);
-            	break;
-            case isPlural:
-            	object.setPlural(conversionService.convert(value, Boolean.class));
-            case isPreferredName:
-            	object.setPreferredName(conversionService.convert(value, Boolean.class));
-            default:
-            	break;
-            }
-        }
-    }
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
+
+	@Override
+	public final void mapField(final VernacularName object,
+			final String fieldName, final String value) throws BindException {
+		super.mapField(object, fieldName, value);
+
+		Term term = getTermFactory().findTerm(fieldName);
+		logger.info("Mapping " + fieldName + " " + " " + value + " to "
+				+ object);
+		if (term instanceof DcTerm) {
+			DcTerm dcTerm = (DcTerm) term;
+			switch (dcTerm) {
+			case identifier:
+				object.setIdentifier(value);
+				break;
+			case language:
+				object.setLanguage(new Locale(value));
+				break;
+			case source:
+				object.setSource(value);
+				break;
+			case temporal:
+				object.setTemporal(value);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// DwcTerms
+		if (term instanceof DwcTerm) {
+			DwcTerm dwcTerm = (DwcTerm) term;
+			switch (dwcTerm) {
+			case countryCode:
+				object.setCountryCode(value);
+				break;
+			case lifeStage:
+				object.setLifeStage(LifeStage.valueOf(value));
+				break;
+			case locality:
+				object.setLocality(value);
+				break;
+			case locationID:
+				object.setLocation(conversionService.convert(value, Location.class));
+				break;
+			case sex:
+				object.setSex(Sex.valueOf(value));
+				break;
+			case taxonRemarks:
+				object.setTaxonRemarks(value);
+				break;
+			case vernacularName:
+				object.setVernacularName(value);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// Gbif Terms
+		if (term instanceof GbifTerm) {
+			GbifTerm gbifTerm = (GbifTerm) term;
+			switch(gbifTerm) {
+			case organismPart:
+				object.setOrganismPart(value);
+				break;
+			case isPlural:
+				object.setPlural(conversionService.convert(value, Boolean.class));
+			case isPreferredName:
+				object.setPreferredName(conversionService.convert(value, Boolean.class));
+			default:
+				break;
+			}
+		}
+	}
 }

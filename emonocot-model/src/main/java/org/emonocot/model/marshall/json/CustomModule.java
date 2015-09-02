@@ -34,48 +34,48 @@ import org.springframework.batch.core.JobInstance;
  */
 public class CustomModule extends Module {
 
-    /**
-     *
-     */
-    private JobInstanceService jobInstanceService;
+	/**
+	 *
+	 */
+	private JobInstanceService jobInstanceService;
 
-    /**
-     *
-     * @param newJobInstanceService Set the job instance service
-     */
-    public CustomModule(final JobInstanceService newJobInstanceService) {
-        this.jobInstanceService = newJobInstanceService;
-    }
+	/**
+	 *
+	 * @param newJobInstanceService Set the job instance service
+	 */
+	public CustomModule(final JobInstanceService newJobInstanceService) {
+		this.jobInstanceService = newJobInstanceService;
+	}
 
-    @Override
-    public final String getModuleName() {
-        return "eMonocotModule";
-    }
+	@Override
+	public final String getModuleName() {
+		return "eMonocotModule";
+	}
 
-    @Override
-    public final void setupModule(final SetupContext setupContext) {
-        SimpleKeyDeserializers keyDeserializers = new SimpleKeyDeserializers();
-        keyDeserializers.addDeserializer(Location.class,
-                new GeographicalRegionKeyDeserializer());
-        setupContext.addKeyDeserializers(keyDeserializers);
-        SimpleSerializers simpleSerializers = new SimpleSerializers();
-        simpleSerializers.addSerializer(new JobInstanceSerializer());
-        simpleSerializers.addSerializer(new JobExecutionSerializer());
-        setupContext.addSerializers(simpleSerializers);
+	@Override
+	public final void setupModule(final SetupContext setupContext) {
+		SimpleKeyDeserializers keyDeserializers = new SimpleKeyDeserializers();
+		keyDeserializers.addDeserializer(Location.class,
+				new GeographicalRegionKeyDeserializer());
+		setupContext.addKeyDeserializers(keyDeserializers);
+		SimpleSerializers simpleSerializers = new SimpleSerializers();
+		simpleSerializers.addSerializer(new JobInstanceSerializer());
+		simpleSerializers.addSerializer(new JobExecutionSerializer());
+		setupContext.addSerializers(simpleSerializers);
 
-        SimpleDeserializers simpleDeserializers = new SimpleDeserializers();
-        simpleDeserializers.addDeserializer(JobInstance.class,
-                new JobInstanceDeserializer());
-        simpleDeserializers.addDeserializer(JobExecution.class,
-                new JobExecutionDeserializer(jobInstanceService));
-        simpleDeserializers.addDeserializer(JobExecutionException.class,
-                new JobExecutionExceptionDeserializer());
-        setupContext.addDeserializers(simpleDeserializers);
-    }
+		SimpleDeserializers simpleDeserializers = new SimpleDeserializers();
+		simpleDeserializers.addDeserializer(JobInstance.class,
+				new JobInstanceDeserializer());
+		simpleDeserializers.addDeserializer(JobExecution.class,
+				new JobExecutionDeserializer(jobInstanceService));
+		simpleDeserializers.addDeserializer(JobExecutionException.class,
+				new JobExecutionExceptionDeserializer());
+		setupContext.addDeserializers(simpleDeserializers);
+	}
 
-    @Override
-    public final Version version() {
-        return new Version(0, 1, 0, "alpha");
-    }
+	@Override
+	public final Version version() {
+		return new Version(0, 1, 0, "alpha");
+	}
 
 }

@@ -27,22 +27,22 @@ import org.emonocot.model.constants.AnnotationType;
  */
 public class NoIdentifierException extends TaxonProcessingException {
 
-   /**
-    *
-    */
-   private static final long serialVersionUID = -4140158822002083763L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -4140158822002083763L;
 
-    /**
-     *
-     * @param t
-     *            the taxon
-     */
-    public NoIdentifierException(final BaseData t) {
-        super(t.toString() + " has no identifier", AnnotationCode.BadField, "identifier");
-    }
+	/**
+	 *
+	 * @param t
+	 *            the taxon
+	 */
+	public NoIdentifierException(final BaseData t) {
+		super(t.toString() + " has no identifier", AnnotationCode.BadField, "identifier");
+	}
 
-    @Override
-    public final AnnotationType getType() {
-        return AnnotationType.Error;
-    }
+	@Override
+	public final AnnotationType getType() {
+		return AnnotationType.Error;
+	}
 }

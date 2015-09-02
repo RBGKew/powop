@@ -40,24 +40,24 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class HarvestDataJob extends QuartzJobBean {
-	
+
 	/**
 	 * The minimal interval in hours between job runs.
 	 */
 	private static final int MINIMAL_INTERVAL = 6;
 
 	private Logger logger = LoggerFactory.getLogger(HarvestDataJob.class);
-	
+
 	private List<String> cronExpressions = new ArrayList<String>();
-	
+
 	private String jobLauncherName;
-	
+
 	private String resourceServiceName;
 
 	public void setWorkingWeekCronExpression(String workingWeekCronExpression) {
 		this.cronExpressions.add(workingWeekCronExpression);
 	}
-	
+
 	public void seWeekendCronExpression(String weekendCronExpression) {
 		this.cronExpressions.add(weekendCronExpression);
 	}
@@ -83,7 +83,7 @@ public class HarvestDataJob extends QuartzJobBean {
 			for (String cronExpression : cronExpressions) {
 				CronExpression expression = new CronExpression(cronExpression);
 				DateTime now = new DateTime();
-				
+
 				if (expression.isSatisfiedBy(now.toDate())	&& !resourceService.isHarvesting()) {
 					DateTime nextInvalidDate = new DateTime(expression.getNextInvalidTimeAfter(now.toDate()));
 					logger.info(cronExpression + " is satified and resourceService is not harvesting, looking for jobs to harvest . . .");

@@ -30,9 +30,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 
 public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
-	
+
 	private Logger logger = LoggerFactory.getLogger(OwnedEntityProcessor.class);
-	
+
 	protected SERVICE service;
 
 	private HashMap<String, T> boundObjects = new HashMap<String, T>();
@@ -40,18 +40,18 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	@Override
 	public T doProcess(T t) throws Exception {
 		logger.info("Processing " + t);
-		
-		if(t.getTaxon() != null) {
-        	t.setTaxon(super.getTaxonService().find(t.getTaxon().getIdentifier()));
-        }
 
-        super.checkTaxon(getRecordType(), t, t.getTaxon());
-        T bound = lookupBound(t);
+		if(t.getTaxon() != null) {
+			t.setTaxon(super.getTaxonService().find(t.getTaxon().getIdentifier()));
+		}
+
+		super.checkTaxon(getRecordType(), t, t.getTaxon());
+		T bound = lookupBound(t);
 		if (bound == null) {
 			doValidate(t);
 
 			T persisted = null;
-//TODO Review issue of creating & deleting
+			//TODO Review issue of creating & deleting
 			if (t.getIdentifier() != null) {
 				persisted = service.find(t.getIdentifier(),
 						"object-with-annotations");
@@ -64,7 +64,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 				checkAuthority(getRecordType(), t, persisted.getAuthority());
 
 				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted
-								.getModified().isBefore(t.getModified()))) {
+						.getModified().isBefore(t.getModified()))) {
 					// The content hasn't changed, skip it
 					logger.info("Skipping " + t);
 					bind(persisted);
@@ -97,18 +97,18 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 			}
 		} else {
 			logger.info("Skipping object " + t.getIdentifier());
-            return null;
+			return null;
 		}
-	}	
+	}
 
 	protected abstract void doValidate(T t) throws Exception;
-	
+
 	protected abstract void doCreate(T t);
-	
+
 	protected abstract void doUpdate(T persisted, T t);
 
 	protected abstract RecordType getRecordType();
-	
+
 	protected T lookupBound(T t) {
 		return boundObjects.get(t.getIdentifier());
 	}
@@ -116,18 +116,18 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	protected void bind(T t) {
 		boundObjects.put(t.getIdentifier(), t);
 	}
-	
+
 	@Override
 	public void afterChunk() {
 		super.afterChunk();
-        logger.info("After Chunk");
-    }
+		logger.info("After Chunk");
+	}
 
 	@Override
-    public void beforeChunk() {
-    	super.beforeChunk();
-        logger.info("Before Chunk");
-        boundObjects  = new HashMap<String, T>();
-    }
+	public void beforeChunk() {
+		super.beforeChunk();
+		logger.info("Before Chunk");
+		boundObjects  = new HashMap<String, T>();
+	}
 
 }

@@ -30,21 +30,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/annotation")
 public class AnnotationController extends
-        GenericController<Annotation, AnnotationService> {
+GenericController<Annotation, AnnotationService> {
 
-    /**
-     *
-     */
-   public AnnotationController() {
-        super("annotation", Annotation.class);
-    }
+	/**
+	 *
+	 */
+	public AnnotationController() {
+		super("annotation", Annotation.class);
+	}
 
-    /**
-     * @param newService
-     *            set the annotation service
-     */
-    @Autowired
-    public final void setAnnotationService(final AnnotationService newService) {
-        super.setService(newService);
-    }
+	/**
+	 * @param newService
+	 *            set the annotation service
+	 */
+	@Autowired
+	public final void setAnnotationService(final AnnotationService newService) {
+		super.setService(newService);
+	}
 }

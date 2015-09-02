@@ -27,12 +27,12 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
  *
  */
 public class ExtensionProcessingDecider implements JobExecutionDecider {
-	
-	private String processingModeKey = null;
-	
-	
 
-    /**
+	private String processingModeKey = null;
+
+
+
+	/**
 	 * @param processingModeKey the processingModeKey to set
 	 */
 	public void setProcessingModeKey(String processingModeKey) {
@@ -42,17 +42,17 @@ public class ExtensionProcessingDecider implements JobExecutionDecider {
 
 
 	/**
-     * @param jobExecution set the job execution
-     * @param stepExecution set the step execution
-     * @return FlowExecutionStatus a status
-     */
-    public final FlowExecutionStatus decide(final JobExecution jobExecution,
-            final StepExecution stepExecution) {
-        if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
-            return new FlowExecutionStatus("true");
-        } else {
-            return new FlowExecutionStatus("false");
-        }
-    }
+	 * @param jobExecution set the job execution
+	 * @param stepExecution set the step execution
+	 * @return FlowExecutionStatus a status
+	 */
+	public final FlowExecutionStatus decide(final JobExecution jobExecution,
+			final StepExecution stepExecution) {
+		if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
+			return new FlowExecutionStatus("true");
+		} else {
+			return new FlowExecutionStatus("false");
+		}
+	}
 
 }

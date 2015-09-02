@@ -28,14 +28,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PlaceServiceImpl extends ServiceImpl<Place, PlaceDao> implements
-		PlaceService {
+PlaceService {
 
-    /**
-     *
-     * @param placeDao Set the reference dao
-     */
-    @Autowired
-    public final void setPlaceDao(final PlaceDao placeDao) {
-        super.dao = placeDao;
-    }
+	/**
+	 *
+	 * @param placeDao Set the reference dao
+	 */
+	@Autowired
+	public final void setPlaceDao(final PlaceDao placeDao) {
+		super.dao = placeDao;
+	}
 }

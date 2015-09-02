@@ -33,46 +33,46 @@ import org.springframework.core.io.Resource;
  */
 public class ScratchpadArchiveUnpackerTest {
 
-   /**
-    *
-    */
-   private Resource content = new ClassPathResource(
-           "/org/emonocot/zingiberaceae.zip");
+	/**
+	 *
+	 */
+	private Resource content = new ClassPathResource(
+			"/org/emonocot/zingiberaceae.zip");
 
-  /**
-   *
-   */
-   private String unpackDirectoryName = "target/archive";
+	/**
+	 *
+	 */
+	private String unpackDirectoryName = "target/archive";
 
-   /**
-    *
-    */
-   private ArchiveUnpacker archiveUnpacker = new ArchiveUnpacker();
+	/**
+	 *
+	 */
+	private ArchiveUnpacker archiveUnpacker = new ArchiveUnpacker();
 
-    /**
-     * @throws Exception if there is a problem accessing the file
-     */
-    @Test
-    public final void testUnpack() throws Exception {
+	/**
+	 * @throws Exception if there is a problem accessing the file
+	 */
+	@Test
+	public final void testUnpack() throws Exception {
 
-        archiveUnpacker.unpackArchive(content.getFile().getAbsolutePath(),
-                unpackDirectoryName);
+		archiveUnpacker.unpackArchive(content.getFile().getAbsolutePath(),
+				unpackDirectoryName);
 
-        File unpackDirectory = new File(unpackDirectoryName + "/zingiberaceae");
-        String[] actualFiles = unpackDirectory.list();
-        String[] expectedFiles = new String[] {
-                "description.txt",
-                "distribution.txt",
-                "image.txt",
-                "meta.xml",
-                "reference.txt",
-                "specimen.txt",
-                "classification.txt"
-                };
-        for (String expectedFile : expectedFiles) {
-            assertThat(actualFiles,
-                hasItemInArray(expectedFile));
-        }
-    }
+		File unpackDirectory = new File(unpackDirectoryName + "/zingiberaceae");
+		String[] actualFiles = unpackDirectory.list();
+		String[] expectedFiles = new String[] {
+				"description.txt",
+				"distribution.txt",
+				"image.txt",
+				"meta.xml",
+				"reference.txt",
+				"specimen.txt",
+				"classification.txt"
+		};
+		for (String expectedFile : expectedFiles) {
+			assertThat(actualFiles,
+					hasItemInArray(expectedFile));
+		}
+	}
 
 }

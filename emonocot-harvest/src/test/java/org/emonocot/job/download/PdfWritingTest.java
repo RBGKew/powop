@@ -43,89 +43,89 @@ import org.springframework.core.io.ClassPathResource;
 
 /**
  * @author jk00kg
- * 
+ *
  */
 public class PdfWritingTest {
 
-    /**
-     * 
-     */
-    List<Taxon> itemsToWrite;
+	/**
+	 *
+	 */
+	List<Taxon> itemsToWrite;
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        itemsToWrite = new ArrayList<Taxon>();
-        for (int i = 0; i < 5; i++) {
-            Taxon t = new Taxon();
-            t.setTaxonomicStatus(TaxonomicStatus.Accepted);
-            t.setScientificName(t.getTaxonomicStatus().toString() + i);
-            t.setLicense("http://example.com/34*");
-            t.setIdentifier(t.getScientificName());
-            itemsToWrite.add(t);
-        }
-        itemsToWrite.get(4).setLicense("Ask Joseph nicely, preferably with cake");
-        for (int i = 0; i < 15; i++) {
-            Taxon t = new Taxon();
-            t.setTaxonomicStatus(TaxonomicStatus.Synonym);
-            int mod = i%3;
-            Taxon a = itemsToWrite.get(mod);
-            a.getSynonymNameUsages().add(t);
-            t.setAcceptedNameUsage(a);
-            t.setScientificName(t.getTaxonomicStatus().toString() + i);
-            t.setIdentifier(t.getScientificName());
-            itemsToWrite.add(t);
-        }
-    }
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		itemsToWrite = new ArrayList<Taxon>();
+		for (int i = 0; i < 5; i++) {
+			Taxon t = new Taxon();
+			t.setTaxonomicStatus(TaxonomicStatus.Accepted);
+			t.setScientificName(t.getTaxonomicStatus().toString() + i);
+			t.setLicense("http://example.com/34*");
+			t.setIdentifier(t.getScientificName());
+			itemsToWrite.add(t);
+		}
+		itemsToWrite.get(4).setLicense("Ask Joseph nicely, preferably with cake");
+		for (int i = 0; i < 15; i++) {
+			Taxon t = new Taxon();
+			t.setTaxonomicStatus(TaxonomicStatus.Synonym);
+			int mod = i%3;
+			Taxon a = itemsToWrite.get(mod);
+			a.getSynonymNameUsages().add(t);
+			t.setAcceptedNameUsage(a);
+			t.setScientificName(t.getTaxonomicStatus().toString() + i);
+			t.setIdentifier(t.getScientificName());
+			itemsToWrite.add(t);
+		}
+	}
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+	}
 
-    @Test
-    public final void testJasperReportsWriter() throws Exception {
+	@Test
+	public final void testJasperReportsWriter() throws Exception {
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("name", "Joe");
-        
-        //With the data-source
-        JRDataSource jrNameDatasource = new JRBeanCollectionDataSource(itemsToWrite);
-        JasperReport jrNameReport = JasperCompileManager.compileReport(
-                new ClassPathResource("org/emonocot/job/download/reports/name_report1.jrxml").getInputStream());
-        //The FillManager delegates to a 'Filler' that have fillReportStart(), fillReportContent() and fillReportEnd() methods
-        JasperPrint jrNamePrint = JasperFillManager.fillReport(jrNameReport, params, jrNameDatasource); 
-        JasperExportManager.exportReportToPdfFile(jrNamePrint, "target/jrNames.pdf");
-    }
-    
-    @Test
-    public final void testBatchReportWriter() throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("name", "Joe");
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(
-                new ClassPathResource("org/emonocot/job/download/reports/name_report1.jrxml").getInputStream());
-        JRVerticalReportWriter writer = new JRVerticalReportWriter(jasperReport);
-        writer.setDefaultOutputDir("target");
-        StepExecution se = new StepExecution("testStep", new JobExecution(1L));
-        writer.beforeStep(se);
-        int chunkSize = 10;
-        for (int i = 0; i <= (itemsToWrite.size()/chunkSize); i++) {
-            List<Taxon> itemList = new ArrayList<Taxon>();
-            for (int j = 0; j < chunkSize; j++) {
-                try {
-                    itemList.add(itemsToWrite.get(i*chunkSize+j));
-                } catch (IndexOutOfBoundsException e) {
-                    break;
-                }
-            }
-            writer.write(itemList);
-            
-        }
-        writer.afterStep(se);
-        
-    }
+		//With the data-source
+		JRDataSource jrNameDatasource = new JRBeanCollectionDataSource(itemsToWrite);
+		JasperReport jrNameReport = JasperCompileManager.compileReport(
+				new ClassPathResource("org/emonocot/job/download/reports/name_report1.jrxml").getInputStream());
+		//The FillManager delegates to a 'Filler' that have fillReportStart(), fillReportContent() and fillReportEnd() methods
+		JasperPrint jrNamePrint = JasperFillManager.fillReport(jrNameReport, params, jrNameDatasource);
+		JasperExportManager.exportReportToPdfFile(jrNamePrint, "target/jrNames.pdf");
+	}
+
+	@Test
+	public final void testBatchReportWriter() throws Exception {
+
+		JasperReport jasperReport = JasperCompileManager.compileReport(
+				new ClassPathResource("org/emonocot/job/download/reports/name_report1.jrxml").getInputStream());
+		JRVerticalReportWriter writer = new JRVerticalReportWriter(jasperReport);
+		writer.setDefaultOutputDir("target");
+		StepExecution se = new StepExecution("testStep", new JobExecution(1L));
+		writer.beforeStep(se);
+		int chunkSize = 10;
+		for (int i = 0; i <= (itemsToWrite.size()/chunkSize); i++) {
+			List<Taxon> itemList = new ArrayList<Taxon>();
+			for (int j = 0; j < chunkSize; j++) {
+				try {
+					itemList.add(itemsToWrite.get(i*chunkSize+j));
+				} catch (IndexOutOfBoundsException e) {
+					break;
+				}
+			}
+			writer.write(itemList);
+
+		}
+		writer.afterStep(se);
+
+	}
 
 }

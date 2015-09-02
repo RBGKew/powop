@@ -27,9 +27,9 @@ import au.org.ala.delta.directives.ConforDirectiveParserObserver;
 public class DeltaContextHolderImpl implements DeltaContextHolder {
 
 	private DeltaContext deltaContext;
-	
+
 	private Resource specsFile;
-	
+
 	public DeltaContext getDeltaContext() {
 		return deltaContext;
 	}
@@ -46,7 +46,7 @@ public class DeltaContextHolderImpl implements DeltaContextHolder {
 		ConforDirectiveParserObserver conforObserver = new ConforDirectiveParserObserver(deltaContext);
 		parser.registerObserver(conforObserver);
 		parser.parse(specs, deltaContext);
-		
+
 		conforObserver.finishedProcessing();
 	}
 }

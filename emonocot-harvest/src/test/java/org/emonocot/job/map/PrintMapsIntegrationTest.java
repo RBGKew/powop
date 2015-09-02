@@ -51,49 +51,49 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/printMaps.xml",
-    "/META-INF/spring/applicationContext-integration.xml",
-    "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/printMaps.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 public class PrintMapsIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(
-            PrintMapsIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(
+			PrintMapsIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
-    private JobLauncher jobLauncher;
-    
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private JobLauncher jobLauncher;
 
-    /**
-     *
-     * @param polygon 
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public void createMaps() throws Exception {
-    	Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+	@Autowired
+	private ObjectMapper objectMapper;
+
+	/**
+	 *
+	 * @param polygon
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public void createMaps() throws Exception {
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query.string", new JobParameter("from Place p"));
-		
-		
+
+
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("PrintMaps");
 		assertNotNull("PrintMap must exist", archiveCreatorJob);
 		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob, jobParameters);
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
-    }    
+	}
 }

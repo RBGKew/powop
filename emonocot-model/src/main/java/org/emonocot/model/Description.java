@@ -56,95 +56,95 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Description extends OwnedEntity {
 
-    private static final long serialVersionUID = -177666938449346483L;
+	private static final long serialVersionUID = -177666938449346483L;
 
-    private String description;
+	private String description;
 
-    private Taxon taxon;
+	private Taxon taxon;
 
-    private DescriptionType type;
-    
-    private String creator;
-    
-    private String contributor;
-    
-    private String audience;
-    
-    private Locale language;
-    
-    private String source;
+	private DescriptionType type;
 
-    private Long id;
+	private String creator;
 
-    private Set<Annotation> annotations = new HashSet<Annotation>();
+	private String contributor;
 
-    private Set<Reference> references = new HashSet<Reference>();
+	private String audience;
 
-    public Description() {
-        this.identifier = UUID.randomUUID().toString();
-    }
+	private Locale language;
 
-    /**
-     *
-     * @param newId
-     *            Set the identifier of this object.
-     */
-    public void setId(Long newId) {
-        this.id = newId;
-    }
+	private String source;
 
-    /**
-     *
-     * @return Get the identifier for this object.
-     */
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
+	private Long id;
 
-    /**
-     *
-     * @param newTaxon
-     *            Set the taxon that this content is about.
-     */   
-    @JsonBackReference("descriptions-taxon")
-    public void setTaxon(Taxon newTaxon) {
-        this.taxon = newTaxon;
-    }
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    /**
-     *
-     * @return Return the subject that this content is about.
-     */
-    @Enumerated(value = EnumType.STRING)
-    public DescriptionType getType() {
-        return type;
-    }
+	private Set<Reference> references = new HashSet<Reference>();
 
-    /**
-     *
-     * @param newFeature
-     *            Set the subject that this content is about.
-     */
-    public void setType(DescriptionType newFeature) {
-        this.type = newFeature;
-    }
+	public Description() {
+		this.identifier = UUID.randomUUID().toString();
+	}
 
-    /**
-     *
-     * @return Get the taxon that this content is about.
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference("descriptions-taxon")
-    public Taxon getTaxon() {
-        return taxon;
-    }
+	/**
+	 *
+	 * @param newId
+	 *            Set the identifier of this object.
+	 */
+	public void setId(Long newId) {
+		this.id = newId;
+	}
 
-    /**
+	/**
+	 *
+	 * @return Get the identifier for this object.
+	 */
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 *
+	 * @param newTaxon
+	 *            Set the taxon that this content is about.
+	 */
+	@JsonBackReference("descriptions-taxon")
+	public void setTaxon(Taxon newTaxon) {
+		this.taxon = newTaxon;
+	}
+
+	/**
+	 *
+	 * @return Return the subject that this content is about.
+	 */
+	@Enumerated(value = EnumType.STRING)
+	public DescriptionType getType() {
+		return type;
+	}
+
+	/**
+	 *
+	 * @param newFeature
+	 *            Set the subject that this content is about.
+	 */
+	public void setType(DescriptionType newFeature) {
+		this.type = newFeature;
+	}
+
+	/**
+	 *
+	 * @return Get the taxon that this content is about.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference("descriptions-taxon")
+	public Taxon getTaxon() {
+		return taxon;
+	}
+
+	/**
 	 * @return the creator
 	 */
-    @Size(max = 255)
+	@Size(max = 255)
 	public String getCreator() {
 		return creator;
 	}
@@ -172,72 +172,72 @@ public class Description extends OwnedEntity {
 	}
 
 	/**
-     *
-     * @param newContent
-     *            Set the content of this object.
-     */
-    public void setDescription(String newContent) {
-        this.description = newContent;
-    }
+	 *
+	 * @param newContent
+	 *            Set the content of this object.
+	 */
+	public void setDescription(String newContent) {
+		this.description = newContent;
+	}
 
-    /**
-     *
-     * @return the content as a string
-     */
-    @Lob
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 *
+	 * @return the content as a string
+	 */
+	@Lob
+	public String getDescription() {
+		return description;
+	}
 
-    @Transient
-    @JsonIgnore
-    public final String getClassName() {
-        return "Description";
-    }
+	@Transient
+	@JsonIgnore
+	public final String getClassName() {
+		return "Description";
+	}
 
-    /**
-     * @return the annotations
-     */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Description'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	/**
+	 * @return the annotations
+	 */
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Description'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
-    /**
-     * @return the references
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
-    @JoinTable(name = "Description_Reference", joinColumns = { @JoinColumn(name = "Description_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
-    @JsonSerialize(contentUsing = ReferenceSerializer.class)
-    public Set<Reference> getReferences() {
-        return references;
-    }
+	/**
+	 * @return the references
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JoinTable(name = "Description_Reference", joinColumns = { @JoinColumn(name = "Description_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
+	@JsonSerialize(contentUsing = ReferenceSerializer.class)
+	public Set<Reference> getReferences() {
+		return references;
+	}
 
-    /**
-     * @param newReferences the references to set
-     */
-    @JsonDeserialize(contentUsing = ReferenceDeserializer.class)
-    public void setReferences(Set<Reference> newReferences) {
-        this.references = newReferences;
-    }
+	/**
+	 * @param newReferences the references to set
+	 */
+	@JsonDeserialize(contentUsing = ReferenceDeserializer.class)
+	public void setReferences(Set<Reference> newReferences) {
+		this.references = newReferences;
+	}
 
 	/**
 	 * @return the contributor
 	 */
-    @Size(max = 255)
+	@Size(max = 255)
 	public String getContributor() {
 		return contributor;
 	}
@@ -277,13 +277,13 @@ public class Description extends OwnedEntity {
 	public void setLanguage(Locale language) {
 		this.language = language;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
 		if(type != null) {
 			stringBuffer.append(type.toString());
-		}		
+		}
 		if(description != null) {
 			if(description.length() > 32) {
 				stringBuffer.append(": \"" + description.substring(0,32) +"...\"");

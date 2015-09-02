@@ -24,14 +24,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DistributionServiceImpl extends
-		ServiceImpl<Distribution, DistributionDao> implements
-		DistributionService {
-	
-	@Autowired
-    public final void setDistributionDao(final DistributionDao newDistributionDao) {
-        super.dao = newDistributionDao;
-    }
+ServiceImpl<Distribution, DistributionDao> implements
+DistributionService {
 
-	
+	@Autowired
+	public final void setDistributionDao(final DistributionDao newDistributionDao) {
+		super.dao = newDistributionDao;
+	}
+
+
 
 }

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class VernacularNameDaoImpl extends DaoImpl<VernacularName> implements
-		VernacularNameDao {
+VernacularNameDao {
 
 	public VernacularNameDaoImpl() {
 		super(VernacularName.class,"vernacularName");

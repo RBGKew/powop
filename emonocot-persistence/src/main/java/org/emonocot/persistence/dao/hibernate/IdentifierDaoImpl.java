@@ -27,15 +27,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class IdentifierDaoImpl extends DaoImpl<Identifier> implements
-		IdentifierDao {
+IdentifierDao {
 
 	private static Map<String, Fetch[]> FETCH_PROFILES;
-	
+
 	static {
-	       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-	       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
-		       		new Fetch("taxon", FetchMode.JOIN),
-		          	new Fetch("annotations", FetchMode.SELECT)});
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
+				new Fetch("taxon", FetchMode.JOIN),
+				new Fetch("annotations", FetchMode.SELECT)});
 	}
 
 	public IdentifierDaoImpl() {

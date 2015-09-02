@@ -44,92 +44,92 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class JobInstanceController {
 
-    /**
-    *
-    */
-   private static Logger logger = LoggerFactory
-           .getLogger(JobInstanceController.class);
+	/**
+	 *
+	 */
+	private static Logger logger = LoggerFactory
+			.getLogger(JobInstanceController.class);
 
-    /**
-     *
-     */
-    private JobInstanceService service;
+	/**
+	 *
+	 */
+	private JobInstanceService service;
 
-   /**
-    *
-    */
-   private String baseUrl;
+	/**
+	 *
+	 */
+	private String baseUrl;
 
-   /**
-    *
-    * @param newBaseUrl Set the base url
-    */
-   public final void setBaseUrl(final String newBaseUrl) {
-       this.baseUrl = newBaseUrl;
-   }
+	/**
+	 *
+	 * @param newBaseUrl Set the base url
+	 */
+	public final void setBaseUrl(final String newBaseUrl) {
+		this.baseUrl = newBaseUrl;
+	}
 
-    /**
-     * @param service set the job instance service
-     */
-    @Autowired
-    public final void setInstanceService(JobInstanceService service) {
-        this.service = service;
-    }
-    
-    @RequestMapping(value = "/jobInstance",
-    		method = RequestMethod.GET,
-            consumes = "application/json",
-            produces = "application/json")
-    public final ResponseEntity<List<JobInstance>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-    		                                  @RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
-        return new ResponseEntity<List<JobInstance>>(service.list(limit, start), HttpStatus.OK);
-    }
+	/**
+	 * @param service set the job instance service
+	 */
+	@Autowired
+	public final void setInstanceService(JobInstanceService service) {
+		this.service = service;
+	}
 
-      /**
-       * @param identifier
-       *            Set the identifier of the group
-       * @return A model and view containing a group
-       */
-      @RequestMapping(value = "/jobInstance/{identifier}",
-                      method = RequestMethod.GET,
-                      produces = "application/json")
-    public final ResponseEntity<JobInstance> get(
-            @PathVariable final Long identifier) {
-        return new ResponseEntity<JobInstance>(service.find(identifier),
-                HttpStatus.OK);
-    }
+	@RequestMapping(value = "/jobInstance",
+			method = RequestMethod.GET,
+			consumes = "application/json",
+			produces = "application/json")
+	public final ResponseEntity<List<JobInstance>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
+		return new ResponseEntity<List<JobInstance>>(service.list(limit, start), HttpStatus.OK);
+	}
 
-      /**
-       * @param jobInstance
-       *            the job instance to save
-       * @return A response entity containing a newly created job instance
-       */
-        @RequestMapping(value = "/jobInstance",
-                        method = RequestMethod.POST)
-      public final ResponseEntity<JobInstance> create(@RequestBody final JobInstance jobInstance) {
-          HttpHeaders httpHeaders = new HttpHeaders();
-          try {
-              httpHeaders.setLocation(new URI(baseUrl + "/jobInstance/"
-                      + jobInstance.getId()));
-          } catch (URISyntaxException e) {
-              logger.error(e.getMessage());
-          }
-          service.save(jobInstance);
-          ResponseEntity<JobInstance> response = new ResponseEntity<JobInstance>(
-                  jobInstance, httpHeaders, HttpStatus.CREATED);
-          return response;
-      }
+	/**
+	 * @param identifier
+	 *            Set the identifier of the group
+	 * @return A model and view containing a group
+	 */
+	@RequestMapping(value = "/jobInstance/{identifier}",
+			method = RequestMethod.GET,
+			produces = "application/json")
+	public final ResponseEntity<JobInstance> get(
+			@PathVariable final Long identifier) {
+		return new ResponseEntity<JobInstance>(service.find(identifier),
+				HttpStatus.OK);
+	}
 
-      /**
-       * @param identifier
-       *            Set the identifier of the jobInstance
-       * @return A response entity containing the status
-       */
-        @RequestMapping(value = "/jobInstance/{identifier}",
-                        method = RequestMethod.DELETE)
-        public final ResponseEntity<JobInstance> delete(
-                @PathVariable final Long identifier) {
-            service.delete(identifier);
-            return new ResponseEntity<JobInstance>(HttpStatus.OK);
-        }
+	/**
+	 * @param jobInstance
+	 *            the job instance to save
+	 * @return A response entity containing a newly created job instance
+	 */
+	@RequestMapping(value = "/jobInstance",
+			method = RequestMethod.POST)
+	public final ResponseEntity<JobInstance> create(@RequestBody final JobInstance jobInstance) {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		try {
+			httpHeaders.setLocation(new URI(baseUrl + "/jobInstance/"
+					+ jobInstance.getId()));
+		} catch (URISyntaxException e) {
+			logger.error(e.getMessage());
+		}
+		service.save(jobInstance);
+		ResponseEntity<JobInstance> response = new ResponseEntity<JobInstance>(
+				jobInstance, httpHeaders, HttpStatus.CREATED);
+		return response;
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the identifier of the jobInstance
+	 * @return A response entity containing the status
+	 */
+	@RequestMapping(value = "/jobInstance/{identifier}",
+			method = RequestMethod.DELETE)
+	public final ResponseEntity<JobInstance> delete(
+			@PathVariable final Long identifier) {
+		service.delete(identifier);
+		return new ResponseEntity<JobInstance>(HttpStatus.OK);
+	}
 }

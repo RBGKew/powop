@@ -23,171 +23,171 @@ package org.emonocot.portal.rows;
  */
 public class TaxonRow {
 
-    /**
-    *
-    */
-    public String name;
+	/**
+	 *
+	 */
+	public String name;
 
-    /**
-    *
-    */
-    public String identifier;
+	/**
+	 *
+	 */
+	public String identifier;
 
-    /**
-    *
-    */
-    public String habitat;
+	/**
+	 *
+	 */
+	public String habitat;
 
-    /**
-    *
-    */
-    public String diagnostic;
+	/**
+	 *
+	 */
+	public String diagnostic;
 
-    /**
-     *
-     */
-    public String diagnosticReference1;
+	/**
+	 *
+	 */
+	public String diagnosticReference1;
 
-    /**
-     *
-     */
-    public String protologue;
+	/**
+	 *
+	 */
+	public String protologue;
 
-    /**
-     *
-     */
-    public String protologLink;
+	/**
+	 *
+	 */
+	public String protologLink;
 
-    /**
-     *
-     */
-   public String general;
+	/**
+	 *
+	 */
+	public String general;
 
-    /**
-     *
-     */
-    public String family;
+	/**
+	 *
+	 */
+	public String family;
 
-    /**
-    *
-    */
-   public String distribution1;
+	/**
+	 *
+	 */
+	public String distribution1;
 
-   /**
-    *
-    */
-   public String distribution2;
+	/**
+	 *
+	 */
+	public String distribution2;
 
-   /**
-    *
-    */
-   public String distribution3;
+	/**
+	 *
+	 */
+	public String distribution3;
 
-   /**
-    *
-    */
-   public String rank;
+	/**
+	 *
+	 */
+	public String rank;
 
-   /**
-    *
-    */
-   public String status;
+	/**
+	 *
+	 */
+	public String status;
 
-   /**
-    *
-    */
-   public String source;
+	/**
+	 *
+	 */
+	public String source;
 
-   /**
-    *
-    */
-   public String protologueMicroReference;
+	/**
+	 *
+	 */
+	public String protologueMicroReference;
 
-   /**
-   *
-   */
-  public String created;
-  
-  /**
-  *
-  */
- public String parent;
+	/**
+	 *
+	 */
+	public String created;
 
- /**
-  *
-  */
- public String accepted;
+	/**
+	 *
+	 */
+	public String parent;
 
- /**
-  *
-  */
- public String specificEpithet;
+	/**
+	 *
+	 */
+	public String accepted;
 
- /**
-  *
-  */
- public String genus;
+	/**
+	 *
+	 */
+	public String specificEpithet;
 
- /**
- *
- */
- public  String distributionSource;
- 
- /**
- *
- */
- public String distributionLicense;
+	/**
+	 *
+	 */
+	public String genus;
 
- /**
-  *
-  */
-  public String distributionRights;
+	/**
+	 *
+	 */
+	public  String distributionSource;
 
-  /**
-  *
-  */
-  public  String diagnosticSource;
-  
-  /**
-  *
-  */
-  public String diagnosticLicense;
+	/**
+	 *
+	 */
+	public String distributionLicense;
 
-  /**
-  *
-  */
-  public String diagnosticRights;
-  
-  /**
-  *
-  */
-  public  String habitatReference1;
-  
-  /**
-  *
-  */
-  public  String habitatSource;
-  
-  /**
-  *
-  */
-  public String habitatLicense;
+	/**
+	 *
+	 */
+	public String distributionRights;
 
-  /**
-  *
-  */
-  public String habitatRights;
-  
-  /**
-  *
-  */
-  public String lifeForm;
-  
-  /**
-  *
-  */
-  public String iucnConservationStatus;
+	/**
+	 *
+	 */
+	public  String diagnosticSource;
 
-  public String uri;
+	/**
+	 *
+	 */
+	public String diagnosticLicense;
+
+	/**
+	 *
+	 */
+	public String diagnosticRights;
+
+	/**
+	 *
+	 */
+	public  String habitatReference1;
+
+	/**
+	 *
+	 */
+	public  String habitatSource;
+
+	/**
+	 *
+	 */
+	public String habitatLicense;
+
+	/**
+	 *
+	 */
+	public String habitatRights;
+
+	/**
+	 *
+	 */
+	public String lifeForm;
+
+	/**
+	 *
+	 */
+	public String iucnConservationStatus;
+
+	public String uri;
 
 }

@@ -50,49 +50,49 @@ import org.joda.time.DateTime;
 
 @Entity
 public class MeasurementOrFact extends OwnedEntity {
-	
+
 	private static final long serialVersionUID = -1400551717852313792L;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private Long id;
-	
+
 	private Term measurementType;
-	
+
 	private String measurementValue;
-	
+
 	private String measurementAccuracy;
-	
+
 	private MeasurementUnit measurementUnit;
-	
+
 	private DateTime measurementDeterminedDate;
-	
+
 	private String measurementDeterminedBy;
-	
+
 	private String measurementMethod;
-	
+
 	private String measurementRemarks;
-	
+
 	private String bibliographicCitation;
-	
+
 	private Taxon taxon;
-	
+
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
 	private String source;
 
 	@Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
 		return id;
 	}
-	
+
 	@Transient
-    @JsonIgnore
-    public final String getClassName() {
-        return "MeasurementOrFact";
-    }
+	@JsonIgnore
+	public final String getClassName() {
+		return "MeasurementOrFact";
+	}
 
 	@JsonSerialize(using = TermSerializer.class)
 	@Type(type="termUserType")
@@ -171,7 +171,7 @@ public class MeasurementOrFact extends OwnedEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference("measurementsOrFacts-taxon")
+	@JsonBackReference("measurementsOrFacts-taxon")
 	public Taxon getTaxon() {
 		return taxon;
 	}
@@ -184,24 +184,24 @@ public class MeasurementOrFact extends OwnedEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'MeasurementOrFact'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'MeasurementOrFact'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
 	@JsonIgnore
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
+
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	@JsonIgnore
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
 	/**
 	 * @return the bibliographicCitation
@@ -216,23 +216,23 @@ public class MeasurementOrFact extends OwnedEntity {
 	public void setBibliographicCitation(String bibliographicCitation) {
 		this.bibliographicCitation = bibliographicCitation;
 	}
-	
+
 	@Override
-    public String toString() {
-    	StringBuffer stringBuffer = new StringBuffer();
-    	if(measurementType != null) {
-    	    stringBuffer.append(measurementType.toString());
-    	}
-    	if(measurementValue != null) {
-    		stringBuffer.append(": \"" + measurementValue + "\"");
-    	}
-    	return stringBuffer.toString();
-    }
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		if(measurementType != null) {
+			stringBuffer.append(measurementType.toString());
+		}
+		if(measurementValue != null) {
+			stringBuffer.append(": \"" + measurementValue + "\"");
+		}
+		return stringBuffer.toString();
+	}
 
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
+
 	public String getSource() {
 		return source;
 	}

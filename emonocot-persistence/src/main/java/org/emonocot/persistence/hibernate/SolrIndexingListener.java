@@ -37,17 +37,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SolrIndexingListener implements PostInsertEventListener,
-		PostUpdateEventListener, PostDeleteEventListener {
-	
+PostUpdateEventListener, PostDeleteEventListener {
+
 	Logger logger = LoggerFactory.getLogger(SolrIndexingListener.class);
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 961123073889114601L;
-	
-	private SolrServer solrServer = null;	
-	
+
+	private SolrServer solrServer = null;
+
 	public void setSolrServer(SolrServer solrServer) {
 		this.solrServer = solrServer;
 	}
@@ -60,11 +60,11 @@ public class SolrIndexingListener implements PostInsertEventListener,
 		try {
 			UpdateResponse updateResponse = solrServer.add(documents);
 			if (updateResponse.getStatus() != 0) {
-		        logger.error("Exception adding solr documents " + updateResponse.toString());
-		        updateResponse = solrServer.rollback();
-		    } else {
-			    updateResponse = solrServer.commit(true,true);
-		    }			
+				logger.error("Exception adding solr documents " + updateResponse.toString());
+				updateResponse = solrServer.rollback();
+			} else {
+				updateResponse = solrServer.commit(true,true);
+			}
 		} catch (SolrServerException sse) {
 			logger.error(sse.getLocalizedMessage());
 			for(StackTraceElement ste : sse.getStackTrace()) {
@@ -77,40 +77,40 @@ public class SolrIndexingListener implements PostInsertEventListener,
 			}
 		}
 	}
-	
+
 	public void indexObject(Searchable searchableObject) {
 		List<Searchable> searchableObjects = new ArrayList<Searchable>();
 		searchableObjects.add(searchableObject);
 		indexObjects(searchableObjects);
 	}
-	
+
 	public void deleteObject(Searchable searchableObject) {
-        try {
-            solrServer.deleteById(searchableObject.getDocumentId());
-            solrServer.commit(true,true);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-	@Override
-	public void onPostDelete(PostDeleteEvent event) {		
-		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
-		    deleteObject((Searchable) event.getEntity());
+		try {
+			solrServer.deleteById(searchableObject.getDocumentId());
+			solrServer.commit(true,true);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void onPostUpdate(PostUpdateEvent event) {		
+	public void onPostDelete(PostDeleteEvent event) {
 		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
-		    indexObject((Searchable) event.getEntity());
+			deleteObject((Searchable) event.getEntity());
 		}
 	}
 
 	@Override
-	public void onPostInsert(PostInsertEvent event) {		
+	public void onPostUpdate(PostUpdateEvent event) {
 		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
-		    indexObject((Searchable) event.getEntity());
+			indexObject((Searchable) event.getEntity());
+		}
+	}
+
+	@Override
+	public void onPostInsert(PostInsertEvent event) {
+		if(Searchable.class.isAssignableFrom(event.getEntity().getClass())) {
+			indexObject((Searchable) event.getEntity());
 		}
 	}
 

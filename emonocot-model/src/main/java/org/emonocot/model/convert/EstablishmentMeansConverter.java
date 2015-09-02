@@ -20,13 +20,13 @@ import org.gbif.ecat.voc.EstablishmentMeans;
 import org.springframework.core.convert.converter.Converter;
 
 public class EstablishmentMeansConverter implements
-		Converter<String, EstablishmentMeans> {
+Converter<String, EstablishmentMeans> {
 
 	@Override
 	public EstablishmentMeans convert(String source) {
 		if(source == null || source.isEmpty()) {
 			return null;
-		} 
+		}
 		switch(source) {
 		case "native":
 			return EstablishmentMeans.Native;

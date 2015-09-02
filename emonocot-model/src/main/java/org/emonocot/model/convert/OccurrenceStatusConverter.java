@@ -20,13 +20,13 @@ import org.gbif.ecat.voc.OccurrenceStatus;
 import org.springframework.core.convert.converter.Converter;
 
 public class OccurrenceStatusConverter implements
-		Converter<String, OccurrenceStatus> {
+Converter<String, OccurrenceStatus> {
 
 	@Override
 	public OccurrenceStatus convert(String source) {
 		if(source == null || source.isEmpty()) {
 			return null;
-		} 
+		}
 		switch(source) {
 		case "present":
 			return OccurrenceStatus.Present;

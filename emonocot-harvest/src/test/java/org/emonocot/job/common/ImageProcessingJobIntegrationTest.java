@@ -47,31 +47,31 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "/META-INF/spring/batch/jobs/imageProcessing.xml",
-		"/META-INF/spring/applicationContext-integration.xml",
-		"/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 public class ImageProcessingJobIntegrationTest {
 
 	/**
-     *
-     */
+	 *
+	 */
 	private Logger logger = LoggerFactory
 			.getLogger(ImageProcessingJobIntegrationTest.class);
 
 	/**
-     *
-     */
+	 *
+	 */
 	@Autowired
 	private JobLocator jobLocator;
 
 	/**
-     *
-     */
+	 *
+	 */
 	@Autowired
 	@Qualifier("readWriteJobLauncher")
 	private JobLauncher jobLauncher;
@@ -89,7 +89,7 @@ public class ImageProcessingJobIntegrationTest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 *             if a temporary file cannot be created.
 	 * @throws NoSuchJobException
@@ -105,9 +105,9 @@ public class ImageProcessingJobIntegrationTest {
 	 */
 	@Test
 	public final void testNotModifiedResponse() throws IOException,
-			NoSuchJobException, JobExecutionAlreadyRunningException,
-			JobRestartException, JobInstanceAlreadyCompleteException,
-			JobParametersInvalidException {
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("query.string", new JobParameter("select i from Image i"));
 

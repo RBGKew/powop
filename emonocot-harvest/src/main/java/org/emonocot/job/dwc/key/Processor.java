@@ -44,12 +44,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Processor extends NonOwnedProcessor<IdentificationKey, IdentificationKeyService> {
 
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
-    @Autowired
-    public final void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
-        super.service = identificationKeyService;
-    } 
+	@Autowired
+	public final void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
+		super.service = identificationKeyService;
+	}
 
 	@Override
 	protected void doUpdate(IdentificationKey persisted, IdentificationKey t) {
@@ -60,7 +60,7 @@ public class Processor extends NonOwnedProcessor<IdentificationKey, Identificati
 
 	@Override
 	protected void doPersist(IdentificationKey t) {
-		
+
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class Processor extends NonOwnedProcessor<IdentificationKey, Identificati
 
 	@Override
 	protected void doValidate(IdentificationKey t) throws Exception {
-		
+
 	}
 
 	@Override

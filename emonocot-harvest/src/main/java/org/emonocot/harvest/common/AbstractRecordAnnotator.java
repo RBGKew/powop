@@ -40,59 +40,59 @@ import org.springframework.util.Assert;
  */
 public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implements StepExecutionListener {
 
-    private TransactionTemplate transactionTemplate = null;
+	private TransactionTemplate transactionTemplate = null;
 
-    private Organisation source = null;
+	private Organisation source = null;
 
-    private String sourceName;
-    
+	private String sourceName;
+
 	protected StepExecution stepExecution;
 
-    public final void setSourceName(final String newSourceName) {
-        this.sourceName = newSourceName;
-    }
+	public final void setSourceName(final String newSourceName) {
+		this.sourceName = newSourceName;
+	}
 
-    public final void setTransactionManager(
-            final PlatformTransactionManager transactionManager) {
-        Assert.notNull(transactionManager,
-                "The 'transactionManager' argument must not be null.");
-        this.transactionTemplate = new TransactionTemplate(transactionManager);
-        this.transactionTemplate
-                .setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-    }
+	public final void setTransactionManager(
+			final PlatformTransactionManager transactionManager) {
+		Assert.notNull(transactionManager,
+				"The 'transactionManager' argument must not be null.");
+		this.transactionTemplate = new TransactionTemplate(transactionManager);
+		this.transactionTemplate
+		.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+	}
 
-    /**
-     *
-     * @return the source
-     */
-    protected Organisation getSource() {
-        if (source == null) {
-            Criteria criteria = getSession().createCriteria(Organisation.class).add(
-                    Restrictions.eq("identifier", sourceName));
+	/**
+	 *
+	 * @return the source
+	 */
+	protected Organisation getSource() {
+		if (source == null) {
+			Criteria criteria = getSession().createCriteria(Organisation.class).add(
+					Restrictions.eq("identifier", sourceName));
 
-            source = (Organisation) criteria.uniqueResult();
-        }
-        return source;
-    }
+			source = (Organisation) criteria.uniqueResult();
+		}
+		return source;
+	}
 
-    /**
-     *
-     * @param annotation Set the annotation
-     */
-    public final void annotate(final Annotation annotation) {
-        try {
-            transactionTemplate.execute(new TransactionCallback() {
-               public Serializable doInTransaction(
-                        final TransactionStatus status) {
-                    return getSession().save(annotation);
-                }
-            });
-        } catch (Throwable t) {
-            logger.error(t.getMessage());
-           throw new RuntimeException(t);
-        }
-    }
-   
+	/**
+	 *
+	 * @param annotation Set the annotation
+	 */
+	public final void annotate(final Annotation annotation) {
+		try {
+			transactionTemplate.execute(new TransactionCallback() {
+				public Serializable doInTransaction(
+						final TransactionStatus status) {
+					return getSession().save(annotation);
+				}
+			});
+		} catch (Throwable t) {
+			logger.error(t.getMessage());
+			throw new RuntimeException(t);
+		}
+	}
+
 	public final void beforeStep(final StepExecution newStepExecution) {
 		this.stepExecution = newStepExecution;
 	}

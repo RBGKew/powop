@@ -41,90 +41,90 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  */
 public class ImageFileProcessingTest {
 
-    /**
-    *
-    */
-    private ImageFileProcessorImpl imageFileProcessor = new ImageFileProcessorImpl();
-    
-    /**
-    *
-    */
-    private ImageThumbnailGeneratorImpl imageThumbnailGenerator = new ImageThumbnailGeneratorImpl();
+	/**
+	 *
+	 */
+	private ImageFileProcessorImpl imageFileProcessor = new ImageFileProcessorImpl();
 
-    /**
-     *
-     */
-    private ImageMetadataExtractorImpl imageMetadataExtractor = new ImageMetadataExtractorImpl();
+	/**
+	 *
+	 */
+	private ImageThumbnailGeneratorImpl imageThumbnailGenerator = new ImageThumbnailGeneratorImpl();
 
-    /**
-     *
-     */
-    private Image image = new Image();
+	/**
+	 *
+	 */
+	private ImageMetadataExtractorImpl imageMetadataExtractor = new ImageMetadataExtractorImpl();
 
-    /**
-     * @throws Exception
-     *             if there is a problem
-     */
-    @Before
-    public final void setUp() throws Exception {
-    	LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
-    	validatorFactory.afterPropertiesSet();
-     
-        image.setFormat(MediaFormat.jpg);
-        GetResourceClient getResourceClient = new GetResourceClient();
-        imageFileProcessor.setGetResourceClient(getResourceClient);
-        String imagesDirectoryName = System.getProperty("java.io.tmpdir")
-                + File.separatorChar + "images";
-        File imagesDirectory = new File(imagesDirectoryName);
-        imagesDirectory.mkdir();
-        imagesDirectory.deleteOnExit();
-        imageMetadataExtractor.setImageDirectory(imagesDirectoryName);
-        imageMetadataExtractor.setValidator(validatorFactory.getValidator());
-        imageMetadataExtractor.afterPropertiesSet();
-        imageFileProcessor.setImageDirectory(imagesDirectoryName);
-        String thumbnailDirectoryName = System.getProperty("java.io.tmpdir")
-                + File.separatorChar + "thumbnails";
-        File thumbnailDirectory = new File(thumbnailDirectoryName);
-        thumbnailDirectory.mkdir();
-        thumbnailDirectory.deleteOnExit();
+	/**
+	 *
+	 */
+	private Image image = new Image();
 
-        Resource propertiesFile = new ClassPathResource(
-                "/META-INF/spring/application.properties");
-        Properties properties = new Properties();
-        properties.load(propertiesFile.getInputStream());
-        
-        String repository = properties.getProperty("test.resource.baseUrl");
-        image.setIdentifier(repository + "dwc.jpg");
-        imageThumbnailGenerator.setImageDirectory(imagesDirectoryName);
-        imageThumbnailGenerator.setThumbnailDirectory(thumbnailDirectoryName);
-        imageThumbnailGenerator.setImageMagickSearchPath(properties.getProperty(
-                "harvester.imagemagick.path", "/usr/bin"));
-        getResourceClient.setProxyHost(properties.getProperty("http.proxyHost",
-                null));
-        getResourceClient.setProxyPort(properties.getProperty("http.proxyPort",
-                null));
-        String imageFileName = imagesDirectoryName + File.separatorChar  + image.getId() + '.' + image.getFormat();
-        (new File(imageFileName)).delete();
-    }
+	/**
+	 * @throws Exception
+	 *             if there is a problem
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
+		validatorFactory.afterPropertiesSet();
 
-    /**
-     * @throws Exception
-     *             if there is a problem accessing the file
-     */
-    @Test
-    public final void testProcess() throws Exception {
-        Image i = imageFileProcessor.process(image);
-        assertTrue("The image file processor failed to return an image", i != null);
-        imageMetadataExtractor.process(i);
-        assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
-        assertEquals("Male inflorescences", i.getDescription());
-        assertEquals("William J. Baker", i.getCreator());
-        assertEquals(
-                "ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
-                i.getSubject());
-        assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
-        assertEquals("www.creativecommons.org#Creative Commons Attribution-Non-Commercial-Share Alike 3.0 Unported Licence", i.getLicense());
-        assertEquals(MediaFormat.jpg, i.getFormat());
-    }
+		image.setFormat(MediaFormat.jpg);
+		GetResourceClient getResourceClient = new GetResourceClient();
+		imageFileProcessor.setGetResourceClient(getResourceClient);
+		String imagesDirectoryName = System.getProperty("java.io.tmpdir")
+				+ File.separatorChar + "images";
+		File imagesDirectory = new File(imagesDirectoryName);
+		imagesDirectory.mkdir();
+		imagesDirectory.deleteOnExit();
+		imageMetadataExtractor.setImageDirectory(imagesDirectoryName);
+		imageMetadataExtractor.setValidator(validatorFactory.getValidator());
+		imageMetadataExtractor.afterPropertiesSet();
+		imageFileProcessor.setImageDirectory(imagesDirectoryName);
+		String thumbnailDirectoryName = System.getProperty("java.io.tmpdir")
+				+ File.separatorChar + "thumbnails";
+		File thumbnailDirectory = new File(thumbnailDirectoryName);
+		thumbnailDirectory.mkdir();
+		thumbnailDirectory.deleteOnExit();
+
+		Resource propertiesFile = new ClassPathResource(
+				"/META-INF/spring/application.properties");
+		Properties properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
+
+		String repository = properties.getProperty("test.resource.baseUrl");
+		image.setIdentifier(repository + "dwc.jpg");
+		imageThumbnailGenerator.setImageDirectory(imagesDirectoryName);
+		imageThumbnailGenerator.setThumbnailDirectory(thumbnailDirectoryName);
+		imageThumbnailGenerator.setImageMagickSearchPath(properties.getProperty(
+				"harvester.imagemagick.path", "/usr/bin"));
+		getResourceClient.setProxyHost(properties.getProperty("http.proxyHost",
+				null));
+		getResourceClient.setProxyPort(properties.getProperty("http.proxyPort",
+				null));
+		String imageFileName = imagesDirectoryName + File.separatorChar  + image.getId() + '.' + image.getFormat();
+		(new File(imageFileName)).delete();
+	}
+
+	/**
+	 * @throws Exception
+	 *             if there is a problem accessing the file
+	 */
+	@Test
+	public final void testProcess() throws Exception {
+		Image i = imageFileProcessor.process(image);
+		assertTrue("The image file processor failed to return an image", i != null);
+		imageMetadataExtractor.process(i);
+		assertEquals("Arecaceae; Howea forsteriana", i.getTitle());
+		assertEquals("Male inflorescences", i.getDescription());
+		assertEquals("William J. Baker", i.getCreator());
+		assertEquals(
+				"ARECOIDEAE, Arecaceae, Areceae, Howea, Linospadicinae, Palmae, Palms, flowers, inflorescences",
+				i.getSubject());
+		assertEquals("Path to Little island, Lord Howe Island, Australia", i.getSpatial());
+		assertEquals("www.creativecommons.org#Creative Commons Attribution-Non-Commercial-Share Alike 3.0 Unported Licence", i.getLicense());
+		assertEquals(MediaFormat.jpg, i.getFormat());
+	}
 
 }

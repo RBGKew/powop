@@ -30,32 +30,32 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PhylogeneticTreeDaoImpl extends
-        DaoImpl<PhylogeneticTree> implements PhylogeneticTreeDao {
+DaoImpl<PhylogeneticTree> implements PhylogeneticTreeDao {
 
-    /**
-     *
-     */
-    private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-    static {
-        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("object-page", new Fetch[] {
-                new Fetch("taxa", FetchMode.SELECT),
-                new Fetch("leaves", FetchMode.SELECT),
-                new Fetch("authority", FetchMode.JOIN),
-                new Fetch("comments", FetchMode.SELECT)});
-    }
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-page", new Fetch[] {
+				new Fetch("taxa", FetchMode.SELECT),
+				new Fetch("leaves", FetchMode.SELECT),
+				new Fetch("authority", FetchMode.JOIN),
+				new Fetch("comments", FetchMode.SELECT)});
+	}
 
-    /**
-     *
-     */
-    public PhylogeneticTreeDaoImpl() {
-        super(PhylogeneticTree.class);
-    }
+	/**
+	 *
+	 */
+	public PhylogeneticTreeDaoImpl() {
+		super(PhylogeneticTree.class);
+	}
 
-    @Override
-    public final Fetch[] getProfile(final String profile) {
-        return FETCH_PROFILES.get(profile);
-    }
+	@Override
+	public final Fetch[] getProfile(final String profile) {
+		return FETCH_PROFILES.get(profile);
+	}
 
 }

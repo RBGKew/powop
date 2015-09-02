@@ -32,7 +32,7 @@ import org.springframework.batch.core.step.job.JobParametersExtractor;
 import org.springframework.batch.item.ExecutionContext;
 
 public class DefaultJobParametersExtractor implements JobParametersExtractor {
-	
+
 	private Set<String> keys = new HashSet<String>();
 
 	private boolean useAllParentParameters = true;
@@ -47,7 +47,7 @@ public class DefaultJobParametersExtractor implements JobParametersExtractor {
 	 * values of the respective type and assigned to job parameters accordingly
 	 * (there will be an error if they are not of the right type). Without a
 	 * special suffix in that form a parameter is assumed to be of type String.
-	 * 
+	 *
 	 * @param keys the keys to set
 	 */
 	public void setKeys(String[] keys) {
@@ -114,7 +114,7 @@ public class DefaultJobParametersExtractor implements JobParametersExtractor {
 				else if (jobParameters.containsKey(key)) {
 					builder.addString(key, (String) jobParameters.get(key).getValue());
 				}
-			}			
+			}
 			else if (key.endsWith("(date)")) {
 				key = key.replace("(date)", "");
 				if (jobExecutionContext.containsKey(key)) {

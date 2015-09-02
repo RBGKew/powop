@@ -33,54 +33,54 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class JobInstanceServiceImpl implements JobInstanceService {
 
-    /**
-     *
-     */
-    private JobInstanceDao jobInstanceDao;
+	/**
+	 *
+	 */
+	private JobInstanceDao jobInstanceDao;
 
-    /**
-     *
-     * @param jobInstanceDao
-     */
-    @Autowired
-    public void setJobInstanceDao(JobInstanceDao jobInstanceDao) {
-        this.jobInstanceDao = jobInstanceDao;
-    }
+	/**
+	 *
+	 * @param jobInstanceDao
+	 */
+	@Autowired
+	public void setJobInstanceDao(JobInstanceDao jobInstanceDao) {
+		this.jobInstanceDao = jobInstanceDao;
+	}
 
-   /**
-    *
-    * @param identifier the identifier of the job
-    * @return a job instance
-    */
-    @Transactional(readOnly = true)
-    public JobInstance find(long identifier) {
-        return jobInstanceDao.load(identifier);
-    }
+	/**
+	 *
+	 * @param identifier the identifier of the job
+	 * @return a job instance
+	 */
+	@Transactional(readOnly = true)
+	public JobInstance find(long identifier) {
+		return jobInstanceDao.load(identifier);
+	}
 
-   /**
-    *
-    * @param id The id to delete
-    */
-    @Transactional
-    public void delete(long id) {
-        jobInstanceDao.delete(id);
-    }
+	/**
+	 *
+	 * @param id The id to delete
+	 */
+	@Transactional
+	public void delete(long id) {
+		jobInstanceDao.delete(id);
+	}
 
-   /**
-    *
-    * @param jobInstance The job instance to save
-    */
-    @Transactional
-    public void save(JobInstance jobInstance) {
-        jobInstanceDao.save(jobInstance);
-    }
+	/**
+	 *
+	 * @param jobInstance The job instance to save
+	 */
+	@Transactional
+	public void save(JobInstance jobInstance) {
+		jobInstanceDao.save(jobInstance);
+	}
 
-    /**
-     *
-     */
-    @Transactional
-    public List<JobInstance> list(Integer limit, Integer start) {
-	    return jobInstanceDao.list(start, limit);
-    }
+	/**
+	 *
+	 */
+	@Transactional
+	public List<JobInstance> list(Integer limit, Integer start) {
+		return jobInstanceDao.list(start, limit);
+	}
 
 }

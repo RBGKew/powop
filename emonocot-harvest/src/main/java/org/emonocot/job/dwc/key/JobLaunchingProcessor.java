@@ -36,27 +36,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 
 public class JobLaunchingProcessor extends AuthorityAware implements ItemProcessor<Multimedia, IdentificationKey> {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(JobLaunchingProcessor.class);
-	
-		
+
+
 	private ResourceService resourceService;
-	
+
 	private ConversionService conversionService;
-	
+
 	private ItemProcessor<IdentificationKey,IdentificationKey> processor;
-	
+
 	@Autowired
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
-	
+
 	@Autowired
 	public void setConversionService(ConversionService conversionService) {
-        this.conversionService = conversionService;
-    }
+		this.conversionService = conversionService;
+	}
 
-    public void setProcessor(ItemProcessor<IdentificationKey,IdentificationKey> processor) {
+	public void setProcessor(ItemProcessor<IdentificationKey,IdentificationKey> processor) {
 		this.processor = processor;
 	}
 
@@ -66,16 +66,16 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		if(item.getIdentifier() == null || item.getIdentifier().isEmpty()) {
 			throw new NoIdentifierException(item);
 		}
-		
+
 		if(item.getFormat() == null) {
 			key = doProcess(item);
 		} else {
-		    switch(item.getFormat()) {
-		    case xml:
-		      key = doProcess(item);
-		    default:
-		    	break;
-		    }
+			switch(item.getFormat()) {
+			case xml:
+				key = doProcess(item);
+			default:
+				break;
+			}
 		}
 		return key;
 	}
@@ -114,10 +114,10 @@ public class JobLaunchingProcessor extends AuthorityAware implements ItemProcess
 		}
 		logger.debug("Processing " + identificationKey);
 		identificationKey = processor.process(identificationKey);
-		
+
 		if(identificationKey != null) {
 			try {
-    			resourceService.harvestResource(resource.getId(), true);
+				resourceService.harvestResource(resource.getId(), true);
 			} catch(ResourceAlreadyBeingHarvestedException rabhe) {
 				logger.warn("Tried to harvest " + item.getIdentifier() + " but it is already being harvested");
 			}

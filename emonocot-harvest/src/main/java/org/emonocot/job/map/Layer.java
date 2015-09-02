@@ -20,21 +20,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Layer {
-	
+
 	private String type = "";
-	
+
 	private String baseURL = "";
-	
+
 	private double[] maxExtent = new double[4];
-	
+
 	private boolean wrapDateLine = true;
 
 	private int[] tileSize = new int[] {256,256};
-	
+
 	private double[] resolutions = new double[0];
-	
+
 	public Map<String,String> customParams = new HashMap<String,String>();
-	
+
 	private String format = "png";
 
 	public String getType() {
@@ -92,7 +92,7 @@ public class Layer {
 	public void setWrapDateLine(boolean wrapDateLine) {
 		this.wrapDateLine = wrapDateLine;
 	}
-	
+
 	public Map<String, String> getCustomParams() {
 		return customParams;
 	}
@@ -100,5 +100,5 @@ public class Layer {
 	public void setCustomParams(Map<String, String> customParams) {
 		this.customParams = customParams;
 	}
-	
+
 }

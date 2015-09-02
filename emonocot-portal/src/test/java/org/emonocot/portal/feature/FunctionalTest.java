@@ -45,9 +45,9 @@ import cucumber.api.junit.Cucumber;
 		"src/test/resources/features/SpatialSearch.feature",
 		"src/test/resources/features/TaxonPage.feature",
 		"src/test/resources/features/PhylogeneticTreePage.feature"
-		},
-		          glue = "org.emonocot.portal.steps",
-		          format = {"junit:target/surefire-reports/org.emonocot.portal.feature.FunctionalTest.xml", "json:target/cucumber.json", "pretty", "html:target/cucumber"})
+},
+glue = "org.emonocot.portal.steps",
+format = {"junit:target/surefire-reports/org.emonocot.portal.feature.FunctionalTest.xml", "json:target/cucumber.json", "pretty", "html:target/cucumber"})
 public class FunctionalTest {
 
 }

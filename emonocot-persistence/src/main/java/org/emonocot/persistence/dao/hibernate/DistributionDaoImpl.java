@@ -27,15 +27,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DistributionDaoImpl extends DaoImpl<Distribution> implements
-		DistributionDao {
-	
-    private static Map<String, Fetch[]> FETCH_PROFILES;
-	
+DistributionDao {
+
+	private static Map<String, Fetch[]> FETCH_PROFILES;
+
 	static {
-	       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-	       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
-		       		new Fetch("taxon", FetchMode.JOIN),
-		          	new Fetch("annotations", FetchMode.SELECT)});
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
+				new Fetch("taxon", FetchMode.JOIN),
+				new Fetch("annotations", FetchMode.SELECT)});
 	}
 
 	public DistributionDaoImpl() {
@@ -47,6 +47,6 @@ public class DistributionDaoImpl extends DaoImpl<Distribution> implements
 		return DistributionDaoImpl.FETCH_PROFILES.get(profile);
 	}
 
-	
+
 
 }

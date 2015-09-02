@@ -52,69 +52,69 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/calculateDerived.xml",
-        "/META-INF/spring/applicationContext-integration.xml",
-        "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/calculateDerived.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CalculateDerivedPropertiesJobIntegrationTest {
 
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(
-            CalculateDerivedPropertiesJobIntegrationTest.class);
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(
+			CalculateDerivedPropertiesJobIntegrationTest.class);
 
-    /**
-     *
-     */
-    @Autowired
-    private JobLocator jobLocator;
+	/**
+	 *
+	 */
+	@Autowired
+	private JobLocator jobLocator;
 
-    /**
-     *
-     */
-    @Autowired
-    private JobLauncher jobLauncher;
+	/**
+	 *
+	 */
+	@Autowired
+	private JobLauncher jobLauncher;
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testNotModifiedResponse() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-        Map<String, JobParameter> parameters =
-            new HashMap<String, JobParameter>();
-        parameters.put("query.string", new JobParameter(
-                "select t.id from Taxon t join t.parentNameUsage"));
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testNotModifiedResponse() throws IOException,
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
+		Map<String, JobParameter> parameters =
+				new HashMap<String, JobParameter>();
+		parameters.put("query.string", new JobParameter(
+				"select t.id from Taxon t join t.parentNameUsage"));
 
-        JobParameters jobParameters = new JobParameters(parameters);
+		JobParameters jobParameters = new JobParameters(parameters);
 
-        Job job = jobLocator
-                .getJob("CalculateDerivedProperties");
-        assertNotNull("CalculateDerivedProperties must not be null",
-                job);
-        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		Job job = jobLocator
+				.getJob("CalculateDerivedProperties");
+		assertNotNull("CalculateDerivedProperties must not be null",
+				job);
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
-        }
-    }
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount());
+		}
+	}
 }

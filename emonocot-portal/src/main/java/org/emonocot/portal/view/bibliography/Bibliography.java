@@ -31,38 +31,38 @@ import org.emonocot.model.Taxon;
  */
 public interface Bibliography {
 
-    /**
-     *
-     * @param taxon Set the taxon
-     */
-    void setReferences(final Taxon taxon);
+	/**
+	 *
+	 * @param taxon Set the taxon
+	 */
+	void setReferences(final Taxon taxon);
 
-    /**
-     *
-     * @param refernce Set the reference
-     * @return A string key which can be displayed in the taxon page as a
-     *         citation reference to the reference
-     */
-    String getKey(Reference refernce);
-    
-    /**
-     *
-     * @param key the key to the reference
-     * @return the reference
-     */
-    Reference getReference(String key);
-    
-    /**
-     *
-     * @param distributions Set the distributions
-     * @return a sorted set of keys
-     */
-    SortedSet<String> getKeys(Collection<Distribution> distributions);
+	/**
+	 *
+	 * @param refernce Set the reference
+	 * @return A string key which can be displayed in the taxon page as a
+	 *         citation reference to the reference
+	 */
+	String getKey(Reference refernce);
 
-    /**
-     *
-     * @return a sorted list of references
-     */
-    List<Reference> getReferences();
+	/**
+	 *
+	 * @param key the key to the reference
+	 * @return the reference
+	 */
+	Reference getReference(String key);
+
+	/**
+	 *
+	 * @param distributions Set the distributions
+	 * @return a sorted set of keys
+	 */
+	SortedSet<String> getKeys(Collection<Distribution> distributions);
+
+	/**
+	 *
+	 * @return a sorted list of references
+	 */
+	List<Reference> getReferences();
 
 }

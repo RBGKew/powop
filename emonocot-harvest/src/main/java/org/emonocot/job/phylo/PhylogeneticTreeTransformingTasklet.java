@@ -52,50 +52,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 
 /**
- * 
+ *
  * @author ben
  *
  */
 public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator implements Tasklet {
-	
+
 	Logger logger = LoggerFactory.getLogger(PhylogeneticTreeTransformingTasklet.class);
-	
+
 	private String treeIdentifier;
-	
+
 	private Resource inputFile;
-	
+
 	private String baseUri;
-	
+
 	private TaxonMatcher taxonMatcher;
-	
+
 	private String rootTaxonIdentifier;
-	
+
 	private String phylogenyTitle;
-	
+
 	private String phylogenyCreator;
-	
+
 	private String phylogenyDescription;
-	
+
 	private String phylogenyRights;
-	
+
 	private String phylogenyRightsHolder;
-	
+
 	private String phylogenyLicense;
-	
+
 	private PhylogeneticTreeService phylogeneticTreeService;
-	
+
 	private TaxonService taxonService;
-	
+
 	private SolrIndexingListener solrIndexingListener;
 
 	public void setTreeIdentifier(String treeIdentifier) {
 		this.treeIdentifier = treeIdentifier;
 	}
-	
+
 	public void setRootTaxonIdentifier(String rootTaxonIdentifier) {
 		this.rootTaxonIdentifier = rootTaxonIdentifier;
 	}
-	
+
 	public void setPhylogenyCreator(String phylogenyCreator) {
 		this.phylogenyCreator = phylogenyCreator;
 	}
@@ -123,7 +123,7 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 	public void setBaseUri(String baseUri) {
 		this.baseUri = baseUri;
 	}
-	
+
 	public void setPhylogenyTitle(String phylogenyTitle) {
 		this.phylogenyTitle = phylogenyTitle;
 	}
@@ -138,11 +138,11 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
 
-	@Autowired	
+	@Autowired
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
 	}
-	
+
 	@Autowired
 	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
 		this.solrIndexingListener = solrIndexingListener;
@@ -156,7 +156,7 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		Phylogeny[] phylogenies = PhylogenyMethods.readPhylogenies(parser, treefile);
 
 		Phylogeny phylogeny = phylogenies[0];
-		
+
 		PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
 		phylogenyWriter.setIndentPhyloxml(false);
 		PhylogenyNode node = phylogeny.getRoot();
@@ -164,8 +164,8 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		if(phylogeneticTree == null) {
 			phylogeneticTree = new PhylogeneticTree();
 			phylogeneticTree.setAuthority(getSource());
-		    phylogeneticTree.setIdentifier(treeIdentifier);
-		    org.emonocot.model.Annotation annotation = new org.emonocot.model.Annotation();
+			phylogeneticTree.setIdentifier(treeIdentifier);
+			org.emonocot.model.Annotation annotation = new org.emonocot.model.Annotation();
 			annotation.setJobId(stepExecution.getJobExecutionId());
 			annotation.setAnnotatedObj(phylogeneticTree);
 			annotation.setRecordType(RecordType.PhylogeneticTree);
@@ -184,20 +184,20 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 			phylogeneticTree.getAnnotations().add(annotation);
 			phylogeneticTree.getLeaves().clear();
 		}
-		
+
 		addTaxonLinks(node,phylogeneticTree);
 		boolean hasBranchLengths = addBranchLengths(node);
-		
+
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
-		
+
 		phylogeneticTree.setNumberOfExternalNodes(new Long(phylogeny.getNumberOfExternalNodes()));
 		phylogeneticTree.setHasBranchLengths(hasBranchLengths);
-		
+
 		if(phylogeneticTree.getTitle() == null || phylogeneticTree.getTitle().isEmpty()) {
-		    phylogeneticTree.setTitle(phylogeny.getName());
+			phylogeneticTree.setTitle(phylogeny.getName());
 		}
 		if(phylogeneticTree.getDescription() == null || phylogeneticTree.getDescription().isEmpty()) {
-		    phylogeneticTree.setDescription(phylogeny.getDescription());
+			phylogeneticTree.setDescription(phylogeny.getDescription());
 		}
 		if(phylogenyTitle != null && !phylogenyTitle.isEmpty()) {
 			phylogeneticTree.setTitle(phylogenyTitle);
@@ -219,28 +219,28 @@ public class PhylogeneticTreeTransformingTasklet extends AbstractRecordAnnotator
 		}
 		if(rootTaxonIdentifier != null && !rootTaxonIdentifier.isEmpty()) {
 			if(rootTaxonIdentifier.indexOf(",") == -1) {
-			    Taxon rootTaxon = taxonService.find(rootTaxonIdentifier);
-			    if(rootTaxon != null) {
-				    phylogeneticTree.getTaxa().add(rootTaxon);
-			    }
+				Taxon rootTaxon = taxonService.find(rootTaxonIdentifier);
+				if(rootTaxon != null) {
+					phylogeneticTree.getTaxa().add(rootTaxon);
+				}
 			} else {
 				for(String identifier : rootTaxonIdentifier.split(",")) {
 					Taxon rootTaxon = taxonService.find(identifier);
-				    if(rootTaxon != null) {
-					    phylogeneticTree.getTaxa().add(rootTaxon);
-				    }
+					if(rootTaxon != null) {
+						phylogeneticTree.getTaxa().add(rootTaxon);
+					}
 				}
 			}
-			
+
 		}
-		
+
 		phylogeneticTree.setPhylogeny(stringBuffer.toString().replaceAll("\n", ""));
 		phylogeneticTreeService.saveOrUpdate(phylogeneticTree);
 		solrIndexingListener.indexObject(phylogeneticTree);
-        logger.info(stringBuffer.toString());
+		logger.info(stringBuffer.toString());
 		return RepeatStatus.FINISHED;
 	}
-	
+
 	private boolean addBranchLengths(PhylogenyNode node) {
 		boolean hasBranchLengths = true;
 		if(node.isRoot() || node.getDistanceToParent() != PhylogenyDataUtil.BRANCH_LENGTH_DEFAULT) {

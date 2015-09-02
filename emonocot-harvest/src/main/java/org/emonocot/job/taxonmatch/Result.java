@@ -26,124 +26,124 @@ import org.emonocot.model.Taxon;
  *
  */
 public class Result {
-    /**
-     *
-     */
-    private Taxon originalTaxon;
+	/**
+	 *
+	 */
+	private Taxon originalTaxon;
 
-    /**
-     *
-     */
-    private String name;
+	/**
+	 *
+	 */
+	private String name;
 
-    /**
-     *
-     */
-    private TaxonMatchStatus status;
-    
-    /**
-     * 
-     */
-    private int matchCount;
+	/**
+	 *
+	 */
+	private TaxonMatchStatus status;
 
-    /**
-     *
-     */
-    private Taxon internalTaxon;
+	/**
+	 *
+	 */
+	private int matchCount;
 
-    /**
-     *
-     */
-    private Collection<Taxon> partialMatches;
+	/**
+	 *
+	 */
+	private Taxon internalTaxon;
 
-    /**
-     * @return the originalIdentifier
-     */
-    public final Taxon getExternal() {
-        return originalTaxon;
-    }
+	/**
+	 *
+	 */
+	private Collection<Taxon> partialMatches;
 
-    /**
-     *
-     * @param newTaxonDTO Set the original internalTaxonDto
-     */
-    public final void setExternal(final Taxon newTaxonDto) {
-        this.originalTaxon = newTaxonDto;
-    }
+	/**
+	 * @return the originalIdentifier
+	 */
+	public final Taxon getExternal() {
+		return originalTaxon;
+	}
 
-    /**
-     * @return the name
-     */
-    public final String getName() {
-        return name;
-    }
+	/**
+	 *
+	 * @param newTaxonDTO Set the original internalTaxonDto
+	 */
+	public final void setExternal(final Taxon newTaxonDto) {
+		this.originalTaxon = newTaxonDto;
+	}
 
-    /**
-     *
-     * @param newName Set the name
-     */
-    public final void setName(final String newName) {
-        this.name = newName;
-    }
+	/**
+	 * @return the name
+	 */
+	public final String getName() {
+		return name;
+	}
 
-    /**
-     * @return the status
-     */
-    public final TaxonMatchStatus getStatus() {
-        return status;
-    }
+	/**
+	 *
+	 * @param newName Set the name
+	 */
+	public final void setName(final String newName) {
+		this.name = newName;
+	}
 
-    /**
-     *
-     * @param newStatus Set the status
-     */
-    public final void setStatus(final TaxonMatchStatus newStatus) {
-        this.status = newStatus;
-    }
+	/**
+	 * @return the status
+	 */
+	public final TaxonMatchStatus getStatus() {
+		return status;
+	}
 
-    /**
-     * @return the matchCount
-     */
-    public final int getMatchCount() {
-        return matchCount;
-    }
+	/**
+	 *
+	 * @param newStatus Set the status
+	 */
+	public final void setStatus(final TaxonMatchStatus newStatus) {
+		this.status = newStatus;
+	}
 
-    /**
-     * @param matchCount the matchCount to set
-     */
-    public final void setMatchCount(int matchCount) {
-        this.matchCount = matchCount;
-    }
+	/**
+	 * @return the matchCount
+	 */
+	public final int getMatchCount() {
+		return matchCount;
+	}
 
-    /**
-     * @return the internalTaxonDto
-     */
-    public final Taxon getInternal() {
-        return internalTaxon;
-    }
+	/**
+	 * @param matchCount the matchCount to set
+	 */
+	public final void setMatchCount(int matchCount) {
+		this.matchCount = matchCount;
+	}
 
-    /**
-     *
-     * @param newTaxonDto Set the matching internalTaxonDto
-     */
-    public final void setInternal(final Taxon newInternalTaxon) {
-        this.internalTaxon = newInternalTaxon;
-    }
+	/**
+	 * @return the internalTaxonDto
+	 */
+	public final Taxon getInternal() {
+		return internalTaxon;
+	}
 
-    /**
-     * @return the partialMatches
-     */
-    public final Collection<Taxon> getPartialMatches() {
-        return partialMatches;
-    }
+	/**
+	 *
+	 * @param newTaxonDto Set the matching internalTaxonDto
+	 */
+	public final void setInternal(final Taxon newInternalTaxon) {
+		this.internalTaxon = newInternalTaxon;
+	}
 
-    /**
-     *
-     * @param newPartialMatches Set the partial matched records
-     */
-    public final void setPartialMatches(
-            final Collection<Taxon> newPartialMatches) {
-        this.partialMatches = newPartialMatches;
-    }
+	/**
+	 * @return the partialMatches
+	 */
+	public final Collection<Taxon> getPartialMatches() {
+		return partialMatches;
+	}
+
+	/**
+	 *
+	 * @param newPartialMatches Set the partial matched records
+	 */
+	public final void setPartialMatches(
+			final Collection<Taxon> newPartialMatches) {
+		this.partialMatches = newPartialMatches;
+	}
 
 }

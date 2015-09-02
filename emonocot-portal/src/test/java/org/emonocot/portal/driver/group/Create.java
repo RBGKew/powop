@@ -30,39 +30,39 @@ import org.openqa.selenium.support.How;
  */
 public class Create extends PageObject {
 
-   /**
-    *
-    */
-    @FindBy(how = How.ID, using = "group")
-    private WebElement createGroupForm;
+	/**
+	 *
+	 */
+	@FindBy(how = How.ID, using = "group")
+	private WebElement createGroupForm;
 
-    /**
-     *
-     */
-    private String groupName = null;
+	/**
+	 *
+	 */
+	private String groupName = null;
 
-    /**
-     *
-     * @param identifier Set the identifier
-     */
-    public final void setGroupName(final String identifier) {
-        this.groupName = identifier;
-        createGroupForm.findElement(By.name("name")).sendKeys(identifier);
-    }
+	/**
+	 *
+	 * @param identifier Set the identifier
+	 */
+	public final void setGroupName(final String identifier) {
+		this.groupName = identifier;
+		createGroupForm.findElement(By.name("name")).sendKeys(identifier);
+	}
 
-    /**
-    *
-    * @return the current page
-    */
-   public final PageObject submit() {
-       createGroupForm.submit();
-       if (groupName != null) {
-           Group group = new Group();
-           group.setIdentifier(groupName);
-           testDataManager.registerObject(group);
-           this.groupName = null;
-       }
-       return getPage(Show.class);
-   }
+	/**
+	 *
+	 * @return the current page
+	 */
+	public final PageObject submit() {
+		createGroupForm.submit();
+		if (groupName != null) {
+			Group group = new Group();
+			group.setIdentifier(groupName);
+			testDataManager.registerObject(group);
+			this.groupName = null;
+		}
+		return getPage(Show.class);
+	}
 
 }

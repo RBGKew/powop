@@ -24,24 +24,24 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  */
 public class Source {
-    /**
-     *
-     */
-   @XStreamAsAttribute
-   private String href;
+	/**
+	 *
+	 */
+	@XStreamAsAttribute
+	private String href;
 
-    /**
-     * @return the href
-     */
-    public final String getHref() {
-        return href;
-    }
+	/**
+	 * @return the href
+	 */
+	public final String getHref() {
+		return href;
+	}
 
-    /**
-     * @param newHref the href to set
-     */
-    public final void setHref(final String newHref) {
-        this.href = newHref;
-    }
+	/**
+	 * @param newHref the href to set
+	 */
+	public final void setHref(final String newHref) {
+		this.href = newHref;
+	}
 
 }

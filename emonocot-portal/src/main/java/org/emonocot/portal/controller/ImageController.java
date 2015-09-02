@@ -36,45 +36,45 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/image")
 public class ImageController extends GenericController<Image, ImageService> {
-	
+
 	private static Logger queryLog = LoggerFactory.getLogger("query");
 
-    /**
-     *
-     * @param imageService
-     *            Set the image service
-     */
-    @Autowired
-    public final void setImageService(final ImageService imageService) {
-        super.setService(imageService);
-    }
+	/**
+	 *
+	 * @param imageService
+	 *            Set the image service
+	 */
+	@Autowired
+	public final void setImageService(final ImageService imageService) {
+		super.setService(imageService);
+	}
 
-    /**
-     *
-     */
-    public ImageController() {
-       super("image", Image.class);
-    }
+	/**
+	 *
+	 */
+	public ImageController() {
+		super("image", Image.class);
+	}
 
-    /**
-     * @param identifier
-     *            Set the identifier of the image
-     * @param model Set the model
-     * @return the name of the view
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
-    public final String show(@PathVariable final Long id, final Model model) {
-        Image image = getService().load(id,"image-page");
-        model.addAttribute(image);
-        queryLog.info("Image: \'{}\'", new Object[] {id});
-        return "image/show";
-    }
-    
-    /**
-     * Many users visit a taxon page and then navigate to the document above, then bounce
-     */
-    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
-    public String list(Model model) {
-    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.Image";
-    }
+	/**
+	 * @param identifier
+	 *            Set the identifier of the image
+	 * @param model Set the model
+	 * @return the name of the view
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
+	public final String show(@PathVariable final Long id, final Model model) {
+		Image image = getService().load(id,"image-page");
+		model.addAttribute(image);
+		queryLog.info("Image: \'{}\'", new Object[] {id});
+		return "image/show";
+	}
+
+	/**
+	 * Many users visit a taxon page and then navigate to the document above, then bounce
+	 */
+	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+	public String list(Model model) {
+		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.Image";
+	}
 }

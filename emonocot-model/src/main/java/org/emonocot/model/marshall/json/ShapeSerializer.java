@@ -38,7 +38,7 @@ public class ShapeSerializer extends JsonSerializer<Geometry> {
 	public void serialize(Geometry value, JsonGenerator jgen,
 			SerializerProvider provider) throws IOException,
 			JsonProcessingException {
-		
+
 		WKTWriter shapeWriter = new WKTWriter();
 		String wkt = shapeWriter.write(value);
 		jgen.writeString(wkt);

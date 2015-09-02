@@ -38,127 +38,127 @@ import org.springframework.batch.core.ChunkListener;
  *
  */
 public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements
-        ChunkListener {
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
+ChunkListener {
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
 
-    /**
-     *
-     */
-    protected Map<String, T> boundObjects = new HashMap<String, T>();
+	/**
+	 *
+	 */
+	protected Map<String, T> boundObjects = new HashMap<String, T>();
 
-    /**
-     *
-     */
-    protected SERVICE service;
+	/**
+	 *
+	 */
+	protected SERVICE service;
 
-    /**
-     * @param t an object
-     * @throws Exception if something goes wrong
-     * @return T an object
-     */
-    public final T doProcess(final T t)
-            throws Exception {
-        logger.info("Validating " + t.getIdentifier());
-        
-        if(doFilter(t)) {
-        	return null;
-        }
-        
-        Taxon taxon = null;
-        if(!((NonOwned)t).getTaxa().isEmpty()) {
-        	taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
-        	
-        	((NonOwned)t).getTaxa().clear();
-        	((NonOwned)t).getTaxa().add(taxon);
-        	super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
-        }
-        
-        //TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
-        T bound = lookupBound(t);
-        if (bound == null) {
-        	T persisted = null;
-        	if(t.getIdentifier() != null) {
-                persisted = retrieveBound(t);
-            } else {
-            	t.setIdentifier(UUID.randomUUID().toString());
-            }
-        	
-            if (persisted == null) {
-                doPersist(t);
-                validate(t);
-                bind(t);
-                t.setAuthority(getSource());                
-                Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
-                t.getAnnotations().add(annotation);
-                logger.info("Adding object " + t.getIdentifier());
-                return t;
-            } else {
-            	checkAuthority(getRecordType(), t, persisted.getAuthority());
-                // We've seen this object before, but not in this chunk            	
-                if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null)
-                    && !persisted.getModified().isBefore(t.getModified()))) {
-                    // Assume the object hasn't changed, but maybe this taxon
-                    // should be associated with it
-                	replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
-                	if(taxon != null) {
-                        if (((NonOwned)persisted).getTaxa().contains(taxon)) {
-                            // do nothing                        
-                        } else {
-                            // Add the taxon to the list of taxa
-                    	    bind(persisted);
-                            logger.info("Updating object " + t.getIdentifier());
-                            ((NonOwned)persisted).getTaxa().add(taxon);
-                        }
-                	}
-                    return persisted;
-                } else {
-                    // Assume that this is the first of several times this object
-                    // appears in the result set, and we'll use this version to
-                    // overwrite the existing object
-                	
-                	persisted.setAccessRights(t.getAccessRights());
-                    persisted.setCreated(t.getCreated());
-                    persisted.setLicense(t.getLicense());
-                    persisted.setModified(t.getModified());
-                    persisted.setRights(t.getRights());
-                    persisted.setRightsHolder(t.getRightsHolder());
-                    doUpdate(persisted, t);
-                    
-                    ((NonOwned)persisted).getTaxa().clear();
-                    if(taxon != null) {
-                        ((NonOwned)persisted).getTaxa().add(taxon);
-                    }
-                    validate(t);
-                    
-                    bind(persisted);
-                    replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-                    logger.info("Overwriting object " + t.getIdentifier());
-                    return persisted;
-                }
-            }
-        } else {
-            // We've already seen this object within this chunk and we'll
-            // update it with this taxon but that's it, assuming that it
-            // isn't a more up to date version
-        	if(taxon != null) {
-                if (((NonOwned)bound).getTaxa().contains(taxon)) {
-                    // do nothing
-                } else {
-                    // Add the taxon to the list of taxa
-                
-            	    ((NonOwned)bound).getTaxa().add(taxon);
-                }
-        	}
-            // We've already returned this object once
-            logger.info("Skipping object " + t.getIdentifier());
-            return null;
-        }
-    }
+	/**
+	 * @param t an object
+	 * @throws Exception if something goes wrong
+	 * @return T an object
+	 */
+	public final T doProcess(final T t)
+			throws Exception {
+		logger.info("Validating " + t.getIdentifier());
 
-    protected abstract boolean doFilter(T t);
+		if(doFilter(t)) {
+			return null;
+		}
+
+		Taxon taxon = null;
+		if(!((NonOwned)t).getTaxa().isEmpty()) {
+			taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
+
+			((NonOwned)t).getTaxa().clear();
+			((NonOwned)t).getTaxa().add(taxon);
+			super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
+		}
+
+		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
+		T bound = lookupBound(t);
+		if (bound == null) {
+			T persisted = null;
+			if(t.getIdentifier() != null) {
+				persisted = retrieveBound(t);
+			} else {
+				t.setIdentifier(UUID.randomUUID().toString());
+			}
+
+			if (persisted == null) {
+				doPersist(t);
+				validate(t);
+				bind(t);
+				t.setAuthority(getSource());
+				Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
+				t.getAnnotations().add(annotation);
+				logger.info("Adding object " + t.getIdentifier());
+				return t;
+			} else {
+				checkAuthority(getRecordType(), t, persisted.getAuthority());
+				// We've seen this object before, but not in this chunk
+				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null)
+						&& !persisted.getModified().isBefore(t.getModified()))) {
+					// Assume the object hasn't changed, but maybe this taxon
+					// should be associated with it
+					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
+					if(taxon != null) {
+						if (((NonOwned)persisted).getTaxa().contains(taxon)) {
+							// do nothing
+						} else {
+							// Add the taxon to the list of taxa
+							bind(persisted);
+							logger.info("Updating object " + t.getIdentifier());
+							((NonOwned)persisted).getTaxa().add(taxon);
+						}
+					}
+					return persisted;
+				} else {
+					// Assume that this is the first of several times this object
+					// appears in the result set, and we'll use this version to
+					// overwrite the existing object
+
+					persisted.setAccessRights(t.getAccessRights());
+					persisted.setCreated(t.getCreated());
+					persisted.setLicense(t.getLicense());
+					persisted.setModified(t.getModified());
+					persisted.setRights(t.getRights());
+					persisted.setRightsHolder(t.getRightsHolder());
+					doUpdate(persisted, t);
+
+					((NonOwned)persisted).getTaxa().clear();
+					if(taxon != null) {
+						((NonOwned)persisted).getTaxa().add(taxon);
+					}
+					validate(t);
+
+					bind(persisted);
+					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
+					logger.info("Overwriting object " + t.getIdentifier());
+					return persisted;
+				}
+			}
+		} else {
+			// We've already seen this object within this chunk and we'll
+			// update it with this taxon but that's it, assuming that it
+			// isn't a more up to date version
+			if(taxon != null) {
+				if (((NonOwned)bound).getTaxa().contains(taxon)) {
+					// do nothing
+				} else {
+					// Add the taxon to the list of taxa
+
+					((NonOwned)bound).getTaxa().add(taxon);
+				}
+			}
+			// We've already returned this object once
+			logger.info("Skipping object " + t.getIdentifier());
+			return null;
+		}
+	}
+
+	protected abstract boolean doFilter(T t);
 
 	protected abstract void doUpdate(T persisted, T t);
 
@@ -171,17 +171,17 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected abstract T retrieveBound(T t);
 
 	protected abstract T lookupBound(T t);
-	
+
 	protected abstract void doValidate(T t) throws Exception;
 
 	public void afterChunk() {
 		super.afterChunk();
-        logger.info("After Chunk");
-    }
+		logger.info("After Chunk");
+	}
 
-    public void beforeChunk() {
-    	super.beforeChunk();
-        logger.info("Before Chunk");
-        boundObjects = new HashMap<String, T>();
-    }
+	public void beforeChunk() {
+		super.beforeChunk();
+		logger.info("Before Chunk");
+		boundObjects = new HashMap<String, T>();
+	}
 }

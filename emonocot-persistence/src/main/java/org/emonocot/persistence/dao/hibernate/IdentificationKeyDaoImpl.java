@@ -30,33 +30,33 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class IdentificationKeyDaoImpl extends
-        DaoImpl<IdentificationKey> implements IdentificationKeyDao {
+DaoImpl<IdentificationKey> implements IdentificationKeyDao {
 
-    /**
-     *
-     */
-    private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-    static {
-        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("object-page", new Fetch[] {
-                new Fetch("taxa", FetchMode.SELECT),
-                new Fetch("comments", FetchMode.SELECT),
-                new Fetch("authority", FetchMode.JOIN)});
-        FETCH_PROFILES.put("front-cover", new Fetch[] {
-                new Fetch("taxa", FetchMode.SELECT)});
-    }
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-page", new Fetch[] {
+				new Fetch("taxa", FetchMode.SELECT),
+				new Fetch("comments", FetchMode.SELECT),
+				new Fetch("authority", FetchMode.JOIN)});
+		FETCH_PROFILES.put("front-cover", new Fetch[] {
+				new Fetch("taxa", FetchMode.SELECT)});
+	}
 
-    /**
-     *
-     */
-    public IdentificationKeyDaoImpl() {
-        super(IdentificationKey.class);
-    }
+	/**
+	 *
+	 */
+	public IdentificationKeyDaoImpl() {
+		super(IdentificationKey.class);
+	}
 
-    @Override
-    public final Fetch[] getProfile(final String profile) {
-        return FETCH_PROFILES.get(profile);
-    }
+	@Override
+	public final Fetch[] getProfile(final String profile) {
+		return FETCH_PROFILES.get(profile);
+	}
 
 }

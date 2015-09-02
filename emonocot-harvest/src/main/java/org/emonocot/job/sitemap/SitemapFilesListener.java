@@ -40,7 +40,7 @@ import org.springframework.core.io.Resource;
  *
  */
 public class SitemapFilesListener implements StepExecutionListener, ChunkListener {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(SitemapFilesListener.class);
 
 	/**
@@ -54,11 +54,11 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 	private static int MAX_URL_COUNT = 9000;
 
 	private StepExecution currentStep;
-	
+
 	private List<Url> sitemapNames = new ArrayList<Url>();
-	
+
 	private String portalBaseUrl;
-	
+
 	private String sitemapSpoolDir;
 
 	private StaxEventItemWriter staxWriter;
@@ -90,7 +90,7 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 	public void setPortalBaseUrl(String portalBaseUrl) {
 		this.portalBaseUrl = portalBaseUrl;
 	}
-	
+
 	public void setSitemapDir(String sitemapDir) {
 		this.sitemapDir = sitemapDir;
 	}
@@ -128,7 +128,7 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 		}
 		fileCount = 0;
 		currentFile = new FileSystemResource(sitemapSpoolDir + "/"+ currentStep.getStepName()  + fileCount + ".xml");
-		
+
 		//Set here because it can change at the end of a chunk
 		staxWriter.setResource((Resource) currentFile);
 	}
@@ -147,7 +147,7 @@ public class SitemapFilesListener implements StepExecutionListener, ChunkListene
 		} catch (MalformedURLException e) {
 			logger.error("Unable create Url for sitemap", e);
 		}
-		
+
 		//reset counts to nulls to support beforeStep()
 		currentStep = null;
 		currentFile = null;

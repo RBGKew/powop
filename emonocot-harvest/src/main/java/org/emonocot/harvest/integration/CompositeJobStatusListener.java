@@ -23,7 +23,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 
 public class CompositeJobStatusListener implements JobExecutionListener {
-	
+
 	private List<JobExecutionListener> jobListeners = new ArrayList<JobExecutionListener>();
 
 	public void setJobListeners(List<JobExecutionListener> jobListeners) {

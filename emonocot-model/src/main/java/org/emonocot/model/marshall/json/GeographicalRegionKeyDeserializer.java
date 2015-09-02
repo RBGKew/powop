@@ -27,29 +27,29 @@ import org.emonocot.model.convert.StringToLocationConverter;
  *
  */
 public class GeographicalRegionKeyDeserializer extends StdKeyDeserializer {
-    /**
-     *
-     */
-    private StringToLocationConverter converter = new StringToLocationConverter();
+	/**
+	 *
+	 */
+	private StringToLocationConverter converter = new StringToLocationConverter();
 
-    /**
-     *
-     */
-    public GeographicalRegionKeyDeserializer() {
-        super(Location.class);
-    }
+	/**
+	 *
+	 */
+	public GeographicalRegionKeyDeserializer() {
+		super(Location.class);
+	}
 
-    /**
-     * @param key the map key as a string
-     * @param deserializationContext the deserialization context
-     * @return the deserialized object
-     * @throws Exception if there is an issue
-     */
-    @Override
-    protected final Object _parse(final String key,
-            final DeserializationContext deserializationContext)
-            throws Exception {
-        return converter.convert(key);
+	/**
+	 * @param key the map key as a string
+	 * @param deserializationContext the deserialization context
+	 * @return the deserialized object
+	 * @throws Exception if there is an issue
+	 */
+	@Override
+	protected final Object _parse(final String key,
+			final DeserializationContext deserializationContext)
+					throws Exception {
+		return converter.convert(key);
 
-    }
+	}
 }

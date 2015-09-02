@@ -32,30 +32,30 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PlaceDaoImpl extends DaoImpl<Place> implements PlaceDao {
 
-    /**
-     *
-     */
-    private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-    static {
-        FETCH_PROFILES = new HashMap<String, Fetch[]>();
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
 
-    }
+	}
 
-    /**
-     *
-     */
-    public PlaceDaoImpl() {
-        super(Place.class);
-    }
+	/**
+	 *
+	 */
+	public PlaceDaoImpl() {
+		super(Place.class);
+	}
 
-    /**
-     * @param profile
-     *            Set the profile name
-     * @return an array of related objects to fetch
-     */
-    @Override
-    protected final Fetch[] getProfile(final String profile) {
-        return new Fetch[]{};
-    }
+	/**
+	 * @param profile
+	 *            Set the profile name
+	 * @return an array of related objects to fetch
+	 */
+	@Override
+	protected final Fetch[] getProfile(final String profile) {
+		return new Fetch[]{};
+	}
 }

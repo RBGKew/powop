@@ -29,23 +29,23 @@ import org.emonocot.model.IdentificationKey;
  */
 public class IdentificationKeyDeserializer extends BaseDeserializer<IdentificationKey> {
 
-    /**
-     *
-     */
-    public IdentificationKeyDeserializer() {
-        super(IdentificationKey.class);
-    }
+	/**
+	 *
+	 */
+	public IdentificationKeyDeserializer() {
+		super(IdentificationKey.class);
+	}
 
-    @Override
-    public final IdentificationKey deserialize(final JsonParser jsonParser,
-            final DeserializationContext deserializationContext)
-            throws IOException {
-        String identifier = jsonParser.getText();
-        if (service != null) {
-            return service.load(identifier);
-        } else {
-        	return null;
-        }
-    }
+	@Override
+	public final IdentificationKey deserialize(final JsonParser jsonParser,
+			final DeserializationContext deserializationContext)
+					throws IOException {
+		String identifier = jsonParser.getText();
+		if (service != null) {
+			return service.load(identifier);
+		} else {
+			return null;
+		}
+	}
 
 }

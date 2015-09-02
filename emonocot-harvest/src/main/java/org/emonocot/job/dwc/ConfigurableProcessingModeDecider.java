@@ -27,12 +27,12 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
  *
  */
 public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
-	
-	private String processingModeKey = null;
-	
-	private String defaultProcessingMode = null;	
 
-    /**
+	private String processingModeKey = null;
+
+	private String defaultProcessingMode = null;
+
+	/**
 	 * @param processingModeKey the processingModeKey to set
 	 */
 	public void setProcessingModeKey(String processingModeKey) {
@@ -47,19 +47,19 @@ public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
 	}
 
 	/**
-     * @param jobExecution set the job execution
-     * @param stepExecution set the step execution
-     * @return FlowExecutionStatus a status
-     */
-    public final FlowExecutionStatus decide(final JobExecution jobExecution,
-            final StepExecution stepExecution) {
-        if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
-            return new FlowExecutionStatus(jobExecution.getExecutionContext().getString(processingModeKey));
-        } else if(jobExecution.getJobInstance().getJobParameters().getParameters().containsKey(processingModeKey)) {
-        	return new FlowExecutionStatus(jobExecution.getJobInstance().getJobParameters().getString(processingModeKey));
-        }else {
-            return new FlowExecutionStatus(defaultProcessingMode);
-        }
-    }
+	 * @param jobExecution set the job execution
+	 * @param stepExecution set the step execution
+	 * @return FlowExecutionStatus a status
+	 */
+	public final FlowExecutionStatus decide(final JobExecution jobExecution,
+			final StepExecution stepExecution) {
+		if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
+			return new FlowExecutionStatus(jobExecution.getExecutionContext().getString(processingModeKey));
+		} else if(jobExecution.getJobInstance().getJobParameters().getParameters().containsKey(processingModeKey)) {
+			return new FlowExecutionStatus(jobExecution.getJobInstance().getJobParameters().getString(processingModeKey));
+		}else {
+			return new FlowExecutionStatus(defaultProcessingMode);
+		}
+	}
 
 }

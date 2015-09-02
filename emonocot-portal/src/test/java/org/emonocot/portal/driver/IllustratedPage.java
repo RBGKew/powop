@@ -23,23 +23,23 @@ package org.emonocot.portal.driver;
  */
 public interface IllustratedPage {
 
-    /**
-     *
-     * @param property TODO
-     * @return the main image caption
-     */
-    String getMainImageProperty(String property);
+	/**
+	 *
+	 * @param property TODO
+	 * @return the main image caption
+	 */
+	String getMainImageProperty(String property);
 
-    /**
-     *
-     * @return the main image url
-     */
-    String getMainImage();
+	/**
+	 *
+	 * @return the main image url
+	 */
+	String getMainImage();
 
-    /**
-     *
-     * @return the number of thumbnails
-     */
-    int getThumbnails();
+	/**
+	 *
+	 * @return the number of thumbnails
+	 */
+	int getThumbnails();
 
 }

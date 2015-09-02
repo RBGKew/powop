@@ -23,11 +23,11 @@ package org.emonocot.api.job;
  */
 public interface JobStatusNotifier {
 
-    /**
-     *
-     * @param jobExecutionInfo Set the job execution information
-     */
-    void notify(JobExecutionInfo jobExecutionInfo);
+	/**
+	 *
+	 * @param jobExecutionInfo Set the job execution information
+	 */
+	void notify(JobExecutionInfo jobExecutionInfo);
 
 	void notify(JobExecutionException jobExecutionException, String resourceIdentifier);
 

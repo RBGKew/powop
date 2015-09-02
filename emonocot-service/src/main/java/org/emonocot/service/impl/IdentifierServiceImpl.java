@@ -24,10 +24,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IdentifierServiceImpl extends
-		ServiceImpl<Identifier, IdentifierDao> implements IdentifierService {
+ServiceImpl<Identifier, IdentifierDao> implements IdentifierService {
 
 	@Autowired
-    public final void setIdentifierDao(final IdentifierDao newIdentifierDao) {
-        super.dao = newIdentifierDao;
-    }
+	public final void setIdentifierDao(final IdentifierDao newIdentifierDao) {
+		super.dao = newIdentifierDao;
+	}
 }

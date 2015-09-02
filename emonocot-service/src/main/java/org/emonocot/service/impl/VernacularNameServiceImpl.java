@@ -24,12 +24,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VernacularNameServiceImpl extends
-		ServiceImpl<VernacularName, VernacularNameDao> implements
-		VernacularNameService {
-	
+ServiceImpl<VernacularName, VernacularNameDao> implements
+VernacularNameService {
+
 	@Autowired
-    public final void setVernacularNameDao(final VernacularNameDao vernacularNameDao) {
-        super.dao = vernacularNameDao;
-    }
+	public final void setVernacularNameDao(final VernacularNameDao vernacularNameDao) {
+		super.dao = vernacularNameDao;
+	}
 
 }

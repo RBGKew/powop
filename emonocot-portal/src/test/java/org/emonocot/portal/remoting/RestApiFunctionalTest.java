@@ -87,309 +87,309 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/applicationContext-functionalTest.xml")
 public class RestApiFunctionalTest {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RestApiFunctionalTest.class);
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
 
-    @Autowired
-    private TaxonDao taxonDao;
+	@Autowired
+	private TaxonDao taxonDao;
 
-    @Autowired
-    private ImageDao imageDao;
+	@Autowired
+	private ImageDao imageDao;
 
-    @Autowired
-    private GroupDao groupDao;
+	@Autowired
+	private GroupDao groupDao;
 
-    @Autowired
-    private ReferenceDao referenceDao;
+	@Autowired
+	private ReferenceDao referenceDao;
 
-    @Autowired
-    private UserDao userDao;
+	@Autowired
+	private UserDao userDao;
 
-    @Autowired
-    private JobExecutionDao jobExecutionDao;
+	@Autowired
+	private JobExecutionDao jobExecutionDao;
 
-    @Autowired
-    private JobInstanceDao jobInstanceDao;
-    
-    @Autowired
-    private AnnotationDao annotationDao;
+	@Autowired
+	private JobInstanceDao jobInstanceDao;
 
-    @Autowired
-    private OrganisationDao organisationDao;
-    
-    @Autowired
-    private ResourceDao resourceDao;
-    
-    @Autowired
-    private CommentDao commentDao;
+	@Autowired
+	private AnnotationDao annotationDao;
 
-    @Autowired
-    private GroupService groupService;
-   
-    private String password;
+	@Autowired
+	private OrganisationDao organisationDao;
 
-    private String username;
-    
-    private String taxonBaseUri;
+	@Autowired
+	private ResourceDao resourceDao;
 
-    /**
-     *
-     * @throws IOException
-     *             if there is a problem reading the properties file
-     */
-    public RestApiFunctionalTest() throws IOException {
-        Resource propertiesFile = new ClassPathResource(
-                "META-INF/spring/application.properties");
-        Properties properties = new Properties();
-        properties.load(propertiesFile.getInputStream());
-        username = properties.getProperty("functional.test.username", null);
-        password = properties.getProperty("functional.test.password", null);
-        taxonBaseUri = properties.getProperty("taxonDaoImpl.baseUri", "http://localhost:8080/taxon");
-    }
+	@Autowired
+	private CommentDao commentDao;
 
-    /**
-     *
-     */
-    @Before
-    public final void setUp() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        securityContext.setAuthentication(new TestAuthentication(user));	
-    }
+	@Autowired
+	private GroupService groupService;
 
-    /**
-     *
-     */
-    @After
-    public final void tearDown() {
-        SecurityContextHolder.clearContext();
-    }
+	private String password;
 
-    /**
-     * @throws IOException 
-     * @throws JsonMappingException 
-     * @throws JsonGenerationException 
-   *
-   */
-    @Test
-    public final void testImage() throws JsonGenerationException, JsonMappingException, IOException {
-    	Taxon taxon = new Taxon();
-        taxon.setScientificName("Acorus");
-        taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
-        taxonDao.save(taxon);       
-        
-        Image image = new Image();
-        image.setTitle("Acorus");        
-        image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
-        image.getTaxa().add(taxon);
-        image = imageDao.save(image);            
+	private String username;
 
-        imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
-        
-        taxonDao.delete("urn:kew.org:wcs:taxon:2295");
-    }
+	private String taxonBaseUri;
 
-    /**
-     *
-     */
-    @Test
-    public final void testTaxon() {
-        Image image = new Image();
-        image.setTitle("Acorus");
-        image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
-        imageDao.save(image);
+	/**
+	 *
+	 * @throws IOException
+	 *             if there is a problem reading the properties file
+	 */
+	public RestApiFunctionalTest() throws IOException {
+		Resource propertiesFile = new ClassPathResource(
+				"META-INF/spring/application.properties");
+		Properties properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
+		username = properties.getProperty("functional.test.username", null);
+		password = properties.getProperty("functional.test.password", null);
+		taxonBaseUri = properties.getProperty("taxonDaoImpl.baseUri", "http://localhost:8080/taxon");
+	}
 
-        Reference reference = new Reference();
-        reference.setIdentifier("referenceIdentifier");
-        referenceDao.save(reference);
+	/**
+	 *
+	 */
+	@Before
+	public final void setUp() {
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		securityContext.setAuthentication(new TestAuthentication(user));
+	}
 
-        Taxon taxon = new Taxon();
-        taxon.setScientificName("Acorus");
-        taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
-        Description description = new Description();
-        description.setIdentifier(UUID.randomUUID().toString());
-        description.setDescription("Lorem ipsum");
-        description.setType(DescriptionType.habitat);
-        description.getReferences().add(reference);
-        description.setTaxon(taxon);
-        taxon.getReferences().add(reference);
-        taxon.getDescriptions().add(description);
-        Distribution distribution = new Distribution();
-        distribution.setIdentifier(UUID.randomUUID().toString());
-        distribution.setTaxon(taxon);
-        distribution.setLocation(Location.REU);
-        taxon.getDistribution().add(distribution);
-        taxon.getImages().add(image);
-        taxonDao.save(taxon);
+	/**
+	 *
+	 */
+	@After
+	public final void tearDown() {
+		SecurityContextHolder.clearContext();
+	}
 
-        taxonDao.delete("urn:kew.org:wcs:taxon:2295");
-        referenceDao.delete("referenceIdentifier");
-        imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
-    }
+	/**
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonGenerationException
+	 *
+	 */
+	@Test
+	public final void testImage() throws JsonGenerationException, JsonMappingException, IOException {
+		Taxon taxon = new Taxon();
+		taxon.setScientificName("Acorus");
+		taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+		taxonDao.save(taxon);
 
-    /**
-    *
-    */
-    @Test
-    public final void testUser() {
-        Group group = new Group();
-        group.setIdentifier("PalmWeb");
-        groupDao.save(group);
+		Image image = new Image();
+		image.setTitle("Acorus");
+		image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
+		image.getTaxa().add(taxon);
+		image = imageDao.save(image);
 
-        User user = new User();
-        user.setAccountName("Test");
-        user.setIdentifier("test@example.com");
-        user.setPassword("test1234");
-        user.getGroups().add(group);
-        userDao.save(user);
+		imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
 
-        userDao.delete("test@example.com");
-        groupDao.delete("PalmWeb");
-    }
+		taxonDao.delete("urn:kew.org:wcs:taxon:2295");
+	}
 
-    /**
-    *
-    */
-    @Test
-    public final void testJobExecution() {
-        Map<String, JobParameter> jobParametersMap = new HashMap<String, JobParameter>();
-        jobParametersMap.put("authority.name", new JobParameter("test"));
-        JobInstance jobInstance = new JobInstance(1L, new JobParameters(
-                jobParametersMap), "testJob");
-        jobInstance.setVersion(1);
-        jobInstanceDao.save(jobInstance);
+	/**
+	 *
+	 */
+	@Test
+	public final void testTaxon() {
+		Image image = new Image();
+		image.setTitle("Acorus");
+		image.setIdentifier("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
+		imageDao.save(image);
 
-        JobExecution jobExecution = new JobExecution(jobInstance, 1L);
-        jobExecution.setCreateTime(new Date());
-        jobExecutionDao.save(jobExecution);
+		Reference reference = new Reference();
+		reference.setIdentifier("referenceIdentifier");
+		referenceDao.save(reference);
 
-        jobExecutionDao.delete(1L);
-        jobInstanceDao.delete(1L);
-    }
+		Taxon taxon = new Taxon();
+		taxon.setScientificName("Acorus");
+		taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+		Description description = new Description();
+		description.setIdentifier(UUID.randomUUID().toString());
+		description.setDescription("Lorem ipsum");
+		description.setType(DescriptionType.habitat);
+		description.getReferences().add(reference);
+		description.setTaxon(taxon);
+		taxon.getReferences().add(reference);
+		taxon.getDescriptions().add(description);
+		Distribution distribution = new Distribution();
+		distribution.setIdentifier(UUID.randomUUID().toString());
+		distribution.setTaxon(taxon);
+		distribution.setLocation(Location.REU);
+		taxon.getDistribution().add(distribution);
+		taxon.getImages().add(image);
+		taxonDao.save(taxon);
 
-    /**
-    *
-    */
-    @Test
-    public final void testAnnotation() {
-        Annotation annotation = new Annotation();
-        annotation.setCode(AnnotationCode.BadField);
-        annotation.setDateTime(new DateTime());
-        annotation.setJobId(1L);
-        annotation.setRecordType(RecordType.Taxon);
-        annotation.setType(AnnotationType.Error);
-        annotation.setValue("test");
+		taxonDao.delete("urn:kew.org:wcs:taxon:2295");
+		referenceDao.delete("referenceIdentifier");
+		imageDao.delete("http://upload.wikimedia.org/wikipedia/commons/2/25/Illustration_Acorus_calamus0.jpg");
+	}
 
-        annotationDao.save(annotation);
-        annotationDao.delete(annotation.getIdentifier());
-    }
+	/**
+	 *
+	 */
+	@Test
+	public final void testUser() {
+		Group group = new Group();
+		group.setIdentifier("PalmWeb");
+		groupDao.save(group);
 
-    /**
-    *
-    */
-    @Test
-    public final void testAce() {
-        Group group = new Group();
-        group.setIdentifier("PalmWeb");
-        Organisation source = new Organisation();
-        source.setIdentifier("testSource");
-        source.setTitle("Palm Web");
-        source.setCommentsEmailedTo("admin@example.com");
+		User user = new User();
+		user.setAccountName("Test");
+		user.setIdentifier("test@example.com");
+		user.setPassword("test1234");
+		user.getGroups().add(group);
+		userDao.save(user);
 
-        groupDao.save(group);
-        organisationDao.save(source);
-        groupService.addPermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
+		userDao.delete("test@example.com");
+		groupDao.delete("PalmWeb");
+	}
 
-        groupService.deletePermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
-        organisationDao.delete("testSource");
-        groupDao.delete("PalmWeb");
-    }
-    
-    /**
-     * 
-     */
-    @Test
-    public final void testComment() {
-        Taxon taxon = new Taxon();
-        taxon.setScientificName("Acorus");
-        taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
-        taxonDao.save(taxon);
-        
-        Comment comment = new Comment();
-        comment.setIdentifier("urn:emonocot.org:test:comment:1");
-        comment.setComment("Lorem ipsum dolor");
-        comment.setAboutData(taxon);
-        commentDao.save(comment);
-        commentDao.delete(comment.getIdentifier());
-        taxonDao.delete(taxon.getIdentifier());
-    }
-    
-    @Test
-    public void testList() {
-    	
-    	List<Image> images = imageDao.list(null, null, null);
-    	for(Image image : images) {    		
-    		imageDao.delete(image.getIdentifier());
-    	}
-    	
-    	List<Taxon> taxa = taxonDao.list(null, null, null);
-    	for(Taxon taxon : taxa) {    		
-    		taxonDao.delete(taxon.getIdentifier());
-    	}
-    	
-    	List<Group> groups = groupDao.list(null, null, null);
-    	for(Group group : groups) {    		
-    		if(!group.getIdentifier().equals("administrators")) {
-    		    groupDao.delete(group.getIdentifier());
-    		}
-    	}
-    	
-    	List<Reference> references = referenceDao.list(null, null, null);
-    	for(Reference reference : references) {    		
-    		referenceDao.delete(reference.getIdentifier());
-    	}   
-    	
-    	List<User> users = userDao.list(null, null, null);
-    	for(User user : users) {
-    		if(!user.getIdentifier().equals("test@e-monocot.org")) {
-    		    userDao.delete(user.getIdentifier());
-    		}
-    	}
-    	
-    	List<JobExecution> jobExecutions = jobExecutionDao.getJobExecutions(null, null, null);
-    	for(JobExecution jobExecution : jobExecutions) {    		
-    		jobExecutionDao.delete(jobExecution.getId());
-    	}
-    	
-    	List<JobInstance> jobInstances = jobInstanceDao.list(null, null);
-    	for(JobInstance jobInstance : jobInstances) {
-    		jobInstanceDao.delete(jobInstance.getId());
-    	}
-    	
-    	List<org.emonocot.model.registry.Resource> resources = resourceDao.list((Integer)null, null, null);
-    	for(org.emonocot.model.registry.Resource resource : resources) {
-    		resourceDao.delete(resource.getIdentifier());
-    	}
-    	
-    	
-    	List<Organisation> organisations = organisationDao.list(null, null, null);
-    	for(Organisation organisation : organisations) {    		
-    		organisationDao.delete(organisation.getIdentifier());
-    	}
-    	
-    	List<Annotation> annotations = annotationDao.list(null, null, null);
-    	for(Annotation annotation : annotations) {
-    		annotationDao.delete(annotation.getIdentifier());
-    	}
-    	
-    	List<Comment> comments = commentDao.list(null, null, null);
-    	for(Comment comment: comments) {
-    		commentDao.delete(comment.getIdentifier());
-    	}
-    }
+	/**
+	 *
+	 */
+	@Test
+	public final void testJobExecution() {
+		Map<String, JobParameter> jobParametersMap = new HashMap<String, JobParameter>();
+		jobParametersMap.put("authority.name", new JobParameter("test"));
+		JobInstance jobInstance = new JobInstance(1L, new JobParameters(
+				jobParametersMap), "testJob");
+		jobInstance.setVersion(1);
+		jobInstanceDao.save(jobInstance);
+
+		JobExecution jobExecution = new JobExecution(jobInstance, 1L);
+		jobExecution.setCreateTime(new Date());
+		jobExecutionDao.save(jobExecution);
+
+		jobExecutionDao.delete(1L);
+		jobInstanceDao.delete(1L);
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public final void testAnnotation() {
+		Annotation annotation = new Annotation();
+		annotation.setCode(AnnotationCode.BadField);
+		annotation.setDateTime(new DateTime());
+		annotation.setJobId(1L);
+		annotation.setRecordType(RecordType.Taxon);
+		annotation.setType(AnnotationType.Error);
+		annotation.setValue("test");
+
+		annotationDao.save(annotation);
+		annotationDao.delete(annotation.getIdentifier());
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public final void testAce() {
+		Group group = new Group();
+		group.setIdentifier("PalmWeb");
+		Organisation source = new Organisation();
+		source.setIdentifier("testSource");
+		source.setTitle("Palm Web");
+		source.setCommentsEmailedTo("admin@example.com");
+
+		groupDao.save(group);
+		organisationDao.save(source);
+		groupService.addPermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
+
+		groupService.deletePermission(source, "PalmWeb", BasePermission.READ, Organisation.class);
+		organisationDao.delete("testSource");
+		groupDao.delete("PalmWeb");
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public final void testComment() {
+		Taxon taxon = new Taxon();
+		taxon.setScientificName("Acorus");
+		taxon.setIdentifier("urn:kew.org:wcs:taxon:2295");
+		taxonDao.save(taxon);
+
+		Comment comment = new Comment();
+		comment.setIdentifier("urn:emonocot.org:test:comment:1");
+		comment.setComment("Lorem ipsum dolor");
+		comment.setAboutData(taxon);
+		commentDao.save(comment);
+		commentDao.delete(comment.getIdentifier());
+		taxonDao.delete(taxon.getIdentifier());
+	}
+
+	@Test
+	public void testList() {
+
+		List<Image> images = imageDao.list(null, null, null);
+		for(Image image : images) {
+			imageDao.delete(image.getIdentifier());
+		}
+
+		List<Taxon> taxa = taxonDao.list(null, null, null);
+		for(Taxon taxon : taxa) {
+			taxonDao.delete(taxon.getIdentifier());
+		}
+
+		List<Group> groups = groupDao.list(null, null, null);
+		for(Group group : groups) {
+			if(!group.getIdentifier().equals("administrators")) {
+				groupDao.delete(group.getIdentifier());
+			}
+		}
+
+		List<Reference> references = referenceDao.list(null, null, null);
+		for(Reference reference : references) {
+			referenceDao.delete(reference.getIdentifier());
+		}
+
+		List<User> users = userDao.list(null, null, null);
+		for(User user : users) {
+			if(!user.getIdentifier().equals("test@e-monocot.org")) {
+				userDao.delete(user.getIdentifier());
+			}
+		}
+
+		List<JobExecution> jobExecutions = jobExecutionDao.getJobExecutions(null, null, null);
+		for(JobExecution jobExecution : jobExecutions) {
+			jobExecutionDao.delete(jobExecution.getId());
+		}
+
+		List<JobInstance> jobInstances = jobInstanceDao.list(null, null);
+		for(JobInstance jobInstance : jobInstances) {
+			jobInstanceDao.delete(jobInstance.getId());
+		}
+
+		List<org.emonocot.model.registry.Resource> resources = resourceDao.list((Integer)null, null, null);
+		for(org.emonocot.model.registry.Resource resource : resources) {
+			resourceDao.delete(resource.getIdentifier());
+		}
+
+
+		List<Organisation> organisations = organisationDao.list(null, null, null);
+		for(Organisation organisation : organisations) {
+			organisationDao.delete(organisation.getIdentifier());
+		}
+
+		List<Annotation> annotations = annotationDao.list(null, null, null);
+		for(Annotation annotation : annotations) {
+			annotationDao.delete(annotation.getIdentifier());
+		}
+
+		List<Comment> comments = commentDao.list(null, null, null);
+		for(Comment comment: comments) {
+			commentDao.delete(comment.getIdentifier());
+		}
+	}
 }

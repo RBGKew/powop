@@ -27,20 +27,20 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DescriptionDaoImpl extends DaoImpl<Description> implements
-		DescriptionDao {
-	
-  /**
-   *
-   */
-   private static Map<String, Fetch[]> FETCH_PROFILES;
+DescriptionDao {
 
-   static {
-       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
-    		new Fetch("taxon", FetchMode.JOIN),
-       		new Fetch("annotations", FetchMode.SELECT),
-       		new Fetch("references", FetchMode.SELECT)});
-   }
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
+
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
+				new Fetch("taxon", FetchMode.JOIN),
+				new Fetch("annotations", FetchMode.SELECT),
+				new Fetch("references", FetchMode.SELECT)});
+	}
 
 	public DescriptionDaoImpl() {
 		super(Description.class);

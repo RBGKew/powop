@@ -30,30 +30,30 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class SearchableObjectDaoImpl extends
-        SearchableDaoImpl<SearchableObject> implements SearchableObjectDao {
+SearchableDaoImpl<SearchableObject> implements SearchableObjectDao {
 
-    /**
-     *
-     */
-    private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-    static {
-        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("taxon-with-image", new Fetch[] {
-                new Fetch("image", FetchMode.SELECT),
-                new Fetch("acceptedNameUsage", FetchMode.SELECT),
-                new Fetch("taxon", FetchMode.SELECT)});
-    }
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("taxon-with-image", new Fetch[] {
+				new Fetch("image", FetchMode.SELECT),
+				new Fetch("acceptedNameUsage", FetchMode.SELECT),
+				new Fetch("taxon", FetchMode.SELECT)});
+	}
 
-    /**
-     *
-     */
-    public SearchableObjectDaoImpl() {
-        super(SearchableObject.class);
-    }
+	/**
+	 *
+	 */
+	public SearchableObjectDaoImpl() {
+		super(SearchableObject.class);
+	}
 
-    @Override
-    protected final Fetch[] getProfile(final String profile) {
-        return SearchableObjectDaoImpl.FETCH_PROFILES.get(profile);
-    }
+	@Override
+	protected final Fetch[] getProfile(final String profile) {
+		return SearchableObjectDaoImpl.FETCH_PROFILES.get(profile);
+	}
 }

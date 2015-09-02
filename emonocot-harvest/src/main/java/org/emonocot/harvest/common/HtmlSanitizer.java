@@ -28,23 +28,23 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 public class HtmlSanitizer {
-    
-    private Logger logger = LoggerFactory.getLogger(HtmlSanitizer.class);
-	
+
+	private Logger logger = LoggerFactory.getLogger(HtmlSanitizer.class);
+
 	private Resource policyFile = new ClassPathResource("/META-INF/antisamy-policy.xml");
-	
+
 	private Policy policy = null;
-	
+
 	private AntiSamy antiSamy = new AntiSamy();
-	
+
 	public void setPolicyFile(Resource policyFile) {
 		this.policyFile = policyFile;
 	}
-	
+
 	public void afterPropertiesSet() throws Exception {
 		policy = Policy.getInstance(policyFile.getInputStream());
 	}
-	
+
 	public String sanitize(String unclean) {
 		if (unclean == null || unclean.isEmpty()) {
 			return unclean;

@@ -42,15 +42,15 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 public class PrintMapWriter implements ItemWriter<BaseData> {
-	
+
 	private MapPrinter mapPrinter;
-	
+
 	private Resource config;
-	
+
 	private FileSystemResource outputDirectory;
-    
-    private ObjectMapper objectMapper;
-    
+
+	private ObjectMapper objectMapper;
+
 	public void setMapPrinter(MapPrinter mapPrinter) {
 		this.mapPrinter = mapPrinter;
 	}
@@ -76,7 +76,7 @@ public class PrintMapWriter implements ItemWriter<BaseData> {
 				Place place = (Place)item;
 				MapSpec mapSpec = new MapSpec();
 				mapSpec.setDpi(300);
-				
+
 				TMSLayer tmsLayer = new TMSLayer();
 				tmsLayer.setLayer("eMonocot");
 				tmsLayer.setBaseURL("http://e-monocot.org/tiles/");
@@ -100,26 +100,26 @@ public class PrintMapWriter implements ItemWriter<BaseData> {
 
 				MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS);
 				GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
-			    
-			    
-			    Point bottomLeft = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMinY(),place.getEnvelope().getMinX())), transform);
+
+
+				Point bottomLeft = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMinY(),place.getEnvelope().getMinX())), transform);
 				Point topRight = (Point)JTS.transform( geometryFactory.createPoint(new Coordinate(place.getEnvelope().getMaxY(),place.getEnvelope().getMaxX())), transform);
-				
+
 				page.setBbox(new double[] {bottomLeft.getCoordinate().x,bottomLeft.getCoordinate().y, topRight.getCoordinate().x,topRight.getCoordinate().y});
-				
+
 				mapSpec.getPages().add(page);
-				
+
 				String json = objectMapper.writeValueAsString(mapSpec);
 				mapPrinter.setYamlConfigFile(config.getFile());
 				PJsonObject jsonSpec = MapPrinter.parseSpec(json);
 				File outputFile = new File(outputDirectory.getFile(),place.getId() + ".png");
 				mapPrinter.print(jsonSpec, new FileOutputStream(outputFile), referer);
-				
+
 			} else if(item instanceof Taxon) {
-				
+
 			}
 		}
-		
+
 	}
 
 }

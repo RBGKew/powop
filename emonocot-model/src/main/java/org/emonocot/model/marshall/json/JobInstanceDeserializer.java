@@ -37,27 +37,27 @@ import org.springframework.batch.core.JobParameters;
  */
 public class JobInstanceDeserializer extends JsonDeserializer<JobInstance> {
 
-    @Override
-    public final JobInstance deserialize(final JsonParser jsonParser,
-            final DeserializationContext deserializationContext)
-            throws IOException {
-        JsonToken jsonToken = jsonParser.nextToken();
-        assert jsonParser.getCurrentName() == "id";
-        jsonParser.nextToken();
-        long jobId = jsonParser.getLongValue();
-        jsonParser.nextToken();
-        assert jsonParser.getCurrentName() == "jobName";
-        jsonParser.nextToken();
-        String jobName = jsonParser.getText();
-        jsonParser.nextToken();
-        assert jsonParser.getCurrentName() == "version";
-        jsonParser.nextToken();
-        Integer version = jsonParser.getValueAsInt();
-        jsonParser.nextToken();
-        assert jsonParser.getCurrentName() == "parameters";
-        jsonToken = jsonParser.nextToken();
-        assert jsonToken == JsonToken.START_ARRAY;
-        Map<String, JobParameter> jobParameterMap = new HashMap<String, JobParameter>();
+	@Override
+	public final JobInstance deserialize(final JsonParser jsonParser,
+			final DeserializationContext deserializationContext)
+					throws IOException {
+		JsonToken jsonToken = jsonParser.nextToken();
+		assert jsonParser.getCurrentName() == "id";
+		jsonParser.nextToken();
+		long jobId = jsonParser.getLongValue();
+		jsonParser.nextToken();
+		assert jsonParser.getCurrentName() == "jobName";
+		jsonParser.nextToken();
+		String jobName = jsonParser.getText();
+		jsonParser.nextToken();
+		assert jsonParser.getCurrentName() == "version";
+		jsonParser.nextToken();
+		Integer version = jsonParser.getValueAsInt();
+		jsonParser.nextToken();
+		assert jsonParser.getCurrentName() == "parameters";
+		jsonToken = jsonParser.nextToken();
+		assert jsonToken == JsonToken.START_ARRAY;
+		Map<String, JobParameter> jobParameterMap = new HashMap<String, JobParameter>();
 		while (jsonToken != JsonToken.END_ARRAY) {
 			jsonToken = jsonParser.nextToken();
 			if (jsonToken == JsonToken.END_ARRAY) {
@@ -101,10 +101,10 @@ public class JobInstanceDeserializer extends JsonDeserializer<JobInstance> {
 			}
 		}
 
-        JobParameters jobParameters = new JobParameters(jobParameterMap);
-        JobInstance jobInstance = new JobInstance(jobId, jobParameters, jobName);
-        jobInstance.setVersion(version);
-        return jobInstance;
-    }
+		JobParameters jobParameters = new JobParameters(jobParameterMap);
+		JobInstance jobInstance = new JobInstance(jobId, jobParameters, jobName);
+		jobInstance.setVersion(version);
+		return jobInstance;
+	}
 
 }

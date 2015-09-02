@@ -17,9 +17,9 @@
 package org.emonocot.job.map;
 
 public class TMSLayer extends Layer {
-	
+
 	private String layer = "";
-	
+
 	public TMSLayer() {
 		super.setType("TMS");
 	}

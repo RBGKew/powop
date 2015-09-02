@@ -20,13 +20,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 public class TechnicalMetadata {
-	
+
 	@XStreamAsAttribute
 	private String created;
-	
+
 	@XStreamAlias("Generator")
 	private Generator generator;
-	
+
 	@XStreamAlias("TechnicalContact")
 	private TechnicalContact technicalContact;
 

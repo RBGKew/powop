@@ -19,13 +19,13 @@ package org.emonocot.api.job;
 import java.util.Map;
 
 public class JobLaunchRequest {
-	
+
 	private String job;
-	
+
 	private Map<String,String> parameters;
-	
+
 	private JobExecutionInfo execution;
-	
+
 	private JobExecutionException exception;
 
 	public String getJob() {
@@ -71,5 +71,5 @@ public class JobLaunchRequest {
 	public void setException(JobExecutionException exception) {
 		this.exception = exception;
 	}
-	
+
 }

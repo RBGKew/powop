@@ -22,9 +22,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class IdentifierDaoImpl extends DaoImpl<Identifier> implements
-		IdentifierDao {
+IdentifierDao {
 
 	public IdentifierDaoImpl() {
-		super(Identifier.class, "identifier");	
+		super(Identifier.class, "identifier");
 	}
 }

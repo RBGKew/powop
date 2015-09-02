@@ -25,11 +25,11 @@ import org.emonocot.model.PhylogeneticTree;
  */
 public class PhylogeneticTreeDeserializer extends BaseDeserializer<PhylogeneticTree> {
 
-    /**
-     *
-     */
-    public PhylogeneticTreeDeserializer() {
-        super(PhylogeneticTree.class);
-    }
+	/**
+	 *
+	 */
+	public PhylogeneticTreeDeserializer() {
+		super(PhylogeneticTree.class);
+	}
 
 }

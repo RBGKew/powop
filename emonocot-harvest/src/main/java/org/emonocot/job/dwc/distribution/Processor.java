@@ -42,101 +42,101 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class Processor extends OwnedEntityProcessor<Distribution, DistributionService> {
-	
+
 	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
-		
+
 	private ReferenceService referenceService;
-	
+
 	@Autowired
 	public void setDistributionService(DistributionService service) {
 		super.service = service;
 	}
-	
-    @Autowired
-    public void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
-    }
-    
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
- 
-    @Override
-    protected void doValidate(Distribution t) {
-    	if (t.getLocation() == null) {
-            throw new RequiredFieldException("Distribution " + t + " at line " + getLineNumber() + " has no location set", RecordType.Distribution, getStepExecution().getReadCount());
-        } 
-    }
 
-    @Override
-    protected void doUpdate(Distribution persisted, Distribution t) {
-    	persisted.setEstablishmentMeans(t.getEstablishmentMeans());
-    	persisted.setLocality(t.getLocality());
-    	persisted.setLocation(t.getLocation());
-    	persisted.setOccurrenceRemarks(t.getOccurrenceRemarks());
-    	persisted.setOccurrenceStatus(t.getOccurrenceStatus());
-        
-    	persisted.getReferences().clear();
-        for(Reference r : t.getReferences()) {
-            resolveReference(persisted,r.getIdentifier());
-        }
-    }
+	@Autowired
+	public void setReferenceService(ReferenceService referenceService) {
+		this.referenceService = referenceService;
+	}
 
-    @Override
-    protected RecordType getRecordType() {
-	    return RecordType.Distribution;
-    }
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
+
+	@Override
+	protected void doValidate(Distribution t) {
+		if (t.getLocation() == null) {
+			throw new RequiredFieldException("Distribution " + t + " at line " + getLineNumber() + " has no location set", RecordType.Distribution, getStepExecution().getReadCount());
+		}
+	}
+
+	@Override
+	protected void doUpdate(Distribution persisted, Distribution t) {
+		persisted.setEstablishmentMeans(t.getEstablishmentMeans());
+		persisted.setLocality(t.getLocality());
+		persisted.setLocation(t.getLocation());
+		persisted.setOccurrenceRemarks(t.getOccurrenceRemarks());
+		persisted.setOccurrenceStatus(t.getOccurrenceStatus());
+
+		persisted.getReferences().clear();
+		for(Reference r : t.getReferences()) {
+			resolveReference(persisted,r.getIdentifier());
+		}
+	}
+
+	@Override
+	protected RecordType getRecordType() {
+		return RecordType.Distribution;
+	}
 
 	@Override
 	protected void doCreate(Distribution t) {
 		Set<Reference> references = new HashSet<Reference>();
-    	references.addAll(t.getReferences());
-    	t.getReferences().clear();
-    	
-        for(Reference r : references) {
-            resolveReference(t,r.getIdentifier());
-        }	
-	}
-	
-	 /**
-    *
-    * @param object
-    *            Set the text content object
-    * @param value
-    *            the source of the reference to resolve
-    */
-   private void resolveReference(Distribution object, String value) {
-       if (value == null || value.trim().length() == 0) {
-           // there is not citation identifier
-           return;
-       } else {
-           if (boundReferences.containsKey(value)) {
-               object.getReferences().add(boundReferences.get(value));
-           } else {
-               Reference r = referenceService.find(value);
-               if (r == null) {
-                   r = new Reference();
-                   r.setIdentifier(value);
-                   Annotation annotation = super.createAnnotation(r,
-                           RecordType.Reference, AnnotationCode.Create,
-                           AnnotationType.Info);
-                   r.getAnnotations().add(annotation);
-                   r.setAuthority(getSource());
-               }
-               boundReferences.put(value, r);
-               object.getReferences().add(r);
-           }
-       }
-   }
-   
-   @Override
-   public void afterChunk() {
-	   super.afterChunk();
-       logger.info("After Chunk");
-   }
+		references.addAll(t.getReferences());
+		t.getReferences().clear();
 
-   @Override
-   public void beforeChunk() {
-	   super.beforeChunk();
-       logger.info("Before Chunk");
-       boundReferences = new HashMap<String, Reference>();
-   }
+		for(Reference r : references) {
+			resolveReference(t,r.getIdentifier());
+		}
+	}
+
+	/**
+	 *
+	 * @param object
+	 *            Set the text content object
+	 * @param value
+	 *            the source of the reference to resolve
+	 */
+	private void resolveReference(Distribution object, String value) {
+		if (value == null || value.trim().length() == 0) {
+			// there is not citation identifier
+			return;
+		} else {
+			if (boundReferences.containsKey(value)) {
+				object.getReferences().add(boundReferences.get(value));
+			} else {
+				Reference r = referenceService.find(value);
+				if (r == null) {
+					r = new Reference();
+					r.setIdentifier(value);
+					Annotation annotation = super.createAnnotation(r,
+							RecordType.Reference, AnnotationCode.Create,
+							AnnotationType.Info);
+					r.getAnnotations().add(annotation);
+					r.setAuthority(getSource());
+				}
+				boundReferences.put(value, r);
+				object.getReferences().add(r);
+			}
+		}
+	}
+
+	@Override
+	public void afterChunk() {
+		super.afterChunk();
+		logger.info("After Chunk");
+	}
+
+	@Override
+	public void beforeChunk() {
+		super.beforeChunk();
+		logger.info("Before Chunk");
+		boundReferences = new HashMap<String, Reference>();
+	}
 }

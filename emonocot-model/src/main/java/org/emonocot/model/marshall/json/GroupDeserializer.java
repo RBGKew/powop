@@ -23,11 +23,11 @@ import org.emonocot.model.auth.Group;
  */
 public class GroupDeserializer extends BaseDeserializer<Group> {
 
-    /**
-     *
-     */
-    public GroupDeserializer() {
-        super(Group.class);
-    }
+	/**
+	 *
+	 */
+	public GroupDeserializer() {
+		super(Group.class);
+	}
 
 }

@@ -35,91 +35,91 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AuthorityAware implements StepExecutionListener {
 
-    /**
-     *
-     */
-    private StepExecution stepExecution;
-    /**
-        *
-        */
-    private OrganisationService organisationService;
-    /**
-       *
-       */
-    private Organisation source;
-    /**
-       *
-       */
-    private String sourceName;
+	/**
+	 *
+	 */
+	private StepExecution stepExecution;
+	/**
+	 *
+	 */
+	private OrganisationService organisationService;
+	/**
+	 *
+	 */
+	private Organisation source;
+	/**
+	 *
+	 */
+	private String sourceName;
 
-    /**
-       *
-       * @param newSourceName Set the name of the Source
-       */
-    public final void setSourceName(final String newSourceName) {
-         this.sourceName = newSourceName;
-       }
+	/**
+	 *
+	 * @param newSourceName Set the name of the Source
+	 */
+	public final void setSourceName(final String newSourceName) {
+		this.sourceName = newSourceName;
+	}
 
-    /**
-        *
-        * @return the Source
-        */
-    public final Organisation getSource() {
-           if (source == null) {
-               source = organisationService.load(sourceName);
-           }
-           return source;
-       }
+	/**
+	 *
+	 * @return the Source
+	 */
+	public final Organisation getSource() {
+		if (source == null) {
+			source = organisationService.load(sourceName);
+		}
+		return source;
+	}
 
-    /**
-       *
-       * @param newOrganisationService Set the source service
-       */
-    @Autowired
-    public final void setOrganisationService(final OrganisationService newOrganisationService) {
-          this.organisationService = newOrganisationService;
-      }
+	/**
+	 *
+	 * @param newOrganisationService Set the source service
+	 */
+	@Autowired
+	public final void setOrganisationService(final OrganisationService newOrganisationService) {
+		this.organisationService = newOrganisationService;
+	}
 
-    /**
-     * @param newStepExecution Set the step exectuion
-     */
-    public void beforeStep(final StepExecution newStepExecution) {
-        this.stepExecution = newStepExecution;
-    }
+	/**
+	 * @param newStepExecution Set the step exectuion
+	 */
+	public void beforeStep(final StepExecution newStepExecution) {
+		this.stepExecution = newStepExecution;
+	}
 
-    /**
-     * @param newStepExecution Set the step execution
-     * @return the exit status
-     */
-    public ExitStatus afterStep(final StepExecution newStepExecution) {
-        return null;
-    }
+	/**
+	 * @param newStepExecution Set the step execution
+	 * @return the exit status
+	 */
+	public ExitStatus afterStep(final StepExecution newStepExecution) {
+		return null;
+	}
 
-    /**
-     * @return the step execution
-     */
-    public final StepExecution getStepExecution() {
-        return stepExecution;
-    }
+	/**
+	 * @return the step execution
+	 */
+	public final StepExecution getStepExecution() {
+		return stepExecution;
+	}
 
-    /**
-    *
-    * @param object The type of object
-    * @param recordType The record type
-    * @param code the code of the annotation
-    * @param annotationType the type of annotation
-    * @return an annotation
-    */
-    protected final Annotation createAnnotation(final Base object,
-            final RecordType recordType, final AnnotationCode code,
-            final AnnotationType annotationType) {
-       Annotation annotation = new Annotation();
-       annotation.setAnnotatedObj(object);
-       annotation.setType(annotationType);
-       annotation.setJobId(getStepExecution().getJobExecutionId());
-       annotation.setCode(code);
-       annotation.setRecordType(recordType);
-       annotation.setAuthority(getSource());
-       return annotation;
-   }
+	/**
+	 *
+	 * @param object The type of object
+	 * @param recordType The record type
+	 * @param code the code of the annotation
+	 * @param annotationType the type of annotation
+	 * @return an annotation
+	 */
+	protected final Annotation createAnnotation(final Base object,
+			final RecordType recordType, final AnnotationCode code,
+			final AnnotationType annotationType) {
+		Annotation annotation = new Annotation();
+		annotation.setAnnotatedObj(object);
+		annotation.setType(annotationType);
+		annotation.setJobId(getStepExecution().getJobExecutionId());
+		annotation.setCode(code);
+		annotation.setRecordType(recordType);
+		annotation.setAuthority(getSource());
+		return annotation;
+	}
 }

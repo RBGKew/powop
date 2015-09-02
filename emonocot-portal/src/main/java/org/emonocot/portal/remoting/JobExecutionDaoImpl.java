@@ -43,104 +43,104 @@ import org.springframework.web.client.RestTemplate;
 @Repository
 public class JobExecutionDaoImpl implements JobExecutionDao {
 
-    /**
-     * Logger.
-     */
-    private static Logger logger = LoggerFactory
-            .getLogger(JobExecutionDaoImpl.class);
-    
-    protected static HttpHeaders httpHeaders = new HttpHeaders();
+	/**
+	 * Logger.
+	 */
+	private static Logger logger = LoggerFactory
+			.getLogger(JobExecutionDaoImpl.class);
 
-    static {
-        List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
-        acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(acceptableMediaTypes);
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-    }
+	protected static HttpHeaders httpHeaders = new HttpHeaders();
 
-    /**
-    *
-    */
-    private String baseUri;
+	static {
+		List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+		acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
+		httpHeaders.setAccept(acceptableMediaTypes);
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	}
 
-    /**
-    *
-    */
-    private String resourceDir = "jobExecution";
+	/**
+	 *
+	 */
+	 private String baseUri;
 
-    /**
-     *
-     */
-    private RestTemplate restTemplate;
+	 /**
+	  *
+	  */
+	 private String resourceDir = "jobExecution";
 
-    /**
-     *
-     */
-    @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+	 /**
+	  *
+	  */
+	 private RestTemplate restTemplate;
 
-    /**
-     *
-     * @param newBaseUri
-     *            Set the base uri
-     */
-    public final void setBaseUri(final String newBaseUri) {
-        this.baseUri = newBaseUri;
-    }
+	 /**
+	  *
+	  */
+	 @Autowired
+	 public void setRestTemplate(RestTemplate restTemplate) {
+		 this.restTemplate = restTemplate;
+	 }
 
-    public List<JobExecution> getJobExecutions(String authority, Integer size, Integer page) {
-    	HttpEntity<JobExecution> requestEntity = new HttpEntity<JobExecution>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("authority", "");
-    	} else {
-    		uriVariables.put("authority", authority);
-    	}
-    	
-    	ParameterizedTypeReference<List<JobExecution>> typeRef = new ParameterizedTypeReference<List<JobExecution>>() {};
-        HttpEntity<List<JobExecution>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}&authority={authority}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();
-    }
+	 /**
+	  *
+	  * @param newBaseUri
+	  *            Set the base uri
+	  */
+	 public final void setBaseUri(final String newBaseUri) {
+		 this.baseUri = newBaseUri;
+	 }
+
+	 public List<JobExecution> getJobExecutions(String authority, Integer size, Integer page) {
+		 HttpEntity<JobExecution> requestEntity = new HttpEntity<JobExecution>(httpHeaders);
+		 Map<String,Object> uriVariables = new HashMap<String,Object>();
+		 uriVariables.put("resource", resourceDir);
+		 if(size == null) {
+			 uriVariables.put("limit", "");
+		 } else {
+			 uriVariables.put("limit", size);
+		 }
+
+		 if(page == null) {
+			 uriVariables.put("start", "");
+		 } else {
+			 uriVariables.put("start", page);
+		 }
+
+		 if(page == null) {
+			 uriVariables.put("authority", "");
+		 } else {
+			 uriVariables.put("authority", authority);
+		 }
+
+		 ParameterizedTypeReference<List<JobExecution>> typeRef = new ParameterizedTypeReference<List<JobExecution>>() {};
+		 HttpEntity<List<JobExecution>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}&authority={authority}", HttpMethod.GET,
+				 requestEntity, typeRef,uriVariables);
+		 return responseEntity.getBody();
+	 }
 
 
-    /**
-     * @param identifier the identifier of the job execution to load
-     * @return a job execution
-     */
-    public final JobExecution load(final Long identifier) {
-        return restTemplate.getForObject(baseUri + "/" + resourceDir + "/"
-                + identifier, JobExecution.class);
-    }
+	 /**
+	  * @param identifier the identifier of the job execution to load
+	  * @return a job execution
+	  */
+	 public final JobExecution load(final Long identifier) {
+		 return restTemplate.getForObject(baseUri + "/" + resourceDir + "/"
+				 + identifier, JobExecution.class);
+	 }
 
-    /**
-     * @param id the id of the job execution to delete
-     */
-    public final void delete(final Long id) {
-        restTemplate.delete(baseUri + "/" + resourceDir + "/" + id);
-    }
+	 /**
+	  * @param id the id of the job execution to delete
+	  */
+	 public final void delete(final Long id) {
+		 restTemplate.delete(baseUri + "/" + resourceDir + "/" + id);
+	 }
 
-    /**
-     * @param jobExecution the job execution to save
-     */
-    public final void save(final JobExecution jobExecution) {
-        logger.debug("POST: "+ "/" + baseUri + resourceDir);
-        restTemplate.postForObject(baseUri+ "/" + resourceDir, jobExecution,
-                JobExecution.class);
-    }
+	 /**
+	  * @param jobExecution the job execution to save
+	  */
+	 public final void save(final JobExecution jobExecution) {
+		 logger.debug("POST: "+ "/" + baseUri + resourceDir);
+		 restTemplate.postForObject(baseUri+ "/" + resourceDir, jobExecution,
+				 JobExecution.class);
+	 }
 }

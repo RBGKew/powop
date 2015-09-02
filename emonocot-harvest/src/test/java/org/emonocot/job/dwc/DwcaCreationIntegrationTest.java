@@ -65,31 +65,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author jk00kg
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/darwinCoreArchiveCreator.xml",
-    "/META-INF/spring/applicationContext-integration.xml",
-    "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/darwinCoreArchiveCreator.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class DwcaCreationIntegrationTest {
-	
+
 	Logger logger = LoggerFactory.getLogger(DwcaCreationIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("jobLauncher")
-    private JobLauncher jobLauncher;
+	private JobLauncher jobLauncher;
 
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Autowired SolrServer solrServer;
-    
-    @Autowired SolrIndexingListener solrIndexingListener;
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	@Autowired SolrServer solrServer;
+
+	@Autowired SolrIndexingListener solrIndexingListener;
 
 	/**
 	 * @throws java.lang.Exception
@@ -97,30 +97,30 @@ public class DwcaCreationIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		ModifiableSolrParams params = new ModifiableSolrParams();
-    	params.add("q","*:*");
-    	params.add("rows",new Integer(Integer.MAX_VALUE).toString());
-    	params.add("df","id");
-    	QueryResponse queryResponse = solrServer.query(params);
-    	SolrDocumentList solrDocumentList = queryResponse.getResults();
-    	List<String> documentsToDelete = new ArrayList<String>();
-    	for(int i = 0; i < solrDocumentList.size(); i++) {
-    		documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
-    	}
-    	if(!documentsToDelete.isEmpty()) {
-    		logger.info("Deleting " + documentsToDelete.size());
-    	    solrServer.deleteById(documentsToDelete);
-    	    solrServer.commit(true,true);
-    	}
-		
-		
-        Session session = sessionFactory.openSession();
-        
-        Transaction tx = session.beginTransaction();
+		params.add("q","*:*");
+		params.add("rows",new Integer(Integer.MAX_VALUE).toString());
+		params.add("df","id");
+		QueryResponse queryResponse = solrServer.query(params);
+		SolrDocumentList solrDocumentList = queryResponse.getResults();
+		List<String> documentsToDelete = new ArrayList<String>();
+		for(int i = 0; i < solrDocumentList.size(); i++) {
+			documentsToDelete.add(solrDocumentList.get(i).getFirstValue("id").toString());
+		}
+		if(!documentsToDelete.isEmpty()) {
+			logger.info("Deleting " + documentsToDelete.size());
+			solrServer.deleteById(documentsToDelete);
+			solrServer.commit(true,true);
+		}
 
-        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        solrIndexingListener.indexObjects(taxa);
-        logger.info("Indexing " + taxa.size());
-        tx.commit();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+		solrIndexingListener.indexObjects(taxa);
+		logger.info("Indexing " + taxa.size());
+		tx.commit();
 	}
 
 	/**
@@ -147,37 +147,37 @@ public class DwcaCreationIntegrationTest {
 		parameters.put("download.file",new JobParameter(UUID.randomUUID().toString()));
 		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
 		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
-		
+
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
 		assertNotNull("archiveCreatorJob must exist", archiveCreatorJob);
 		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-		        jobParameters);
-		
+				jobParameters);
+
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 		File workingDirectory = new File("target/output");
 		File outputFile = new File(workingDirectory,jobParameters.getParameters()
 				.get("download.file").getValue().toString() + ".zip");
-        ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
-        assertNotNull("There should be an output file", outputFile);
+		ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
+		assertNotNull("There should be an output file", outputFile);
 		logger.info("Zip file created at " + outputFile.getAbsolutePath());
-		
-        List<ZipEntry> entries = new ArrayList<ZipEntry>();
-        ZipEntry e;
-        while((e = zipStream.getNextEntry()) != null){
-            entries.add(e);
-        }
-        assertEquals("There should be 7 files", 7, entries.size());
+
+		List<ZipEntry> entries = new ArrayList<ZipEntry>();
+		ZipEntry e;
+		while((e = zipStream.getNextEntry()) != null){
+			entries.add(e);
+		}
+		assertEquals("There should be 7 files", 7, entries.size());
 	}
-	
+
 	/**
 	 * @throws Exception
 	 */
 	@Test
 	public void testWriteAllArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		
-		
+
+
 		parameters.put("download.query", new JobParameter(""));
 		parameters.put("download.selectedFacets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
 		parameters.put("download.taxon", new JobParameter(toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon))));
@@ -189,45 +189,45 @@ public class DwcaCreationIntegrationTest {
 		parameters.put("download.limit", new JobParameter(new Integer(Integer.MAX_VALUE).toString()));
 		parameters.put("download.fieldsEnclosedBy", new JobParameter("\""));
 		parameters.put("download.fieldsTerminatedBy", new JobParameter("\t"));
-		
+
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
 		assertNotNull("archiveCreatorJob must exist", archiveCreatorJob);
 		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-		        jobParameters);
-		
+				jobParameters);
+
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 
 		File workingDirectory = new File("target/output");
 		File outputFile = new File(workingDirectory,jobParameters.getParameters()
 				.get("download.file").getValue().toString() + ".zip");
-        ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
-        assertNotNull("There should be an output file", outputFile);
-        logger.info("Zip file created at " + outputFile.getAbsolutePath());
-        
-        List<ZipEntry> entries = new ArrayList<ZipEntry>();
-        ZipEntry e;
-        while((e = zipStream.getNextEntry()) != null){
-            entries.add(e);
-        }
-        assertEquals("There should be 7 files", 7, entries.size());
+		ZipInputStream zipStream = new ZipInputStream(new FileInputStream(outputFile));
+		assertNotNull("There should be an output file", outputFile);
+		logger.info("Zip file created at " + outputFile.getAbsolutePath());
+
+		List<ZipEntry> entries = new ArrayList<ZipEntry>();
+		ZipEntry e;
+		while((e = zipStream.getNextEntry()) != null){
+			entries.add(e);
+		}
+		assertEquals("There should be 7 files", 7, entries.size());
 	}
-	
+
 	private String toParameter(Collection<Term> terms) {
-		
-		   StringBuffer stringBuffer = new StringBuffer();
-	       if (terms != null && !terms.isEmpty()) {           
-				boolean isFirst = true;
-	           for (Term term : terms) {
-					if(!isFirst) {
-	                   stringBuffer.append(",");
-					} else {
-						isFirst = false;
-					}
-					stringBuffer.append(term.qualifiedName());
-	           }
-	       }
-	       return stringBuffer.toString();
-	   }
+
+		StringBuffer stringBuffer = new StringBuffer();
+		if (terms != null && !terms.isEmpty()) {
+			boolean isFirst = true;
+			for (Term term : terms) {
+				if(!isFirst) {
+					stringBuffer.append(",");
+				} else {
+					isFirst = false;
+				}
+				stringBuffer.append(term.qualifiedName());
+			}
+		}
+		return stringBuffer.toString();
+	}
 
 }

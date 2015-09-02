@@ -32,22 +32,22 @@ import org.springframework.security.core.Authentication;
  */
 public class GroupSidRetrievalStrategyImpl extends SidRetrievalStrategyImpl {
 
-    /**
-     * @param authentication Set the authentication
-     * @return the list of sids
-     */
-    @Override
-    public final List<Sid> getSids(final Authentication authentication) {
-        List<Sid> sids = super.getSids(authentication);
+	/**
+	 * @param authentication Set the authentication
+	 * @return the list of sids
+	 */
+	@Override
+	public final List<Sid> getSids(final Authentication authentication) {
+		List<Sid> sids = super.getSids(authentication);
 
-        if (authentication.getPrincipal() != null
-                && authentication.getPrincipal() instanceof User) {
-            User user = (User) authentication.getPrincipal();
-            for (Group g : user.getGroups()) {
-                sids.add(new PrincipalSid(g.getIdentifier()));
-            }
-        }
-        return sids;
-    }
+		if (authentication.getPrincipal() != null
+				&& authentication.getPrincipal() instanceof User) {
+			User user = (User) authentication.getPrincipal();
+			for (Group g : user.getGroups()) {
+				sids.add(new PrincipalSid(g.getIdentifier()));
+			}
+		}
+		return sids;
+	}
 
 }

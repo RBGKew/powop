@@ -25,7 +25,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 public class Jackson2JsonLineMapper implements LineMapper<Map<String,Object>>{
-	
+
 	private MappingJsonFactory factory = new MappingJsonFactory();
 
 	@Override

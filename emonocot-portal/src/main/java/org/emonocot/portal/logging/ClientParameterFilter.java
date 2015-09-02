@@ -35,71 +35,71 @@ import org.springframework.http.HttpStatus;
  *
  */
 public class ClientParameterFilter implements Filter {
-    /**
-     * The name of the parameter to set in web.xml.
-     */
-    public static final String CONFIG_PARAMETER_NAME = "parameterName";
+	/**
+	 * The name of the parameter to set in web.xml.
+	 */
+	public static final String CONFIG_PARAMETER_NAME = "parameterName";
 
-    /**
-     * The default parameter.
-     */
-    public static final String DEFAULT_PARAMETER_NAME = "client";
+	/**
+	 * The default parameter.
+	 */
+	public static final String DEFAULT_PARAMETER_NAME = "client";
 
-    /**
-     *
-     */
-    private String parameterName = ClientParameterFilter.DEFAULT_PARAMETER_NAME;
+	/**
+	 *
+	 */
+	private String parameterName = ClientParameterFilter.DEFAULT_PARAMETER_NAME;
 
-    /**
-     *
-     */
-    private FilterConfig filterConfig = null;
+	/**
+	 *
+	 */
+	private FilterConfig filterConfig = null;
 
-    /**
-     *
-     */
-    public void destroy() {
-        // do nothing
-    }
+	/**
+	 *
+	 */
+	public void destroy() {
+		// do nothing
+	}
 
-    /**
-     * @param request the servlet request
-     * @param response the servlet response
-     * @param chain the filter chain
-     * @throws IOException if there is a problem
-     * @throws ServletException if there is a problem
-     */
-    public final void doFilter(final ServletRequest request,
-            final ServletResponse response, final FilterChain chain)
-            throws IOException, ServletException {
-        if (request.getParameter(parameterName) != null
-                && request.getParameter(parameterName).trim().length()>0) {
-            MDC.put(LoggingConstants.MDC_CLIENT_NAME_KEY,
-                    request.getParameter(parameterName));
-            try {
-                chain.doFilter(request, response);
-            } finally {
-                MDC.remove(LoggingConstants.MDC_CLIENT_NAME_KEY);
-            }
-        } else {
-            ((HttpServletResponse) response).sendError(
-                    HttpStatus.BAD_REQUEST.value(),
-                    "Required parameter "
-                    + parameterName + " not present in request");
-            return;
-        }
-    }
+	/**
+	 * @param request the servlet request
+	 * @param response the servlet response
+	 * @param chain the filter chain
+	 * @throws IOException if there is a problem
+	 * @throws ServletException if there is a problem
+	 */
+	public final void doFilter(final ServletRequest request,
+			final ServletResponse response, final FilterChain chain)
+					throws IOException, ServletException {
+		if (request.getParameter(parameterName) != null
+				&& request.getParameter(parameterName).trim().length()>0) {
+			MDC.put(LoggingConstants.MDC_CLIENT_NAME_KEY,
+					request.getParameter(parameterName));
+			try {
+				chain.doFilter(request, response);
+			} finally {
+				MDC.remove(LoggingConstants.MDC_CLIENT_NAME_KEY);
+			}
+		} else {
+			((HttpServletResponse) response).sendError(
+					HttpStatus.BAD_REQUEST.value(),
+					"Required parameter "
+							+ parameterName + " not present in request");
+			return;
+		}
+	}
 
-    /**
-     * @param config the filter configuration
-     * @throws ServletException if there is a problem
-     */
-    public final void init(final FilterConfig config) throws ServletException {
-        if (config.getInitParameter(
-                ClientParameterFilter.CONFIG_PARAMETER_NAME) != null) {
-            this.parameterName
-                = config.getInitParameter(
-                        ClientParameterFilter.CONFIG_PARAMETER_NAME);
-        }
-    }
+	/**
+	 * @param config the filter configuration
+	 * @throws ServletException if there is a problem
+	 */
+	public final void init(final FilterConfig config) throws ServletException {
+		if (config.getInitParameter(
+				ClientParameterFilter.CONFIG_PARAMETER_NAME) != null) {
+			this.parameterName
+			= config.getInitParameter(
+					ClientParameterFilter.CONFIG_PARAMETER_NAME);
+		}
+	}
 }

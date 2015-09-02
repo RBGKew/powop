@@ -30,21 +30,21 @@ import org.emonocot.model.Taxon;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 
 public class OneToManyWriter extends FlatFileItemWriter<Taxon> {
-    
-    private Class type;
-    
-    public void setType(Class type) {
+
+	private Class type;
+
+	public void setType(Class type) {
 		this.type = type;
 	}
 
-    @Override
-    public void write(List<? extends Taxon> taxa) throws Exception {
+	@Override
+	public void write(List<? extends Taxon> taxa) throws Exception {
 		List items = new ArrayList();
 		for(Taxon t : taxa) {
 			if(type.equals(Description.class)) {
 				addItems(items, t.getDescriptions());
 			} else if(type.equals(Distribution.class)) {
-				addItems(items, t.getDistribution());				
+				addItems(items, t.getDistribution());
 			} else if(type.equals(MeasurementOrFact.class)) {
 				addItems(items, t.getMeasurementsOrFacts());
 			} else if(type.equals(VernacularName.class)) {
@@ -53,9 +53,9 @@ public class OneToManyWriter extends FlatFileItemWriter<Taxon> {
 				addItems(items, t.getIdentifiers());
 			}
 		}
-		
-		super.write(items);	
-    }
+
+		super.write(items);
+	}
 
 	private void addItems(List items, Set<? extends BaseData> baseDatas) {
 		for(BaseData baseData : baseDatas) {

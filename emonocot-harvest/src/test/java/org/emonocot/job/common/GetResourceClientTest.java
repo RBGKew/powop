@@ -47,131 +47,131 @@ import org.xml.sax.SAXException;
  */
 public class GetResourceClientTest {
 
-    /**
-     *
-     */
-    private GetResourceClient getResourceClient = new GetResourceClient();
-    /**
-     *
-     */
-    private HttpClient httpClient = EasyMock.createMock(HttpClient.class);
-    /**
-     *
-     */
-    private BasicHttpResponse httpResponse = new BasicHttpResponse(
-            new BasicStatusLine(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "OK"));
-    /**
-     *
-     */
-    private Resource content = new ClassPathResource(
-            "/org/emonocot/job/common/dwc.zip");
+	/**
+	 *
+	 */
+	private GetResourceClient getResourceClient = new GetResourceClient();
+	/**
+	 *
+	 */
+	private HttpClient httpClient = EasyMock.createMock(HttpClient.class);
+	/**
+	 *
+	 */
+	private BasicHttpResponse httpResponse = new BasicHttpResponse(
+			new BasicStatusLine(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "OK"));
+	/**
+	 *
+	 */
+	private Resource content = new ClassPathResource(
+			"/org/emonocot/job/common/dwc.zip");
 
-    // Only a mock URL.
-    private final String testzip = "http://build.e-monocot.org/test/test.zip";
+	// Only a mock URL.
+	private final String testzip = "http://build.e-monocot.org/test/test.zip";
 
-    /**
-     *
-     * @throws IOException
-     *             if the test file cannot be found
-     */
-    @Before
-    public final void setUp() throws IOException {
-        getResourceClient.setHttpClient(httpClient);
-        httpResponse.setEntity(new FileEntity(content.getFile(),
-                "application/zip"));
-    }
+	/**
+	 *
+	 * @throws IOException
+	 *             if the test file cannot be found
+	 */
+	@Before
+	public final void setUp() throws IOException {
+		getResourceClient.setHttpClient(httpClient);
+		httpResponse.setEntity(new FileEntity(content.getFile(),
+				"application/zip"));
+	}
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created or if there is a http
-     *             protocol error.
-     * @throws SAXException
-     *             if the content retrieved is not valid xml.
-     */
-    @Test
-    public final void testGetResourceSuccessfully() throws IOException,
-            SAXException {
-        File tempFile = File.createTempFile("test", "zip");
-        tempFile.deleteOnExit();
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created or if there is a http
+	 *             protocol error.
+	 * @throws SAXException
+	 *             if the content retrieved is not valid xml.
+	 */
+	@Test
+	public final void testGetResourceSuccessfully() throws IOException,
+	SAXException {
+		File tempFile = File.createTempFile("test", "zip");
+		tempFile.deleteOnExit();
 
-        EasyMock.expect(httpClient.getParams())
-                .andReturn(new BasicHttpParams());
-        EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse);
-        EasyMock.replay(httpClient);
+		EasyMock.expect(httpClient.getParams())
+		.andReturn(new BasicHttpParams());
+		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
+		.andReturn(httpResponse);
+		EasyMock.replay(httpClient);
 
-        ExitStatus exitStatus = getResourceClient
-                .getResource(testzip,
-                        Long.toString(new Date().getTime()),
-                        tempFile.getAbsolutePath());
+		ExitStatus exitStatus = getResourceClient
+				.getResource(testzip,
+						Long.toString(new Date().getTime()),
+						tempFile.getAbsolutePath());
 
-        EasyMock.verify(httpClient);
+		EasyMock.verify(httpClient);
 
-        assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be COMPLETED", exitStatus,
-                ExitStatus.COMPLETED);
-    }
+		assertNotNull("ExitStatus should not be null", exitStatus);
+		assertEquals("ExitStatus should be COMPLETED", exitStatus,
+				ExitStatus.COMPLETED);
+	}
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created or if there is a http
-     *             protocol error.
-     */
-    @Test
-    public final void testGetResourceNotModified() throws IOException {
-        File tempFile = File.createTempFile("test", "zip");
-        tempFile.deleteOnExit();
-        httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
-                HttpStatus.SC_NOT_MODIFIED, "Not Modified"));
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created or if there is a http
+	 *             protocol error.
+	 */
+	@Test
+	public final void testGetResourceNotModified() throws IOException {
+		File tempFile = File.createTempFile("test", "zip");
+		tempFile.deleteOnExit();
+		httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
+				HttpStatus.SC_NOT_MODIFIED, "Not Modified"));
 
-        EasyMock.expect(httpClient.getParams())
-                .andReturn(new BasicHttpParams());
-        EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse);
-        EasyMock.replay(httpClient);
+		EasyMock.expect(httpClient.getParams())
+		.andReturn(new BasicHttpParams());
+		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
+		.andReturn(httpResponse);
+		EasyMock.replay(httpClient);
 
-        ExitStatus exitStatus = getResourceClient
-                .getResource(testzip,
-                        Long.toString(new Date().getTime()),
-                        tempFile.getAbsolutePath());
+		ExitStatus exitStatus = getResourceClient
+				.getResource(testzip,
+						Long.toString(new Date().getTime()),
+						tempFile.getAbsolutePath());
 
-        EasyMock.verify(httpClient);
+		EasyMock.verify(httpClient);
 
-        assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be NOT_MODIFIED",
-                exitStatus.getExitCode(), "NOT_MODIFIED");
-    }
+		assertNotNull("ExitStatus should not be null", exitStatus);
+		assertEquals("ExitStatus should be NOT_MODIFIED",
+				exitStatus.getExitCode(), "NOT_MODIFIED");
+	}
 
-    /**
-     *
+	/**
+	 *
      @throws IOException
-     *             if a temporary file cannot be created or if there is a http
-     *             protocol error.
-     */
-    @Test
-    public final void testGetDocumentAnyOtherStatus() throws IOException {
-        File tempFile = File.createTempFile("test", "zip");
-        tempFile.deleteOnExit();
-        httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
-                HttpStatus.SC_BAD_REQUEST, "Bad Request"));
+	 *             if a temporary file cannot be created or if there is a http
+	 *             protocol error.
+	 */
+	@Test
+	public final void testGetDocumentAnyOtherStatus() throws IOException {
+		File tempFile = File.createTempFile("test", "zip");
+		tempFile.deleteOnExit();
+		httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
+				HttpStatus.SC_BAD_REQUEST, "Bad Request"));
 
-        EasyMock.expect(httpClient.getParams())
-                .andReturn(new BasicHttpParams());
-        EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
-                .andReturn(httpResponse).anyTimes();
-        EasyMock.replay(httpClient);
+		EasyMock.expect(httpClient.getParams())
+		.andReturn(new BasicHttpParams());
+		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
+		.andReturn(httpResponse).anyTimes();
+		EasyMock.replay(httpClient);
 
-        ExitStatus exitStatus = getResourceClient
-                .getResource(testzip,
-                        Long.toString(new Date().getTime()),
-                        tempFile.getAbsolutePath());
+		ExitStatus exitStatus = getResourceClient
+				.getResource(testzip,
+						Long.toString(new Date().getTime()),
+						tempFile.getAbsolutePath());
 
-        EasyMock.verify(httpClient);
+		EasyMock.verify(httpClient);
 
-        assertNotNull("ExitStatus should not be null", exitStatus);
-        assertEquals("ExitStatus should be FAILED", exitStatus,
-                ExitStatus.FAILED);
-    }
+		assertNotNull("ExitStatus should not be null", exitStatus);
+		assertEquals("ExitStatus should be FAILED", exitStatus,
+				ExitStatus.FAILED);
+	}
 }

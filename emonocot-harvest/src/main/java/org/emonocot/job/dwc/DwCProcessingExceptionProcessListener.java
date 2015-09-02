@@ -40,133 +40,133 @@ import org.springframework.validation.BindException;
  *
  */
 public class DwCProcessingExceptionProcessListener extends
-        AbstractRecordAnnotator implements ItemProcessListener<Base, Base>,
-        ItemReadListener<Base>, ItemWriteListener<Base> {
-	
-    private Logger logger = LoggerFactory.getLogger(DwCProcessingExceptionProcessListener.class);
-    
-    public void beforeProcess(final Base item) {
+AbstractRecordAnnotator implements ItemProcessListener<Base, Base>,
+ItemReadListener<Base>, ItemWriteListener<Base> {
 
-    }
+	private Logger logger = LoggerFactory.getLogger(DwCProcessingExceptionProcessListener.class);
 
-    public void afterProcess(final Base item, final Base result) {
+	public void beforeProcess(final Base item) {
 
-    }
+	}
 
-    public final void onProcessError(final Base item, final Exception e) {
-        logger.error("Process Error " + e.getMessage(), e);
-        Annotation annotation = new Annotation();
-        try {
-            annotation.setRecordType(RecordType.valueOf(item.getClass().getSimpleName()));
-        } catch (Exception ex) {
-            annotation.setRecordType(getRecordType());
-        }
-        annotation.setJobId(stepExecution.getJobExecutionId());
-        if (e instanceof DarwinCoreProcessingException) {
-            DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
-            logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
-            annotation.setCode(dwcpe.getCode());
-            annotation.setValue(dwcpe.getValue());
-            annotation.setType(dwcpe.getType());
-        } else {
-            annotation.setCode(AnnotationCode.BadData);//TODO Replace with generic 'Something went wrong'
-            annotation.setValue(stepExecution.getStepName() + " for " + 
-                    item == null ? " unparsed item" : item.getIdentifier());
-            annotation.setType(AnnotationType.Error);
-        }
-        annotation.setText(e.getMessage());
-        super.annotate(annotation);
-    }
-    
-    private RecordType getRecordType() {
-    	return DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
-    }
+	public void afterProcess(final Base item, final Base result) {
 
-    /**
-     *
-     * @return the record type we are currently processing
-     */
-    public static RecordType stepNameToRecordType(String stepName) {
-        switch(stepName) {
-        case "processCoreFile":
-            return RecordType.Taxon;
-        case "processDescriptionFile":
-            return RecordType.Description;
-        case "processIdentifierFile":
-            return RecordType.Identifier;
-        case "processImageFile":
-        case "handleBinaryImages":
-            return RecordType.Image;
-        case "processReferenceFile":
-            return RecordType.Reference;
-        case "processDistributionFile":
-            return RecordType.Distribution;
-        case "processMeasurementOrFactFile":
-            return RecordType.MeasurementOrFact;
-        case "processVernacularNameFile":
-            return RecordType.VernacularName;
-        case "processTypeAndSpecimenFile":
-            return RecordType.TypeAndSpecimen;
-        case "processKeyFile":
-            return RecordType.IdentificationKey;
-        default:
-        	return null;
-        }
-    }
+	}
 
-    public void afterRead(final Base base) {
+	public final void onProcessError(final Base item, final Exception e) {
+		logger.error("Process Error " + e.getMessage(), e);
+		Annotation annotation = new Annotation();
+		try {
+			annotation.setRecordType(RecordType.valueOf(item.getClass().getSimpleName()));
+		} catch (Exception ex) {
+			annotation.setRecordType(getRecordType());
+		}
+		annotation.setJobId(stepExecution.getJobExecutionId());
+		if (e instanceof DarwinCoreProcessingException) {
+			DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
+			logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
+			annotation.setCode(dwcpe.getCode());
+			annotation.setValue(dwcpe.getValue());
+			annotation.setType(dwcpe.getType());
+		} else {
+			annotation.setCode(AnnotationCode.BadData);//TODO Replace with generic 'Something went wrong'
+			annotation.setValue(stepExecution.getStepName() + " for " +
+					item == null ? " unparsed item" : item.getIdentifier());
+			annotation.setType(AnnotationType.Error);
+		}
+		annotation.setText(e.getMessage());
+		super.annotate(annotation);
+	}
 
-    }
+	private RecordType getRecordType() {
+		return DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
+	}
 
-    public void beforeRead() {
+	/**
+	 *
+	 * @return the record type we are currently processing
+	 */
+	public static RecordType stepNameToRecordType(String stepName) {
+		switch(stepName) {
+		case "processCoreFile":
+			return RecordType.Taxon;
+		case "processDescriptionFile":
+			return RecordType.Description;
+		case "processIdentifierFile":
+			return RecordType.Identifier;
+		case "processImageFile":
+		case "handleBinaryImages":
+			return RecordType.Image;
+		case "processReferenceFile":
+			return RecordType.Reference;
+		case "processDistributionFile":
+			return RecordType.Distribution;
+		case "processMeasurementOrFactFile":
+			return RecordType.MeasurementOrFact;
+		case "processVernacularNameFile":
+			return RecordType.VernacularName;
+		case "processTypeAndSpecimenFile":
+			return RecordType.TypeAndSpecimen;
+		case "processKeyFile":
+			return RecordType.IdentificationKey;
+		default:
+			return null;
+		}
+	}
 
-    }
+	public void afterRead(final Base base) {
 
-    public final void onReadError(final Exception e) {
-    	logger.error("Read Error " + e.getMessage());
-        if (e instanceof FlatFileParseException) {
-            FlatFileParseException ffpe = (FlatFileParseException) e;
-            StringBuffer message = new StringBuffer();
-            message.append(ffpe.getMessage());
-            final Annotation annotation = new Annotation();
-            if (ffpe.getCause() != null) {
-                message.append(" " + ffpe.getCause().getMessage());
-                logger.debug("FlatFileParseException | " + ffpe.getMessage()
-                        + " Cause " + ffpe.getCause().getMessage());
-                if (ffpe.getCause().getClass()
-                        .equals(CannotFindRecordException.class)) {
-                    annotation.setCode(AnnotationCode.BadIdentifier);
-                    CannotFindRecordException cfre = (CannotFindRecordException) ffpe
-                            .getCause();
-                    annotation.setValue(cfre.getValue());
-                } else if (ffpe.getCause().getClass()
-                        .equals(BindException.class)) {
-                    annotation.setCode(AnnotationCode.BadField);
-                    BindException be = (BindException) ffpe.getCause();
-                    annotation.setValue(be.getFieldError().getField());
-                } else {
-                    annotation.setCode(AnnotationCode.BadRecord);
-                }
-            } else {
-                logger.debug("FlatFileParseException | " + ffpe.getMessage());
-            }
+	}
 
-            annotation.setJobId(stepExecution.getJobExecutionId());
-            annotation.setRecordType(getRecordType());
-            annotation.setType(AnnotationType.Error);
-            annotation.setText(message.toString());
-            super.annotate(annotation);
-        }
-    }
+	public void beforeRead() {
+
+	}
+
+	public final void onReadError(final Exception e) {
+		logger.error("Read Error " + e.getMessage());
+		if (e instanceof FlatFileParseException) {
+			FlatFileParseException ffpe = (FlatFileParseException) e;
+			StringBuffer message = new StringBuffer();
+			message.append(ffpe.getMessage());
+			final Annotation annotation = new Annotation();
+			if (ffpe.getCause() != null) {
+				message.append(" " + ffpe.getCause().getMessage());
+				logger.debug("FlatFileParseException | " + ffpe.getMessage()
+						+ " Cause " + ffpe.getCause().getMessage());
+				if (ffpe.getCause().getClass()
+						.equals(CannotFindRecordException.class)) {
+					annotation.setCode(AnnotationCode.BadIdentifier);
+					CannotFindRecordException cfre = (CannotFindRecordException) ffpe
+							.getCause();
+					annotation.setValue(cfre.getValue());
+				} else if (ffpe.getCause().getClass()
+						.equals(BindException.class)) {
+					annotation.setCode(AnnotationCode.BadField);
+					BindException be = (BindException) ffpe.getCause();
+					annotation.setValue(be.getFieldError().getField());
+				} else {
+					annotation.setCode(AnnotationCode.BadRecord);
+				}
+			} else {
+				logger.debug("FlatFileParseException | " + ffpe.getMessage());
+			}
+
+			annotation.setJobId(stepExecution.getJobExecutionId());
+			annotation.setRecordType(getRecordType());
+			annotation.setType(AnnotationType.Error);
+			annotation.setText(message.toString());
+			super.annotate(annotation);
+		}
+	}
 
 	@Override
 	public void beforeWrite(List<? extends Base> items) {
-		
+
 	}
 
 	@Override
 	public void afterWrite(List<? extends Base> items) {
-		
+
 	}
 
 	@Override

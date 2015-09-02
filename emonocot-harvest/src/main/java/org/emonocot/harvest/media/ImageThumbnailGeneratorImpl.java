@@ -37,145 +37,145 @@ import org.springframework.batch.item.ItemProcessor;
  */
 public class ImageThumbnailGeneratorImpl implements ItemProcessor<Image, Image>, ImageThumbnailGenerator {
 
-    private Logger logger = LoggerFactory.getLogger(ImageThumbnailGeneratorImpl.class);
+	private Logger logger = LoggerFactory.getLogger(ImageThumbnailGeneratorImpl.class);
 
-    private final Double THUMBNAIL_DIMENSION = 100D;
+	private final Double THUMBNAIL_DIMENSION = 100D;
 
-    private String searchPath;
+	private String searchPath;
 
-    private String imageDirectory;
-    
-    private ImageAnnotator imageAnnotator;
+	private String imageDirectory;
 
-    private String thumbnailDirectory;
-    
-    private Boolean skipUnmodified = Boolean.TRUE;
-    
-    public void setSkipUnmodified(Boolean skipUnmodified) {
-    	if(skipUnmodified != null) {
-    	    this.skipUnmodified = skipUnmodified;
-    	}
-    }
+	private ImageAnnotator imageAnnotator;
 
-    /**
-     *
-     * @param newThumbnailDirectory set the thumbnail directory
-     */
-    public final void setThumbnailDirectory(final String newThumbnailDirectory) {
-        this.thumbnailDirectory = newThumbnailDirectory;
-    }
+	private String thumbnailDirectory;
 
-    /**
-     *
-     * @param imageMagickSearchPath set the image magick search path directory
-     */
-   public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
-       this.searchPath = imageMagickSearchPath;
-   }
+	private Boolean skipUnmodified = Boolean.TRUE;
 
-    /**
-     *
-     * @param newImageDirectory Set the image directory
-     */
-    public final void setImageDirectory(
-            final String newImageDirectory) {
-        this.imageDirectory = newImageDirectory;
-    }
+	public void setSkipUnmodified(Boolean skipUnmodified) {
+		if(skipUnmodified != null) {
+			this.skipUnmodified = skipUnmodified;
+		}
+	}
 
-    /**
-     * @param imageAnnotator the imageAnnotator to set
-     */
-    public void setImageAnnotator(ImageAnnotator imageAnnotator) {
-        this.imageAnnotator = imageAnnotator;
-    }
+	/**
+	 *
+	 * @param newThumbnailDirectory set the thumbnail directory
+	 */
+	public final void setThumbnailDirectory(final String newThumbnailDirectory) {
+		this.thumbnailDirectory = newThumbnailDirectory;
+	}
 
-    /* (non-Javadoc)
+	/**
+	 *
+	 * @param imageMagickSearchPath set the image magick search path directory
+	 */
+	public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
+		this.searchPath = imageMagickSearchPath;
+	}
+
+	/**
+	 *
+	 * @param newImageDirectory Set the image directory
+	 */
+	public final void setImageDirectory(
+			final String newImageDirectory) {
+		this.imageDirectory = newImageDirectory;
+	}
+
+	/**
+	 * @param imageAnnotator the imageAnnotator to set
+	 */
+	public void setImageAnnotator(ImageAnnotator imageAnnotator) {
+		this.imageAnnotator = imageAnnotator;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.emonocot.harvest.media.ImageThumbnailGenerator#process(org.emonocot.model.Image)
 	 */
-    @Override
+	@Override
 	public final Image process(final Image image) throws Exception {
-        String thumbnailFileName = thumbnailDirectory + File.separatorChar
-                + image.getId() + '.' + image.getFormat();
-        
-        File thumbnailFile = new File(thumbnailFileName);
-        String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
-        File file = new File(imageFileName);
-        if(!file.exists()) {
-            logger.warn("File does not exist in image directory, skipping");
-            imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "A thumbnail could not be generated as the local file was not found.");
-        } else if(thumbnailFile.exists() && skipUnmodified) {
-            logger.info("Thumbnail File exists in image directory, skipping");
-        } else {
-            try {
-                ImageInfo imageInfo = Sanselan.getImageInfo(file);
-                Double width = new Double(imageInfo.getWidth());
-                Double height = new Double(imageInfo.getHeight());
-                logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
+		String thumbnailFileName = thumbnailDirectory + File.separatorChar
+				+ image.getId() + '.' + image.getFormat();
 
-                if (width > height) {
-                    Double newWidth = (width / height) * THUMBNAIL_DIMENSION;
-                    Double xOffset = (newWidth - THUMBNAIL_DIMENSION) / 2.0D;
-                    // shrink to 100px high then crop
-                    ConvertCmd convert = new ConvertCmd();
-                    if (searchPath != null) {
-                        convert.setSearchPath(searchPath);
-                    }
-                    IMOperation resize = new IMOperation();
-                    resize.addImage(imageFileName);
-                    logger.debug("Resizing to " + newWidth.intValue()
-                            + " * " + THUMBNAIL_DIMENSION.intValue());
-                    resize.resize(newWidth.intValue(),
-                            THUMBNAIL_DIMENSION.intValue());
-                    resize.addImage(thumbnailFileName);
-                    convert.run(resize);
+		File thumbnailFile = new File(thumbnailFileName);
+		String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
+		File file = new File(imageFileName);
+		if(!file.exists()) {
+			logger.warn("File does not exist in image directory, skipping");
+			imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "A thumbnail could not be generated as the local file was not found.");
+		} else if(thumbnailFile.exists() && skipUnmodified) {
+			logger.info("Thumbnail File exists in image directory, skipping");
+		} else {
+			try {
+				ImageInfo imageInfo = Sanselan.getImageInfo(file);
+				Double width = new Double(imageInfo.getWidth());
+				Double height = new Double(imageInfo.getHeight());
+				logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
 
-                    MogrifyCmd mogrify = new MogrifyCmd();
-                    if (searchPath != null) {
-                        mogrify.setSearchPath(searchPath);
-                    }
-                    IMOperation crop = new IMOperation();
-                    crop = new IMOperation();
-                    logger.debug("Cropping to " + xOffset.intValue() + " * 0");
-                    crop.crop(THUMBNAIL_DIMENSION.intValue(),
-                            THUMBNAIL_DIMENSION.intValue(), xOffset.intValue());
-                    crop.addImage(thumbnailFileName);
-                    mogrify.run(crop);
+				if (width > height) {
+					Double newWidth = (width / height) * THUMBNAIL_DIMENSION;
+					Double xOffset = (newWidth - THUMBNAIL_DIMENSION) / 2.0D;
+					// shrink to 100px high then crop
+					ConvertCmd convert = new ConvertCmd();
+					if (searchPath != null) {
+						convert.setSearchPath(searchPath);
+					}
+					IMOperation resize = new IMOperation();
+					resize.addImage(imageFileName);
+					logger.debug("Resizing to " + newWidth.intValue()
+							+ " * " + THUMBNAIL_DIMENSION.intValue());
+					resize.resize(newWidth.intValue(),
+							THUMBNAIL_DIMENSION.intValue());
+					resize.addImage(thumbnailFileName);
+					convert.run(resize);
 
-                } else {
-                    Double newHeight = (height / width) * THUMBNAIL_DIMENSION;
-                    Double yOffset = (newHeight - THUMBNAIL_DIMENSION) / 2.0D;
-                    // shrink to 100px high then crop
-                    ConvertCmd convert = new ConvertCmd();
-                    if (searchPath != null) {
-                        convert.setSearchPath(searchPath);
-                    }
-                    IMOperation resize = new IMOperation();
-                    resize.addImage(imageFileName);
-                    logger.debug("Resizing to " + THUMBNAIL_DIMENSION.intValue()
-                            + " * " + newHeight.intValue());
-                    resize.resize(THUMBNAIL_DIMENSION.intValue(),
-                            newHeight.intValue());
-                    resize.addImage(thumbnailFileName);
-                    convert.run(resize);
+					MogrifyCmd mogrify = new MogrifyCmd();
+					if (searchPath != null) {
+						mogrify.setSearchPath(searchPath);
+					}
+					IMOperation crop = new IMOperation();
+					crop = new IMOperation();
+					logger.debug("Cropping to " + xOffset.intValue() + " * 0");
+					crop.crop(THUMBNAIL_DIMENSION.intValue(),
+							THUMBNAIL_DIMENSION.intValue(), xOffset.intValue());
+					crop.addImage(thumbnailFileName);
+					mogrify.run(crop);
 
-                    MogrifyCmd mogrify = new MogrifyCmd();
-                    if (searchPath != null) {
-                        mogrify.setSearchPath(searchPath);
-                    }
-                    IMOperation crop = new IMOperation();
-                    crop = new IMOperation();
-                    logger.debug("Cropping to 0 * " + yOffset.intValue());
-                    crop.crop(THUMBNAIL_DIMENSION.intValue(),
-                            THUMBNAIL_DIMENSION.intValue(), 0, yOffset.intValue());
-                    crop.addImage(thumbnailFileName);
-                    mogrify.run(crop);
-                }
-            } catch (Exception e) {
-                logger.error("Unable to generate thumbnail for image " + image.getIdentifier(), e);
-                imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "There was an error generating a thumbnail");
-            }
-        }
-        return image;
-    }
+				} else {
+					Double newHeight = (height / width) * THUMBNAIL_DIMENSION;
+					Double yOffset = (newHeight - THUMBNAIL_DIMENSION) / 2.0D;
+					// shrink to 100px high then crop
+					ConvertCmd convert = new ConvertCmd();
+					if (searchPath != null) {
+						convert.setSearchPath(searchPath);
+					}
+					IMOperation resize = new IMOperation();
+					resize.addImage(imageFileName);
+					logger.debug("Resizing to " + THUMBNAIL_DIMENSION.intValue()
+							+ " * " + newHeight.intValue());
+					resize.resize(THUMBNAIL_DIMENSION.intValue(),
+							newHeight.intValue());
+					resize.addImage(thumbnailFileName);
+					convert.run(resize);
+
+					MogrifyCmd mogrify = new MogrifyCmd();
+					if (searchPath != null) {
+						mogrify.setSearchPath(searchPath);
+					}
+					IMOperation crop = new IMOperation();
+					crop = new IMOperation();
+					logger.debug("Cropping to 0 * " + yOffset.intValue());
+					crop.crop(THUMBNAIL_DIMENSION.intValue(),
+							THUMBNAIL_DIMENSION.intValue(), 0, yOffset.intValue());
+					crop.addImage(thumbnailFileName);
+					mogrify.run(crop);
+				}
+			} catch (Exception e) {
+				logger.error("Unable to generate thumbnail for image " + image.getIdentifier(), e);
+				imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "There was an error generating a thumbnail");
+			}
+		}
+		return image;
+	}
 
 }

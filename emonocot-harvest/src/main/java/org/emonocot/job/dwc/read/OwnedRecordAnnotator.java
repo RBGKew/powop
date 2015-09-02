@@ -33,16 +33,16 @@ import org.springframework.batch.repeat.RepeatStatus;
  * @author ben
  *
  */
-public class OwnedRecordAnnotator extends AbstractRecordAnnotator implements Tasklet { 
-	
-    private Logger logger = LoggerFactory.getLogger(OwnedRecordAnnotator.class);
-    
+public class OwnedRecordAnnotator extends AbstractRecordAnnotator implements Tasklet {
+
+	private Logger logger = LoggerFactory.getLogger(OwnedRecordAnnotator.class);
+
 	private String subtribe;
-	
+
 	private String tribe;
-	
+
 	private String subfamily;
-	
+
 	private String family;
 
 	private String annotatedObjType;

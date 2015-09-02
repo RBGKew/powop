@@ -34,53 +34,53 @@ import org.tdwg.ubif.MediaObject;
  *
  */
 public class MediaObjectProcessor extends AuthorityAware implements
-        ItemProcessor<MediaObject, MediaObject> {
+ItemProcessor<MediaObject, MediaObject> {
 
-    private ImageService imageService;    
+	private ImageService imageService;
 
-    @Autowired
-    public void setImageService(ImageService newImageService) {
-        this.imageService = newImageService;
-    }
+	@Autowired
+	public void setImageService(ImageService newImageService) {
+		this.imageService = newImageService;
+	}
 
-    public MediaObject process(MediaObject item) throws Exception {
-        if (item.getType() != null && item.getType().equals("Image")) {
-            Image persistedImage = imageService.find(item.getSource()
-                    .getHref());
-            if (persistedImage != null) {
-                item.setDebuglabel(persistedImage.getId() + "." + persistedImage.getFormat());
-                persistedImage.setTitle(item.getRepresentation().getLabel());                
-                persistedImage.setDescription(item.getRepresentation()
-                        .getDetail());                
-                
-                Annotation annotation = createAnnotation(persistedImage,
-                        RecordType.Image, AnnotationCode.Update,
-                        AnnotationType.Info);
-                persistedImage.getAnnotations().add(annotation);
-                imageService.saveOrUpdate(persistedImage);
-            } else {
-                Image image = new Image();
-                int dotIndex = item.getSource().getHref().lastIndexOf(".");
-                String format = item.getSource().getHref().substring(dotIndex + 1);
-                image.setFormat(MediaFormat.valueOf(format));
-                image.setIdentifier(item.getSource().getHref());
-                
-                image.setTitle(item.getRepresentation().getLabel());
-                image.setDescription(item.getRepresentation().getDetail());
-                image.setAuthority(getSource());
-                
-                Annotation annotation = createAnnotation(image,
-                        RecordType.Image, AnnotationCode.Create,
-                        AnnotationType.Info);
-                image.getAnnotations().add(annotation);
-                imageService.saveOrUpdate(image);
-                item.setDebuglabel(image.getId() + "." + format);                
-            }
-            return item;
-        } else {
-            // Skip URL's as we're not interested in them
-            return null;
-        }
-    }
+	public MediaObject process(MediaObject item) throws Exception {
+		if (item.getType() != null && item.getType().equals("Image")) {
+			Image persistedImage = imageService.find(item.getSource()
+					.getHref());
+			if (persistedImage != null) {
+				item.setDebuglabel(persistedImage.getId() + "." + persistedImage.getFormat());
+				persistedImage.setTitle(item.getRepresentation().getLabel());
+				persistedImage.setDescription(item.getRepresentation()
+						.getDetail());
+
+				Annotation annotation = createAnnotation(persistedImage,
+						RecordType.Image, AnnotationCode.Update,
+						AnnotationType.Info);
+				persistedImage.getAnnotations().add(annotation);
+				imageService.saveOrUpdate(persistedImage);
+			} else {
+				Image image = new Image();
+				int dotIndex = item.getSource().getHref().lastIndexOf(".");
+				String format = item.getSource().getHref().substring(dotIndex + 1);
+				image.setFormat(MediaFormat.valueOf(format));
+				image.setIdentifier(item.getSource().getHref());
+
+				image.setTitle(item.getRepresentation().getLabel());
+				image.setDescription(item.getRepresentation().getDetail());
+				image.setAuthority(getSource());
+
+				Annotation annotation = createAnnotation(image,
+						RecordType.Image, AnnotationCode.Create,
+						AnnotationType.Info);
+				image.getAnnotations().add(annotation);
+				imageService.saveOrUpdate(image);
+				item.setDebuglabel(image.getId() + "." + format);
+			}
+			return item;
+		} else {
+			// Skip URL's as we're not interested in them
+			return null;
+		}
+	}
 
 }

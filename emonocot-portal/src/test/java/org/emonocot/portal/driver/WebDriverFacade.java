@@ -49,31 +49,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebDriverFacade implements FactoryBean<WebDriver> {
 
-    /**
-     *
-     * @return the webdriver
-     * @throws IOException if there is a problem loading the
-     *                     properties file
-     */
-    private WebDriver createWebDriver() throws IOException {
-        Resource propertiesFile = new ClassPathResource(
-                "META-INF/spring/application.properties");
-        Properties properties = new Properties();
-        properties.load(propertiesFile.getInputStream());
-        String webdriverMode = properties.getProperty("selenium.webdriver.mode", "local");
-        String driverName = properties.getProperty("selenium.webdriver.impl", "org.openqa.selenium.firefox.FirefoxDriver");
-        WebDriverBrowserType browser = WebDriverBrowserType.fromString(driverName);
-        String display = properties.getProperty("selenium.display.port", ":0");
+	/**
+	 *
+	 * @return the webdriver
+	 * @throws IOException if there is a problem loading the
+	 *                     properties file
+	 */
+	private WebDriver createWebDriver() throws IOException {
+		Resource propertiesFile = new ClassPathResource(
+				"META-INF/spring/application.properties");
+		Properties properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
+		String webdriverMode = properties.getProperty("selenium.webdriver.mode", "local");
+		String driverName = properties.getProperty("selenium.webdriver.impl", "org.openqa.selenium.firefox.FirefoxDriver");
+		WebDriverBrowserType browser = WebDriverBrowserType.fromString(driverName);
+		String display = properties.getProperty("selenium.display.port", ":0");
 		if (webdriverMode.equals("local")) {
 			switch (browser) {
 			case CHROME:
 				String chromeLocation = properties
-						.getProperty("selenium.webdriver.chromedriver.location");
+				.getProperty("selenium.webdriver.chromedriver.location");
 				Map<String,String> environment = new HashMap<String,String>();
 				environment.put("DISPLAY", display);
 				ChromeDriverService chromeService = new ChromeDriverService.Builder()
-						.usingDriverExecutable(new File(chromeLocation))
-						.usingAnyFreePort().withEnvironment(environment).build();
+				.usingDriverExecutable(new File(chromeLocation))
+				.usingAnyFreePort().withEnvironment(environment).build();
 				chromeService.start();
 				return new RemoteWebDriver(chromeService.getUrl(),
 						DesiredCapabilities.chrome());
@@ -81,7 +81,7 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
 				return new SafariDriver();
 			case INTERNET_EXPLORER:
 				String 	internetExplorerLocation = properties
-						.getProperty("selenium.webdriver.ie.location");
+				.getProperty("selenium.webdriver.ie.location");
 				InternetExplorerDriverService ieService = InternetExplorerDriverService.createDefaultService();
 				ieService.start();
 				return new RemoteWebDriver(ieService.getUrl(),
@@ -95,8 +95,8 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
 				return new FirefoxDriver(firefoxBinary, profile);
 			}
 		} else {
-			
-			DesiredCapabilities capabilities = new DesiredCapabilities();			
+
+			DesiredCapabilities capabilities = new DesiredCapabilities();
 			switch (browser) {
 			case CHROME:
 				capabilities = DesiredCapabilities.chrome();
@@ -112,7 +112,7 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
 				capabilities = DesiredCapabilities.firefox();
 			}
 			String platformName = properties.getProperty("selenium.webdriver.platformName", "LINUX");
-	        WebDriverPlatformType platform = WebDriverPlatformType.valueOf(platformName);
+			WebDriverPlatformType platform = WebDriverPlatformType.valueOf(platformName);
 			switch (platform) {
 			case MAC:
 				capabilities.setPlatform(Platform.MAC);
@@ -126,56 +126,56 @@ public class WebDriverFacade implements FactoryBean<WebDriver> {
 			}
 			return new RemoteWebDriver(new URL("http://build.e-monocot.org:4444/wd/hub"), capabilities);
 		}
-    }
+	}
 
-    /**
-     *
-     */
-    private static WebDriver browser;
+	/**
+	 *
+	 */
+	private static WebDriver browser;
 
-    /**
-     *
-     */
-    @PreDestroy
-    public final void destroy() {
-        if (browser != null) {
-            browser.close();
-            browser.quit();
-            browser = null;
-        }
-    }
+	/**
+	 *
+	 */
+	@PreDestroy
+	public final void destroy() {
+		if (browser != null) {
+			browser.close();
+			browser.quit();
+			browser = null;
+		}
+	}
 
-    /**
-     * @return the object
-     * @throws Exception an
-     *             exception if there is a problem creating the object
-     */
-    public final WebDriver getObject() throws Exception {
-        if (browser == null) {
-            browser = createWebDriver();
-        }
-        return browser;
-    }
+	/**
+	 * @return the object
+	 * @throws Exception an
+	 *             exception if there is a problem creating the object
+	 */
+	public final WebDriver getObject() throws Exception {
+		if (browser == null) {
+			browser = createWebDriver();
+		}
+		return browser;
+	}
 
-    /**
-     *
-     * @return the web driver
-     */
-    public static WebDriver getWebDriver() {
-        return browser;
-    }
+	/**
+	 *
+	 * @return the web driver
+	 */
+	public static WebDriver getWebDriver() {
+		return browser;
+	}
 
-    /**
-     * @return the type of object
-     */
-    public final Class<?> getObjectType() {
-        return WebDriver.class;
-    }
+	/**
+	 * @return the type of object
+	 */
+	public final Class<?> getObjectType() {
+		return WebDriver.class;
+	}
 
-    /**
-     * @return true if the object is a singleton
-     */
-    public final boolean isSingleton() {
-        return false;
-    }
+	/**
+	 * @return true if the object is a singleton
+	 */
+	public final boolean isSingleton() {
+		return false;
+	}
 }

@@ -27,15 +27,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MeasurementOrFactDaoImpl extends DaoImpl<MeasurementOrFact>
-		implements MeasurementOrFactDao {
-	
+implements MeasurementOrFactDao {
+
 	private static Map<String, Fetch[]> FETCH_PROFILES;
-	
+
 	static {
-	       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-	       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
-		       		new Fetch("taxon", FetchMode.JOIN),
-		          	new Fetch("annotations", FetchMode.SELECT)});
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
+				new Fetch("taxon", FetchMode.JOIN),
+				new Fetch("annotations", FetchMode.SELECT)});
 	}
 
 	public MeasurementOrFactDaoImpl() {
@@ -47,5 +47,5 @@ public class MeasurementOrFactDaoImpl extends DaoImpl<MeasurementOrFact>
 		return MeasurementOrFactDaoImpl.FETCH_PROFILES.get(profile);
 	}
 
-	
+
 }

@@ -23,7 +23,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 public class List extends PageObject {
-	
+
 	@FindBy(how = How.ID, using = "resources")
 	private WebElement jobs;
 

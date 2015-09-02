@@ -45,39 +45,39 @@ import org.hibernate.annotations.Where;
 
 @Entity
 public class VernacularName extends OwnedEntity {
-	
+
 	private static final long serialVersionUID = 5439026066792559240L;
-	
+
 	private Long id;
-	
+
 	private String vernacularName;
-	
+
 	private String source;
-	
+
 	private Locale language;
-	
+
 	private String temporal;
-	
+
 	private Location location;
-	
+
 	private String locality;
-	
+
 	private String countryCode;
-	
+
 	private Sex sex;
-	
+
 	private LifeStage lifeStage;
-	
+
 	private Boolean preferredName = Boolean.FALSE;
-	
+
 	private Boolean plural = Boolean.TRUE;
-	
+
 	private String organismPart;
-	
+
 	private String taxonRemarks;
-	
+
 	private Set<Annotation> annotations = new HashSet<Annotation>();
-	
+
 	private Taxon taxon;
 
 	@Size(max = 255)
@@ -100,11 +100,11 @@ public class VernacularName extends OwnedEntity {
 
 	@Override
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference("vernacularNames-taxon")
+	@JsonBackReference("vernacularNames-taxon")
 	public Taxon getTaxon() {
 		return taxon;
 	}
-	
+
 	@Override
 	@JsonBackReference("vernacularNames-taxon")
 	public void setTaxon(Taxon taxon) {
@@ -113,8 +113,8 @@ public class VernacularName extends OwnedEntity {
 
 	@Override
 	@Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
 		return id;
 	}
 
@@ -219,39 +219,39 @@ public class VernacularName extends OwnedEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Transient
-    @JsonIgnore
-    public final String getClassName() {
-        return "VernacularName";
-    }
-	
+	@JsonIgnore
+	public final String getClassName() {
+		return "VernacularName";
+	}
+
 	@Override
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'VernacularName'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'VernacularName'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    @Override
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
-    
-    @Override
-    public String toString() {
-    	StringBuffer stringBuffer = new StringBuffer();
-    	stringBuffer.append(vernacularName);
-    	if (language != null && !language.getDisplayLanguage().isEmpty()) {
-    		stringBuffer.append(" (" + language.getDisplayLanguage() + ")");
-    	}
-    	return stringBuffer.toString();
-    }
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	@Override
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(vernacularName);
+		if (language != null && !language.getDisplayLanguage().isEmpty()) {
+			stringBuffer.append(" (" + language.getDisplayLanguage() + ")");
+		}
+		return stringBuffer.toString();
+	}
 }

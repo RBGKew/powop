@@ -29,7 +29,7 @@ public class DoubleConverter implements SingleValueConverter {
 		if(type.equals(Double.class)) {
 			return true;
 		} else {
-		    return false;
+			return false;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class DoubleConverter implements SingleValueConverter {
 			NumberFormat format = NumberFormat.getInstance(Locale.US);
 			return format.format(obj);
 		}
-		
+
 	}
 
 	@Override

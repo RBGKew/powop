@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GbifResponse {
-	
+
 	private Header header;
-	
+
 	private String exceptionReport;
-	
-    private List<DataProvider> dataProviders = new ArrayList<DataProvider>();
+
+	private List<DataProvider> dataProviders = new ArrayList<DataProvider>();
 
 	public Header getHeader() {
 		return header;

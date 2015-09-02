@@ -21,21 +21,21 @@ package org.emonocot.portal.rows;
  *
  */
 public class PlaceRow {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public String identifier;
 
 	/**
-	 * 
+	 *
 	 */
 	public String name;
 
 	/**
-	 * 
+	 *
 	 */
 	public String shape;
-	
+
 
 }

@@ -22,11 +22,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MeasurementOrFactDaoImpl extends DaoImpl<MeasurementOrFact>
-		implements MeasurementOrFactDao {
+implements MeasurementOrFactDao {
 
 	public MeasurementOrFactDaoImpl() {
 		super(MeasurementOrFact.class,"measurementOrFact");
 	}
 
-	
+
 }

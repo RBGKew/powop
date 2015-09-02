@@ -42,9 +42,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Controller
 @RequestMapping("/endpoint")
@@ -64,14 +64,14 @@ public class ChecklistWebserviceController {
 	private static Logger queryLog = LoggerFactory.getLogger("query");
 
 	private TaxonService taxonService;
-	
+
 	private SearchableObjectService searchableObjectService;
 
 	@Autowired
 	public void setTaxonDao(TaxonService taxonService) {
 		this.taxonService = taxonService;
 	}
-	
+
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
 		this.searchableObjectService = searchableObjectService;
@@ -80,7 +80,7 @@ public class ChecklistWebserviceController {
 	/**
 	 * Simple method that allows the client to determine whether the service is
 	 * up and running.
-	 * 
+	 *
 	 * @return An empty ModelAndView with the view name "rdfResponse".
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = { "!function" })
@@ -92,14 +92,14 @@ public class ChecklistWebserviceController {
 	/**
 	 * Method which searches for taxon objects who's names match the search term
 	 * exactly.
-	 * 
+	 *
 	 * @param search
 	 *            A taxon name to search the database for.
 	 * @return a list of taxon objects (stored under the key 'result')
-	 * @throws SolrServerException 
+	 * @throws SolrServerException
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = { "function=search",
-			"search" })
+	"search" })
 	public ModelAndView search(
 			@RequestParam(value = "search", required = true) String search) throws SolrServerException {
 		logger.debug("search for " + search);
@@ -127,7 +127,7 @@ public class ChecklistWebserviceController {
 
 	/**
 	 * Method which returns a single taxon object with the specified identifier.
-	 * 
+	 *
 	 * @param id
 	 *            The identifier of the taxon to be retrieved.
 	 * @return a taxon objects (stored under the key 'result')
@@ -159,14 +159,14 @@ public class ChecklistWebserviceController {
 	 * TaxonDao will throw a (wrapped) UnresolvableObjectException if the client
 	 * provides an invalid identifier. This method returns a HTTP 400 BAD
 	 * REQUEST status code and a short message
-	 * 
+	 *
 	 * @param exception
 	 *            The exception just thrown (because of an invalid id)
 	 * @return A model and view with the name exception and the exception stored
 	 *         in the model under the key 'exception'
 	 */
 	@ExceptionHandler({ DataRetrievalFailureException.class,
-			ParseException.class })
+		ParseException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ModelAndView handleInvalidTaxonIdentifier(
 			DataRetrievalFailureException exception) {

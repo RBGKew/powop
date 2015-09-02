@@ -36,40 +36,40 @@ import org.junit.Test;
  *
  */
 public class CompositeTaxonMatcherTest {
-	
+
 	CompositeTaxonMatcher underTest;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	TaxonMatcher mock1 = EasyMock.createMock(TaxonMatcher.class);
 	/**
-	 * 
+	 *
 	 */
 	TaxonMatcher mock2 = EasyMock.createMock(TaxonMatcher.class);
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private List<Match<Taxon>> singleExact;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private List<Match<Taxon>> partials;
 
 	/**
 	 * Tests that only one matcher is used when possible to minimise unnecessary processing
-	 * 
+	 *
 	 * Test method for {@link org.emonocot.job.taxonmatch.CompositeTaxonMatcher#match(org.gbif.ecat.model.ParsedName)}.
-	 * 
-	 * @throws Exception 
+	 *
+	 * @throws Exception
 	 */
 	@Test
 	public void testPrimaryMatch() throws Exception {
 		String input = "Test name Arch.";
 		expect(mock1.match(EasyMock.eq(input))).andReturn(singleExact);
-		
+
 		replay(mock1, mock2);
 		List<Match<Taxon>> actuals = underTest.match(input);
 		assertEquals("We should have the single EXACT_MATCH", singleExact, actuals);
@@ -77,23 +77,23 @@ public class CompositeTaxonMatcherTest {
 
 	/**
 	 * Tests that more matchers are used when only partial matches are found
-	 * 
+	 *
 	 * Test method for {@link org.emonocot.job.taxonmatch.CompositeTaxonMatcher#match(org.gbif.ecat.model.ParsedName)}.
-	 * 
-	 * @throws Exception 
+	 *
+	 * @throws Exception
 	 */
 	@Test
 	public void testSecondaryMatch() throws Exception {
 		String input = "Test name Arch.";
 		expect(mock1.match(EasyMock.eq(input))).andReturn(partials);
 		expect(mock2.match(EasyMock.eq(input))).andReturn(singleExact);
-				
+
 		replay(mock1, mock2);
 		List<Match<Taxon>> actuals = underTest.match(input);
 		assertEquals("We should have the single EXACT_MATCH", singleExact, actuals);
 	}
-	
-	
+
+
 	/**
 	 * @throws Exception
 	 */

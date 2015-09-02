@@ -30,26 +30,26 @@ import org.tdwg.ubif.TaxonName;
  *
  */
 public class UnmarshallTaxonNameTest extends
-        AbstractIdentificationKeyMarshallingTest {
-    /**
-     *
-     */
-    String filename
-        = "/org/emonocot/job/sdd/TestKey_taxonNameFragment.xml";
+AbstractIdentificationKeyMarshallingTest {
+	/**
+	 *
+	 */
+	String filename
+	= "/org/emonocot/job/sdd/TestKey_taxonNameFragment.xml";
 
-    /**
-     * @throws Exception
-     *             if there is a problem
-     *
-     */
-    @Test
-    public final void testParseTaxonItemFragment() throws Exception {
+	/**
+	 * @throws Exception
+	 *             if there is a problem
+	 *
+	 */
+	@Test
+	public final void testParseTaxonItemFragment() throws Exception {
 
-        TaxonName taxonName = (TaxonName) super.getUnmarshaller()
-            .unmarshal(new StAXSource(getXMLEventReader(filename)));
-        assertNotNull("taxonName should not be null", taxonName);
-        assertEquals("taxonName.id should equal t2", "t2", taxonName.getId());
-        assertEquals("taxonName.representation.label should be Arum alpinariae", "Arum alpinariae", taxonName.getRepresentation().getLabel());
-        assertEquals("size(taxonName.representation.mediaObject) should be 2", 2, taxonName.getRepresentation().getMediaObjects().size());
-    }
+		TaxonName taxonName = (TaxonName) super.getUnmarshaller()
+				.unmarshal(new StAXSource(getXMLEventReader(filename)));
+		assertNotNull("taxonName should not be null", taxonName);
+		assertEquals("taxonName.id should equal t2", "t2", taxonName.getId());
+		assertEquals("taxonName.representation.label should be Arum alpinariae", "Arum alpinariae", taxonName.getRepresentation().getLabel());
+		assertEquals("size(taxonName.representation.mediaObject) should be 2", 2, taxonName.getRepresentation().getMediaObjects().size());
+	}
 }

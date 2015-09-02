@@ -23,53 +23,53 @@ package org.emonocot.portal.rows;
  */
 public class AnnotationRow {
 
-    /**
-     *
-     */
-    public String type;
+	/**
+	 *
+	 */
+	public String type;
 
-    /**
-     *
-     */
-    public String jobId;
+	/**
+	 *
+	 */
+	public String jobId;
 
-    /**
-     *
-     */
-    public String value;
+	/**
+	 *
+	 */
+	public String value;
 
-    /**
-     *
-     */
-    public String text;
+	/**
+	 *
+	 */
+	public String text;
 
-    /**
-     *
-     */
-    public String dateTime;
+	/**
+	 *
+	 */
+	public String dateTime;
 
-    /**
-     *
-     */
-    public String code;
+	/**
+	 *
+	 */
+	public String code;
 
-    /**
-     *
-     */
-    public String source;
+	/**
+	 *
+	 */
+	public String source;
 
-    /**
-     *
-     */
-    public String recordType;
+	/**
+	 *
+	 */
+	public String recordType;
 
-    /**
-     *
-     */
-    public String identifier;
+	/**
+	 *
+	 */
+	public String identifier;
 
-    /**
-     *
-     */
-    public String object;
+	/**
+	 *
+	 */
+	public String object;
 }

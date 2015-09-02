@@ -31,12 +31,12 @@ import org.springframework.core.convert.converter.Converter;
  *
  */
 public class SitemapProcessor implements ItemProcessor<SearchableObject, Url>, Converter<SearchableObject, Url> {
-	
-    private static final Logger logger = LoggerFactory.getLogger(SitemapProcessor.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(SitemapProcessor.class);
 
 	String portalBaseUrl;
 
-    private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
+	private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
 	public void setPortalBaseUrl(String portalBaseUrl) {
 		this.portalBaseUrl = portalBaseUrl;
@@ -54,7 +54,7 @@ public class SitemapProcessor implements ItemProcessor<SearchableObject, Url>, C
 		} else if (item.getCreated() != null) {
 			url.setLastmod(dateTimeFormatter.print(item.getCreated()));
 		}
-		
+
 		if ("Taxon".equals(item.getClassName())) {
 			url.setLoc(new URL(portalBaseUrl + "/taxon/" + item.getIdentifier()));
 		} else if ("Image".equals(item.getClassName())) {
@@ -65,7 +65,7 @@ public class SitemapProcessor implements ItemProcessor<SearchableObject, Url>, C
 			logger.warn("Not writing url for object", new IllegalArgumentException("Unable to process object of type " + item.getClassName() + " and identifier:" + item.getIdentifier()));
 			url = null;
 		}
-		
+
 		return url;
 	}
 

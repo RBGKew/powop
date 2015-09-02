@@ -30,24 +30,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class ReferenceServiceImpl extends ServiceImpl<Reference, ReferenceDao>
-        implements ReferenceService {
+implements ReferenceService {
 
-    /**
-     *
-     * @param referenceDao Set the reference dao
-     */
-    @Autowired
-    public final void setReferenceDao(final ReferenceDao referenceDao) {
-        super.dao = referenceDao;
-    }
+	/**
+	 *
+	 * @param referenceDao Set the reference dao
+	 */
+	@Autowired
+	public final void setReferenceDao(final ReferenceDao referenceDao) {
+		super.dao = referenceDao;
+	}
 
-    /**
-     * @param source The source of the reference you want to find
-     * @return a reference or null if it does not exist
-     */
-    @Transactional(readOnly = true)
-    public final Reference findByBibliographicCitation(final String source) {
-        return dao.findByBibliographicCitation(source);
-    }
+	/**
+	 * @param source The source of the reference you want to find
+	 * @return a reference or null if it does not exist
+	 */
+	@Transactional(readOnly = true)
+	public final Reference findByBibliographicCitation(final String source) {
+		return dao.findByBibliographicCitation(source);
+	}
 
 }

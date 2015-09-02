@@ -17,15 +17,15 @@
 package org.emonocot.job.map;
 
 public class Page {
-	
+
 	private double[] center;
-	private double scale;	
+	private double scale;
 	private String mapTitle = "";
 	private double[] bbox;
 	private String comment = "";
 	private boolean geodetic;
 	private int rotation;
-	
+
 	public double[] getCenter() {
 		return center;
 	}
@@ -68,7 +68,7 @@ public class Page {
 	public void setBbox(double[] bbox) {
 		this.bbox = bbox;
 	}
-	
-	
+
+
 
 }

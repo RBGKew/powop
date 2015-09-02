@@ -44,12 +44,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Processor extends NonOwnedProcessor<PhylogeneticTree, PhylogeneticTreeService> {
 
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
-    @Autowired
-    public final void setPhylogeneticTreeService(PhylogeneticTreeService PhylogeneticTreeService) {
-        super.service = PhylogeneticTreeService;
-    } 
+	@Autowired
+	public final void setPhylogeneticTreeService(PhylogeneticTreeService PhylogeneticTreeService) {
+		super.service = PhylogeneticTreeService;
+	}
 
 	@Override
 	protected void doUpdate(PhylogeneticTree persisted, PhylogeneticTree t) {
@@ -60,7 +60,7 @@ public class Processor extends NonOwnedProcessor<PhylogeneticTree, PhylogeneticT
 
 	@Override
 	protected void doPersist(PhylogeneticTree t) {
-		
+
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class Processor extends NonOwnedProcessor<PhylogeneticTree, PhylogeneticT
 
 	@Override
 	protected void doValidate(PhylogeneticTree t) throws Exception {
-		
+
 	}
 
 	@Override

@@ -36,71 +36,71 @@ import org.springframework.batch.item.ItemProcessor;
  */
 public class ImageResizerImpl implements ItemProcessor<Image, Image>, ImageResizer {
 
-    private Logger logger = LoggerFactory.getLogger(ImageResizerImpl.class);
+	private Logger logger = LoggerFactory.getLogger(ImageResizerImpl.class);
 
-    private final Integer MAX_IMAGE_DIMENSION = 1000;
+	private final Integer MAX_IMAGE_DIMENSION = 1000;
 
-    private String searchPath;
+	private String searchPath;
 
-    private String imageDirectory;
-    
-    private ImageAnnotator imageAnnotator;
-    
-    public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
-        this.searchPath = imageMagickSearchPath;
-    }
+	private String imageDirectory;
 
-    public final void setImageDirectory(final String newImageDirectory) {
-        this.imageDirectory = newImageDirectory;
-    }
+	private ImageAnnotator imageAnnotator;
 
-    /**
-     * @param imageAnnotator the imageAnnotator to set
-     */
-    public void setImageAnnotator(ImageAnnotator imageAnnotator) {
-        this.imageAnnotator = imageAnnotator;
-    }
+	public final void setImageMagickSearchPath(final String imageMagickSearchPath) {
+		this.searchPath = imageMagickSearchPath;
+	}
 
-    /* (non-Javadoc)
+	public final void setImageDirectory(final String newImageDirectory) {
+		this.imageDirectory = newImageDirectory;
+	}
+
+	/**
+	 * @param imageAnnotator the imageAnnotator to set
+	 */
+	public void setImageAnnotator(ImageAnnotator imageAnnotator) {
+		this.imageAnnotator = imageAnnotator;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.emonocot.harvest.media.ImageResizer#process(org.emonocot.model.Image)
 	 */
-    @Override
+	@Override
 	public final Image process(final Image image) throws Exception {
-        
-        String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
-        File file = new File(imageFileName);
-        if(!file.exists()) {
-        	logger.warn("File does not exist in image directory, skipping");
-        	imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "The local file was not found, so cannot be resized");
-        } else {
-            try {
-                ImageInfo imageInfo = Sanselan.getImageInfo(file);
-                Integer width = new Integer(imageInfo.getWidth());
-                Integer height = new Integer(imageInfo.getHeight());
-                logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
 
-                if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
-                    
-                    // shrink to no larger than MAX_IMAGE_DIMENSION * MAX_IMAGE_DIMENSION
-                    MogrifyCmd mogrify = new MogrifyCmd();
-                    if (searchPath != null) {
-                    	mogrify.setSearchPath(searchPath);
-                    }
-                    IMOperation resize = new IMOperation();
-                    resize.addImage(imageFileName);
-                    logger.debug("resizing to no larger than " + MAX_IMAGE_DIMENSION.intValue()  + " * " + MAX_IMAGE_DIMENSION.intValue());
-                    resize.resize(MAX_IMAGE_DIMENSION.intValue(), MAX_IMAGE_DIMENSION.intValue(),'>');
-                    resize.addImage(imageFileName);
-                    mogrify.run(resize);
+		String imageFileName = imageDirectory + File.separatorChar  + image.getId() + '.' + image.getFormat();
+		File file = new File(imageFileName);
+		if(!file.exists()) {
+			logger.warn("File does not exist in image directory, skipping");
+			imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "The local file was not found, so cannot be resized");
+		} else {
+			try {
+				ImageInfo imageInfo = Sanselan.getImageInfo(file);
+				Integer width = new Integer(imageInfo.getWidth());
+				Integer height = new Integer(imageInfo.getHeight());
+				logger.debug("Image " + imageFileName + " dimensions: " + width + " x " + height);
 
-                } else {
-                    logger.info("No need to resize image as it is smaller than " + MAX_IMAGE_DIMENSION + "px x " + MAX_IMAGE_DIMENSION + "px");
-                }
-            } catch (Exception e) {
-                logger.error("There was an error resizing the image", e);
-                imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "The file could not be resized");
-            }
-        }
-        return image;
-    }
+				if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
+
+					// shrink to no larger than MAX_IMAGE_DIMENSION * MAX_IMAGE_DIMENSION
+					MogrifyCmd mogrify = new MogrifyCmd();
+					if (searchPath != null) {
+						mogrify.setSearchPath(searchPath);
+					}
+					IMOperation resize = new IMOperation();
+					resize.addImage(imageFileName);
+					logger.debug("resizing to no larger than " + MAX_IMAGE_DIMENSION.intValue()  + " * " + MAX_IMAGE_DIMENSION.intValue());
+					resize.resize(MAX_IMAGE_DIMENSION.intValue(), MAX_IMAGE_DIMENSION.intValue(),'>');
+					resize.addImage(imageFileName);
+					mogrify.run(resize);
+
+				} else {
+					logger.info("No need to resize image as it is smaller than " + MAX_IMAGE_DIMENSION + "px x " + MAX_IMAGE_DIMENSION + "px");
+				}
+			} catch (Exception e) {
+				logger.error("There was an error resizing the image", e);
+				imageAnnotator.annotate(image, AnnotationType.Error, AnnotationCode.BadData, "The file could not be resized");
+			}
+		}
+		return image;
+	}
 }

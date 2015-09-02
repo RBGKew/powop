@@ -23,7 +23,7 @@ import org.springframework.core.convert.converter.Converter;
 public class StringToConceptTermConverter implements Converter<String, Term> {
 
 	private TermFactory termFactory = new TermFactory();
-	
+
 	@Override
 	public Term convert(String source) {
 		if (source == null) {

@@ -24,7 +24,7 @@ import org.springframework.core.convert.converter.Converter;
 public class StringToDurationConverter implements Converter<String, Duration> {
 
 	private PeriodFormatter formatter = ISOPeriodFormat.standard();
-	
+
 	@Override
 	public Duration convert(String source) {
 		if (source == null || source.isEmpty()) {

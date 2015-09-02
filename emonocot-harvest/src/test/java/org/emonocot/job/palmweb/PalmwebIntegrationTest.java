@@ -48,38 +48,38 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/org/emonocot/job/palmweb/palmweb.xml" })
+"/org/emonocot/job/palmweb/palmweb.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @Ignore
 public class PalmwebIntegrationTest {
-	
-	private Logger logger = LoggerFactory.getLogger(PalmwebIntegrationTest.class);
-		
-	 @Autowired
-	 private JobLocator jobLocator;
 
-	 @Autowired
-	 private JobLauncher jobLauncher;
-	
+	private Logger logger = LoggerFactory.getLogger(PalmwebIntegrationTest.class);
+
+	@Autowired
+	private JobLocator jobLocator;
+
+	@Autowired
+	private JobLauncher jobLauncher;
+
 	@Test
 	public void testCreateGenericArchive() throws NoSuchJobException,
-			JobExecutionAlreadyRunningException, JobRestartException,
-			JobInstanceAlreadyCompleteException, JobParametersInvalidException, IOException {
-		 Map<String, JobParameter> parameters =
-	            new HashMap<String, JobParameter>();
-	   
-	    JobParameters jobParameters = new JobParameters(parameters);
+	JobExecutionAlreadyRunningException, JobRestartException,
+	JobInstanceAlreadyCompleteException, JobParametersInvalidException, IOException {
+		Map<String, JobParameter> parameters =
+				new HashMap<String, JobParameter>();
 
-	    Job palmwebArchive = jobLocator.getJob("PalmWeb");
-	    assertNotNull("Palmweb must not be null",  palmwebArchive);
-	    JobExecution jobExecution = jobLauncher.run(palmwebArchive, jobParameters);
-	    assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
-	    for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-	        logger.info(stepExecution.getStepName() + " "
-	                    + stepExecution.getReadCount() + " "
-	                    + stepExecution.getFilterCount() + " "
-	                    + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
-	   }
+		JobParameters jobParameters = new JobParameters(parameters);
+
+		Job palmwebArchive = jobLocator.getJob("PalmWeb");
+		assertNotNull("Palmweb must not be null",  palmwebArchive);
+		JobExecution jobExecution = jobLauncher.run(palmwebArchive, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
+		}
 	}
 
 }

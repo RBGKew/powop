@@ -55,14 +55,14 @@ import com.vividsolutions.jts.simplify.TopologyPreservingSimplifier;
 @Entity
 public class Place extends SearchableObject {
 
-    private static Logger logger = LoggerFactory.getLogger(Place.class);
+	private static Logger logger = LoggerFactory.getLogger(Place.class);
 
 	private Long id;
 
 	private String title;
-	
+
 	private String fipsCode;
-	
+
 	/**
 	 * A featureId (OGR_FID) referenced by the map server
 	 */
@@ -76,30 +76,30 @@ public class Place extends SearchableObject {
 
 	/**
 	 * Used for a single point reference of a place.
-	 * Usually in place of a shape, but possibly 
+	 * Usually in place of a shape, but possibly
 	 */
 	private Point point;
-	
+
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
 
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
 		return id;
 	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the name
 	 */
-    @Size(max = 255)
+	@Size(max = 255)
 	public String getTitle() {
 		return title;
 	}
@@ -155,7 +155,7 @@ public class Place extends SearchableObject {
 	@JsonDeserialize(using=ShapeDeserializer.class)
 	public void setShape(Geometry shape) {
 		this.shape = shape;
-		
+
 	}
 
 	/**
@@ -178,47 +178,47 @@ public class Place extends SearchableObject {
 			logger.error("Expected a point but got " + point.toText() + " " + point, e);
 		}
 	}
-    
-    /**
-     * @return an Envelope  
-     */
+
+	/**
+	 * @return an Envelope
+	 */
 	@Transient
 	@JsonIgnore
-    public Envelope getEnvelope(){
-    	if(shape != null){
+	public Envelope getEnvelope(){
+		if(shape != null){
 			return shape.getEnvelopeInternal();
-    	} else if(point != null){
+		} else if(point != null){
 			return point.getEnvelopeInternal();
 		} else {
 			//an empty Envelope
 			return new Envelope();
-		} 
-    }
-	
+		}
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Place'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Place'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
-    @Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
-    	sid.addField("searchable.label_sort", getTitle());
-    	//addField(sid,"place.fips_code_t", getFipsCode());
-    	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
-    	sid.addField("searchable.solrsummary_t", summary);
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = super.toSolrInputDocument();
+		sid.addField("searchable.label_sort", getTitle());
+		//addField(sid,"place.fips_code_t", getFipsCode());
+		StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
+		sid.addField("searchable.solrsummary_t", summary);
 		if (getShape() != null) {
 			try {
 				WKTWriter wktWriter = new WKTWriter();
@@ -229,6 +229,6 @@ public class Place extends SearchableObject {
 				logger.error(e.getLocalizedMessage());
 			}
 		}
-    	return sid;
-    }
+		return sid;
+	}
 }

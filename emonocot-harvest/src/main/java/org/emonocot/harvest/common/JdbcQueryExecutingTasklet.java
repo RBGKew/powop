@@ -25,13 +25,13 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class JdbcQueryExecutingTasklet implements Tasklet {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(JdbcQueryExecutingTasklet.class);
 
 	private JdbcTemplate jdbcTemplate;
-	
-	private String query;	
-	
+
+	private String query;
+
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -45,7 +45,7 @@ public class JdbcQueryExecutingTasklet implements Tasklet {
 			ChunkContext chunkContext) throws Exception {
 		logger.debug("Executing " + query);
 		jdbcTemplate.execute(query);
-		
+
 		return RepeatStatus.FINISHED;
 	}
 

@@ -19,16 +19,16 @@ package org.tdwg.ubif;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 public class Generator {
-	
+
 	@XStreamAsAttribute
 	private String name;
-	
+
 	@XStreamAsAttribute
 	private String notes;
-	
+
 	@XStreamAsAttribute
 	private String version;
-	
+
 	@XStreamAsAttribute
 	private String routine;
 

@@ -36,86 +36,86 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl extends SearchableDaoImpl<User> implements UserDao {
 
-    /**
-     *
-     */
-   public UserDaoImpl() {
-        super(User.class);
-    }
+	/**
+	 *
+	 */
+	public UserDaoImpl() {
+		super(User.class);
+	}
 
-   /**
-    *
-    */
-   private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-   static {
-       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-   }
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+	}
 
-  /**
-   *
-   * @param profile Set the name of the fetch profile
-   * @return a list of associated objects to fetch
-   */
-  protected final Fetch[] getProfile(final String profile) {
-      return UserDaoImpl.FETCH_PROFILES.get(profile);
-  }
+	/**
+	 *
+	 * @param profile Set the name of the fetch profile
+	 * @return a list of associated objects to fetch
+	 */
+	protected final Fetch[] getProfile(final String profile) {
+		return UserDaoImpl.FETCH_PROFILES.get(profile);
+	}
 
-  /**
-   *
-   * @param identifier
-   *            Set the identifier of the user you would like to retrieve
-   * @param fetch Set the fetch profile to use
-   * @return the user or throw and exception if that user does not exist
-   */
-  @Override
-  public final User load(String identifier, String fetch) {
-      User user = super.load(identifier, fetch);
-      initializeUserPermissions(user);
-      return user;
-  }
+	/**
+	 *
+	 * @param identifier
+	 *            Set the identifier of the user you would like to retrieve
+	 * @param fetch Set the fetch profile to use
+	 * @return the user or throw and exception if that user does not exist
+	 */
+	@Override
+	public final User load(String identifier, String fetch) {
+		User user = super.load(identifier, fetch);
+		initializeUserPermissions(user);
+		return user;
+	}
 
-    /**
-     *
-     * @param user
-     *            Set the user to initialize
-     */
-    private void initializeUserPermissions(final User user) {
-        if (user != null) {
-            Hibernate.initialize(user.getPermissions());
-            Hibernate.initialize(user.getGroups());
-            for (Group group : user.getGroups()) {
-                Hibernate.initialize(group.getPermissions());
-            }
-        }
-    }
+	/**
+	 *
+	 * @param user
+	 *            Set the user to initialize
+	 */
+	private void initializeUserPermissions(final User user) {
+		if (user != null) {
+			Hibernate.initialize(user.getPermissions());
+			Hibernate.initialize(user.getGroups());
+			for (Group group : user.getGroups()) {
+				Hibernate.initialize(group.getPermissions());
+			}
+		}
+	}
 
-    /**
-     *
-     * @param identifier
-     *            Set the identifier of the user you would like to retrieve
-     * @param fetch
-     *            Set the fetch profile to use
-     * @return the user or null if that user does not exist
-     */
-    @Override
-    public final User find(String identifier, String fetch) {
-        User user = super.find(identifier, fetch);
-        initializeUserPermissions(user);
-        return user;
-    }
-    
-    @Override
-    protected boolean isSearchableObject() {
+	/**
+	 *
+	 * @param identifier
+	 *            Set the identifier of the user you would like to retrieve
+	 * @param fetch
+	 *            Set the fetch profile to use
+	 * @return the user or null if that user does not exist
+	 */
+	@Override
+	public final User find(String identifier, String fetch) {
+		User user = super.find(identifier, fetch);
+		initializeUserPermissions(user);
+		return user;
+	}
+
+	@Override
+	protected boolean isSearchableObject() {
 		return false;
 	}
 
 	@Override
 	public User getUserByApiKey(String apiKey) {
 		Criteria criteria = getSession().createCriteria(type).add(
-                Restrictions.eq("apiKey", apiKey));
+				Restrictions.eq("apiKey", apiKey));
 		User user = (User) criteria.uniqueResult();
-        initializeUserPermissions(user);
-        return user;
+		initializeUserPermissions(user);
+		return user;
 	}
 }

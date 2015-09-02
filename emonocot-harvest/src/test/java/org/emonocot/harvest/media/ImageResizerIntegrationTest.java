@@ -37,98 +37,98 @@ import org.springframework.core.io.Resource;
  *
  */
 public class ImageResizerIntegrationTest {
-    
-    /**
-     * 
-     */
-    private static final String TEST_IMAGE_DIRECTORY = "target/test-classes/org/emonocot/job/media";
-    
-    /**
-     * 
-     */
-    private ImageResizerImpl resizer;
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        resizer = new ImageResizerImpl();
-        resizer.setImageDirectory(TEST_IMAGE_DIRECTORY);
-        Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
-        Properties properties = new Properties();
-        properties.load(propertiesFile.getInputStream());
-        String imageMagickSearchPath = properties.getProperty("harvester.imagemagick.path", "/usr/bin");
-        resizer.setImageMagickSearchPath(imageMagickSearchPath);
-        
-    }
+	/**
+	 *
+	 */
+	private static final String TEST_IMAGE_DIRECTORY = "target/test-classes/org/emonocot/job/media";
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
+	/**
+	 *
+	 */
+	private ImageResizerImpl resizer;
 
-    @Test
-    public final void testNoResize() {
-        //Set up
-        long imageNumber = 0L;
-        Image image = new Image();
-        image.setId(imageNumber);
-        image.setFormat(MediaFormat.jpg);
-        ImageInfo info = null;
-        Integer originalHeight = null;
-        Integer originalWidth = null;
-        try {
-            info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
-            originalHeight = new Integer(info.getHeight());
-            originalWidth = new Integer(info.getWidth());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Unable to read original image");
-        }
-        //Run resize
-        try {
-            resizer.process(image);
-            info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
-            assertTrue("The image height should be unchanged", info.getHeight() == originalHeight.intValue());
-            assertTrue("The image width should be unchanged", info.getWidth() == originalWidth.intValue());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
-    }
-    
-    @Test
-    public final void testResize() {
-        //Set up
-        long imageNumber = 1L;
-        Image image = new Image();
-        image.setId(imageNumber);
-        image.setFormat(MediaFormat.jpg);
-        ImageInfo info = null;
-        Integer originalHeight = null;
-        Integer originalWidth = null;
-        try {
-            info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
-            originalHeight = new Integer(info.getHeight());
-            originalWidth = new Integer(info.getWidth());
-            assertTrue("The dimensions of the original image do not meet the requirements for this test", originalHeight > 1000 && originalWidth > 1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Unable to read original image");
-        }
-        //Run resize
-        try {
-            resizer.process(image);
-            info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
-            assertTrue("The image height should have been reduced to no more than 1000px", info.getHeight() <= 1000);
-            assertTrue("The image width should have been reduced to no more than 1000px", info.getWidth() <= 1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
-    }
-    
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		resizer = new ImageResizerImpl();
+		resizer.setImageDirectory(TEST_IMAGE_DIRECTORY);
+		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+		Properties properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
+		String imageMagickSearchPath = properties.getProperty("harvester.imagemagick.path", "/usr/bin");
+		resizer.setImageMagickSearchPath(imageMagickSearchPath);
+
+	}
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public final void testNoResize() {
+		//Set up
+		long imageNumber = 0L;
+		Image image = new Image();
+		image.setId(imageNumber);
+		image.setFormat(MediaFormat.jpg);
+		ImageInfo info = null;
+		Integer originalHeight = null;
+		Integer originalWidth = null;
+		try {
+			info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
+			originalHeight = new Integer(info.getHeight());
+			originalWidth = new Integer(info.getWidth());
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Unable to read original image");
+		}
+		//Run resize
+		try {
+			resizer.process(image);
+			info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
+			assertTrue("The image height should be unchanged", info.getHeight() == originalHeight.intValue());
+			assertTrue("The image width should be unchanged", info.getWidth() == originalWidth.intValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public final void testResize() {
+		//Set up
+		long imageNumber = 1L;
+		Image image = new Image();
+		image.setId(imageNumber);
+		image.setFormat(MediaFormat.jpg);
+		ImageInfo info = null;
+		Integer originalHeight = null;
+		Integer originalWidth = null;
+		try {
+			info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
+			originalHeight = new Integer(info.getHeight());
+			originalWidth = new Integer(info.getWidth());
+			assertTrue("The dimensions of the original image do not meet the requirements for this test", originalHeight > 1000 && originalWidth > 1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Unable to read original image");
+		}
+		//Run resize
+		try {
+			resizer.process(image);
+			info = Sanselan.getImageInfo(new File(TEST_IMAGE_DIRECTORY + File.separator + imageNumber + ".jpg"));
+			assertTrue("The image height should have been reduced to no more than 1000px", info.getHeight() <= 1000);
+			assertTrue("The image width should have been reduced to no more than 1000px", info.getWidth() <= 1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
 }

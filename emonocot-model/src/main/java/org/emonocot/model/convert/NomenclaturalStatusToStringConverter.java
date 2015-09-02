@@ -20,7 +20,7 @@ import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.springframework.core.convert.converter.Converter;
 
 public class NomenclaturalStatusToStringConverter implements
-		Converter<NomenclaturalStatus, String> {
+Converter<NomenclaturalStatus, String> {
 
 	@Override
 	public String convert(NomenclaturalStatus value) {

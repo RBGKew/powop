@@ -23,11 +23,11 @@ import org.emonocot.model.constants.RecordType;
 public class InvalidValuesException extends DarwinCoreProcessingException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7264927553122083298L;
 
-	public InvalidValuesException(String msg, RecordType recordType, Integer lineNumber) {		
+	public InvalidValuesException(String msg, RecordType recordType, Integer lineNumber) {
 		super(msg, AnnotationCode.BadField, recordType, lineNumber.toString());
 	}
 

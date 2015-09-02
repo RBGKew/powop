@@ -34,13 +34,13 @@ import org.springframework.batch.item.ItemProcessor;
 public class Processor implements ItemProcessor<Taxon, Result> {
 
 	/**
-     *
-     */
+	 *
+	 */
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	/**
-     *
-     */
+	 *
+	 */
 	private TaxonMatcher taxonMatcher;
 
 	/**

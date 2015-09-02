@@ -55,13 +55,13 @@ import org.joda.time.format.DateTimeFormatter;
 import org.springframework.batch.core.BatchStatus;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Entity
 public class Resource extends Base implements Searchable {
-	
+
 	private static final long serialVersionUID = 5676965857186600965L;
 
 	private Long id;
@@ -71,7 +71,7 @@ public class Resource extends Base implements Searchable {
 	private String uri;
 
 	private DateTime lastHarvested;
-	
+
 	private DateTime lastAttempt;
 
 	private String resource;
@@ -91,13 +91,13 @@ public class Resource extends Base implements Searchable {
 	private String jobInstance;
 
 	private Organisation organisation;
-	
+
 	private String title;
-	
+
 	private Boolean scheduled = Boolean.FALSE;
-	
+
 	private SchedulingPeriod schedulingPeriod;
-	
+
 	private DateTime nextAvailableDate;
 
 	private Integer recordsRead = 0;
@@ -109,17 +109,17 @@ public class Resource extends Base implements Searchable {
 	private Integer writeSkip = 0;
 
 	private Integer written = 0;
-	
+
 	private Map<String,String> parameters = new HashMap<String,String>();
 
 	private String baseUrl;
 
 	private Long lastHarvestedJobId;
-	
+
 	public Resource() {
 		this.identifier = UUID.randomUUID().toString();
 	}
-	
+
 	@NotEmpty
 	public String getTitle() {
 		return title;
@@ -128,7 +128,7 @@ public class Resource extends Base implements Searchable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	/**
 	 * @return the readSkip
 	 */
@@ -160,7 +160,7 @@ public class Resource extends Base implements Searchable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The unique identifier of the object
 	 */
 	@NaturalId
@@ -170,7 +170,7 @@ public class Resource extends Base implements Searchable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param identifier
 	 *            Set the unique identifier of the object
 	 */
@@ -475,7 +475,7 @@ public class Resource extends Base implements Searchable {
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-	
+
 	public String getBaseUrl() {
 		return baseUrl;
 	}
@@ -495,7 +495,7 @@ public class Resource extends Base implements Searchable {
 			switch (getSchedulingPeriod()) {
 			case YEARLY:
 				nextAvailableDate = nextAvailableDate.plusYears(1);
-			    break;
+				break;
 			case MONTHLY:
 				nextAvailableDate = nextAvailableDate.plusMonths(1);
 				break;
@@ -504,25 +504,25 @@ public class Resource extends Base implements Searchable {
 				break;
 			case DAILY:
 				nextAvailableDate = nextAvailableDate.plusDays(1);
-			    break;					
-		    default:
-		    	nextAvailableDate = null;							
+				break;
+			default:
+				nextAvailableDate = null;
 			}
-			
+
 			setNextAvailableDate(nextAvailableDate);
 		}
 	}
-	
+
 	@Override
 	@Transient
-    @JsonIgnore
+	@JsonIgnore
 	public String getDocumentId() {
 		return getClassName() + "_" + getId();
 	}
 
 
 	@Transient
-    @JsonIgnore
+	@JsonIgnore
 	public String getClassName() {
 		return "Resource";
 	}
@@ -532,39 +532,39 @@ public class Resource extends Base implements Searchable {
 		DateTimeFormatter solrDateTimeFormat = DateTimeFormat.forPattern("yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'");
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getClassName() + "_" + getId());
-    	sid.addField("base.id_l", getId());
-    	sid.addField("base.class_searchable_b", false);
-    	sid.addField("base.class_s", getClass().getName());
-    	
-    	if(getDuration() != null) {
-    	    sid.addField("resource.duration_l",getDuration().getStandardSeconds());
-    	}
-    	sid.addField("resource.exit_code_s",getExitCode());
-    	sid.addField("resource.exit_description_t",getExitDescription());
-    	if(getLastHarvested() != null) {
-    	    sid.addField("resource.last_harvested_dt",solrDateTimeFormat.print(getLastHarvested()));
-    	}
-    	if(getNextAvailableDate() != null) {
-    	    sid.addField("resource.next_available_date_dt",solrDateTimeFormat.print(getNextAvailableDate()));
-    	}
-    	sid.addField("resource.process_skip_l",getProcessSkip());
-    	sid.addField("resource.records_read_l",getRecordsRead());
-    	sid.addField("resource.resource_type_s", getResourceType());
-    	sid.addField("resource.scheduled_b", getScheduled());
-    	sid.addField("resource.scheduling_period_s", getSchedulingPeriod());
-    	if(getOrganisation() != null) {
-    		sid.addField("resource.organisation_s",getOrganisation().getIdentifier());
-    	}
-    	if(getStartTime() != null) {
-    	    sid.addField("resource.start_time_dt",solrDateTimeFormat.print(getStartTime()));
-    	}
-    	sid.addField("resource.status_s", getStatus());
-    	sid.addField("resource.title_t", getTitle());
-    	sid.addField("resource.write_skip_l",getWriteSkip());
-    	sid.addField("resource.written_l",getWritten());
-    	sid.addField("searchable.label_sort", getTitle());
-    	StringBuilder summary = new StringBuilder().append(getExitDescription()).append(" ").append(getTitle());
-    	sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("base.id_l", getId());
+		sid.addField("base.class_searchable_b", false);
+		sid.addField("base.class_s", getClass().getName());
+
+		if(getDuration() != null) {
+			sid.addField("resource.duration_l",getDuration().getStandardSeconds());
+		}
+		sid.addField("resource.exit_code_s",getExitCode());
+		sid.addField("resource.exit_description_t",getExitDescription());
+		if(getLastHarvested() != null) {
+			sid.addField("resource.last_harvested_dt",solrDateTimeFormat.print(getLastHarvested()));
+		}
+		if(getNextAvailableDate() != null) {
+			sid.addField("resource.next_available_date_dt",solrDateTimeFormat.print(getNextAvailableDate()));
+		}
+		sid.addField("resource.process_skip_l",getProcessSkip());
+		sid.addField("resource.records_read_l",getRecordsRead());
+		sid.addField("resource.resource_type_s", getResourceType());
+		sid.addField("resource.scheduled_b", getScheduled());
+		sid.addField("resource.scheduling_period_s", getSchedulingPeriod());
+		if(getOrganisation() != null) {
+			sid.addField("resource.organisation_s",getOrganisation().getIdentifier());
+		}
+		if(getStartTime() != null) {
+			sid.addField("resource.start_time_dt",solrDateTimeFormat.print(getStartTime()));
+		}
+		sid.addField("resource.status_s", getStatus());
+		sid.addField("resource.title_t", getTitle());
+		sid.addField("resource.write_skip_l",getWriteSkip());
+		sid.addField("resource.written_l",getWritten());
+		sid.addField("searchable.label_sort", getTitle());
+		StringBuilder summary = new StringBuilder().append(getExitDescription()).append(" ").append(getTitle());
+		sid.addField("searchable.solrsummary_t", summary);
 		return sid;
 	}
 
@@ -575,9 +575,9 @@ public class Resource extends Base implements Searchable {
 	public Long getLastHarvestedJobId() {
 		return lastHarvestedJobId;
 	}
-	
+
 	public interface ReadResource {
-		
+
 	}
 
 	@Type(type = "dateTimeUserType")
@@ -588,5 +588,5 @@ public class Resource extends Base implements Searchable {
 	public void setLastAttempt(DateTime lastAttempt) {
 		this.lastAttempt = lastAttempt;
 	}
-	
+
 }

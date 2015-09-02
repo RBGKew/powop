@@ -25,13 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TypeAndSpecimenServiceImpl extends
-		SearchableServiceImpl<TypeAndSpecimen, TypeAndSpecimenDao> implements
-		TypeAndSpecimenService {
+SearchableServiceImpl<TypeAndSpecimen, TypeAndSpecimenDao> implements
+TypeAndSpecimenService {
 
 	@Autowired
-    public final void setTypeAndSpecimenDao(final TypeAndSpecimenDao typeAndSpecimenDao) {
-        super.dao = typeAndSpecimenDao;
-    }
+	public final void setTypeAndSpecimenDao(final TypeAndSpecimenDao typeAndSpecimenDao) {
+		super.dao = typeAndSpecimenDao;
+	}
 
 	@Override
 	@Transactional(readOnly = true)

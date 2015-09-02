@@ -56,111 +56,111 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Distribution extends OwnedEntity {
 
-    private static final long serialVersionUID = -970244833684895241L;
+	private static final long serialVersionUID = -970244833684895241L;
 
-    private Taxon taxon;
+	private Taxon taxon;
 
-    private Location location;
-    
-    private String locality;
+	private Location location;
 
-    private String occurrenceRemarks;
+	private String locality;
 
-    private OccurrenceStatus occurrenceStatus;
+	private String occurrenceRemarks;
 
-    private EstablishmentMeans establishmentMeans;
+	private OccurrenceStatus occurrenceStatus;
 
-    private Set<Annotation> annotations = new HashSet<Annotation>();
+	private EstablishmentMeans establishmentMeans;
 
-    private Set<Reference> references = new HashSet<Reference>();
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    private Long id;
+	private Set<Reference> references = new HashSet<Reference>();
 
-    /**
-     *
-     * @param newId
-     *            Set the identifier of this object.
-     */
-    public void setId(Long newId) {
-        this.id = newId;
-    }
+	private Long id;
 
-    /**
-     *
-     * @return Get the identifier for this object.
-     */
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
+	/**
+	 *
+	 * @param newId
+	 *            Set the identifier of this object.
+	 */
+	public void setId(Long newId) {
+		this.id = newId;
+	}
 
-    /**
-     * Set the lowest level this georegion is concerned with.
-     *
-     * @param geoRegion
-     *            the geographical region this distribution is concerned with
-     */
-    @JsonDeserialize(using = GeographicalRegionDeserializer.class)
-    public void setLocation(Location geoRegion) {
-        this.location = geoRegion;
-    }
+	/**
+	 *
+	 * @return Get the identifier for this object.
+	 */
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     *
-     * @return the lowest level geo region this distribution is concerned with
-     */
-    @Enumerated(value = EnumType.STRING)
-    public Location getLocation() {
-        return location;
-    }
+	/**
+	 * Set the lowest level this georegion is concerned with.
+	 *
+	 * @param geoRegion
+	 *            the geographical region this distribution is concerned with
+	 */
+	@JsonDeserialize(using = GeographicalRegionDeserializer.class)
+	public void setLocation(Location geoRegion) {
+		this.location = geoRegion;
+	}
 
-    /**
-     *
-     * @param newTaxon
-     *            Set the taxon that this distribution is about.
-     */
-    @JsonBackReference("distribution-taxon")
-    public void setTaxon(Taxon newTaxon) {
-        this.taxon = newTaxon;
-    }
+	/**
+	 *
+	 * @return the lowest level geo region this distribution is concerned with
+	 */
+	@Enumerated(value = EnumType.STRING)
+	public Location getLocation() {
+		return location;
+	}
 
-    /**
-     * @return the annotations
-     */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Distribution'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	/**
+	 *
+	 * @param newTaxon
+	 *            Set the taxon that this distribution is about.
+	 */
+	@JsonBackReference("distribution-taxon")
+	public void setTaxon(Taxon newTaxon) {
+		this.taxon = newTaxon;
+	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+	/**
+	 * @return the annotations
+	 */
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Distribution'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-    /**
-     *
-     * @return Get the taxon that this distribution is about.
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference("distribution-taxon")
-    public Taxon getTaxon() {
-        return taxon;
-    }
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
-    
-    
-    /**
+	/**
+	 *
+	 * @return Get the taxon that this distribution is about.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference("distribution-taxon")
+	public Taxon getTaxon() {
+		return taxon;
+	}
+
+
+
+	/**
 	 * @return the locality
 	 */
-    @Size(max = 255)
+	@Size(max = 255)
 	public String getLocality() {
 		return locality;
 	}
@@ -221,9 +221,9 @@ public class Distribution extends OwnedEntity {
 	 * @return the references
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({ CascadeType.SAVE_UPDATE })
-    @JoinTable(name = "Distribution_Reference", joinColumns = { @JoinColumn(name = "Distribution_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
-    @JsonSerialize(contentUsing = ReferenceSerializer.class)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JoinTable(name = "Distribution_Reference", joinColumns = { @JoinColumn(name = "Distribution_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
+	@JsonSerialize(contentUsing = ReferenceSerializer.class)
 	public Set<Reference> getReferences() {
 		return references;
 	}
@@ -237,16 +237,16 @@ public class Distribution extends OwnedEntity {
 	}
 
 	@Transient
-    @JsonIgnore
-    public final String getClassName() {
-        return "Distribution";
-    }
-	
+	@JsonIgnore
+	public final String getClassName() {
+		return "Distribution";
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
 		if(location != null) {
-		    stringBuffer.append(location.toString());
+			stringBuffer.append(location.toString());
 		}
 		if(occurrenceStatus != null) {
 			stringBuffer.append(" " + occurrenceStatus.toString());

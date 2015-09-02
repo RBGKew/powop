@@ -50,76 +50,76 @@ import org.springframework.core.io.Resource;
  */
 public class TaxonParsingTest {
 
-   private Resource content = new ClassPathResource("/org/emonocot/job/dwc/test/taxa.txt");
+	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/test/taxa.txt");
 
-   private TaxonService taxonService = null;
+	private TaxonService taxonService = null;
 
-   private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
+	private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
 
-   @Before
-   public final void setUp() throws Exception {
-       String[] names = new String[] {
-               "http://rs.tdwg.org/dwc/terms/taxonID",
-               "http://rs.tdwg.org/dwc/terms/scientificName",
-               "http://rs.tdwg.org/dwc/terms/scientificNameID",
-               "http://rs.tdwg.org/dwc/terms/scientificNameAuthorship",
-               "http://rs.tdwg.org/dwc/terms/taxonRank",
-               "http://rs.tdwg.org/dwc/terms/taxonomicStatus",
-               "http://rs.tdwg.org/dwc/terms/parentNameUsageID",
-               "http://rs.tdwg.org/dwc/terms/acceptedNameUsageID",
-               "http://rs.tdwg.org/dwc/terms/genus",
-               "http://rs.tdwg.org/dwc/terms/subgenus",
-               "http://rs.tdwg.org/dwc/terms/specificEpithet",
-               "http://rs.tdwg.org/dwc/terms/infraspecificEpithet",
-               "http://rs.tdwg.org/dwc/terms/nomenclaturalStatus",
-               "http://purl.org/dc/terms/modified",
-               "http://purl.org/dc/terms/source"
-       };
-       DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-       tokenizer.setDelimiter('\t');
-       tokenizer.setNames(names);
+	@Before
+	public final void setUp() throws Exception {
+		String[] names = new String[] {
+				"http://rs.tdwg.org/dwc/terms/taxonID",
+				"http://rs.tdwg.org/dwc/terms/scientificName",
+				"http://rs.tdwg.org/dwc/terms/scientificNameID",
+				"http://rs.tdwg.org/dwc/terms/scientificNameAuthorship",
+				"http://rs.tdwg.org/dwc/terms/taxonRank",
+				"http://rs.tdwg.org/dwc/terms/taxonomicStatus",
+				"http://rs.tdwg.org/dwc/terms/parentNameUsageID",
+				"http://rs.tdwg.org/dwc/terms/acceptedNameUsageID",
+				"http://rs.tdwg.org/dwc/terms/genus",
+				"http://rs.tdwg.org/dwc/terms/subgenus",
+				"http://rs.tdwg.org/dwc/terms/specificEpithet",
+				"http://rs.tdwg.org/dwc/terms/infraspecificEpithet",
+				"http://rs.tdwg.org/dwc/terms/nomenclaturalStatus",
+				"http://purl.org/dc/terms/modified",
+				"http://purl.org/dc/terms/source"
+		};
+		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+		tokenizer.setDelimiter('\t');
+		tokenizer.setNames(names);
 
-       taxonService = EasyMock.createMock(TaxonService.class);
-       Set<Converter> converters = new HashSet<Converter>();
-       converters.add(new StringToIsoDateTimeConverter());
-       converters.add(new TaxonomicStatusConverter());
-       converters.add(new RankConverter());
-       converters.add(new NomenclaturalStatusConverter());
+		taxonService = EasyMock.createMock(TaxonService.class);
+		Set<Converter> converters = new HashSet<Converter>();
+		converters.add(new StringToIsoDateTimeConverter());
+		converters.add(new TaxonomicStatusConverter());
+		converters.add(new RankConverter());
+		converters.add(new NomenclaturalStatusConverter());
 
-       ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
-       factoryBean.setConverters(converters);
-       factoryBean.afterPropertiesSet();
-       ConversionService conversionService = factoryBean.getObject();
+		ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+		factoryBean.setConverters(converters);
+		factoryBean.afterPropertiesSet();
+		ConversionService conversionService = factoryBean.getObject();
 
-        FieldSetMapper fieldSetMapper = new FieldSetMapper();
-        fieldSetMapper.setFieldNames(names);
-        fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-        fieldSetMapper.setConversionService(conversionService);
-        DefaultLineMapper<Taxon> lineMapper
-            = new DefaultLineMapper<Taxon>();
-        lineMapper.setFieldSetMapper(fieldSetMapper);
-        lineMapper.setLineTokenizer(tokenizer);
+		FieldSetMapper fieldSetMapper = new FieldSetMapper();
+		fieldSetMapper.setFieldNames(names);
+		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
+		fieldSetMapper.setConversionService(conversionService);
+		DefaultLineMapper<Taxon> lineMapper
+		= new DefaultLineMapper<Taxon>();
+		lineMapper.setFieldSetMapper(fieldSetMapper);
+		lineMapper.setLineTokenizer(tokenizer);
 
-        flatFileItemReader.setEncoding("UTF-8");
-        flatFileItemReader.setLinesToSkip(0);
-        flatFileItemReader.setResource(content);
-        flatFileItemReader.setLineMapper(lineMapper);
-        flatFileItemReader.afterPropertiesSet();
-   }
+		flatFileItemReader.setEncoding("UTF-8");
+		flatFileItemReader.setLinesToSkip(0);
+		flatFileItemReader.setResource(content);
+		flatFileItemReader.setLineMapper(lineMapper);
+		flatFileItemReader.afterPropertiesSet();
+	}
 
-    /**
-     * @throws Exception if there is a problem accessing the file
-     */
-    @Test
-    public final void testRead() throws Exception {
-        EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
-        EasyMock.replay(taxonService);
-        flatFileItemReader.open(new ExecutionContext());
-        Taxon taxon = flatFileItemReader.read();
-        assertEquals("Acontias conspurcatus",taxon.getScientificName());
-        assertEquals(NomenclaturalStatus.Available,taxon.getNomenclaturalStatus());
-        
-        
-    }
+	/**
+	 * @throws Exception if there is a problem accessing the file
+	 */
+	@Test
+	public final void testRead() throws Exception {
+		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
+		EasyMock.replay(taxonService);
+		flatFileItemReader.open(new ExecutionContext());
+		Taxon taxon = flatFileItemReader.read();
+		assertEquals("Acontias conspurcatus",taxon.getScientificName());
+		assertEquals(NomenclaturalStatus.Available,taxon.getNomenclaturalStatus());
+
+
+	}
 
 }

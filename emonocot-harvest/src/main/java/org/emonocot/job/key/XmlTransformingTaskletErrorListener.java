@@ -27,12 +27,12 @@ import org.emonocot.model.constants.RecordType;
 import org.joda.time.DateTime;
 
 public class XmlTransformingTaskletErrorListener extends AbstractRecordAnnotator implements ErrorListener {
-	private Long jobExecutionId;  
-	
-    public void setJobExecutionId(Long jobExecutionId) {
-    	this.jobExecutionId = jobExecutionId;
-    }
-	
+	private Long jobExecutionId;
+
+	public void setJobExecutionId(Long jobExecutionId) {
+		this.jobExecutionId = jobExecutionId;
+	}
+
 	private void doAnnotate(TransformerException exception, AnnotationType type) {
 		Annotation annotation = new Annotation();
 		annotation.setRecordType(RecordType.IdentificationKey);
@@ -50,7 +50,7 @@ public class XmlTransformingTaskletErrorListener extends AbstractRecordAnnotator
 			throws TransformerException {
 		logger.warn("Warning processing xml: " + exception.getMessage(), exception);
 		doAnnotate(exception,AnnotationType.Warn);
-		
+
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class XmlTransformingTaskletErrorListener extends AbstractRecordAnnotator
 			throws TransformerException {
 		logger.error("Error processing xml: " + exception.getMessage(), exception);
 		doAnnotate(exception,AnnotationType.Error);
-		
+
 	}
 
 	@Override
@@ -66,5 +66,5 @@ public class XmlTransformingTaskletErrorListener extends AbstractRecordAnnotator
 			throws TransformerException {
 		logger.error("Fatal error processing xml: " + exception.getMessage(), exception);
 	}
-	
+
 }

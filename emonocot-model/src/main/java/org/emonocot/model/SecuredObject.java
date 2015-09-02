@@ -22,10 +22,10 @@ package org.emonocot.model;
  *
  */
 public interface SecuredObject {
-    /**
-     *
-     * @return the id
-     */
-    Long getId();
+	/**
+	 *
+	 * @return the id
+	 */
+	Long getId();
 
 }

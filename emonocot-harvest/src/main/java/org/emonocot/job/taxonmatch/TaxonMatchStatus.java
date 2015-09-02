@@ -22,9 +22,9 @@ package org.emonocot.job.taxonmatch;
  *
  */
 public enum TaxonMatchStatus {
-    /**
-     *
-     */
-    NO_MATCH, SINGLE_MATCH, NO_EXACT_MATCH, CANNOT_PARSE, MULTIPLE_MATCHES
+	/**
+	 *
+	 */
+	NO_MATCH, SINGLE_MATCH, NO_EXACT_MATCH, CANNOT_PARSE, MULTIPLE_MATCHES
 
 }

@@ -23,7 +23,7 @@ import org.emonocot.model.constants.RecordType;
 public class WrongAuthorityException extends DarwinCoreProcessingException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1014545909015139552L;
 
@@ -32,7 +32,7 @@ public class WrongAuthorityException extends DarwinCoreProcessingException {
 	}
 
 	@Override
-	public AnnotationType getType() {		
+	public AnnotationType getType() {
 		return AnnotationType.Error;
 	}
 

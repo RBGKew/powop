@@ -38,80 +38,80 @@ import org.tdwg.ubif.TaxonName;
  *
  */
 public class XperTaxonNameProcessor extends AbstractRecordAnnotator implements
-        ItemProcessor<CodedDescription, TaxonName> {
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(XperTaxonNameProcessor.class);
+ItemProcessor<CodedDescription, TaxonName> {
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(XperTaxonNameProcessor.class);
 
-    private TaxonMatcher taxonMatcher;
+	private TaxonMatcher taxonMatcher;
 
 
-    /**
-     * @param newTaxonMatcher
-     *            the matcher to set
-     */
-    public final void setTaxonMatcher(final TaxonMatcher newTaxonMatcher) {
-        this.taxonMatcher = newTaxonMatcher;
-    }
+	/**
+	 * @param newTaxonMatcher
+	 *            the matcher to set
+	 */
+	public final void setTaxonMatcher(final TaxonMatcher newTaxonMatcher) {
+		this.taxonMatcher = newTaxonMatcher;
+	}
 
-    /**
-     * @param item
-     *            a taxon name to match
-     * @return a lookup
-     * @throws Exception
-     *             if there is a problem
-     */
-    public final TaxonName process(final CodedDescription codedDescription) throws Exception {
-    	TaxonName item = new TaxonName();
-    	item.setId(codedDescription.getId());
-    	item.setRepresentation(codedDescription.getRepresentation());
-        Taxon object = null;
-        AnnotationType annotationType = null;
-        AnnotationCode code = null;
-        String text = null;
+	/**
+	 * @param item
+	 *            a taxon name to match
+	 * @return a lookup
+	 * @throws Exception
+	 *             if there is a problem
+	 */
+	public final TaxonName process(final CodedDescription codedDescription) throws Exception {
+		TaxonName item = new TaxonName();
+		item.setId(codedDescription.getId());
+		item.setRepresentation(codedDescription.getRepresentation());
+		Taxon object = null;
+		AnnotationType annotationType = null;
+		AnnotationCode code = null;
+		String text = null;
 
-        if (item.getRepresentation() == null) {
-            return null;
-        } else {
-            String taxonName = item.getRepresentation().getLabel();            
-            List<Match<Taxon>> matches = taxonMatcher.match(taxonName);
-            if (matches.size() == 0) {
-                annotationType = AnnotationType.Error;
-                code = AnnotationCode.Absent;
-                text = "No matches found for taxonomic name " + taxonName;
+		if (item.getRepresentation() == null) {
+			return null;
+		} else {
+			String taxonName = item.getRepresentation().getLabel();
+			List<Match<Taxon>> matches = taxonMatcher.match(taxonName);
+			if (matches.size() == 0) {
+				annotationType = AnnotationType.Error;
+				code = AnnotationCode.Absent;
+				text = "No matches found for taxonomic name " + taxonName;
 
-                item.setDebuglabel(null);
-            } else if (matches.size() > 1) {
-                annotationType = AnnotationType.Error;
-                code = AnnotationCode.BadRecord;
-                text = matches.size() + " matches found for taxonomic name "
-                        + taxonName;
+						item.setDebuglabel(null);
+			} else if (matches.size() > 1) {
+				annotationType = AnnotationType.Error;
+				code = AnnotationCode.BadRecord;
+				text = matches.size() + " matches found for taxonomic name "
+						+ taxonName;
 
-                item.setDebuglabel(null);
-            } else {
-                annotationType = AnnotationType.Info;
-                code = AnnotationCode.Present;
-                object = matches.get(0).getInternal();
-                
-                text = object.getIdentifier() + " matches taxonomic name "
-                        + taxonName;
+				item.setDebuglabel(null);
+			} else {
+				annotationType = AnnotationType.Info;
+				code = AnnotationCode.Present;
+				object = matches.get(0).getInternal();
 
-                item.setDebuglabel(object.getIdentifier());
-            }
+				text = object.getIdentifier() + " matches taxonomic name "
+						+ taxonName;
 
-            Annotation annotation = new Annotation();
-            annotation.setJobId(stepExecution.getJobExecutionId());
-            annotation.setAnnotatedObj(object);
-            annotation.setRecordType(RecordType.Taxon);
-            annotation.setCode(code);
-            annotation.setType(annotationType);
-            annotation.setValue(item.getId());
-            annotation.setText(text);
-            super.annotate(annotation);
-            return item;
-        }
-    }
+				item.setDebuglabel(object.getIdentifier());
+			}
+
+			Annotation annotation = new Annotation();
+			annotation.setJobId(stepExecution.getJobExecutionId());
+			annotation.setAnnotatedObj(object);
+			annotation.setRecordType(RecordType.Taxon);
+			annotation.setCode(code);
+			annotation.setType(annotationType);
+			annotation.setValue(item.getId());
+			annotation.setText(text);
+			super.annotate(annotation);
+			return item;
+		}
+	}
 
 
 

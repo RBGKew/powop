@@ -28,9 +28,9 @@ import org.openqa.selenium.support.How;
  */
 public class ResourceList extends PageObject {
 
-    /**
-   *
-   */
-    @FindBy(how = How.ID, using = "page-title")
-    private WebElement title;
+	/**
+	 *
+	 */
+	@FindBy(how = How.ID, using = "page-title")
+	private WebElement title;
 }

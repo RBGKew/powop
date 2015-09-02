@@ -48,11 +48,11 @@ public class TermFactory {
 
 	/**
 	 * @param termName - A string containing a fully qualified URI for a {@link Term}
-	 * @return The {@link Term} represented by the parameter 
+	 * @return The {@link Term} represented by the parameter
 	 */
 	public static Term findTerm(String termName) {
-        // normalise termName
-	    String normTermName;
+		// normalise termName
+		String normTermName;
 		if (termName == null || StringUtils.isBlank(normTermName = normaliseTerm(termName))) {
 			return null;
 		}
@@ -100,10 +100,10 @@ public class TermFactory {
 	private static Term findTermInEnum(String termName,
 			Collection<Term> vocab) {
 		for (Term term : vocab) {
-			if (term.qualifiedName().equalsIgnoreCase(termName)) {				
+			if (term.qualifiedName().equalsIgnoreCase(termName)) {
 				return term;
 			}
-			if (term.simpleName().equalsIgnoreCase(termName)) {			
+			if (term.simpleName().equalsIgnoreCase(termName)) {
 				return term;
 			}
 		}

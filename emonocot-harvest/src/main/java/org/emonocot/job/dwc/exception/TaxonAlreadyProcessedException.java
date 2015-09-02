@@ -27,27 +27,27 @@ import org.emonocot.model.constants.AnnotationType;
  */
 public class TaxonAlreadyProcessedException extends TaxonProcessingException {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     * @param taxon Set the taxon
-     */
-    public TaxonAlreadyProcessedException(final Taxon taxon) {
-        super("Taxon " + taxon.toString()
-                + " with identifier " + taxon.getIdentifier() + " already found once in this archive",
-                AnnotationCode.AlreadyProcessed, taxon.getIdentifier());
-    }
+	/**
+	 *
+	 * @param taxon Set the taxon
+	 */
+	public TaxonAlreadyProcessedException(final Taxon taxon) {
+		super("Taxon " + taxon.toString()
+				+ " with identifier " + taxon.getIdentifier() + " already found once in this archive",
+				AnnotationCode.AlreadyProcessed, taxon.getIdentifier());
+	}
 
-    /**
-     * @return the annotation type
-     */
-    @Override
-    public final AnnotationType getType() {
-        return AnnotationType.Error;
-    }
+	/**
+	 * @return the annotation type
+	 */
+	@Override
+	public final AnnotationType getType() {
+		return AnnotationType.Error;
+	}
 
 }

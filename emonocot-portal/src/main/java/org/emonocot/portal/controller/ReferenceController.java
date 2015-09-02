@@ -30,23 +30,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/reference")
 public class ReferenceController extends
-        GenericController<Reference, ReferenceService> {
+GenericController<Reference, ReferenceService> {
 
-    /**
-     *
-     */
-    public ReferenceController() {
-        super("reference", Reference.class);
-    }
+	/**
+	 *
+	 */
+	public ReferenceController() {
+		super("reference", Reference.class);
+	}
 
-  /**
-   *
-   * @param referenceService
-   *            Set the reference service
-   */
-  @Autowired
-  public final void setReferenceService(
-            final ReferenceService referenceService) {
-      super.setService(referenceService);
-  }
+	/**
+	 *
+	 * @param referenceService
+	 *            Set the reference service
+	 */
+	@Autowired
+	public final void setReferenceService(
+			final ReferenceService referenceService) {
+		super.setService(referenceService);
+	}
 }

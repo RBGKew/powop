@@ -54,31 +54,31 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class Processor extends NonOwnedProcessor<Concept, ConceptService> implements ChunkListener {
-	
+
 	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
-	
+
 	private Map<String, Image> boundImages = new HashMap<String, Image>();
 
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
-    
-    private ReferenceService referenceService;
-    
-    private ImageService imageService;
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
-    @Autowired
-    public final void setConceptService(ConceptService conceptService) {
-        super.service = conceptService;
-    }  
-    
-    @Autowired
-    public final void setImageService(ImageService imageService) {
-        this.imageService = imageService;
-    } 
-    
-    @Autowired
-    public final void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
-    } 
+	private ReferenceService referenceService;
+
+	private ImageService imageService;
+
+	@Autowired
+	public final void setConceptService(ConceptService conceptService) {
+		super.service = conceptService;
+	}
+
+	@Autowired
+	public final void setImageService(ImageService imageService) {
+		this.imageService = imageService;
+	}
+
+	@Autowired
+	public final void setReferenceService(ReferenceService referenceService) {
+		this.referenceService = referenceService;
+	}
 
 	@Override
 	protected void doUpdate(Concept persisted, Concept t) {
@@ -87,12 +87,12 @@ public class Processor extends NonOwnedProcessor<Concept, ConceptService> implem
 		persisted.setAltLabel(t.getAltLabel());
 		persisted.setPrefLabel(t.getPrefLabel());
 		persisted.setDefinition(t.getDefinition());
-		
+
 		persisted.setSource(null);
 		if(t.getSource() != null) {
-		    resolveReference(persisted,t.getSource().getIdentifier());
-	    }
-		
+			resolveReference(persisted,t.getSource().getIdentifier());
+		}
+
 		persisted.setPrefSymbol(null);
 		if(t.getPrefSymbol() != null) {
 			resolveImage(persisted,t.getPrefSymbol().getIdentifier());
@@ -135,67 +135,67 @@ public class Processor extends NonOwnedProcessor<Concept, ConceptService> implem
 
 	@Override
 	protected void doValidate(Concept t) throws Exception {
-		
+
 	}
 
 	@Override
 	protected boolean doFilter(Concept t) {
 		return false;
 	}
-	
+
 	private void resolveReference(Concept object, String value) {
-	       if (value == null || value.trim().length() == 0) {
-	           // there is not citation identifier
-	           return;
-	       } else {
-	           if (boundReferences.containsKey(value)) {
-	               object.setSource(boundReferences.get(value));
-	           } else {
-	               Reference r = referenceService.find(value);
-	               if (r == null) {
-	                   r = new Reference();
-	                   r.setIdentifier(value);
-	                   Annotation annotation = super.createAnnotation(r,
-	                           RecordType.Reference, AnnotationCode.Create,
-	                           AnnotationType.Info);
-	                   r.getAnnotations().add(annotation);
-	                   r.setAuthority(getSource());
-	               }
-	               boundReferences.put(value, r);
-	               object.setSource(r);
-	           }
-	       }
-	   }
-	
+		if (value == null || value.trim().length() == 0) {
+			// there is not citation identifier
+			return;
+		} else {
+			if (boundReferences.containsKey(value)) {
+				object.setSource(boundReferences.get(value));
+			} else {
+				Reference r = referenceService.find(value);
+				if (r == null) {
+					r = new Reference();
+					r.setIdentifier(value);
+					Annotation annotation = super.createAnnotation(r,
+							RecordType.Reference, AnnotationCode.Create,
+							AnnotationType.Info);
+					r.getAnnotations().add(annotation);
+					r.setAuthority(getSource());
+				}
+				boundReferences.put(value, r);
+				object.setSource(r);
+			}
+		}
+	}
+
 	private void resolveImage(Concept object, String value) {
-	       if (value == null || value.trim().length() == 0) {
-	           // there is not image identifier
-	           return;
-	       } else {
-	           if (boundImages.containsKey(value)) {
-	               object.setPrefSymbol(boundImages.get(value));
-	           } else {
-	               Image i = imageService.find(value);
-	               if (i == null) {
-	                   i = new Image();
-	                   i.setIdentifier(value);
-	                   Annotation annotation = super.createAnnotation(i,
-	                           RecordType.Image, AnnotationCode.Create,
-	                           AnnotationType.Info);
-	                   i.getAnnotations().add(annotation);
-	                   i.setAuthority(getSource());
-	               }
-	               boundImages.put(value, i);
-	               object.setPrefSymbol(i);
-	           }
-	       }
-	   }
+		if (value == null || value.trim().length() == 0) {
+			// there is not image identifier
+			return;
+		} else {
+			if (boundImages.containsKey(value)) {
+				object.setPrefSymbol(boundImages.get(value));
+			} else {
+				Image i = imageService.find(value);
+				if (i == null) {
+					i = new Image();
+					i.setIdentifier(value);
+					Annotation annotation = super.createAnnotation(i,
+							RecordType.Image, AnnotationCode.Create,
+							AnnotationType.Info);
+					i.getAnnotations().add(annotation);
+					i.setAuthority(getSource());
+				}
+				boundImages.put(value, i);
+				object.setPrefSymbol(i);
+			}
+		}
+	}
 
 	@Override
 	public void beforeChunk() {
 		super.beforeChunk();
-        logger.info("Before Chunk");
-        boundReferences = new HashMap<String, Reference>();
-        boundImages = new HashMap<String, Image>();
-    }
+		logger.info("Before Chunk");
+		boundReferences = new HashMap<String, Reference>();
+		boundImages = new HashMap<String, Image>();
+	}
 }

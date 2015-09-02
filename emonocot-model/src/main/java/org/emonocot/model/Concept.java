@@ -60,32 +60,32 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 public class Concept extends SearchableObject implements NonOwned {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(Concept.class);
-	
-    private static final long serialVersionUID = 3341900807619517602L;
 
-    private Set<Taxon> taxa = new HashSet<Taxon>();
+	private static final long serialVersionUID = 3341900807619517602L;
 
-    private Set<Annotation> annotations = new HashSet<Annotation>();
-    
-    private Reference source;
-    
-    private String prefLabel;
-    
-    private String definition;
-    
-    private Image prefSymbol;
-    
-    private String altLabel;
+	private Set<Taxon> taxa = new HashSet<Taxon>();
 
-    private Long id;
-    
-    private String creator;
-    
-    private List<Comment> comments = new ArrayList<Comment>();
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    @Size(max = 255)
+	private Reference source;
+
+	private String prefLabel;
+
+	private String definition;
+
+	private Image prefSymbol;
+
+	private String altLabel;
+
+	private Long id;
+
+	private String creator;
+
+	private List<Comment> comments = new ArrayList<Comment>();
+
+	@Size(max = 255)
 	public String getCreator() {
 		return creator;
 	}
@@ -94,24 +94,24 @@ public class Concept extends SearchableObject implements NonOwned {
 		this.creator = creator;
 	}
 
-    public void setId(Long newId) {
-        this.id = newId;
-    }
+	public void setId(Long newId) {
+		this.id = newId;
+	}
 
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonSerialize(using = ReferenceSerializer.class)
-    public Reference getSource() {
+	public Reference getSource() {
 		return source;
 	}
 
-    @JsonDeserialize(using = ReferenceDeserializer.class)
+	@JsonDeserialize(using = ReferenceDeserializer.class)
 	public void setSource(Reference source) {
 		this.source = source;
 	}
@@ -135,7 +135,7 @@ public class Concept extends SearchableObject implements NonOwned {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-        @Cascade({ CascadeType.SAVE_UPDATE })
+	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonSerialize(using = ImageSerializer.class)
 	public Image getPrefSymbol() {
 		return prefSymbol;
@@ -156,47 +156,47 @@ public class Concept extends SearchableObject implements NonOwned {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Concept", joinColumns = {@JoinColumn(name = "concepts_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public Set<Taxon> getTaxa() {
-        return taxa;
-    }
+	@JoinTable(name = "Taxon_Concept", joinColumns = {@JoinColumn(name = "concepts_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	public Set<Taxon> getTaxa() {
+		return taxa;
+	}
 
-    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
+	@JsonDeserialize(contentUsing = TaxonDeserializer.class)
+	public void setTaxa(Set<Taxon> taxa) {
+		this.taxa = taxa;
+	}
 
-    /**
-     * @return the annotations
-     */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Concept'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
-   
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
-    
-    /**
+	/**
+	 * @return the annotations
+	 */
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Concept'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
+
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
+
+	/**
 	 * @return the comments
 	 */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'Concept'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "commentPage_id")
+	@OrderBy("created DESC")
+	@Where(clause = "commentPage_type = 'Concept'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -204,31 +204,31 @@ public class Concept extends SearchableObject implements NonOwned {
 	/**
 	 * @param comments the comments to set
 	 */
-    @JsonIgnore
+	@JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-    
-    @Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
-    	sid.addField("searchable.label_sort", getPrefLabel());  	
-    	
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = super.toSolrInputDocument();
+		sid.addField("searchable.label_sort", getPrefLabel());
+
 		StringBuilder summary = new StringBuilder().append(getAltLabel())
 				.append(" ").append(getCreator()).append(" ")
 				.append(getDefinition()).append(" ").append(getSource());
-    	sid.addField("searchable.solrsummary_t", summary);
-		
-    	return sid;
-    }
-    
-    @Override
-    public String toString() {
-    	StringBuffer stringBuffer = new StringBuffer();
-    	stringBuffer.append(identifier);
-    	if(prefLabel != null) {
-    		stringBuffer.append(": \"" + prefLabel + "\"");
-    	}
-    	return stringBuffer.toString();
-    }
+		sid.addField("searchable.solrsummary_t", summary);
+
+		return sid;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(identifier);
+		if(prefLabel != null) {
+			stringBuffer.append(": \"" + prefLabel + "\"");
+		}
+		return stringBuffer.toString();
+	}
 }

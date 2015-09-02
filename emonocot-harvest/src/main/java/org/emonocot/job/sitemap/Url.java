@@ -26,12 +26,12 @@ import java.net.URL;
 public class Url implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private URL loc;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private String lastmod;
 

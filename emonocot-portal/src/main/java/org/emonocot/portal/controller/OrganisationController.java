@@ -42,30 +42,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * 
+ *
  * @author ben
- * 
+ *
  */
 @Controller
 @RequestMapping("/organisation")
-public class OrganisationController extends GenericController<Organisation, OrganisationService> {	
-	
+public class OrganisationController extends GenericController<Organisation, OrganisationService> {
+
 	private static Logger logger = LoggerFactory.getLogger(OrganisationController.class);
 
 	/**
-     *
-     */
+	 *
+	 */
 	public OrganisationController() {
 		super("organisation", Organisation.class);
 	}
 
 	/**
-    *
-    */
+	 *
+	 */
 	private ResourceService resourceService;
 
 	/**
-	 * 
+	 *
 	 * @param resourceService
 	 *            Set the source service
 	 */
@@ -75,7 +75,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 
 	/**
-	 * 
+	 *
 	 * @param organisationService
 	 *            Set the source service
 	 */
@@ -85,7 +85,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 *            Set the model
 	 * @param limit
@@ -98,12 +98,12 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	public String list(
 			Model model,
 			@RequestParam(value = "query", required = false) String query,
-		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-		    @RequestParam(value = "sort", required = false) String sort,
-		    @RequestParam(value = "view", required = false) String view) throws SolrServerException {
-		
+			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "view", required = false) String view) throws SolrServerException {
+
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
@@ -112,7 +112,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			}
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Organisation");
-		Page<Organisation> result = getService().search(query, null, limit, start, 
+		Page<Organisation> result = getService().search(query, null, limit, start,
 				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, "source-with-jobs");
 		model.addAttribute("result", result);
 		result.putParam("query", query);
@@ -120,7 +120,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 *            Set the model
 	 * @return the name of the view
@@ -175,7 +175,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 *            Set the model
 	 * @param organisationId
@@ -230,15 +230,15 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/organisation/" + organisationId;
 	}
-	
+
 	@RequestMapping(value = "/{identifier}",  method = RequestMethod.GET, params = {"delete"}, produces = "text/html")
-    public String delete(@PathVariable String identifier, RedirectAttributes redirectAttributes) {
+	public String delete(@PathVariable String identifier, RedirectAttributes redirectAttributes) {
 		Organisation organisation = getService().find(identifier);
-        getService().delete(identifier);
-        String[] codes = new String[] { "organisation.deleted" };
+		getService().delete(identifier);
+		String[] codes = new String[] { "organisation.deleted" };
 		Object[] args = new Object[] { organisation.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/organisation";
-   }
+		return "redirect:/organisation";
+	}
 }

@@ -30,15 +30,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PhylogeneticTreeServiceImpl extends ServiceImpl<PhylogeneticTree, PhylogeneticTreeDao>  implements PhylogeneticTreeService {
 
-    @Autowired
-    public void setPhylogeneticTreeDao(PhylogeneticTreeDao dao) {
-        super.dao = dao;
-    }
-    
-    @Override
+	@Autowired
+	public void setPhylogeneticTreeDao(PhylogeneticTreeDao dao) {
+		super.dao = dao;
+	}
+
+	@Override
 	@Transactional(readOnly = false)
 	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_PHYLOGENY')")
-	public void deleteById(Long id) {		
+	public void deleteById(Long id) {
 		super.deleteById(id);
 	}
 }

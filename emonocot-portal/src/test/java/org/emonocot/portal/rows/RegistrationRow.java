@@ -23,23 +23,23 @@ package org.emonocot.portal.rows;
  */
 public class RegistrationRow {
 
-    /**
-    *
-    */
-    public String username;
+	/**
+	 *
+	 */
+	public String username;
 
-    /**
-    *
-    */
-    public String repeatUsername;
+	/**
+	 *
+	 */
+	public String repeatUsername;
 
-    /**
-    *
-    */
-    public String password;
+	/**
+	 *
+	 */
+	public String password;
 
-    /**
-    *
-    */
-    public String repeatPassword;
+	/**
+	 *
+	 */
+	public String repeatPassword;
 }

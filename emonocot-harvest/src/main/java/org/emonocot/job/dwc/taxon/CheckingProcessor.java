@@ -14,7 +14,7 @@
  * The complete text of the GNU Affero General Public License is in the source repository as the file
  * ‘COPYING’.  It is also available from <http://www.gnu.org/licenses/>.
  */
-    package org.emonocot.job.dwc.taxon;
+package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.TaxonService;
@@ -39,53 +39,53 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class CheckingProcessor extends AuthorityAware implements ItemProcessor<Taxon,Annotation> {
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(CheckingProcessor.class);
-    
-    private TaxonService taxonService;
-    
-    private AnnotationService annotationService;
-    
-    @Autowired
-    public void setTaxonService(TaxonService taxonService) {
-    	this.taxonService = taxonService;
-    }
-    
-    @Autowired
-    public void setAnnotationService(AnnotationService annotationService) {
-    	this.annotationService = annotationService;
-    }
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(CheckingProcessor.class);
 
-    /**
-     * @param taxon a taxon object
-     * @throws Exception if something goes wrong
-     * @return Taxon a taxon object
-     */
-    public final Annotation process(final Taxon taxon) throws Exception {
-        logger.info("Processing " + taxon.getIdentifier());
-        if (taxon.getIdentifier() == null || taxon.getIdentifier().isEmpty()) {
-            throw new NoIdentifierException(taxon);
-        }
-        Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
-        if (persistedTaxon == null) {
-            throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
-        }
+	private TaxonService taxonService;
 
-        Annotation annotation = annotationService.findAnnotation(RecordType.Taxon,persistedTaxon.getId(), getStepExecution().getJobExecutionId());
+	private AnnotationService annotationService;
 
-        if (annotation == null) {
-        	logger.warn(taxon.getIdentifier() + " was not expected");
-            throw new UnexpectedTaxonException(taxon);
-        } else {
-        	if (annotation.getCode().equals(AnnotationCode.Present)) {
-                throw new TaxonAlreadyProcessedException(taxon);
-            }
-            annotation.setType(AnnotationType.Info);
-            annotation.setCode(AnnotationCode.Present);
-        	logger.info(taxon.getIdentifier() + " was expected");
-        }
-        return annotation;
-    }
+	@Autowired
+	public void setTaxonService(TaxonService taxonService) {
+		this.taxonService = taxonService;
+	}
+
+	@Autowired
+	public void setAnnotationService(AnnotationService annotationService) {
+		this.annotationService = annotationService;
+	}
+
+	/**
+	 * @param taxon a taxon object
+	 * @throws Exception if something goes wrong
+	 * @return Taxon a taxon object
+	 */
+	public final Annotation process(final Taxon taxon) throws Exception {
+		logger.info("Processing " + taxon.getIdentifier());
+		if (taxon.getIdentifier() == null || taxon.getIdentifier().isEmpty()) {
+			throw new NoIdentifierException(taxon);
+		}
+		Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
+		if (persistedTaxon == null) {
+			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
+		}
+
+		Annotation annotation = annotationService.findAnnotation(RecordType.Taxon,persistedTaxon.getId(), getStepExecution().getJobExecutionId());
+
+		if (annotation == null) {
+			logger.warn(taxon.getIdentifier() + " was not expected");
+			throw new UnexpectedTaxonException(taxon);
+		} else {
+			if (annotation.getCode().equals(AnnotationCode.Present)) {
+				throw new TaxonAlreadyProcessedException(taxon);
+			}
+			annotation.setType(AnnotationType.Info);
+			annotation.setCode(AnnotationCode.Present);
+			logger.info(taxon.getIdentifier() + " was expected");
+		}
+		return annotation;
+	}
 }

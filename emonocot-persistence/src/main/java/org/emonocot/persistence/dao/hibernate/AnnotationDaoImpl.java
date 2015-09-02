@@ -39,10 +39,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
-        AnnotationDao {
-	
+AnnotationDao {
+
 	protected JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	public final void setDataSource(final DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate();
@@ -50,42 +50,42 @@ public class AnnotationDaoImpl extends SearchableDaoImpl<Annotation> implements
 		jdbcTemplate.afterPropertiesSet();
 	}
 
-    /**
-    *
-    */
-   private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-   static {
-       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-       FETCH_PROFILES.put("annotated-obj", new Fetch[] {
-               new Fetch("annotatedObj", FetchMode.SELECT)
-       });
-   }
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("annotated-obj", new Fetch[] {
+				new Fetch("annotatedObj", FetchMode.SELECT)
+		});
+	}
 
-    /**
-     *
-     */
-    public AnnotationDaoImpl() {
-        super(Annotation.class);
-    }
-    
-    @Override
-    protected boolean isSearchableObject() {
+	/**
+	 *
+	 */
+	public AnnotationDaoImpl() {
+		super(Annotation.class);
+	}
+
+	@Override
+	protected boolean isSearchableObject() {
 		return false;
 	}
 
-    @Override
-    protected final Fetch[] getProfile(final String profile) {
-        return AnnotationDaoImpl.FETCH_PROFILES.get(profile);
-    }
+	@Override
+	protected final Fetch[] getProfile(final String profile) {
+		return AnnotationDaoImpl.FETCH_PROFILES.get(profile);
+	}
 
 	@Override
 	public Annotation findAnnotation(RecordType recordType, Long id, Long jobId) {
 		try {
-		  Object[] args = new Object[] {id, "Taxon", jobId};
-		  int[] argTypes = new int[] {Types.BIGINT, Types.VARCHAR, Types.BIGINT};
-		  Long annotationId = jdbcTemplate.queryForLong("Select a.id from Annotation a where a.annotatedObjId = ? and a.annotatedObjType = ? and a.jobId = ?", args, argTypes);
-		  return (Annotation) getSession().load(Annotation.class, annotationId);
+			Object[] args = new Object[] {id, "Taxon", jobId};
+			int[] argTypes = new int[] {Types.BIGINT, Types.VARCHAR, Types.BIGINT};
+			Long annotationId = jdbcTemplate.queryForLong("Select a.id from Annotation a where a.annotatedObjId = ? and a.annotatedObjType = ? and a.jobId = ?", args, argTypes);
+			return (Annotation) getSession().load(Annotation.class, annotationId);
 		} catch(IncorrectResultSizeDataAccessException irsdae) {
 			if(irsdae.getActualSize() == 0) {
 				return null;

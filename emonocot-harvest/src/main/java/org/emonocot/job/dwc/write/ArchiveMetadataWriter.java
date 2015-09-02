@@ -49,87 +49,87 @@ import freemarker.template.TemplateException;
 
 
 public class ArchiveMetadataWriter implements Tasklet {
-	
+
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYYY");
-	
+
 	private TermFactory termFactory = new TermFactory();
-	
+
 	private Pattern defaultValuesPattern = Pattern.compile("((?:[^\\\\,]|\\\\.)*)(?:,|$)");
-	
+
 	private String archiveFile;
 
 	private String[] taxonFields;
-	
+
 	private Map<String,String> taxonDefaultValues = new HashMap<String,String>();
 
 	private String[] descriptionFields;
-	
+
 	private Map<String,String> descriptionDefaultValues = new HashMap<String,String>();
 
 	private String[] distributionFields;
-	
+
 	private Map<String,String> distributionDefaultValues = new HashMap<String,String>();
 
 	private String[] referenceFields;
-	
+
 	private Map<String,String> referenceDefaultValues = new HashMap<String,String>();
 
 	private String[] imageFields;
-	
+
 	private Map<String,String> imageDefaultValues = new HashMap<String,String>();
 
 	private String[] typeAndSpecimenFields;
-	
+
 	private Map<String,String> typeAndSpecimenDefaultValues = new HashMap<String,String>();
 
 	private String[] measurementOrFactFields;
-	
+
 	private Map<String,String> measurementOrFactDefaultValues = new HashMap<String,String>();
 
 	private String[] vernacularNameFields;
-	
+
 	private Map<String,String> vernacularNameDefaultValues = new HashMap<String,String>();
 
 	private String[] identifierFields;
-	
+
 	private Map<String,String> identifierDefaultValues = new HashMap<String,String>();
-	
+
 	private Character quoteCharacter;
-	
+
 	private String delimiter;
 
 	private FileSystemResource outputDirectory;
-	
+
 	private String citationString;
-	
+
 	private String creatorEmail;
-	
+
 	private String creatorName;
-	
+
 	private String description;
-	
+
 	private String homepageUrl;
-	
+
 	private String identifier;
-	
+
 	private String logoUrl;
-	
+
 	private String publisherEmail;
-	
+
 	private String publisherName;
-	
+
 	private String rights;
-	
+
 	private String subject;
-	
+
 	private String title;
 
 	private int ignoreHeaderLines = 0;
-	
+
 	public void setIgnoreHeaderLines(int ignoreHeaderLines) {
 		this.ignoreHeaderLines = ignoreHeaderLines;
 	}
-	
+
 	public void setCitationString(String citationString) {
 		this.citationString = citationString;
 	}
@@ -189,7 +189,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 	public void setArchiveFile(String archiveFile) {
 		this.archiveFile = archiveFile;
 	}
-	
+
 	public void setTaxonDefaultValues(String taxonDefaultValues) {
 		this.taxonDefaultValues = toDefaultValues(taxonDefaultValues);
 	}
@@ -225,11 +225,11 @@ public class ArchiveMetadataWriter implements Tasklet {
 	public void setIdentifierDefaultValues(String identifierDefaultValues) {
 		this.identifierDefaultValues = toDefaultValues(identifierDefaultValues);
 	}
-	
+
 	public void setReferenceDefaultValues(String referenceDefaultValues) {
 		this.referenceDefaultValues = toDefaultValues(referenceDefaultValues);
 	}
-	
+
 	public void setTaxonFields(String[] taxonFields) {
 		this.taxonFields = taxonFields;
 	}
@@ -265,13 +265,13 @@ public class ArchiveMetadataWriter implements Tasklet {
 	public void setIdentifierFields(String[] identifierFields) {
 		this.identifierFields = identifierFields;
 	}
-	
+
 	public void setOutputDirectory(FileSystemResource outputDirectory) {
 		this.outputDirectory = outputDirectory;
 	}
-	
+
 	Map<String,String> toDefaultValues(String defaultValueList) {
-		
+
 		Map<String,String> defaultValues = new HashMap<String,String>();
 		if (defaultValueList != null && !defaultValueList.isEmpty()) {
 			Matcher matcher = defaultValuesPattern.matcher(defaultValueList);
@@ -291,9 +291,9 @@ public class ArchiveMetadataWriter implements Tasklet {
 
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
 		Archive archive = new Archive();
-		
+
 		archive.setCore(buildArchiveFile(taxonFields,taxonDefaultValues,DwcTerm.Taxon, DwcTerm.taxonID,"taxon.txt",ignoreHeaderLines ,"UTF-8",quoteCharacter,delimiter));
-		
+
 		if(descriptionFields != null) {
 			archive.addExtension(buildArchiveFile(descriptionFields,descriptionDefaultValues,GbifTerm.Description, DwcTerm.taxonID,"description.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
@@ -318,7 +318,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 		if(identifierFields != null) {
 			archive.addExtension(buildArchiveFile(identifierFields,identifierDefaultValues,GbifTerm.Identifier, DwcTerm.taxonID,"identifier.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
-		
+
 		archive.setMetadataLocation("eml.xml");
 		File workDirectory = new File(outputDirectory.getFile(),archiveFile);
 		if(!workDirectory.exists()) {
@@ -326,28 +326,28 @@ public class ArchiveMetadataWriter implements Tasklet {
 		}
 		File metaFile = new File(workDirectory,"meta.xml");
 		try {
-		    MetaDescriptorWriter.writeMetaFile(metaFile, archive);
+			MetaDescriptorWriter.writeMetaFile(metaFile, archive);
 		} catch (TemplateException te) {
 			throw new IOException("Exception writing meta.xml", te);
 		}
-		
+
 		File emlFile = new File(workDirectory,"eml.xml");
 		Eml eml = getEml();
 		try {
-		    EmlWriter.writeEmlFile(emlFile, eml);
+			EmlWriter.writeEmlFile(emlFile, eml);
 		} catch (TemplateException te) {
 			throw new IOException("Exception writing eml.xml", te);
 		}
-		
+
 		return RepeatStatus.FINISHED;
 	}
-	
+
 	private Eml getEml() {
 		Eml eml = new Eml();
 		if(citationString != null) {
-		    DateTime now = new DateTime();
-		    Integer year = new Integer(now.getYear());
-		    citationString = citationString.replace("{0}", year.toString()).replace("{1}", dateTimeFormatter.print(now));
+			DateTime now = new DateTime();
+			Integer year = new Integer(now.getYear());
+			citationString = citationString.replace("{0}", year.toString()).replace("{1}", dateTimeFormatter.print(now));
 		}
 		eml.setCitation(citationString,identifier);
 		Agent resourceCreator = new Agent();
@@ -369,13 +369,13 @@ public class ArchiveMetadataWriter implements Tasklet {
 	}
 
 	private ArchiveFile buildArchiveFile(String[] fieldNames, Map<String,String> defaultValues, Term rowType, Term idTerm, String location,
-	    Integer ignoreHeaderLines, String encoding, Character fieldsEnclosedBy, String fieldsTerminatedBy) {
+			Integer ignoreHeaderLines, String encoding, Character fieldsEnclosedBy, String fieldsTerminatedBy) {
 		ArchiveFile archiveFile = new ArchiveFile();
 		ArchiveField idField = new ArchiveField();
 		idField.setIndex(0);
 		idField.setTerm(idTerm);
 		archiveFile.setId(idField);
-		
+
 		for(int i = 1; i < fieldNames.length; i++) {
 			Term term = termFactory.findTerm(fieldNames[i]);
 			ArchiveField archiveField = new ArchiveField();
@@ -400,7 +400,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 		archiveFile.setFieldsEnclosedBy(fieldsEnclosedBy);
 		archiveFile.setFieldsTerminatedBy(fieldsTerminatedBy);
 		archiveFile.addLocation(location);
-		
+
 		return archiveFile;
 	}
 }

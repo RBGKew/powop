@@ -36,54 +36,54 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/key")
 public class IdentificationKeyController extends GenericController<IdentificationKey, IdentificationKeyService> {
 
-    private static Logger queryLog = LoggerFactory.getLogger("query");
+	private static Logger queryLog = LoggerFactory.getLogger("query");
 
-    public IdentificationKeyController() {
-        super("key", IdentificationKey.class);
-    }
+	public IdentificationKeyController() {
+		super("key", IdentificationKey.class);
+	}
 
-    /**
-     * @param newIdentificationKeyService
-     *            Set the identification key service
-     */
-    @Autowired
-    public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
-        super.setService(newIdentificationKeyService);
-    }
+	/**
+	 * @param newIdentificationKeyService
+	 *            Set the identification key service
+	 */
+	@Autowired
+	public void setIdentificationKeyService(IdentificationKeyService newIdentificationKeyService) {
+		super.setService(newIdentificationKeyService);
+	}
 
-    /**
-     * @param identifier
-     *            The identifier of the identification key
-     * @param model
-     *            The model
-     * @return The name of the view
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "!delete", produces = {"text/html", "*/*"})
-    public String getPage(@PathVariable Long id,
-            Model model) {
-        IdentificationKey key = getService().load(id,"object-page");
-        model.addAttribute(key); 
-        queryLog.info("IdentificationKey: \'{}\'", new Object[] {id});
-        return "key/show";
-    }
-    
-    /**
-     * Many users visit a taxon page and then navigate to the document above, then bounce
-     */
-    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
-    public String list(Model model) {
-    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
-    }
-    
-    @RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	/**
+	 * @param identifier
+	 *            The identifier of the identification key
+	 * @param model
+	 *            The model
+	 * @return The name of the view
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "!delete", produces = {"text/html", "*/*"})
+	public String getPage(@PathVariable Long id,
+			Model model) {
+		IdentificationKey key = getService().load(id,"object-page");
+		model.addAttribute(key);
+		queryLog.info("IdentificationKey: \'{}\'", new Object[] {id});
+		return "key/show";
+	}
+
+	/**
+	 * Many users visit a taxon page and then navigate to the document above, then bounce
+	 */
+	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+	public String list(Model model) {
+		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
+	}
+
+	@RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+	public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 		IdentificationKey key = getService().load(id);
-        getService().deleteById(id);
-        String[] codes = new String[] { "key.deleted" };
+		getService().deleteById(id);
+		String[] codes = new String[] { "key.deleted" };
 		Object[] args = new Object[] { key.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
-   }
+		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.IdentificationKey";
+	}
 
 }

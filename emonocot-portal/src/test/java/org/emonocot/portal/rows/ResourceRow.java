@@ -37,10 +37,10 @@ public class ResourceRow {
 	public String writeSkip;
 
 	public String written;
-	
+
 	public String jobId;
 
 	public String title;
-	
+
 	public String resource;
 }

@@ -23,6 +23,6 @@ import org.emonocot.model.SearchableObject;
  *
  */
 public interface SearchableObjectService extends SearchableService<SearchableObject> {
-	
+
 
 }

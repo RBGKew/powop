@@ -31,30 +31,30 @@ import org.springframework.format.Printer;
  *
  */
 public class FacetRequestAnnotationFormatterFactory implements
-        AnnotationFormatterFactory<FacetRequestFormat> {
+AnnotationFormatterFactory<FacetRequestFormat> {
 
-   /**
-    *
-    */
-   private static final Set<Class<?>> FIELD_TYPES = new HashSet<Class<?>>();
+	/**
+	 *
+	 */
+	private static final Set<Class<?>> FIELD_TYPES = new HashSet<Class<?>>();
 
-   static {
-       FIELD_TYPES.add(FacetRequest.class);
-   }
+	static {
+		FIELD_TYPES.add(FacetRequest.class);
+	}
 
-    public final Set<Class<?>> getFieldTypes() {
-        return FIELD_TYPES;
-    }
+	public final Set<Class<?>> getFieldTypes() {
+		return FIELD_TYPES;
+	}
 
-    public final Parser<?> getParser(
-            final FacetRequestFormat facetRequestFormat,
-            final Class<?> fieldType) {
-        return new FacetRequestFormatter();
-    }
+	public final Parser<?> getParser(
+			final FacetRequestFormat facetRequestFormat,
+			final Class<?> fieldType) {
+		return new FacetRequestFormatter();
+	}
 
-    public final Printer<?> getPrinter(
-            final FacetRequestFormat arg0, final Class<?> fieldType) {
-        return new FacetRequestFormatter();
-    }
+	public final Printer<?> getPrinter(
+			final FacetRequestFormat arg0, final Class<?> fieldType) {
+		return new FacetRequestFormatter();
+	}
 
 }

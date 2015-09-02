@@ -54,24 +54,24 @@ import org.hibernate.annotations.Where;
 public class PhylogeneticTree extends Multimedia {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6377124432983928528L;
-	
+
 	private Long id;
-	
+
 	private Set<Taxon> taxa = new HashSet<Taxon>();
-	
+
 	private Set<Taxon> leaves = new HashSet<Taxon>();
-	
+
 	private Set<Annotation> annotations = new HashSet<Annotation>();
-	
+
 	private String phylogeny;
-	
-	private List<Comment> comments = new ArrayList<Comment>();	
-	
+
+	private List<Comment> comments = new ArrayList<Comment>();
+
 	private Long numberOfExternalNodes;
-	
+
 	private Reference bibliographicReference;
 
 	private boolean hasBranchLengths;
@@ -98,17 +98,17 @@ public class PhylogeneticTree extends Multimedia {
 
 	@Override
 	@Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
 		return id;
 	}
 
 	@Override
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'PhylogeneticTree'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'PhylogeneticTree'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	public Set<Annotation> getAnnotations() {
 		return annotations;
 	}
@@ -120,9 +120,9 @@ public class PhylogeneticTree extends Multimedia {
 
 	@Override
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_PhylogeneticTree", joinColumns = {@JoinColumn(name = "trees_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JoinTable(name = "Taxon_PhylogeneticTree", joinColumns = {@JoinColumn(name = "trees_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
 	public Set<Taxon> getTaxa() {
 		return taxa;
 	}
@@ -132,11 +132,11 @@ public class PhylogeneticTree extends Multimedia {
 	public void setTaxa(Set<Taxon> taxa) {
 		this.taxa = taxa;
 	}
-	
+
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PhylogeneticTree_Taxon", joinColumns = {@JoinColumn(name = "PhylogeneticTree_id")}, inverseJoinColumns = {@JoinColumn(name = "leaves_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JoinTable(name = "PhylogeneticTree_Taxon", joinColumns = {@JoinColumn(name = "PhylogeneticTree_id")}, inverseJoinColumns = {@JoinColumn(name = "leaves_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
 	public Set<Taxon> getLeaves() {
 		return leaves;
 	}
@@ -154,28 +154,28 @@ public class PhylogeneticTree extends Multimedia {
 	public void setPhylogeny(String phylogeny) {
 		this.phylogeny = phylogeny;
 	}
-	
+
 	public void setHasBranchLengths(boolean hasBranchLengths) {
 		this.hasBranchLengths = hasBranchLengths;
 	}
-	
+
 	public boolean getHasBranchLengths() {
 		return hasBranchLengths;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'PhylogeneticTree'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
+	@JoinColumn(name = "commentPage_id")
+	@OrderBy("created DESC")
+	@Where(clause = "commentPage_type = 'PhylogeneticTree'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	public List<Comment> getComments() {
 		return comments;
 	}
 
-    /**
-     * @param comments - Comments made about this tree
-     */
+	/**
+	 * @param comments - Comments made about this tree
+	 */
 	@JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
@@ -185,54 +185,54 @@ public class PhylogeneticTree extends Multimedia {
 		this.id = id;
 	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.model.Multimedia#getType()
-     */
-    @Override
-    @Transient
-    public MediaType getType() {
-        return MediaType.InteractiveResource;
-    }
-	
+	/* (non-Javadoc)
+	 * @see org.emonocot.model.Multimedia#getType()
+	 */
 	@Override
-    public SolrInputDocument toSolrInputDocument() {
+	@Transient
+	public MediaType getType() {
+		return MediaType.InteractiveResource;
+	}
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = super.toSolrInputDocument();
-    	//sid.addField("phylogeny.title_t", getTitle());
-    	//addField(sid,"phylogeny.creator_t", getCreator());
-    	//addField(sid,"phylogeny.description_t", getDescription());
-    	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
-    	.append(getCreator()).append(" ").append(getDescription());
-    	if(getTaxa() != null) {
-    		boolean first = true;
-    		for(Taxon t : getTaxa()) {
-    			if(first) {
-    		        //addField(sid,"taxon.class_s", t.getClazz());
-    	            //addField(sid,"taxon.kingdom_s", t.getKingdom());
-    	            //addField(sid,"taxon.phylum_s", t.getPhylum());
-    		        addField(sid,"taxon.subgenus_s", t.getSubgenus());
-    	            addField(sid,"taxon.order_s", t.getOrder());
-    			}
-    	        addField(sid,"taxon.family_ss", t.getFamily());
-    	        addField(sid,"taxon.genus_ss", t.getGenus());
-    	        addField(sid,"taxon.subfamily_ss", t.getSubfamily());
-    	        addField(sid,"taxon.subtribe_ss", t.getSubtribe());
-    	        addField(sid,"taxon.tribe_ss", t.getTribe());
-    	        summary.append(" ").append(t.getClazz())
-    	        .append(" ").append(t.getClazz())
-    	        .append(" ").append(t.getFamily())
-    	        .append(" ").append(t.getGenus())
-    	        .append(" ").append(t.getKingdom())
-    	        .append(" ").append(t.getOrder())
-    	        .append(" ").append(t.getPhylum())
-    	        .append(" ").append(t.getSubfamily())
-    	        .append(" ").append(t.getSubgenus())
-    	        .append(" ").append(t.getSubtribe())
-    	        .append(" ").append(t.getTribe());
-    	        first = false;
-    		}
-    	}
-    	sid.addField("searchable.solrsummary_t", summary.toString());
-    	
-    	return sid;
+		//sid.addField("phylogeny.title_t", getTitle());
+		//addField(sid,"phylogeny.creator_t", getCreator());
+		//addField(sid,"phylogeny.description_t", getDescription());
+		StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
+				.append(getCreator()).append(" ").append(getDescription());
+		if(getTaxa() != null) {
+			boolean first = true;
+			for(Taxon t : getTaxa()) {
+				if(first) {
+					//addField(sid,"taxon.class_s", t.getClazz());
+					//addField(sid,"taxon.kingdom_s", t.getKingdom());
+					//addField(sid,"taxon.phylum_s", t.getPhylum());
+					addField(sid,"taxon.subgenus_s", t.getSubgenus());
+					addField(sid,"taxon.order_s", t.getOrder());
+				}
+				addField(sid,"taxon.family_ss", t.getFamily());
+				addField(sid,"taxon.genus_ss", t.getGenus());
+				addField(sid,"taxon.subfamily_ss", t.getSubfamily());
+				addField(sid,"taxon.subtribe_ss", t.getSubtribe());
+				addField(sid,"taxon.tribe_ss", t.getTribe());
+				summary.append(" ").append(t.getClazz())
+				.append(" ").append(t.getClazz())
+				.append(" ").append(t.getFamily())
+				.append(" ").append(t.getGenus())
+				.append(" ").append(t.getKingdom())
+				.append(" ").append(t.getOrder())
+				.append(" ").append(t.getPhylum())
+				.append(" ").append(t.getSubfamily())
+				.append(" ").append(t.getSubgenus())
+				.append(" ").append(t.getSubtribe())
+				.append(" ").append(t.getTribe());
+				first = false;
+			}
+		}
+		sid.addField("searchable.solrsummary_t", summary.toString());
+
+		return sid;
 	}
 }

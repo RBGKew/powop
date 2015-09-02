@@ -33,35 +33,35 @@ import net.sf.jasperreports.engine.JasperReport;
  *
  */
 public class JasperReportsFactory {
-    
-    private static Logger logger = LoggerFactory.getLogger(JasperReportsFactory.class);
 
-    public static JasperReport compileReport(InputStream in) {
-        
-        try {
-            return JasperCompileManager.compileReport(in);
-        } catch (JRException e) {
-            logger.error("Unable to create instance of JasperReport", e);
-            return null;
-        }
-    }
-    
-    public static JasperReport compileReportFromFilePath(String filePath) {
-        Resource resource = new ClassPathResource(filePath);
-        try {
-            return JasperCompileManager.compileReport(resource.getInputStream());
-        } catch (JRException e) {
-            logger.error("Unable to create instance of JasperReport for " + filePath, e);
-            return null;
-        } catch (IOException e) {
-            logger.error("Unable to create instance of JasperReport for " + filePath, e);
-            return null;
-        }
-        
-    }
-    
-    public static JasperReport getObject(String filePath) {
-        return compileReportFromFilePath(filePath);
-    }
+	private static Logger logger = LoggerFactory.getLogger(JasperReportsFactory.class);
+
+	public static JasperReport compileReport(InputStream in) {
+
+		try {
+			return JasperCompileManager.compileReport(in);
+		} catch (JRException e) {
+			logger.error("Unable to create instance of JasperReport", e);
+			return null;
+		}
+	}
+
+	public static JasperReport compileReportFromFilePath(String filePath) {
+		Resource resource = new ClassPathResource(filePath);
+		try {
+			return JasperCompileManager.compileReport(resource.getInputStream());
+		} catch (JRException e) {
+			logger.error("Unable to create instance of JasperReport for " + filePath, e);
+			return null;
+		} catch (IOException e) {
+			logger.error("Unable to create instance of JasperReport for " + filePath, e);
+			return null;
+		}
+
+	}
+
+	public static JasperReport getObject(String filePath) {
+		return compileReportFromFilePath(filePath);
+	}
 
 }

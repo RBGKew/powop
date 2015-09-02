@@ -34,26 +34,26 @@ import org.joda.time.format.DateTimeFormatter;
 @MappedSuperclass
 public abstract class SearchableObject extends BaseData implements Searchable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4960825789689641206L;
-    
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 4960825789689641206L;
 
-    /**
-     *
-     * @return the simple name of the implementing class
-     */
-    @Transient
-    @JsonIgnore
-    public String getClassName() {
-        return getClass().getSimpleName();
-    }
-    
-    @Override
-    @Transient
-    @JsonIgnore
+	private static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+	/**
+	 *
+	 * @return the simple name of the implementing class
+	 */
+	@Transient
+	@JsonIgnore
+	public String getClassName() {
+		return getClass().getSimpleName();
+	}
+
+	@Override
+	@Transient
+	@JsonIgnore
 	public String getDocumentId() {
 		return getClassName() + "_" + getId();
 	}
@@ -61,16 +61,16 @@ public abstract class SearchableObject extends BaseData implements Searchable {
 	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getDocumentId());
-    	sid.addField("base.id_l", getId());
-    	sid.addField("base.class_searchable_b", true);
-    	sid.addField("base.class_s", getClass().getName());
+		sid.addField("base.id_l", getId());
+		sid.addField("base.class_searchable_b", true);
+		sid.addField("base.class_s", getClass().getName());
 		addField(sid,"base.access_rights_s", getAccessRights());
-		
+
 		if(getCreated() != null) {
-		    sid.addField("base.created_dt", dateTimeFormatter.print(getCreated()));
+			sid.addField("base.created_dt", dateTimeFormatter.print(getCreated()));
 		}
 		if(getModified() != null) {
-		    sid.addField("base.modified_dt", dateTimeFormatter.print(getModified()));
+			sid.addField("base.modified_dt", dateTimeFormatter.print(getModified()));
 		}
 		addField(sid,"base.license_s", getLicense());
 		addField(sid,"base.rights_s", getRights());
@@ -81,9 +81,9 @@ public abstract class SearchableObject extends BaseData implements Searchable {
 		}
 		return sid;
 	}
-	
+
 	protected void addField(SolrInputDocument sid, String name, Serializable value) {
-		if(value != null && !value.toString().isEmpty()) {			
+		if(value != null && !value.toString().isEmpty()) {
 			sid.addField(name, value);
 		}
 	}

@@ -27,24 +27,24 @@ import org.emonocot.model.constants.AnnotationType;
  */
 public class UnexpectedTaxonException extends TaxonProcessingException {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -79759942758744782L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -79759942758744782L;
 
-    /**
-     *
-     * @param taxon the unexpected taxon
-     */
-    public UnexpectedTaxonException(final Taxon taxon) {
-        super(
-                taxon.toString() + " with identifier " + taxon.getIdentifier() +" was not expected", AnnotationCode.Unexpected,
-                taxon.getIdentifier());
-    }
+	/**
+	 *
+	 * @param taxon the unexpected taxon
+	 */
+	public UnexpectedTaxonException(final Taxon taxon) {
+		super(
+				taxon.toString() + " with identifier " + taxon.getIdentifier() +" was not expected", AnnotationCode.Unexpected,
+				taxon.getIdentifier());
+	}
 
-    @Override
-    public final AnnotationType getType() {
-        return AnnotationType.Warn;
-    }
+	@Override
+	public final AnnotationType getType() {
+		return AnnotationType.Warn;
+	}
 
 }

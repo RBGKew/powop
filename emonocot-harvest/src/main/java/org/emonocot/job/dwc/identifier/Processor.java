@@ -30,20 +30,20 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class Processor extends OwnedEntityProcessor<Identifier, IdentifierService> {
-	
+
 	@Autowired
 	public void setIdentifierService(IdentifierService service) {
 		super.service = service;
 	}
 
-    /**
-     *
-     */
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Override
 	protected void doValidate(Identifier t) throws Exception {
-		
+
 	}
 
 	@Override
@@ -60,6 +60,6 @@ public class Processor extends OwnedEntityProcessor<Identifier, IdentifierServic
 
 	@Override
 	protected void doCreate(Identifier t) {
-		
+
 	}
 }

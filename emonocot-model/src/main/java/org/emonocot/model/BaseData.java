@@ -44,122 +44,122 @@ import org.joda.time.DateTime;
 @MappedSuperclass
 public abstract class BaseData extends Base implements Annotated {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String license;
+	private String license;
 
-    private DateTime created;
+	private DateTime created;
 
-    private DateTime modified;  
-    
-    private String rights;
-    
-    private String rightsHolder;
-    
-    private String accessRights;
+	private DateTime modified;
 
-    private Organisation authority;
+	private String rights;
 
-    private String uri;
+	private String rightsHolder;
 
-    /**
-    *
-    * @return The unique identifier of the object
-    */
-   @NaturalId
-   @NotEmpty
-   public String getIdentifier() {
-       return identifier;
-   }
+	private String accessRights;
 
-  /**
-   *
-   * @param identifier  Set the unique identifier of the object
-   */
-  public void setIdentifier(String identifier) {
-      this.identifier = identifier;
-  }
+	private Organisation authority;
 
-    /**
-     *
-     * @return the primary authority
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonSerialize(using = OrganisationSerializer.class)
-    public Organisation getAuthority() {
-        return authority;
-    }
+	private String uri;
 
-    /**
-     *
-     * @param authority Set the authority
-     */
-    @JsonDeserialize(using = OrganisationDeserialiser.class)
-    public void setAuthority(Organisation authority) {
-        this.authority = authority;
-    }
+	/**
+	 *
+	 * @return The unique identifier of the object
+	 */
+	@NaturalId
+	@NotEmpty
+	public String getIdentifier() {
+		return identifier;
+	}
 
-    /**
-     *
-     * @return Get the license of this object.
-     */
-    public String getLicense() {
-        return license;
-    }
+	/**
+	 *
+	 * @param identifier  Set the unique identifier of the object
+	 */
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
 
-    /**
-     *
-     * @return Get the time this object was created.
-     */
-    @Type(type="dateTimeUserType")
-    @JsonSerialize(using = DateTimeSerializer.class)
-    public DateTime getCreated() {
-        return created;
-    }
+	/**
+	 *
+	 * @return the primary authority
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonSerialize(using = OrganisationSerializer.class)
+	public Organisation getAuthority() {
+		return authority;
+	}
 
-    /**
-     *
-     * @return Get the time this object was last modified.
-     */
-    @Type(type="dateTimeUserType")
-    @JsonSerialize(using = DateTimeSerializer.class)
-    public DateTime getModified() {
-        return modified;
-    }
+	/**
+	 *
+	 * @param authority Set the authority
+	 */
+	@JsonDeserialize(using = OrganisationDeserialiser.class)
+	public void setAuthority(Organisation authority) {
+		this.authority = authority;
+	}
 
-    /**
-     *
-     * @param newCreated
-     *            Set the created time for this object.
-     */
-    @JsonDeserialize(using = DateTimeDeserializer.class)
-    public void setCreated(DateTime newCreated) {
-        this.created = newCreated;
-    }
+	/**
+	 *
+	 * @return Get the license of this object.
+	 */
+	public String getLicense() {
+		return license;
+	}
 
-    /**
-     *
-     * @param newModified
-     *            Set the modified time for this object.
-     */
-    @JsonDeserialize(using = DateTimeDeserializer.class)
-    public void setModified(DateTime newModified) {
-        this.modified = newModified;
-    }
+	/**
+	 *
+	 * @return Get the time this object was created.
+	 */
+	@Type(type="dateTimeUserType")
+	@JsonSerialize(using = DateTimeSerializer.class)
+	public DateTime getCreated() {
+		return created;
+	}
 
-    /**
-     *
-     * @param newLicense
-     *            Set the license for this object.
-     */
-    public void setLicense(String newLicense) {
-        this.license = newLicense;
-    }
+	/**
+	 *
+	 * @return Get the time this object was last modified.
+	 */
+	@Type(type="dateTimeUserType")
+	@JsonSerialize(using = DateTimeSerializer.class)
+	public DateTime getModified() {
+		return modified;
+	}
+
+	/**
+	 *
+	 * @param newCreated
+	 *            Set the created time for this object.
+	 */
+	@JsonDeserialize(using = DateTimeDeserializer.class)
+	public void setCreated(DateTime newCreated) {
+		this.created = newCreated;
+	}
+
+	/**
+	 *
+	 * @param newModified
+	 *            Set the modified time for this object.
+	 */
+	@JsonDeserialize(using = DateTimeDeserializer.class)
+	public void setModified(DateTime newModified) {
+		this.modified = newModified;
+	}
+
+	/**
+	 *
+	 * @param newLicense
+	 *            Set the license for this object.
+	 */
+	public void setLicense(String newLicense) {
+		this.license = newLicense;
+	}
 
 	/**
 	 * @return the rights
 	 */
-    @Lob
+	@Lob
 	public String getRights() {
 		return rights;
 	}
@@ -202,10 +202,10 @@ public abstract class BaseData extends Base implements Annotated {
 	@URL
 	@Size(max = 255)
 	public String getUri() {
-	    return uri;
+		return uri;
 	}
 
 	public void setUri(String uri) {
-	    this.uri = uri;
+		this.uri = uri;
 	}
 }

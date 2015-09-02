@@ -22,13 +22,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 public class CodedDescription {
-	
+
 	@XStreamAsAttribute
 	private String id;
-	
+
 	@XStreamAlias("Representation")
 	private Representation representation;
-	
+
 	@XStreamAlias("SummaryData")
 	private Ignore summaryData;
 

@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataProvider {
-	
+
 	private String name;
-	
+
 	private List<DataResource> dataResources = new ArrayList<DataResource>();
-	
+
 	private List<DataResource> resources = new ArrayList<DataResource>();
 
 	public String getName() {
@@ -49,5 +49,5 @@ public class DataProvider {
 
 	public void setResources(List<DataResource> resources) {
 		this.resources = resources;
-	}	
+	}
 }

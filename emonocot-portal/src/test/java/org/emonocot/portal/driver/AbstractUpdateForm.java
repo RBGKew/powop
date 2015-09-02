@@ -46,8 +46,8 @@ public abstract class AbstractUpdateForm extends PageObject {
 	 * @return the current page
 	 */
 	public PageObject submit() {
-	    getForm().submit();
-	    return getPage(onSubmitPageClass);
+		getForm().submit();
+		return getPage(onSubmitPageClass);
 	}
 
 	protected abstract WebElement getForm();
@@ -61,7 +61,7 @@ public abstract class AbstractUpdateForm extends PageObject {
 		getForm().findElement(By.name(fieldName)).clear();
 		getForm().findElement(By.name(fieldName)).sendKeys(fieldValue);
 	}
-	
+
 	/**
 	 *
 	 * @param fieldName Set the fieldName
@@ -70,12 +70,12 @@ public abstract class AbstractUpdateForm extends PageObject {
 	public final void setFormSelection(String fieldName, String fieldValue) {
 		WebElement select = getForm().findElement(By.name(fieldName));
 		List<WebElement> options = select.findElements(By.tagName("option"));
-	    for(WebElement option : options){
-	        if(option.getText()== fieldValue){
-	            option.click();
-	            break;
-	        }
-	    }
+		for(WebElement option : options){
+			if(option.getText()== fieldValue){
+				option.click();
+				break;
+			}
+		}
 
 	}
 

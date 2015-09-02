@@ -55,87 +55,87 @@ import org.hibernate.annotations.Where;
 @Entity
 public class IdentificationKey extends Multimedia {
 
-    private static final long serialVersionUID = 7893868318442314512L;
+	private static final long serialVersionUID = 7893868318442314512L;
 
-    private Long id;
-    
-    private Set<Taxon> taxa = new HashSet<Taxon>();
-    
-    private Set<Annotation> annotations = new HashSet<Annotation>();
-    
-    private String matrix;
-    
-    private List<Comment> comments = new ArrayList<Comment>();
+	private Long id;
 
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
+	private Set<Taxon> taxa = new HashSet<Taxon>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_IdentificationKey", joinColumns = {@JoinColumn(name = "keys_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public Set<Taxon> getTaxa() {
-        return taxa;
-    }
+	private String matrix;
 
-    /**
-     * @param taxon the taxon to set
-     */
-    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
+	private List<Comment> comments = new ArrayList<Comment>();
 
-    /**
-     *
-     * @param matrix Set the matrix
-     */
-    public void setMatrix(String matrix) {
-        this.matrix = matrix;
-    }
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     *
-     * @return the matrix
-     */
-    @Lob
-    public String getMatrix() {
-        return matrix;
-    }
-    
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'IdentificationKey'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
-    
-    /**
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "Taxon_IdentificationKey", joinColumns = {@JoinColumn(name = "keys_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	public Set<Taxon> getTaxa() {
+		return taxa;
+	}
+
+	/**
+	 * @param taxon the taxon to set
+	 */
+	@JsonDeserialize(contentUsing = TaxonDeserializer.class)
+	public void setTaxa(Set<Taxon> taxa) {
+		this.taxa = taxa;
+	}
+
+	/**
+	 *
+	 * @param matrix Set the matrix
+	 */
+	public void setMatrix(String matrix) {
+		this.matrix = matrix;
+	}
+
+	/**
+	 *
+	 * @return the matrix
+	 */
+	@Lob
+	public String getMatrix() {
+		return matrix;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'IdentificationKey'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
+
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
+
+	/**
 	 * @return the comments
 	 */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'IdentificationKey'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "commentPage_id")
+	@OrderBy("created DESC")
+	@Where(clause = "commentPage_type = 'IdentificationKey'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -143,49 +143,49 @@ public class IdentificationKey extends Multimedia {
 	/**
 	 * @param comments the comments to set
 	 */
-    @JsonIgnore
+	@JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-    
-    @Override
-    @Transient
-    public MediaType getType() {
-        return MediaType.Dataset;
-    }
 
 	@Override
-    public SolrInputDocument toSolrInputDocument() {
-    	SolrInputDocument sid = super.toSolrInputDocument();
-    	StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
-    	.append(getCreator()).append(" ").append(getDescription());
-    	if(getTaxa() != null) {
-    		boolean first = true; 
-    		for(Taxon t : getTaxa()) {
-    			if(first) {
-        	        addField(sid,"taxon.order_s", t.getOrder());
-        	        addField(sid,"taxon.subgenus_s", t.getSubgenus());
-    			}
-    	        addField(sid,"taxon.family_ss", t.getFamily());
-    	        addField(sid,"taxon.genus_ss", t.getGenus());    	    
-    	        addField(sid,"taxon.subfamily_ss", t.getSubfamily());    	    
-    	        addField(sid,"taxon.subtribe_ss", t.getSubtribe());
-    	        addField(sid,"taxon.tribe_ss", t.getTribe());
-    	        summary.append(" ").append(t.getClazz())
-    	        .append(" ").append(t.getFamily())
-    	        .append(" ").append(t.getGenus())
-          	    .append(" ").append(t.getKingdom())
-    	        .append(" ").append(t.getOrder())
-    	        .append(" ").append(t.getPhylum())
-    	        .append(" ").append(t.getSubfamily())
-    	        .append(" ").append(t.getSubgenus())
-    	        .append(" ").append(t.getSubtribe())
-    	        .append(" ").append(t.getTribe());
-    	        first = false;
-    		}
-    	}
-    	sid.addField("searchable.solrsummary_t", summary.toString());
-    	
-    	return sid;
-    }
+	@Transient
+	public MediaType getType() {
+		return MediaType.Dataset;
+	}
+
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = super.toSolrInputDocument();
+		StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
+				.append(getCreator()).append(" ").append(getDescription());
+		if(getTaxa() != null) {
+			boolean first = true;
+			for(Taxon t : getTaxa()) {
+				if(first) {
+					addField(sid,"taxon.order_s", t.getOrder());
+					addField(sid,"taxon.subgenus_s", t.getSubgenus());
+				}
+				addField(sid,"taxon.family_ss", t.getFamily());
+				addField(sid,"taxon.genus_ss", t.getGenus());
+				addField(sid,"taxon.subfamily_ss", t.getSubfamily());
+				addField(sid,"taxon.subtribe_ss", t.getSubtribe());
+				addField(sid,"taxon.tribe_ss", t.getTribe());
+				summary.append(" ").append(t.getClazz())
+				.append(" ").append(t.getFamily())
+				.append(" ").append(t.getGenus())
+				.append(" ").append(t.getKingdom())
+				.append(" ").append(t.getOrder())
+				.append(" ").append(t.getPhylum())
+				.append(" ").append(t.getSubfamily())
+				.append(" ").append(t.getSubgenus())
+				.append(" ").append(t.getSubtribe())
+				.append(" ").append(t.getTribe());
+				first = false;
+			}
+		}
+		sid.addField("searchable.solrsummary_t", summary.toString());
+
+		return sid;
+	}
 }

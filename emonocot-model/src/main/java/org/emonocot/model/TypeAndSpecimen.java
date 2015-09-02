@@ -65,68 +65,68 @@ import com.vividsolutions.jts.io.WKTWriter;
  */
 @Entity
 public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
-	
+
 	private static final long serialVersionUID = -843014945343629009L;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(TypeAndSpecimen.class);
 
-    private Long id;
+	private Long id;
 
-    private TypeStatus typeStatus;
-    
-    private TypeDesignationType typeDesignationType;
-    
-    private String typeDesignatedBy;
+	private TypeStatus typeStatus;
 
-    private String scientificName;
-    
-    private Rank taxonRank;
-    
-    private String bibliographicCitation;
+	private TypeDesignationType typeDesignationType;
 
-    private String institutionCode;
+	private String typeDesignatedBy;
 
-    private String collectionCode;
-    
-    private String catalogNumber;
-    
-    private String locality;
+	private String scientificName;
 
-    private Sex sex;
-    
-    private String recordedBy;
-    
-    private String source;
-  
-    private String verbatimEventDate;
-    
-    private String verbatimLabel;
-    
-    private String verbatimLongitude;
-    
-    private String verbatimLatitude;
-    
-    private Double decimalLatitude;
-   
-   private Double decimalLongitude;
-   
-   private Point location;
-    
-    /**
-     * @return
-     */
-    private Set<Taxon> taxa = new HashSet<Taxon>();
-    
-    private Set<Annotation> annotations = new HashSet<Annotation>();
-   
+	private Rank taxonRank;
+
+	private String bibliographicCitation;
+
+	private String institutionCode;
+
+	private String collectionCode;
+
+	private String catalogNumber;
+
+	private String locality;
+
+	private Sex sex;
+
+	private String recordedBy;
+
+	private String source;
+
+	private String verbatimEventDate;
+
+	private String verbatimLabel;
+
+	private String verbatimLongitude;
+
+	private String verbatimLatitude;
+
+	private Double decimalLatitude;
+
+	private Double decimalLongitude;
+
+	private Point location;
+
+	/**
+	 * @return
+	 */
+	 private Set<Taxon> taxa = new HashSet<Taxon>();
+
+	private Set<Annotation> annotations = new HashSet<Annotation>();
+
 
 	@Override
 	@Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @return the decimalLatitude
 	 */
@@ -179,7 +179,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Enumerated(value = EnumType.STRING)
 	public TypeStatus getTypeStatus() {
 		return typeStatus;
@@ -261,7 +261,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 		this.catalogNumber = catalogNumber;
 	}
 
-    @Lob
+	@Lob
 	public String getLocality() {
 		return locality;
 	}
@@ -334,9 +334,9 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_TypeAndSpecimen", joinColumns = {@JoinColumn(name = "typesAndSpecimens_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JoinTable(name = "Taxon_TypeAndSpecimen", joinColumns = {@JoinColumn(name = "typesAndSpecimens_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
 	public Set<Taxon> getTaxa() {
 		return taxa;
 	}
@@ -345,63 +345,63 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 	public void setTaxa(Set<Taxon> taxa) {
 		this.taxa = taxa;
 	}
-	
-	@Transient
-    @JsonIgnore
-    public final String getClassName() {
-        return "TypeAndSpecimen";
-    }
-	
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'TypeAndSpecimen'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
-    
-    private void updateLocation() {
-    	if(this.decimalLatitude != null && this.decimalLongitude != null) {
-    	    GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
-    	    this.location = geometryFactory.createPoint(new Coordinate(this.decimalLongitude, this.decimalLatitude));
-    	} else {
-    		this.location = null;
-    	}
+	@Transient
+	@JsonIgnore
+	public final String getClassName() {
+		return "TypeAndSpecimen";
 	}
-    
-    @Override
-    public String toString() {
-    	StringBuffer stringBuffer = new StringBuffer();
-    	if(institutionCode != null) {
-    		stringBuffer.append(institutionCode);
-    	}
-    	if(catalogNumber != null) {
-    		stringBuffer.append(" " + catalogNumber);
-    	}
-    	if(collectionCode != null) {
-    		stringBuffer.append(" " + collectionCode);
-    	}
-    	return stringBuffer.toString();
-    }
+
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'TypeAndSpecimen'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
+
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
+
+	private void updateLocation() {
+		if(this.decimalLatitude != null && this.decimalLongitude != null) {
+			GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+			this.location = geometryFactory.createPoint(new Coordinate(this.decimalLongitude, this.decimalLatitude));
+		} else {
+			this.location = null;
+		}
+	}
 
 	@Override
-    @Transient
-    @JsonIgnore
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		if(institutionCode != null) {
+			stringBuffer.append(institutionCode);
+		}
+		if(catalogNumber != null) {
+			stringBuffer.append(" " + catalogNumber);
+		}
+		if(collectionCode != null) {
+			stringBuffer.append(" " + collectionCode);
+		}
+		return stringBuffer.toString();
+	}
+
+	@Override
+	@Transient
+	@JsonIgnore
 	public String getDocumentId() {
 		return getClassName() + "_" + getId();
 	}
-	
+
 	protected void addField(SolrInputDocument sid, String name, Serializable value) {
-		if(value != null && !value.toString().isEmpty()) {			
+		if(value != null && !value.toString().isEmpty()) {
 			sid.addField(name, value);
 		}
 	}
@@ -410,55 +410,55 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getDocumentId());
-    	sid.addField("base.id_l", getId());
-    	sid.addField("base.class_searchable_b", false);
-    	sid.addField("base.class_s", getClass().getName());
-    	sid.addField("searchable.label_sort", toString());
+		sid.addField("base.id_l", getId());
+		sid.addField("base.class_searchable_b", false);
+		sid.addField("base.class_s", getClass().getName());
+		sid.addField("searchable.label_sort", toString());
 
-    	StringBuilder summary = new StringBuilder().append(getCatalogNumber()).append(" ")
-    	.append(getCollectionCode()).append(" ").append(getInstitutionCode()).append(" ").append(getLocality())
-    	.append(" ").append(getRecordedBy()).append(" ").append(getScientificName()).append(" ").append(getSex())
-    	.append(" ").append(getTypeDesignatedBy()).append(" ").append(getVerbatimEventDate()).append(" ").append(getVerbatimLabel())
-    	.append(" ").append(getVerbatimLatitude()).append(" ").append(getVerbatimLongitude()).append(" ").append(getTaxonRank())
-    	.append(" ").append(getTypeDesignationType()).append(" ").append(getTypeStatus());
-    	
-    	if(!getTaxa().isEmpty()) {
-    		boolean first = true;
-    		for(Taxon t : getTaxa()) {
-    		
-    	    addField(sid,"taxon.family_ss", t.getFamily());
-    	    addField(sid,"taxon.subfamily_ss", t.getSubfamily());
-    	    addField(sid,"taxon.subtribe_ss", t.getSubtribe());
-    	    addField(sid,"taxon.tribe_ss", t.getTribe());
-    	    addField(sid,"taxon.genus_ss", t.getGenus());
-    	    
-    	    if(first) {
-    	    	//addField(sid,"taxon.class_s", t.getClazz());
-    	    	//addField(sid,"taxon.kingdom_s", t.getKingdom());
-        	    //addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
-    	        addField(sid,"taxon.order_s", t.getOrder());
-    	        addField(sid,"taxon.subgenus_s", t.getSubgenus());        	    
-    	    }
-    	    summary.append(" ").append(t.getClazz())
-    	    .append(" ").append(t.getClazz())
-    	    .append(" ").append(t.getFamily())
-    	    .append(" ").append(t.getGenus())
-    	    .append(" ").append(t.getKingdom())
-    	    .append(" ").append(t.getOrder())
-    	    .append(" ").append(t.getPhylum())
-    	    .append(" ").append(t.getSubfamily())
-    	    .append(" ").append(t.getSubgenus())
-    	    .append(" ").append(t.getSubtribe())
-    	    .append(" ").append(t.getTribe());
-    	    first = false;
-    		}
-    	}
-    	
-    	if(getAuthority() != null) {
+		StringBuilder summary = new StringBuilder().append(getCatalogNumber()).append(" ")
+				.append(getCollectionCode()).append(" ").append(getInstitutionCode()).append(" ").append(getLocality())
+				.append(" ").append(getRecordedBy()).append(" ").append(getScientificName()).append(" ").append(getSex())
+				.append(" ").append(getTypeDesignatedBy()).append(" ").append(getVerbatimEventDate()).append(" ").append(getVerbatimLabel())
+				.append(" ").append(getVerbatimLatitude()).append(" ").append(getVerbatimLongitude()).append(" ").append(getTaxonRank())
+				.append(" ").append(getTypeDesignationType()).append(" ").append(getTypeStatus());
+
+		if(!getTaxa().isEmpty()) {
+			boolean first = true;
+			for(Taxon t : getTaxa()) {
+
+				addField(sid,"taxon.family_ss", t.getFamily());
+				addField(sid,"taxon.subfamily_ss", t.getSubfamily());
+				addField(sid,"taxon.subtribe_ss", t.getSubtribe());
+				addField(sid,"taxon.tribe_ss", t.getTribe());
+				addField(sid,"taxon.genus_ss", t.getGenus());
+
+				if(first) {
+					//addField(sid,"taxon.class_s", t.getClazz());
+					//addField(sid,"taxon.kingdom_s", t.getKingdom());
+					//addField(sid,"taxon.phylum_s", getTaxon().getPhylum());
+					addField(sid,"taxon.order_s", t.getOrder());
+					addField(sid,"taxon.subgenus_s", t.getSubgenus());
+				}
+				summary.append(" ").append(t.getClazz())
+				.append(" ").append(t.getClazz())
+				.append(" ").append(t.getFamily())
+				.append(" ").append(t.getGenus())
+				.append(" ").append(t.getKingdom())
+				.append(" ").append(t.getOrder())
+				.append(" ").append(t.getPhylum())
+				.append(" ").append(t.getSubfamily())
+				.append(" ").append(t.getSubgenus())
+				.append(" ").append(t.getSubtribe())
+				.append(" ").append(t.getTribe());
+				first = false;
+			}
+		}
+
+		if(getAuthority() != null) {
 			sid.addField("base.authority_s", getAuthority().getIdentifier());
 			summary.append(" ").append(getAuthority().getIdentifier());
 		}
-    	if (getLocation() != null) {
+		if (getLocation() != null) {
 			try {
 				WKTWriter wktWriter = new WKTWriter();
 				sid.addField("geo", wktWriter.write(getLocation()));
@@ -466,10 +466,10 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 				logger.error(e.getLocalizedMessage());
 			}
 		}
-    	
-    	sid.addField("searchable.solrsummary_t",summary.toString());
-    
+
+		sid.addField("searchable.solrsummary_t",summary.toString());
+
 		return sid;
 	}
-	
+
 }

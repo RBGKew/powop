@@ -33,22 +33,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
 public class Processor extends AbstractRecordAnnotator implements ItemProcessor<TaxonOccurrence,TypeAndSpecimen> {
-	
+
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
-    private TaxonMatcher taxonMatcher;
+	private TaxonMatcher taxonMatcher;
 
-    public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
-        this.taxonMatcher = taxonMatcher;
-    }
-	
+	public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
+		this.taxonMatcher = taxonMatcher;
+	}
+
 	public TypeAndSpecimen process(TaxonOccurrence o) throws Exception {
 		Taxon taxon = doMatchTaxon(o);
 		if(taxon != null) {
-            TypeAndSpecimen typeAndSpecimen = new TypeAndSpecimen();
+			TypeAndSpecimen typeAndSpecimen = new TypeAndSpecimen();
 			typeAndSpecimen.setIdentifier(o.getAbout());
 			typeAndSpecimen.setSource(o.getAbout());
-			
+
 			typeAndSpecimen.setRights(o.getRights());
 			typeAndSpecimen.setRightsHolder(o.getRightsHolder());
 			typeAndSpecimen.setLicense(o.getLicense());
@@ -63,7 +63,7 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 			typeAndSpecimen.setDecimalLongitude(o.getDecimalLongitude());
 			return typeAndSpecimen;
 		}
-        return null;
+		return null;
 	}
 
 	private Taxon doMatchTaxon(TaxonOccurrence o) throws UnparsableException {
@@ -71,32 +71,32 @@ public class Processor extends AbstractRecordAnnotator implements ItemProcessor<
 			return null;
 		} else {
 			List<Match<Taxon>> results = taxonMatcher.match(o.getIdentifiedTo().get(0).getTaxonName());
-			
+
 			if(results.size() == 1) {
 				return results.get(0).getInternal();
-		    } else if(results.size() > 1) {
+			} else if(results.size() > 1) {
 				logger.info(o.getIdentifiedTo().get(0).getTaxonName()  + " multiple matches");
 				Annotation annotation = new Annotation();
-	            annotation.setJobId(stepExecution.getJobExecutionId());
-	            annotation.setAnnotatedObj(null);
-	            annotation.setRecordType(RecordType.TypeAndSpecimen);
-	            annotation.setCode(AnnotationCode.BadRecord);
-	            annotation.setType(AnnotationType.Error);
-	            annotation.setValue("GBIF Record : " + o.getAbout());
-	            annotation.setText(results.size() + " matches found for taxonomic name " + o.getIdentifiedTo().get(0).getTaxonName());
-	            super.annotate(annotation);
+				annotation.setJobId(stepExecution.getJobExecutionId());
+				annotation.setAnnotatedObj(null);
+				annotation.setRecordType(RecordType.TypeAndSpecimen);
+				annotation.setCode(AnnotationCode.BadRecord);
+				annotation.setType(AnnotationType.Error);
+				annotation.setValue("GBIF Record : " + o.getAbout());
+				annotation.setText(results.size() + " matches found for taxonomic name " + o.getIdentifiedTo().get(0).getTaxonName());
+				super.annotate(annotation);
 				return null;
 			} else {
 				logger.info(o.getIdentifiedTo().get(0).getTaxonName() + " no matches");
 				Annotation annotation = new Annotation();
-	            annotation.setJobId(stepExecution.getJobExecutionId());
-	            annotation.setAnnotatedObj(null);
-	            annotation.setRecordType(RecordType.TypeAndSpecimen);
-	            annotation.setCode(AnnotationCode.Absent);
-	            annotation.setType(AnnotationType.Error);
-	            annotation.setValue("GBIF Record : " + o.getAbout());
-	            annotation.setText("No matches found for taxonomic name " + o.getIdentifiedTo().get(0).getTaxonName());
-	            super.annotate(annotation);
+				annotation.setJobId(stepExecution.getJobExecutionId());
+				annotation.setAnnotatedObj(null);
+				annotation.setRecordType(RecordType.TypeAndSpecimen);
+				annotation.setCode(AnnotationCode.Absent);
+				annotation.setType(AnnotationType.Error);
+				annotation.setValue("GBIF Record : " + o.getAbout());
+				annotation.setText("No matches found for taxonomic name " + o.getIdentifiedTo().get(0).getTaxonName());
+				super.annotate(annotation);
 				return null;
 			}
 		}

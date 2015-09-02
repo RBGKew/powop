@@ -23,7 +23,7 @@ import org.emonocot.model.constants.RecordType;
 public class ImageRetrievalException extends DarwinCoreProcessingException {
 
 	private static final long serialVersionUID = 566244600533446756L;
-	
+
 	public ImageRetrievalException(String identifier) {
 		super("Could not retrieve " + identifier, AnnotationCode.BadIdentifier, RecordType.Image, identifier);
 	}

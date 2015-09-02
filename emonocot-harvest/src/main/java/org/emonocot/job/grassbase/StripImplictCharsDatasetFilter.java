@@ -32,7 +32,7 @@ import au.org.ala.delta.translation.naturallanguage.NaturalLanguageDataSetFilter
  *
  */
 public class StripImplictCharsDatasetFilter extends	NaturalLanguageDataSetFilter {
-	
+
 	Logger logger = LoggerFactory.getLogger(StripImplictCharsDatasetFilter.class);
 
 	public StripImplictCharsDatasetFilter(DeltaContext context) {
@@ -41,11 +41,11 @@ public class StripImplictCharsDatasetFilter extends	NaturalLanguageDataSetFilter
 
 	@Override
 	public boolean filter(Item item, Character character) {
-		
+
 		if(character instanceof MultiStateCharacter) {
 			MultiStateCharacter multiStateCharacter = (MultiStateCharacter) character;
 			MultiStateAttribute attribute = (MultiStateAttribute)item.getAttribute(character);
-			
+
 			logger.debug("Character " + character.getCharacterId() + " being considered for stripping. Implicit State " + multiStateCharacter.getUncodedImplicitState() + " actual value " + attribute.getValueAsString());
 
 			if(multiStateCharacter.getUncodedImplicitState() > 0 && attribute.getPresentStates().size() == 1 && (multiStateCharacter.getUncodedImplicitState() == attribute.getFirstStateCoded())) {
@@ -55,10 +55,10 @@ public class StripImplictCharsDatasetFilter extends	NaturalLanguageDataSetFilter
 				return super.filter(item, character);
 			}
 		} else {
-    		return super.filter(item, character);
+			return super.filter(item, character);
 		}
 	}
-	
-	
+
+
 
 }

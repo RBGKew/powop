@@ -22,13 +22,13 @@ package org.emonocot.portal.rows;
  */
 public class IdentificationKeyRow {
 
-    public String identifier;
+	public String identifier;
 
-    public String title;
+	public String title;
 
-    public String description;
+	public String description;
 
-    public String taxon;
-    
-    public String source;
+	public String taxon;
+
+	public String source;
 }

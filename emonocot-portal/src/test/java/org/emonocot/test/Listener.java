@@ -31,8 +31,8 @@ import org.junit.runner.notification.RunListener;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE })
 public @interface Listener {
-   /**
-    *
-    */
-    Class<? extends RunListener> value();
+	/**
+	 *
+	 */
+	Class<? extends RunListener> value();
 }

@@ -47,70 +47,70 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class ResourceServiceImpl extends SearchableServiceImpl<Resource, ResourceDao> implements
-        ResourceService {
+ResourceService {
 
-    private static Logger logger = LoggerFactory.getLogger(ResourceServiceImpl.class);
-    
-    private static BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,	9, 0, 0, 0);
-    
+	private static Logger logger = LoggerFactory.getLogger(ResourceServiceImpl.class);
+
+	private static BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1,	9, 0, 0, 0);
+
 	private JobLauncher jobLauncher;
 
-    /**
-    *
-    * @param newJobDao Set the image dao
-    */
-   @Autowired
-   public final void setJobDao(final ResourceDao newJobDao) {
-       super.dao = newJobDao;
-   }
-   
-    @Autowired
-	@Qualifier("messageBasedReadWriteJobLauncher")
-	public void setJobLauncher(JobLauncher jobLauncher) {
-	   this.jobLauncher = jobLauncher;
+	/**
+	 *
+	 * @param newJobDao Set the image dao
+	 */
+	@Autowired
+	public final void setJobDao(final ResourceDao newJobDao) {
+		super.dao = newJobDao;
 	}
 
-   /**
-    * @param sourceId Set the source identifier
-    * @return the total number of jobs for a given source
-    */
-    @Transactional(readOnly = true)
-    public final Long count(final String sourceId) {
-        return dao.count(sourceId);
-    }
+	@Autowired
+	@Qualifier("messageBasedReadWriteJobLauncher")
+	public void setJobLauncher(JobLauncher jobLauncher) {
+		this.jobLauncher = jobLauncher;
+	}
 
-    /**
-     * @param sourceId
-     *            Set the source identifier
-     * @param page
-     *            Set the offset (in size chunks, 0-based), optional
-     * @param size
-     *            Set the page size
-     * @return A list of jobs
-     */
-    @Transactional(readOnly = true)
-    public final List<Resource> list(final String sourceId, final Integer page,
-            final Integer size) {
-        return dao.list(sourceId, page, size);
-    }
+	/**
+	 * @param sourceId Set the source identifier
+	 * @return the total number of jobs for a given source
+	 */
+	@Transactional(readOnly = true)
+	public final Long count(final String sourceId) {
+		return dao.count(sourceId);
+	}
 
-    /**
-     * @param id Set the job id
-     * @return the job
-     */
-    @Transactional(readOnly = true)
-    public final Resource findByJobId(final Long id) {
-        return dao.findByJobId(id);
-    }
+	/**
+	 * @param sourceId
+	 *            Set the source identifier
+	 * @param page
+	 *            Set the offset (in size chunks, 0-based), optional
+	 * @param size
+	 *            Set the page size
+	 * @return A list of jobs
+	 */
+	@Transactional(readOnly = true)
+	public final List<Resource> list(final String sourceId, final Integer page,
+			final Integer size) {
+		return dao.list(sourceId, page, size);
+	}
 
-    @Transactional(readOnly = true)
+	/**
+	 * @param id Set the job id
+	 * @return the job
+	 */
+	@Transactional(readOnly = true)
+	public final Resource findByJobId(final Long id) {
+		return dao.findByJobId(id);
+	}
+
+	@Transactional(readOnly = true)
 	public boolean isHarvesting() {
 		return dao.isHarvesting();
 	}
 
-    @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public List<Resource> listResourcesToHarvest(Integer limit, DateTime now, String fetch) {
-    	return dao.listResourcesToHarvest(limit,now,fetch);
+		return dao.listResourcesToHarvest(limit,now,fetch);
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 			case STARTING:
 			case STOPPING:
 			case UNKNOWN:
-				throw new ResourceAlreadyBeingHarvestedException();				
+				throw new ResourceAlreadyBeingHarvestedException();
 			case COMPLETED:
 			case FAILED:
 			case STOPPED:
@@ -138,7 +138,7 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 		jobParametersMap.put("attempt", UUID.randomUUID().toString()); // Prevent jobs failing if a job has been executed with the same parameters
 		jobParametersMap.put("authority.uri", resource.getUri());
 		jobParametersMap.put("resource.identifier", resource.getIdentifier());
-        jobParametersMap.put("skip.unmodified", ifModified.toString());
+		jobParametersMap.put("skip.unmodified", ifModified.toString());
 
 		if (resource.getStatus() == null || !ifModified || resource.getStartTime() == null) {
 			jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
@@ -146,11 +146,11 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 		} else {
 			jobParametersMap.put("authority.last.harvested",Long.toString((resource.getStartTime().getMillis())));
 		}
-		
+
 		jobParametersMap.putAll(resource.getParameters());
 
 		JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
-		jobLaunchRequest.setJob(resource.getResourceType().getJobName());		
+		jobLaunchRequest.setJob(resource.getResourceType().getJobName());
 		jobLaunchRequest.setParameters(jobParametersMap);
 
 		try {
@@ -168,11 +168,11 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 			resource.setWriteSkip(0);
 			resource.setWritten(0);
 			saveOrUpdate(resource);
-			
+
 		} catch (JobExecutionException e) {
 			throw new CouldNotLaunchJobException(e.getMessage());
 		}
-		
+
 	}
 
 	@Transactional(readOnly = true)
@@ -193,6 +193,6 @@ public class ResourceServiceImpl extends SearchableServiceImpl<Resource, Resourc
 	public void delete(String identifier) {
 		super.delete(identifier);
 	}
-	
-	
+
+
 }

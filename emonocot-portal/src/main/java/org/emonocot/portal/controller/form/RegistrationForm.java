@@ -31,28 +31,28 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 @FieldMatch.List({
-    @FieldMatch(first = "username", second = "repeatUsername", message = "The email fields must match"),
-    @FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
+	@FieldMatch(first = "username", second = "repeatUsername", message = "The email fields must match"),
+	@FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
 })
 public class RegistrationForm {
-	
-	private String accountName;	
+
+	private String accountName;
 
 	private String name;
-	
+
 	private String familyName;
-	
+
 	private String firstName;
-	
+
 	private String homepage;
-	
+
 	private MultipartFile img;
-	
+
 	private String organization;
-	
+
 	private String topicInterest;
 
-    /**
+	/**
 	 * @return the accountName
 	 */
 	@NotEmpty
@@ -167,89 +167,89 @@ public class RegistrationForm {
 	}
 
 	/**
-     *
-     */
+	 *
+	 */
 	@NotEmpty
-    @Email
-    private String username;
+	@Email
+	private String username;
 
-    /**
-     *
-     */
+	/**
+	 *
+	 */
 	@NotEmpty
-    @Email
-    private String repeatUsername;
+	@Email
+	private String repeatUsername;
 
-    /**
-     *
-     */
+	/**
+	 *
+	 */
 	@NotNull
 	@Size(min=8, max=25)
-    private String repeatPassword;
+	private String repeatPassword;
 
-    /**
-     *
-     */
+	/**
+	 *
+	 */
 	@NotNull
 	@Size(min=8, max=25)
-    private String password;
+	private String password;
 
-    /**
-     *
-     * @return the username
-     */
-    public final String getUsername() {
-        return username;
-    }
+	/**
+	 *
+	 * @return the username
+	 */
+	public final String getUsername() {
+		return username;
+	}
 
-    /**
-     *
-     * @return the password
-     */
-    public final String getPassword() {
-        return password;
-    }
+	/**
+	 *
+	 * @return the password
+	 */
+	public final String getPassword() {
+		return password;
+	}
 
-    /**
-     * @return the repeatUsername
-     */
-    public final String getRepeatUsername() {
-        return repeatUsername;
-    }
+	/**
+	 * @return the repeatUsername
+	 */
+	public final String getRepeatUsername() {
+		return repeatUsername;
+	}
 
-    /**
-     * @param newRepeatUsername the repeatUsername to set
-     */
-    public final void setRepeatUsername(final String newRepeatUsername) {
-        this.repeatUsername = newRepeatUsername;
-    }
+	/**
+	 * @param newRepeatUsername the repeatUsername to set
+	 */
+	public final void setRepeatUsername(final String newRepeatUsername) {
+		this.repeatUsername = newRepeatUsername;
+	}
 
-    /**
-     * @return the repeatPassword
-     */
-    public final String getRepeatPassword() {
-        return repeatPassword;
-    }
+	/**
+	 * @return the repeatPassword
+	 */
+	public final String getRepeatPassword() {
+		return repeatPassword;
+	}
 
-    /**
-     * @param newRepeatPassword the repeatPassword to set
-     */
-    public final void setRepeatPassword(final String newRepeatPassword) {
-        this.repeatPassword = newRepeatPassword;
-    }
+	/**
+	 * @param newRepeatPassword the repeatPassword to set
+	 */
+	public final void setRepeatPassword(final String newRepeatPassword) {
+		this.repeatPassword = newRepeatPassword;
+	}
 
-    /**
-     * @param newUsername the username to set
-     */
-    public final void setUsername(final String newUsername) {
-        this.username = newUsername;
-    }
+	/**
+	 * @param newUsername the username to set
+	 */
+	public final void setUsername(final String newUsername) {
+		this.username = newUsername;
+	}
 
-    /**
-     * @param newPassword the password to set
-     */
-    public final void setPassword(final String newPassword) {
-        this.password = newPassword;
-    }
+	/**
+	 * @param newPassword the password to set
+	 */
+	public final void setPassword(final String newPassword) {
+		this.password = newPassword;
+	}
 
 }

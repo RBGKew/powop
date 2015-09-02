@@ -39,40 +39,40 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 
-    /**
-     *
-     */
-    public UserDaoImpl() {
-        super(User.class, "user");
-    }
-    
-    @Override
-    protected Page<User> page(Integer page, Integer size) {
-    	HttpEntity<User> requestEntity = new HttpEntity<User>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	ParameterizedTypeReference<DefaultPageImpl<User>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<User>>() {};
-        HttpEntity<DefaultPageImpl<User>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();
-    }
-    
-    @Override
+	/**
+	 *
+	 */
+	public UserDaoImpl() {
+		super(User.class, "user");
+	}
+
+	@Override
+	protected Page<User> page(Integer page, Integer size) {
+		HttpEntity<User> requestEntity = new HttpEntity<User>(httpHeaders);
+		Map<String,Object> uriVariables = new HashMap<String,Object>();
+		uriVariables.put("resource", resourceDir);
+		if(size == null) {
+			uriVariables.put("limit", "");
+		} else {
+			uriVariables.put("limit", size);
+		}
+
+		if(page == null) {
+			uriVariables.put("start", "");
+		} else {
+			uriVariables.put("start", page);
+		}
+
+		ParameterizedTypeReference<DefaultPageImpl<User>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<User>>() {};
+		HttpEntity<DefaultPageImpl<User>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+				requestEntity, typeRef,uriVariables);
+		return responseEntity.getBody();
+	}
+
+	@Override
 	public final List<User> list(final Integer page, final Integer size, final String fetch) {
-    	return this.page(page, size).getRecords();
-    }
+		return this.page(page, size).getRecords();
+	}
 
 	@Override
 	public CellSet analyse(String rows, String cols, Integer firstCol,

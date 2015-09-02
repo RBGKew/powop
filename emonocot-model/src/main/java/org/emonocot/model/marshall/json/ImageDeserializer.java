@@ -25,11 +25,11 @@ import org.emonocot.model.Image;
  */
 public class ImageDeserializer extends BaseDeserializer<Image> {
 
-    /**
-     *
-     */
-    public ImageDeserializer() {
-        super(Image.class);
-    }
+	/**
+	 *
+	 */
+	public ImageDeserializer() {
+		super(Image.class);
+	}
 
 }

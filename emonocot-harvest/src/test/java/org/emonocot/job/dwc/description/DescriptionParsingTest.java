@@ -42,80 +42,80 @@ import org.springframework.core.io.Resource;
  */
 public class DescriptionParsingTest {
 
-   /**
-    *
-    */
-   private Resource content = new ClassPathResource(
-           "/org/emonocot/job/dwc/description.txt");
+	/**
+	 *
+	 */
+	private Resource content = new ClassPathResource(
+			"/org/emonocot/job/dwc/description.txt");
 
-   /**
-    *
-    */
-   private TaxonService taxonService = null;
-   
-   private ConversionService conversionService = null;
+	/**
+	 *
+	 */
+	private TaxonService taxonService = null;
 
-   /**
-    *
-    */
-    private FlatFileItemReader<Description> flatFileItemReader = new FlatFileItemReader<Description>();
+	private ConversionService conversionService = null;
 
-   /**
-    *
-    */
-   @Before
-   public final void setUp() throws Exception {
-       String[] names = new String[] {
-               "http://rs.tdwg.org/dwc/terms/taxonID",
-               "http://purl.org/dc/terms/type",
-               "http://purl.org/dc/elements/1.1/source",
-               "http://purl.org/dc/terms/modified",
-               "http://purl.org/dc/terms/create",
-               "http://purl.org/dc/terms/creator",
-               "http://purl.org/dc/terms/description",
-               "http://purl.org/dc/terms/references",
-               "http://purl.org/dc/terms/source"
-       };
-       DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-       tokenizer.setDelimiter('\t');
-       tokenizer.setNames(names);
+	/**
+	 *
+	 */
+	private FlatFileItemReader<Description> flatFileItemReader = new FlatFileItemReader<Description>();
 
-       taxonService = EasyMock.createMock(TaxonService.class);
-       conversionService = EasyMock.createMock(ConversionService.class);
+	/**
+	 *
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		String[] names = new String[] {
+				"http://rs.tdwg.org/dwc/terms/taxonID",
+				"http://purl.org/dc/terms/type",
+				"http://purl.org/dc/elements/1.1/source",
+				"http://purl.org/dc/terms/modified",
+				"http://purl.org/dc/terms/create",
+				"http://purl.org/dc/terms/creator",
+				"http://purl.org/dc/terms/description",
+				"http://purl.org/dc/terms/references",
+				"http://purl.org/dc/terms/source"
+		};
+		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+		tokenizer.setDelimiter('\t');
+		tokenizer.setNames(names);
 
-        FieldSetMapper fieldSetMapper = new FieldSetMapper();
-        fieldSetMapper.setConversionService(conversionService);
-        HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
-        htmlSanitizer.afterPropertiesSet();
-        fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
-        fieldSetMapper.setFieldNames(names);
-        fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-        fieldSetMapper.setTaxonService(taxonService);
-        DefaultLineMapper<Description> lineMapper
-            = new DefaultLineMapper<Description>();
-        lineMapper.setFieldSetMapper(fieldSetMapper);
-        lineMapper.setLineTokenizer(tokenizer);
+		taxonService = EasyMock.createMock(TaxonService.class);
+		conversionService = EasyMock.createMock(ConversionService.class);
 
-        flatFileItemReader.setEncoding("UTF-8");
-        flatFileItemReader.setLinesToSkip(0);
-        flatFileItemReader.setResource(content);
-        flatFileItemReader.setLineMapper(lineMapper);
-        flatFileItemReader.afterPropertiesSet();
-   }
+		FieldSetMapper fieldSetMapper = new FieldSetMapper();
+		fieldSetMapper.setConversionService(conversionService);
+		HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
+		htmlSanitizer.afterPropertiesSet();
+		fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
+		fieldSetMapper.setFieldNames(names);
+		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
+		fieldSetMapper.setTaxonService(taxonService);
+		DefaultLineMapper<Description> lineMapper
+		= new DefaultLineMapper<Description>();
+		lineMapper.setFieldSetMapper(fieldSetMapper);
+		lineMapper.setLineTokenizer(tokenizer);
 
-    /**
-     * @throws Exception if there is a problem accessing the file
-     */
-    @Test
-    public final void testRead() throws Exception {
-    	EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DescriptionType.class))).andReturn(DescriptionType.general);
-    	EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DateTime.class))).andReturn(new DateTime());
-    	EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
-        EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
-        EasyMock.replay(taxonService,conversionService);
-        flatFileItemReader.open(new ExecutionContext());
-        flatFileItemReader.read();
+		flatFileItemReader.setEncoding("UTF-8");
+		flatFileItemReader.setLinesToSkip(0);
+		flatFileItemReader.setResource(content);
+		flatFileItemReader.setLineMapper(lineMapper);
+		flatFileItemReader.afterPropertiesSet();
+	}
 
-    }
+	/**
+	 * @throws Exception if there is a problem accessing the file
+	 */
+	@Test
+	public final void testRead() throws Exception {
+		EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DescriptionType.class))).andReturn(DescriptionType.general);
+		EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DateTime.class))).andReturn(new DateTime());
+		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
+		EasyMock.replay(taxonService,conversionService);
+		flatFileItemReader.open(new ExecutionContext());
+		flatFileItemReader.read();
+
+	}
 
 }

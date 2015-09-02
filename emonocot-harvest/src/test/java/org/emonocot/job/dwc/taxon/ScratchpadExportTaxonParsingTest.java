@@ -45,77 +45,77 @@ import org.springframework.core.io.Resource;
  */
 public class ScratchpadExportTaxonParsingTest {
 
-   /**
-    *
-    */
-   private Resource content = new ClassPathResource(
-           "/org/emonocot/zingiberaceae/zingiberaceae/classification.txt");
+	/**
+	 *
+	 */
+	private Resource content = new ClassPathResource(
+			"/org/emonocot/zingiberaceae/zingiberaceae/classification.txt");
 
-   /**
-    *
-    */
-   private TaxonService taxonService = null;
+	/**
+	 *
+	 */
+	private TaxonService taxonService = null;
 
-   /**
-    *
-    */
-    private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
+	/**
+	 *
+	 */
+	private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
 
-   /**
-    *
-    */
-   @Before
-   public final void setUp() throws Exception {
-       String[] names = new String[] {
-               "http://rs.tdwg.org/dwc/terms/taxonID",
-               "http://rs.tdwg.org/dwc/terms/scientificName",
-               "http://rs.tdwg.org/dwc/terms/vernacularName",
-               "http://rs.tdwg.org/dwc/terms/taxonomicStatus",
-               "http://rs.tdwg.org/dwc/terms/taxonRank",
-               "http://rs.tdwg.org/dwc/terms/scientificNameAuthorship",
-               "http://purl.org/dc/terms/bibliographicCitation",
-               "http://rs.tdwg.org/dwc/terms/parentNameUsageID"
-       };
-       DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-       tokenizer.setDelimiter(',');
-       tokenizer.setQuoteCharacter('\"');
-       tokenizer.setNames(names);
-       Set<Converter> converters = new HashSet<Converter>();
-       converters.add(new TaxonomicStatusConverter());
-       converters.add(new RankConverter());
+	/**
+	 *
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		String[] names = new String[] {
+				"http://rs.tdwg.org/dwc/terms/taxonID",
+				"http://rs.tdwg.org/dwc/terms/scientificName",
+				"http://rs.tdwg.org/dwc/terms/vernacularName",
+				"http://rs.tdwg.org/dwc/terms/taxonomicStatus",
+				"http://rs.tdwg.org/dwc/terms/taxonRank",
+				"http://rs.tdwg.org/dwc/terms/scientificNameAuthorship",
+				"http://purl.org/dc/terms/bibliographicCitation",
+				"http://rs.tdwg.org/dwc/terms/parentNameUsageID"
+		};
+		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+		tokenizer.setDelimiter(',');
+		tokenizer.setQuoteCharacter('\"');
+		tokenizer.setNames(names);
+		Set<Converter> converters = new HashSet<Converter>();
+		converters.add(new TaxonomicStatusConverter());
+		converters.add(new RankConverter());
 
-       ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
-       factoryBean.setConverters(converters);
-       factoryBean.afterPropertiesSet();
-       ConversionService conversionService = factoryBean.getObject();
+		ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+		factoryBean.setConverters(converters);
+		factoryBean.afterPropertiesSet();
+		ConversionService conversionService = factoryBean.getObject();
 
-       taxonService = EasyMock.createMock(TaxonService.class);
+		taxonService = EasyMock.createMock(TaxonService.class);
 
-        FieldSetMapper fieldSetMapper = new FieldSetMapper();
-        fieldSetMapper.setConversionService(conversionService);
-        fieldSetMapper.setFieldNames(names);
-        fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-        DefaultLineMapper<Taxon> lineMapper
-            = new DefaultLineMapper<Taxon>();
-        lineMapper.setFieldSetMapper(fieldSetMapper);
-        lineMapper.setLineTokenizer(tokenizer);
+		FieldSetMapper fieldSetMapper = new FieldSetMapper();
+		fieldSetMapper.setConversionService(conversionService);
+		fieldSetMapper.setFieldNames(names);
+		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
+		DefaultLineMapper<Taxon> lineMapper
+		= new DefaultLineMapper<Taxon>();
+		lineMapper.setFieldSetMapper(fieldSetMapper);
+		lineMapper.setLineTokenizer(tokenizer);
 
-        flatFileItemReader.setEncoding("UTF-8");
-        flatFileItemReader.setLinesToSkip(0);
-        flatFileItemReader.setResource(content);
-        flatFileItemReader.setLineMapper(lineMapper);
-        flatFileItemReader.afterPropertiesSet();
-   }
+		flatFileItemReader.setEncoding("UTF-8");
+		flatFileItemReader.setLinesToSkip(0);
+		flatFileItemReader.setResource(content);
+		flatFileItemReader.setLineMapper(lineMapper);
+		flatFileItemReader.afterPropertiesSet();
+	}
 
-    /**
-     * @throws Exception if there is a problem accessing the file
-     */
-    @Test
-    public final void testRead() throws Exception {
-        EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
-        EasyMock.replay(taxonService);
-        flatFileItemReader.open(new ExecutionContext());
-        flatFileItemReader.read();
-    }
+	/**
+	 * @throws Exception if there is a problem accessing the file
+	 */
+	@Test
+	public final void testRead() throws Exception {
+		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
+		EasyMock.replay(taxonService);
+		flatFileItemReader.open(new ExecutionContext());
+		flatFileItemReader.read();
+	}
 
 }

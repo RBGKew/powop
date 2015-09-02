@@ -78,62 +78,62 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/comment")
 public class CommentController extends GenericController<Comment, CommentService> {
-    
-    private Logger logger = LoggerFactory.getLogger(CommentController.class);
 
-    private SearchableObjectService searchableObjectService;
+	private Logger logger = LoggerFactory.getLogger(CommentController.class);
 
-    private DescriptionService descriptionService;
-    
-    private DistributionService distributionService;
-    
-    private VernacularNameService vernacularNameService;
-    
-    private ReferenceService referenceService;
-    
-    private MeasurementOrFactService measurementOrFactService;
-    
-    private IdentifierService identifierService;
-    
-    private ConceptService conceptService;
-    
-    private UserService userService;
-        
-    @Autowired
+	private SearchableObjectService searchableObjectService;
+
+	private DescriptionService descriptionService;
+
+	private DistributionService distributionService;
+
+	private VernacularNameService vernacularNameService;
+
+	private ReferenceService referenceService;
+
+	private MeasurementOrFactService measurementOrFactService;
+
+	private IdentifierService identifierService;
+
+	private ConceptService conceptService;
+
+	private UserService userService;
+
+	@Autowired
 	public void setDistributionService(DistributionService distributionService) {
 		this.distributionService = distributionService;
 	}
 
-    @Autowired
+	@Autowired
 	public void setVernacularNameService(VernacularNameService vernacularNameService) {
 		this.vernacularNameService = vernacularNameService;
 	}
 
-    @Autowired
+	@Autowired
 	public void setReferenceService(ReferenceService referenceService) {
 		this.referenceService = referenceService;
 	}
 
-    @Autowired
+	@Autowired
 	public void setMeasurementOrFactService(MeasurementOrFactService measurementOrFactService) {
 		this.measurementOrFactService = measurementOrFactService;
 	}
 
-    @Autowired
+	@Autowired
 	public void setIdentifierService(IdentifierService identifierService) {
 		this.identifierService = identifierService;
 	}
-    
-    @Autowired
+
+	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-    
-    @Autowired
-    public void setConceptService(ConceptService conceptService) {
-    	this.conceptService = conceptService;
-    }
-    
+
+	@Autowired
+	public void setConceptService(ConceptService conceptService) {
+		this.conceptService = conceptService;
+	}
+
 	private List<Service<? extends BaseData>> getServices() {
 		return Arrays.asList(searchableObjectService, distributionService,
 				descriptionService, vernacularNameService,
@@ -141,170 +141,170 @@ public class CommentController extends GenericController<Comment, CommentService
 	}
 
 	public CommentController() {
-        super("comment", Comment.class);
-    }
-    
-    /**
-     * @param commentService
-     */
-    @Autowired
-    public void setCommentService(CommentService commentService) {
-        super.setService(commentService);
-    }
-    
-    /**
-     * @param searchableObjectService the searchableObjectService to set
-     */
-    @Autowired
-    public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
-        this.searchableObjectService = searchableObjectService;
-    }
-
-    /**
-     * @param descriptionService the descriptionService to set
-     */
-    @Autowired
-    public void setDescriptionService(DescriptionService descriptionService) {
-        this.descriptionService = descriptionService;
-    }
-    
-    @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params="_method=DELETE", produces = "text/html") 
-    public String delete(@PathVariable String identifier, RedirectAttributes attributes) {
-    	getService().delete(identifier);
-    	attributes.addFlashAttribute("info", new DefaultMessageSourceResolvable("comment.deleted"));
-    	return "redirect:/comment";
-    }
-
-    /**
-     * @param comment
-     * @param result
-     */
-    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
-        logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutData() + " from " + principal.getName());
-        User user = userService.load(principal.getName());
-        //Create comment
-        Comment comment = new Comment();
-        comment.setIdentifier(UUID.randomUUID().toString());
-        comment.setComment(form.getComment());
-        comment.setCreated(new DateTime());
-        comment.setStatus(Comment.Status.PENDING);
-        comment.setUser(user);
-        
-        BaseData commentPage = searchableObjectService.find(form.getCommentPageIdentifier());
-        
-        Base about = null;
-        switch(form.getAboutData()) {
-        case "descriptions":
-        case "distribution":
-        case "childNameUsages":
-        case "synonymNameUsages":
-        case "vernacularNames":
-        case "higherClassification":
-        case "measurementsOrFacts":
-        case "typesAndSpecimens":
-        case "references":
-        case "identifiers":
-        case "other":
-        	 comment.setSubject(form.getAboutData());
-        	 about = commentPage;
-        	 break;
-       default:
-    	   for(Service<? extends BaseData> service : getServices()) {
-           	about = service.find(form.getAboutData());
-           	if(about != null) {
-           		break;
-           	}
-           }
-    	   if(about != null && commentPage instanceof Taxon) {
-    		   Taxon t = (Taxon)commentPage;
-    		   BaseData aboutData = (BaseData) about;    		   
-    		   if(aboutData instanceof Taxon) {
-    		     if(about.equals(t.getParentNameUsage())) {
-    			   comment.setSubject("parentNameUsage");
-    		     }
-    		     if(about.equals(t.getAcceptedNameUsage())) {
-    			   comment.setSubject("acceptedNameUsage");
-    		     }
-    		     if(t.getChildNameUsages().contains(about)) {
-    			   comment.setSubject("childNameUsages");
-    		     }
-    		     if(t.getSynonymNameUsages().contains(about)) {
-    			   comment.setSubject("synonymNameUsages");
-    		     }
-    		   } else if(aboutData instanceof Description) {
-    			   comment.setSubject("descriptions");
-    		   } else if(aboutData instanceof Distribution) {
-    			   comment.setSubject("distribution");
-    		   } else if(aboutData instanceof Identifier) {
-    			   comment.setSubject("identifiers");
-    		   } else if(aboutData instanceof MeasurementOrFact) {
-    			   comment.setSubject("measurementsOrFacts");
-    		   } else if(aboutData instanceof VernacularName) {
-    			   comment.setSubject("vernacularNames");
-    		   } else if(aboutData instanceof TypeAndSpecimen) {
-    			   comment.setSubject("typesAndSpecimens");
-    		   } else if(aboutData instanceof Reference) {
-    			   comment.setSubject("references");
-    		   } else {
-    			   logger.warn("Unable to find an object with the identifier" + form.getAboutData());
-    	            attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
-    		   }
-    	   }    	   
-    	   break;
-        }
-        
-        if(commentPage == null) {
-            logger.warn("Unable to find an object with the identifier" + form.getCommentPageIdentifier());
-            attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.commentPage"));
-        } else if(!formResult.hasErrors()) {
-            comment.setAboutData(about);
-            comment.setCommentPage(commentPage);
-            super.getService().save(comment);
-            attributes.addFlashAttribute("info",  new DefaultMessageSourceResolvable("feedback.saved"));
-        } else {
-            attributes.addFlashAttribute("error",  new DefaultMessageSourceResolvable("feedback.error.input"));            
-        }
-        
-        //Set object and redirect        
-        if(commentPage instanceof Taxon) {
-            return "redirect:taxon/" + commentPage.getIdentifier();
-        }  else if (commentPage instanceof Image) {
-            return "redirect:image/" + commentPage.getId();
-        }  else if (commentPage instanceof PhylogeneticTree) {
-            return "redirect:phylo/" + commentPage.getId();
-        } else if (commentPage instanceof IdentificationKey) {
-            return "redirect:key/" + commentPage.getId();
-        } else if (commentPage instanceof Concept) {
-            return "redirect:term/" + commentPage.getId();
-        } else {
-            return "user/show";
-        }
-    }
-
-    @RequestMapping(method = RequestMethod.GET, produces = "text/html")
-	public String list(
-			Model model,
-			@RequestParam(value = "query", required = false) String query,
-		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-		    @RequestParam(value = "sort", required = false, defaultValue = "comment.created_dt_desc") String sort,
-		    @RequestParam(value = "view", required = false) String view) throws SolrServerException {
-		
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		if (facets != null && !facets.isEmpty()) {
-			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
-			}
-		}
-		selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
-		selectedFacets.put("comment.status_t", "SENT");
-		Page<Comment> result = getService().search(query, null, limit, start, 
-				new String[] {"taxon.family_ss", "comment.subject_s","comment.comment_page_class_s" }, null, selectedFacets, sort, "aboutData");
-		model.addAttribute("result", result);
-		result.putParam("query", query);
-		return "comment/list";
+		super("comment", Comment.class);
 	}
+
+	/**
+	 * @param commentService
+	 */
+	 @Autowired
+	 public void setCommentService(CommentService commentService) {
+		 super.setService(commentService);
+	 }
+
+	 /**
+	  * @param searchableObjectService the searchableObjectService to set
+	  */
+	 @Autowired
+	 public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
+		 this.searchableObjectService = searchableObjectService;
+	 }
+
+	 /**
+	  * @param descriptionService the descriptionService to set
+	  */
+	 @Autowired
+	 public void setDescriptionService(DescriptionService descriptionService) {
+		 this.descriptionService = descriptionService;
+	 }
+
+	 @RequestMapping(value = "/{identifier}", method = RequestMethod.GET, params="_method=DELETE", produces = "text/html")
+	 public String delete(@PathVariable String identifier, RedirectAttributes attributes) {
+		 getService().delete(identifier);
+		 attributes.addFlashAttribute("info", new DefaultMessageSourceResolvable("comment.deleted"));
+		 return "redirect:/comment";
+	 }
+
+	 /**
+	  * @param comment
+	  * @param result
+	  */
+	 @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+	 public String create(Principal principal, @Valid CommentForm form, BindingResult formResult, RedirectAttributes attributes) {
+		 logger.debug("Got the comment \"" + form.getComment() + "\" about " + form.getAboutData() + " from " + principal.getName());
+		 User user = userService.load(principal.getName());
+		 //Create comment
+		 Comment comment = new Comment();
+		 comment.setIdentifier(UUID.randomUUID().toString());
+		 comment.setComment(form.getComment());
+		 comment.setCreated(new DateTime());
+		 comment.setStatus(Comment.Status.PENDING);
+		 comment.setUser(user);
+
+		 BaseData commentPage = searchableObjectService.find(form.getCommentPageIdentifier());
+
+		 Base about = null;
+		 switch(form.getAboutData()) {
+		 case "descriptions":
+		 case "distribution":
+		 case "childNameUsages":
+		 case "synonymNameUsages":
+		 case "vernacularNames":
+		 case "higherClassification":
+		 case "measurementsOrFacts":
+		 case "typesAndSpecimens":
+		 case "references":
+		 case "identifiers":
+		 case "other":
+			 comment.setSubject(form.getAboutData());
+			 about = commentPage;
+			 break;
+		 default:
+			 for(Service<? extends BaseData> service : getServices()) {
+				 about = service.find(form.getAboutData());
+				 if(about != null) {
+					 break;
+				 }
+			 }
+			 if(about != null && commentPage instanceof Taxon) {
+				 Taxon t = (Taxon)commentPage;
+				 BaseData aboutData = (BaseData) about;
+				 if(aboutData instanceof Taxon) {
+					 if(about.equals(t.getParentNameUsage())) {
+						 comment.setSubject("parentNameUsage");
+					 }
+					 if(about.equals(t.getAcceptedNameUsage())) {
+						 comment.setSubject("acceptedNameUsage");
+					 }
+					 if(t.getChildNameUsages().contains(about)) {
+						 comment.setSubject("childNameUsages");
+					 }
+					 if(t.getSynonymNameUsages().contains(about)) {
+						 comment.setSubject("synonymNameUsages");
+					 }
+				 } else if(aboutData instanceof Description) {
+					 comment.setSubject("descriptions");
+				 } else if(aboutData instanceof Distribution) {
+					 comment.setSubject("distribution");
+				 } else if(aboutData instanceof Identifier) {
+					 comment.setSubject("identifiers");
+				 } else if(aboutData instanceof MeasurementOrFact) {
+					 comment.setSubject("measurementsOrFacts");
+				 } else if(aboutData instanceof VernacularName) {
+					 comment.setSubject("vernacularNames");
+				 } else if(aboutData instanceof TypeAndSpecimen) {
+					 comment.setSubject("typesAndSpecimens");
+				 } else if(aboutData instanceof Reference) {
+					 comment.setSubject("references");
+				 } else {
+					 logger.warn("Unable to find an object with the identifier" + form.getAboutData());
+					 attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.about"));
+				 }
+			 }
+			 break;
+		 }
+
+		 if(commentPage == null) {
+			 logger.warn("Unable to find an object with the identifier" + form.getCommentPageIdentifier());
+			 attributes.addFlashAttribute("error", new DefaultMessageSourceResolvable("feedback.error.commentPage"));
+		 } else if(!formResult.hasErrors()) {
+			 comment.setAboutData(about);
+			 comment.setCommentPage(commentPage);
+			 super.getService().save(comment);
+			 attributes.addFlashAttribute("info",  new DefaultMessageSourceResolvable("feedback.saved"));
+		 } else {
+			 attributes.addFlashAttribute("error",  new DefaultMessageSourceResolvable("feedback.error.input"));
+		 }
+
+		 //Set object and redirect
+		 if(commentPage instanceof Taxon) {
+			 return "redirect:taxon/" + commentPage.getIdentifier();
+		 }  else if (commentPage instanceof Image) {
+			 return "redirect:image/" + commentPage.getId();
+		 }  else if (commentPage instanceof PhylogeneticTree) {
+			 return "redirect:phylo/" + commentPage.getId();
+		 } else if (commentPage instanceof IdentificationKey) {
+			 return "redirect:key/" + commentPage.getId();
+		 } else if (commentPage instanceof Concept) {
+			 return "redirect:term/" + commentPage.getId();
+		 } else {
+			 return "user/show";
+		 }
+	 }
+
+	 @RequestMapping(method = RequestMethod.GET, produces = "text/html")
+	 public String list(
+			 Model model,
+			 @RequestParam(value = "query", required = false) String query,
+			 @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			 @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+			 @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			 @RequestParam(value = "sort", required = false, defaultValue = "comment.created_dt_desc") String sort,
+			 @RequestParam(value = "view", required = false) String view) throws SolrServerException {
+
+		 Map<String, String> selectedFacets = new HashMap<String, String>();
+		 if (facets != null && !facets.isEmpty()) {
+			 for (FacetRequest facetRequest : facets) {
+				 selectedFacets.put(facetRequest.getFacet(),
+						 facetRequest.getSelected());
+			 }
+		 }
+		 selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
+		 selectedFacets.put("comment.status_t", "SENT");
+		 Page<Comment> result = getService().search(query, null, limit, start,
+				 new String[] {"taxon.family_ss", "comment.subject_s","comment.comment_page_class_s" }, null, selectedFacets, sort, "aboutData");
+		 model.addAttribute("result", result);
+		 result.putParam("query", query);
+		 return "comment/list";
+	 }
 }

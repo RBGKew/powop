@@ -23,13 +23,13 @@ package org.emonocot.portal.rows;
  */
 public class GroupRow {
 
-    /**
-     *
-     */
-    public String identifier;
+	/**
+	 *
+	 */
+	public String identifier;
 
-    /**
-     *
-     */
-    public String permission1;
+	/**
+	 *
+	 */
+	public String permission1;
 }

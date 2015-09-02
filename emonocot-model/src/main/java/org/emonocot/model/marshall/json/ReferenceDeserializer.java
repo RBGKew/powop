@@ -26,11 +26,11 @@ import org.emonocot.model.Reference;
  */
 public class ReferenceDeserializer extends BaseDeserializer<Reference> {
 
-    /**
-     *
-     */
-    public ReferenceDeserializer() {
-        super(Reference.class);
-    }
+	/**
+	 *
+	 */
+	public ReferenceDeserializer() {
+		super(Reference.class);
+	}
 
 }

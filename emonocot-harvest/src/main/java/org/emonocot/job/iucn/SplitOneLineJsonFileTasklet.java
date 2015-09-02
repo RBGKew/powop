@@ -35,24 +35,24 @@ import org.springframework.core.io.Resource;
  *
  */
 public class SplitOneLineJsonFileTasklet implements
-		Tasklet {
-	
+Tasklet {
+
 	private Resource inputFile;
-	
+
 	private Resource outputFile;
-	
-	
+
+
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputFile.getInputStream());	
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(inputFile.getInputStream());
 		BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.getFile()));
 		Scanner scanner = new Scanner(bufferedInputStream);
 		scanner.useDelimiter(Pattern.compile("\\}\\,\\{"));
-		
+
 		while (scanner.hasNext()) {
 			String string = scanner.next();
-			
+
 			if (!string.isEmpty()) {
 				string = string.trim();
 				if (string.startsWith("[{")) {

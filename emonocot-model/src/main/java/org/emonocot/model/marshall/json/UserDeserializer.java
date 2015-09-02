@@ -25,11 +25,11 @@ import org.emonocot.model.auth.User;
  */
 public class UserDeserializer extends BaseDeserializer<User> {
 
-    /**
-     *
-     */
-    public UserDeserializer() {
-        super(User.class);
-    }
+	/**
+	 *
+	 */
+	public UserDeserializer() {
+		super(User.class);
+	}
 
 }

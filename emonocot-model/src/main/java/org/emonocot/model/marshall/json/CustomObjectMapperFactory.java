@@ -40,103 +40,103 @@ import org.springframework.beans.factory.FactoryBean;
 public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 	Logger logger = LoggerFactory.getLogger(CustomObjectMapperFactory.class);
 
-    private ReferenceService referenceService;
+	private ReferenceService referenceService;
 
-    private TaxonService taxonService;
+	private TaxonService taxonService;
 
-    private ImageService imageService;
+	private ImageService imageService;
 
-    private UserService userService;
+	private UserService userService;
 
-    private GroupService groupService;
+	private GroupService groupService;
 
-    private OrganisationService organisationService;
+	private OrganisationService organisationService;
 
-    private CustomObjectMapper objectMapper;
+	private CustomObjectMapper objectMapper;
 
-    private JobInstanceService jobInstanceService;
+	private JobInstanceService jobInstanceService;
 
-     private IdentificationKeyService identificationKeyService;
-     
-     private PhylogeneticTreeService phylogeneticTreeService;
-     
-     private ConceptService conceptService;
+	private IdentificationKeyService identificationKeyService;
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+	private PhylogeneticTreeService phylogeneticTreeService;
 
-    public void setGroupService(GroupService groupService) {
-        this.groupService = groupService;
-    }
+	private ConceptService conceptService;
 
-    public void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
-    }
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
-    public void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
+	}
 
-    public void setImageService(ImageService imageService) {
-        this.imageService = imageService;
-    }
+	public void setReferenceService(ReferenceService referenceService) {
+		this.referenceService = referenceService;
+	}
 
-    public void setOrganisationService(OrganisationService organisationService) {
-        this.organisationService = organisationService;
-    }
+	public void setTaxonService(TaxonService taxonService) {
+		this.taxonService = taxonService;
+	}
 
-    public void setJobInstanceService(JobInstanceService jobInstanceService) {
-        this.jobInstanceService = jobInstanceService;
-    }
+	public void setImageService(ImageService imageService) {
+		this.imageService = imageService;
+	}
 
-    public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
-        this.identificationKeyService = identificationKeyService;
-    }
-    
-    public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
+	public void setOrganisationService(OrganisationService organisationService) {
+		this.organisationService = organisationService;
+	}
+
+	public void setJobInstanceService(JobInstanceService jobInstanceService) {
+		this.jobInstanceService = jobInstanceService;
+	}
+
+	public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
+		this.identificationKeyService = identificationKeyService;
+	}
+
+	public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
-    
-    public void setConceptService(ConceptService conceptService) {
-    	this.conceptService = conceptService;
-    }
+
+	public void setConceptService(ConceptService conceptService) {
+		this.conceptService = conceptService;
+	}
 
 	/**
-     * @return the object created by this factory
-     */
-    public ObjectMapper getObject() {
-    	logger.debug("getObject called");
-        if (objectMapper == null) {
-        	logger.debug("creating new CustomObjectMapper");
-            objectMapper = new CustomObjectMapper();
-            objectMapper.setTaxonService(taxonService);
-            objectMapper.setReferenceService(referenceService);
-            objectMapper.setImageService(imageService);
-            objectMapper.setUserService(userService);
-            objectMapper.setGroupService(groupService);
-            objectMapper.setOrganisationService(organisationService);
-            objectMapper.setJobInstanceService(jobInstanceService);
-            objectMapper.setIdentificationKeyService(identificationKeyService);
-            objectMapper.setPhylogeneticTreeService(phylogeneticTreeService);
-            objectMapper.setConceptService(conceptService);
-            objectMapper.init();
-        }
-        logger.debug("Returning objectMapper " + objectMapper);
-        return objectMapper;
-    }
+	 * @return the object created by this factory
+	 */
+	 public ObjectMapper getObject() {
+		logger.debug("getObject called");
+		if (objectMapper == null) {
+			logger.debug("creating new CustomObjectMapper");
+			objectMapper = new CustomObjectMapper();
+			objectMapper.setTaxonService(taxonService);
+			objectMapper.setReferenceService(referenceService);
+			objectMapper.setImageService(imageService);
+			objectMapper.setUserService(userService);
+			objectMapper.setGroupService(groupService);
+			objectMapper.setOrganisationService(organisationService);
+			objectMapper.setJobInstanceService(jobInstanceService);
+			objectMapper.setIdentificationKeyService(identificationKeyService);
+			objectMapper.setPhylogeneticTreeService(phylogeneticTreeService);
+			objectMapper.setConceptService(conceptService);
+			objectMapper.init();
+		}
+		logger.debug("Returning objectMapper " + objectMapper);
+		return objectMapper;
+	 }
 
-    /**
-     * @return the type of object created by this factory
-     */
-    public Class<?> getObjectType() {
-        return ObjectMapper.class;
-    }
+	 /**
+	  * @return the type of object created by this factory
+	  */
+	 public Class<?> getObjectType() {
+		 return ObjectMapper.class;
+	 }
 
-    /**
-     * @return true, if this object is a singleton, false otherwise
-     */
-    public boolean isSingleton() {
-        return true;
-    }
+	 /**
+	  * @return true, if this object is a singleton, false otherwise
+	  */
+	 public boolean isSingleton() {
+		 return true;
+	 }
 }

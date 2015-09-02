@@ -19,10 +19,10 @@ package org.tdwg.ubif;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 public class TechnicalContact {
-	
+
 	@XStreamAsAttribute
 	private String literal;
-	
+
 	@XStreamAsAttribute
 	private String email;
 

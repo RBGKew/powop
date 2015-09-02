@@ -32,44 +32,44 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
  */
 public class RevisionData {
 
-    @XStreamAlias("Creators")
-    private List<Agent> creators = new ArrayList<Agent>();
+	@XStreamAlias("Creators")
+	private List<Agent> creators = new ArrayList<Agent>();
 
-    @XStreamAlias("DateCreated")
-    @XStreamConverter(DateTimeConverter.class)
-    private DateTime dateCreated;
-    
-    @XStreamAlias("DateModified")
-    @XStreamConverter(DateTimeConverter.class)
-    private DateTime dateModified;
+	@XStreamAlias("DateCreated")
+	@XStreamConverter(DateTimeConverter.class)
+	private DateTime dateCreated;
 
-    /**
-     * @return the creators
-     */
-    public final List<Agent> getCreators() {
-        return creators;
-    }
+	@XStreamAlias("DateModified")
+	@XStreamConverter(DateTimeConverter.class)
+	private DateTime dateModified;
 
-    /**
-     * @param newCreators the creators to set
-     */
-    public final void setCreators(final List<Agent> newCreators) {
-        this.creators = newCreators;
-    }
+	/**
+	 * @return the creators
+	 */
+	public final List<Agent> getCreators() {
+		return creators;
+	}
 
-    /**
-     * @return the dateCreated
-     */
-    public final DateTime getDateCreated() {
-        return dateCreated;
-    }
+	/**
+	 * @param newCreators the creators to set
+	 */
+	public final void setCreators(final List<Agent> newCreators) {
+		this.creators = newCreators;
+	}
 
-    /**
-     * @param newDateCreated the dateCreated to set
-     */
-    public final void setDateCreated(final DateTime newDateCreated) {
-        this.dateCreated = newDateCreated;
-    }
+	/**
+	 * @return the dateCreated
+	 */
+	public final DateTime getDateCreated() {
+		return dateCreated;
+	}
+
+	/**
+	 * @param newDateCreated the dateCreated to set
+	 */
+	public final void setDateCreated(final DateTime newDateCreated) {
+		this.dateCreated = newDateCreated;
+	}
 
 	public DateTime getDateModified() {
 		return dateModified;

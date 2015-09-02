@@ -64,79 +64,79 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/taxonMatch.xml",
-    "/META-INF/spring/applicationContext-integration.xml",
-    "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/taxonMatch.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class TaxonMatchIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(TaxonMatchIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(TaxonMatchIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("jobLauncher")
-    private JobLauncher jobLauncher;
-    
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Autowired
-    private SolrIndexingListener solrIndexingListener;
+	private JobLauncher jobLauncher;
 
-    /**
-     * 1288569600 in unix time.
-     */
-    private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testMatchTaxa() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-    	
-    	Session session = sessionFactory.openSession();        
-        Transaction tx = session.beginTransaction();
+	@Autowired
+	private SolrIndexingListener solrIndexingListener;
 
-        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        solrIndexingListener.indexObjects(taxa);
-        tx.commit();
-    	
-        ClassPathResource input = new ClassPathResource("/org/emonocot/job/taxonmatch/input.csv");
-        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-        parameters.put("assume.accepted.matches", new JobParameter(Boolean.TRUE.toString()));
-        parameters.put("input.file", new JobParameter(input.getFile().getAbsolutePath()));
-        parameters.put("output.file", new JobParameter(File.createTempFile("output", "csv").getAbsolutePath()));
+	/**
+	 * 1288569600 in unix time.
+	 */
+	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
-        JobParameters jobParameters = new JobParameters(parameters);
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testMatchTaxa() throws IOException,
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
 
-        Job taxonMatchingJob = jobLocator.getJob("TaxonMatching");
-        assertNotNull("TaxonMatching must not be null", taxonMatchingJob);
-        JobExecution jobExecution = jobLauncher.run(taxonMatchingJob, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
 
-        FileReader file = new FileReader(jobParameters.getParameters().get("output.file").getValue().toString());
-        BufferedReader reader = new BufferedReader(file);
-        assertNotNull("There should be an output file", reader);
-        String ln;
-        while ((ln = reader.readLine()) != null) {
-            logger.debug(ln);
-        }
-    }
+		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+		solrIndexingListener.indexObjects(taxa);
+		tx.commit();
+
+		ClassPathResource input = new ClassPathResource("/org/emonocot/job/taxonmatch/input.csv");
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+		parameters.put("assume.accepted.matches", new JobParameter(Boolean.TRUE.toString()));
+		parameters.put("input.file", new JobParameter(input.getFile().getAbsolutePath()));
+		parameters.put("output.file", new JobParameter(File.createTempFile("output", "csv").getAbsolutePath()));
+
+		JobParameters jobParameters = new JobParameters(parameters);
+
+		Job taxonMatchingJob = jobLocator.getJob("TaxonMatching");
+		assertNotNull("TaxonMatching must not be null", taxonMatchingJob);
+		JobExecution jobExecution = jobLauncher.run(taxonMatchingJob, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+
+		FileReader file = new FileReader(jobParameters.getParameters().get("output.file").getValue().toString());
+		BufferedReader reader = new BufferedReader(file);
+		assertNotNull("There should be an output file", reader);
+		String ln;
+		while ((ln = reader.readLine()) != null) {
+			logger.debug(ln);
+		}
+	}
 }

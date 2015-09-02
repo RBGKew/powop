@@ -30,21 +30,21 @@ import org.springframework.batch.core.JobExecution;
  */
 public class JobExecutionSerializer extends JsonSerializer<JobExecution> {
 
-    @Override
-    public final Class<JobExecution> handledType() {
-        return JobExecution.class;
-    }
+	@Override
+	public final Class<JobExecution> handledType() {
+		return JobExecution.class;
+	}
 
-    @Override
-    public final void serialize(final JobExecution jobExecution,
-            final JsonGenerator jsonGenerator,
-            final SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeFieldName("id");
-        jsonGenerator.writeNumber(jobExecution.getId());
-        jsonGenerator.writeFieldName("jobInstance");
-        jsonGenerator.writeNumber(jobExecution.getJobId());
-        jsonGenerator.writeEndObject();
-    }
+	@Override
+	public final void serialize(final JobExecution jobExecution,
+			final JsonGenerator jsonGenerator,
+			final SerializerProvider serializerProvider) throws IOException {
+		jsonGenerator.writeStartObject();
+		jsonGenerator.writeFieldName("id");
+		jsonGenerator.writeNumber(jobExecution.getId());
+		jsonGenerator.writeFieldName("jobInstance");
+		jsonGenerator.writeNumber(jobExecution.getJobId());
+		jsonGenerator.writeEndObject();
+	}
 
 }

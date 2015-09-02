@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WMSLayer extends Layer {
-	
-	private String[] layers = new String[0];
-	
-	private String[] styles = new String[0];
-	
 
-	
+	private String[] layers = new String[0];
+
+	private String[] styles = new String[0];
+
+
+
 	public WMSLayer() {
 		super.setType("WMS");
 	}

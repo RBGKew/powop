@@ -32,50 +32,50 @@ import org.springframework.batch.repeat.RepeatStatus;
  */
 public class SetTemporaryFilenamesTasklet implements Tasklet {
 
-    /**
-     *
-     */
-    private String harvesterSpoolDirectory;
+	/**
+	 *
+	 */
+	private String harvesterSpoolDirectory;
 
-    /**
-     * @param newHarvesterSpoolDirectory the harvesterSpoolDirectory to set
-     */
-    public final void setHarvesterSpoolDirectory(
-            final String newHarvesterSpoolDirectory) {
-        this.harvesterSpoolDirectory = newHarvesterSpoolDirectory;
-    }
+	/**
+	 * @param newHarvesterSpoolDirectory the harvesterSpoolDirectory to set
+	 */
+	public final void setHarvesterSpoolDirectory(
+			final String newHarvesterSpoolDirectory) {
+		this.harvesterSpoolDirectory = newHarvesterSpoolDirectory;
+	}
 
-    /**
-     * @param contribution Set the step contribution
-     * @param chunkContext Set the chunk context
-     * @return the repeat status
-     * @throws Exception if there is a problem deleting the resources
-     */
-    public final RepeatStatus execute(final StepContribution contribution,
-            final ChunkContext chunkContext)
-            throws Exception {
-        ExecutionContext executionContext = chunkContext.getStepContext()
-        .getStepExecution().getJobExecution().getExecutionContext();
-        UUID uuid = UUID.randomUUID();
-        String taxonFileName = harvesterSpoolDirectory + File.separator
-        + uuid.toString() +  "-taxon.xml";
-        String imageFileName = harvesterSpoolDirectory + File.separator
-        + uuid.toString() +  "-image.xml";
-        String outputFileName = harvesterSpoolDirectory + File.separator
-                + uuid.toString() +  "-output.json";
-        String inputFileName = harvesterSpoolDirectory + File.separator
-                + uuid.toString() + "-input.xml";
+	/**
+	 * @param contribution Set the step contribution
+	 * @param chunkContext Set the chunk context
+	 * @return the repeat status
+	 * @throws Exception if there is a problem deleting the resources
+	 */
+	public final RepeatStatus execute(final StepContribution contribution,
+			final ChunkContext chunkContext)
+					throws Exception {
+		ExecutionContext executionContext = chunkContext.getStepContext()
+				.getStepExecution().getJobExecution().getExecutionContext();
+		UUID uuid = UUID.randomUUID();
+		String taxonFileName = harvesterSpoolDirectory + File.separator
+				+ uuid.toString() +  "-taxon.xml";
+		String imageFileName = harvesterSpoolDirectory + File.separator
+				+ uuid.toString() +  "-image.xml";
+		String outputFileName = harvesterSpoolDirectory + File.separator
+				+ uuid.toString() +  "-output.json";
+		String inputFileName = harvesterSpoolDirectory + File.separator
+				+ uuid.toString() + "-input.xml";
 
-        File taxonFile = new File(taxonFileName);
-        executionContext.put("taxon.file.name", taxonFile.getAbsolutePath());
-        File imageFile = new File(imageFileName);
-        executionContext.put("image.file.name", imageFile.getAbsolutePath());
-        File inputFile = new File(inputFileName);
-        executionContext.put("input.file.name", inputFile.getAbsolutePath());
-        File outputFile = new File(outputFileName);
-        executionContext.put("output.file.name", outputFile.getAbsolutePath());
-        executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());
+		File taxonFile = new File(taxonFileName);
+		executionContext.put("taxon.file.name", taxonFile.getAbsolutePath());
+		File imageFile = new File(imageFileName);
+		executionContext.put("image.file.name", imageFile.getAbsolutePath());
+		File inputFile = new File(inputFileName);
+		executionContext.put("input.file.name", inputFile.getAbsolutePath());
+		File outputFile = new File(outputFileName);
+		executionContext.put("output.file.name", outputFile.getAbsolutePath());
+		executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());
 
-        return RepeatStatus.FINISHED;
-    }
+		return RepeatStatus.FINISHED;
+	}
 }

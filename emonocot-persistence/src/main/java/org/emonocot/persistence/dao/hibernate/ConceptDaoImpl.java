@@ -33,39 +33,39 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ConceptDaoImpl extends DaoImpl<Concept> implements ConceptDao {
 
-   /**
-    *
-    */
-    private static Map<String, Fetch[]> FETCH_PROFILES;
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-    static {
-        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("concept-page", new Fetch[] {
-                new Fetch("taxon", FetchMode.JOIN),
-                new Fetch("authority", FetchMode.JOIN),
-                new Fetch("exactMatch", FetchMode.JOIN),
-                new Fetch("related", FetchMode.JOIN),
-                new Fetch("relatedTerms", FetchMode.SELECT),
-                new Fetch("exactMatches", FetchMode.SELECT),
-                new Fetch("comments", FetchMode.SELECT)
-                });
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("concept-page", new Fetch[] {
+				new Fetch("taxon", FetchMode.JOIN),
+				new Fetch("authority", FetchMode.JOIN),
+				new Fetch("exactMatch", FetchMode.JOIN),
+				new Fetch("related", FetchMode.JOIN),
+				new Fetch("relatedTerms", FetchMode.SELECT),
+				new Fetch("exactMatches", FetchMode.SELECT),
+				new Fetch("comments", FetchMode.SELECT)
+		});
 
-    }
+	}
 
-    /**
-     *
-     */
-    public ConceptDaoImpl() {
-        super(Concept.class);
-    }
+	/**
+	 *
+	 */
+	public ConceptDaoImpl() {
+		super(Concept.class);
+	}
 
-    /**
-     * @param profile
-     *            Set the profile name
-     * @return an array of related objects to fetch
-     */
-    @Override
-    protected final Fetch[] getProfile(final String profile) {
-        return ConceptDaoImpl.FETCH_PROFILES.get(profile);
-    }
+	/**
+	 * @param profile
+	 *            Set the profile name
+	 * @return an array of related objects to fetch
+	 */
+	@Override
+	protected final Fetch[] getProfile(final String profile) {
+		return ConceptDaoImpl.FETCH_PROFILES.get(profile);
+	}
 }

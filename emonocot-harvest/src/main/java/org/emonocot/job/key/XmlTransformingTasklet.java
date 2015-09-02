@@ -41,84 +41,84 @@ import org.springframework.core.io.Resource;
  *
  */
 public class XmlTransformingTasklet implements Tasklet {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(XmlTransformingTasklet.class);
 
-    private Resource inputFile;
+	private Resource inputFile;
 
-    private Resource xsltFile;
+	private Resource xsltFile;
 
-    private Resource outputFile;
-    
-    private ErrorListener errorListener;
-    
-    public void setErrorListener(ErrorListener errorListener) {
-    	this.errorListener = errorListener;
-    }
+	private Resource outputFile;
 
-    /**
-     * @param newInputFile the inputFile to set
-     */
-    public final void setInputFile(final Resource newInputFile) {
-        this.inputFile = newInputFile;
-    }
+	private ErrorListener errorListener;
 
-    /**
-     * @param newXsltFile the xsltFile to set
-     */
-    public final void setXsltFile(final Resource newXsltFile) {
-        this.xsltFile = newXsltFile;
-    }
+	public void setErrorListener(ErrorListener errorListener) {
+		this.errorListener = errorListener;
+	}
 
-    /**
-     * @param newOutputFile the outputFile to set
-     */
-    public final void setOutputFile(final Resource newOutputFile) {
-        this.outputFile = newOutputFile;
-    }
+	/**
+	 * @param newInputFile the inputFile to set
+	 */
+	public final void setInputFile(final Resource newInputFile) {
+		this.inputFile = newInputFile;
+	}
 
-    /**
-     * @param parameters the parameters to set
-     */
-    public void setParameters(Map<String, String> parameters) {
-        this.parameters = parameters;
-    }
+	/**
+	 * @param newXsltFile the xsltFile to set
+	 */
+	public final void setXsltFile(final Resource newXsltFile) {
+		this.xsltFile = newXsltFile;
+	}
 
-    /**
-     *
-     */
-    private Map<String, String> parameters = new HashMap<String, String>();
+	/**
+	 * @param newOutputFile the outputFile to set
+	 */
+	public final void setOutputFile(final Resource newOutputFile) {
+		this.outputFile = newOutputFile;
+	}
 
-    /**
-     * @param contribution
-     *            Set the step contribution
-     * @param chunkContext
-     *            Set the chunk context
-     * @return the repeat status
-     * @throws Exception
-     *             if there is a problem
-     */
-    public final RepeatStatus execute(final StepContribution contribution,
-            final ChunkContext chunkContext) throws Exception {
-        // Set up input documents
-        Source inputXML = new StreamSource(inputFile.getFile());
+	/**
+	 * @param parameters the parameters to set
+	 */
+	public void setParameters(Map<String, String> parameters) {
+		this.parameters = parameters;
+	}
 
-        Source inputXSL = new StreamSource(xsltFile.getFile());
+	/**
+	 *
+	 */
+	private Map<String, String> parameters = new HashMap<String, String>();
 
-        // Set up output sink
-        Result outputXHTML = new StreamResult(outputFile.getFile());
+	/**
+	 * @param contribution
+	 *            Set the step contribution
+	 * @param chunkContext
+	 *            Set the chunk context
+	 * @return the repeat status
+	 * @throws Exception
+	 *             if there is a problem
+	 */
+	public final RepeatStatus execute(final StepContribution contribution,
+			final ChunkContext chunkContext) throws Exception {
+		// Set up input documents
+		Source inputXML = new StreamSource(inputFile.getFile());
 
-        // Setup a factory for transforms
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(inputXSL);
-        for (String parameterName : parameters.keySet()) {
-            transformer.setParameter(parameterName,
-                    parameters.get(parameterName));
-        }
-        if(errorListener != null) {
-            transformer.setErrorListener(errorListener);
-        }
-        transformer.transform(inputXML, outputXHTML);
-        return RepeatStatus.FINISHED;
-    }
+		Source inputXSL = new StreamSource(xsltFile.getFile());
+
+		// Set up output sink
+		Result outputXHTML = new StreamResult(outputFile.getFile());
+
+		// Setup a factory for transforms
+		TransformerFactory factory = TransformerFactory.newInstance();
+		Transformer transformer = factory.newTransformer(inputXSL);
+		for (String parameterName : parameters.keySet()) {
+			transformer.setParameter(parameterName,
+					parameters.get(parameterName));
+		}
+		if(errorListener != null) {
+			transformer.setErrorListener(errorListener);
+		}
+		transformer.transform(inputXML, outputXHTML);
+		return RepeatStatus.FINISHED;
+	}
 }

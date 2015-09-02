@@ -25,11 +25,11 @@ import org.emonocot.model.Reference;
  */
 public interface ReferenceService extends Service<Reference> {
 
-    /**
-     *
-     * @param bibliographicCitation The external identifier for this reference
-     * @return a reference or null if it cannot be found
-     */
-    Reference findByBibliographicCitation(String bibliographicCitation);
+	/**
+	 *
+	 * @param bibliographicCitation The external identifier for this reference
+	 * @return a reference or null if it cannot be found
+	 */
+	Reference findByBibliographicCitation(String bibliographicCitation);
 
 }

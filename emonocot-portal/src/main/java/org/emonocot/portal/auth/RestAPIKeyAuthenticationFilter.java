@@ -33,10 +33,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
 public class RestAPIKeyAuthenticationFilter extends
-		AbstractAuthenticationProcessingFilter {
-	
+AbstractAuthenticationProcessingFilter {
+
 	private static final String API_KEY_PARAMETER_NAME = "apikey";
-	
+
 	private static Logger logger = LoggerFactory.getLogger(RestAPIKeyAuthenticationFilter.class);
 
 	protected RestAPIKeyAuthenticationFilter(String defaultFilterProcessesUrl) {
@@ -47,8 +47,8 @@ public class RestAPIKeyAuthenticationFilter extends
 	public Authentication attemptAuthentication(HttpServletRequest request,
 			HttpServletResponse response) throws AuthenticationException,
 			IOException, ServletException {
-		
-		String apiKeyValue = decodeParameterValue(request, API_KEY_PARAMETER_NAME);		
+
+		String apiKeyValue = decodeParameterValue(request, API_KEY_PARAMETER_NAME);
 		logger.debug("attemptAuthentication " + apiKeyValue);
 
 		AbstractAuthenticationToken authRequest = createAuthenticationToken(
@@ -86,7 +86,7 @@ public class RestAPIKeyAuthenticationFilter extends
 	/**
 	 * Provided so that subclasses may configure what is put into the
 	 * authentication request's details property.
-	 * 
+	 *
 	 * @param request
 	 *            that an authentication request is being created for
 	 * @param authRequest

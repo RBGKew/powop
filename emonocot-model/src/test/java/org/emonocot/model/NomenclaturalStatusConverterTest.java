@@ -23,13 +23,13 @@ import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.junit.Test;
 
 public class NomenclaturalStatusConverterTest {
-	
+
 	private NomenclaturalStatusConverter converter = new NomenclaturalStatusConverter();
-	
+
 	@Test
-	public void testConverter() {		
+	public void testConverter() {
 		assertEquals(NomenclaturalStatus.Available,converter.convert("Available"));
-		assertEquals(null,converter.convert(""));		
+		assertEquals(null,converter.convert(""));
 	}
 
 }

@@ -24,9 +24,9 @@ public class RankToStringConverter implements Converter<Rank, String> {
 	@Override
 	public String convert(Rank value) {
 		if (value == null) {
-            return null;
-        } else {
-		    return value.name().toLowerCase();
-        }
+			return null;
+		} else {
+			return value.name().toLowerCase();
+		}
 	}
 }

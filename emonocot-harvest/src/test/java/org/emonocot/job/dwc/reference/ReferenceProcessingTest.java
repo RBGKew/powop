@@ -37,61 +37,61 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  */
 public class ReferenceProcessingTest {
 
-    private Reference reference;
+	private Reference reference;
 
-    private ReferenceService referenceService;
-    
-    private TaxonService taxonService;
+	private ReferenceService referenceService;
 
-    private OrganisationService sourceService;
+	private TaxonService taxonService;
 
-    private Taxon taxon;
+	private OrganisationService sourceService;
 
-    private Organisation source = new Organisation();
+	private Taxon taxon;
 
-    private Processor referenceValidator;
+	private Organisation source = new Organisation();
+
+	private Processor referenceValidator;
 
 
-    @Before
-    public void setUp() {
-        reference = new Reference();
-        taxon = new Taxon();
-        taxon.setId(0L);
-        taxon.setIdentifier("identifier");
-        taxon.setFamily("Araceae");
-        reference.getTaxa().add(taxon);
-        reference.setType(ReferenceType.publication);
-        reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
-        referenceService = EasyMock.createMock(ReferenceService.class);
-        taxonService = EasyMock.createMock(TaxonService.class);
-        sourceService = EasyMock.createMock(OrganisationService.class);
-        
-        LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
-        validatorFactory.afterPropertiesSet();        
+	@Before
+	public void setUp() {
+		reference = new Reference();
+		taxon = new Taxon();
+		taxon.setId(0L);
+		taxon.setIdentifier("identifier");
+		taxon.setFamily("Araceae");
+		reference.getTaxa().add(taxon);
+		reference.setType(ReferenceType.publication);
+		reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
+		referenceService = EasyMock.createMock(ReferenceService.class);
+		taxonService = EasyMock.createMock(TaxonService.class);
+		sourceService = EasyMock.createMock(OrganisationService.class);
 
-        referenceValidator = new Processor();
-        referenceValidator.setValidator(validatorFactory.getValidator());
-        referenceValidator.setReferenceService(referenceService);
-        referenceValidator.setOrganisationService(sourceService);
-        referenceValidator.setTaxonService(taxonService);
-        referenceValidator.setSourceName("test source");
-        referenceValidator.setFamily("Araceae");
-        referenceValidator.beforeStep(new StepExecution("teststep",
-                new JobExecution(1L)));
-    }
-    /**
-     * @throws Exception if there is a problem
-     */
-    @Test
-    public void testProcessReference() throws Exception {
-        EasyMock.expect(referenceService.find(EasyMock.isA(String.class)))
-                .andReturn(null).anyTimes();
-        EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
-        EasyMock.expect(sourceService.load(EasyMock.eq("test source")))
-                .andReturn(source);
-        EasyMock.replay(referenceService, sourceService,taxonService);
-        referenceValidator.process(reference);
-        EasyMock.verify(referenceService, sourceService,taxonService);        
-    }
+		LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
+		validatorFactory.afterPropertiesSet();
+
+		referenceValidator = new Processor();
+		referenceValidator.setValidator(validatorFactory.getValidator());
+		referenceValidator.setReferenceService(referenceService);
+		referenceValidator.setOrganisationService(sourceService);
+		referenceValidator.setTaxonService(taxonService);
+		referenceValidator.setSourceName("test source");
+		referenceValidator.setFamily("Araceae");
+		referenceValidator.beforeStep(new StepExecution("teststep",
+				new JobExecution(1L)));
+	}
+	/**
+	 * @throws Exception if there is a problem
+	 */
+	@Test
+	public void testProcessReference() throws Exception {
+		EasyMock.expect(referenceService.find(EasyMock.isA(String.class)))
+		.andReturn(null).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
+		EasyMock.expect(sourceService.load(EasyMock.eq("test source")))
+		.andReturn(source);
+		EasyMock.replay(referenceService, sourceService,taxonService);
+		referenceValidator.process(reference);
+		EasyMock.verify(referenceService, sourceService,taxonService);
+	}
 
 }

@@ -33,20 +33,20 @@ import org.springframework.security.acls.model.Permission;
  */
 public class PermissionSerializer extends JsonSerializer<Permission> {
 
-    /**
-     *
-     */
-    private Converter<Permission,String> converter = new PermissionToStringConverter();
+	/**
+	 *
+	 */
+	private Converter<Permission,String> converter = new PermissionToStringConverter();
 
-    @Override
-    public final void serialize(final Permission permission,
-            final JsonGenerator jsonGenerator,
-            final SerializerProvider serializerProvider) throws IOException {
-        try {
-            jsonGenerator.writeString(converter.convert(permission));
-        } catch (IllegalArgumentException iae) {
-            throw new JsonMappingException(iae.getMessage(), iae);
-        }
-    }
+	@Override
+	public final void serialize(final Permission permission,
+			final JsonGenerator jsonGenerator,
+			final SerializerProvider serializerProvider) throws IOException {
+		try {
+			jsonGenerator.writeString(converter.convert(permission));
+		} catch (IllegalArgumentException iae) {
+			throw new JsonMappingException(iae.getMessage(), iae);
+		}
+	}
 
 }

@@ -47,39 +47,39 @@ import au.org.ala.delta.translation.TypeSetterFactory;
 import au.org.ala.delta.translation.naturallanguage.NaturalLanguageTranslator;
 
 public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Description> {
-	
+
 	private Logger logger = LoggerFactory.getLogger(DeltaNaturalLanguageProcessor.class);
-	
+
 	private DeltaContext deltaContext;
-	
+
 	private DataSetFilter filter;
-	
-	private TaxonMatcher taxonMatcher;	
-	
+
+	private TaxonMatcher taxonMatcher;
+
 	private Integer characterForLink;
-	
+
 	private String linkPrefix;
-	
+
 	private String linkSuffix;
-	
+
 	public void setCharacterForLink(Integer characterForLink) {
-		this.characterForLink = characterForLink; 
+		this.characterForLink = characterForLink;
 	}
-	
+
 	public void setLinkPrefix(String linkPrefix) {
 		this.linkPrefix = linkPrefix;
 	}
-	
+
 	public void setLinkSuffix(String linkSuffix) {
 		this.linkSuffix = linkSuffix;
 	}
-	
-	
- 	public void setDeltaContextHolder(DeltaContextHolder deltaContextHolder) {
+
+
+	public void setDeltaContextHolder(DeltaContextHolder deltaContextHolder) {
 		assert deltaContextHolder != null;
 		this.deltaContext = deltaContextHolder.getDeltaContext();
 	}
-	
+
 	public void setFilter(DataSetFilter filter) {
 		this.filter = filter;
 	}
@@ -87,27 +87,27 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 	public void setTaxonMatcher(TaxonMatcher taxonMatcher) {
 		this.taxonMatcher = taxonMatcher;
 	}
-	
+
 	private String translate(Item item) throws UnsupportedEncodingException {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream printStream = new PrintStream(byteArrayOutputStream);
 		PrintFile printFile = new PrintFile(printStream,0);
-        printFile.setTrimInput(false);       
-        
+		printFile.setTrimInput(false);
+
 		FormatterFactory formatterFactory = new FormatterFactory(deltaContext);
-        ItemListTypeSetter typeSetter = new TypeSetterFactory().createTypeSetter(deltaContext, printFile);
-        ItemFormatter itemFormatter  = formatterFactory.createItemFormatter(typeSetter);
+		ItemListTypeSetter typeSetter = new TypeSetterFactory().createTypeSetter(deltaContext, printFile);
+		ItemFormatter itemFormatter  = formatterFactory.createItemFormatter(typeSetter);
 		CharacterFormatter characterFormatter = formatterFactory.createCharacterFormatter();
 		AttributeFormatter attributeFormatter = formatterFactory.createAttributeFormatter();
-       
-        IterativeTranslator translator = new NaturalLanguageTranslator(deltaContext, typeSetter, printFile, itemFormatter, characterFormatter, attributeFormatter);
-	    
+
+		IterativeTranslator translator = new NaturalLanguageTranslator(deltaContext, typeSetter, printFile, itemFormatter, characterFormatter, attributeFormatter);
+
 		MutableDeltaDataSet dataSet = deltaContext.getDataSet();
-					
+
 		int numChars = dataSet.getNumberOfCharacters();
 		for (int i=1; i<=numChars; i++) {
-				
-			au.org.ala.delta.model.Character character = dataSet.getCharacter(i);			
+
+			au.org.ala.delta.model.Character character = dataSet.getCharacter(i);
 			Attribute attribute = item.getAttribute(character);
 
 			if (filter.filter(item, character)) {
@@ -115,20 +115,20 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 				translator.beforeAttribute(attribute);
 				logger.info("translating " + character + " : " + attribute.getValueAsString());
 				translator.afterAttribute(attribute);
-			} 
+			}
 		}
-			
+
 		translator.afterItem(item);
 		translator.afterLastItem();
-		
+
 		printFile.close();
 		printStream.close();
-		
+
 		String output = byteArrayOutputStream.toString("UTF-8");
 		logger.debug(output.trim());
 		return output.trim();
 	}
-	
+
 	private Taxon getTaxon(String scientificName) throws UnparsableException {
 		List<Match<Taxon>> matches = taxonMatcher.match(scientificName);
 		if(matches.isEmpty()) {
@@ -136,14 +136,14 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 			return null;
 		} else if(matches.size() == 1) {
 			Match<Taxon> match = matches.get(0);
-			
+
 			switch(match.getStatus()) {
 			case EXACT:
 				logger.info(scientificName + " matches " + match.getInternal().getScientificName());
 				break;
 			case PARTIAL:
 				logger.warn("Partial match for " + scientificName + " to " + match.getInternal().getScientificName());
-				break;			
+				break;
 			}
 			return match.getInternal();
 		} else {
@@ -157,19 +157,19 @@ public class DeltaNaturalLanguageProcessor implements ItemProcessor<Item,Descrip
 		Description description = new Description();
 		description.setDescription(translate(item));
 		description.setTaxon(getTaxon(item.getDescription()));
-		
+
 		if(characterForLink != null) {
 			Character character = deltaContext.getCharacter(characterForLink);
 			Attribute attribute = item.getAttribute(character);
 			String value = attribute.getValueAsString();
 			if(value != null) {
-			    // Assumes value is enclosed in angle brackets i.e. is a comment
-			    value = value.substring(1, value.length() - 1);
-			    description.setSource(linkPrefix + value + linkSuffix); 
+				// Assumes value is enclosed in angle brackets i.e. is a comment
+				value = value.substring(1, value.length() - 1);
+				description.setSource(linkPrefix + value + linkSuffix);
 			}
-			
+
 		}
-		
+
 		return description;
 	}
 

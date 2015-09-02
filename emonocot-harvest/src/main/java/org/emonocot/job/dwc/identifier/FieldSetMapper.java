@@ -31,42 +31,42 @@ import org.springframework.validation.BindException;
  */
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<Identifier> {
 
-    /**
-     *
-     */
-    public FieldSetMapper() {
-        super(Identifier.class);
-    }
+	/**
+	 *
+	 */
+	public FieldSetMapper() {
+		super(Identifier.class);
+	}
 
-    /**
-    *
-    */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
-    @Override
-    public final void mapField(final Identifier object, final String fieldName,
-            final String value) throws BindException {
-    	
-    	super.mapField(object, fieldName, value);
-        Term term = getTermFactory().findTerm(fieldName);
-        if (term instanceof DcTerm) {
-            DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {
-            case format:
-                object.setFormat(value);
-                break;
-            case identifier:
-                object.setIdentifier(value);
-                break;
-            case subject:
-                object.setSubject(value);
-                break;
-            case title:
-                object.setTitle(value);
-                break;
-            default:
-                break;
-            }
-        }
-    }
+	@Override
+	public final void mapField(final Identifier object, final String fieldName,
+			final String value) throws BindException {
+
+		super.mapField(object, fieldName, value);
+		Term term = getTermFactory().findTerm(fieldName);
+		if (term instanceof DcTerm) {
+			DcTerm dcTerm = (DcTerm) term;
+			switch (dcTerm) {
+			case format:
+				object.setFormat(value);
+				break;
+			case identifier:
+				object.setIdentifier(value);
+				break;
+			case subject:
+				object.setSubject(value);
+				break;
+			case title:
+				object.setTitle(value);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }

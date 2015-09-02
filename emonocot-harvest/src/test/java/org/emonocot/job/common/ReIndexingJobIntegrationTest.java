@@ -51,60 +51,60 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/reindex.xml",
-        "/META-INF/spring/applicationContext-integration.xml",
-        "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/reindex.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 public class ReIndexingJobIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(ReIndexingJobIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(ReIndexingJobIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("readWriteJobLauncher")
-    private JobLauncher jobLauncher;
+	private JobLauncher jobLauncher;
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testNotModifiedResponse() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-        Map<String, JobParameter> parameters =
-            new HashMap<String, JobParameter>();
-        parameters.put("query.string", new JobParameter("select t.id from Taxon t"));
-        parameters.put("query.type", new JobParameter("org.emonocot.model.Taxon"));
-        parameters.put("solr.selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testNotModifiedResponse() throws IOException,
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
+		Map<String, JobParameter> parameters =
+				new HashMap<String, JobParameter>();
+		parameters.put("query.string", new JobParameter("select t.id from Taxon t"));
+		parameters.put("query.type", new JobParameter("org.emonocot.model.Taxon"));
+		parameters.put("solr.selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
 
-        JobParameters jobParameters = new JobParameters(parameters);
+		JobParameters jobParameters = new JobParameters(parameters);
 
-        Job job = jobLocator
-                .getJob("ReIndex");
-        assertNotNull("ReIndex must not be null",
-                job);
-        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		Job job = jobLocator
+				.getJob("ReIndex");
+		assertNotNull("ReIndex must not be null",
+				job);
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
-        }
-    }
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount());
+		}
+	}
 }

@@ -54,136 +54,136 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/user")
 public class UserController extends GenericController<User, UserService> {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    /**
-     *
-     */
-    public UserController() {
-        super("user", User.class);
-    }
+	/**
+	 *
+	 */
+	public UserController() {
+		super("user", User.class);
+	}
 
-    /**
-     *
-     */
-    private ConversionService conversionService;
+	/**
+	 *
+	 */
+	private ConversionService conversionService;
 
-    /**
-     *
-     */
-    @Autowired
-    public final void setConversionService(
-            final ConversionService conversionService) {
-        this.conversionService = conversionService;
-    }
+	/**
+	 *
+	 */
+	@Autowired
+	public final void setConversionService(
+			final ConversionService conversionService) {
+		this.conversionService = conversionService;
+	}
 
-    /**
-     * @param userService
-     *            set the user service
-     */
-    @Autowired
-    public final void setUserService(final UserService userService) {
-        super.setService(userService);
-    }
+	/**
+	 * @param userService
+	 *            set the user service
+	 */
+	@Autowired
+	public final void setUserService(final UserService userService) {
+		super.setService(userService);
+	}
 
-    /**
-     * @param identifier
-     *            Set the identifier of the user
-     * @return A response entity containing the status
-     */
-    @RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public final ResponseEntity<AceDto> addPermission(
-            @PathVariable final String identifier, @RequestBody final AceDto ace) {
-        SecuredObject object = conversionService.convert(ace,
-                SecuredObject.class);
-        getService().addPermission(object, identifier, ace.getPermission(), ace.getClazz());
-        ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace,
-                HttpStatus.CREATED);
-        return responseEntity;
-    }
+	/**
+	 * @param identifier
+	 *            Set the identifier of the user
+	 * @return A response entity containing the status
+	 */
+	@RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public final ResponseEntity<AceDto> addPermission(
+			@PathVariable final String identifier, @RequestBody final AceDto ace) {
+		SecuredObject object = conversionService.convert(ace,
+				SecuredObject.class);
+		getService().addPermission(object, identifier, ace.getPermission(), ace.getClazz());
+		ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace,
+				HttpStatus.CREATED);
+		return responseEntity;
+	}
 
-    /**
-     * @param identifier
-     *            Set the identifier of the user
-     * @return A response entity containing the status
-     */
-    @RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public final ResponseEntity<AceDto> deletePermission(
-            @PathVariable final String identifier, @RequestBody final AceDto ace) {
-        SecuredObject object = conversionService.convert(ace,
-                SecuredObject.class);
-        getService().deletePermission(object, identifier, ace.getPermission(),
-                ace.getClazz());
-        return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
-    }
-    
+	/**
+	 * @param identifier
+	 *            Set the identifier of the user
+	 * @return A response entity containing the status
+	 */
+	@RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public final ResponseEntity<AceDto> deletePermission(
+			@PathVariable final String identifier, @RequestBody final AceDto ace) {
+		SecuredObject object = conversionService.convert(ace,
+				SecuredObject.class);
+		getService().deletePermission(object, identifier, ace.getPermission(),
+				ace.getClazz());
+		return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html", params = {"!form", "!delete"})
 	public String show(@PathVariable Long id, Model uiModel) {
 		uiModel.addAttribute(getService().find(id));
 		return "user/show";
 	}
-	
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "form", produces = "text/html")
-    public String update(@PathVariable Long id, Model uiModel) {    	
-        uiModel.addAttribute(getService().find(id));
-        return "user/update";
-    }
-    
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = "text/html")
-    public String update(@Valid User user, @PathVariable Long id,
-            BindingResult result,
-            Model model,
-            RedirectAttributes redirectAttributes) throws Exception {
-    	logger.error("POST /user/" + id);
-    	User persistedUser = getService().load(id);
-    	
-        if (result.hasErrors()) {
-        	logger.error("result.hasErrors()");
-            return "user/update";
-        }
-        persistedUser.setAccountName(user.getAccountName());
-        persistedUser.setFamilyName(user.getFamilyName());
-        persistedUser.setFirstName(user.getFirstName());
-        persistedUser.setHomepage(user.getHomepage());
-        persistedUser.setName(user.getName());
-        persistedUser.setOrganization(user.getOrganization());
-        persistedUser.setTopicInterest(user.getTopicInterest());
-        persistedUser.setNotifyByEmail(user.isNotifyByEmail());
-        persistedUser.setEnabled(user.isEnabled());
-        persistedUser.setAccountNonLocked(user.isAccountNonLocked());
-        logger.error("accountNonLocked " + user.isAccountNonLocked());
-        logger.error("enabled " + user.isEnabled());
-        try {
-        	String img = getService().makeProfileThumbnail(user.getImgFile(),persistedUser.getImg());
-        	if(img != null) {
-                persistedUser.setImg(img);
-        	}
-        } catch(UnsupportedOperationException uoe) {
-        	String[] codes = new String[] {"unsupported.image.mimetype" };
-            Object[] args = new Object[] {uoe.getMessage()};
-            DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-            model.addAttribute("error", message);
-    		return "user/update";
-        }        
-        logger.error("saving");
-        getService().saveOrUpdate(persistedUser);
-        String[] codes = new String[] {"user.updated" };
-        Object[] args = new Object[] {user.getAccountName()};
-        DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-        redirectAttributes.addFlashAttribute("info", message);
-        logger.error("saved");
-        return "redirect:/user/{id}";
-    }
-	
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "form", produces = "text/html")
+	public String update(@PathVariable Long id, Model uiModel) {
+		uiModel.addAttribute(getService().find(id));
+		return "user/update";
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = "text/html")
+	public String update(@Valid User user, @PathVariable Long id,
+			BindingResult result,
+			Model model,
+			RedirectAttributes redirectAttributes) throws Exception {
+		logger.error("POST /user/" + id);
+		User persistedUser = getService().load(id);
+
+		if (result.hasErrors()) {
+			logger.error("result.hasErrors()");
+			return "user/update";
+		}
+		persistedUser.setAccountName(user.getAccountName());
+		persistedUser.setFamilyName(user.getFamilyName());
+		persistedUser.setFirstName(user.getFirstName());
+		persistedUser.setHomepage(user.getHomepage());
+		persistedUser.setName(user.getName());
+		persistedUser.setOrganization(user.getOrganization());
+		persistedUser.setTopicInterest(user.getTopicInterest());
+		persistedUser.setNotifyByEmail(user.isNotifyByEmail());
+		persistedUser.setEnabled(user.isEnabled());
+		persistedUser.setAccountNonLocked(user.isAccountNonLocked());
+		logger.error("accountNonLocked " + user.isAccountNonLocked());
+		logger.error("enabled " + user.isEnabled());
+		try {
+			String img = getService().makeProfileThumbnail(user.getImgFile(),persistedUser.getImg());
+			if(img != null) {
+				persistedUser.setImg(img);
+			}
+		} catch(UnsupportedOperationException uoe) {
+			String[] codes = new String[] {"unsupported.image.mimetype" };
+			Object[] args = new Object[] {uoe.getMessage()};
+			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+			model.addAttribute("error", message);
+			return "user/update";
+		}
+		logger.error("saving");
+		getService().saveOrUpdate(persistedUser);
+		String[] codes = new String[] {"user.updated" };
+		Object[] args = new Object[] {user.getAccountName()};
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+		redirectAttributes.addFlashAttribute("info", message);
+		logger.error("saved");
+		return "redirect:/user/{id}";
+	}
+
 	@RequestMapping(produces = "text/html", method = RequestMethod.GET)
 	public String list(Model model,
 			@RequestParam(value = "query", required = false) String query,
-		    @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-		    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-		    @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-		    @RequestParam(value = "sort", required = false) String sort,
-		    @RequestParam(value = "view", required = false) String view) throws SolrServerException {
+			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "view", required = false) String view) throws SolrServerException {
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
@@ -197,15 +197,15 @@ public class UserController extends GenericController<User, UserService> {
 		model.addAttribute("result", result);
 		return "user/list";
 	}
-	
+
 	@RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 		User user = getService().find(id);
-        getService().deleteUser(user.getUsername());
-        String[] codes = new String[] { "user.deleted" };
+		getService().deleteUser(user.getUsername());
+		String[] codes = new String[] { "user.deleted" };
 		Object[] args = new Object[] { user.getUsername() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/user";
-   }
+		return "redirect:/user";
+	}
 }

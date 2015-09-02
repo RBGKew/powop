@@ -69,7 +69,7 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 public class Taxon extends SearchableObject {
-	
+
 	private Logger logger = LoggerFactory.getLogger(Taxon.class);
 
 	private static final long serialVersionUID = -3511287213090466877L;
@@ -133,9 +133,9 @@ public class Taxon extends SearchableObject {
 	private Reference nameAccordingTo;
 
 	private List<Taxon> higherClassification = null;
-	
-    private Taxon originalNameUsage;
-	
+
+	private Taxon originalNameUsage;
+
 	private Set<Taxon> subsequentNameUsages = new HashSet<Taxon>();
 
 	private Taxon parentNameUsage;
@@ -149,10 +149,10 @@ public class Taxon extends SearchableObject {
 	private List<Image> images = new ArrayList<Image>();
 
 	private Set<IdentificationKey> keys = new HashSet<IdentificationKey>();
-	
+
 	// The Phylogenies I am the root taxon of
 	private Set<PhylogeneticTree> trees = new HashSet<PhylogeneticTree>();
-	
+
 	// The Phylogenies I appear in
 	private Set<PhylogeneticTree> phylogenies = new HashSet<PhylogeneticTree>();
 
@@ -169,9 +169,9 @@ public class Taxon extends SearchableObject {
 	private Set<VernacularName> vernacularNames = new HashSet<VernacularName>();
 
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
-	
+
 	private Set<Concept> concepts = new HashSet<Concept>();
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
 	@JsonSerialize(contentUsing = ConceptSerializer.class)
 	public Set<Concept> getConcepts() {
@@ -324,7 +324,7 @@ public class Taxon extends SearchableObject {
 	public void setChildNameUsages(Set<Taxon> newChildren) {
 		this.childNameUsages = newChildren;
 	}
-	
+
 	/**
 	 * @return Get the subsequent usages of this name
 	 */
@@ -733,18 +733,18 @@ public class Taxon extends SearchableObject {
 	public List<Taxon> getHigherClassification() {
 		if(higherClassification == null) {
 			List<Taxon> ancestors = new ArrayList<Taxon>();
-            getAncestors(this, ancestors);
-            this.setHigherClassification(ancestors);
+			getAncestors(this, ancestors);
+			this.setHigherClassification(ancestors);
 		}
 		return higherClassification;
 	}
-	
+
 	private void getAncestors(Taxon t, List<Taxon> ancestors) {
-        if (t.getParentNameUsage() != null) {
-            getAncestors(t.getParentNameUsage(), ancestors);
-        }
-        ancestors.add(t);
-    }
+		if (t.getParentNameUsage() != null) {
+			getAncestors(t.getParentNameUsage(), ancestors);
+		}
+		ancestors.add(t);
+	}
 
 	/**
 	 * @param ancestors
@@ -764,7 +764,7 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the name identifier
 	 */
 	@Size(max = 255)
@@ -917,7 +917,7 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param typesAndSpecimens
 	 */
 	@JsonIgnore
@@ -963,16 +963,16 @@ public class Taxon extends SearchableObject {
 			Set<MeasurementOrFact> newMeasurementsOrFacts) {
 		this.measurementsOrFacts = newMeasurementsOrFacts;
 	}
-	
+
 	/**
 	 * @return the comments
 	 */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "commentPage_id")
-    @OrderBy("created DESC")
-    @Where(clause = "commentPage_type = 'Taxon'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "commentPage_id")
+	@OrderBy("created DESC")
+	@Where(clause = "commentPage_type = 'Taxon'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -980,7 +980,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @param comments the comments to set
 	 */
-    @JsonIgnore
+	@JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
@@ -1009,100 +1009,100 @@ public class Taxon extends SearchableObject {
 
 	@Override
 	public SolrInputDocument toSolrInputDocument() {
-        SolrInputDocument sid = super.toSolrInputDocument();
-        sid.addField("searchable.label_sort", getScientificName());
-        //addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
-        //addField(sid,"taxon.clazz_s", getClazz());
-        
-        StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
-        .append(getClazz()).append(" ").append(getFamily()).append(" ")
-        .append(getGenus()).append(" ").append(getKingdom()).append(" ")
-        .append(getNamePublishedInString()).append(" ")
-        .append(getNamePublishedInYear()).append(" ")
-        .append(getNomenclaturalStatus()).append(" ").append(getOrder()).append(" ")
-        .append(getPhylum()).append(" ").append(getScientificName()).append(" ")
-        .append(getScientificNameAuthorship()).append(" ")
-        .append(getSource()).append(" ").append(getSpecificEpithet()).append(" ")
-        .append(getSubfamily()).append(" ").append(getSubgenus()).append(" ")
-        .append(getSubtribe()).append(" ").append(getTaxonomicStatus()).append(" ")
-        .append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
-        .append(getTribe()).append(" ").append(getVerbatimTaxonRank());
+		SolrInputDocument sid = super.toSolrInputDocument();
+		sid.addField("searchable.label_sort", getScientificName());
+		//addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
+		//addField(sid,"taxon.clazz_s", getClazz());
 
-        if(Rank.FAMILY.equals(getTaxonRank()) && getFamily() == null) {
-            addField(sid,"taxon.family_ns", getScientificName());
-            addField(sid,"taxon.family_ss", getScientificName());
-        } else {
-            addField(sid,"taxon.family_ns", getFamily());
-            addField(sid,"taxon.family_ss", getFamily());
-        }
-        if(getAcceptedNameUsage() != null) {
-            addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
-            summary.append(" ").append(getAcceptedNameUsage().getFamily());
-        }
-        
-        addField(sid,FacetName.GENUS.getSolrField(), getGenus());
-        if(getAcceptedNameUsage() != null) {
-            addField(sid,FacetName.GENUS.getSolrField(), getAcceptedNameUsage().getGenus());
-        }
-        if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
-            addField(sid,"taxon.genus_ns", getScientificName());
-            addField(sid,FacetName.GENUS.getSolrField(), getScientificName());
-        } else {
-            addField(sid,"taxon.genus_ns", getGenus());
-        }
-        
-        addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
-        addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
-        //addField(sid,"taxon.kingdom_s", getKingdom());
-        //addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
-        //addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
-        //addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
-        //addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
-        //addField(sid,"taxon.phylum_s", getPhylum());
-        //addField(sid,"taxon.source_t", getSource());
-        addField(sid,"taxon.order_s", getOrder());        
-        addField(sid,"taxon.scientific_name_t", getScientificName());
-        addField(sid,"taxon.scientific_name_authorship_s", getScientificNameAuthorship());        
-        addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
-        addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
-        
-        addField(sid,FacetName.SUBFAMILY.getSolrField(), getSubfamily());
-        if(Rank.Subfamily.equals(getTaxonRank()) && getSubfamily() == null) {
-            addField(sid,FacetName.SUBFAMILY.getSolrField(), getScientificName());
-        }
-        if(getAcceptedNameUsage() != null) {
-            addField(sid,FacetName.SUBFAMILY.getSolrField(), getAcceptedNameUsage().getSubfamily());
-        }
-        
-        addField(sid,"taxon.subgenus_s", getSubgenus());
-        
-        addField(sid,FacetName.SUBTRIBE.getSolrField(), getSubtribe());
-        if(Rank.Subtribe.equals(getTaxonRank()) && getSubtribe() == null) {
-            addField(sid,FacetName.SUBTRIBE.getSolrField(), getScientificName());
-        }
-        if(getAcceptedNameUsage() != null) {
-            addField(sid,FacetName.SUBTRIBE.getSolrField(), getAcceptedNameUsage().getSubtribe());
-        }
-        
-        addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
-        addField(sid,"taxon.taxon_rank_s", getTaxonRank());
-        //addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
-        
-        addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
-        if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
-            addField(sid,FacetName.TRIBE.getSolrField(), getScientificName());
-        }
-        if(getAcceptedNameUsage() != null) {
-            addField(sid,FacetName.TRIBE.getSolrField(), getAcceptedNameUsage().getTribe());
-        }
-        
-        //addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
-        
-        if(getDescriptions().isEmpty()) {
-            sid.addField("taxon.descriptions_not_empty_b", false);
-        } else {
-            sid.addField("taxon.descriptions_not_empty_b", true);
-        }
+		StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
+				.append(getClazz()).append(" ").append(getFamily()).append(" ")
+				.append(getGenus()).append(" ").append(getKingdom()).append(" ")
+				.append(getNamePublishedInString()).append(" ")
+				.append(getNamePublishedInYear()).append(" ")
+				.append(getNomenclaturalStatus()).append(" ").append(getOrder()).append(" ")
+				.append(getPhylum()).append(" ").append(getScientificName()).append(" ")
+				.append(getScientificNameAuthorship()).append(" ")
+				.append(getSource()).append(" ").append(getSpecificEpithet()).append(" ")
+				.append(getSubfamily()).append(" ").append(getSubgenus()).append(" ")
+				.append(getSubtribe()).append(" ").append(getTaxonomicStatus()).append(" ")
+				.append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
+				.append(getTribe()).append(" ").append(getVerbatimTaxonRank());
+
+		if(Rank.FAMILY.equals(getTaxonRank()) && getFamily() == null) {
+			addField(sid,"taxon.family_ns", getScientificName());
+			addField(sid,"taxon.family_ss", getScientificName());
+		} else {
+			addField(sid,"taxon.family_ns", getFamily());
+			addField(sid,"taxon.family_ss", getFamily());
+		}
+		if(getAcceptedNameUsage() != null) {
+			addField(sid,"taxon.family_ss", getAcceptedNameUsage().getFamily());
+			summary.append(" ").append(getAcceptedNameUsage().getFamily());
+		}
+
+		addField(sid,FacetName.GENUS.getSolrField(), getGenus());
+		if(getAcceptedNameUsage() != null) {
+			addField(sid,FacetName.GENUS.getSolrField(), getAcceptedNameUsage().getGenus());
+		}
+		if(Rank.GENUS == getTaxonRank() && getGenus() == null) {
+			addField(sid,"taxon.genus_ns", getScientificName());
+			addField(sid,FacetName.GENUS.getSolrField(), getScientificName());
+		} else {
+			addField(sid,"taxon.genus_ns", getGenus());
+		}
+
+		addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
+		addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
+		//addField(sid,"taxon.kingdom_s", getKingdom());
+		//addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
+		//addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
+		//addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
+		//addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
+		//addField(sid,"taxon.phylum_s", getPhylum());
+		//addField(sid,"taxon.source_t", getSource());
+		addField(sid,"taxon.order_s", getOrder());
+		addField(sid,"taxon.scientific_name_t", getScientificName());
+		addField(sid,"taxon.scientific_name_authorship_s", getScientificNameAuthorship());
+		addField(sid,"taxon.specific_epithet_s", getSpecificEpithet());
+		addField(sid,"taxon.specific_epithet_ns", getSpecificEpithet());
+
+		addField(sid,FacetName.SUBFAMILY.getSolrField(), getSubfamily());
+		if(Rank.Subfamily.equals(getTaxonRank()) && getSubfamily() == null) {
+			addField(sid,FacetName.SUBFAMILY.getSolrField(), getScientificName());
+		}
+		if(getAcceptedNameUsage() != null) {
+			addField(sid,FacetName.SUBFAMILY.getSolrField(), getAcceptedNameUsage().getSubfamily());
+		}
+
+		addField(sid,"taxon.subgenus_s", getSubgenus());
+
+		addField(sid,FacetName.SUBTRIBE.getSolrField(), getSubtribe());
+		if(Rank.Subtribe.equals(getTaxonRank()) && getSubtribe() == null) {
+			addField(sid,FacetName.SUBTRIBE.getSolrField(), getScientificName());
+		}
+		if(getAcceptedNameUsage() != null) {
+			addField(sid,FacetName.SUBTRIBE.getSolrField(), getAcceptedNameUsage().getSubtribe());
+		}
+
+		addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
+		addField(sid,"taxon.taxon_rank_s", getTaxonRank());
+		//addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
+
+		addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
+		if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
+			addField(sid,FacetName.TRIBE.getSolrField(), getScientificName());
+		}
+		if(getAcceptedNameUsage() != null) {
+			addField(sid,FacetName.TRIBE.getSolrField(), getAcceptedNameUsage().getTribe());
+		}
+
+		//addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
+
+		if(getDescriptions().isEmpty()) {
+			sid.addField("taxon.descriptions_not_empty_b", false);
+		} else {
+			sid.addField("taxon.descriptions_not_empty_b", true);
+		}
 
 		for(Description d : getDescriptions()) {
 			summary.append(" ").append(d.getDescription());
@@ -1110,7 +1110,7 @@ public class Taxon extends SearchableObject {
 				sid.addField("searchable.sources_ss", d.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		if(getDistribution().isEmpty()) {
 			sid.addField("taxon.distribution_not_empty_b", false);
 		} else {
@@ -1123,7 +1123,7 @@ public class Taxon extends SearchableObject {
 				for(Location r : (Set<Location>)d.getLocation().getChildren()) {
 					for(Location c : (Set<Location>)r.getChildren()) {
 						for(Location l : (Set<Location>)c.getChildren()) {
-						    indexLocality(l,sid);
+							indexLocality(l,sid);
 						}
 					}
 				}
@@ -1131,14 +1131,14 @@ public class Taxon extends SearchableObject {
 			case 1:
 				for(Location c : (Set<Location>)d.getLocation().getChildren()) {
 					for(Location l : (Set<Location>)c.getChildren()) {
-					    indexLocality(l,sid);
+						indexLocality(l,sid);
 					}
 				}
 				break;
 			case 2:
 				for(Location l : (Set<Location>)d.getLocation().getChildren()) {
-				    indexLocality(l,sid);
-				}				
+					indexLocality(l,sid);
+				}
 				break;
 			case 3:
 				indexLocality(d.getLocation(),sid);
@@ -1146,56 +1146,56 @@ public class Taxon extends SearchableObject {
 			default:
 				break;
 			}
-			
+
 			if(d.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", d.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		if(getImages().isEmpty()) {
 			sid.addField("taxon.images_not_empty_b", false);
 		} else {
 			sid.addField("taxon.images_not_empty_b", true);
 		}
-		for(Image i : getImages()) {			
+		for(Image i : getImages()) {
 			if(i != null && i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		if(getReferences().isEmpty()) {
 			sid.addField("taxon.references_not_empty_b", false);
 		} else {
 			sid.addField("taxon.references_not_empty_b", true);
 		}
-		for(Reference r : getReferences()) {			
+		for(Reference r : getReferences()) {
 			if(r != null && r.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", r.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		if(getTypesAndSpecimens().isEmpty()) {
 			sid.addField("taxon.types_and_specimens_not_empty_b", false);
 		} else {
 			sid.addField("taxon.types_and_specimens_not_empty_b", true);
 		}
-		for(TypeAndSpecimen t : getTypesAndSpecimens()) {			
+		for(TypeAndSpecimen t : getTypesAndSpecimens()) {
 			if(t != null && t.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", t.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		if(getIdentifiers().isEmpty()) {
 			sid.addField("taxon.identifiers_not_empty_b", false);
 		} else {
 			sid.addField("taxon.identifiers_not_empty_b", true);
 		}
-		for(Identifier i : getIdentifiers()) {			
+		for(Identifier i : getIdentifiers()) {
 			if(i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		if(getMeasurementsOrFacts().isEmpty()) {
 			sid.addField("taxon.measurements_or_facts_not_empty_b", false);
 		} else {
@@ -1212,7 +1212,7 @@ public class Taxon extends SearchableObject {
 				hasLifeForm = true;
 			} else if(m.getMeasurementType().equals(IucnTerm.threatStatus)) {
 				hasThreatStatus = true;
-		    }
+			}
 			if(m.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", m.getAuthority().getIdentifier());
 			}
@@ -1226,7 +1226,7 @@ public class Taxon extends SearchableObject {
 		if(!hasThreatStatus) {
 			sid.addField("taxon.measurement_or_fact_" + IucnTerm.threatStatus.simpleName() + "_txt", "_NULL_");
 		}
-		
+
 		if(getVernacularNames().isEmpty()) {
 			sid.addField("taxon.vernacular_names_not_empty_b", false);
 		} else {
@@ -1238,21 +1238,21 @@ public class Taxon extends SearchableObject {
 				sid.addField("searchable.sources_ss", v.getAuthority().getIdentifier());
 			}
 		}
-		
+
 		for(Taxon synonym : getSynonymNameUsages()) {
 			summary.append(" ").append(synonym.getScientificName());
 		}
 		sid.addField("searchable.solrsummary_t", summary);
 		return sid;
 	}
-	
-	private void indexLocality(Location g, SolrInputDocument sid) {	
+
+	private void indexLocality(Location g, SolrInputDocument sid) {
 		if(g.getParent() != null) {
 			indexLocality(g.getParent(), sid);
 		}
 		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", g.toString());
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
@@ -1264,5 +1264,5 @@ public class Taxon extends SearchableObject {
 			stringBuffer.append(" <" + identifier + ">");
 		}
 		return stringBuffer.toString();
-	} 
+	}
 }

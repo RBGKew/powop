@@ -37,53 +37,53 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/phylo")
 public class PhylogeneticTreeController extends GenericController<PhylogeneticTree, PhylogeneticTreeService> {
 
-    private static Logger queryLog = LoggerFactory.getLogger("query");
+	private static Logger queryLog = LoggerFactory.getLogger("query");
 
-    public PhylogeneticTreeController() {
-        super("phylo", PhylogeneticTree.class);
-    }
+	public PhylogeneticTreeController() {
+		super("phylo", PhylogeneticTree.class);
+	}
 
-    /**
-     * @param newIdentificationKeyService
-     *            Set the identification key service
-     */
-    @Autowired
-    public void setPhylogeneticTreeService(PhylogeneticTreeService newPhylogeneticTreeService) {
-        super.setService(newPhylogeneticTreeService);
-    }
+	/**
+	 * @param newIdentificationKeyService
+	 *            Set the identification key service
+	 */
+	@Autowired
+	public void setPhylogeneticTreeService(PhylogeneticTreeService newPhylogeneticTreeService) {
+		super.setService(newPhylogeneticTreeService);
+	}
 
-    /**
-     * @param identifier
-     *            The identifier of the identification key
-     * @param model
-     *            The model
-     * @return The name of the view
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "!delete", produces = {"text/html", "*/*"})
-    public String getPage(@PathVariable Long id,
-            Model model) {
-        PhylogeneticTree tree = getService().load(id,"object-page");
-        model.addAttribute(tree); 
-        queryLog.info("PhylogeneticTree: \'{}\'", new Object[] {id});
-        return "phylo/show";
-    }
-    
-    /**
-     * Many users visit a taxon page and then navigate to the document above, then bounce
-     */
-    @RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
-    public String list(Model model) {
-    	return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
-    }
-    
-    @RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+	/**
+	 * @param identifier
+	 *            The identifier of the identification key
+	 * @param model
+	 *            The model
+	 * @return The name of the view
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, params = "!delete", produces = {"text/html", "*/*"})
+	public String getPage(@PathVariable Long id,
+			Model model) {
+		PhylogeneticTree tree = getService().load(id,"object-page");
+		model.addAttribute(tree);
+		queryLog.info("PhylogeneticTree: \'{}\'", new Object[] {id});
+		return "phylo/show";
+	}
+
+	/**
+	 * Many users visit a taxon page and then navigate to the document above, then bounce
+	 */
+	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
+	public String list(Model model) {
+		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
+	}
+
+	@RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+	public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 		PhylogeneticTree tree = getService().load(id);
-        getService().deleteById(id);
-        String[] codes = new String[] { "phylogeny.deleted" };
+		getService().deleteById(id);
+		String[] codes = new String[] { "phylogeny.deleted" };
 		Object[] args = new Object[] { tree.getTitle() };
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
-        return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
-   }
+		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.PhylogeneticTree";
+	}
 }

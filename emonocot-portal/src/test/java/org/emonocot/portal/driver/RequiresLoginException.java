@@ -24,27 +24,27 @@ package org.emonocot.portal.driver;
  *
  */
 public class RequiresLoginException extends RuntimeException {
-    /**
-    *
-    */
-   private static final long serialVersionUID = -92240534706858990L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -92240534706858990L;
 
-    /**
-     *
-     */
-    private Login loginPage;
-    /**
-     *
-     * @param newLoginPage Set the login page
-     */
-    public RequiresLoginException(final Login newLoginPage) {
-        this.loginPage = newLoginPage;
-    }
+	/**
+	 *
+	 */
+	private Login loginPage;
+	/**
+	 *
+	 * @param newLoginPage Set the login page
+	 */
+	public RequiresLoginException(final Login newLoginPage) {
+		this.loginPage = newLoginPage;
+	}
 
-    /**
-     * @return the login page
-     */
-    public final Login getLoginPage() {
-        return loginPage;
-    }
+	/**
+	 * @return the login page
+	 */
+	public final Login getLoginPage() {
+		return loginPage;
+	}
 }

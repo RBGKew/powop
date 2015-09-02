@@ -28,14 +28,14 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
 public class SolrOptimizingTasklet implements Tasklet {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(SolrOptimizingTasklet.class);
-	
+
 	private String core;
-	
+
 	private Integer maxSegments;
-	
-	private SolrServer solrServer;	
+
+	private SolrServer solrServer;
 
 	public void setCore(String core) {
 		this.core = core;
@@ -52,11 +52,11 @@ public class SolrOptimizingTasklet implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
-		
+
 		CoreAdminResponse coreAdminResponse = CoreAdminRequest.getStatus(core, solrServer);
 		NamedList<Object> index = (NamedList<Object>)coreAdminResponse.getCoreStatus(core).get("index");
 		Integer segmentCount = (Integer)index.get("segmentCount");
-		
+
 		if(segmentCount < maxSegments) {
 			logger.debug("Core " + core + " only has " + segmentCount + " segments, skipping optimization");
 		} else {
@@ -64,7 +64,7 @@ public class SolrOptimizingTasklet implements Tasklet {
 			solrServer.optimize(true, true);
 			logger.debug("Core " + core + " optimized");
 		}
-		
+
 		return RepeatStatus.FINISHED;
 	}
 

@@ -23,53 +23,53 @@ package org.emonocot.portal.rows;
  */
 public class JobExecutionRow {
 
-    /**
-     *
-     */
-    public String jobId;
+	/**
+	 *
+	 */
+	public String jobId;
 
-    /**
-     *
-     */
-    public String endTime;
+	/**
+	 *
+	 */
+	public String endTime;
 
-    /**
-     *
-     */
-    public String exitCode;
+	/**
+	 *
+	 */
+	public String exitCode;
 
-    /**
-     *
-     */
-    public String createTime;
+	/**
+	 *
+	 */
+	public String createTime;
 
-    /**
-     *
-     */
-    public String jobInstance;
+	/**
+	 *
+	 */
+	public String jobInstance;
 
-    /**
-     *
-     */
-    public String lastUpdated;
+	/**
+	 *
+	 */
+	public String lastUpdated;
 
-    /**
-     *
-     */
-    public String exitMessage;
+	/**
+	 *
+	 */
+	public String exitMessage;
 
-    /**
-     *
-     */
-    public String status;
+	/**
+	 *
+	 */
+	public String status;
 
-    /**
-     *
-     */
-    public String version;
+	/**
+	 *
+	 */
+	public String version;
 
-    /**
-     *
-     */
-    public String startTime;
+	/**
+	 *
+	 */
+	public String startTime;
 }

@@ -49,62 +49,62 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "/META-INF/spring/batch/jobs/sitemap.xml",
-        "/META-INF/spring/applicationContext-integration.xml",
-        "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/sitemap.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 public class SitemapGenerationIntegrationTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(SitemapGenerationIntegrationTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(SitemapGenerationIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("jobLauncher")
-    private JobLauncher jobLauncher;
+	private JobLauncher jobLauncher;
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testRun() throws Exception {
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testRun() throws Exception {
 
-        Job sitemapJob = jobLocator
-                .getJob("SitemapGeneration");
-        assertNotNull("SitemapGeneration Job must not be null",
-                sitemapJob);
-        Exception ex = null;
-        JobExecution jobExecution = null;
-        try{
-        	jobExecution = jobLauncher.run(sitemapJob, new JobParameters());
-        } catch (Exception e) {
-        	ex = e;
+		Job sitemapJob = jobLocator
+				.getJob("SitemapGeneration");
+		assertNotNull("SitemapGeneration Job must not be null",
+				sitemapJob);
+		Exception ex = null;
+		JobExecution jobExecution = null;
+		try{
+			jobExecution = jobLauncher.run(sitemapJob, new JobParameters());
+		} catch (Exception e) {
+			ex = e;
 			logger.info("Tolerating this error for now");
 		}
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
-        }
-        if (ex != null){
-        	throw ex;
-        }
-        
-        assertEquals("Job should complete normally", ExitStatus.COMPLETED,
-                jobExecution.getExitStatus());
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount());
+		}
+		if (ex != null){
+			throw ex;
+		}
 
-    }
+		assertEquals("Job should complete normally", ExitStatus.COMPLETED,
+				jobExecution.getExitStatus());
+
+	}
 }

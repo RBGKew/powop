@@ -46,31 +46,31 @@ public class PlaceDaoImpl extends DaoImpl<Place> implements PlaceDao {
 	}
 
 	@Override
-    protected Page<Place> page(Integer page, Integer size) {
+	protected Page<Place> page(Integer page, Integer size) {
 		HttpEntity<Place> requestEntity = new HttpEntity<Place>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	ParameterizedTypeReference<DefaultPageImpl<Place>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Place>>() {};
-        HttpEntity<DefaultPageImpl<Place>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();
+		Map<String,Object> uriVariables = new HashMap<String,Object>();
+		uriVariables.put("resource", resourceDir);
+		if(size == null) {
+			uriVariables.put("limit", "");
+		} else {
+			uriVariables.put("limit", size);
+		}
+
+		if(page == null) {
+			uriVariables.put("start", "");
+		} else {
+			uriVariables.put("start", page);
+		}
+
+		ParameterizedTypeReference<DefaultPageImpl<Place>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Place>>() {};
+		HttpEntity<DefaultPageImpl<Place>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+				requestEntity, typeRef,uriVariables);
+		return responseEntity.getBody();
 	}
-	
+
 	@Override
 	public final List<Place> list(final Integer page, final Integer size, final String fetch) {
 		return this.page(page, size).getRecords();
-    }
+	}
 
 }

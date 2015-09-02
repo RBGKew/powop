@@ -41,103 +41,103 @@ import org.junit.Test;
  */
 public class FetchProfileTest extends AbstractPersistenceTest {
 
-    /**
-     * @throws java.lang.Exception if there is a problem
-     */
-    @Before
-    public final void setUp() throws Exception {
-        super.doSetUp();
-    }
+	/**
+	 * @throws java.lang.Exception if there is a problem
+	 */
+	@Before
+	public final void setUp() throws Exception {
+		super.doSetUp();
+	}
 
-    /**
-     * @throws java.lang.Exception if there is a problem
-     */
-    @After
-    public final void tearDown() throws Exception {
-        super.doTearDown();
-    }
+	/**
+	 * @throws java.lang.Exception if there is a problem
+	 */
+	@After
+	public final void tearDown() throws Exception {
+		super.doTearDown();
+	}
 
-    /**
-     *
-     */
-    @Override
-    public final void setUpTestData() {
-        Organisation organisation = createSource("testOrg1", "http://example.org", "Test Organisation", "test@example.com");
-        Reference reference = createReference(
-                "urn:lsid:example.com:reference:1", "Test title",
-                "Test author");
+	/**
+	 *
+	 */
+	@Override
+	public final void setUpTestData() {
+		Organisation organisation = createSource("testOrg1", "http://example.org", "Test Organisation", "test@example.com");
+		Reference reference = createReference(
+				"urn:lsid:example.com:reference:1", "Test title",
+				"Test author");
 
-        Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
-                null, null, null, null, null, null, null,
-                organisation, new Location[] {}, null);
-        createDescription(taxon1, DescriptionType.associations, "Lorem ipsum",
-                reference);
-        Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
-                taxon1, null, null, null, null, null, null, null,
-                null, new Location[] {Location.AUSTRALASIA,
-                        Location.BRAZIL, Location.CARIBBEAN }, null);
-        Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
-                taxon1, null, null, null, null, null, null, null,
-                null, new Location[] {Location.NEW_ZEALAND }, null);
-        Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
-                null, taxon2, null, null, null, null, null, null,
-                null, new Location[] {}, null);
-        Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
-                null, taxon3, null, null, null, null, null, null,
-                null, new Location[] {}, null);
-        Image image = createImage("Aus aus", "image1", null, taxon1, null);
-        User user = createUser("test@emonocot.org", "test", "user");
-        createComment("testComment1", "This is a comment", taxon1, user);
-    }
+		Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
+				null, null, null, null, null, null, null,
+				organisation, new Location[] {}, null);
+		createDescription(taxon1, DescriptionType.associations, "Lorem ipsum",
+				reference);
+		Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
+				taxon1, null, null, null, null, null, null, null,
+				null, new Location[] {Location.AUSTRALASIA,
+				Location.BRAZIL, Location.CARIBBEAN }, null);
+		Taxon taxon3 = createTaxon("Aus ceus", "urn:lsid:example.com:taxon:3",
+				taxon1, null, null, null, null, null, null, null,
+				null, new Location[] {Location.NEW_ZEALAND }, null);
+		Taxon taxon4 = createTaxon("Aus deus", "urn:lsid:example.com:taxon:4",
+				null, taxon2, null, null, null, null, null, null,
+				null, new Location[] {}, null);
+		Taxon taxon5 = createTaxon("Aus eus", "urn:lsid:example.com:taxon:5",
+				null, taxon3, null, null, null, null, null, null,
+				null, new Location[] {}, null);
+		Image image = createImage("Aus aus", "image1", null, taxon1, null);
+		User user = createUser("test@emonocot.org", "test", "user");
+		createComment("testComment1", "This is a comment", taxon1, user);
+	}
 
-    /**
-     *
-     */
-    @Test
-    public final void testFetchProfile() {
-        Taxon taxon = getTaxonDao().load("urn:lsid:example.com:taxon:1",
-                "taxon-page");
-        assertTrue("Images should be initialized",
-                Hibernate.isInitialized(taxon.getImages()));
-        assertTrue("Content should be initialized",
-                Hibernate.isInitialized(taxon.getDescriptions()));
-        Description description = null;
-        for(Description d : taxon.getDescriptions()) {
-        	if(d.getType().equals(DescriptionType.associations)) {
-        		description =  d;
-        		break;
-        	}
-        }
-        
-        assertNotNull("Description should not be null", description);
-        assertTrue("References should be initialized",
-                Hibernate.isInitialized(description.getReferences()));
-    }
+	/**
+	 *
+	 */
+	@Test
+	public final void testFetchProfile() {
+		Taxon taxon = getTaxonDao().load("urn:lsid:example.com:taxon:1",
+				"taxon-page");
+		assertTrue("Images should be initialized",
+				Hibernate.isInitialized(taxon.getImages()));
+		assertTrue("Content should be initialized",
+				Hibernate.isInitialized(taxon.getDescriptions()));
+		Description description = null;
+		for(Description d : taxon.getDescriptions()) {
+			if(d.getType().equals(DescriptionType.associations)) {
+				description =  d;
+				break;
+			}
+		}
 
-    /**
-     *
-     */
-    @Test
-    public final void testSearchableObjectFetchProfile() {
-        Image image = (Image) getSearchableObjectDao().load("image1",
-                "taxon-with-image");
-        assertTrue("Taxon should be initialized",
-                Hibernate.isInitialized(image.getTaxon()));
-        Taxon taxon = (Taxon) getSearchableObjectDao().load(
-                "urn:lsid:example.com:taxon:5", "taxon-with-image");
-    }
-    
-    @Test
-    public final void testNestedAssociation() {
-        Comment c = commentDao.load("testComment1", "aboutData");
-        assertTrue("The 'aboutData' hibernate proxy should have been initialized ", Hibernate.isInitialized(c.getAboutData()));
-        Object authority = null;
-        Object organisation = null;
-        try {
-            authority = BeanUtils.getProperty(c.getAboutData(), "authority");
-            organisation = BeanUtils.getProperty(c.getAboutData(), "organisation");
-        } catch (Exception e) {}
-        assertTrue("Their should be an Organisation that is initialized", (authority != null && Hibernate.isInitialized(authority))
-                                                                       || (organisation != null && Hibernate.isInitialized(organisation)));
-    }
+		assertNotNull("Description should not be null", description);
+		assertTrue("References should be initialized",
+				Hibernate.isInitialized(description.getReferences()));
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public final void testSearchableObjectFetchProfile() {
+		Image image = (Image) getSearchableObjectDao().load("image1",
+				"taxon-with-image");
+		assertTrue("Taxon should be initialized",
+				Hibernate.isInitialized(image.getTaxon()));
+		Taxon taxon = (Taxon) getSearchableObjectDao().load(
+				"urn:lsid:example.com:taxon:5", "taxon-with-image");
+	}
+
+	@Test
+	public final void testNestedAssociation() {
+		Comment c = commentDao.load("testComment1", "aboutData");
+		assertTrue("The 'aboutData' hibernate proxy should have been initialized ", Hibernate.isInitialized(c.getAboutData()));
+		Object authority = null;
+		Object organisation = null;
+		try {
+			authority = BeanUtils.getProperty(c.getAboutData(), "authority");
+			organisation = BeanUtils.getProperty(c.getAboutData(), "organisation");
+		} catch (Exception e) {}
+		assertTrue("Their should be an Organisation that is initialized", (authority != null && Hibernate.isInitialized(authority))
+				|| (organisation != null && Hibernate.isInitialized(organisation)));
+	}
 }

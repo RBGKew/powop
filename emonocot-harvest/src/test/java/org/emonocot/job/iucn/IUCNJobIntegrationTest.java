@@ -66,92 +66,92 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/iucnImport.xml",
-    "/META-INF/spring/applicationContext-integration.xml",
-    "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/iucnImport.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class IUCNJobIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(IUCNJobIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(IUCNJobIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("readWriteJobLauncher")
-    private JobLauncher jobLauncher;
-    
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Autowired
-    private SolrIndexingListener solrIndexingListener;
-    
-    private Properties properties;
+	private JobLauncher jobLauncher;
 
-    /**
-     * 1288569600 in unix time.
-     */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
-    
-    @Before
-    public void setUp() throws Exception {
-    	Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
-    	properties = new Properties();
-    	properties.load(propertiesFile.getInputStream());
-    	File spoolDirectory = new File("./target/spool");
-        spoolDirectory.mkdirs();
-        spoolDirectory.deleteOnExit();
-    }
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testNotModifiedResponse() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-    	Session session = sessionFactory.openSession();        
-        Transaction tx = session.beginTransaction();
+	@Autowired
+	private SolrIndexingListener solrIndexingListener;
 
-        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        solrIndexingListener.indexObjects(taxa);
-        tx.commit();
-        
-        Map<String, JobParameter> parameters =
-            new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter("test"));
-        String repository = properties.getProperty("test.resource.baseUrl");
-        parameters.put("authority.uri", new JobParameter(repository + "iucn.json"));
-        parameters.put("authority.last.harvested",
-        new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
+	private Properties properties;
 
-       
-        JobParameters jobParameters = new JobParameters(parameters);
+	/**
+	 * 1288569600 in unix time.
+	 */
+	private static final BaseDateTime PAST_DATETIME
+	= new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
-        Job job = jobLocator.getJob("IUCNImport");
-        assertNotNull("IUCNImport must not be null", job);
-        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
-        }
-    }
+	@Before
+	public void setUp() throws Exception {
+		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+		properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
+		File spoolDirectory = new File("./target/spool");
+		spoolDirectory.mkdirs();
+		spoolDirectory.deleteOnExit();
+	}
+
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testNotModifiedResponse() throws IOException,
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+		solrIndexingListener.indexObjects(taxa);
+		tx.commit();
+
+		Map<String, JobParameter> parameters =
+				new HashMap<String, JobParameter>();
+		parameters.put("authority.name", new JobParameter("test"));
+		String repository = properties.getProperty("test.resource.baseUrl");
+		parameters.put("authority.uri", new JobParameter(repository + "iucn.json"));
+		parameters.put("authority.last.harvested",
+				new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
+
+
+		JobParameters jobParameters = new JobParameters(parameters);
+
+		Job job = jobLocator.getJob("IUCNImport");
+		assertNotNull("IUCNImport must not be null", job);
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
+		}
+	}
 }

@@ -52,52 +52,52 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Processor extends NonOwnedProcessor<Image, ImageService> implements ItemWriteListener<Image> {
 
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
-    @Autowired
-    public final void setImageService(ImageService imageService) {
-        super.service = imageService;
-    }
-    
-    /**
-     * @param images the list of images written
-     */
-    public void afterWrite(List<? extends Image> images) {
+	@Autowired
+	public final void setImageService(ImageService imageService) {
+		super.service = imageService;
+	}
 
-    }
+	/**
+	 * @param images the list of images written
+	 */
+	public void afterWrite(List<? extends Image> images) {
 
-    /**
-     * @param images the list of images to write
-     */
-    public final void beforeWrite(final List<? extends Image> images) {
-        logger.info("Before Write");
-        
-        Comparator<Taxon> comparator = new RankBasedTaxonComparator();
-        for (Image image : images) {
-            if (!image.getTaxa().isEmpty()) {
-            	for(Taxon taxon : image.getTaxa()) {
-            		if(!taxon.getImages().contains(image)) {
-            			taxon.getImages().add(image);
-            		}
-            	}
-                if (image.getTaxa().size() == 1) {
-                    image.setTaxon(image.getTaxa().iterator().next());
-                } else {
-                    List<Taxon> sorted = new ArrayList<Taxon>(image.getTaxa());
-                    Collections.sort(sorted, comparator);
-                    image.setTaxon(sorted.get(0));
-                }
-            }
-        }        
-    }
+	}
 
-    /**
-     * @param exception the exception thrown
-     * @param images the list of images
-     */
-    public final void onWriteError(final Exception exception, final List<? extends Image> images) {
+	/**
+	 * @param images the list of images to write
+	 */
+	public final void beforeWrite(final List<? extends Image> images) {
+		logger.info("Before Write");
 
-    }    
+		Comparator<Taxon> comparator = new RankBasedTaxonComparator();
+		for (Image image : images) {
+			if (!image.getTaxa().isEmpty()) {
+				for(Taxon taxon : image.getTaxa()) {
+					if(!taxon.getImages().contains(image)) {
+						taxon.getImages().add(image);
+					}
+				}
+				if (image.getTaxa().size() == 1) {
+					image.setTaxon(image.getTaxa().iterator().next());
+				} else {
+					List<Taxon> sorted = new ArrayList<Taxon>(image.getTaxa());
+					Collections.sort(sorted, comparator);
+					image.setTaxon(sorted.get(0));
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param exception the exception thrown
+	 * @param images the list of images
+	 */
+	public final void onWriteError(final Exception exception, final List<? extends Image> images) {
+
+	}
 
 	@Override
 	protected void doUpdate(Image persisted, Image t) {
@@ -143,7 +143,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 
 	@Override
 	protected void doValidate(Image t) throws Exception {
-		
+
 	}
 
 	@Override

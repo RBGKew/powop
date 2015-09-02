@@ -27,14 +27,14 @@ import org.gbif.dwc.terms.Term;
 
 
 public class TermDeserializer extends JsonDeserializer<Term> {
-	
+
 	private TermFactory termFactory = new TermFactory();
 
 	@Override
 	public Term deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
 			throws IOException, JsonProcessingException {
 		String value = jsonParser.getText();
-        return termFactory.findTerm(value);
+		return termFactory.findTerm(value);
 	}
 
 }

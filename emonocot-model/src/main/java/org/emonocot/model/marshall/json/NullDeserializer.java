@@ -29,11 +29,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
  */
 public class NullDeserializer extends JsonDeserializer<Object> {
 
-    @Override
-    public final Object deserialize(final JsonParser jsonParser,
-            final DeserializationContext deserializationContext)
-            throws IOException {        
-        return null;
-    }
+	@Override
+	public final Object deserialize(final JsonParser jsonParser,
+			final DeserializationContext deserializationContext)
+					throws IOException {
+		return null;
+	}
 
 }

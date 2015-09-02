@@ -28,7 +28,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 
 public class FunctionsTest {
-	
+
 	@Test
 	public void testFormatRank() {
 		assertEquals("FAMILY should be formatted as Family",Functions.formatRank(Rank.FAMILY),"Family");
@@ -42,24 +42,24 @@ public class FunctionsTest {
 		assertEquals("GENUS should be formatted as Genus",Functions.abbreviateRank(Rank.GENUS),"gen");
 		assertEquals("SPECIES should be formatted as Species",Functions.abbreviateRank(Rank.SPECIES),"sp");
 	}
-	
+
 	@Test
 	public void testEscapeHtmlIdentifier() {
 		assertEquals("'base.class_s' should be escaped as 'baseclasss'",Functions.escapeHtmlIdentifier("base.class_s"),"baseclasss");
 	}
-	
+
 	@Test
 	public void testEscapeXml() {
 		assertEquals("'&' should be escaped as '&amp;'",Functions.escape("&"),"&amp;");
 		assertEquals("''' should be escaped as '&apos;'",Functions.escape("'"),"&apos;");
 		assertEquals("'\"' should be escaped as '&quot;'",Functions.escape("\""),"&quot;");
 	}
-	
+
 	@Test
 	public void testFormatDateRange() {
 		assertEquals("Date range should be formatted as expected",Functions.formatDateRange("[2012-09-12T00:00:00Z TO 2012-09-12T00:00:00Z+1MONTH]"),"2012/09 - 2012/10");
 	}
-	
+
 	@Test
 	public void testSortDescriptions() {
 		Taxon taxon = new Taxon();
@@ -67,7 +67,7 @@ public class FunctionsTest {
 		taxon.getDescriptions().add(createDescription("description1", DescriptionType.associations));
 		taxon.getDescriptions().add(createDescription("description3", DescriptionType.associations));
 		taxon.getDescriptions().add(createDescription("description2", DescriptionType.general));
-		
+
 		assertEquals("This function should return more than one description of the same type", Functions.content(taxon, DescriptionType.associations).size(),2);
 	}
 

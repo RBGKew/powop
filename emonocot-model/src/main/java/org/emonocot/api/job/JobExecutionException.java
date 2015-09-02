@@ -20,9 +20,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JobExecutionException extends Throwable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6169550730623190349L;
 
@@ -48,5 +48,5 @@ public class JobExecutionException extends Throwable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 }

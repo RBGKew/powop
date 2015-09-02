@@ -34,13 +34,13 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 public class SingleRecordQueryTasklet extends HibernateDaoSupport implements
-		Tasklet {
-	
+Tasklet {
+
 	/**
 	 *
 	 */
 	private String queryString;
-	
+
 	/**
 	 *
 	 * @param queryString Set the query string
@@ -55,17 +55,17 @@ public class SingleRecordQueryTasklet extends HibernateDaoSupport implements
 		Query query = this.getSession().createQuery(queryString);
 		query.setMaxResults(1);
 		query.setFirstResult(0);
-		
+
 		List<String> results = (List<String>)query.list();
-		
+
 		if(results.size() == 0) {
 			contribution.setExitStatus(new ExitStatus("NO_MORE_RESULTS"));
 		} else {
 			chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().put("record.identifier", results.get(0));
 			contribution.setExitStatus(new ExitStatus("MORE_RESULTS"));
 		}
-		
-		
+
+
 		return RepeatStatus.FINISHED;
 	}
 

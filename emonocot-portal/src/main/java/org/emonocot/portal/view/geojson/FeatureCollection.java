@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeatureCollection {
-	
+
 	private String type = "FeatureCollection";
-	
+
 	private List<Feature> features = new ArrayList<Feature>();
 
 	public String getType() {
@@ -40,6 +40,6 @@ public class FeatureCollection {
 	public void setFeatures(List<Feature> features) {
 		this.features = features;
 	}
-	
+
 
 }

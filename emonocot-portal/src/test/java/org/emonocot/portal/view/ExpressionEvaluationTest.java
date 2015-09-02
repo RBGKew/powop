@@ -27,9 +27,9 @@ import org.junit.Test;
 import org.springframework.mock.web.MockPageContext;
 
 public class ExpressionEvaluationTest {
-	
+
 	private PageContext pageContext;
-	
+
 	/**
 	 *
 	 */
@@ -41,7 +41,7 @@ public class ExpressionEvaluationTest {
 		pageContext = new MockPageContext();
 		pageContext.setAttribute("taxon", taxon, PageContext.PAGE_SCOPE);
 	}
-	
+
 	@Test
 	public void testEvaluatePageTitleExpression() throws ELException {
 		assertEquals("Evaluate should return 'Aus aus Clark.'", Functions.evaluate("${taxon.scientificName} ${taxon.scientificNameAuthorship}", pageContext), "Aus aus Clark.");

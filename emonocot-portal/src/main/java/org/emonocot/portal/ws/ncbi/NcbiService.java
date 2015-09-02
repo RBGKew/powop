@@ -27,13 +27,13 @@ import org.slf4j.LoggerFactory;
 
 public class NcbiService {
 	private static Logger logger = LoggerFactory.getLogger(NcbiService.class);
-	
+
 	private EUtilsServiceStub service;
-	
+
 	private String httpProxyHost;
-	
-	private Integer httpProxyPort;	
-	
+
+	private Integer httpProxyPort;
+
 	public void setHttpProxyHost(String httpProxyHost) {
 		this.httpProxyHost = httpProxyHost;
 	}
@@ -45,16 +45,16 @@ public class NcbiService {
 	public void afterPropertiesSet() throws Exception {
 		this.service = new EUtilsServiceStub(httpProxyHost, httpProxyPort);
 	}
-	
+
 	public NcbiDto issueRequest(final String term) throws RemoteException {
 		if(term == null || term.equals("")) {
 			return new NcbiDto();
 		}
 		EGqueryRequest eGqueryRequest = new EGqueryRequest();
-		eGqueryRequest.setTerm(term + "[orgn]");		
-	    
-	    Result result = service.run_eGquery(eGqueryRequest);
-		
+		eGqueryRequest.setTerm(term + "[orgn]");
+
+		Result result = service.run_eGquery(eGqueryRequest);
+
 		NcbiDto ncbiDto = new NcbiDto();
 		for(ResultItemType resultItem : result.getEGQueryResult().getResultItem()) {
 			switch(resultItem.getDbName()) {
@@ -70,8 +70,8 @@ public class NcbiService {
 			default:
 				break;
 			}
-		}		
-		
+		}
+
 		return ncbiDto;
 	}
 

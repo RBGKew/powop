@@ -35,54 +35,54 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PhylogeneticTreeDaoImpl extends DaoImpl<PhylogeneticTree>
-        implements PhylogeneticTreeDao {
+implements PhylogeneticTreeDao {
 
-    /**
-     *
-     */
-    public PhylogeneticTreeDaoImpl() {
-        super(PhylogeneticTree.class, "phylo");
-    }
+	/**
+	 *
+	 */
+	public PhylogeneticTreeDaoImpl() {
+		super(PhylogeneticTree.class, "phylo");
+	}
 
-    /**
-     *
-     * @param example
-     * @param ignoreCase
-     * @param useLike
-     * @return
-     */
-    public Page<PhylogeneticTree> searchByExample(PhylogeneticTree example,
-            boolean ignoreCase, boolean useLike) {
-        throw new UnsupportedOperationException(
-                "Remote searching by example is unimplemented");
-    }
-    
-    @Override
-    protected Page<PhylogeneticTree> page(Integer page, Integer size) {
-    	HttpEntity<PhylogeneticTree> requestEntity = new HttpEntity<PhylogeneticTree>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	ParameterizedTypeReference<DefaultPageImpl<PhylogeneticTree>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<PhylogeneticTree>>() {};
-        HttpEntity<DefaultPageImpl<PhylogeneticTree>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();    	
-    }
-    
+	/**
+	 *
+	 * @param example
+	 * @param ignoreCase
+	 * @param useLike
+	 * @return
+	 */
+	public Page<PhylogeneticTree> searchByExample(PhylogeneticTree example,
+			boolean ignoreCase, boolean useLike) {
+		throw new UnsupportedOperationException(
+				"Remote searching by example is unimplemented");
+	}
+
+	@Override
+	protected Page<PhylogeneticTree> page(Integer page, Integer size) {
+		HttpEntity<PhylogeneticTree> requestEntity = new HttpEntity<PhylogeneticTree>(httpHeaders);
+		Map<String,Object> uriVariables = new HashMap<String,Object>();
+		uriVariables.put("resource", resourceDir);
+		if(size == null) {
+			uriVariables.put("limit", "");
+		} else {
+			uriVariables.put("limit", size);
+		}
+
+		if(page == null) {
+			uriVariables.put("start", "");
+		} else {
+			uriVariables.put("start", page);
+		}
+
+		ParameterizedTypeReference<DefaultPageImpl<PhylogeneticTree>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<PhylogeneticTree>>() {};
+		HttpEntity<DefaultPageImpl<PhylogeneticTree>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+				requestEntity, typeRef,uriVariables);
+		return responseEntity.getBody();
+	}
+
 	@Override
 	public final List<PhylogeneticTree> list(final Integer page, final Integer size, final String fetch) {
 		return this.page(page, size).getRecords();
-    }
+	}
 
 }

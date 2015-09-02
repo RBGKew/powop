@@ -30,20 +30,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class IdentificationKeyServiceImpl extends ServiceImpl<IdentificationKey, IdentificationKeyDao>  implements IdentificationKeyService {
 
-    /**
-     * @param newIdentificationKeyDao Set the identification key dao
-     */
-    @Autowired
-    public final void setIdentificationKeyDao(
-            final IdentificationKeyDao newIdentificationKeyDao) {
-        super.dao = newIdentificationKeyDao;
-    }
+	/**
+	 * @param newIdentificationKeyDao Set the identification key dao
+	 */
+	@Autowired
+	public final void setIdentificationKeyDao(
+			final IdentificationKeyDao newIdentificationKeyDao) {
+		super.dao = newIdentificationKeyDao;
+	}
 
 	@Override
 	@Transactional(readOnly = false)
 	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_KEY')")
-	public void deleteById(Long id) {		
+	public void deleteById(Long id) {
 		super.deleteById(id);
 	}
-    
+
 }

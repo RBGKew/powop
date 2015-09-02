@@ -30,32 +30,32 @@ import org.junit.Test;
  */
 public class DistributionMapTest {
 
-    /**
-     *
-     */
-    @Test
-    public final void testMapUrlConstruction() {
-        Taxon taxon = new Taxon();
-        createDistribution(taxon, Location.REU);
+	/**
+	 *
+	 */
+	@Test
+	public final void testMapUrlConstruction() {
+		Taxon taxon = new Taxon();
+		createDistribution(taxon, Location.REU);
 
-        assertEquals("The map service url fragment should be correct",
-                "tdwg3:present:REU",
-                Functions.map(taxon));
-    }
+		assertEquals("The map service url fragment should be correct",
+				"tdwg3:present:REU",
+				Functions.map(taxon));
+	}
 
-    /**
-     *
-     * @param taxon
-     *            Set the taxon
-     * @param region
-     *            Set the Geographical Region
-     */
-    private void createDistribution(final Taxon taxon,
-                                    final Location region) {
-        Distribution distribution = new Distribution();
-        distribution.setTaxon(taxon);
-        distribution.setLocation(region);
-        taxon.getDistribution().add(distribution);
-    }
+	/**
+	 *
+	 * @param taxon
+	 *            Set the taxon
+	 * @param region
+	 *            Set the Geographical Region
+	 */
+	private void createDistribution(final Taxon taxon,
+			final Location region) {
+		Distribution distribution = new Distribution();
+		distribution.setTaxon(taxon);
+		distribution.setLocation(region);
+		taxon.getDistribution().add(distribution);
+	}
 
 }

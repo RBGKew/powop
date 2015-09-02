@@ -30,15 +30,15 @@ import org.springframework.batch.repeat.RepeatStatus;
 
 
 public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator implements Tasklet {
-	
+
 	private Logger logger = LoggerFactory.getLogger(NonOwnedSubsetRecordAnnotator.class);
-	
+
 	private String subtribe;
-	
+
 	private String tribe;
-	
+
 	private String subfamily;
-	
+
 	private String family;
 
 	private String queryString;
@@ -71,31 +71,31 @@ public class NonOwnedSubsetRecordAnnotator extends AbstractRecordAnnotator imple
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution,	ChunkContext chunkContext) throws Exception {
-	      
-	    String subsetRank = null;
-	    String subsetValue = null;
-	      
-	    if(subtribe != null) {
-	    	subsetRank = "subtribe";
-	    	subsetValue = subtribe;
-	    } else if(tribe != null) {
-	    	subsetRank = "tribe";
-	    	subsetValue = tribe;
-	    } else if(subfamily != null) {
-	    	subsetRank = "subfamily";
-	    	subsetValue = subfamily;
-	    } else if(family != null) {
-	    	subsetRank = "family";
-	    	subsetValue = family;
-	    } else {
-	        throw new IllegalStateException("No known subset was specified but one is needed for this processing mode.");
-	    }
-	   
-	    Map<String,Object> annotationParameters = new HashMap<String,Object>();
-	    queryString = queryString.replaceAll("#subsetRank", subsetRank);
-	    annotationParameters.put("subsetValue", subsetValue);
-	    annotationParameters.put("annotatedObjType", annotatedObjType);
-        super.annotate(queryString, annotationParameters);
+
+		String subsetRank = null;
+		String subsetValue = null;
+
+		if(subtribe != null) {
+			subsetRank = "subtribe";
+			subsetValue = subtribe;
+		} else if(tribe != null) {
+			subsetRank = "tribe";
+			subsetValue = tribe;
+		} else if(subfamily != null) {
+			subsetRank = "subfamily";
+			subsetValue = subfamily;
+		} else if(family != null) {
+			subsetRank = "family";
+			subsetValue = family;
+		} else {
+			throw new IllegalStateException("No known subset was specified but one is needed for this processing mode.");
+		}
+
+		Map<String,Object> annotationParameters = new HashMap<String,Object>();
+		queryString = queryString.replaceAll("#subsetRank", subsetRank);
+		annotationParameters.put("subsetValue", subsetValue);
+		annotationParameters.put("annotatedObjType", annotatedObjType);
+		super.annotate(queryString, annotationParameters);
 		return RepeatStatus.FINISHED;
 	}
 }

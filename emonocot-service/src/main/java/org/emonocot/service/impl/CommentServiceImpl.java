@@ -42,101 +42,101 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class CommentServiceImpl extends SearchableServiceImpl<Comment, CommentDao> implements CommentService {
-    
-    private Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
-    
-    /**
-     * @param commentDao
-     */
-    @Autowired
-    public void setCommentDao(CommentDao commentDao) {
-        super.dao = commentDao;
-    }    
-    
-    @Override
-    @Transactional(readOnly = false)
-    @PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_COMMENT')")
+
+	private Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
+
+	/**
+	 * @param commentDao
+	 */
+	@Autowired
+	public void setCommentDao(CommentDao commentDao) {
+		super.dao = commentDao;
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE') or hasRole('PERMISSION_DELETE_COMMENT')")
 	public void delete(String identifier) {
 		super.delete(identifier);
-    }
+	}
 
-    /* (non-Javadoc)
-     * @see org.emonocot.api.CommentService#getDestinationOrganisations(org.emonocot.model.Comment)
-     */
-    @Override
-    public Collection<String> getDestinations(Comment comment) {
-        
-        logger.debug("Attempting to get destination organisations for comment" + comment + ":" + comment.getIdentifier());
-        
-        comment = find(comment.getIdentifier(), "aboutData");
-        Base about = comment.getAboutData();
-        Set<String> destinations = new HashSet<String>();
-        if(comment.getInResponseTo() != null) {
-        	logger.debug("Comment " + comment.getIdentifier() + " in response to " + comment.getInResponseTo().getIdentifier());
-        	Comment inResponseTo = comment.getInResponseTo();
-        	User user = inResponseTo.getUser();
-        	logger.debug("Sending notification to " + user.getIdentifier() + " ? " + user.isNotifyByEmail());
-        	
-        	if(user.isNotifyByEmail()) {
-        		destinations.add(user.getIdentifier());
-        	}
-        } 
-        
-        if(about != null) {
-        	if(about instanceof BaseData) {
-        		getDestinations((BaseData) about, destinations);
-        	} else if(about instanceof Resource) {
-        		getDestinations((Resource) about, destinations);
-        	} else {
-        		logger.error("about is not an instance of BaseData - we can't cope with it at the moment");
-        		throw new IllegalArgumentException("Cannot cope with instance of " + about.getClass());
-        	}
-        }
-       return destinations;
-    }
-	
-    private void getDestinations(BaseData baseData, Collection<String> destinations) {
-   	     destinations.addAll(baseData.getAuthority().getCommentDestinations());
-   	     
-        if (baseData instanceof Taxon) {
-            for(BaseData datum : ((Taxon) baseData).getChildNameUsages()) {
-                destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getDescriptions()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getDistribution()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getHigherClassification()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getIdentifiers()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getMeasurementsOrFacts()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getReferences()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getSynonymNameUsages()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getTypesAndSpecimens()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-            for(BaseData datum : ((Taxon) baseData).getVernacularNames()) {
-           	    destinations.addAll(datum.getAuthority().getCommentDestinations());
-            }
-        } else if (baseData instanceof NonOwned) {             
-            for(Taxon t : ((NonOwned) baseData).getTaxa()) {
-                destinations.addAll(t.getAuthority().getCommentDestinations());
-            }
-        }
-   }
+	/* (non-Javadoc)
+	 * @see org.emonocot.api.CommentService#getDestinationOrganisations(org.emonocot.model.Comment)
+	 */
+	@Override
+	public Collection<String> getDestinations(Comment comment) {
 
-	private void getDestinations(Resource about, Collection<String> destinations) {		
+		logger.debug("Attempting to get destination organisations for comment" + comment + ":" + comment.getIdentifier());
+
+		comment = find(comment.getIdentifier(), "aboutData");
+		Base about = comment.getAboutData();
+		Set<String> destinations = new HashSet<String>();
+		if(comment.getInResponseTo() != null) {
+			logger.debug("Comment " + comment.getIdentifier() + " in response to " + comment.getInResponseTo().getIdentifier());
+			Comment inResponseTo = comment.getInResponseTo();
+			User user = inResponseTo.getUser();
+			logger.debug("Sending notification to " + user.getIdentifier() + " ? " + user.isNotifyByEmail());
+
+			if(user.isNotifyByEmail()) {
+				destinations.add(user.getIdentifier());
+			}
+		}
+
+		if(about != null) {
+			if(about instanceof BaseData) {
+				getDestinations((BaseData) about, destinations);
+			} else if(about instanceof Resource) {
+				getDestinations((Resource) about, destinations);
+			} else {
+				logger.error("about is not an instance of BaseData - we can't cope with it at the moment");
+				throw new IllegalArgumentException("Cannot cope with instance of " + about.getClass());
+			}
+		}
+		return destinations;
+	}
+
+	private void getDestinations(BaseData baseData, Collection<String> destinations) {
+		destinations.addAll(baseData.getAuthority().getCommentDestinations());
+
+		if (baseData instanceof Taxon) {
+			for(BaseData datum : ((Taxon) baseData).getChildNameUsages()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getDescriptions()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getDistribution()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getHigherClassification()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getIdentifiers()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getMeasurementsOrFacts()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getReferences()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getSynonymNameUsages()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getTypesAndSpecimens()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+			for(BaseData datum : ((Taxon) baseData).getVernacularNames()) {
+				destinations.addAll(datum.getAuthority().getCommentDestinations());
+			}
+		} else if (baseData instanceof NonOwned) {
+			for(Taxon t : ((NonOwned) baseData).getTaxa()) {
+				destinations.addAll(t.getAuthority().getCommentDestinations());
+			}
+		}
+	}
+
+	private void getDestinations(Resource about, Collection<String> destinations) {
 		destinations.add(about.getOrganisation().getCommentsEmailedTo());
 	}
 

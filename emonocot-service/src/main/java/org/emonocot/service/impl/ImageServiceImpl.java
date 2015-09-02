@@ -29,14 +29,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ImageServiceImpl extends ServiceImpl<Image, ImageDao>
-        implements ImageService {
+implements ImageService {
 
-    /**
-     *
-     * @param newImageDao Set the image dao
-     */
-    @Autowired
-    public final void setImageDao(final ImageDao newImageDao) {
-        super.dao = newImageDao;
-    }
+	/**
+	 *
+	 * @param newImageDao Set the image dao
+	 */
+	@Autowired
+	public final void setImageDao(final ImageDao newImageDao) {
+		super.dao = newImageDao;
+	}
 }

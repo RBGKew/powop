@@ -27,8 +27,8 @@ import org.springframework.batch.item.ItemWriter;
  *
  */
 public class SolrDeletingWriter implements ItemWriter<String> {
-    
-    private SolrServer solrServer;
+
+	private SolrServer solrServer;
 
 	public void setSolrServer(SolrServer solrServer) {
 		this.solrServer = solrServer;
@@ -38,12 +38,12 @@ public class SolrDeletingWriter implements ItemWriter<String> {
 		if (!documentIdentifiers.isEmpty()) {
 
 			try {
-				
+
 				solrServer.deleteById((List) documentIdentifiers);
 				solrServer.commit(true,true);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
-    }
+	}
 }

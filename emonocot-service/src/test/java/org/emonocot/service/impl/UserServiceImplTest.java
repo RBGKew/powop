@@ -34,48 +34,48 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
  */
 public class UserServiceImplTest {
 
-    /**
-     *
-     */
-    private UserServiceImpl userService;
+	/**
+	 *
+	 */
+	private UserServiceImpl userService;
 
-    /**
-     *
-     */
-    private UserDao userDao;
+	/**
+	 *
+	 */
+	private UserDao userDao;
 
-    /**
-     *
-     */
-    @Before
-    public final void setUp() {
-        userService = new UserServiceImpl();
-        userService.setPasswordEncoder(new Md5PasswordEncoder());
-        ReflectionSaltSource saltSource = new ReflectionSaltSource();
-        saltSource.setUserPropertyToUse("getUsername");
-        userService.setSaltSource(saltSource);
-        userDao = EasyMock.createMock(UserDao.class);
-        userService.setUserDao(userDao);
-    }
+	/**
+	 *
+	 */
+	@Before
+	public final void setUp() {
+		userService = new UserServiceImpl();
+		userService.setPasswordEncoder(new Md5PasswordEncoder());
+		ReflectionSaltSource saltSource = new ReflectionSaltSource();
+		saltSource.setUserPropertyToUse("getUsername");
+		userService.setSaltSource(saltSource);
+		userDao = EasyMock.createMock(UserDao.class);
+		userService.setUserDao(userDao);
+	}
 
-    /**
-     *
-     */
-    @Test
-    public final void testEncodePassword() {
-        String password = "t35t";
-        Capture<User> capture = new Capture<User>();
-        User user = new User();
-        user.setUsername("test@example.com");
-        user.setPassword(password);
-        EasyMock.expect(
-                userDao.save(EasyMock.and(EasyMock.eq(user),
-                        EasyMock.capture(capture)))).andReturn(user);
-        EasyMock.replay(userDao);
-        userService.createUser(user);
-        EasyMock.verify(userDao);
+	/**
+	 *
+	 */
+	@Test
+	public final void testEncodePassword() {
+		String password = "t35t";
+		Capture<User> capture = new Capture<User>();
+		User user = new User();
+		user.setUsername("test@example.com");
+		user.setPassword(password);
+		EasyMock.expect(
+				userDao.save(EasyMock.and(EasyMock.eq(user),
+						EasyMock.capture(capture)))).andReturn(user);
+		EasyMock.replay(userDao);
+		userService.createUser(user);
+		EasyMock.verify(userDao);
 
-        assertFalse(capture.getValue().getPassword().equals(password));
-    }
+		assertFalse(capture.getValue().getPassword().equals(password));
+	}
 
 }

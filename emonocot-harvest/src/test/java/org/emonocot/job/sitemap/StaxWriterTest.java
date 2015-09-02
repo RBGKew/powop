@@ -36,12 +36,12 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 public class StaxWriterTest {
 
 	/**
-	 * 
+	 *
 	 */
 	private StaxEventItemWriter writer;
 
 	/**
-	 * 
+	 *
 	 */
 	private FileSystemResource tempFile = new FileSystemResource("target/test-outputs/StaxWriterTest.xml");
 
@@ -61,7 +61,7 @@ public class StaxWriterTest {
 		writer.setResource(new FileSystemResource("target/test-outputs/StaxWriterTest.xml"));
 		writer.setRootTagName("urlset");
 		XStreamMarshaller marshaller = new XStreamMarshaller();
-		
+
 		Map<String, Object> aliases = new HashMap<String, Object>();
 		aliases.put("url", Url.class);
 		marshaller.setAliases(aliases);
@@ -69,7 +69,7 @@ public class StaxWriterTest {
 		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("xmlns", "http://www.sitemaps.org/schemas/sitemap");
 		writer.setRootElementAttributes(attributes);
-		
+
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class RankConverter implements Converter<String, Rank> {
 		if (source == null || source.isEmpty()) {
 			return null;
 		}
-		source = source.toLowerCase().trim();		
+		source = source.toLowerCase().trim();
 		for (Rank term : Rank.values()) {
 			if (term.toString().toLowerCase().equals(source)) {
 				return term;

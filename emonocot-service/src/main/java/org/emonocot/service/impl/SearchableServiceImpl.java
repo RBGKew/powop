@@ -41,49 +41,49 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <DAO> the DAO used by this service
  */
 public abstract class SearchableServiceImpl<T extends Base, DAO extends SearchableDao<T>>
-        extends ServiceImpl<T, DAO> implements SearchableService<T> {
-	
+extends ServiceImpl<T, DAO> implements SearchableService<T> {
+
 	private SolrIndexingListener solrIndexingListener;
-	
+
 	@Autowired
-    public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
+	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
 		this.solrIndexingListener = solrIndexingListener;
 	}
 
 	/**
-     * @param query
-     *            Set the lucene query
-     * @param spatialQuery
-     *            Set the spatial query
-     * @param pageSize
-     *            Set the maximum number of objects to return
-     * @param pageNumber
-     *            Set the offset (in 'pageNumber' chunks) from the start of the
-     *            resultset (0-based!)
-     * @param facets
-     *            Set the facets to calculate
-     * @param selectedFacets
-     *            Set the facets to select, restricing the results of the query
-     * @param sort Set the sort order
-     * @param fetch Set the fetch profile
-     * @return a page of results
-     */
-    @Transactional(readOnly = true)
-    public final Page<T> search(final String query, final String spatialQuery,
-            final Integer pageSize, final Integer pageNumber,
-            final String[] facets,
-            Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
-            final String sort, final String fetch)  throws SolrServerException {
-        return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
-                facetPrefixes, selectedFacets, sort, fetch);
-    }
-    
-    @Transactional(readOnly = true)
-    public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets)  throws SolrServerException {
-    	return dao.autocomplete(query, pageSize, selectedFacets);
-    }
-    
-    @Transactional(readOnly = true)
+	 * @param query
+	 *            Set the lucene query
+	 * @param spatialQuery
+	 *            Set the spatial query
+	 * @param pageSize
+	 *            Set the maximum number of objects to return
+	 * @param pageNumber
+	 *            Set the offset (in 'pageNumber' chunks) from the start of the
+	 *            resultset (0-based!)
+	 * @param facets
+	 *            Set the facets to calculate
+	 * @param selectedFacets
+	 *            Set the facets to select, restricing the results of the query
+	 * @param sort Set the sort order
+	 * @param fetch Set the fetch profile
+	 * @return a page of results
+	 */
+	@Transactional(readOnly = true)
+	public final Page<T> search(final String query, final String spatialQuery,
+			final Integer pageSize, final Integer pageNumber,
+			final String[] facets,
+			Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
+			final String sort, final String fetch)  throws SolrServerException {
+		return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
+				facetPrefixes, selectedFacets, sort, fetch);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets)  throws SolrServerException {
+		return dao.autocomplete(query, pageSize, selectedFacets);
+	}
+
+	@Transactional(readOnly = true)
 	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort)  throws SolrServerException {
 		return dao.searchForDocuments(query, pageSize, pageNumber, selectedFacets, sort);
 	}
@@ -93,7 +93,7 @@ public abstract class SearchableServiceImpl<T extends Base, DAO extends Searchab
 	public T loadObjectForDocument(SolrDocument solrDocument) {
 		return dao.loadObjectForDocument(solrDocument);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] array, Cube cube)  throws SolrServerException{
 		return dao.analyse(rows, cols, firstCol, maxCols, firstRow, maxRows,selectedFacets, array, cube);

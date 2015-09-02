@@ -40,11 +40,11 @@ import org.emonocot.model.registry.Organisation;
 
 public class ProvenanceManagerImpl implements ProvenanceManager {
 	SortedSet<Organisation> organisations = new TreeSet<Organisation>();
-	
+
 	Map<String, SortedSet<ProvenanceHolderImpl>> provenance = new HashMap<String,SortedSet<ProvenanceHolderImpl>>();
 	List<ProvenanceHolderImpl> sortedProvenance = new ArrayList<ProvenanceHolderImpl>();
-	
-	
+
+
 	@Override
 	public void setProvenance(BaseData baseData) {
 		if (baseData instanceof Taxon) {
@@ -102,33 +102,33 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 			PhylogeneticTree tree = (PhylogeneticTree)baseData;
 			addProvenance(tree);
 		}
-		
+
 		for(Organisation organisation : organisations) {
 			sortedProvenance.addAll(provenance.get(organisation.getIdentifier()));
 		}
-		
+
 		for(ProvenanceHolderImpl provenanceHolder : sortedProvenance) {
 			provenanceHolder.setKey(new String(Character.toChars(65 + sortedProvenance.indexOf(provenanceHolder))));
 		}
 	}
-	
+
 	private void addProvenance(BaseData data) {
 		if(!provenance.keySet().contains(data.getAuthority().getIdentifier())) {
 			organisations.add(data.getAuthority());
 			provenance.put(data.getAuthority().getIdentifier(), new TreeSet<ProvenanceHolderImpl>());
 		}
-		
+
 		provenance.get(data.getAuthority().getIdentifier()).add(new ProvenanceHolderImpl(data));
 	}
-	
-	
+
+
 	@Override
 	public String getKey(BaseData data) {
 		ProvenanceHolderImpl provenanceHolder = new ProvenanceHolderImpl(data);
 		return new String(Character.toChars(65 + sortedProvenance.indexOf(provenanceHolder)));
 	}
-	
-	
+
+
 	@Override
 	public SortedSet<String> getKeys(Collection<BaseData> data){
 		SortedSet<String> keys = new TreeSet<String>();
@@ -137,13 +137,13 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 		}
 		return keys;
 	}
-	
+
 	@Override
 	public SortedSet<Organisation> getSources() {
 		return organisations;
 	}
-	
-	
+
+
 	@Override
 	public SortedSet<ProvenanceHolder> getProvenanceData(Organisation organization) {
 		return (SortedSet)provenance.get(organization.getIdentifier());

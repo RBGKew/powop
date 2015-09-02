@@ -33,73 +33,73 @@ import org.springframework.validation.BindException;
  *
  */
 public class FieldSetMapper extends
-        NonOwnedFieldSetMapper<Concept> {
+NonOwnedFieldSetMapper<Concept> {
 
-    /**
-     *
-     */
-    public FieldSetMapper() {
-        super(Concept.class);
-    }
+	/**
+	 *
+	 */
+	public FieldSetMapper() {
+		super(Concept.class);
+	}
 
-    /**
-    *
-    */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
-   @Override
-   public void mapField(final Concept object, final String fieldName,
-            final String value) throws BindException {
-	    super.mapField(object, fieldName, value);
-        Term term = getTermFactory().findTerm(fieldName);
-        if (term instanceof DcTerm) {
-            DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {
-            case creator:
-                object.setCreator(htmlSanitizer.sanitize(value));
-                break;
-            case identifier:
-                object.setIdentifier(value);
-                break;
-            case source:
-            	addReference(object,value);
-                break;
-            default:
-                break;
-            }
-        }    
-    
+	@Override
+	public void mapField(final Concept object, final String fieldName,
+			final String value) throws BindException {
+		super.mapField(object, fieldName, value);
+		Term term = getTermFactory().findTerm(fieldName);
+		if (term instanceof DcTerm) {
+			DcTerm dcTerm = (DcTerm) term;
+			switch (dcTerm) {
+			case creator:
+				object.setCreator(htmlSanitizer.sanitize(value));
+				break;
+			case identifier:
+				object.setIdentifier(value);
+				break;
+			case source:
+				addReference(object,value);
+				break;
+			default:
+				break;
+			}
+		}
+
 		// Skos Terms
-        if (term instanceof SkosTerm) {
-        	SkosTerm skosTerm = (SkosTerm)term;
-        	switch (skosTerm) {
-        	case altLabel:
-            	object.setAltLabel(htmlSanitizer.sanitize(value));
-            	break;
-        	case definition:
-            	object.setDefinition(htmlSanitizer.sanitize(value));
-            	break;
-            case prefLabel:
-            	object.setPrefLabel(htmlSanitizer.sanitize(value));
-            	break;
-            case prefSymbol:
-            	addImage(object,value);
-            	break;
-            default:
-                break;
-            }
-        }
-    }
+		if (term instanceof SkosTerm) {
+			SkosTerm skosTerm = (SkosTerm)term;
+			switch (skosTerm) {
+			case altLabel:
+				object.setAltLabel(htmlSanitizer.sanitize(value));
+				break;
+			case definition:
+				object.setDefinition(htmlSanitizer.sanitize(value));
+				break;
+			case prefLabel:
+				object.setPrefLabel(htmlSanitizer.sanitize(value));
+				break;
+			case prefSymbol:
+				addImage(object,value);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 
-    private void addReference(Concept object, String value) {
-    	Reference reference = new Reference();
-    	reference.setIdentifier(value);
-        object.setSource(reference);
-    }
-    
-    private void addImage(Concept object, String value) {
-    	Image image = new Image();
-    	image.setIdentifier(value);
-        object.setPrefSymbol(image);
-    }
+	private void addReference(Concept object, String value) {
+		Reference reference = new Reference();
+		reference.setIdentifier(value);
+		object.setSource(reference);
+	}
+
+	private void addImage(Concept object, String value) {
+		Image image = new Image();
+		image.setIdentifier(value);
+		object.setPrefSymbol(image);
+	}
 }

@@ -23,11 +23,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.emonocot.model.TypeAndSpecimen;
 
 public class Feature {
-	
+
 	private String type = "Feature";
-	
+
 	private Geometry geometry = new Geometry();
-	
+
 	private Map<String,String> properties = new HashMap<String,String>();
 
 	public String getType() {
@@ -53,7 +53,7 @@ public class Feature {
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
 	}
-	
+
 	public static Feature fromTypeAndSpecimen(TypeAndSpecimen typeAndSpecimen) {
 		Feature feature = new Feature();
 		addProperty("catalogNumber",typeAndSpecimen.getCatalogNumber(),feature);
@@ -65,7 +65,7 @@ public class Feature {
 		feature.getGeometry().getCoordinates()[1] = typeAndSpecimen.getDecimalLatitude();
 		return feature;
 	}
-	
+
 	private static void addProperty(String propertyName, String property, Feature feature) {
 		if(property != null && !property.isEmpty()) {
 			feature.getProperties().put(propertyName, StringEscapeUtils.escapeXml(property));

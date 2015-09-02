@@ -59,239 +59,239 @@ import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
  * @param <SERVICE> the service supplying this object
  */
 public abstract class GenericController<T extends Base,
-                                        SERVICE extends Service<T>> {
+SERVICE extends Service<T>> {
 
-    private static Logger logger = LoggerFactory.getLogger(GenericController.class);
+	private static Logger logger = LoggerFactory.getLogger(GenericController.class);
 
-    private SERVICE service;
-    
-    private ObjectMapper objectMapper;
+	private SERVICE service;
 
-    private String directory;
-    
-    private Class<T> type;
-    
-    @Autowired
-    public void setObjectMapper(ObjectMapper objectMapper) {
-    	this.objectMapper = objectMapper;
-    }
+	private ObjectMapper objectMapper;
 
-    public GenericController(String directory, Class<T> type) {
-        this.directory = directory;
-        this.type = type;
-    }
+	private String directory;
 
-    /**
-     *
-     * @return the directory where this resource is found
-     */
-    private String getDirectory() {
-       return directory;
-    }
+	private Class<T> type;
 
-    /**
-     * @param identifier
-     *            Set the identifier of the image
-     * @return A model and view containing a image
-     */
-    @RequestMapping(value = "/{identifier}",
-                    method = RequestMethod.GET,
-                    consumes = "application/json",
-                    produces = "application/json")
-    public ResponseEntity<T> get(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch) {
-        return new ResponseEntity<T>(service.find(identifier,fetch), HttpStatus.OK);
-    }
-    
-    /**
-     * @param identifier
-     *            Set the identifier of the image
-     * @return A model and view containing a image
-     */
-    @RequestMapping(value = "/{identifier}",
-    		        params = "callback",
-                    method = RequestMethod.GET,
-                    produces = "application/javascript")
-    public ResponseEntity<JSONPObject> getJsonP(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch,
-    		                          @RequestParam(value = "callback", required = true) String callback) {
-        return new ResponseEntity<JSONPObject>(new JSONPObject(callback,service.find(identifier,fetch)), HttpStatus.OK);
-    }
-    
-    @RequestMapping(method = RequestMethod.GET,
-            consumes = "application/json",
-            produces = "application/json")
-    public ResponseEntity<Page<T>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-    		                                  @RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
-        return new ResponseEntity<Page<T>>(service.list(start, limit, null), HttpStatus.OK);
-    }
+	@Autowired
+	public void setObjectMapper(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
 
-    /**
-     * @param object
-     *            the object to save
-     * @return A response entity containing a newly created image
-     * @throws Exception 
-     */
-    @RequestMapping(method = RequestMethod.POST,
-    		        produces = "application/json",
-                    consumes = "application/json")
-    public ResponseEntity<T> create(@RequestBody T object, UriComponentsBuilder builder) throws Exception {
-        
-        try {
-            service.merge(object);
-        } catch(Exception e) {
-        	logger.error(e.getLocalizedMessage());
-        	for(StackTraceElement ste : e.getStackTrace()) {
-        		logger.error(ste.toString());
-        	}
-        	throw e;
-        }
-        
-        T persistedObject = service.find(object.getIdentifier());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/" + getDirectory() + "/{id}").buildAndExpand(persistedObject.getId()).toUri());
+	public GenericController(String directory, Class<T> type) {
+		this.directory = directory;
+		this.type = type;
+	}
 
-        return new ResponseEntity<T>(object, headers, HttpStatus.CREATED);
-    }
+	/**
+	 *
+	 * @return the directory where this resource is found
+	 */
+	private String getDirectory() {
+		return directory;
+	}
 
-    /**
-     * @param identifier
-     *            Set the identifier of the image
-     * @return A response entity containing the status
-     */
-    @RequestMapping(value = "/{id}",
-                    method = RequestMethod.DELETE,
-                    consumes = "application/json",
-                    produces = "application/json")
-    public ResponseEntity<T> delete(@PathVariable Long id) {
-        service.deleteById(id);
-        return new ResponseEntity<T>(HttpStatus.OK);
-    }
-    
-    @RequestMapping(method = RequestMethod.OPTIONS,
-            produces = "application/json")
-    public ResponseEntity<RestDoc> optionsResource() throws JsonMappingException {
-        RestDoc restDoc = new RestDoc();
-        HashMap<String,Schema> schemas = new HashMap<String,Schema>();
-        Schema pagerSchema = new Schema();
-        SchemaFactoryWrapper pageVisitor = new SchemaFactoryWrapper();
-        objectMapper.acceptJsonFormatVisitor(objectMapper.constructType(Page.class), pageVisitor);
-        pagerSchema.setSchema(pageVisitor.finalSchema());
-        schemas.put("http://e-monocot.org#page", pagerSchema);
-        Schema objectSchema = new Schema();
-        SchemaFactoryWrapper objectVisitor = new SchemaFactoryWrapper();
-        objectMapper.acceptJsonFormatVisitor(objectMapper.constructType(type), objectVisitor);
-        objectSchema.setSchema(objectVisitor.finalSchema());
-        schemas.put("http://e-monocot.org#" + directory, objectSchema);
-        restDoc.setSchemas(schemas);
-        
-        GlobalHeader headers = new GlobalHeader();
-        headers.request("Content-Type","Must be set to application/json",true);
-        headers.request("Authorization","Supports HTTP Basic. Users may also use their api key",false);
-        
-        restDoc.setHeaders(headers);
-        
-        ParamValidation integerParam = new ParamValidation();
-        integerParam.setType("match");
-        integerParam.setPattern("\\d+");
-        ParamValidation apikeyParam = new ParamValidation();
-        apikeyParam.setType("match");
-        apikeyParam.setPattern("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
-        ParamValidation stringParam = new ParamValidation();
-        stringParam.setType("match");
-        stringParam.setPattern("[0-9a-f]+");
-        
-        Set<RestResource> resources = new HashSet<RestResource>();
-        RestResource listOfObjects = new RestResource();
-        
-        listOfObjects.setId(type.getSimpleName() + "List");
-        listOfObjects.setPath("/" + directory + "{?limit,start,callback,apikey,fetch}");
-        listOfObjects.param("limit", "The maximum number of resources to return", integerParam);
-        listOfObjects.param("start", "The number of pages (of size _limit_) offset from the beginning of the recordset", integerParam);
-        listOfObjects.param("apikey", "The apikey of the user account making the request", apikeyParam);
-        listOfObjects.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
-        listOfObjects.param("fetch", "The name of a valid 'fetch-profile' which will load some or all related objects prior to serialization. Try 'object-page' to return most related objects", stringParam);
-        
-        MethodDefinition listObjects = new MethodDefinition();
-        listObjects.description("List " + type.getSimpleName() + " resources");
-        ResponseDefinition listObjectsResponseDefinition = new ResponseDefinition();
-        listObjectsResponseDefinition.type("application/json", "http://e-monocot.org#page");
-        listObjectsResponseDefinition.type("application/javascript", "http://e-monocot.org#page");
-        listObjects.response(listObjectsResponseDefinition);
-        listObjects.statusCode("200", "Successfully retrieved a list of 0+ resources");
-        listOfObjects.method("GET", listObjects);
-        
-        MethodDefinition createObject = new MethodDefinition();
-        ResponseDefinition createdResponseDefinition = new ResponseDefinition();
-        createdResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());	
-        createdResponseDefinition.header("Location", "The location of the created resource", true);
-        createObject.response(createdResponseDefinition);
-        createObject.description("Create a new " + type.getSimpleName() + " resource");
-        createObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
-        createObject.statusCode("201", "Successfully created the resource");
-        listOfObjects.method("POST", createObject);
-       
-        resources.add(listOfObjects);
-        
-        RestResource singleObject = new RestResource();
-        singleObject.setId(type.getSimpleName());
-        singleObject.setPath("/" + directory + "/{identifier}{?apikey,callback}");
-        singleObject.param("apikey", "The apikey of the user account making the request", apikeyParam);  
-        singleObject.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
-        singleObject.param("identifier", "The identifier of the object", stringParam);
-        
-        MethodDefinition getObject = new MethodDefinition();
-        getObject.description("Get a " + type.getSimpleName() + " resource");
-        ResponseDefinition getObjectResponseDefinition = new ResponseDefinition();        
-        getObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());
-        getObjectResponseDefinition.type("application/javascript", "http://e-monocot.org#" + type.getSimpleName());
-        getObject.response(getObjectResponseDefinition);
-        getObject.statusCode("200", "Successfully retrieved a resource");        
-        singleObject.method("GET", getObject);
-        
-        MethodDefinition updateObject = new MethodDefinition();
-        ResponseDefinition updatedObjectResponseDefinition = new ResponseDefinition();
-        updatedObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());	
-        updateObject.response(updatedObjectResponseDefinition);
-        updateObject.description("Update an existing " + type.getSimpleName() + " resource");
-        updateObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
-        updateObject.statusCode("200", "Successfully updated the resource");        
-        singleObject.method("POST", updateObject);
-        
-        MethodDefinition deleteObject = new MethodDefinition();
-        ResponseDefinition deletedObjectResponseDefinition = new ResponseDefinition();
-        deletedObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());	
-        deleteObject.response(deletedObjectResponseDefinition);
-        deleteObject.description("Delete an existing " + type.getSimpleName() + " resource");
-        deleteObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
-        deleteObject.statusCode("200", "Successfully deleted the resource");        
-        singleObject.method("DELETE", deleteObject);
-        
-        resources.add(singleObject);
-        
-        restDoc.setResources(resources);
-        
-        return new ResponseEntity<RestDoc>(restDoc,HttpStatus.OK);
-    }
+	/**
+	 * @param identifier
+	 *            Set the identifier of the image
+	 * @return A model and view containing a image
+	 */
+	@RequestMapping(value = "/{identifier}",
+			method = RequestMethod.GET,
+			consumes = "application/json",
+			produces = "application/json")
+	public ResponseEntity<T> get(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch) {
+		return new ResponseEntity<T>(service.find(identifier,fetch), HttpStatus.OK);
+	}
 
-    /**
-     *
-     * @param newService Set the service
-     */
-    public void setService(SERVICE newService) {
-        this.service = newService;
-    }
+	/**
+	 * @param identifier
+	 *            Set the identifier of the image
+	 * @return A model and view containing a image
+	 */
+	@RequestMapping(value = "/{identifier}",
+			params = "callback",
+			method = RequestMethod.GET,
+			produces = "application/javascript")
+	public ResponseEntity<JSONPObject> getJsonP(@PathVariable String identifier, @RequestParam(value = "fetch", required = false) String fetch,
+			@RequestParam(value = "callback", required = true) String callback) {
+		return new ResponseEntity<JSONPObject>(new JSONPObject(callback,service.find(identifier,fetch)), HttpStatus.OK);
+	}
 
-    /**
-     * @return the service
-     */
-    public SERVICE getService() {
-        return service;
-    }
-    
-    @ExceptionHandler(HibernateObjectRetrievalFailureException.class)
+	@RequestMapping(method = RequestMethod.GET,
+			consumes = "application/json",
+			produces = "application/json")
+	public ResponseEntity<Page<T>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
+		return new ResponseEntity<Page<T>>(service.list(start, limit, null), HttpStatus.OK);
+	}
+
+	/**
+	 * @param object
+	 *            the object to save
+	 * @return A response entity containing a newly created image
+	 * @throws Exception
+	 */
+	@RequestMapping(method = RequestMethod.POST,
+			produces = "application/json",
+			consumes = "application/json")
+	public ResponseEntity<T> create(@RequestBody T object, UriComponentsBuilder builder) throws Exception {
+
+		try {
+			service.merge(object);
+		} catch(Exception e) {
+			logger.error(e.getLocalizedMessage());
+			for(StackTraceElement ste : e.getStackTrace()) {
+				logger.error(ste.toString());
+			}
+			throw e;
+		}
+
+		T persistedObject = service.find(object.getIdentifier());
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(builder.path("/" + getDirectory() + "/{id}").buildAndExpand(persistedObject.getId()).toUri());
+
+		return new ResponseEntity<T>(object, headers, HttpStatus.CREATED);
+	}
+
+	/**
+	 * @param identifier
+	 *            Set the identifier of the image
+	 * @return A response entity containing the status
+	 */
+	@RequestMapping(value = "/{id}",
+			method = RequestMethod.DELETE,
+			consumes = "application/json",
+			produces = "application/json")
+	public ResponseEntity<T> delete(@PathVariable Long id) {
+		service.deleteById(id);
+		return new ResponseEntity<T>(HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.OPTIONS,
+			produces = "application/json")
+	public ResponseEntity<RestDoc> optionsResource() throws JsonMappingException {
+		RestDoc restDoc = new RestDoc();
+		HashMap<String,Schema> schemas = new HashMap<String,Schema>();
+		Schema pagerSchema = new Schema();
+		SchemaFactoryWrapper pageVisitor = new SchemaFactoryWrapper();
+		objectMapper.acceptJsonFormatVisitor(objectMapper.constructType(Page.class), pageVisitor);
+		pagerSchema.setSchema(pageVisitor.finalSchema());
+		schemas.put("http://e-monocot.org#page", pagerSchema);
+		Schema objectSchema = new Schema();
+		SchemaFactoryWrapper objectVisitor = new SchemaFactoryWrapper();
+		objectMapper.acceptJsonFormatVisitor(objectMapper.constructType(type), objectVisitor);
+		objectSchema.setSchema(objectVisitor.finalSchema());
+		schemas.put("http://e-monocot.org#" + directory, objectSchema);
+		restDoc.setSchemas(schemas);
+
+		GlobalHeader headers = new GlobalHeader();
+		headers.request("Content-Type","Must be set to application/json",true);
+		headers.request("Authorization","Supports HTTP Basic. Users may also use their api key",false);
+
+		restDoc.setHeaders(headers);
+
+		ParamValidation integerParam = new ParamValidation();
+		integerParam.setType("match");
+		integerParam.setPattern("\\d+");
+		ParamValidation apikeyParam = new ParamValidation();
+		apikeyParam.setType("match");
+		apikeyParam.setPattern("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+		ParamValidation stringParam = new ParamValidation();
+		stringParam.setType("match");
+		stringParam.setPattern("[0-9a-f]+");
+
+		Set<RestResource> resources = new HashSet<RestResource>();
+		RestResource listOfObjects = new RestResource();
+
+		listOfObjects.setId(type.getSimpleName() + "List");
+		listOfObjects.setPath("/" + directory + "{?limit,start,callback,apikey,fetch}");
+		listOfObjects.param("limit", "The maximum number of resources to return", integerParam);
+		listOfObjects.param("start", "The number of pages (of size _limit_) offset from the beginning of the recordset", integerParam);
+		listOfObjects.param("apikey", "The apikey of the user account making the request", apikeyParam);
+		listOfObjects.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
+		listOfObjects.param("fetch", "The name of a valid 'fetch-profile' which will load some or all related objects prior to serialization. Try 'object-page' to return most related objects", stringParam);
+
+		MethodDefinition listObjects = new MethodDefinition();
+		listObjects.description("List " + type.getSimpleName() + " resources");
+		ResponseDefinition listObjectsResponseDefinition = new ResponseDefinition();
+		listObjectsResponseDefinition.type("application/json", "http://e-monocot.org#page");
+		listObjectsResponseDefinition.type("application/javascript", "http://e-monocot.org#page");
+		listObjects.response(listObjectsResponseDefinition);
+		listObjects.statusCode("200", "Successfully retrieved a list of 0+ resources");
+		listOfObjects.method("GET", listObjects);
+
+		MethodDefinition createObject = new MethodDefinition();
+		ResponseDefinition createdResponseDefinition = new ResponseDefinition();
+		createdResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		createdResponseDefinition.header("Location", "The location of the created resource", true);
+		createObject.response(createdResponseDefinition);
+		createObject.description("Create a new " + type.getSimpleName() + " resource");
+		createObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		createObject.statusCode("201", "Successfully created the resource");
+		listOfObjects.method("POST", createObject);
+
+		resources.add(listOfObjects);
+
+		RestResource singleObject = new RestResource();
+		singleObject.setId(type.getSimpleName());
+		singleObject.setPath("/" + directory + "/{identifier}{?apikey,callback}");
+		singleObject.param("apikey", "The apikey of the user account making the request", apikeyParam);
+		singleObject.param("callback", "The name of the callback function used to wrap the JSON response", stringParam);
+		singleObject.param("identifier", "The identifier of the object", stringParam);
+
+		MethodDefinition getObject = new MethodDefinition();
+		getObject.description("Get a " + type.getSimpleName() + " resource");
+		ResponseDefinition getObjectResponseDefinition = new ResponseDefinition();
+		getObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		getObjectResponseDefinition.type("application/javascript", "http://e-monocot.org#" + type.getSimpleName());
+		getObject.response(getObjectResponseDefinition);
+		getObject.statusCode("200", "Successfully retrieved a resource");
+		singleObject.method("GET", getObject);
+
+		MethodDefinition updateObject = new MethodDefinition();
+		ResponseDefinition updatedObjectResponseDefinition = new ResponseDefinition();
+		updatedObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		updateObject.response(updatedObjectResponseDefinition);
+		updateObject.description("Update an existing " + type.getSimpleName() + " resource");
+		updateObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		updateObject.statusCode("200", "Successfully updated the resource");
+		singleObject.method("POST", updateObject);
+
+		MethodDefinition deleteObject = new MethodDefinition();
+		ResponseDefinition deletedObjectResponseDefinition = new ResponseDefinition();
+		deletedObjectResponseDefinition.type("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		deleteObject.response(deletedObjectResponseDefinition);
+		deleteObject.description("Delete an existing " + type.getSimpleName() + " resource");
+		deleteObject.accept("application/json", "http://e-monocot.org#" + type.getSimpleName());
+		deleteObject.statusCode("200", "Successfully deleted the resource");
+		singleObject.method("DELETE", deleteObject);
+
+		resources.add(singleObject);
+
+		restDoc.setResources(resources);
+
+		return new ResponseEntity<RestDoc>(restDoc,HttpStatus.OK);
+	}
+
+	/**
+	 *
+	 * @param newService Set the service
+	 */
+	public void setService(SERVICE newService) {
+		this.service = newService;
+	}
+
+	/**
+	 * @return the service
+	 */
+	public SERVICE getService() {
+		return service;
+	}
+
+	@ExceptionHandler(HibernateObjectRetrievalFailureException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ModelAndView handleObjectNotFoundException(HibernateObjectRetrievalFailureException orfe) {
-    	ModelAndView modelAndView = new ModelAndView("resourceNotFound");
-    	modelAndView.addObject("exception", orfe);
-        return modelAndView;
-    }
+		ModelAndView modelAndView = new ModelAndView("resourceNotFound");
+		modelAndView.addObject("exception", orfe);
+		return modelAndView;
+	}
 }

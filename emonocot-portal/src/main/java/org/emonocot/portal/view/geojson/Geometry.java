@@ -17,9 +17,9 @@
 package org.emonocot.portal.view.geojson;
 
 public class Geometry {
-	
+
 	private String type = "Point";
-	
+
 	private Double[] coordinates = new Double[2];
 
 	public String getType() {

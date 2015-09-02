@@ -109,45 +109,45 @@ import org.springframework.web.util.WebUtils;
  */
 public final class LogbackWebConfigurer {
 
-    /**
-     * Parameter specifying the location of the logback config file.
-     */
-    public static final String CONFIG_LOCATION_PARAM = "logbackConfigLocation";
+	/**
+	 * Parameter specifying the location of the logback config file.
+	 */
+	public static final String CONFIG_LOCATION_PARAM = "logbackConfigLocation";
 
-    /**
-     * Parameter specifying whether to expose the web app root system property.
-     */
-    public static final String EXPOSE_WEB_APP_ROOT_PARAM
-        = "logbackExposeWebAppRoot";
+	/**
+	 * Parameter specifying whether to expose the web app root system property.
+	 */
+	public static final String EXPOSE_WEB_APP_ROOT_PARAM
+	= "logbackExposeWebAppRoot";
 
-    /**
-     *
-     */
-    private LogbackWebConfigurer() {
-    }
+	/**
+	 *
+	 */
+	private LogbackWebConfigurer() {
+	}
 
-    /**
-     * Initialize Logback, including setting the web app root system property.
-     *
-     * @param servletContext
-     *            the current ServletContext
-     * @see org.springframework.web.util.WebUtils#setWebAppRootSystemProperty
-     */
-    public static void initLogging(final ServletContext servletContext) {
-        // Expose the web app root system property.
-        if (exposeWebAppRoot(servletContext)) {
-            WebUtils.setWebAppRootSystemProperty(servletContext);
-        }
+	/**
+	 * Initialize Logback, including setting the web app root system property.
+	 *
+	 * @param servletContext
+	 *            the current ServletContext
+	 * @see org.springframework.web.util.WebUtils#setWebAppRootSystemProperty
+	 */
+	public static void initLogging(final ServletContext servletContext) {
+		// Expose the web app root system property.
+		if (exposeWebAppRoot(servletContext)) {
+			WebUtils.setWebAppRootSystemProperty(servletContext);
+		}
 
-        // Only perform custom Logback initialization in case of a config file.
-        String locationParameter = servletContext.getInitParameter(CONFIG_LOCATION_PARAM);
-        String[] locations = null;
-        if(locationParameter.indexOf(",") != -1) {
-        	locations = locationParameter.split(",");
-        } else {
-        	locations = new String[] {locationParameter};
-        }
-        if (locations.length > 0) {
+		// Only perform custom Logback initialization in case of a config file.
+		String locationParameter = servletContext.getInitParameter(CONFIG_LOCATION_PARAM);
+		String[] locations = null;
+		if(locationParameter.indexOf(",") != -1) {
+			locations = locationParameter.split(",");
+		} else {
+			locations = new String[] {locationParameter};
+		}
+		if (locations.length > 0) {
 			for (String location : locations) {
 				// Perform actual Logback initialization; else rely on Logback's
 				// default initialization.
@@ -173,42 +173,42 @@ public final class LogbackWebConfigurer {
 					servletContext.log("Invalid 'logbackConfigLocation' parameter: " +  ex.getMessage());
 				}
 			}
-        }
-    }
+		}
+	}
 
-    /**
-     * Shut down Logback, properly releasing all file locks and resetting the
-     * web app root system property.
-     *
-     * @param servletContext
-     *            the current ServletContext
-     * @see WebUtils#removeWebAppRootSystemProperty
-     */
-    public static void shutdownLogging(final ServletContext servletContext) {
-        servletContext.log("Shutting down Logback");
-        try {
-            LogbackConfigurer.shutdownLogging();
-        } finally {
-            // Remove the web app root system property.
-            if (exposeWebAppRoot(servletContext)) {
-                WebUtils.removeWebAppRootSystemProperty(servletContext);
-            }
-        }
-    }
+	/**
+	 * Shut down Logback, properly releasing all file locks and resetting the
+	 * web app root system property.
+	 *
+	 * @param servletContext
+	 *            the current ServletContext
+	 * @see WebUtils#removeWebAppRootSystemProperty
+	 */
+	public static void shutdownLogging(final ServletContext servletContext) {
+		servletContext.log("Shutting down Logback");
+		try {
+			LogbackConfigurer.shutdownLogging();
+		} finally {
+			// Remove the web app root system property.
+			if (exposeWebAppRoot(servletContext)) {
+				WebUtils.removeWebAppRootSystemProperty(servletContext);
+			}
+		}
+	}
 
-    /**
-     * Return whether to expose the web app root system property, checking the
-     * corresponding ServletContext init parameter.
-     * @param servletContext Set the servlet context
-     * @return true if we should expose the webapp root
-     * @see #EXPOSE_WEB_APP_ROOT_PARAM
-     */
-    private static boolean exposeWebAppRoot(
-            final ServletContext servletContext) {
-        String exposeWebAppRootParam = servletContext
-                .getInitParameter(EXPOSE_WEB_APP_ROOT_PARAM);
-        return (exposeWebAppRootParam == null || Boolean
-                .valueOf(exposeWebAppRootParam));
-    }
+	/**
+	 * Return whether to expose the web app root system property, checking the
+	 * corresponding ServletContext init parameter.
+	 * @param servletContext Set the servlet context
+	 * @return true if we should expose the webapp root
+	 * @see #EXPOSE_WEB_APP_ROOT_PARAM
+	 */
+	private static boolean exposeWebAppRoot(
+			final ServletContext servletContext) {
+		String exposeWebAppRootParam = servletContext
+				.getInitParameter(EXPOSE_WEB_APP_ROOT_PARAM);
+		return (exposeWebAppRootParam == null || Boolean
+				.valueOf(exposeWebAppRootParam));
+	}
 
 }

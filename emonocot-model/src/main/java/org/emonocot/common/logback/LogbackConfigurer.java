@@ -53,70 +53,70 @@ import ch.qos.logback.core.util.StatusPrinter;
  * @see LogbackConfigServlet
  */
 public final class LogbackConfigurer {
-    /**
-     *
-     */
-    private LogbackConfigurer() {
-    }
+	/**
+	 *
+	 */
+	private LogbackConfigurer() {
+	}
 
-    /**
-     * Initialize logback from the given file.
-     *
-     * @param location
-     *            the location of the config file: either a "classpath:"
-     *            location (e.g. "classpath:logback.xml"), an absolute file URL
-     *            (e.g. "file:C:/logback.xml), or a plain absolute path in the
-     *            file system (e.g. "C:/logback.xml")
-     * @throws java.io.FileNotFoundException
-     *             if the location specifies an invalid file path
-     */
-    public static void initLogging(final String location)
-            throws FileNotFoundException {
-        String resolvedLocation = SystemPropertyUtils.resolvePlaceholders(location);
-        URL url = ResourceUtils.getURL(resolvedLocation);
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+	/**
+	 * Initialize logback from the given file.
+	 *
+	 * @param location
+	 *            the location of the config file: either a "classpath:"
+	 *            location (e.g. "classpath:logback.xml"), an absolute file URL
+	 *            (e.g. "file:C:/logback.xml), or a plain absolute path in the
+	 *            file system (e.g. "C:/logback.xml")
+	 * @throws java.io.FileNotFoundException
+	 *             if the location specifies an invalid file path
+	 */
+	public static void initLogging(final String location)
+			throws FileNotFoundException {
+		String resolvedLocation = SystemPropertyUtils.resolvePlaceholders(location);
+		URL url = ResourceUtils.getURL(resolvedLocation);
+		LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
-        try {
-            JoranConfigurator configurator = new JoranConfigurator();
-            configurator.setContext(loggerContext);
-            // the context was probably already configured by default
-            // configuration
-            // rules
-            loggerContext.reset();
-            configurator.doConfigure(url);
-        } catch (JoranException je) {
-            // StatusPrinter will handle this
-        }
-        StatusPrinter.printInCaseOfErrorsOrWarnings(loggerContext);
-    }
+		try {
+			JoranConfigurator configurator = new JoranConfigurator();
+			configurator.setContext(loggerContext);
+			// the context was probably already configured by default
+			// configuration
+			// rules
+			loggerContext.reset();
+			configurator.doConfigure(url);
+		} catch (JoranException je) {
+			// StatusPrinter will handle this
+		}
+		StatusPrinter.printInCaseOfErrorsOrWarnings(loggerContext);
+	}
 
-    /**
-     * Shut down logback.
-     * <p>
-     * This isn't strictly necessary, but recommended for shutting down logback
-     * in a scenario where the host VM stays alive (for example, when shutting
-     * down an application in a J2EE environment).
-     */
-    public static void shutdownLogging() {
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory
-                .getILoggerFactory();
-        loggerContext.stop();
-    }
+	/**
+	 * Shut down logback.
+	 * <p>
+	 * This isn't strictly necessary, but recommended for shutting down logback
+	 * in a scenario where the host VM stays alive (for example, when shutting
+	 * down an application in a J2EE environment).
+	 */
+	public static void shutdownLogging() {
+		LoggerContext loggerContext = (LoggerContext) LoggerFactory
+				.getILoggerFactory();
+		loggerContext.stop();
+	}
 
-    /**
-     * Set the specified system property to the current working directory.
-     * <p>
-     * This can be used e.g. for test environments, for applications that
-     * leverage LogbackWebConfigurer's "webAppRootKey" support in a web
-     * environment.
-     *
-     * @param key
-     *            system property key to use, as expected in Logback
-     *            configuration (for example: "demo.root", used as
-     *            "${demo.root}/WEB-INF/demo.log")
-     * @see LogbackWebConfigurer
-     */
-    public static void setWorkingDirSystemProperty(final String key) {
-        System.setProperty(key, new File("").getAbsolutePath());
-    }
+	/**
+	 * Set the specified system property to the current working directory.
+	 * <p>
+	 * This can be used e.g. for test environments, for applications that
+	 * leverage LogbackWebConfigurer's "webAppRootKey" support in a web
+	 * environment.
+	 *
+	 * @param key
+	 *            system property key to use, as expected in Logback
+	 *            configuration (for example: "demo.root", used as
+	 *            "${demo.root}/WEB-INF/demo.log")
+	 * @see LogbackWebConfigurer
+	 */
+	public static void setWorkingDirSystemProperty(final String key) {
+		System.setProperty(key, new File("").getAbsolutePath());
+	}
 }

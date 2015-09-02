@@ -25,20 +25,20 @@ import org.springframework.format.Parser;
 import org.springframework.format.datetime.joda.DateTimeParser;
 
 public class StringToIsoDateTimeConverter implements Converter<String, DateTime> {
-	
+
 	protected Parser<DateTime> dateTimeParser = new DateTimeParser(ISODateTimeFormat.dateOptionalTimeParser());
 
 	@Override
 	public DateTime convert(String source) {
 		if (source == null || source.trim().isEmpty()) {
-            return null;
-        } else {
-        	try {
+			return null;
+		} else {
+			try {
 				return dateTimeParser.parse(source, null);
 			} catch (ParseException pe) {
 				throw new IllegalArgumentException("Could not convert " + source + " to an ISO date time",pe);
 			}
-        }
+		}
 	}
 
 }

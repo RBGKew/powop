@@ -23,8 +23,8 @@ import org.springframework.format.Printer;
 import org.springframework.format.datetime.joda.ReadableInstantPrinter;
 
 public class IsoDateTimeToStringConverter implements
-		Converter<ReadableInstant, String> {
-	
+Converter<ReadableInstant, String> {
+
 	Printer<ReadableInstant> printer = new ReadableInstantPrinter(ISODateTimeFormat.dateTimeNoMillis());
 
 	@Override
@@ -32,7 +32,7 @@ public class IsoDateTimeToStringConverter implements
 		if(source == null) {
 			return null;
 		} else {
-		    return printer.print(source, null);
+			return printer.print(source, null);
 		}
 	}
 

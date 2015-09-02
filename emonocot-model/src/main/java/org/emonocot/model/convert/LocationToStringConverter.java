@@ -26,7 +26,7 @@ public class LocationToStringConverter implements Converter<Location, String> {
 		if(source == null) {
 			return null;
 		} else {
-		    return source.getPrefix() + ":" + source.getCode();
+			return source.getPrefix() + ":" + source.getCode();
 		}
 	}
 

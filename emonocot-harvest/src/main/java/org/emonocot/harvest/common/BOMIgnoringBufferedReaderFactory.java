@@ -33,5 +33,5 @@ public class BOMIgnoringBufferedReaderFactory implements BufferedReaderFactory {
 		BOMInputStream bomInputStream = new BOMInputStream(resource.getInputStream());
 		return new BufferedReader(new InputStreamReader(bomInputStream, encoding));
 	}
-	
+
 }

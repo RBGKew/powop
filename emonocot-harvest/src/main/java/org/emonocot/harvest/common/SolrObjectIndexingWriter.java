@@ -28,8 +28,8 @@ import org.springframework.batch.item.ItemWriter;
  *
  */
 public class SolrObjectIndexingWriter implements ItemWriter<Searchable> {
-    
-    private SolrIndexingListener solrIndexingListener;
+
+	private SolrIndexingListener solrIndexingListener;
 
 	/**
 	 * @param solrIndexingListener the solrIndexingListener to set
@@ -39,6 +39,6 @@ public class SolrObjectIndexingWriter implements ItemWriter<Searchable> {
 	}
 
 	public void write(List<? extends Searchable> searchables) throws Exception {
-        solrIndexingListener.indexObjects(searchables); 
-    }
+		solrIndexingListener.indexObjects(searchables);
+	}
 }

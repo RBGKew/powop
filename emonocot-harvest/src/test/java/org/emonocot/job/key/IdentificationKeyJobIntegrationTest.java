@@ -67,40 +67,40 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/identificationKeyHarvesting.xml",
-    "/META-INF/spring/applicationContext-integration.xml",
-    "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/identificationKeyHarvesting.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class IdentificationKeyJobIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(
-            IdentificationKeyJobIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(
+			IdentificationKeyJobIntegrationTest.class);
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("readWriteJobLauncher")
-    private JobLauncher jobLauncher;
+	private JobLauncher jobLauncher;
 
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Autowired
-    private SolrIndexingListener solrIndexingListener;
-    
-    private Properties properties;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    /**
-     * 1288569600 in unix time.
-     */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+	@Autowired
+	private SolrIndexingListener solrIndexingListener;
 
-    /**
-     *
-     */
-    @Before
+	private Properties properties;
+
+	/**
+	 * 1288569600 in unix time.
+	 */
+	private static final BaseDateTime PAST_DATETIME
+	= new DateTime(2010, 11, 1, 9, 0, 0, 0);
+
+	/**
+	 *
+	 */
+	@Before
 	public final void setUp() throws Exception {
 		String fullSizeImagesDirectoryName = "./target/images/fullsize";
 		File fullSizeImagesDirectory = new File(fullSizeImagesDirectoryName);
@@ -111,64 +111,64 @@ public class IdentificationKeyJobIntegrationTest {
 		thumbnailImagesDirectory.mkdirs();
 		thumbnailImagesDirectory.deleteOnExit();
 		File spoolDirectory = new File("./target/spool");
-        spoolDirectory.mkdirs();
-        spoolDirectory.deleteOnExit();
+		spoolDirectory.mkdirs();
+		spoolDirectory.deleteOnExit();
 		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
-    	properties = new Properties();
-    	properties.load(propertiesFile.getInputStream());
+		properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
 	}
 
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testNotModifiedResponse() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-        Session session = sessionFactory.openSession();        
-        Transaction tx = session.beginTransaction();
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testNotModifiedResponse() throws IOException,
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
 
-        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        solrIndexingListener.indexObjects(taxa);
-        tx.commit();
+		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+		solrIndexingListener.indexObjects(taxa);
+		tx.commit();
 
-        Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-        parameters.put("authority.name", new JobParameter("test"));
-        parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
-        String repository = properties.getProperty("test.resource.baseUrl");
-        parameters.put("authority.uri", new JobParameter(repository + "testKey.xml"));
-        parameters.put("authority.last.harvested", new JobParameter(Long.toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME.getMillis()))));
-        JobParameters jobParameters = new JobParameters(parameters);
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+		parameters.put("authority.name", new JobParameter("test"));
+		parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
+		String repository = properties.getProperty("test.resource.baseUrl");
+		parameters.put("authority.uri", new JobParameter(repository + "testKey.xml"));
+		parameters.put("authority.last.harvested", new JobParameter(Long.toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME.getMillis()))));
+		JobParameters jobParameters = new JobParameters(parameters);
 
-        Job identificationKeyHarvestingJob = jobLocator.getJob("IdentificationKeyHarvesting");
-        assertNotNull("IdentificationKeyHarvesting must not be null", identificationKeyHarvestingJob);
-        JobExecution jobExecution = jobLauncher.run(identificationKeyHarvestingJob, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount());
-        }
-        
-        
-        List<Annotation> annotations = session.createQuery("from Annotation a").list();
-        for(Annotation a : annotations) {
-        	logger.info(a.getJobId() + " " + a.getRecordType() + " " + a.getType() + " " + a.getCode() + " " + a.getText());
-        }
-    }
+		Job identificationKeyHarvestingJob = jobLocator.getJob("IdentificationKeyHarvesting");
+		assertNotNull("IdentificationKeyHarvesting must not be null", identificationKeyHarvestingJob);
+		JobExecution jobExecution = jobLauncher.run(identificationKeyHarvestingJob, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount());
+		}
+
+
+		List<Annotation> annotations = session.createQuery("from Annotation a").list();
+		for(Annotation a : annotations) {
+			logger.info(a.getJobId() + " " + a.getRecordType() + " " + a.getType() + " " + a.getCode() + " " + a.getText());
+		}
+	}
 }

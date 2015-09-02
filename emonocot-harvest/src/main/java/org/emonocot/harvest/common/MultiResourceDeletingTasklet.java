@@ -33,77 +33,77 @@ import org.springframework.util.Assert;
 /**
  *
  * @author Adrian Gonzalez
- * 
+ *
  * @author jk00kg
  * Adding support for URL Resources
  */
 public class MultiResourceDeletingTasklet implements Tasklet {
 
-    /** Commons-logging Logger. */
-    private static final Log logger = LogFactory
-            .getLog(MultiResourceDeletingTasklet.class);
+	/** Commons-logging Logger. */
+	private static final Log logger = LogFactory
+			.getLog(MultiResourceDeletingTasklet.class);
 
-    /**
-     * Répertoires ou fichiers à supprimer.
-     */
-    private Resource[] resources;
+	/**
+	 * Répertoires ou fichiers à supprimer.
+	 */
+	private Resource[] resources;
 
-    /**
-     *
-     * @param aResources The resources to delete
-     */
-    public final void setResources(final Resource[] aResources) {
-        resources = aResources;
-    }
+	/**
+	 *
+	 * @param aResources The resources to delete
+	 */
+	public final void setResources(final Resource[] aResources) {
+		resources = aResources;
+	}
 
-    /**
-     * <p>
-     * Vérifie que l'attribut resources est bien valorisé et que ses éléments
-     * correspondent à des FileSystemResource.
-     * </p>
-     *
-     */
-    public final void afterPropertiesSet() {
-        Assert.notNull(resources, "resources must be set");
-        for (Resource lResource : resources) {
-            Assert.isInstanceOf(
-                    FileSystemResource.class,
-                    lResource,
-                    "The attribute 'resources' does not contain"
-                    + " resources of the type FileSystemResource.");
-        }
-    }
+	/**
+	 * <p>
+	 * Vérifie que l'attribut resources est bien valorisé et que ses éléments
+	 * correspondent à des FileSystemResource.
+	 * </p>
+	 *
+	 */
+	public final void afterPropertiesSet() {
+		Assert.notNull(resources, "resources must be set");
+		for (Resource lResource : resources) {
+			Assert.isInstanceOf(
+					FileSystemResource.class,
+					lResource,
+					"The attribute 'resources' does not contain"
+							+ " resources of the type FileSystemResource.");
+		}
+	}
 
-    /**
-     * @param contribution Set the step contribution
-     * @param chunkContext Set the chunk context
-     * @return the repeat status
-     * @throws Exception if there is a problem deleting the resources
-     */
-    public final RepeatStatus execute(final StepContribution contribution,
-            final ChunkContext chunkContext) throws Exception {
-        for (Resource lResource : resources) {
-            FileSystemResource lFileSystemResource
-                  = new FileSystemResource(lResource.getFile().getAbsolutePath());
-            if (!lFileSystemResource.exists()) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Resource "
-                            + lFileSystemResource.getDescription()
-                            + " does not exist. The resource is ignored");
-                }
-            } else {
-                File lFile = lFileSystemResource.getFile();
-                if (lFile.isDirectory()) {
-                    // supprime le répertoire et son contenu
-                    FileUtils.deleteDirectory(lFile);
-                } else {
-                    if (!lFile.delete()) {
-                        throw new IOException("The file " + lFile
-                                + " cannot be deleted.");
-                    }
-                }
-            }
-        }
-        return RepeatStatus.FINISHED;
-    }
+	/**
+	 * @param contribution Set the step contribution
+	 * @param chunkContext Set the chunk context
+	 * @return the repeat status
+	 * @throws Exception if there is a problem deleting the resources
+	 */
+	public final RepeatStatus execute(final StepContribution contribution,
+			final ChunkContext chunkContext) throws Exception {
+		for (Resource lResource : resources) {
+			FileSystemResource lFileSystemResource
+			= new FileSystemResource(lResource.getFile().getAbsolutePath());
+			if (!lFileSystemResource.exists()) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Resource "
+							+ lFileSystemResource.getDescription()
+							+ " does not exist. The resource is ignored");
+				}
+			} else {
+				File lFile = lFileSystemResource.getFile();
+				if (lFile.isDirectory()) {
+					// supprime le répertoire et son contenu
+					FileUtils.deleteDirectory(lFile);
+				} else {
+					if (!lFile.delete()) {
+						throw new IOException("The file " + lFile
+								+ " cannot be deleted.");
+					}
+				}
+			}
+		}
+		return RepeatStatus.FINISHED;
+	}
 }

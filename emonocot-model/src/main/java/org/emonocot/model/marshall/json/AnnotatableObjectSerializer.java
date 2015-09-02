@@ -30,11 +30,11 @@ import org.emonocot.model.Base;
  */
 public class AnnotatableObjectSerializer extends JsonSerializer<Base> {
 
-    @Override
-    public final void serialize(final Base b, final JsonGenerator jsonGenerator,
-            final SerializerProvider serializerProvider) throws IOException {
-        if (b != null) {
-            jsonGenerator.writeString(b.getIdentifier());
-        }
-    }
+	@Override
+	public final void serialize(final Base b, final JsonGenerator jsonGenerator,
+			final SerializerProvider serializerProvider) throws IOException {
+		if (b != null) {
+			jsonGenerator.writeString(b.getIdentifier());
+		}
+	}
 }

@@ -38,7 +38,7 @@ import org.springframework.core.io.Resource;
 public class ReadPhylogenyFileTest {
 
 	Resource tree = new ClassPathResource("/org/emonocot/job/common/test.nwk");
-	
+
 	private static Logger logger = LoggerFactory.getLogger(ReadPhylogenyFileTest.class);
 
 	@Test
@@ -48,10 +48,10 @@ public class ReadPhylogenyFileTest {
 		PhylogenyParser parser = ParserUtils.createParserDependingOnFileType(treefile, true);
 		Phylogeny[] phylogenies = PhylogenyMethods.readPhylogenies(parser, treefile);
 		Phylogeny phylogeny = phylogenies[0];
-		
-		
+
+
 		PhylogenyWriter phylogenyWriter = PhylogenyWriter.createPhylogenyWriter();
-		PhylogenyNode node = phylogeny.getRoot();		
+		PhylogenyNode node = phylogeny.getRoot();
 		Annotation annotation = new Annotation();
 		annotation.setDesc("Base of many coffees");
 		List<Uri> uris = new ArrayList<Uri>();
@@ -61,11 +61,11 @@ public class ReadPhylogenyFileTest {
 		addBranchLengths(phylogeny.getRoot());
 		StringBuffer stringBuffer = phylogenyWriter.toPhyloXML(phylogeny, 1);
 		logger.debug(stringBuffer.toString().replaceAll("\r\n", ""));
-		
+
 		logger.debug(phylogeny.getNumberOfExternalNodes() + " " + phylogeny.getHeight());
 
 	}
-	
+
 	private void addBranchLengths(PhylogenyNode node) {
 		if(node.isRoot() || node.getDistanceToParent() != PhylogenyDataUtil.BRANCH_LENGTH_DEFAULT) {
 			// do nothing

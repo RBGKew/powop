@@ -23,11 +23,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 public class StringToOrganisationConverter implements Converter<String, Organisation> {
-	
+
 	private Logger logger = LoggerFactory.getLogger(StringToOrganisationConverter.class);
 
 	private OrganisationService organisationService;
-	
+
 	public void setOrganisationService(OrganisationService organisationService) {
 		this.organisationService = organisationService;
 	}

@@ -29,14 +29,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ConceptServiceImpl extends ServiceImpl<Concept, ConceptDao>
-        implements ConceptService {
+implements ConceptService {
 
-    /**
-     *
-     * @param conceptDao Set the image dao
-     */
-    @Autowired
-    public final void setConceptDao(final ConceptDao conceptDao) {
-        super.dao = conceptDao;
-    }
+	/**
+	 *
+	 * @param conceptDao Set the image dao
+	 */
+	@Autowired
+	public final void setConceptDao(final ConceptDao conceptDao) {
+		super.dao = conceptDao;
+	}
 }

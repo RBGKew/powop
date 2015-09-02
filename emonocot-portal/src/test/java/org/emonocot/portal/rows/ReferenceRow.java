@@ -23,50 +23,50 @@ package org.emonocot.portal.rows;
  */
 public class ReferenceRow {
 
-    /**
-     *
-     */
-    public String identifier;
+	/**
+	 *
+	 */
+	public String identifier;
 
-    /**
-     *
-     */
-    public String title;
+	/**
+	 *
+	 */
+	public String title;
 
-    /**
-     *
-     */
-    public String authors;
+	/**
+	 *
+	 */
+	public String authors;
 
-    /**
-     *
-     */
-    public String datePublished;
+	/**
+	 *
+	 */
+	public String datePublished;
 
-    /**
-     *
-     */
-    public String volume;
+	/**
+	 *
+	 */
+	public String volume;
 
-    /**
-     *
-     */
-    public String page;
+	/**
+	 *
+	 */
+	public String page;
 
-    /**
-     *
-     */
-    public String citation;
+	/**
+	 *
+	 */
+	public String citation;
 
-    /**
-     *
-     */
-    public String publisher;
-    
-    /**
-     *
-     */
-    public String taxa1;
+	/**
+	 *
+	 */
+	public String publisher;
+
+	/**
+	 *
+	 */
+	public String taxa1;
 
 	public String authority;
 }

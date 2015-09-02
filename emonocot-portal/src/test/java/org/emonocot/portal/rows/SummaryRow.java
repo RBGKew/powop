@@ -23,31 +23,31 @@ package org.emonocot.portal.rows;
  */
 public class SummaryRow {
 
-    /**
-     *
-     */
-    public String category;
+	/**
+	 *
+	 */
+	public String category;
 
-    /**
-     *
-     */
-    public String subcategory;
-    
-    /**
-     *
-     */
-    public String details;
-    
-    /**
-     *
-     */
-    public String record;
+	/**
+	 *
+	 */
+	public String subcategory;
 
-    /**
-     *
-     * @return the object as an array
-     */
-    public final Object[] toArray() {
-        return new String[] {this.category, this.subcategory, this.details, this.record};
-    }
+	/**
+	 *
+	 */
+	public String details;
+
+	/**
+	 *
+	 */
+	public String record;
+
+	/**
+	 *
+	 * @return the object as an array
+	 */
+	public final Object[] toArray() {
+		return new String[] {this.category, this.subcategory, this.details, this.record};
+	}
 }

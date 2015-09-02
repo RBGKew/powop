@@ -32,37 +32,37 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class OrganisationDaoImpl extends SearchableDaoImpl<Organisation> implements
-        OrganisationDao {
-    /**
-    *
-    */
-    private static Map<String, Fetch[]> FETCH_PROFILES;
+OrganisationDao {
+	/**
+	 *
+	 */
+	private static Map<String, Fetch[]> FETCH_PROFILES;
 
-    static {
-        FETCH_PROFILES = new HashMap<String, Fetch[]>();
-        FETCH_PROFILES.put("source-with-jobs", new Fetch[] {
-        		new Fetch("jobs", FetchMode.SELECT),
-                new Fetch("resources", FetchMode.SELECT)});
-    }
+	static {
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("source-with-jobs", new Fetch[] {
+				new Fetch("jobs", FetchMode.SELECT),
+				new Fetch("resources", FetchMode.SELECT)});
+	}
 
-    /**
-     *
-     */
-    public OrganisationDaoImpl() {
-        super(Organisation.class);
-    }
+	/**
+	 *
+	 */
+	public OrganisationDaoImpl() {
+		super(Organisation.class);
+	}
 
-    /**
-     * @param profile
-     *            Set the profile name
-     * @return an array of related objects to fetch
-     */
-    protected final Fetch[] getProfile(final String profile) {
-        return OrganisationDaoImpl.FETCH_PROFILES.get(profile);
-    }
-    
-    @Override
-    protected boolean isSearchableObject() {
+	/**
+	 * @param profile
+	 *            Set the profile name
+	 * @return an array of related objects to fetch
+	 */
+	protected final Fetch[] getProfile(final String profile) {
+		return OrganisationDaoImpl.FETCH_PROFILES.get(profile);
+	}
+
+	@Override
+	protected boolean isSearchableObject() {
 		return false;
 	}
 }

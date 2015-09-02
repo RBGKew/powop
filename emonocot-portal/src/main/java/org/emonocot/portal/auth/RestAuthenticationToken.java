@@ -23,11 +23,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class RestAuthenticationToken extends AbstractAuthenticationToken {
-	
+
 	private Object principal;
-	
+
 	private Object credentials;
-	
+
 	private UserDetails userDetails;
 
 	public RestAuthenticationToken(
@@ -51,7 +51,7 @@ public class RestAuthenticationToken extends AbstractAuthenticationToken {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4121755228222723685L;
 
@@ -64,7 +64,7 @@ public class RestAuthenticationToken extends AbstractAuthenticationToken {
 	public Object getPrincipal() {
 		return principal;
 	}
-	
+
 	public Object getDetails() {
 		return userDetails;
 	}

@@ -24,19 +24,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SolrMissingObjectProcessor implements ItemProcessor<SolrDocument, String> {
 
 	private SearchableObjectService searchableObjectService;
-	
+
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
 		this.searchableObjectService = searchableObjectService;
 	}
-	
+
 	@Override
-	public String process(SolrDocument item) throws Exception {		
+	public String process(SolrDocument item) throws Exception {
 		Object o = searchableObjectService.loadObjectForDocument(item);
 		if(o == null) {
-		    return (String)item.get("id");
+			return (String)item.get("id");
 		} else {
-		    return null;
+			return null;
 		}
 	}
 

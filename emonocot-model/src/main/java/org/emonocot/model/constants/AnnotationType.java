@@ -22,16 +22,16 @@ package org.emonocot.model.constants;
  *
  */
 public enum AnnotationType {
-    /**
-     * If we were unable to process the record.
-     */
-    Error,
-    /**
-     * If we were able to process the record in part.
-     */
-    Warn,
-    /**
-     * Information, but no actual problem.
-     */
-    Info;
+	/**
+	 * If we were unable to process the record.
+	 */
+	Error,
+	/**
+	 * If we were able to process the record in part.
+	 */
+	Warn,
+	/**
+	 * Information, but no actual problem.
+	 */
+	Info;
 }

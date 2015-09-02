@@ -39,7 +39,7 @@ public class ShapeDeserializer extends JsonDeserializer<Geometry> {
 	@Override
 	public Geometry deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
-		
+
 		String wkt = jp.readValueAs(String.class);
 		try {
 			return new WKTReader().read(wkt);

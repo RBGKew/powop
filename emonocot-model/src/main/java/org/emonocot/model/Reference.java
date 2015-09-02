@@ -51,234 +51,234 @@ import org.hibernate.annotations.Where;
 @Entity
 public class Reference extends BaseData implements NonOwned {
 
-    private static long serialVersionUID = -5928234699377084008L;
+	private static long serialVersionUID = -5928234699377084008L;
 
-    private String title;
+	private String title;
 
-    private String date;
+	private String date;
 
-    private ReferenceType type;
+	private ReferenceType type;
 
-    private String creator;
+	private String creator;
 
-    private String source;
+	private String source;
 
-    private String bibliographicCitation;
+	private String bibliographicCitation;
 
-    private Locale language;
+	private Locale language;
 
-    private Set<Taxon> taxa = new HashSet<Taxon>();
+	private Set<Taxon> taxa = new HashSet<Taxon>();
 
-    private Set<Annotation> annotations = new HashSet<Annotation>();
+	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-    private Long id;
+	private Long id;
 
-    private String description;
+	private String description;
 
-    private String subject;
+	private String subject;
 
-    private String taxonRemarks;
+	private String taxonRemarks;
 
-    /**
-     *
-     * @param newId
-     *            Set the identifier of this object.
-     */
-    public void setId(Long newId) {
-        this.id = newId;
-    }
+	/**
+	 *
+	 * @param newId
+	 *            Set the identifier of this object.
+	 */
+	public void setId(Long newId) {
+		this.id = newId;
+	}
 
-    /**
-     *
-     * @return Get the identifier for this object.
-     */
-    @Id
-    @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-    public Long getId() {
-        return id;
-    }
+	/**
+	 *
+	 * @return Get the identifier for this object.
+	 */
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     *
-     * @return the author
-     */
-    @Size(max = 255)
-    public String getCreator() {
-        return creator;
-    }
+	/**
+	 *
+	 * @return the author
+	 */
+	@Size(max = 255)
+	public String getCreator() {
+		return creator;
+	}
 
-    /**
-     *
-     * @param newCreator
-     *            Set the author
-     */
-    public void setCreator(String newCreator) {
-        this.creator = newCreator;
-    }
+	/**
+	 *
+	 * @param newCreator
+	 *            Set the author
+	 */
+	public void setCreator(String newCreator) {
+		this.creator = newCreator;
+	}
 
-    /**
-     *
-     * @return the publication this reference was published in
-     */
-    @Size(max = 255)
-    public String getSource() {
-        return source;
-    }
+	/**
+	 *
+	 * @return the publication this reference was published in
+	 */
+	@Size(max = 255)
+	public String getSource() {
+		return source;
+	}
 
-    /**
-     *
-     * @param newSource
-     *            Set the publication this reference was published in
-     */
-    public void setSource(String newSource) {
-        this.source = newSource;
-    }
+	/**
+	 *
+	 * @param newSource
+	 *            Set the publication this reference was published in
+	 */
+	public void setSource(String newSource) {
+		this.source = newSource;
+	}
 
-    /**
-     *
-     * @return the full citation
-     */
-    @Lob
-    public String getBibliographicCitation() {
-        return bibliographicCitation;
-    }
+	/**
+	 *
+	 * @return the full citation
+	 */
+	@Lob
+	public String getBibliographicCitation() {
+		return bibliographicCitation;
+	}
 
-    /**
-     *
-     * @param newCitation
-     *            Set the full citation
-     */
-    public void setBibliographicCitation(String newCitation) {
-        this.bibliographicCitation = newCitation;
-    }
+	/**
+	 *
+	 * @param newCitation
+	 *            Set the full citation
+	 */
+	public void setBibliographicCitation(String newCitation) {
+		this.bibliographicCitation = newCitation;
+	}
 
-    /**
-     *
-     * @param newTitle
-     *            set the title
-     */
-    public void setTitle(String newTitle) {
-        this.title = newTitle;
-    }
+	/**
+	 *
+	 * @param newTitle
+	 *            set the title
+	 */
+	public void setTitle(String newTitle) {
+		this.title = newTitle;
+	}
 
-    /**
-     *
-     * @param newReferenceType
-     *            set the reference type
-     */
-    public void setType(ReferenceType newReferenceType) {
-        this.type = newReferenceType;
-    }
+	/**
+	 *
+	 * @param newReferenceType
+	 *            set the reference type
+	 */
+	public void setType(ReferenceType newReferenceType) {
+		this.type = newReferenceType;
+	}
 
-    /**
-     * @return the datePublished
-     */
-    @Size(max = 255)
-    public String getDate() {
-        return date;
-    }
+	/**
+	 * @return the datePublished
+	 */
+	@Size(max = 255)
+	public String getDate() {
+		return date;
+	}
 
-    /**
-     * @param newDatePublished
-     *            the datePublished to set
-     */
-    public void setDate(String newDate) {
-        this.date = newDate;
-    }
+	/**
+	 * @param newDatePublished
+	 *            the datePublished to set
+	 */
+	public void setDate(String newDate) {
+		this.date = newDate;
+	}
 
-    /**
-     * @return the title
-     */
-    @Size(max = 255)
-    public String getTitle() {
-        return title;
-    }
+	/**
+	 * @return the title
+	 */
+	@Size(max = 255)
+	public String getTitle() {
+		return title;
+	}
 
-    /**
-     * @return the type
-     */
-    public ReferenceType getType() {
-        return type;
-    }
+	/**
+	 * @return the type
+	 */
+	public ReferenceType getType() {
+		return type;
+	}
 
-    /**
-     * The list of all taxa associated with this reference.
-     *
-     * @return a set of taxa
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Taxon_Reference", joinColumns = {@JoinColumn(name = "references_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
-    @JsonSerialize(contentUsing = TaxonSerializer.class)
-    public Set<Taxon> getTaxa() {
-        return taxa;
-    }
+	/**
+	 * The list of all taxa associated with this reference.
+	 *
+	 * @return a set of taxa
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "Taxon_Reference", joinColumns = {@JoinColumn(name = "references_id")}, inverseJoinColumns = {@JoinColumn(name = "Taxon_id")})
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE })
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	public Set<Taxon> getTaxa() {
+		return taxa;
+	}
 
-    /**
-     *
-     * @param taxa
-     *            Set the taxa associated with this reference
-     */
-    @JsonDeserialize(contentUsing = TaxonDeserializer.class)
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
+	/**
+	 *
+	 * @param taxa
+	 *            Set the taxa associated with this reference
+	 */
+	@JsonDeserialize(contentUsing = TaxonDeserializer.class)
+	public void setTaxa(Set<Taxon> taxa) {
+		this.taxa = taxa;
+	}
 
-    /**
-     * @return the annotations
-     */
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "annotatedObjId")
-    @Where(clause = "annotatedObjType = 'Reference'")
-    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-    @JsonIgnore
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+	/**
+	 * @return the annotations
+	 */
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Reference'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-    /**
-     * @param annotations
-     *            the annotations to set
-     */
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
-    /**
-     * @return the abstract
-     */
-    @Lob
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * @return the abstract
+	 */
+	@Lob
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * @param description the abstract to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	/**
+	 * @param description the abstract to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    /**
-     * @return the keywords
-     */
-    @Size(max = 255)
-    public String getSubject() {
-        return subject;
-    }
+	/**
+	 * @return the keywords
+	 */
+	@Size(max = 255)
+	public String getSubject() {
+		return subject;
+	}
 
-    /**
-     * @param subject the keywords to set
-     */
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+	/**
+	 * @param subject the keywords to set
+	 */
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 
-    @Transient
-    @JsonIgnore
-    public String getClassName() {
-        return "Reference";
-    }
+	@Transient
+	@JsonIgnore
+	public String getClassName() {
+		return "Reference";
+	}
 
 	/**
 	 * @return the language
@@ -308,9 +308,9 @@ public class Reference extends BaseData implements NonOwned {
 	public void setTaxonRemarks(String taxonRemarks) {
 		this.taxonRemarks = taxonRemarks;
 	}
-	
+
 	@Override
-    public String toString() {
-    	return bibliographicCitation;
-    }
+	public String toString() {
+		return bibliographicCitation;
+	}
 }

@@ -30,23 +30,23 @@ import org.emonocot.model.convert.StringToLocationConverter;
  *
  */
 public class GeographicalRegionDeserializer extends
-        StdDeserializer<Location> {
-    /**
-     *
-     */
-    private StringToLocationConverter converter = new StringToLocationConverter();
+StdDeserializer<Location> {
+	/**
+	 *
+	 */
+	private StringToLocationConverter converter = new StringToLocationConverter();
 
-    /**
-     *
-     */
-    public GeographicalRegionDeserializer() {
-        super(Location.class);
-    }
+	/**
+	 *
+	 */
+	public GeographicalRegionDeserializer() {
+		super(Location.class);
+	}
 
-    @Override
-    public final Location deserialize(final JsonParser jsonParser,
-            final DeserializationContext deserializationContext)
-            throws IOException {
-        return converter.convert(jsonParser.getText());
-    }
+	@Override
+	public final Location deserialize(final JsonParser jsonParser,
+			final DeserializationContext deserializationContext)
+					throws IOException {
+		return converter.convert(jsonParser.getText());
+	}
 }

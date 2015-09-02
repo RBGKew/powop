@@ -25,55 +25,55 @@ import org.hibernate.FetchMode;
  */
 public class Fetch {
 
-    /**
-     *
-     */
-    private String association;
+	/**
+	 *
+	 */
+	private String association;
 
-    /**
-     *
-     */
-    private FetchMode mode;
+	/**
+	 *
+	 */
+	private FetchMode mode;
 
-    /**
-     *
-     * @return the association
-     */
-    public final String getAssociation() {
-        return association;
-    }
+	/**
+	 *
+	 * @return the association
+	 */
+	public final String getAssociation() {
+		return association;
+	}
 
-    /**
-     *
-     * @param newAssociation Set the association
-     */
-    public final void setAssociation(final String newAssociation) {
-        this.association = newAssociation;
-    }
+	/**
+	 *
+	 * @param newAssociation Set the association
+	 */
+	public final void setAssociation(final String newAssociation) {
+		this.association = newAssociation;
+	}
 
-    /**
-     *
-     * @return the fetch mode
-     */
-    public final FetchMode getMode() {
-        return mode;
-    }
+	/**
+	 *
+	 * @return the fetch mode
+	 */
+	public final FetchMode getMode() {
+		return mode;
+	}
 
-    /**
-     *
-     * @param newMode Set the fetch mode
-     */
-    public final void setMode(final FetchMode newMode) {
-        this.mode = newMode;
-    }
+	/**
+	 *
+	 * @param newMode Set the fetch mode
+	 */
+	public final void setMode(final FetchMode newMode) {
+		this.mode = newMode;
+	}
 
-    /**
-     *
-     * @param newAssociation Set the association
-     * @param newMode Set the mode
-     */
-    public Fetch(final String newAssociation, final FetchMode newMode) {
-        this.association = newAssociation;
-        this.mode = newMode;
-    }
+	/**
+	 *
+	 * @param newAssociation Set the association
+	 * @param newMode Set the mode
+	 */
+	public Fetch(final String newAssociation, final FetchMode newMode) {
+		this.association = newAssociation;
+		this.mode = newMode;
+	}
 }

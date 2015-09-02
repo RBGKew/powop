@@ -25,13 +25,13 @@ import org.slf4j.LoggerFactory;
 
 
 public class MockJobLauncher implements JobLauncher {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(MockJobLauncher.class);
-	
+
 	private JobExecutionInfo execution = new JobExecutionInfo();
-	
+
 	private JobExecutionException exception = null;
-	
+
 	private JobLaunchRequest request = null;
 
 	public JobLaunchRequest getRequest() {

@@ -54,24 +54,24 @@ import org.springframework.integration.message.GenericMessage;
 
 /**
  * @author jk00kg
- * 
+ *
  */
 public class EmailServiceHelper {
-	
+
 	Logger logger = LoggerFactory.getLogger(EmailServiceHelper.class);
 
 	Pattern pattern = Pattern
 			.compile("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
-	
+
 	static Set<String> autoReplyPrecedenceValues = new HashSet<String>();
-	
+
 	static Set<String> autoReplySubjectValues = new HashSet<String>();
-	
+
 	static {
 		autoReplyPrecedenceValues.add("auto_reply");
 		autoReplyPrecedenceValues.add("bulk");
 		autoReplyPrecedenceValues.add("junk");
-		
+
 		autoReplySubjectValues.add("Auto:");
 		autoReplySubjectValues.add("Automatic reply");
 		autoReplySubjectValues.add("Autosvar");
@@ -90,9 +90,9 @@ public class EmailServiceHelper {
 	private final String HEADER_TEMPLATE_NAME = "templateName";
 
 	private String defaultTemplateName;
-	
+
 	private CommentService commentService;
-	
+
 	private UserService userService;
 
 	/**
@@ -128,7 +128,7 @@ public class EmailServiceHelper {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	@Autowired
 	public void setHtmlSanitizer(HtmlSanitizer htmlSanitizer) {
 		this.htmlSanitizer = htmlSanitizer;
@@ -136,69 +136,69 @@ public class EmailServiceHelper {
 
 	/**
 	 * Create a comment replying to an incoming email
-	 * 
+	 *
 	 * @param message
 	 * @return
 	 * @throws Exception
 	 */
 	public Message<Comment> createReply(Message<javax.mail.Message> message) throws Exception {
-    	javax.mail.Message email = message.getPayload();
-    	String subject = email.getSubject();
-    	Matcher matcher = pattern.matcher(subject);
-    	if(matcher.find()) {
-    		Comment comment = new Comment();
-    		comment.setIdentifier(UUID.randomUUID().toString());
-    		comment.setCreated(new DateTime());
-    		String identifier = matcher.group();
-    		Comment inResponseTo = commentService.find(identifier,"aboutData");
-    		
-    		comment.setInResponseTo(inResponseTo);
-    		
-    		if(inResponseTo != null) {
-    			comment.setCommentPage(inResponseTo.getCommentPage());
-    			comment.setAboutData(inResponseTo.getAboutData());
-    			if(comment.getAboutData() != null && comment.getAboutData() instanceof BaseData) {
-    				
-    			} else {
-    				logger.debug("Response is about " + comment.getAboutData() + " not creating reply");
-    				return null;
-    			}
-    			
-    		} else {
-    			logger.debug("Could not find comment with identifier " + identifier + " not creating reply");
-    			return null;
-    		}
-    		comment.setComment(htmlSanitizer.sanitize(getText(email)));
-    		for(Address address : email.getFrom()) {
+		javax.mail.Message email = message.getPayload();
+		String subject = email.getSubject();
+		Matcher matcher = pattern.matcher(subject);
+		if(matcher.find()) {
+			Comment comment = new Comment();
+			comment.setIdentifier(UUID.randomUUID().toString());
+			comment.setCreated(new DateTime());
+			String identifier = matcher.group();
+			Comment inResponseTo = commentService.find(identifier,"aboutData");
+
+			comment.setInResponseTo(inResponseTo);
+
+			if(inResponseTo != null) {
+				comment.setCommentPage(inResponseTo.getCommentPage());
+				comment.setAboutData(inResponseTo.getAboutData());
+				if(comment.getAboutData() != null && comment.getAboutData() instanceof BaseData) {
+
+				} else {
+					logger.debug("Response is about " + comment.getAboutData() + " not creating reply");
+					return null;
+				}
+
+			} else {
+				logger.debug("Could not find comment with identifier " + identifier + " not creating reply");
+				return null;
+			}
+			comment.setComment(htmlSanitizer.sanitize(getText(email)));
+			for(Address address : email.getFrom()) {
 				if(address instanceof InternetAddress) {
 					InternetAddress internetAddress = (InternetAddress)address;
-    			    User user = userService.find(internetAddress.getAddress());
-    			    if(user != null) {
-    				    comment.setUser(user);
-    				    break;
-    			    }
-			    }
-    		}
-    		comment.setStatus(Comment.Status.PENDING);
-    		String content = comment.getComment();
-    		if(content != null && content.length() > 256) {
-    			content = content.substring(0,255);
-    		}
-    		logger.debug("Recieved comment from " + comment.getUser() + " in response to " + comment.getInResponseTo() + " content " + content);
-    		Map<String, Object> headers = new HashMap<String, Object>();
-    		headers.putAll(message.getHeaders());
-    		
-    		return new GenericMessage<Comment>(comment, headers);
-    	} else {
-    		String content = getText(email);
-    		if(content != null && content.length() > 256) {
-    			content = content.substring(0,255);
-    		}
-    		logger.debug("Recieved comment from " + email.getFrom()[0].toString() + " with subject " + email.getSubject() + " and content " + content);
-    		return null;
-    	}	
-    }
-	
+					User user = userService.find(internetAddress.getAddress());
+					if(user != null) {
+						comment.setUser(user);
+						break;
+					}
+				}
+			}
+			comment.setStatus(Comment.Status.PENDING);
+			String content = comment.getComment();
+			if(content != null && content.length() > 256) {
+				content = content.substring(0,255);
+			}
+			logger.debug("Recieved comment from " + comment.getUser() + " in response to " + comment.getInResponseTo() + " content " + content);
+			Map<String, Object> headers = new HashMap<String, Object>();
+			headers.putAll(message.getHeaders());
+
+			return new GenericMessage<Comment>(comment, headers);
+		} else {
+			String content = getText(email);
+			if(content != null && content.length() > 256) {
+				content = content.substring(0,255);
+			}
+			logger.debug("Recieved comment from " + email.getFrom()[0].toString() + " with subject " + email.getSubject() + " and content " + content);
+			return null;
+		}
+	}
+
 	/**
 	 * http://stackoverflow.com/questions/1027395/detecting-outlook-autoreply-out-of-office-emails
 	 * @param message
@@ -207,48 +207,48 @@ public class EmailServiceHelper {
 	@Filter
 	public boolean filterOutOfOfficeReplies(@Payload javax.mail.Message message) {
 		try {
-		    if(message.getHeader("x-auto-response-suppress") != null) {
-		    	logger.debug("Email contains header x-auto-response-suppress, filtering");
-			    return false;
-		    }
-		    if(message.getHeader("x-autorespond") != null) {
-		    	logger.debug("Email contains header x-autorespond, filtering");
-			    return false;
-		    }
-		    if(message.getHeader("precedence") != null) {
-		    	for(String header : message.getHeader("precedence")) {
-		    		if(autoReplyPrecedenceValues.contains(header)) {
-		    			logger.debug("Email contains header precedence = " + header +", filtering");
-		    			return false;
-		    		}
-		    	}
-		    }
-		    if(message.getHeader("x-precedence") != null) {
-		    	for(String header : message.getHeader("x-precedence")) {
-		    		if(autoReplyPrecedenceValues.contains(header)) {
-		    			logger.debug("Email contains header x-precedence = " + header +", filtering");
-		    			return false;
-		    		}
-		    	}
-		    }
-		    if(message.getHeader("auto-submitted") != null) {
-		    	for(String header : message.getHeader("auto-submitted")) {
-		    		if(header.equals("auto-replied")) {
-		    			logger.debug("Email contains auto-submitted = " + header +", filtering");
-		    			return false;
-		    		}
-		    	}
-		    }
-		    if(message.getSubject() != null) {
-		    	for(String subjectValue: this.autoReplySubjectValues) {
-		    		if(message.getSubject().startsWith(subjectValue)) {
-		    			logger.debug("Email contains subject " + message.getSubject() +", filtering");
-		    			return false;
-		    		}
-		    	}
-		    }
-		
-		    return true;
+			if(message.getHeader("x-auto-response-suppress") != null) {
+				logger.debug("Email contains header x-auto-response-suppress, filtering");
+				return false;
+			}
+			if(message.getHeader("x-autorespond") != null) {
+				logger.debug("Email contains header x-autorespond, filtering");
+				return false;
+			}
+			if(message.getHeader("precedence") != null) {
+				for(String header : message.getHeader("precedence")) {
+					if(autoReplyPrecedenceValues.contains(header)) {
+						logger.debug("Email contains header precedence = " + header +", filtering");
+						return false;
+					}
+				}
+			}
+			if(message.getHeader("x-precedence") != null) {
+				for(String header : message.getHeader("x-precedence")) {
+					if(autoReplyPrecedenceValues.contains(header)) {
+						logger.debug("Email contains header x-precedence = " + header +", filtering");
+						return false;
+					}
+				}
+			}
+			if(message.getHeader("auto-submitted") != null) {
+				for(String header : message.getHeader("auto-submitted")) {
+					if(header.equals("auto-replied")) {
+						logger.debug("Email contains auto-submitted = " + header +", filtering");
+						return false;
+					}
+				}
+			}
+			if(message.getSubject() != null) {
+				for(String subjectValue: this.autoReplySubjectValues) {
+					if(message.getSubject().startsWith(subjectValue)) {
+						logger.debug("Email contains subject " + message.getSubject() +", filtering");
+						return false;
+					}
+				}
+			}
+
+			return true;
 		} catch(MessagingException me) {
 			logger.error("MessagingException thrown trying to filter message" + me.getLocalizedMessage());
 			return false;
@@ -293,7 +293,7 @@ public class EmailServiceHelper {
 
 	/**
 	 * Prepare a message for outgoing email
-	 * 
+	 *
 	 * @param message
 	 * @return
 	 */
@@ -324,7 +324,7 @@ public class EmailServiceHelper {
 		return new GenericMessage<Map>(model, headers);
 
 	}
-	
+
 	@Filter
 	public boolean preventSelfSending(@Header("toAddress") String toAddress, @Payload Comment comment) {
 		if(comment.getAuthority() != null) {
@@ -337,12 +337,12 @@ public class EmailServiceHelper {
 			}
 		}
 		return true;
-		
-	} 
-	
+
+	}
+
 	@Router
 	public String getDestinationChannel(@Header("toAddress") String toAddress) {
-		
+
 		if(toAddress.startsWith("http://")) {
 			return "scratchpad";
 		} else {

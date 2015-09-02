@@ -24,7 +24,7 @@ import org.springframework.core.convert.converter.Converter;
 public class NomenclaturalStatusConverter implements Converter<String, NomenclaturalStatus> {
 
 	Logger logger = LoggerFactory.getLogger(NomenclaturalStatusConverter.class);
-	
+
 	@Override
 	public NomenclaturalStatus convert(String source) {
 		logger.info("Converting " + source);
@@ -38,7 +38,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "alternativum":
 				return NomenclaturalStatus.Alternative;
 			case "ambigua":
-			    return NomenclaturalStatus.Ambiguous;
+				return NomenclaturalStatus.Ambiguous;
 			case "available":
 				return NomenclaturalStatus.Available;
 			case "combinatio":
@@ -50,7 +50,7 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 			case "conservandumProp":
 				return NomenclaturalStatus.Conserved_Proposed;
 			case "correctum":
-				return null;				
+				return null;
 			case "dubimum":
 				return NomenclaturalStatus.Doubtful;
 			case "illegitimum":

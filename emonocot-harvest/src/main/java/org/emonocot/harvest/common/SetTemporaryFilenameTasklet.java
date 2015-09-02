@@ -32,38 +32,38 @@ import org.springframework.batch.repeat.RepeatStatus;
  */
 public class SetTemporaryFilenameTasklet implements Tasklet {
 
-    /**
-     *
-     */
-    private String harvesterSpoolDirectory;
-    
-    private String extension = "xml";
+	/**
+	 *
+	 */
+	private String harvesterSpoolDirectory;
 
-    public void setHarvesterSpoolDirectory(String harvesterSpoolDirectory) {
-        this.harvesterSpoolDirectory = harvesterSpoolDirectory;
-    }
-    
-    public void setExtension(String extension) {
-    	 this.extension = extension;
-    }
-    
+	private String extension = "xml";
 
-    /**
-     * @param contribution Set the step contribution
-     * @param chunkContext Set the chunk context
-     * @return the repeat status
-     * @throws Exception if there is a problem deleting the resources
-     */
-    public  RepeatStatus execute( StepContribution contribution, ChunkContext chunkContext)
-            throws Exception {
-        UUID uuid = UUID.randomUUID();
-        String temporaryFileName = harvesterSpoolDirectory + File.separator
-                + uuid.toString() + "." + extension;
+	public void setHarvesterSpoolDirectory(String harvesterSpoolDirectory) {
+		this.harvesterSpoolDirectory = harvesterSpoolDirectory;
+	}
 
-        File temporaryFile = new File(temporaryFileName);
-        ExecutionContext executionContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
-        executionContext.put("temporary.file.name", temporaryFile.getAbsolutePath());
-        executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());
-        return RepeatStatus.FINISHED;
-    }
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
+
+	/**
+	 * @param contribution Set the step contribution
+	 * @param chunkContext Set the chunk context
+	 * @return the repeat status
+	 * @throws Exception if there is a problem deleting the resources
+	 */
+	public  RepeatStatus execute( StepContribution contribution, ChunkContext chunkContext)
+			throws Exception {
+		UUID uuid = UUID.randomUUID();
+		String temporaryFileName = harvesterSpoolDirectory + File.separator
+				+ uuid.toString() + "." + extension;
+
+		File temporaryFile = new File(temporaryFileName);
+		ExecutionContext executionContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+		executionContext.put("temporary.file.name", temporaryFile.getAbsolutePath());
+		executionContext.putLong("job.execution.id", chunkContext.getStepContext().getStepExecution().getJobExecutionId());
+		return RepeatStatus.FINISHED;
+	}
 }

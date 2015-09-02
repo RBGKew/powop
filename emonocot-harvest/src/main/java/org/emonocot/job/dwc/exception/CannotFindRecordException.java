@@ -26,23 +26,23 @@ import org.emonocot.model.constants.AnnotationType;
  */
 public class CannotFindRecordException extends TaxonProcessingException {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3822333603663281893L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 3822333603663281893L;
 
-    /**
-     *
-     * @param identifier the identifier of the object
-     * @param title 
-     */
-    public CannotFindRecordException(final String identifier, final String title) {
-        super("Cannot find a taxon " + title + " with identifier " + identifier, AnnotationCode.BadIdentifier, identifier);
-    }
+	/**
+	 *
+	 * @param identifier the identifier of the object
+	 * @param title
+	 */
+	public CannotFindRecordException(final String identifier, final String title) {
+		super("Cannot find a taxon " + title + " with identifier " + identifier, AnnotationCode.BadIdentifier, identifier);
+	}
 
-    @Override
-    public final AnnotationType getType() {
-        return AnnotationType.Error;
-    }
+	@Override
+	public final AnnotationType getType() {
+		return AnnotationType.Error;
+	}
 
 }

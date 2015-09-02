@@ -31,12 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecimenService> {
 
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
-    
-    @Autowired
-    public void setTypeAndSpecimenService(TypeAndSpecimenService service) {
-    	super.service = service;
-    }
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
+
+	@Autowired
+	public void setTypeAndSpecimenService(TypeAndSpecimenService service) {
+		super.service = service;
+	}
 
 	@Override
 	protected void doUpdate(TypeAndSpecimen persisted, TypeAndSpecimen t) {
@@ -64,7 +64,7 @@ public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecime
 
 	@Override
 	protected void doPersist(TypeAndSpecimen t) {
-		
+
 	}
 
 	@Override
@@ -75,36 +75,36 @@ public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecime
 	@Override
 	protected void bind(TypeAndSpecimen t) {
 		if (t.getIdentifier() != null) {
-            boundObjects.put(t.getIdentifier(), t);
-        }
-        if (t.getCatalogNumber() != null) {
-            boundObjects.put(t.getCatalogNumber(), t);
-        }
+			boundObjects.put(t.getIdentifier(), t);
+		}
+		if (t.getCatalogNumber() != null) {
+			boundObjects.put(t.getCatalogNumber(), t);
+		}
 	}
 
 	@Override
 	protected TypeAndSpecimen retrieveBound(TypeAndSpecimen t) {
 		if (t.getIdentifier() != null) {
-            return service.find(t.getIdentifier());
-        } else if (t.getCatalogNumber() != null) {
-            return service.findByCatalogNumber(t.getCatalogNumber());
-        }
-        return null;
+			return service.find(t.getIdentifier());
+		} else if (t.getCatalogNumber() != null) {
+			return service.findByCatalogNumber(t.getCatalogNumber());
+		}
+		return null;
 	}
 
 	@Override
 	protected TypeAndSpecimen lookupBound(TypeAndSpecimen t) {
 		if (t.getIdentifier() != null) {
-            return boundObjects.get(t.getIdentifier());
-        } else if (t.getCatalogNumber() != null) {
-            return boundObjects.get(t.getCatalogNumber());
-        }
-        return null;
+			return boundObjects.get(t.getIdentifier());
+		} else if (t.getCatalogNumber() != null) {
+			return boundObjects.get(t.getCatalogNumber());
+		}
+		return null;
 	}
 
 	@Override
 	protected void doValidate(TypeAndSpecimen t) throws Exception {
-		
+
 	}
 
 	@Override

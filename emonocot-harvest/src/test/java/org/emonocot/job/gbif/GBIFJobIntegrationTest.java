@@ -66,99 +66,99 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-    "/META-INF/spring/batch/jobs/gbifImport.xml",
-    "/META-INF/spring/applicationContext-integration.xml",
-    "/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/batch/jobs/gbifImport.xml",
+	"/META-INF/spring/applicationContext-integration.xml",
+"/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(
 		classMode = ClassMode.AFTER_CLASS)
 public class GBIFJobIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(GBIFJobIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(GBIFJobIntegrationTest.class);
 
-    private Resource inputFile = new ClassPathResource("/org/emonocot/job/gbif/list.xml");
+	private Resource inputFile = new ClassPathResource("/org/emonocot/job/gbif/list.xml");
 
-    @Autowired
-    private JobLocator jobLocator;
+	@Autowired
+	private JobLocator jobLocator;
 
-    @Autowired
+	@Autowired
 	@Qualifier("readWriteJobLauncher")
-    private JobLauncher jobLauncher;
-    
-    @Autowired
-    private SessionFactory sessionFactory;
-    
-    @Autowired
-    private SolrIndexingListener solrIndexingListener;
-    
-    private Properties properties;
+	private JobLauncher jobLauncher;
 
-    /**
-     * 1288569600 in unix time.
-     */
-    private static final BaseDateTime PAST_DATETIME
-    = new DateTime(2010, 11, 1, 9, 0, 0, 0);
-    
-    @Before
-    public void setUp() throws Exception {
-    	Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
-    	properties = new Properties();
-    	properties.load(propertiesFile.getInputStream());
-    	File spoolDirectory = new File("./target/spool");
-        spoolDirectory.mkdirs();
-        spoolDirectory.deleteOnExit();
-    }
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    /**
-     *
-     * @throws IOException
-     *             if a temporary file cannot be created.
-     * @throws NoSuchJobException
-     *             if SpeciesPageHarvestingJob cannot be located
-     * @throws JobParametersInvalidException
-     *             if the job parameters are invalid
-     * @throws JobInstanceAlreadyCompleteException
-     *             if the job has already completed
-     * @throws JobRestartException
-     *             if the job cannot be restarted
-     * @throws JobExecutionAlreadyRunningException
-     *             if the job is already running
-     */
-    @Test
-    public final void testNotModifiedResponse() throws IOException,
-            NoSuchJobException, JobExecutionAlreadyRunningException,
-            JobRestartException, JobInstanceAlreadyCompleteException,
-            JobParametersInvalidException {
-    	Session session = sessionFactory.openSession();        
-        Transaction tx = session.beginTransaction();
+	@Autowired
+	private SolrIndexingListener solrIndexingListener;
 
-        List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-        solrIndexingListener.indexObjects(taxa);
-        tx.commit();
-        
-        Map<String, JobParameter> parameters =
-            new HashMap<String, JobParameter>();
-        parameters.put("family", new JobParameter("Araceae"));
-        parameters.put("authority.name", new JobParameter("test"));
-        String repository = properties.getProperty("test.resource.baseUrl",
-                "http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
-        parameters.put("authority.uri", new JobParameter(repository + "list.xml"));
-        
-        //parameters.put("authority.uri", new JobParameter("http://data.gbif.org/ws/rest/occurrence/list?taxonconceptkey=6979&maxresults=1000&typesonly=true&format=darwin&mode=raw&startindex="));
-        parameters.put("authority.last.harvested",
-        new JobParameter(Long.toString((GBIFJobIntegrationTest.PAST_DATETIME.getMillis()))));
+	private Properties properties;
 
-       
-        JobParameters jobParameters = new JobParameters(parameters);
+	/**
+	 * 1288569600 in unix time.
+	 */
+	private static final BaseDateTime PAST_DATETIME
+	= new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
-        Job job = jobLocator.getJob("GBIFImport");
-        assertNotNull("GBIFImport must not be null", job);
-        JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-        assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
-        for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-            logger.info(stepExecution.getStepName() + " "
-                    + stepExecution.getReadCount() + " "
-                    + stepExecution.getFilterCount() + " "
-                    + stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
-        }
-    }
+	@Before
+	public void setUp() throws Exception {
+		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
+		properties = new Properties();
+		properties.load(propertiesFile.getInputStream());
+		File spoolDirectory = new File("./target/spool");
+		spoolDirectory.mkdirs();
+		spoolDirectory.deleteOnExit();
+	}
+
+	/**
+	 *
+	 * @throws IOException
+	 *             if a temporary file cannot be created.
+	 * @throws NoSuchJobException
+	 *             if SpeciesPageHarvestingJob cannot be located
+	 * @throws JobParametersInvalidException
+	 *             if the job parameters are invalid
+	 * @throws JobInstanceAlreadyCompleteException
+	 *             if the job has already completed
+	 * @throws JobRestartException
+	 *             if the job cannot be restarted
+	 * @throws JobExecutionAlreadyRunningException
+	 *             if the job is already running
+	 */
+	@Test
+	public final void testNotModifiedResponse() throws IOException,
+	NoSuchJobException, JobExecutionAlreadyRunningException,
+	JobRestartException, JobInstanceAlreadyCompleteException,
+	JobParametersInvalidException {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
+		solrIndexingListener.indexObjects(taxa);
+		tx.commit();
+
+		Map<String, JobParameter> parameters =
+				new HashMap<String, JobParameter>();
+		parameters.put("family", new JobParameter("Araceae"));
+		parameters.put("authority.name", new JobParameter("test"));
+		String repository = properties.getProperty("test.resource.baseUrl",
+				"http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
+		parameters.put("authority.uri", new JobParameter(repository + "list.xml"));
+
+		//parameters.put("authority.uri", new JobParameter("http://data.gbif.org/ws/rest/occurrence/list?taxonconceptkey=6979&maxresults=1000&typesonly=true&format=darwin&mode=raw&startindex="));
+		parameters.put("authority.last.harvested",
+				new JobParameter(Long.toString((GBIFJobIntegrationTest.PAST_DATETIME.getMillis()))));
+
+
+		JobParameters jobParameters = new JobParameters(parameters);
+
+		Job job = jobLocator.getJob("GBIFImport");
+		assertNotNull("GBIFImport must not be null", job);
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
+		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
+			logger.info(stepExecution.getStepName() + " "
+					+ stepExecution.getReadCount() + " "
+					+ stepExecution.getFilterCount() + " "
+					+ stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
+		}
+	}
 }

@@ -27,17 +27,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class VernacularNameDaoImpl extends DaoImpl<VernacularName> implements
-		VernacularNameDao {
+VernacularNameDao {
 
 	private static Map<String, Fetch[]> FETCH_PROFILES;
-	
+
 	static {
-	       FETCH_PROFILES = new HashMap<String, Fetch[]>();
-	       FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
-	       		new Fetch("taxon", FetchMode.JOIN),
-	          	new Fetch("annotations", FetchMode.SELECT)});
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES.put("object-with-annotations", new Fetch[] {
+				new Fetch("taxon", FetchMode.JOIN),
+				new Fetch("annotations", FetchMode.SELECT)});
 	}
-	
+
 	public VernacularNameDaoImpl() {
 		super(VernacularName.class);
 	}
@@ -47,5 +47,5 @@ public class VernacularNameDaoImpl extends DaoImpl<VernacularName> implements
 		return VernacularNameDaoImpl.FETCH_PROFILES.get(profile);
 	}
 
-	
+
 }

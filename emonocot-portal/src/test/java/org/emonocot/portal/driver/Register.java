@@ -29,66 +29,66 @@ import org.openqa.selenium.support.How;
  */
 public class Register extends PageObject {
 
-    /**
-     *
-     */
-    private String username = null;
+	/**
+	 *
+	 */
+	private String username = null;
 
-    /**
-     *
-     */
-    @FindBy(how = How.ID, using = "registrationForm")
-    private WebElement registrationForm;
+	/**
+	 *
+	 */
+	@FindBy(how = How.ID, using = "registrationForm")
+	private WebElement registrationForm;
 
-   /**
-    *
-    * @param username Set the username
-    */
-   public final void setUsername(final String username) {
-       this.username = username;
-       registrationForm.findElement(By.name("username")).sendKeys(username);
-   }
+	/**
+	 *
+	 * @param username Set the username
+	 */
+	public final void setUsername(final String username) {
+		this.username = username;
+		registrationForm.findElement(By.name("username")).sendKeys(username);
+	}
 
-   /**
-    *
-    * @param repeatUsername Set the repeat username
-    */
-   public final void setRepeatUsername(final String repeatUsername) {
-       registrationForm.findElement(By.name("repeatUsername")).sendKeys(repeatUsername);
-   }
+	/**
+	 *
+	 * @param repeatUsername Set the repeat username
+	 */
+	public final void setRepeatUsername(final String repeatUsername) {
+		registrationForm.findElement(By.name("repeatUsername")).sendKeys(repeatUsername);
+	}
 
-   /**
-    *
-    * @param password Set the password
-    */
-   public final void setPassword(final String password) {
-       registrationForm.findElement(By.name("password")).sendKeys(password);
-   }
+	/**
+	 *
+	 * @param password Set the password
+	 */
+	public final void setPassword(final String password) {
+		registrationForm.findElement(By.name("password")).sendKeys(password);
+	}
 
-   /**
-    *
-    * @param repeatPassword Set the repeat password
-    */
-   public final void setRepeatPassword(final String repeatPassword) {
-       registrationForm.findElement(By.name("repeatPassword")).sendKeys(repeatPassword);
-   }
+	/**
+	 *
+	 * @param repeatPassword Set the repeat password
+	 */
+	public final void setRepeatPassword(final String repeatPassword) {
+		registrationForm.findElement(By.name("repeatPassword")).sendKeys(repeatPassword);
+	}
 
-   /**
-    *
-    * @return the response page
-    */
-   public final PageObject submit() {
-        registrationForm.submit();
-        if (getWebDriver().getCurrentUrl().equals(
-                this.getBaseUri() + "/register")) {
-            username = null;
-            return super.getPage(Register.class);
-        } else {
-            User user = new User();
-            user.setUsername(username);
-            testDataManager.registerObject(user);
-            return super.getPage(Login.class);
-       }
-   }
+	/**
+	 *
+	 * @return the response page
+	 */
+	public final PageObject submit() {
+		registrationForm.submit();
+		if (getWebDriver().getCurrentUrl().equals(
+				this.getBaseUri() + "/register")) {
+			username = null;
+			return super.getPage(Register.class);
+		} else {
+			User user = new User();
+			user.setUsername(username);
+			testDataManager.registerObject(user);
+			return super.getPage(Login.class);
+		}
+	}
 
 }

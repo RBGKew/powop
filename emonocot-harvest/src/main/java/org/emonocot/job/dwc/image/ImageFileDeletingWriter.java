@@ -30,53 +30,53 @@ import org.springframework.batch.item.ItemWriter;
  *
  */
 public class ImageFileDeletingWriter implements ItemWriter<Image> {
-    
-    private Logger logger = LoggerFactory.getLogger(ImageFileDeletingWriter.class);
 
-    /**
-     * 
-     */
-    private String imageDirectory;
+	private Logger logger = LoggerFactory.getLogger(ImageFileDeletingWriter.class);
 
-    /**
-     * @param imageDirectory the imageDirectory to set
-     */
-    public void setImageDirectory(String imageDirectory) {
-        this.imageDirectory = imageDirectory;
-    }
+	/**
+	 *
+	 */
+	private String imageDirectory;
 
-    /* (non-Javadoc)
-     * @see org.springframework.batch.item.ItemWriter#write(java.util.List)
-     */
-    @Override
-    public void write(List<? extends Image> items) throws Exception {
-        for(Image i : items) {
-            File file = new File(imageDirectory + File.separator + i.getId() + "." + i.getFormat());
-            if(!file.exists()){
-                logger.warn("Tried to delete non-existent file " + file.getCanonicalPath()
-                    + " for image " + i);
-            } else {
-                try{
-                    file.delete(); //Don't worry about successfulness
-                } catch (SecurityException e) {
-                    logger.error("The file " + file + " could be deleted.");
-                    throw e;
-                }
-            }
-            file = new File(imageDirectory + File.separator + "thumbnails" + File.separator + i.getId() + "." + i.getFormat());
-            if(!file.exists()){
-                logger.warn("Tried to delete non-existent file " + file.getCanonicalPath()
-                    + " for image " + i);
-            } else {
-                try{
-                    file.delete(); //Don't worry about successfulness
-                } catch (SecurityException e) {
-                    logger.error("The file " + file + " cannot be deleted.");
-                    throw e;
-                }
-            }
-        }
-        
-    }
+	/**
+	 * @param imageDirectory the imageDirectory to set
+	 */
+	public void setImageDirectory(String imageDirectory) {
+		this.imageDirectory = imageDirectory;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.batch.item.ItemWriter#write(java.util.List)
+	 */
+	@Override
+	public void write(List<? extends Image> items) throws Exception {
+		for(Image i : items) {
+			File file = new File(imageDirectory + File.separator + i.getId() + "." + i.getFormat());
+			if(!file.exists()){
+				logger.warn("Tried to delete non-existent file " + file.getCanonicalPath()
+						+ " for image " + i);
+			} else {
+				try{
+					file.delete(); //Don't worry about successfulness
+				} catch (SecurityException e) {
+					logger.error("The file " + file + " could be deleted.");
+					throw e;
+				}
+			}
+			file = new File(imageDirectory + File.separator + "thumbnails" + File.separator + i.getId() + "." + i.getFormat());
+			if(!file.exists()){
+				logger.warn("Tried to delete non-existent file " + file.getCanonicalPath()
+						+ " for image " + i);
+			} else {
+				try{
+					file.delete(); //Don't worry about successfulness
+				} catch (SecurityException e) {
+					logger.error("The file " + file + " cannot be deleted.");
+					throw e;
+				}
+			}
+		}
+
+	}
 
 }

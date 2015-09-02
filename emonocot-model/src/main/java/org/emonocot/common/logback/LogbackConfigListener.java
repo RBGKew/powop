@@ -52,18 +52,18 @@ import javax.servlet.ServletContextListener;
  */
 public class LogbackConfigListener implements ServletContextListener {
 
-    /**
-     * @param event Set the servlet context event
-     */
-    public final void contextInitialized(final ServletContextEvent event) {
-        LogbackWebConfigurer.initLogging(event.getServletContext());
-    }
+	/**
+	 * @param event Set the servlet context event
+	 */
+	public final void contextInitialized(final ServletContextEvent event) {
+		LogbackWebConfigurer.initLogging(event.getServletContext());
+	}
 
-    /**
-     * @param event Set the servlet context event
-     */
-    public final void contextDestroyed(final ServletContextEvent event) {
-        LogbackWebConfigurer.shutdownLogging(event.getServletContext());
-    }
+	/**
+	 * @param event Set the servlet context event
+	 */
+	public final void contextDestroyed(final ServletContextEvent event) {
+		LogbackWebConfigurer.shutdownLogging(event.getServletContext());
+	}
 
 }

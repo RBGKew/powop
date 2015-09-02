@@ -31,7 +31,7 @@ import org.springframework.core.io.ClassPathResource;
 
 
 public class BOMIgnoringFlatFileItemReaderTest {
-	
+
 	private FlatFileItemReader<FieldSet> flatFileItemReader;
 
 	@Before
@@ -40,22 +40,22 @@ public class BOMIgnoringFlatFileItemReaderTest {
 		lineTokenizer.setDelimiter('\t');
 		lineTokenizer.setNames(new String[] {"foo","bar"});
 		lineTokenizer.setStrict(false);
-		
+
 		DefaultLineMapper<FieldSet> lineMapper = new DefaultLineMapper<FieldSet>();
 		lineMapper.setLineTokenizer(lineTokenizer);
 		lineMapper.setFieldSetMapper(new PassThroughFieldSetMapper());
-		
+
 		flatFileItemReader = new FlatFileItemReader<FieldSet>();
 		flatFileItemReader.setEncoding("UTF-8");
 		flatFileItemReader.setLinesToSkip(0);
 		flatFileItemReader.setLineMapper(lineMapper);
 		flatFileItemReader.setResource(new ClassPathResource("org/emonocot/bom.txt"));
 		flatFileItemReader.setBufferedReaderFactory(new BOMIgnoringBufferedReaderFactory());
-		
+
 		flatFileItemReader.afterPropertiesSet();
 		flatFileItemReader.open(new ExecutionContext());
 	}
-	
+
 	@Test
 	public void test() throws Exception {
 		FieldSet fieldSet = flatFileItemReader.read();

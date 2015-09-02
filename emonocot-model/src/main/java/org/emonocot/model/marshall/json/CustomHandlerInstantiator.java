@@ -46,181 +46,181 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class CustomHandlerInstantiator extends HandlerInstantiator {
-	
+
 	Logger logger = LoggerFactory.getLogger(CustomHandlerInstantiator.class);
 
-    private ReferenceService referenceService;
+	private ReferenceService referenceService;
 
-    private TaxonService taxonService;
+	private TaxonService taxonService;
 
-    private ImageService imageService;
-    
-    private UserService userService;
+	private ImageService imageService;
 
-    private GroupService groupService;
+	private UserService userService;
 
-    private OrganisationService organisationService;
-   
-    private IdentificationKeyService identificationKeyService;
-    
-    private PhylogeneticTreeService phylogeneticTreeService;
-    
-    private ConceptService conceptService;
+	private GroupService groupService;
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+	private OrganisationService organisationService;
 
-    public void setGroupService(GroupService groupService) {
-        this.groupService = groupService;
-    }
+	private IdentificationKeyService identificationKeyService;
 
-    public void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
-    }
+	private PhylogeneticTreeService phylogeneticTreeService;
 
-    public void setTaxonService(TaxonService taxonService) {
-        this.taxonService = taxonService;
-    }
+	private ConceptService conceptService;
 
-    public void setImageService(ImageService imageService) {
-        this.imageService = imageService;
-    }
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
-    public void setOrganisationService(OrganisationService organisationService) {
-        this.organisationService = organisationService;
-    }
-    
-    public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
-        this.identificationKeyService = identificationKeyService;
-    }       
-    
-    public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
+	}
+
+	public void setReferenceService(ReferenceService referenceService) {
+		this.referenceService = referenceService;
+	}
+
+	public void setTaxonService(TaxonService taxonService) {
+		this.taxonService = taxonService;
+	}
+
+	public void setImageService(ImageService imageService) {
+		this.imageService = imageService;
+	}
+
+	public void setOrganisationService(OrganisationService organisationService) {
+		this.organisationService = organisationService;
+	}
+
+	public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
+		this.identificationKeyService = identificationKeyService;
+	}
+
+	public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
-    
-    public void setConceptService(ConceptService conceptService) {
-    	this.conceptService = conceptService;
-    }
+
+	public void setConceptService(ConceptService conceptService) {
+		this.conceptService = conceptService;
+	}
 
 	public CustomHandlerInstantiator() {
-    	
-    }
 
-    @Override
-    public JsonDeserializer<?> deserializerInstance(
-            DeserializationConfig deserializerConfig,
-            Annotated annotated,
-            Class<?> jsonDeserializerClass) {
-    	logger.debug("deserializerInstance " +  deserializerConfig + " " + jsonDeserializerClass);
-        try {
-            if (jsonDeserializerClass.equals(TaxonDeserializer.class)) {
-                TaxonDeserializer taxonDeserializer = TaxonDeserializer.class
-                        .newInstance();
-                taxonDeserializer.setService(taxonService);
-                return taxonDeserializer;
-            } else if (jsonDeserializerClass
-                    .equals(ReferenceDeserializer.class)) {
-                ReferenceDeserializer referenceDeserializer
-                    = ReferenceDeserializer.class.newInstance();
-                referenceDeserializer.setService(referenceService);
-                return referenceDeserializer;
-            } else if (jsonDeserializerClass
-                    .equals(ImageDeserializer.class)) {
-                ImageDeserializer imageDeserializer
-                    = ImageDeserializer.class.newInstance();
-                imageDeserializer.setService(imageService);
-                return imageDeserializer;
-            } else if (jsonDeserializerClass
-                    .equals(UserDeserializer.class)) {
-                UserDeserializer userDeserializer
-                    = UserDeserializer.class.newInstance();
-                userDeserializer.setService(userService);
-                return userDeserializer;
-            } else if (jsonDeserializerClass
-                    .equals(GroupDeserializer.class)) {
-                GroupDeserializer groupDeserializer
-                    = GroupDeserializer.class.newInstance();
-                groupDeserializer.setService(groupService);
-                return groupDeserializer;
-            } else if (jsonDeserializerClass
-                    .equals(OrganisationDeserialiser.class)) {
-                OrganisationDeserialiser sourceDeserializer
-                    = OrganisationDeserialiser.class.newInstance();
-                sourceDeserializer.setService(organisationService);
-                return sourceDeserializer;
-            }   else if (jsonDeserializerClass
-                        .equals(IdentificationKeyDeserializer.class)) {
-                    IdentificationKeyDeserializer identificationKeyDeserializer
-                        = IdentificationKeyDeserializer.class.newInstance();
-                    identificationKeyDeserializer.setService(identificationKeyService);
-                    return identificationKeyDeserializer; 
-            } else if (jsonDeserializerClass
-                    .equals(PhylogeneticTreeDeserializer.class)) {
-            	PhylogeneticTreeDeserializer phylogeneticTreeDeserializer
-                    = PhylogeneticTreeDeserializer.class.newInstance();
-                phylogeneticTreeDeserializer.setService(phylogeneticTreeService);
-                return phylogeneticTreeDeserializer; 
-            } else if (jsonDeserializerClass
-                    .equals(ConceptDeserializer.class)) {
-            	ConceptDeserializer conceptDeserializer
-                    = ConceptDeserializer.class.newInstance();
-                conceptDeserializer.setService(conceptService);
-                return conceptDeserializer; 
-            } else if (jsonDeserializerClass
-                        .equals(PrincipalDeserializer.class)) {
-                    PrincipalDeserializer principalDeserializer
-                        = PrincipalDeserializer.class.newInstance();
-                    principalDeserializer.setUserService(userService);
-                    principalDeserializer.setGroupService(groupService);
-                    return principalDeserializer;
-            } else if (jsonDeserializerClass
-                    .equals(AnnotatableObjectDeserializer.class)) {
-                AnnotatableObjectDeserializer annotatableObjectDeserializer
-                    = AnnotatableObjectDeserializer.class.newInstance();
-                annotatableObjectDeserializer.addService(taxonService);
-                annotatableObjectDeserializer.addService(imageService);
-                annotatableObjectDeserializer.addService(referenceService);
-                annotatableObjectDeserializer.addService(organisationService);
-                return annotatableObjectDeserializer;
-            }
-        } catch (IllegalAccessException iae) {
-            return null;
-        } catch (InstantiationException ie) {
-            return null;
-        }
-        return null;
-    }
+	}
 
-    @Override
-    public KeyDeserializer keyDeserializerInstance(
-            DeserializationConfig deserializationConfig,
-            Annotated annotated,
-            Class<?> keyDeserializerClass) {
-        return null;
-    }
+	@Override
+	public JsonDeserializer<?> deserializerInstance(
+			DeserializationConfig deserializerConfig,
+			Annotated annotated,
+			Class<?> jsonDeserializerClass) {
+		logger.debug("deserializerInstance " +  deserializerConfig + " " + jsonDeserializerClass);
+		try {
+			if (jsonDeserializerClass.equals(TaxonDeserializer.class)) {
+				TaxonDeserializer taxonDeserializer = TaxonDeserializer.class
+						.newInstance();
+				taxonDeserializer.setService(taxonService);
+				return taxonDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(ReferenceDeserializer.class)) {
+				ReferenceDeserializer referenceDeserializer
+				= ReferenceDeserializer.class.newInstance();
+				referenceDeserializer.setService(referenceService);
+				return referenceDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(ImageDeserializer.class)) {
+				ImageDeserializer imageDeserializer
+				= ImageDeserializer.class.newInstance();
+				imageDeserializer.setService(imageService);
+				return imageDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(UserDeserializer.class)) {
+				UserDeserializer userDeserializer
+				= UserDeserializer.class.newInstance();
+				userDeserializer.setService(userService);
+				return userDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(GroupDeserializer.class)) {
+				GroupDeserializer groupDeserializer
+				= GroupDeserializer.class.newInstance();
+				groupDeserializer.setService(groupService);
+				return groupDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(OrganisationDeserialiser.class)) {
+				OrganisationDeserialiser sourceDeserializer
+				= OrganisationDeserialiser.class.newInstance();
+				sourceDeserializer.setService(organisationService);
+				return sourceDeserializer;
+			}   else if (jsonDeserializerClass
+					.equals(IdentificationKeyDeserializer.class)) {
+				IdentificationKeyDeserializer identificationKeyDeserializer
+				= IdentificationKeyDeserializer.class.newInstance();
+				identificationKeyDeserializer.setService(identificationKeyService);
+				return identificationKeyDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(PhylogeneticTreeDeserializer.class)) {
+				PhylogeneticTreeDeserializer phylogeneticTreeDeserializer
+				= PhylogeneticTreeDeserializer.class.newInstance();
+				phylogeneticTreeDeserializer.setService(phylogeneticTreeService);
+				return phylogeneticTreeDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(ConceptDeserializer.class)) {
+				ConceptDeserializer conceptDeserializer
+				= ConceptDeserializer.class.newInstance();
+				conceptDeserializer.setService(conceptService);
+				return conceptDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(PrincipalDeserializer.class)) {
+				PrincipalDeserializer principalDeserializer
+				= PrincipalDeserializer.class.newInstance();
+				principalDeserializer.setUserService(userService);
+				principalDeserializer.setGroupService(groupService);
+				return principalDeserializer;
+			} else if (jsonDeserializerClass
+					.equals(AnnotatableObjectDeserializer.class)) {
+				AnnotatableObjectDeserializer annotatableObjectDeserializer
+				= AnnotatableObjectDeserializer.class.newInstance();
+				annotatableObjectDeserializer.addService(taxonService);
+				annotatableObjectDeserializer.addService(imageService);
+				annotatableObjectDeserializer.addService(referenceService);
+				annotatableObjectDeserializer.addService(organisationService);
+				return annotatableObjectDeserializer;
+			}
+		} catch (IllegalAccessException iae) {
+			return null;
+		} catch (InstantiationException ie) {
+			return null;
+		}
+		return null;
+	}
 
-    @Override
-    public JsonSerializer<?> serializerInstance(
-            SerializationConfig serializationConfig,
-            Annotated annotated,
-            Class<?> jsonSerializerClass) {
-        logger.debug("serializerInstance " +  serializationConfig + " " + annotated + " " + jsonSerializerClass);
-        return null;
-    }
+	@Override
+	public KeyDeserializer keyDeserializerInstance(
+			DeserializationConfig deserializationConfig,
+			Annotated annotated,
+			Class<?> keyDeserializerClass) {
+		return null;
+	}
 
-    @Override
-    public TypeIdResolver typeIdResolverInstance(
-            MapperConfig<?> mapperConfig, Annotated annotated,
-            Class<?> typeIdResolverClass) {
-        return null;
-    }
+	@Override
+	public JsonSerializer<?> serializerInstance(
+			SerializationConfig serializationConfig,
+			Annotated annotated,
+			Class<?> jsonSerializerClass) {
+		logger.debug("serializerInstance " +  serializationConfig + " " + annotated + " " + jsonSerializerClass);
+		return null;
+	}
 
-    @Override
-    public TypeResolverBuilder<?> typeResolverBuilderInstance(
-            MapperConfig<?> mapperConfig, Annotated annotated,
-            Class<?>
-                typeResolverBuilderClass) {
-        return null;
-    }
+	@Override
+	public TypeIdResolver typeIdResolverInstance(
+			MapperConfig<?> mapperConfig, Annotated annotated,
+			Class<?> typeIdResolverClass) {
+		return null;
+	}
+
+	@Override
+	public TypeResolverBuilder<?> typeResolverBuilderInstance(
+			MapperConfig<?> mapperConfig, Annotated annotated,
+			Class<?>
+			typeResolverBuilderClass) {
+		return null;
+	}
 }

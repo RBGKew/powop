@@ -20,40 +20,40 @@ import org.emonocot.model.Taxon;
 
 
 /**
-*
-* @author ben
-*
-*/
+ *
+ * @author ben
+ *
+ */
 public class TaxonRelationship {
 
-   private Taxon from;
+	private Taxon from;
 
-   private String toIdentifier;
-   
-   private String toScientificName;
+	private String toIdentifier;
 
-   private TaxonRelationshipType term;
+	private String toScientificName;
 
-   public TaxonRelationship(Taxon from, TaxonRelationshipType term, String toIdentifier, String toScientificName) {
-       this.from = from;
-       this.toIdentifier = toIdentifier;
-       this.term = term;
-       this.toScientificName = toScientificName;
-   }
+	private TaxonRelationshipType term;
 
-   public TaxonRelationshipType getTerm() {
-       return term;
-   }
+	public TaxonRelationship(Taxon from, TaxonRelationshipType term, String toIdentifier, String toScientificName) {
+		this.from = from;
+		this.toIdentifier = toIdentifier;
+		this.term = term;
+		this.toScientificName = toScientificName;
+	}
 
-    public Taxon getFrom() {
-        return from;
-    }
+	public TaxonRelationshipType getTerm() {
+		return term;
+	}
 
-    public String getToIdentifier() {
-        return toIdentifier;
-    }
-    
-    public String getToScientificName() {
-    	return toScientificName;
-    }
+	public Taxon getFrom() {
+		return from;
+	}
+
+	public String getToIdentifier() {
+		return toIdentifier;
+	}
+
+	public String getToScientificName() {
+		return toScientificName;
+	}
 }

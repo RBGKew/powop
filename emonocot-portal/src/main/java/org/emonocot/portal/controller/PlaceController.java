@@ -28,24 +28,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/place")
 public class PlaceController extends
-        GenericController<Place, PlaceService> {
+GenericController<Place, PlaceService> {
 
-    /**
-     *
-     */
-    public PlaceController() {
-        super("place", Place.class);
-    }
+	/**
+	 *
+	 */
+	public PlaceController() {
+		super("place", Place.class);
+	}
 
-    /**
-     * @param newIdentificationKeyService
-     *            Set the identification key service
-     */
-    @Autowired
-    public final void setPlaceService(
-            final PlaceService placeService) {
-        super.setService(placeService);
-    }
+	/**
+	 * @param newIdentificationKeyService
+	 *            Set the identification key service
+	 */
+	@Autowired
+	public final void setPlaceService(
+			final PlaceService placeService) {
+		super.setService(placeService);
+	}
 
 
 }

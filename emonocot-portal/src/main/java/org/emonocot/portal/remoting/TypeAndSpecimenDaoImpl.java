@@ -34,7 +34,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TypeAndSpecimenDaoImpl extends DaoImpl<TypeAndSpecimen> implements
-		TypeAndSpecimenDao {
+TypeAndSpecimenDao {
 
 	public TypeAndSpecimenDaoImpl() {
 		super(TypeAndSpecimen.class,"typeAndSpecimen");
@@ -45,43 +45,43 @@ public class TypeAndSpecimenDaoImpl extends DaoImpl<TypeAndSpecimen> implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
-    protected Page<TypeAndSpecimen> page(Integer page, Integer size) {
+	protected Page<TypeAndSpecimen> page(Integer page, Integer size) {
 		HttpEntity<TypeAndSpecimen> requestEntity = new HttpEntity<TypeAndSpecimen>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	ParameterizedTypeReference<DefaultPageImpl<TypeAndSpecimen>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<TypeAndSpecimen>>() {};
-        HttpEntity<DefaultPageImpl<TypeAndSpecimen>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();
+		Map<String,Object> uriVariables = new HashMap<String,Object>();
+		uriVariables.put("resource", resourceDir);
+		if(size == null) {
+			uriVariables.put("limit", "");
+		} else {
+			uriVariables.put("limit", size);
+		}
+
+		if(page == null) {
+			uriVariables.put("start", "");
+		} else {
+			uriVariables.put("start", page);
+		}
+
+		ParameterizedTypeReference<DefaultPageImpl<TypeAndSpecimen>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<TypeAndSpecimen>>() {};
+		HttpEntity<DefaultPageImpl<TypeAndSpecimen>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+				requestEntity, typeRef,uriVariables);
+		return responseEntity.getBody();
 	}
 
 	@Override
 	public final List<TypeAndSpecimen> list(final Integer page, final Integer size, final String fetch) {
 		return this.page(page, size).getRecords();
-    }
+	}
 
 	@Override
 	public CellSet analyse(String rows, String cols, Integer firstCol,
 			Integer maxCols, Integer firstRow, Integer maxRows,
 			Map<String, String> selectedFacets, String[] array, Cube cube)
-			throws SolrServerException {
+					throws SolrServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 
 }

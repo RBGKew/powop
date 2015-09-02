@@ -31,13 +31,13 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 public class CopyFileTasklet implements Tasklet {
-	
+
 	Logger logger = LoggerFactory.getLogger(CopyFileTasklet.class);
 
 	private Resource from;
-	
+
 	private FileSystemResource to;
-	
+
 	private boolean append = false;
 
 	public void setFrom(Resource from) {
@@ -47,7 +47,7 @@ public class CopyFileTasklet implements Tasklet {
 	public void setTo(FileSystemResource to) {
 		this.to = to;
 	}
-	
+
 	public void setAppend(boolean append) {
 		this.append = append;
 	}

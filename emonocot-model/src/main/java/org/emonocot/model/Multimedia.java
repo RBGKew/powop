@@ -33,216 +33,216 @@ import org.emonocot.model.constants.MediaType;
 
 /**
  * @author jk00kg
- * 
+ *
  * See <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">http://rs.gbif.org/extension/gbif/1.0/multimedia.xml</a>
  */
 @MappedSuperclass
 public class Multimedia extends SearchableObject implements NonOwned, Media {
 
-    private static final long serialVersionUID = -8178055800655899536L;
+	private static final long serialVersionUID = -8178055800655899536L;
 
-    private String title;
+	private String title;
 
-    private String description;
+	private String description;
 
-    private MediaFormat format;
+	private MediaFormat format;
 
-    private String creator;
+	private String creator;
 
-    private String references;
+	private String references;
 
-    private String contributor;
+	private String contributor;
 
-    private String publisher;
+	private String publisher;
 
-    private String audience;
+	private String audience;
 
-    private String source;
+	private String source;
 
-    private Set<Taxon> taxa = new HashSet<Taxon>();
+	private Set<Taxon> taxa = new HashSet<Taxon>();
 
-    private MediaType type;
+	private MediaType type;
 
-    /**
-     * @return the title
-     */
-    @Size(max = 255)
-    public String getTitle() {
-        return title;
-    }
+	/**
+	 * @return the title
+	 */
+	 @Size(max = 255)
+	 public String getTitle() {
+		 return title;
+	 }
 
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	 /**
+	  * @param title the title to set
+	  */
+	 public void setTitle(String title) {
+		 this.title = title;
+	 }
 
-    /**
-     * @return the description
-     */
-    @Lob
-    public String getDescription() {
-        return description;
-    }
+	 /**
+	  * @return the description
+	  */
+	 @Lob
+	 public String getDescription() {
+		 return description;
+	 }
 
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	 /**
+	  * @param description the description to set
+	  */
+	 public void setDescription(String description) {
+		 this.description = description;
+	 }
 
-    /**
-     * @return the format
-     */
-    @Enumerated(EnumType.STRING)
-    public MediaFormat getFormat() {
-        return format;
-    }
+	 /**
+	  * @return the format
+	  */
+	 @Enumerated(EnumType.STRING)
+	 public MediaFormat getFormat() {
+		 return format;
+	 }
 
-    /**
-     * @param format the format to set
-     */
-    public void setFormat(MediaFormat format) {
-        this.format = format;
-    }
+	 /**
+	  * @param format the format to set
+	  */
+	 public void setFormat(MediaFormat format) {
+		 this.format = format;
+	 }
 
-    /**
-     * @return the taxa
-     */
-    @Transient
-    public Set<Taxon> getTaxa(){
-        return taxa;
-    };
+	 /**
+	  * @return the taxa
+	  */
+	 @Transient
+	 public Set<Taxon> getTaxa(){
+		 return taxa;
+	 };
 
-    /**
-     * @param taxa the taxa to set
-     */
-    public void setTaxa(Set<Taxon> taxa) {
-        this.taxa = taxa;
-    }
+	 /**
+	  * @param taxa the taxa to set
+	  */
+	 public void setTaxa(Set<Taxon> taxa) {
+		 this.taxa = taxa;
+	 }
 
-    /**
-     * @return the creator
-     */
-    @Size(max = 255)
-    public String getCreator() {
-        return creator;
-    }
+	 /**
+	  * @return the creator
+	  */
+	 @Size(max = 255)
+	 public String getCreator() {
+		 return creator;
+	 }
 
-    /**
-     * @param creator the creator to set
-     */
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
+	 /**
+	  * @param creator the creator to set
+	  */
+	 public void setCreator(String creator) {
+		 this.creator = creator;
+	 }
 
-    /**
-     * @return the references
-     */
-    @Column(name = "`references`")
-    @Size(max = 255)
-    public String getReferences() {
-        return references;
-    }
+	 /**
+	  * @return the references
+	  */
+	 @Column(name = "`references`")
+	 @Size(max = 255)
+	 public String getReferences() {
+		 return references;
+	 }
 
-    /**
-     * @param references the references to set
-     */
-    public void setReferences(String references) {
-        this.references = references;
-    }
+	 /**
+	  * @param references the references to set
+	  */
+	 public void setReferences(String references) {
+		 this.references = references;
+	 }
 
-    /**
-     * @return the contributor
-     */
-    @Size(max = 255)
-    public String getContributor() {
-        return contributor;
-    }
+	 /**
+	  * @return the contributor
+	  */
+	 @Size(max = 255)
+	 public String getContributor() {
+		 return contributor;
+	 }
 
-    /**
-     * @param contributor the contributor to set
-     */
-    public void setContributor(String contributor) {
-        this.contributor = contributor;
-    }
+	 /**
+	  * @param contributor the contributor to set
+	  */
+	 public void setContributor(String contributor) {
+		 this.contributor = contributor;
+	 }
 
-    /**
-     * @return the publisher
-     */
-    @Size(max = 255)
-    public String getPublisher() {
-        return publisher;
-    }
+	 /**
+	  * @return the publisher
+	  */
+	 @Size(max = 255)
+	 public String getPublisher() {
+		 return publisher;
+	 }
 
-    /**
-     * @param publisher the publisher to set
-     */
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+	 /**
+	  * @param publisher the publisher to set
+	  */
+	 public void setPublisher(String publisher) {
+		 this.publisher = publisher;
+	 }
 
-    /**
-     * @return the audience
-     */
-    @Size(max = 255)
-    public String getAudience() {
-        return audience;
-    }
+	 /**
+	  * @return the audience
+	  */
+	 @Size(max = 255)
+	 public String getAudience() {
+		 return audience;
+	 }
 
-    /**
-     * @param audience the audience to set
-     */
-    public void setAudience(String audience) {
-        this.audience = audience;
-    }
+	 /**
+	  * @param audience the audience to set
+	  */
+	 public void setAudience(String audience) {
+		 this.audience = audience;
+	 }
 
-    /**
-     * @return the source
-     */
-    public String getSource() {
-        return source;
-    }
+	 /**
+	  * @return the source
+	  */
+	 public String getSource() {
+		 return source;
+	 }
 
-    /**
-     * @param source the source to set
-     */
-    public void setSource(String source) {
-        this.source = source;
-    }
+	 /**
+	  * @param source the source to set
+	  */
+	 public void setSource(String source) {
+		 this.source = source;
+	 }
 
-    @Transient
-    public MediaType getType() {
-        return type;
-    }
+	 @Transient
+	 public MediaType getType() {
+		 return type;
+	 }
 
-    /**
-     * @param mediaType
-     */
-    public void setType(MediaType mediaType) {
-        type = mediaType;
-        
-    }
+	 /**
+	  * @param mediaType
+	  */
+	 public void setType(MediaType mediaType) {
+		 type = mediaType;
 
-    @Override
-    public SolrInputDocument toSolrInputDocument() {
-        SolrInputDocument sid = super.toSolrInputDocument();
-        sid.addField("searchable.label_sort", getTitle());
+	 }
 
-        return sid;
-    }
-    
-    
-    @Transient
-    public Long getId() {
-        return null;
-    }
-    @Transient
-    public Set<Annotation> getAnnotations() {
-        return null;
-    }
-    public void setAnnotations(Set<Annotation> annotations) {}
+	 @Override
+	 public SolrInputDocument toSolrInputDocument() {
+		 SolrInputDocument sid = super.toSolrInputDocument();
+		 sid.addField("searchable.label_sort", getTitle());
+
+		 return sid;
+	 }
+
+
+	 @Transient
+	 public Long getId() {
+		 return null;
+	 }
+	 @Transient
+	 public Set<Annotation> getAnnotations() {
+		 return null;
+	 }
+	 public void setAnnotations(Set<Annotation> annotations) {}
 
 }

@@ -40,19 +40,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class AnnotationDaoImpl extends DaoImpl<Annotation> implements
-        AnnotationDao {
+AnnotationDao {
 
-    /**
-     *
-     */
-    public AnnotationDaoImpl() {
-        super(Annotation.class, "annotation");
-    }
+	/**
+	 *
+	 */
+	public AnnotationDaoImpl() {
+		super(Annotation.class, "annotation");
+	}
 
-    public Page<Annotation> searchByExample(Annotation example, boolean ignoreCase,
-            boolean useLike) {
-        throw new UnsupportedOperationException("Remote searching by example is unimplemented");
-    }
+	public Page<Annotation> searchByExample(Annotation example, boolean ignoreCase,
+			boolean useLike) {
+		throw new UnsupportedOperationException("Remote searching by example is unimplemented");
+	}
 
 	@Override
 	public Annotation findAnnotation(RecordType recordType, Long id, Long jobId) {
@@ -72,34 +72,34 @@ public class AnnotationDaoImpl extends DaoImpl<Annotation> implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	protected Page<Annotation> page(Integer page, Integer size) {
 		HttpEntity<Annotation> requestEntity = new HttpEntity<Annotation>(httpHeaders);
-    	Map<String,Object> uriVariables = new HashMap<String,Object>();
-    	uriVariables.put("resource", resourceDir);
-    	if(size == null) {
-    		uriVariables.put("limit", "");
-    	} else {
-    		uriVariables.put("limit", size);
-    	}
-    	
-    	if(page == null) {
-    		uriVariables.put("start", "");
-    	} else {
-    		uriVariables.put("start", page);
-    	}
-    	
-    	ParameterizedTypeReference<DefaultPageImpl<Annotation>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Annotation>>() {};
-        HttpEntity<DefaultPageImpl<Annotation>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
-                requestEntity, typeRef,uriVariables);
-        return responseEntity.getBody();
+		Map<String,Object> uriVariables = new HashMap<String,Object>();
+		uriVariables.put("resource", resourceDir);
+		if(size == null) {
+			uriVariables.put("limit", "");
+		} else {
+			uriVariables.put("limit", size);
+		}
+
+		if(page == null) {
+			uriVariables.put("start", "");
+		} else {
+			uriVariables.put("start", page);
+		}
+
+		ParameterizedTypeReference<DefaultPageImpl<Annotation>> typeRef = new ParameterizedTypeReference<DefaultPageImpl<Annotation>>() {};
+		HttpEntity<DefaultPageImpl<Annotation>> responseEntity = restTemplate.exchange(baseUri + "/{resource}?limit={limit}&start={start}", HttpMethod.GET,
+				requestEntity, typeRef,uriVariables);
+		return responseEntity.getBody();
 	}
-	
+
 	@Override
-	public final List<Annotation> list(final Integer page, final Integer size, final String fetch) {    	
-        return this.page(page, size).getRecords();
-    }
+	public final List<Annotation> list(final Integer page, final Integer size, final String fetch) {
+		return this.page(page, size).getRecords();
+	}
 
 	@Override
 	public CellSet analyse(String rows, String cols, Integer firstCol,

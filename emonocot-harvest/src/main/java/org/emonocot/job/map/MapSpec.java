@@ -20,23 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapSpec {
-	
+
 	private String layout = "A4 portrait";
-	
+
 	private String title = "";
-	
+
 	private boolean geodetic = false;
-	
+
 	private String srs = "EPSG:3857";
-	
+
 	private int dpi = 300;
-	
+
 	private String units = "m";
-	
+
 	private String outputFormat = "png";
-	
+
 	private List<Layer> layers = new ArrayList<Layer>();
-	
+
 	private List<Page> pages = new ArrayList<Page>();
 
 	public String getLayout() {
@@ -110,5 +110,5 @@ public class MapSpec {
 	public void setGeodetic(boolean geodetic) {
 		this.geodetic = geodetic;
 	}
-	
+
 }

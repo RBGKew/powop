@@ -27,49 +27,49 @@ import org.emonocot.model.Taxon;
  */
 public class AlphabeticalTaxonComparator implements Comparator<Taxon> {
 
-    /**
-     * @param o1
-     *            the first taxon
-     * @param o2
-     *            the second taxon
-     * @return -1 if o1 comes before o2, 1 if o1 comes after o2 and 0 if the two
-     *         regions are equal
-     */
-    public final int compare(final Taxon o1, final Taxon o2) {
-        int o = 0;
-        /**
-         * Nulls last
-         */
-        if (o1.getScientificName() == null) {
-            if (o1.getScientificName() != o2.getScientificName()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        } else if (o2.getScientificName() == null) {
-            return -1;
-        } else {
-            o = o1.getScientificName().compareTo(o2.getScientificName());
-        }
+	/**
+	 * @param o1
+	 *            the first taxon
+	 * @param o2
+	 *            the second taxon
+	 * @return -1 if o1 comes before o2, 1 if o1 comes after o2 and 0 if the two
+	 *         regions are equal
+	 */
+	public final int compare(final Taxon o1, final Taxon o2) {
+		int o = 0;
+		/**
+		 * Nulls last
+		 */
+		if (o1.getScientificName() == null) {
+			if (o1.getScientificName() != o2.getScientificName()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} else if (o2.getScientificName() == null) {
+			return -1;
+		} else {
+			o = o1.getScientificName().compareTo(o2.getScientificName());
+		}
 
-        /**
-         * Homonyms
-         */
-        if (o == 0) {
-            if (o1.getScientificNameAuthorship() == null) {
-                if (o1.getScientificNameAuthorship() != o2.getScientificNameAuthorship()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } else if (o2.getScientificNameAuthorship() == null) {
-                return -1;
-            } else {
-                return o1.getScientificNameAuthorship().compareTo(o2.getScientificNameAuthorship());
-            }
-        } else {
-            return o;
-        }
-    }
+		/**
+		 * Homonyms
+		 */
+		if (o == 0) {
+			if (o1.getScientificNameAuthorship() == null) {
+				if (o1.getScientificNameAuthorship() != o2.getScientificNameAuthorship()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			} else if (o2.getScientificNameAuthorship() == null) {
+				return -1;
+			} else {
+				return o1.getScientificNameAuthorship().compareTo(o2.getScientificNameAuthorship());
+			}
+		} else {
+			return o;
+		}
+	}
 
 }

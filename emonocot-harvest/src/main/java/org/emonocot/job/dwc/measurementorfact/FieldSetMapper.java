@@ -34,74 +34,74 @@ import org.springframework.validation.BindException;
  *
  */
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<MeasurementOrFact> {
-	
-    /**
-     *
-     */
-    public FieldSetMapper() {
-        super(MeasurementOrFact.class);
-    }
-    
-    /**
-    *
-    */
-    private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
-    @Override
-    public final void mapField(final MeasurementOrFact object,
-            final String fieldName, final String value) throws BindException {
-    	super.mapField(object, fieldName, value);
-    	
-        Term term = getTermFactory().findTerm(fieldName);
-        logger.info("Mapping " + fieldName + " " + " " + value + " to "
-                + object);
-        if (term instanceof DcTerm) {
-            DcTerm dcTerm = (DcTerm) term;
-            switch (dcTerm) {
-            case bibliographicCitation:
-                object.setBibliographicCitation(value);
-                break;
-            case source:
-                object.setSource(value);
-                break;
-            default:
-                break;
-            }
-        }
+	/**
+	 *
+	 */
+	public FieldSetMapper() {
+		super(MeasurementOrFact.class);
+	}
 
-        // DwcTerms
-        if (term instanceof DwcTerm) {
-            DwcTerm dwcTerm = (DwcTerm) term;
-            switch (dwcTerm) {
-            case measurementAccuracy:
-            	object.setMeasurementAccuracy(value);
-            	break;
-            case measurementDeterminedBy:
-            	object.setMeasurementDeterminedBy(value);
-            	break;
-            case measurementDeterminedDate:
-            	object.setMeasurementDeterminedDate(conversionService.convert(value, DateTime.class));
-            	break;
-            case measurementMethod:
-            	object.setMeasurementMethod(value);
-            	break;
-            case measurementRemarks:
-            	object.setMeasurementRemarks(value);
-            	break;
-            case measurementType:
-            	object.setMeasurementType(conversionService.convert(value, Term.class));
-            	break;
-            case measurementUnit:
-            	object.setMeasurementUnit(conversionService.convert(value,MeasurementUnit.class));
-            	break;
-            case measurementValue:
-            	object.setMeasurementValue(value);
-            	break;
-            case measurementID:
-            	object.setIdentifier(value);
-            default:
-            	break;
-            }
-        }
-    }
+	/**
+	 *
+	 */
+	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
+
+	@Override
+	public final void mapField(final MeasurementOrFact object,
+			final String fieldName, final String value) throws BindException {
+		super.mapField(object, fieldName, value);
+
+		Term term = getTermFactory().findTerm(fieldName);
+		logger.info("Mapping " + fieldName + " " + " " + value + " to "
+				+ object);
+		if (term instanceof DcTerm) {
+			DcTerm dcTerm = (DcTerm) term;
+			switch (dcTerm) {
+			case bibliographicCitation:
+				object.setBibliographicCitation(value);
+				break;
+			case source:
+				object.setSource(value);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// DwcTerms
+		if (term instanceof DwcTerm) {
+			DwcTerm dwcTerm = (DwcTerm) term;
+			switch (dwcTerm) {
+			case measurementAccuracy:
+				object.setMeasurementAccuracy(value);
+				break;
+			case measurementDeterminedBy:
+				object.setMeasurementDeterminedBy(value);
+				break;
+			case measurementDeterminedDate:
+				object.setMeasurementDeterminedDate(conversionService.convert(value, DateTime.class));
+				break;
+			case measurementMethod:
+				object.setMeasurementMethod(value);
+				break;
+			case measurementRemarks:
+				object.setMeasurementRemarks(value);
+				break;
+			case measurementType:
+				object.setMeasurementType(conversionService.convert(value, Term.class));
+				break;
+			case measurementUnit:
+				object.setMeasurementUnit(conversionService.convert(value,MeasurementUnit.class));
+				break;
+			case measurementValue:
+				object.setMeasurementValue(value);
+				break;
+			case measurementID:
+				object.setIdentifier(value);
+			default:
+				break;
+			}
+		}
+	}
 }

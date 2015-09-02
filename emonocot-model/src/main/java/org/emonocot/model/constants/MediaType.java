@@ -22,63 +22,63 @@ package org.emonocot.model.constants;
  */
 public enum MediaType {
 
-    /**
-     * 
-     */
-    Collection,
+	/**
+	 *
+	 */
+	Collection,
 
-    /**
-     * 
-     */
-    Dataset,
-    
-    /**
-     * 
-     */
-    Event,
-    
-    /**
-     * 
-     */
-    Image,
-    
-    /**
-     * 
-     */
-    InteractiveResource,
-    
-    /**
-     * 
-     */
-    Service,
-    
-    /**
-     * 
-     */
-    Software,
-    
-    /**
-     * 
-     */
-    Sound,
-    
-    /**
-     * 
-     */
-    Text,
-    
-    /**
-     * 
-     */
-    PhysicalObject,
-    
-    /**
-     * 
-     */
-    StillImage,
-    
-    /**
-     * 
-     */
-    MovingImage;
+	/**
+	 *
+	 */
+	Dataset,
+
+	/**
+	 *
+	 */
+	Event,
+
+	/**
+	 *
+	 */
+	Image,
+
+	/**
+	 *
+	 */
+	InteractiveResource,
+
+	/**
+	 *
+	 */
+	Service,
+
+	/**
+	 *
+	 */
+	Software,
+
+	/**
+	 *
+	 */
+	Sound,
+
+	/**
+	 *
+	 */
+	Text,
+
+	/**
+	 *
+	 */
+	PhysicalObject,
+
+	/**
+	 *
+	 */
+	StillImage,
+
+	/**
+	 *
+	 */
+	MovingImage;
 }

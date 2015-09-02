@@ -23,25 +23,25 @@ package org.emonocot.portal.rows;
  */
 public class JobInstanceRow {
 
-    /**
-     *
-     */
-    public String jobId;
+	/**
+	 *
+	 */
+	public String jobId;
 
-    /**
-     *
-     */
-    public String version;
+	/**
+	 *
+	 */
+	public String version;
 
-    /**
-     *
-     */
-    public String jobName;
+	/**
+	 *
+	 */
+	public String jobName;
 
-    /**
-     *
-     */
-    public String authorityName;
+	/**
+	 *
+	 */
+	public String authorityName;
 
 
 }

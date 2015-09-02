@@ -18,7 +18,7 @@ package org.emonocot.api.autocomplete;
 
 public class Match {
 	private String label;
-	
+
 	private String value;
 
 	/**
@@ -48,7 +48,7 @@ public class Match {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	
+
+
 
 }

@@ -28,14 +28,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TypeAndSpecimenDaoImpl extends SearchableDaoImpl<TypeAndSpecimen> implements
-		TypeAndSpecimenDao {
+TypeAndSpecimenDao {
 
 	private static Map<String, Fetch[]> FETCH_PROFILES;
-	
+
 	static {
-	       FETCH_PROFILES = new HashMap<String, Fetch[]>();
+		FETCH_PROFILES = new HashMap<String, Fetch[]>();
 	}
-	
+
 	public TypeAndSpecimenDaoImpl() {
 		super(TypeAndSpecimen.class);
 	}
@@ -48,11 +48,11 @@ public class TypeAndSpecimenDaoImpl extends SearchableDaoImpl<TypeAndSpecimen> i
 	@Override
 	public TypeAndSpecimen findByCatalogNumber(String catalogNumber) {
 		Criteria criteria = getSession().createCriteria(type).add(Restrictions.eq("catalogNumber", catalogNumber));
-        return (TypeAndSpecimen) criteria.uniqueResult();
+		return (TypeAndSpecimen) criteria.uniqueResult();
 	}
-	
+
 	@Override
-    protected boolean isSearchableObject() {
+	protected boolean isSearchableObject() {
 		return false;
 	}
 

@@ -41,108 +41,108 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class Processor extends OwnedEntityProcessor<Description, DescriptionService> {
-	
-    private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
-    
-    private Logger logger = LoggerFactory.getLogger(Processor.class);
-    
-    private ReferenceService referenceService;
+
+	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
+
+	private Logger logger = LoggerFactory.getLogger(Processor.class);
+
+	private ReferenceService referenceService;
 
 
-   @Autowired
-   public void setReferenceService(ReferenceService referenceService) {
-       this.referenceService = referenceService;
-   }
-   
-    @Autowired
+	@Autowired
+	public void setReferenceService(ReferenceService referenceService) {
+		this.referenceService = referenceService;
+	}
+
+	@Autowired
 	public void setDescriptionService(DescriptionService service) {
 		super.service = service;
 	}
- 
-    @Override
-    protected void doValidate(Description t) {
-    	if (t.getType() == null) {
-            throw new RequiredFieldException("Description " + t + " at line " + getLineNumber()  + " has no Feature set", RecordType.Description, getStepExecution().getReadCount());
-        }
-        
-        if (t.getDescription() == null || t.getDescription().length() == 0) {
-            throw new RequiredFieldException("Description " + t + " at line " + getLineNumber() + " has no Content set", RecordType.Description, getStepExecution().getReadCount());
-        }
-    }
 
-    @Override
-    protected void doUpdate(Description persisted, Description t) {
-    	persisted.setAudience(t.getAudience());
-    	persisted.setContributor(t.getContributor());
-    	persisted.setCreator(t.getCreator());
-    	persisted.setDescription(t.getDescription());
-    	persisted.setLanguage(t.getLanguage());
-    	persisted.setSource(t.getSource());
-    	persisted.setType(t.getType());
-        
-        persisted.getReferences().clear();
-        for(Reference r : t.getReferences()) {
-            resolveReference(persisted,r.getIdentifier());
-        }
-    }
-    
-    @Override
-	protected void doCreate(Description t) {
-    	Set<Reference> references = new HashSet<Reference>();
-    	references.addAll(t.getReferences());
-    	t.getReferences().clear();
-    	
-        for(Reference r : references) {
-            resolveReference(t,r.getIdentifier());
-        }
+	@Override
+	protected void doValidate(Description t) {
+		if (t.getType() == null) {
+			throw new RequiredFieldException("Description " + t + " at line " + getLineNumber()  + " has no Feature set", RecordType.Description, getStepExecution().getReadCount());
+		}
+
+		if (t.getDescription() == null || t.getDescription().length() == 0) {
+			throw new RequiredFieldException("Description " + t + " at line " + getLineNumber() + " has no Content set", RecordType.Description, getStepExecution().getReadCount());
+		}
 	}
 
-    @Override
-    protected RecordType getRecordType() {
-	    return RecordType.Description;
-    }
-    
-    @Override
-    public void afterChunk() {
-    	super.afterChunk();
-        logger.info("After Chunk");
-    }
-    
-    /**
-    *
-    * @param object
-    *            Set the text content object
-    * @param value
-    *            the source of the reference to resolve
-    */
-   private void resolveReference(Description object, String value) {
-       if (value == null || value.trim().length() == 0) {
-           // there is not citation identifier
-           return;
-       } else {
-           if (boundReferences.containsKey(value)) {
-               object.getReferences().add(boundReferences.get(value));
-           } else {
-               Reference r = referenceService.find(value);
-               if (r == null) {
-                   r = new Reference();
-                   r.setIdentifier(value);
-                   Annotation annotation = super.createAnnotation(r,
-                           RecordType.Reference, AnnotationCode.Create,
-                           AnnotationType.Info);
-                   r.getAnnotations().add(annotation);
-                   r.setAuthority(getSource());
-               }
-               boundReferences.put(value, r);
-               object.getReferences().add(r);
-           }
-       }
-   }
+	@Override
+	protected void doUpdate(Description persisted, Description t) {
+		persisted.setAudience(t.getAudience());
+		persisted.setContributor(t.getContributor());
+		persisted.setCreator(t.getCreator());
+		persisted.setDescription(t.getDescription());
+		persisted.setLanguage(t.getLanguage());
+		persisted.setSource(t.getSource());
+		persisted.setType(t.getType());
 
-    @Override
-    public void beforeChunk() {
-    	super.beforeChunk();
-        logger.info("Before Chunk");
-        boundReferences = new HashMap<String, Reference>();
-    }
+		persisted.getReferences().clear();
+		for(Reference r : t.getReferences()) {
+			resolveReference(persisted,r.getIdentifier());
+		}
+	}
+
+	@Override
+	protected void doCreate(Description t) {
+		Set<Reference> references = new HashSet<Reference>();
+		references.addAll(t.getReferences());
+		t.getReferences().clear();
+
+		for(Reference r : references) {
+			resolveReference(t,r.getIdentifier());
+		}
+	}
+
+	@Override
+	protected RecordType getRecordType() {
+		return RecordType.Description;
+	}
+
+	@Override
+	public void afterChunk() {
+		super.afterChunk();
+		logger.info("After Chunk");
+	}
+
+	/**
+	 *
+	 * @param object
+	 *            Set the text content object
+	 * @param value
+	 *            the source of the reference to resolve
+	 */
+	private void resolveReference(Description object, String value) {
+		if (value == null || value.trim().length() == 0) {
+			// there is not citation identifier
+			return;
+		} else {
+			if (boundReferences.containsKey(value)) {
+				object.getReferences().add(boundReferences.get(value));
+			} else {
+				Reference r = referenceService.find(value);
+				if (r == null) {
+					r = new Reference();
+					r.setIdentifier(value);
+					Annotation annotation = super.createAnnotation(r,
+							RecordType.Reference, AnnotationCode.Create,
+							AnnotationType.Info);
+					r.getAnnotations().add(annotation);
+					r.setAuthority(getSource());
+				}
+				boundReferences.put(value, r);
+				object.getReferences().add(r);
+			}
+		}
+	}
+
+	@Override
+	public void beforeChunk() {
+		super.beforeChunk();
+		logger.info("Before Chunk");
+		boundReferences = new HashMap<String, Reference>();
+	}
 }

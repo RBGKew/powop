@@ -23,16 +23,16 @@ package org.emonocot.model;
  */
 public interface Identifiable {
 
-    /**
-     *
-     * @return the identifier
-     */
-    String getIdentifier();
+	/**
+	 *
+	 * @return the identifier
+	 */
+	String getIdentifier();
 
-    /**
-     *
-     * @param identifier Set the identifier
-     */
-    void setIdentifier(String identifier);
+	/**
+	 *
+	 * @param identifier Set the identifier
+	 */
+	void setIdentifier(String identifier);
 
 }

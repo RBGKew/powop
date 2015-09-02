@@ -33,38 +33,38 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.util.Assert;
 
 public class DwcFieldExtractor implements FieldExtractor<BaseData> {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(DwcFieldExtractor.class);
-	
+
 	private String[] names;
-	
+
 	private String extension;
-	
+
 	private Character quoteCharacter;
-	
+
 	private TermFactory termFactory = new TermFactory();
-	
-    private ConversionService conversionService;
-    
-    public void setQuoteCharacter(Character quoteCharacter) {
-    	this.quoteCharacter = quoteCharacter;
-    }
-    
-    public void setConversionService(ConversionService conversionService) {
-    	this.conversionService = conversionService;
-    }
-	
+
+	private ConversionService conversionService;
+
+	public void setQuoteCharacter(Character quoteCharacter) {
+		this.quoteCharacter = quoteCharacter;
+	}
+
+	public void setConversionService(ConversionService conversionService) {
+		this.conversionService = conversionService;
+	}
+
 	public void setNames(String[] names) {
 		Assert.notNull(names, "Names must be non-null");
 		this.names = names;
 	}
-	
+
 	public void setExtension(String extension) {
 		Assert.notNull(extension, "Extension must be non-null");
 		this.extension = extension;
 	}
-	
-	
+
+
 	@Override
 	public Object[] extract(BaseData item) {
 		Object[] values = new Object[names.length];
@@ -74,26 +74,26 @@ public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 		for(int i = 0; i < names.length; i++) {
 			String property = names[i];
 			Term propertyTerm = termFactory.findTerm(property);
-		    String propertyName = propertyMap.get(propertyTerm);
-		     try {
-		    	 String value = conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class);
-		    	 if(quoteCharacter == null) {
-		    	     values[i] = value;
-		    	 } else if(value != null) {
-		    		 values[i] = new StringBuilder().append(quoteCharacter).append(value).append(quoteCharacter).toString();
-		    	 } else {
-		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
-		    	 }
-		     } catch(PropertyAccessException pae) {
-		    	 if(quoteCharacter != null) {
-		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
-		    	 }
-		     } catch(NullValueInNestedPathException nvinpe) {
-		    	 if(quoteCharacter != null) {
-		    		 values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
-		    	 }
-		     }
-		     
+			String propertyName = propertyMap.get(propertyTerm);
+			try {
+				String value = conversionService.convert(beanWrapper.getPropertyValue(propertyName), String.class);
+				if(quoteCharacter == null) {
+					values[i] = value;
+				} else if(value != null) {
+					values[i] = new StringBuilder().append(quoteCharacter).append(value).append(quoteCharacter).toString();
+				} else {
+					values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
+				}
+			} catch(PropertyAccessException pae) {
+				if(quoteCharacter != null) {
+					values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
+				}
+			} catch(NullValueInNestedPathException nvinpe) {
+				if(quoteCharacter != null) {
+					values[i] = new StringBuilder().append(quoteCharacter).append(quoteCharacter).toString();
+				}
+			}
+
 		}
 		return values;
 	}

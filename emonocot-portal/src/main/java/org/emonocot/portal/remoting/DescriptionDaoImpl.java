@@ -22,11 +22,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DescriptionDaoImpl extends DaoImpl<Description> implements
-		DescriptionDao {
+DescriptionDao {
 
 	public DescriptionDaoImpl() {
 		super(Description.class, "description");
 	}
 
-	
+
 }

@@ -35,24 +35,24 @@ import org.springframework.core.io.ResourceEditor;
  */
 public class FileConverter implements Converter<String, File> {
 
-    /**
-     *
-     */
-    private ResourceEditor editor = new ResourceEditor();
+	/**
+	 *
+	 */
+	private ResourceEditor editor = new ResourceEditor();
 
-    /**
-     * @param text Set the value
-     * @return a file
-     */
-    public final File convert(final String text) {
-        editor.setAsText(text);
-        try {
-            return ((Resource) editor.getValue()).getFile();
-        } catch (IOException e) {
-            throw new ConversionFailedException(
-                    TypeDescriptor.valueOf(String.class),
-                    TypeDescriptor.valueOf(File.class), text, e);
-        }
-    }
+	/**
+	 * @param text Set the value
+	 * @return a file
+	 */
+	public final File convert(final String text) {
+		editor.setAsText(text);
+		try {
+			return ((Resource) editor.getValue()).getFile();
+		} catch (IOException e) {
+			throw new ConversionFailedException(
+					TypeDescriptor.valueOf(String.class),
+					TypeDescriptor.valueOf(File.class), text, e);
+		}
+	}
 
 }
