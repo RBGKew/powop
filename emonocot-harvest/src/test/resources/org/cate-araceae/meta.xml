@@ -48,7 +48,7 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <files>
       <location>description.txt</location>
     </files>
-    <coreId index="0" />
+    <coreid index="0" />
     <field index="1" term="http://purl.org/dc/terms/identifier"/>
     <field index="2" term="http://purl.org/dc/terms/type"/>
     <field index="3" term="http://purl.org/dc/terms/references"/>
@@ -71,7 +71,7 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <files>
       <location>distribution.txt</location>
     </files>
-    <coreId index="0" />
+    <coreid index="0" />
     <field index="1" term="http://purl.org/dc/terms/identifier"/>
     <field index="2" term="http://purl.org/dc/terms/type"/>
     <field index="3" term="http://purl.org/dc/terms/references"/>
@@ -95,7 +95,7 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <files>
       <location>typesAndSpecimen.txt</location>
     </files>
-    <coreId index="0" />
+    <coreid index="0" />
     <field index="1" term="http://purl.org/dc/terms/identifier"/>
     <field index="2" term="http://rs.tdwg.org/dwc/terms/typeStatus"/>
     <field index="3" term="http://purl.org/dc/terms/references"/>
@@ -130,7 +130,7 @@ xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/t
     <files>
       <location>images.txt</location>
     </files>
-    <coreId index="0" />
+    <coreid index="0" />
     <field index="1" term="http://purl.org/dc/terms/identifier"/>
     <field index="2" term="http://purl.org/dc/terms/title"/>
     <field index="3" term="http://purl.org/dc/terms/creator"/>
