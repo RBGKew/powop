@@ -27,10 +27,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
-import org.apache.http.params.BasicHttpParams;
 import org.easymock.EasyMock;
 import org.emonocot.harvest.common.GetResourceClient;
 import org.junit.Before;
@@ -47,27 +47,21 @@ import org.xml.sax.SAXException;
  */
 public class GetResourceClientTest {
 
-	/**
-	 *
-	 */
-	private GetResourceClient getResourceClient = new GetResourceClient();
-	/**
-	 *
-	 */
+	private GetResourceClient getResourceClient = new GetResourceClientMockedHttp();
+
 	private HttpClient httpClient = EasyMock.createMock(HttpClient.class);
-	/**
-	 *
-	 */
-	private BasicHttpResponse httpResponse = new BasicHttpResponse(
-			new BasicStatusLine(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "OK"));
-	/**
-	 *
-	 */
-	private Resource content = new ClassPathResource(
-			"/org/emonocot/job/common/dwc.zip");
+
+	private BasicHttpResponse httpResponse = new BasicHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "OK"));
+
+	private Resource content = new ClassPathResource("/org/emonocot/job/common/dwc.zip");
 
 	// Only a mock URL.
 	private final String testzip = "http://build.e-monocot.org/test/test.zip";
+
+	private class GetResourceClientMockedHttp extends GetResourceClient {
+		@Override
+		public void prepareHttpClient() { }
+	}
 
 	/**
 	 *
@@ -78,7 +72,7 @@ public class GetResourceClientTest {
 	public final void setUp() throws IOException {
 		getResourceClient.setHttpClient(httpClient);
 		httpResponse.setEntity(new FileEntity(content.getFile(),
-				"application/zip"));
+				ContentType.create("application/zip")));
 	}
 
 	/**
@@ -95,8 +89,6 @@ public class GetResourceClientTest {
 		File tempFile = File.createTempFile("test", "zip");
 		tempFile.deleteOnExit();
 
-		EasyMock.expect(httpClient.getParams())
-		.andReturn(new BasicHttpParams());
 		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
 		.andReturn(httpResponse);
 		EasyMock.replay(httpClient);
@@ -126,8 +118,6 @@ public class GetResourceClientTest {
 		httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
 				HttpStatus.SC_NOT_MODIFIED, "Not Modified"));
 
-		EasyMock.expect(httpClient.getParams())
-		.andReturn(new BasicHttpParams());
 		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
 		.andReturn(httpResponse);
 		EasyMock.replay(httpClient);
@@ -157,8 +147,6 @@ public class GetResourceClientTest {
 		httpResponse.setStatusLine(new BasicStatusLine(HttpVersion.HTTP_1_0,
 				HttpStatus.SC_BAD_REQUEST, "Bad Request"));
 
-		EasyMock.expect(httpClient.getParams())
-		.andReturn(new BasicHttpParams());
 		EasyMock.expect(httpClient.execute(EasyMock.isA(HttpGet.class)))
 		.andReturn(httpResponse).anyTimes();
 		EasyMock.replay(httpClient);
