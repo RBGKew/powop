@@ -18,12 +18,13 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
+import org.emonocot.api.job.TermFactory;
+import org.gbif.dwc.terms.Term;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.Term;
 
 
 public class TermDeserializer extends JsonDeserializer<Term> {

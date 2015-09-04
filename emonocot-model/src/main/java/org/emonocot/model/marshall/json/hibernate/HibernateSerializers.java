@@ -16,23 +16,21 @@
  */
 package org.emonocot.model.marshall.json.hibernate;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.emonocot.model.marshall.json.hibernate.HibernateModule.Feature;
 import org.hibernate.collection.PersistentCollection;
-import org.hibernate.collection.PersistentMap;
 import org.hibernate.proxy.HibernateProxy;
 
 import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.databind.ser.*;
 
 public class HibernateSerializers extends Serializers.Base
 {

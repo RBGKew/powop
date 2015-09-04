@@ -18,14 +18,11 @@ package org.emonocot.portal.view;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.gbif.ecat.voc.Rank;
-import org.junit.Test;
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
+import org.gbif.ecat.voc.Rank;
+import org.junit.Test;
 
 public class FunctionsTest {
 

@@ -38,20 +38,16 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.constants.Location;
+import org.emonocot.model.marshall.json.ConceptDeserializer;
+import org.emonocot.model.marshall.json.ConceptSerializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.NullDeserializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
-import org.emonocot.model.marshall.json.ConceptDeserializer;
-import org.emonocot.model.marshall.json.ConceptSerializer;
 import org.emonocot.pager.FacetName;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.ecat.voc.NomenclaturalCode;
@@ -63,6 +59,11 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @author ben

@@ -19,13 +19,14 @@ package org.emonocot.portal.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.marshall.json.CustomObjectMapperFactory;
 import org.emonocot.portal.controller.form.AceDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.acls.domain.BasePermission;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AceDtoConversionTest {
 

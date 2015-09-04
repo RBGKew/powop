@@ -18,10 +18,11 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
+import org.emonocot.model.Base;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.emonocot.model.Base;
 
 /**
  *

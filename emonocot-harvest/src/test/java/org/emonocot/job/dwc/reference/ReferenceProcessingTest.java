@@ -17,8 +17,8 @@
 package org.emonocot.job.dwc.reference;
 
 import org.easymock.EasyMock;
-import org.emonocot.api.ReferenceService;
 import org.emonocot.api.OrganisationService;
+import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;

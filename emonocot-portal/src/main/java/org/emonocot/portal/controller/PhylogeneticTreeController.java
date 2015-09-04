@@ -17,7 +17,6 @@
 package org.emonocot.portal.controller;
 
 import org.emonocot.api.PhylogeneticTreeService;
-import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.PhylogeneticTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

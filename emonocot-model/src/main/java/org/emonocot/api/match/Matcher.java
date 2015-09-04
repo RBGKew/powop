@@ -18,8 +18,6 @@ package org.emonocot.api.match;
 
 import java.util.List;
 
-import org.emonocot.api.match.Match;
-
 /**
  * @author jk00kg
  */

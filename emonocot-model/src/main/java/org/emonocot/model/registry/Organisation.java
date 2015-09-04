@@ -32,7 +32,6 @@ import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Searchable;
@@ -44,6 +43,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Class that represents the authority an object is harvested from.

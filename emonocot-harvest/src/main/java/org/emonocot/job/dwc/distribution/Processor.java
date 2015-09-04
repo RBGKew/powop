@@ -33,7 +33,6 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

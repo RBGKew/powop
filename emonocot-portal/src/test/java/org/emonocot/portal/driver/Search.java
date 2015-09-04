@@ -19,13 +19,11 @@ package org.emonocot.portal.driver;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.portal.remoting.ImageDaoImpl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *

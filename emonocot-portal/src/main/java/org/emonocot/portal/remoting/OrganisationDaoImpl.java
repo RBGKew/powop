@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
-import org.emonocot.model.Image;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;

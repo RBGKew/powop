@@ -25,10 +25,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
-
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.text.Archive;
 import org.gbif.dwc.text.ArchiveField;
 import org.gbif.dwc.text.ArchiveFile;

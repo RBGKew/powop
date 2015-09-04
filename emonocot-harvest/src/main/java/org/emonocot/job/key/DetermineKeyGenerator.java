@@ -16,8 +16,6 @@
  */
 package org.emonocot.job.key;
 
-import org.emonocot.job.gbif.GbifResponse;
-import org.emonocot.job.gbif.HasMoreRecords;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;

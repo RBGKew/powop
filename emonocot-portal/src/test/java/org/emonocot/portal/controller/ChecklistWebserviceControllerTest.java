@@ -24,7 +24,6 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.DefaultPageImpl;
-import org.emonocot.portal.controller.ChecklistWebserviceController;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataRetrievalFailureException;

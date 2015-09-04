@@ -18,9 +18,10 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
+import org.emonocot.model.IdentificationKey;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import org.emonocot.model.IdentificationKey;
 
 /**
  *

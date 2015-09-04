@@ -23,11 +23,11 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.IucnTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
 public class TermFactory {

@@ -32,21 +32,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.constants.MeasurementUnit;
-import org.emonocot.model.marshall.json.TermDeserializer;
-import org.emonocot.model.marshall.json.TermSerializer;
 import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
+import org.emonocot.model.marshall.json.TermDeserializer;
+import org.emonocot.model.marshall.json.TermSerializer;
 import org.gbif.dwc.terms.Term;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 public class MeasurementOrFact extends OwnedEntity {

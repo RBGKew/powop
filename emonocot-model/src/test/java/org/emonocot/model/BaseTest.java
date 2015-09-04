@@ -24,9 +24,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.easymock.EasyMock;
-import org.emonocot.model.Annotation;
-import org.emonocot.model.Identifiable;
-import org.emonocot.model.SecuredObject;
 import org.hibernate.engine.PersistenceContext;
 import org.hibernate.engine.SessionFactoryImplementor;
 import org.hibernate.engine.SessionImplementor;

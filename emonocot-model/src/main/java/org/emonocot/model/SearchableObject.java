@@ -22,9 +22,10 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *

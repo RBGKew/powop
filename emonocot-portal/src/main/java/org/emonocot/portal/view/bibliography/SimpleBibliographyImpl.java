@@ -23,13 +23,12 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.collections.comparators.NullComparator;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
 import org.emonocot.model.compare.ReferenceComparator;
 
 /**

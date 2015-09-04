@@ -19,13 +19,12 @@ package org.emonocot.job.dwc.measurementorfact;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.MeasurementUnit;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.validation.BindException;
 
 /**

@@ -31,9 +31,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
@@ -47,6 +44,10 @@ import org.emonocot.model.registry.Organisation;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  *

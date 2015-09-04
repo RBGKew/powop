@@ -23,13 +23,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.System;
-
 
 import org.apache.commons.lang.ObjectUtils;
 import org.emonocot.portal.driver.About;

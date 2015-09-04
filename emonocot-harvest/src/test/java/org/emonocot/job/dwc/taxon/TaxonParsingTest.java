@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
-import org.emonocot.job.dwc.taxon.FieldSetMapper;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.convert.NomenclaturalStatusConverter;
 import org.emonocot.model.convert.RankConverter;

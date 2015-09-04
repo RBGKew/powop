@@ -16,8 +16,6 @@
  */
 package org.emonocot.job.map;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class WMSLayer extends Layer {
 

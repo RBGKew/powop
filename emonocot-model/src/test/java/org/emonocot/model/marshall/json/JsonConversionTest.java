@@ -27,9 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
-
 import org.easymock.EasyMock;
 import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
@@ -65,6 +62,8 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.DefaultCoordinateSequenceFactory;
 import com.vividsolutions.jts.geom.GeometryFactory;

@@ -31,9 +31,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.emonocot.model.marshall.json.GroupDeserializer;
 import org.emonocot.model.marshall.json.GroupSerializer;
 import org.hibernate.annotations.Cascade;
@@ -43,6 +40,10 @@ import org.hibernate.validator.constraints.URL;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  *

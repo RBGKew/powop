@@ -16,6 +16,18 @@
  */
 package org.emonocot.model.marshall.json;
 
+import org.emonocot.api.ConceptService;
+import org.emonocot.api.GroupService;
+import org.emonocot.api.IdentificationKeyService;
+import org.emonocot.api.ImageService;
+import org.emonocot.api.OrganisationService;
+import org.emonocot.api.PhylogeneticTreeService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
+import org.emonocot.api.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -26,18 +38,6 @@ import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
-
-import org.emonocot.api.ConceptService;
-import org.emonocot.api.GroupService;
-import org.emonocot.api.IdentificationKeyService;
-import org.emonocot.api.ImageService;
-import org.emonocot.api.PhylogeneticTreeService;
-import org.emonocot.api.ReferenceService;
-import org.emonocot.api.OrganisationService;
-import org.emonocot.api.TaxonService;
-import org.emonocot.api.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**

@@ -16,9 +16,6 @@
  */
 package org.emonocot.model.convert;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.emonocot.model.Image;
 import org.emonocot.model.Multimedia;
 import org.springframework.core.convert.converter.Converter;

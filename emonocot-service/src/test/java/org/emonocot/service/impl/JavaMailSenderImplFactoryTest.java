@@ -16,13 +16,12 @@
  */
 package org.emonocot.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import java.util.Arrays;
 import java.util.Properties;
 
 import org.junit.Test;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 /**

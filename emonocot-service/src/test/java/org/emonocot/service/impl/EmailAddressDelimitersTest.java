@@ -16,7 +16,7 @@
  */
 package org.emonocot.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.util.HashMap;
 import java.util.Map;

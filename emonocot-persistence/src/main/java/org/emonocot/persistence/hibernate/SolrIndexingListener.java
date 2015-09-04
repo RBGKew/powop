@@ -26,7 +26,6 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.Searchable;
-import org.emonocot.model.SearchableObject;
 import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostDeleteEventListener;
 import org.hibernate.event.PostInsertEvent;

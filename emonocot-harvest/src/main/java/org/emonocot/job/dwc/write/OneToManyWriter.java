@@ -23,10 +23,10 @@ import java.util.Set;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
-import org.emonocot.model.MeasurementOrFact;
-import org.emonocot.model.VernacularName;
 import org.emonocot.model.Identifier;
+import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.VernacularName;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 
 public class OneToManyWriter extends FlatFileItemWriter<Taxon> {

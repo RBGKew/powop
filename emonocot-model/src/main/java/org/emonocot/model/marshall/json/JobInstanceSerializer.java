@@ -18,11 +18,12 @@ package org.emonocot.model.marshall.json;
 
 import java.io.IOException;
 
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.JobParameter;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.JobParameter;
 
 /**
  *

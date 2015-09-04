@@ -17,8 +17,6 @@
 package org.emonocot.portal.remoting;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import org.emonocot.api.GroupService;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Comment;
@@ -70,14 +66,15 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  *

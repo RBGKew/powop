@@ -20,14 +20,13 @@ import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.Location;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.ecat.voc.EstablishmentMeans;
 import org.gbif.ecat.voc.OccurrenceStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.validation.BindException;
 
 /**

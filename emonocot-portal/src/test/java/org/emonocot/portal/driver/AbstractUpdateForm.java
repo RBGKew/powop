@@ -21,8 +21,6 @@ import java.util.List;
 import org.emonocot.model.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 
 public abstract class AbstractUpdateForm extends PageObject {
 

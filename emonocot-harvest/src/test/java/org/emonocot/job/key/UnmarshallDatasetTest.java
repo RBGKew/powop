@@ -16,14 +16,12 @@
  */
 package org.emonocot.job.key;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import javax.xml.transform.stax.StAXSource;
 
 import org.junit.Test;
 import org.tdwg.ubif.Dataset;
-import org.tdwg.ubif.TaxonName;
 
 
 

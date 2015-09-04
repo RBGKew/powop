@@ -17,7 +17,6 @@
 package org.emonocot.job.dwc.taxon;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.emonocot.api.AnnotationService;
@@ -27,7 +26,6 @@ import org.emonocot.job.dwc.exception.CannotFindRecordException;
 import org.emonocot.job.dwc.exception.NoIdentifierException;
 import org.emonocot.job.dwc.exception.TaxonAlreadyProcessedException;
 import org.emonocot.model.Annotation;
-import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;

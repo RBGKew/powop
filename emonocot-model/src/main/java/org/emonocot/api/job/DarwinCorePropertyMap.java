@@ -22,10 +22,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.emonocot.model.compare.TermComparator;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
+import org.gbif.dwc.terms.Term;
 
 public class DarwinCorePropertyMap {
 

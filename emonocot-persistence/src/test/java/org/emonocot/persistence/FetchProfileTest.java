@@ -21,10 +21,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.emonocot.model.Comment;
+import org.emonocot.model.Description;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.Description;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;

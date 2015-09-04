@@ -16,10 +16,25 @@
  */
 package org.emonocot.job.dwc.read;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.emonocot.api.job.TermFactory;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.text.Archive;
 import org.gbif.dwc.text.ArchiveField;
 import org.gbif.dwc.text.ArchiveField.DataType;
@@ -31,21 +46,6 @@ import org.gbif.file.DownloadUtil;
 import org.gbif.metadata.handler.BasicMetadataSaxHandler;
 import org.gbif.utils.file.BomSafeInputStreamWrapper;
 import org.gbif.utils.file.CompressionUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;

@@ -16,19 +16,14 @@
  */
 package org.emonocot.portal.view;
 
-import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashSet;
-
 import org.emonocot.model.BaseData;
-import org.emonocot.model.Taxon;
 import org.emonocot.model.Description;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.registry.Organisation;
-import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
-import org.emonocot.portal.view.provenance.ProvenanceHolderImpl;
 import org.emonocot.portal.view.provenance.ProvenanceManager;
-
+import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
 import org.junit.Test;
 
 

@@ -19,7 +19,6 @@ package org.emonocot.model.convert;
 import java.io.File;
 import java.io.IOException;
 
-import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;

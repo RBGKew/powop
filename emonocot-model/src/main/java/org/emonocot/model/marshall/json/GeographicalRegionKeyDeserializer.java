@@ -16,10 +16,11 @@
  */
 package org.emonocot.model.marshall.json;
 
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdKeyDeserializer;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.convert.StringToLocationConverter;
+
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdKeyDeserializer;
 
 /**
  *

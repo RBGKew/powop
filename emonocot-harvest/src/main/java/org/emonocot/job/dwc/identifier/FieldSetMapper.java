@@ -18,8 +18,8 @@ package org.emonocot.job.dwc.identifier;
 
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Identifier;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
+import org.gbif.dwc.terms.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;

@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.emonocot.model.constants.Location;
-import org.emonocot.model.compare.LocationComparator;
 import org.junit.Test;
 
 /**

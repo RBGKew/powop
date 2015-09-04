@@ -19,7 +19,6 @@ package org.emonocot.model.compare;
 import static org.junit.Assert.fail;
 
 import org.emonocot.model.Taxon;
-import org.emonocot.model.compare.AlphabeticalTaxonComparator;
 import org.junit.Before;
 import org.junit.Test;
 

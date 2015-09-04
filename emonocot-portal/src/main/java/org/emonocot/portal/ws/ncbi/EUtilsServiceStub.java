@@ -23,8 +23,8 @@
 package org.emonocot.portal.ws.ncbi;
 
 import org.apache.axis2.client.Options;
-import org.apache.axis2.transport.http.HttpTransportProperties;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.HttpTransportProperties;
 
 /*
  *  EUtilsServiceStub java implementation

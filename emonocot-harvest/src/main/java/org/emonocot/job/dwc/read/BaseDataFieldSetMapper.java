@@ -17,8 +17,8 @@
 package org.emonocot.job.dwc.read;
 
 import org.emonocot.model.BaseData;
-import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.DcTerm;
+import org.gbif.dwc.terms.Term;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

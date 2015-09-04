@@ -20,7 +20,6 @@ package org.emonocot.persistence.dao.jdbc;
 import java.beans.PropertyEditor;
 import java.util.Map;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 

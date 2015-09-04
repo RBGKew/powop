@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.model.TypeAndSpecimen;
-
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 

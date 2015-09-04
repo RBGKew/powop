@@ -36,11 +36,6 @@ import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.emonocot.model.marshall.json.ConceptDeserializer;
-import org.emonocot.model.marshall.json.ConceptSerializer;
 import org.emonocot.model.marshall.json.ImageDeserializer;
 import org.emonocot.model.marshall.json.ImageSerializer;
 import org.emonocot.model.marshall.json.ReferenceDeserializer;
@@ -52,6 +47,10 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  *

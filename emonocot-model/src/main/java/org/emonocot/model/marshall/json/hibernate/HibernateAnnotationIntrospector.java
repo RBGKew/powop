@@ -18,6 +18,7 @@ package org.emonocot.model.marshall.json.hibernate;
 
 
 import java.lang.annotation.Annotation;
+
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.databind.introspect.AnnotatedConstructor;

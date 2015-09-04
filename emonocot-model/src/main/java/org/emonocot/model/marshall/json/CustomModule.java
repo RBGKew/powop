@@ -16,16 +16,17 @@
  */
 package org.emonocot.model.marshall.json;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleDeserializers;
-import com.fasterxml.jackson.databind.module.SimpleKeyDeserializers;
-import com.fasterxml.jackson.databind.module.SimpleSerializers;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.model.constants.Location;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobInstance;
+
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.module.SimpleDeserializers;
+import com.fasterxml.jackson.databind.module.SimpleKeyDeserializers;
+import com.fasterxml.jackson.databind.module.SimpleSerializers;
 
 /**
  *

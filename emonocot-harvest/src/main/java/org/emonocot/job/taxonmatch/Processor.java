@@ -22,7 +22,6 @@ import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.Taxon;
-import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.UnparsableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

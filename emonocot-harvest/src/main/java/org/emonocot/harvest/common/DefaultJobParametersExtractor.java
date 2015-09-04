@@ -16,12 +16,11 @@
  */
 package org.emonocot.harvest.common;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameter;

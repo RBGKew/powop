@@ -22,9 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
@@ -35,6 +32,9 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.joda.time.DateTime;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  *

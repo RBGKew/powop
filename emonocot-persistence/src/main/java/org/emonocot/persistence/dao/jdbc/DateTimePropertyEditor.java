@@ -16,11 +16,6 @@
  */
 package org.emonocot.persistence.dao.jdbc;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 

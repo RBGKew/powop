@@ -28,8 +28,6 @@ import org.easymock.EasyMock;
 import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Image;
 import org.emonocot.model.constants.MediaFormat;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
