@@ -42,7 +42,7 @@ public class HtmlSanitizer {
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		policy = Policy.getInstance(policyFile.getInputStream());
+		policy = Policy.getInstance(policyFile.getURL());
 	}
 
 	public String sanitize(String unclean) {

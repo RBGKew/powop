@@ -435,7 +435,7 @@ implements ResourceAwareItemWriterItemStream<T>, InitializingBean {
 
 		try {
 			file = resource.getFile();
-			FileUtils.setUpOutputFile(file, restarted, overwriteOutput);
+			FileUtils.setUpOutputFile(file, restarted, false, overwriteOutput);
 			Assert.state(resource.exists(), "Output resource must exist");
 			os = new FileOutputStream(file, true);
 			channel = os.getChannel();

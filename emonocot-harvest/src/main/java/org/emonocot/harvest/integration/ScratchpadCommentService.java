@@ -53,9 +53,9 @@ public class ScratchpadCommentService {
 		this.commentService = commentService;
 	}
 
-	public void sendComment(String templateName, Map model, String toAddress, String subject) {
+	public void sendComment(String templateName, Map<String, Object> model, String toAddress, String subject) {
 
-		String message = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateName, model);
+		String message = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateName, "UTF-8", model);
 		Map<String,String> params = new HashMap<String,String>();
 		Comment comment = (Comment)model.get("comment");
 
