@@ -1012,22 +1012,30 @@ public class Taxon extends SearchableObject {
 	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = super.toSolrInputDocument();
 		sid.addField("searchable.label_sort", getScientificName());
-		//addField(sid,"taxon.bibliographic_citation_t", getBibliographicCitation());
-		//addField(sid,"taxon.clazz_s", getClazz());
 
-		StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
-				.append(getClazz()).append(" ").append(getFamily()).append(" ")
-				.append(getGenus()).append(" ").append(getKingdom()).append(" ")
+		StringBuilder summary = new StringBuilder()
+				.append(getBibliographicCitation()).append(" ")
+				.append(getClazz()).append(" ")
+				.append(getFamily()).append(" ")
+				.append(getGenus()).append(" ")
+				.append(getKingdom()).append(" ")
 				.append(getNamePublishedInString()).append(" ")
 				.append(getNamePublishedInYear()).append(" ")
-				.append(getNomenclaturalStatus()).append(" ").append(getOrder()).append(" ")
-				.append(getPhylum()).append(" ").append(getScientificName()).append(" ")
+				.append(getNomenclaturalStatus()).append(" ")
+				.append(getOrder()).append(" ")
+				.append(getPhylum()).append(" ")
+				.append(getScientificName()).append(" ")
 				.append(getScientificNameAuthorship()).append(" ")
-				.append(getSource()).append(" ").append(getSpecificEpithet()).append(" ")
-				.append(getSubfamily()).append(" ").append(getSubgenus()).append(" ")
-				.append(getSubtribe()).append(" ").append(getTaxonomicStatus()).append(" ")
-				.append(getTaxonRank()).append(" ").append(getTaxonRemarks()).append(" ")
-				.append(getTribe()).append(" ").append(getVerbatimTaxonRank());
+				.append(getSource()).append(" ")
+				.append(getSpecificEpithet()).append(" ")
+				.append(getSubfamily()).append(" ")
+				.append(getSubgenus()).append(" ")
+				.append(getSubtribe()).append(" ")
+				.append(getTaxonomicStatus()).append(" ")
+				.append(getTaxonRank()).append(" ")
+				.append(getTaxonRemarks()).append(" ")
+				.append(getTribe()).append(" ")
+				.append(getVerbatimTaxonRank());
 
 		if(Rank.FAMILY.equals(getTaxonRank()) && getFamily() == null) {
 			addField(sid,"taxon.family_ns", getScientificName());
@@ -1054,13 +1062,6 @@ public class Taxon extends SearchableObject {
 
 		addField(sid,"taxon.infraspecific_epithet_s", getInfraspecificEpithet());
 		addField(sid,"taxon.infraspecific_epithet_ns", getInfraspecificEpithet());
-		//addField(sid,"taxon.kingdom_s", getKingdom());
-		//addField(sid,"taxon.name_published_in_t", getNamePublishedInString());
-		//addField(sid,"taxon.name_published_in_year_i", getNamePublishedInYear());
-		//addField(sid,"taxon.nomenclatural_code_s", getNomenclaturalCode());
-		//addField(sid,"taxon.nomenclatural_status_s", getNomenclaturalStatus());
-		//addField(sid,"taxon.phylum_s", getPhylum());
-		//addField(sid,"taxon.source_t", getSource());
 		addField(sid,"taxon.order_s", getOrder());
 		addField(sid,"taxon.scientific_name_t", getScientificName());
 		addField(sid,"taxon.scientific_name_authorship_s", getScientificNameAuthorship());
@@ -1087,7 +1088,6 @@ public class Taxon extends SearchableObject {
 
 		addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
 		addField(sid,"taxon.taxon_rank_s", getTaxonRank());
-		//addField(sid,"taxon.taxon_remarks_t", getTaxonRemarks());
 
 		addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
 		if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
@@ -1097,13 +1097,7 @@ public class Taxon extends SearchableObject {
 			addField(sid,FacetName.TRIBE.getSolrField(), getAcceptedNameUsage().getTribe());
 		}
 
-		//addField(sid,"taxon.verbatim_taxon_rank_s", getVerbatimTaxonRank());
-
-		if(getDescriptions().isEmpty()) {
-			sid.addField("taxon.descriptions_not_empty_b", false);
-		} else {
-			sid.addField("taxon.descriptions_not_empty_b", true);
-		}
+		sid.addField("taxon.descriptions_not_empty_b", !getDescriptions().isEmpty());
 
 		for(Description d : getDescriptions()) {
 			summary.append(" ").append(d.getDescription());
@@ -1112,11 +1106,7 @@ public class Taxon extends SearchableObject {
 			}
 		}
 
-		if(getDistribution().isEmpty()) {
-			sid.addField("taxon.distribution_not_empty_b", false);
-		} else {
-			sid.addField("taxon.distribution_not_empty_b", true);
-		}
+		sid.addField("taxon.distribution_not_empty_b", !getDistribution().isEmpty());
 		for(Distribution d : getDistribution()) {
 			sid.addField("taxon.distribution_ss", d.getLocation().getCode());
 			switch(d.getLocation().getLevel()) {
@@ -1153,55 +1143,38 @@ public class Taxon extends SearchableObject {
 			}
 		}
 
-		if(getImages().isEmpty()) {
-			sid.addField("taxon.images_not_empty_b", false);
-		} else {
-			sid.addField("taxon.images_not_empty_b", true);
-		}
+		sid.addField("taxon.images_not_empty_b", !getImages().isEmpty());
 		for(Image i : getImages()) {
 			if(i != null && i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
 
-		if(getReferences().isEmpty()) {
-			sid.addField("taxon.references_not_empty_b", false);
-		} else {
-			sid.addField("taxon.references_not_empty_b", true);
-		}
+		sid.addField("taxon.references_not_empty_b", !getReferences().isEmpty());
 		for(Reference r : getReferences()) {
 			if(r != null && r.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", r.getAuthority().getIdentifier());
 			}
 		}
 
-		if(getTypesAndSpecimens().isEmpty()) {
-			sid.addField("taxon.types_and_specimens_not_empty_b", false);
-		} else {
-			sid.addField("taxon.types_and_specimens_not_empty_b", true);
-		}
+		boolean hasTaxonomicPlacement = (acceptedNameUsage != null || parentNameUsage != null);
+		sid.addField("taxon.taxonomic_placement_not_empty_b", hasTaxonomicPlacement);
+
+		sid.addField("taxon.types_and_specimens_not_empty_b", !getTypesAndSpecimens().isEmpty());
 		for(TypeAndSpecimen t : getTypesAndSpecimens()) {
 			if(t != null && t.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", t.getAuthority().getIdentifier());
 			}
 		}
 
-		if(getIdentifiers().isEmpty()) {
-			sid.addField("taxon.identifiers_not_empty_b", false);
-		} else {
-			sid.addField("taxon.identifiers_not_empty_b", true);
-		}
+		sid.addField("taxon.identifiers_not_empty_b", !getIdentifiers().isEmpty());
 		for(Identifier i : getIdentifiers()) {
 			if(i.getAuthority() != null) {
 				sid.addField("searchable.sources_ss", i.getAuthority().getIdentifier());
 			}
 		}
 
-		if(getMeasurementsOrFacts().isEmpty()) {
-			sid.addField("taxon.measurements_or_facts_not_empty_b", false);
-		} else {
-			sid.addField("taxon.measurements_or_facts_not_empty_b", true);
-		}
+		sid.addField("taxon.measurements_or_facts_not_empty_b", !getMeasurementsOrFacts().isEmpty());
 		boolean hasLifeForm = false;
 		boolean hasHabitat = false;
 		boolean hasThreatStatus = false;
@@ -1228,11 +1201,7 @@ public class Taxon extends SearchableObject {
 			sid.addField("taxon.measurement_or_fact_" + IucnTerm.threatStatus.simpleName() + "_txt", "_NULL_");
 		}
 
-		if(getVernacularNames().isEmpty()) {
-			sid.addField("taxon.vernacular_names_not_empty_b", false);
-		} else {
-			sid.addField("taxon.vernacular_names_not_empty_b", true);
-		}
+		sid.addField("taxon.vernacular_names_not_empty_b", !getVernacularNames().isEmpty());
 		for(VernacularName v : getVernacularNames()) {
 			summary.append(" ").append(v.getVernacularName());
 			if(v.getAuthority() != null) {
@@ -1244,6 +1213,7 @@ public class Taxon extends SearchableObject {
 			summary.append(" ").append(synonym.getScientificName());
 		}
 		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("taxon.has_data_b", hasUsefulData(sid));
 		return sid;
 	}
 
@@ -1252,6 +1222,31 @@ public class Taxon extends SearchableObject {
 			indexLocality(g.getParent(), sid);
 		}
 		sid.addField("taxon.distribution_" + g.getPrefix() + "_" + g.getLevel() + "_ss", g.toString());
+	}
+
+	/*
+	 * Used to determine if a taxon has useful data or if it is just a name
+	 */
+	private boolean hasUsefulData(SolrInputDocument sid) {
+		String[] usefulFields = {
+				"taxon.descriptions_not_empty_b",
+				"taxon.distribution_not_empty_b",
+				"taxon.identifiers_not_empty_b",
+				"taxon.images_not_empty_b",
+				"taxon.measurements_or_facts_not_empty_b",
+				"taxon.references_not_empty_b",
+				"taxon.taxonomic_placement_not_empty_b",
+				"taxon.types_and_specimens_not_empty_b",
+				"taxon.vernacular_names_not_empty_b"
+		};
+
+		for(String field : usefulFields) {
+			if((Boolean)sid.getFieldValue(field)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

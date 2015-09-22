@@ -273,6 +273,7 @@ public class SearchController {
 		responseFacetList.add("taxon.taxon_rank_s");
 		responseFacetList.add("taxon.taxonomic_status_s");
 		responseFacetList.add("searchable.sources_ss");
+		responseFacetList.add("taxon.has_data_b");
 		String className = null;
 		if (selectedFacets == null) {
 			logger.debug("No selected facets, setting default response facets");
