@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Changes since 1.0.6 -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
+  logicalFilePath="reference-data.xml">
+
+  <!-- Default users -->
+  <changeSet id="2011-10-11_03" author="ben">
+    <insert tableName="principal">
+      <column name="id" valueNumeric="1" />
+      <column name="DTYPE" value="Group" />
+      <column name="identifier" value="administrators" />
+    </insert>
+  </changeSet>
+  <changeSet id="2011-10-11_10" author="ben">
+    <insert tableName="principal">
+      <column name="id" valueNumeric="2" />
+      <column name="DTYPE" value="User" />
+      <column name="identifier" value="test@e-monocot.org" />
+      <column name="accountNonExpired" valueBoolean="true" />
+      <column name="accountNonLocked" valueBoolean="true" />
+      <column name="credentialsNonExpired" valueBoolean="true" />
+      <column name="enabled" valueBoolean="true" />
+      <column name="password" value="ada198e0c75ddbc7522da986598e57de" />
+      <column name="apiKey" valueComputed="UUID()" />
+    </insert>
+  </changeSet>
+
+  <!-- Default group permissions -->
+  <changeSet id="2015-09-24_0" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="0" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_1" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="1" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_2" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="2" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_3" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="3" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_4" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="4" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_5" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="5" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_6" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="6" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_7" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="7" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_8" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="8" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_9" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="9" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_10" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="10" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_11" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="11" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_12" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="12" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_13" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="13" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_14" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="14" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_15" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="15" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_16" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="16" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_17" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="17" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_18" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="18" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_19" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="19" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_20" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="20" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_21" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="21" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_22" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="22" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_23" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="23" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_24" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="24" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_25" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="25" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_26" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="26" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_27" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="27" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_28" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="28" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_29" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="29" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_30" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="30" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_31" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="31" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_32" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="32" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-24_33" author="ji10kg">
+    <insert tableName="group_permissions">
+      <column name="group_id" valueNumeric="1" />
+      <column name="permissions" valueNumeric="33" />
+    </insert>
+  </changeSet>
+
+	<!-- add user 2 to admin group -->
+  <changeSet id="2011-10-11_11" author="ben">
+    <insert tableName="user_group">
+      <column name="user_id" valueNumeric="2" />
+      <column name="groups_id" valueNumeric="1" />
+    </insert>
+  </changeSet>
+
+	<!-- Initialize hi-lo table values -->
+  <changeSet id="2015-09-25_34" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Comment" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_35" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Description" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_36" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Distribution" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_37" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="IdentificationKey" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_38" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Image" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_39" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Resource" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_40" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="MeasurementOrFact" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_41" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Place" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_42" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Principal" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_43" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Reference" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_44" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Organisation" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_45" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Taxon" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_46" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="TypeAndSpecimen" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_47" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="VernacularName" />
+    </insert>
+  </changeSet>
+  <changeSet id="2015-09-25_48" author="ji10kg">
+    <insert tableName="hibernate_sequences">
+      <column name="sequence_next_hi_value" valueNumeric="1" />
+      <column name="sequence_name" value="Identifier" />
+    </insert>
+  </changeSet>
+
+  <!-- Default batch job sequences -->
+  <changeSet author="ben" id="1303384038461-24">
+    <insert tableName="BATCH_STEP_EXECUTION_SEQ">
+      <column name="ID" valueNumeric="0" />
+    </insert>
+  </changeSet>
+  <changeSet author="ben" id="1303384038461-25">
+    <insert tableName="BATCH_JOB_EXECUTION_SEQ">
+      <column name="ID" valueNumeric="0" />
+    </insert>
+  </changeSet>
+  <changeSet author="ben" id="1303384038461-26">
+    <insert tableName="BATCH_JOB_SEQ">
+      <column name="ID" valueNumeric="0" />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

@@ -35,20 +35,23 @@
 	</modules>
 
 	<properties>
-		<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-		<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
-		<spring.version>3.2.1.RELEASE</spring.version>
-		<hibernate.version>3.6.7.Final</hibernate.version>
-		<spring.security.version>3.1.0.RELEASE</spring.security.version>
-		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
-		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
-		<spring.integration.version>2.2.1.RELEASE</spring.integration.version>
-		<lucene.version>4.0.0</lucene.version>
-		<geotools.version>2.7.0</geotools.version>
 		<aspectj.version>1.6.12</aspectj.version>
+		<geotools.version>2.7.0</geotools.version>
+		<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
+		<hibernate.version>3.6.7.Final</hibernate.version>
+		<java.version>1.7</java.version>
+		<liquibase.version>2.0.5</liquibase.version>
+		<lucene.version>4.0.0</lucene.version>
+		<mysql-connector.version>5.1.15</mysql-connector.version>
+		<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skip.global.tests>true</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
+		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
+		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
+		<spring.integration.version>2.2.1.RELEASE</spring.integration.version>
+		<spring.security.version>3.1.0.RELEASE</spring.security.version>
+		<spring.version>3.2.1.RELEASE</spring.version>
 		<skip.global.tests>true</skip.global.tests>
 	</properties>
 
@@ -646,7 +649,7 @@
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.15</version>
+				<version>${mysql-connector.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>postgresql</groupId>
@@ -803,7 +806,12 @@
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
-				<version>2.0.5</version>
+				<version>${liquibase.version}</version>
+			</dependency>
+			<dependency>
+			     <groupId>org.liquibase</groupId>
+			     <artifactId>liquibase-maven-plugin</artifactId>
+			     <version>${liquibase.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yahoo.platform.yui</groupId>
@@ -1618,8 +1626,8 @@
 				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
 				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
 				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-                <maven.javadoc.skip>true</maven.javadoc.skip>
-                <maven.site.skip>true</maven.site.skip>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<maven.site.skip>true</maven.site.skip>
 			</properties>
 			<!-- TODO: Deploy using Cargo -->
 		</profile>
@@ -1698,8 +1706,8 @@
 				<comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
 				<comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
 				<comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
-                <maven.javadoc.skip>true</maven.javadoc.skip>
-                <maven.site.skip>true</maven.site.skip>
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<maven.site.skip>true</maven.site.skip>
 			</properties>
 		</profile>
 	</profiles>
