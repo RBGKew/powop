@@ -502,15 +502,39 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		 }
 		 return jobExecutionInfo;
 	 }
+	 
 
-	 @RequestMapping(value = "/{id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
-	 public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-		 Resource resource = getService().find(id);
-		 getService().deleteById(id);
-		 String[] codes = new String[] { "resource.deleted" };
-		 Object[] args = new Object[] { resource.getTitle() };
-		 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-		 redirectAttributes.addFlashAttribute("info", message);
-		 return "redirect:/resource";
+	 
+	 @RequestMapping(value = "/{resource_id}",  method = RequestMethod.GET, params = "delete", produces = "text/html")
+	 public String delete(@PathVariable Long resource_id, RedirectAttributes redirectAttributes){
+		 Resource resource = getService().find(resource_id);
+		 if(resource.getExitCode() != null && resource.getExitCode().equals("RECORDS DELETED")){
+			 getService().deleteById(resource_id);
+			 String[] codes = new String[] { "resource.deleted" };
+			 Object[] args = new Object[] { resource.getTitle() };
+			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+			 redirectAttributes.addFlashAttribute("info", message);
+			 return "redirect:/resource/";
+	 
+		 }
+		 
+		 try {
+			getService().deleteResourceRecords(resource_id);
+		 } catch(ResourceAlreadyBeingHarvestedException rabhe) {
+			 String[] codes = new String[] { "job.running" };
+			 Object[] args = new Object[] {};
+			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
+			 redirectAttributes.addFlashAttribute("error", "Could not delete -harvest in progress");
+			 return "redirect:/resource/" + resource_id.toString();
+			 
+		 } catch (CouldNotLaunchJobException cnlje) {
+			 String[] codes = new String[] { "job.failed" };
+			 Object[] args = new Object[] { cnlje.getMessage() };
+			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
+					 codes, args);
+			 redirectAttributes.addFlashAttribute("error", message);
+			 return "redirect:/resource/" + resource_id.toString();
+		 }
+		 return "redirect:/resource/" + resource_id.toString();
 	 }
 }

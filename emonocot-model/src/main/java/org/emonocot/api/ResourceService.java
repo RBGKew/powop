@@ -57,4 +57,6 @@ public interface ResourceService extends SearchableService<Resource> {
 	void harvestResource(Long resourceId, Boolean ifModified) throws ResourceAlreadyBeingHarvestedException, CouldNotLaunchJobException;
 
 	Resource findByResourceUri(String identifier) throws ResourceAlreadyBeingHarvestedException, CouldNotLaunchJobException;
+
+	void deleteResourceRecords(Long id) throws ResourceAlreadyBeingHarvestedException, CouldNotLaunchJobException;
 }

@@ -25,7 +25,13 @@
 	  </c:when>
 	  <c:when test="${status eq 'FAILED' }">
 	    <c:set var="labelClass" value="label-important"/>
-	  </c:when>	  
+	  </c:when>
+	  <c:when test="${status eq 'RECORDS DELETED' }">
+	    <c:set var="labelClass" value="label-deleted"/>
+	  </c:when>
+	  <c:when test="${status eq 'DELETE FAILED' }">
+	    <c:set var="labelClass" value="label-important"/>	  
+	  </c:when>
 	</c:choose>
 	<c:choose>
 	  <c:when test="${not empty status}">

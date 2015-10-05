@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.emonocot.api.ResourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.job.dwc.DwCProcessingExceptionProcessListener;
@@ -39,18 +40,22 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.service.impl.ResourceServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 
 /**
  *
  * @author ben
  * @param <T> the type of object validated
  */
+@Scope("step")
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
 ItemProcessor<T, T>, ChunkListener {
 
@@ -74,6 +79,11 @@ ItemProcessor<T, T>, ChunkListener {
 
 	private static final String WCS_UNPLACED_IDENTIFIER = "urn:kew.org:wcs:taxon:-9999";
 
+	private ResourceService resourceService;
+	
+	@Value("#{jobParameters['resource.id']}")
+	private String resource_id;
+	
 	@Autowired
 	public void setValidator(Validator validator) {
 		this.validator = validator;
@@ -272,6 +282,11 @@ ItemProcessor<T, T>, ChunkListener {
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
 	}
+	
+	@Autowired
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
 
 	/**
 	 *
@@ -301,6 +316,11 @@ ItemProcessor<T, T>, ChunkListener {
 	 * @return an object of class T
 	 */
 	public T process(T t) throws Exception {
+		logger.debug("resource_id is" + resource_id);
+		logger.debug("object identifer is" + t.getIdentifier());
+		if(resource_id != null){
+			t.setResource(resourceService.load(Long.parseLong(resource_id)));
+		}
 		this.itemsRead++;
 		return doProcess(t);
 	}

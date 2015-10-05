@@ -4625,4 +4625,23 @@
     <addColumn tableName="typeandspecimen"><column name="uri" type="varchar(255)" /></addColumn>
     <addColumn tableName="vernacularname"><column name="uri" type="varchar(255)" /></addColumn>
   </changeSet>
+ <changeSet id="2015-09-09_01" author="jc20kg">
+    <addColumn tableName="concept"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="description"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="distribution"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="identificationkey"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="identifier"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="image"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="measurementorfact"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="phylogenetictree"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="place"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="reference"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="taxon"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="typeandspecimen"><column name="resource_id" type="bigint(20)" /></addColumn>
+    <addColumn tableName="vernacularname"><column name="resource_id" type="bigint(20)" /></addColumn>
+  </changeSet>
+   <changeSet id="2015-09-15_01" author="jc20kg">
+   	<addColumn tableName="organisation"><column name="resource_id" type="bigint(20)" /></addColumn>
+   </changeSet>
+
 </databaseChangeLog>

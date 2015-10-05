@@ -26,7 +26,10 @@ import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
+import org.emonocot.model.marshall.json.ResourceDeserializer;
+import org.emonocot.model.marshall.json.ResourceSerializer;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -61,6 +64,8 @@ public abstract class BaseData extends Base implements Annotated {
 	private Organisation authority;
 
 	private String uri;
+	
+	private Resource resource;
 
 	/**
 	 *
@@ -208,4 +213,16 @@ public abstract class BaseData extends Base implements Annotated {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonSerialize(using = ResourceSerializer.class)
+	public Resource getResource(){
+		return resource;
+	}
+	
+	@JsonDeserialize(using = ResourceDeserializer.class)
+	public void setResource(Resource resource){
+		this.resource = resource;
+	}
+	
 }
+

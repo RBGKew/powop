@@ -97,6 +97,7 @@
     <property name="baseUrl" value="${harvester.baseUrl}"/>
   </bean>
 
+
   <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
     <property name="resourceService" ref="resourceServiceImpl"/>
   </bean>

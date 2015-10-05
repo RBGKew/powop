@@ -56,6 +56,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 
 	public final void notify(final JobExecutionInfo jobExecutionInfo) {
 		logger.debug("In notify " + jobExecutionInfo.getId());
+		logger.debug("Notifying of job" + jobExecutionInfo.getBaseUrl() + " with status " + jobExecutionInfo.getExitCode());
 
 		Resource resource = service.find(jobExecutionInfo.getResourceIdentifier(),"job-with-source");
 		if (resource != null) {

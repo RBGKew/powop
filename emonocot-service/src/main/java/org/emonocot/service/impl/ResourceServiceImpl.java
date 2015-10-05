@@ -123,7 +123,7 @@ ResourceService {
 			case STARTED:
 			case STARTING:
 			case STOPPING:
-			case UNKNOWN:
+			case UNKNOWN:	
 				throw new ResourceAlreadyBeingHarvestedException();
 			case COMPLETED:
 			case FAILED:
@@ -138,6 +138,7 @@ ResourceService {
 		jobParametersMap.put("attempt", UUID.randomUUID().toString()); // Prevent jobs failing if a job has been executed with the same parameters
 		jobParametersMap.put("authority.uri", resource.getUri());
 		jobParametersMap.put("resource.identifier", resource.getIdentifier());
+		jobParametersMap.put("resource.id", resource.getId().toString());
 		jobParametersMap.put("skip.unmodified", ifModified.toString());
 
 		if (resource.getStatus() == null || !ifModified || resource.getStartTime() == null) {
@@ -187,6 +188,7 @@ ResourceService {
 		super.deleteById(id);
 	}
 
+	
 	@Override
 	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
 	@Transactional(readOnly = false)
@@ -194,5 +196,54 @@ ResourceService {
 		super.delete(identifier);
 	}
 
+	@Override
+	@PreAuthorize("hasRole('PERMISSION_ADMINISTRATE')")
+	@Transactional(readOnly = false)
+	public void deleteResourceRecords(Long resourceid) throws ResourceAlreadyBeingHarvestedException, CouldNotLaunchJobException {
+		Resource resource = load(resourceid);
+		if (resource.getStatus() != null) {
+			switch (resource.getStatus()) {
+			case STARTED:
+			case STARTING:
+			case STOPPING:
+			case UNKNOWN:
+				throw new ResourceAlreadyBeingHarvestedException();
+			case COMPLETED:
+			case FAILED:
+			case STOPPED:
+			case ABANDONED:
+			default:
+				break;
+			}
+		}
+		Map<String, String> jobParametersMap = new HashMap<String, String>();
+		jobParametersMap.put("attempt", UUID.randomUUID().toString()); // Prevent jobs failing if a job has been executed with the same parameters
+		jobParametersMap.put("resource_id", resource.getId().toString());
+		jobParametersMap.putAll(resource.getParameters());
+
+		JobLaunchRequest jobLaunchRequest = new JobLaunchRequest();
+		jobLaunchRequest.setJob("DeleteResource");
+		jobLaunchRequest.setParameters(jobParametersMap);
+		try {
+			jobLauncher.launch(jobLaunchRequest);
+			resource.setStartTime(null);
+			resource.setLastAttempt(new DateTime());
+			resource.setDuration(null);
+			resource.setExitCode("RESOURCE BEING DELETED");
+			resource.setExitDescription(null);
+			resource.setJobId(null);
+			resource.setStatus(BatchStatus.UNKNOWN);
+			resource.setRecordsRead(0);
+			resource.setReadSkip(0);
+			resource.setProcessSkip(0);
+			resource.setWriteSkip(0);
+			resource.setWritten(0);
+			
+		}catch (JobExecutionException e) {
+			throw new CouldNotLaunchJobException(e.getMessage());
+		}
+		
+	}
+	
 
 }
