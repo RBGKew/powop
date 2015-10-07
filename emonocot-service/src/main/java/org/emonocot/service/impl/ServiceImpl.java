@@ -34,12 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <DAO>
  *            the DAO used by this service
  */
-public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>>
-implements Service<T> {
+public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements Service<T> {
 
-	/**
-	 *
-	 */
 	protected DAO dao;
 
 	/**

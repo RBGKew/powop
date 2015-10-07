@@ -173,6 +173,8 @@ public class Taxon extends SearchableObject {
 
 	private Set<Concept> concepts = new HashSet<Concept>();
 
+	private Set<Identification> identifications = new HashSet<>();
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
 	@JsonSerialize(contentUsing = ConceptSerializer.class)
 	public Set<Concept> getConcepts() {
@@ -1008,6 +1010,16 @@ public class Taxon extends SearchableObject {
 		this.trees = trees;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")
+	@OrderBy("dateIdentified desc")
+	public Set<Identification> getIdentifications() {
+		return identifications;
+	}
+
+	public void setIdentifications(Set<Identification> identifications) {
+		this.identifications = identifications;
+	}
+
 	@Override
 	public SolrInputDocument toSolrInputDocument() {
 		SolrInputDocument sid = super.toSolrInputDocument();
@@ -1209,6 +1221,8 @@ public class Taxon extends SearchableObject {
 			}
 		}
 
+		sid.addField("taxon.identifications_not_empty_b", !getIdentifications().isEmpty());
+
 		for(Taxon synonym : getSynonymNameUsages()) {
 			summary.append(" ").append(synonym.getScientificName());
 		}
@@ -1231,6 +1245,7 @@ public class Taxon extends SearchableObject {
 		String[] usefulFields = {
 				"taxon.descriptions_not_empty_b",
 				"taxon.distribution_not_empty_b",
+				"taxon.identifications_not_empty_b",
 				"taxon.identifiers_not_empty_b",
 				"taxon.images_not_empty_b",
 				"taxon.measurements_or_facts_not_empty_b",

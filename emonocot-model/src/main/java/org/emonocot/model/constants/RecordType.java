@@ -69,5 +69,9 @@ public enum RecordType {
 	/**
 	 *
 	 */
-	Concept;
+	Concept,
+	/**
+	 * An identification (determination)
+	 */
+	Identification;
 }

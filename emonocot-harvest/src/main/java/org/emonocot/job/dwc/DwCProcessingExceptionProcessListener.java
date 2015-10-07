@@ -94,6 +94,8 @@ ItemReadListener<Base>, ItemWriteListener<Base> {
 			return RecordType.Description;
 		case "processIdentifierFile":
 			return RecordType.Identifier;
+		case "processIdentificationFile":
+			return RecordType.Identification;
 		case "processImageFile":
 		case "handleBinaryImages":
 			return RecordType.Image;

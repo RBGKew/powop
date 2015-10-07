@@ -205,6 +205,11 @@
     <function-signature>java.lang.String formatDate(java.util.Date)</function-signature>
   </function>
   <function>
+  <name>formatYear</name>
+  <function-class>org.emonocot.portal.view.Functions</function-class>
+  <function-signature>java.lang.String formatYear(org.joda.time.DateTime)</function-signature>
+  </function>
+  <function>
     <name>sublist</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.util.List sublist(java.util.List,
@@ -413,5 +418,10 @@
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.util.Collection
       getDistribution(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+  </function>
+  <function>
+    <name>formatIdentificationReference</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.lang.String formatIdentificationReference(java.lang.String)</function-signature>
   </function>
 </taglib>

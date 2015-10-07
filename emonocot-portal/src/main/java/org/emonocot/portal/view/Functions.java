@@ -695,6 +695,10 @@ public class Functions {
 		return DateTimeFormat.forStyle("SS").print(dateTime);
 	}
 
+	public static String formatYear(DateTime date) {
+		return date == null ? "Unknown" : DateTimeFormat.forPattern("y").print(date);
+	}
+
 	/**
 	 *
 	 * @param list
@@ -1207,5 +1211,16 @@ public class Functions {
 		}
 
 		return facts;
+	}
+
+	/*
+	 * Linkify herbcat references
+	 */
+	public static String formatIdentificationReference(String reference) {
+		Matcher matcher = Pattern.compile("^http://specimens.kew.org/herbarium/(.*)$").matcher(reference);
+		if(matcher.matches()) {
+			reference = String.format("Herbarium specimen: <a href=\"%s\">%s</a>", reference, matcher.group(1));
+		}
+		return reference;
 	}
 }

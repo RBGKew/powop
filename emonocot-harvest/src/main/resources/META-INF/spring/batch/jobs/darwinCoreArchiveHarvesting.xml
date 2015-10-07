@@ -55,6 +55,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--================= Taxon processing steps ======================-->
     <batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
       <!-- CHECK_TAXA is default -->
       <batch:next on="*" to="markTaxonRecords" />
@@ -166,6 +169,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--================= Description processing steps ======================-->
     <batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
       <batch:next on="IMPORT_DESCRIPTIONS" to="markDescriptionRecords" />
       <!-- IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL is the default -->
@@ -227,6 +233,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--================= Term processing steps ======================-->
     <batch:decision decider="termProcessingModeDecider" id="checkTermProcessingMode">
       <!-- IMPORT_TERMS is the default -->
       <batch:next on="IMPORT_TERMS" to="markTermRecords" />
@@ -296,6 +305,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--================= Image processing steps ======================-->
     <batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
       <!-- IMPORT_IMAGES is the default  -->
       <batch:next on="*" to="markImageRecords" />
@@ -384,6 +396,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--================= Identification Key processing steps ======================-->
     <batch:decision decider="keyProcessingModeDecider" id="checkKeyProcessingMode">
       <batch:next on="IMPORT_KEYS" to="markKeyRecords" />
       <batch:next on="IMPORT_KEYS_DONT_DELETE_GLOBAL" to="markRelatedKeyRecords" />
@@ -454,6 +469,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--==================== Phylogeny processing steps ====================-->
     <batch:decision decider="phylogenyProcessingModeDecider" id="checkPhylogenyProcessingMode">
       <batch:next on="IMPORT_PHYLOGENIES" to="markPhylogenyRecords" />
       <batch:next on="IMPORT_PHYLOGENIES_DONT_DELETE_GLOBAL" to="markRelatedPhylogenyRecords" />
@@ -524,6 +542,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--==================== References processing steps ====================-->
     <batch:decision decider="referenceProcessingModeDecider" id="checkReferenceProcessingMode">
       <!-- IMPORT_REFERENCES is the default -->
       <batch:next on="*" to="markReferenceRecords" />
@@ -583,12 +604,15 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--==================== Identifier processing steps ====================-->
     <batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
-      <batch:next on="IMPORT_IDENTIFIERS" to="markIdentifierRecords" />
-      <!-- IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL is the default -->
-      <batch:next on="*" to="markRelatedIdentifierRecords" />
-      <batch:next on="SKIP_IDENTIFIERS" to="checkDistributionProcessingMode" />
-      <batch:next on="SKIP_WITH_ERROR" to="checkDistributionProcessingMode" />
+      <!-- IMPORT_IDENTIFIERS is the default -->
+      <batch:next on="*" to="markIdentifierRecords" />
+      <batch:next on="IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL" to="markRelatedIdentifierRecords" />
+      <batch:next on="SKIP_IDENTIFIERS" to="checkIdentificationProcessingMode" />
+      <batch:next on="SKIP_WITH_ERROR" to="checkIdentificationProcessingMode" />
     </batch:decision>
     <batch:step id="markIdentifierRecords">
       <batch:description>Mark the identifier records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
@@ -636,12 +660,80 @@
       <batch:tasklet>
         <batch:chunk reader="deleteIdentifiersReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
+      <batch:next on="COMPLETED" to="checkIdentificationProcessingMode" />
+      <batch:listeners>
+        <batch:listener ref="processingExceptionProcessListener" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
+
+
+    <!--==================== Identification processing steps ====================-->
+    <batch:decision decider="identificationProcessingModeDecider" id="checkIdentificationProcessingMode">
+      <batch:next on="IMPORT_IDENTIFICATIONS" to="markIdentificationRecords" />
+      <!-- IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL is the default -->
+      <batch:next on="*" to="markRelatedIdentificationRecords" />
+      <batch:next on="SKIP_IDENTIFICATIONS" to="checkDistributionProcessingMode" />
+      <batch:next on="SKIP_WITH_ERROR" to="checkDistributionProcessingMode" />
+    </batch:decision>
+    <batch:step id="markIdentificationRecords">
+      <batch:tasklet ref="markIdentificationRecordsTasklet" />
+      <batch:next on="COMPLETED" to="processIdentificationDecision" />
+      <batch:listeners>
+        <batch:listener ref="markIdentificationRecordsTasklet" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
+    <batch:step id="markRelatedIdentificationRecords">
+      <batch:description>Mark the identification records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
+      <batch:tasklet ref="markRelatedIdentificationRecordsTasklet" />
+      <batch:next on="COMPLETED" to="processIdentificationDecision" />
+      <batch:listeners>
+        <batch:listener ref="markRelatedIdentificationRecordsTasklet" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
+    <batch:decision decider="processIdentificationDecider" id="processIdentificationDecision">
+      <batch:next on="true" to="processIdentificationFile" />
+      <batch:next on="false" to="deleteAbsentIdentifications" />
+    </batch:decision>
+    <batch:step id="processIdentificationFile">
+      <batch:description>Process the extension file containing the identifications</batch:description>
+      <batch:tasklet>
+        <batch:chunk 
+            reader="identificationReader"
+            processor="identificationProcessor"
+            writer="itemWriter"
+            commit-interval="100"
+            skip-limit="10000">
+          <batch:skippable-exception-classes>
+            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
+          </batch:skippable-exception-classes>
+        </batch:chunk>
+      </batch:tasklet>
+      <batch:next on="COMPLETED" to="deleteAbsentIdentifications" />
+      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:listeners>
+        <batch:listener ref="identificationFieldSetMapper" />
+        <batch:listener ref="processingExceptionProcessListener" />
+        <batch:listener ref="identificationProcessor" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
+    <batch:step id="deleteAbsentIdentifications">
+      <batch:description>Delete the identifications which we expected to be present in the archive but which were absent</batch:description>
+      <batch:tasklet>
+        <batch:chunk reader="deleteIdentificationReader" writer="deletingWriter" commit-interval="100" />
+      </batch:tasklet>
       <batch:next on="COMPLETED" to="checkDistributionProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+    <!--==================== Distribution processing steps ====================-->
     <batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
       <batch:next on="IMPORT_DISTRIBUTION" to="markDistributionRecords" />
       <!-- IMPORT_DISTRIBUTION_DONT_DELETE_GLOBAL is the default -->
@@ -701,6 +793,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--==================== Measurement or Fact processing steps ====================-->
     <batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
       <batch:next on="IMPORT_MEASUREMENT_OR_FACT" to="markMeasurementOrFactRecords" />
       <!-- IMPORT_MEASUREMENT_OR_FACT_DONT_DELETE_GLOBAL is the default -->
@@ -760,6 +855,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--==================== Vernacular Name processing steps ====================-->
     <batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
       <batch:next on="IMPORT_VERNACULAR_NAME" to="markVernacularNameRecords" />
       <!-- IMPORT_VERNACULAR_NAME_DONT_DELETE_GLOBAL is the default -->
@@ -819,6 +917,9 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
+    <!--==================== TypeAndSpecimen processing steps ====================-->
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
       <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
       <batch:next on="*" to="markTypeAndSpecimenRecords" />
@@ -888,6 +989,8 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+
     <batch:step id="calculateDerivedProperties">
       <batch:description>Calculate derived properties</batch:description>
       <batch:tasklet>
@@ -967,7 +1070,9 @@
       <batch:listener ref="compositeJobListener" />
     </batch:listeners>
   </batch:job>
+<!-- End batch definitions -->
 
+<!-- Bean definitions -->
   <bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
     <property name="harvesterSpoolDirectory" value="${harvester.spool.directory}" />
   </bean>
@@ -1936,7 +2041,7 @@
 
   <bean id="identifierProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="identifier.processing.mode" />
-    <property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS_DONT_DELETE_GLOBAL" />
+    <property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS" />
   </bean>
 
   <bean id="processIdentifierDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -2440,6 +2545,88 @@
     <property name="solrIndexingListener" ref="solrIndexingListener" />
   </bean>
 
+  <!-- Identification -->
+  <bean id="markIdentificationRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+    <property name="dataSource" ref="dataSource" />
+    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+    <property name="annotatedObjType" value="Identification" />
+  </bean>
+
+  <bean id="markRelatedIdentificationRecordsTasklet" class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+    <property name="dataSource" ref="dataSource" />
+    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+    <property name="family" value="#{jobParameters['family']}"/>
+    <property name="subfamily" value="#{jobParameters['subfamily']}"/>
+    <property name="tribe" value="#{jobParameters['tribe']}"/>
+    <property name="subtribe" value="#{jobParameters['subtribe']}"/>
+    <property name="annotatedObjType" value="Identification" />
+  </bean>
+
+  <bean id="identificationProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+    <property name="processingModeKey" value="identification.processing.mode" />
+    <property name="defaultProcessingMode" value="IMPORT_IDENTIFICATION" />
+  </bean>
+
+  <bean id="processIdentificationDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+    <property name="processingModeKey" value="dwca.identification.file" />
+  </bean>
+
+  <bean id="identificationReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+    <property name="encoding" value="#{jobExecutionContext['dwca.identification.encoding']}" />
+    <property name="linesToSkip" value="#{jobExecutionContext['dwca.identification.ignoreHeaderLines']}" />
+    <property name="bufferedReaderFactory" ref="bufferedReaderFactory" />
+    <property name="resource">
+      <bean class="org.springframework.core.io.FileSystemResource" scope="step">
+        <constructor-arg value="#{jobExecutionContext['dwca.identification.file']}" />
+      </bean>
+    </property>
+    <property name="recordSeparatorPolicy" ref="identificationSeparatorPolicy"/>
+    <property name="lineMapper" ref="identificationLineMapper" />
+  </bean>
+
+  <bean id="identificationProcessor" class="org.emonocot.job.dwc.identification.Processor" scope="step">
+    <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
+    <property name="identificationService" ref="identificationServiceImpl" />
+    <property name="sourceName" value="#{jobParameters['authority.name']}" />
+    <property name="family" value="#{jobParameters['family']}" />
+    <property name="subfamily" value="#{jobParameters['subfamily']}" />
+    <property name="tribe" value="#{jobParameters['tribe']}" />
+    <property name="subtribe" value="#{jobParameters['subtribe']}" />
+  </bean>
+
+  <bean id="identificationSeparatorPolicy" class="org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy" scope="step">
+    <property name="quoteCharacter" value="#{jobExecutionContext['dwca.identification.fieldsEnclosedBy']}" />
+  </bean>
+
+  <bean id="identificationLineMapper" class="org.springframework.batch.item.file.mapping.DefaultLineMapper" scope="step">
+    <property name="lineTokenizer" ref="identificationLineTokenizer" />
+    <property name="fieldSetMapper" ref="identificationFieldSetMapper" />
+  </bean>
+
+  <bean id="identificationLineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" scope="step">
+    <property name="names" value="#{jobExecutionContext['dwca.identification.fieldNames']}" />
+    <property name="delimiter" value="#{jobExecutionContext['dwca.identification.fieldsTerminatedBy']}" />
+    <property name="quoteCharacter" value="#{jobExecutionContext['dwca.identification.fieldsEnclosedBy']}" />
+    <property name="strict" value="false" />
+  </bean>
+
+  <bean id="identificationFieldSetMapper" class="org.emonocot.job.dwc.identification.FieldSetMapper" scope="step">
+    <property name="fieldNames" value="#{jobExecutionContext['dwca.identification.fieldNames']}" />
+    <property name="defaultValues" value="#{jobExecutionContext['dwca.identification.defaultValues']}" />
+    <property name="taxonService" ref="taxonServiceImpl" />
+  </bean>
+
+  <bean id="deleteIdentificationReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="queryString" value="select v from Identification v join v.annotations a where a.jobId = :jobId and a.code = :code" />
+    <property name="parameterValues">
+      <map>
+        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
+        <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+      </map>
+    </property>
+  </bean>
+
   <!-- Writing -->
   <bean id="imageDeletingWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
     <property name="delegates">
@@ -2464,9 +2651,6 @@
   </bean>
 
   <bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
-    <!-- <property name="taxonService" ref="taxonServiceImpl"/>
-        <property name="conceptService" ref="conceptServiceImpl"/>
-        <property name="phylogeneticTreeService" ref="phylogeneticTreeServiceImpl"/> -->
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 

@@ -39,8 +39,6 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 
 	@Override
 	public T doProcess(T t) throws Exception {
-		logger.info("Processing " + t);
-
 		if(t.getTaxon() != null) {
 			t.setTaxon(super.getTaxonService().find(t.getTaxon().getIdentifier()));
 		}
@@ -53,14 +51,12 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 			T persisted = null;
 			//TODO Review issue of creating & deleting
 			if (t.getIdentifier() != null) {
-				persisted = service.find(t.getIdentifier(),
-						"object-with-annotations");
+				persisted = service.find(t.getIdentifier(), "object-with-annotations");
 			} else {
 				t.setIdentifier(UUID.randomUUID().toString());
 			}
 
 			if (persisted != null) {
-
 				checkAuthority(getRecordType(), t, persisted.getAuthority());
 
 				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted

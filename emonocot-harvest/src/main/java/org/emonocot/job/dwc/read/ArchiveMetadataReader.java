@@ -156,26 +156,37 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 				getMetadata(archive.getExtension(GbifTerm.Reference),
 						"reference", DwcTerm.taxonID, failOnError);
 			}
+
 			if (archive.getExtension(GbifTerm.Identifier) != null) {
 				getMetadata(archive.getExtension(GbifTerm.Identifier),
 						"identifier", DwcTerm.taxonID, failOnError);
 			}
+
+			if (archive.getExtension(DwcTerm.Identification) != null) {
+				getMetadata(archive.getExtension(DwcTerm.Identification),
+						"identification", DwcTerm.taxonID, failOnError);
+			}
+
 			if (archive.getExtension(DwcTerm.MeasurementOrFact) != null) {
 				getMetadata(archive.getExtension(DwcTerm.MeasurementOrFact),
 						"measurementOrFact", DwcTerm.taxonID, failOnError);
 			}
+
 			if (archive.getExtension(GbifTerm.VernacularName) != null) {
 				getMetadata(archive.getExtension(GbifTerm.VernacularName),
 						"vernacularName", DwcTerm.taxonID, failOnError);
 			}
+
 			if (archive.getExtension(GbifTerm.TypesAndSpecimen) != null) {
 				getMetadata(archive.getExtension(GbifTerm.TypesAndSpecimen),
 						"typeAndSpecimen", DwcTerm.taxonID, failOnError);
 			}
+
 			if (archive.getExtension(SkosTerm.Concept) != null) {
 				getMetadata(archive.getExtension(SkosTerm.Concept),
 						"term", DwcTerm.taxonID, failOnError);
 			}
+
 			if (archive.getExtension(GbifTerm.Multimedia) != null) {
 				getMetadata(archive.getExtension(GbifTerm.Multimedia), "multimedia", DwcTerm.taxonID, failOnError);
 			}

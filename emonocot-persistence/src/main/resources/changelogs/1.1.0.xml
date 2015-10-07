@@ -1,70 +1,136 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Changes since 1.0.6 -->
+<!-- Changes since 1.0.6 release -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
-	logicalFilePath="1.0.7.xml">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-	<changeSet id="2015-06-08_01" author="mb10kg">
-		<addColumn tableName="organisation">
-			<column name="footerLogoPosition" type="integer" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet id="2015-07-03_01" author="ji10kg">
-		<addColumn tableName="concept">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="description">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="distribution">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="identificationkey">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="identifier">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="image">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="measurementorfact">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="phylogenetictree">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="place">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="taxon">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="typeandspecimen">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-		<addColumn tableName="vernacularname">
-			<column name="uri" type="varchar(255)" />
-		</addColumn>
-	</changeSet>
- <changeSet id="2015-09-09_01" author="jc20kg">
-    <addColumn tableName="concept"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="description"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="distribution"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="identificationkey"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="identifier"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="image"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="measurementorfact"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="phylogenetictree"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="place"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="reference"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="taxon"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="typeandspecimen"><column name="resource_id" type="bigint(20)" /></addColumn>
-    <addColumn tableName="vernacularname"><column name="resource_id" type="bigint(20)" /></addColumn>
+  <changeSet id="2015-06-08_01" author="mb10kg">
+    <addColumn tableName="organisation">
+      <column name="footerLogoPosition" type="integer" />
+    </addColumn>
   </changeSet>
-   <changeSet id="2015-09-15_01" author="jc20kg">
-   	<addColumn tableName="organisation"><column name="resource_id" type="bigint(20)" /></addColumn>
-   </changeSet>
+
+  <changeSet id="2015-07-03_01" author="ji10kg">
+    <addColumn tableName="concept">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="description">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="distribution">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="identificationkey">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="identifier">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="image">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="measurementorfact">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="phylogenetictree">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="place">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="taxon">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="typeandspecimen">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+    <addColumn tableName="vernacularname">
+      <column name="uri" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
+
+  <changeSet id="2015-09-09_01" author="jc20kg">
+    <addColumn tableName="concept">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="description">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="distribution">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="identificationkey">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="identifier">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="image">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="measurementorfact">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="phylogenetictree">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="place">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="reference">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="taxon">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="typeandspecimen">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+    <addColumn tableName="vernacularname">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+  </changeSet>
+  <changeSet id="2015-09-15_01" author="jc20kg">
+    <addColumn tableName="organisation">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+  </changeSet>
+
+  <changeSet id="2015-09-29_01" author="ji10kg">
+    <createTable tableName="identification">
+      <column name="id" type="bigint">
+        <constraints nullable="false" primaryKey="true" />
+      </column>
+      <column name="dateIdentified" type="datetime" />
+      <column name="identificationQualifier" type="varchar(255)" />
+      <column name="identificationReferences" type="varchar(255)" />
+      <column name="identificationRemarks" type="varchar(255)" />
+      <column name="identificationVerificationStatus" type="varchar(255)" />
+      <column name="identifiedBy" type="varchar(255)" />
+      <column name="identifier" type="varchar(255)" />
+      <column name="taxon_id" type="bigint" />
+      <column name="typeStatus" type="varchar(255)" />
+      <column name="license" type="varchar(255)" />
+      <column name="created" type="datetime" />
+      <column name="modified" type="datetime" />
+      <column name="accessRights" type="varchar(255)" />
+      <column name="rights" type="longtext" />
+      <column name="rightsHolder" type="varchar(255)" />
+      <column name="authority_id" type="bigint" />
+      <column name="uri" type="varchar(255)" />
+    </createTable>
+
+    <createIndex tableName="identification" indexName="taxon_id_idx">
+      <column name="taxon_id" />
+    </createIndex>
+    <createIndex tableName="identification" indexName="authority_id_idx">
+      <column name="authority_id" />
+    </createIndex>
+  </changeSet>
+
+  <changeSet id="2015-10-06_01" author="ji10kg">
+    <addColumn tableName="identification">
+      <column name="resource_id" type="bigint(20)" />
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>

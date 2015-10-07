@@ -789,9 +789,44 @@
 											</c:forEach>
 										</c:if>
 									</c:forEach>
+									<c:if test="${not empty taxon.identifications}">
+										<tr>
+											<th>Kew Usage</th>
+											<td>Name applied to ${taxon.identifications.size()} determination(s) in Kew databases<br />
+											<a href="#identificationsList" role="button" class="btn" data-toggle="modal" >Full details</a>
+											</td>
+										</tr>
+									</c:if>
 								</tbody>
 							</table>
 						</section>
+					</div>
+				</div>
+
+				<div id="identificationsList" class="modal hide fade" tabindex="-1" role="dialog">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h3 id="identificationsListLabel">Kew Names Usage</h3>
+					</div>
+					<div class="modal-body">
+						<table class="table table-striped">
+							<tbody>
+								<tr>
+									<th>Date Determined</th>
+									<th>Reference</th>
+									<th>Verification Status</th>
+									<th>Remarks</th>
+								</tr>
+								<c:forEach var="identification" items="${taxon.identifications}">
+									<tr>
+										<td>${em:formatYear(identification.dateIdentified)}</td>
+										<td>${em:formatIdentificationReference(identification.identificationReferences)}</td>
+										<td>${identification.identificationVerificationStatus}</td>
+										<td>${identification.identificationRemarks}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
 
@@ -819,21 +854,21 @@
 					</div>
 				</div>
 
-        <c:if test="${not empty taxon.uri}">
-          <div class="inner no-print">
-            <div class="box linksBox">
-              <section class="sidebarBox" id="sourceUrl">
-                <h2>
-                  <i class="glyphicons-icon link">
-                    <!-- -->
-                  </i>
-                  <spring:message code="source.link" />
-                </h2>
-                <a id="sourceUrl" href="${taxon.uri}">${taxon.uri}</a>
-              </section>
-            </div>
-          </div>
-        </c:if>
+				<c:if test="${not empty taxon.uri}">
+					<div class="inner no-print">
+						<div class="box linksBox">
+							<section class="sidebarBox" id="sourceUrl">
+								<h2>
+									<i class="glyphicons-icon link">
+										<!-- -->
+									</i>
+									<spring:message code="source.link" />
+								</h2>
+								<a id="sourceUrl" href="${taxon.uri}">${taxon.uri}</a>
+							</section>
+						</div>
+					</div>
+				</c:if>
 
 				<c:url value="/ncbi" var="ncbiAjaxUrl">
 					<c:param name="query" value="${taxon.scientificName}"/>

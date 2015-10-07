@@ -124,6 +124,7 @@
         <list>
           <value>org.emonocot.model.Identifier</value>
           <value>org.emonocot.model.IdentificationKey</value>
+          <value>org.emonocot.model.Identification</value>
           <value>org.emonocot.model.Annotation</value>
           <value>org.emonocot.model.Distribution</value>
           <value>org.emonocot.model.Description</value>

@@ -16,6 +16,7 @@
  */
 package org.emonocot.job.dwc.read;
 
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.model.BaseData;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.Term;
@@ -44,8 +45,8 @@ public class BaseDataFieldSetMapper<T extends BaseData> extends DarwinCoreFieldS
 	@Override
 	public void mapField(T object, String fieldName, String value)
 			throws BindException {
-		Term term = getTermFactory().findTerm(fieldName);
-		logger.info("Mapping " + fieldName + " " + " " + value + " to " + object);
+		Term term = TermFactory.findTerm(fieldName);
+		logger.info("Mapping " + term.toString() + " " + " " + value + " to " + object);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {

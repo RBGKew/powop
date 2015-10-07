@@ -17,6 +17,7 @@
 package org.emonocot.job.dwc.read;
 
 import org.emonocot.api.TaxonService;
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.job.dwc.exception.CannotFindRecordException;
 import org.emonocot.model.OwnedEntity;
 import org.emonocot.model.Taxon;
@@ -47,7 +48,7 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
 			throws BindException {
 		super.mapField(object, fieldName, value);
 
-		Term term = getTermFactory().findTerm(fieldName);
+		Term term = TermFactory.findTerm(fieldName);
 
 		// DwcTerms
 		if (term instanceof DwcTerm) {
