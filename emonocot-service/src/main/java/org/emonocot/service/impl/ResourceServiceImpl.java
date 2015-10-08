@@ -229,15 +229,11 @@ ResourceService {
 			resource.setStartTime(null);
 			resource.setLastAttempt(new DateTime());
 			resource.setDuration(null);
-			resource.setExitCode("RESOURCE BEING DELETED");
-			resource.setExitDescription(null);
+			resource.setExitCode("ATTEMPTING DELETE");
+			resource.setExitDescription("Checking if resource can be safely deleted");
 			resource.setJobId(null);
 			resource.setStatus(BatchStatus.UNKNOWN);
-			resource.setRecordsRead(0);
-			resource.setReadSkip(0);
-			resource.setProcessSkip(0);
-			resource.setWriteSkip(0);
-			resource.setWritten(0);
+
 			
 		}catch (JobExecutionException e) {
 			throw new CouldNotLaunchJobException(e.getMessage());

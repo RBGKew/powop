@@ -525,7 +525,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			 Object[] args = new Object[] {};
 			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 			 redirectAttributes.addFlashAttribute("error", "Could not delete -harvest in progress");
-			 return "redirect:/resource/" + resource_id.toString();
+			 return "redirect:/resource/";
 			 
 		 } catch (CouldNotLaunchJobException cnlje) {
 			 String[] codes = new String[] { "job.failed" };
@@ -533,8 +533,8 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
 					 codes, args);
 			 redirectAttributes.addFlashAttribute("error", message);
-			 return "redirect:/resource/" + resource_id.toString();
+			 return "redirect:/resource/";
 		 }
-		 return "redirect:/resource/" + resource_id.toString();
+		 return "redirect:/resource/";
 	 }
 }

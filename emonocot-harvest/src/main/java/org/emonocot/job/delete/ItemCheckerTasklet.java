@@ -117,11 +117,14 @@ public class ItemCheckerTasklet implements Tasklet{
 								String resourcenamesql = "SELECT title from resource where id = " + blockingResourceId.get(0);
 								List<String> blockingResourceName = jdbcTemplate.queryForList(resourcenamesql, String.class);
 								if(!blockingResourceName.isEmpty()){
+									logger.debug("Delete " + blockingResourceName.get(0) + " first");
 									throw new ResourceIsNotDeletableException("Delete " + blockingResourceName.get(0) + " first");
+									
 								}else{
 									throw new ResourceIsNotDeletableException("Delete resource with id " + blockingResourceId.get(0) + " first" );
 								}
 							}else{
+								logger.debug("Resource not deleteable due to null resource_id");
 								throw new ResourceIsNotDeletableException("Due to null resource_id");
 							}
 						}	
@@ -159,7 +162,7 @@ public class ItemCheckerTasklet implements Tasklet{
 				}
 			}
 		}
-
+		
 		return null; // marks the step as complete in spring batch
 	}	
 

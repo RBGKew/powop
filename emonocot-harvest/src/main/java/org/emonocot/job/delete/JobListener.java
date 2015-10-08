@@ -44,8 +44,10 @@ public class JobListener implements JobExecutionListener {
 			if(stepExecutions != null && !stepExecutions.isEmpty()){
 				for(StepExecution step : stepExecutions){
 					if(step.getExitStatus().equals(new ExitStatus("DELETE FAILED"))){
+						resource.setStatus(BatchStatus.COMPLETED);
 						resource.setExitCode("DELETE FAILED");
 						resource.setExitDescription(step.getExitStatus().getExitDescription());
+						resourceService.save(resource);
 					}
 				}
 			
