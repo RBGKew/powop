@@ -28,7 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-@Ignore
+
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:META-INF/spring/applicationContext-integrationTest.xml",
 "classpath:META-INF/spring/applicationContext-integration.xml"})
@@ -48,7 +49,7 @@ public class NcbiServiceIntegrationTest {
 			System.clearProperty("http.proxyHost");
 		}
 	}
-
+	@Ignore
 	@Test
 	public void testNcbiService() throws Exception {
 

@@ -28,6 +28,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.convert.ReferenceTypeConverter;
 import org.emonocot.model.convert.StringToIsoDateTimeConverter;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -44,6 +45,7 @@ import org.springframework.core.io.Resource;
  * @author ben
  *
  */
+
 public class ScratchpadReferenceParsingTest {
 
 	/**
@@ -127,6 +129,7 @@ public class ScratchpadReferenceParsingTest {
 	/**
 	 * @throws Exception if there is a problem accessing the file
 	 */
+	@Ignore
 	@Test
 	public final void testRead() throws Exception {
 		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();

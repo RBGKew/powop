@@ -25,11 +25,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
 
+import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
 import org.emonocot.test.TestDataManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -47,6 +50,7 @@ import com.jayway.restassured.RestAssured;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/applicationContext-functionalTest.xml")
 public class ChecklistWebserviceFunctionalTest {
+	private Logger logger = LoggerFactory.getLogger(ChecklistWebserviceFunctionalTest.class);
 
 	/**
 	 *
@@ -174,6 +178,7 @@ public class ChecklistWebserviceFunctionalTest {
 						"urn:kew.org:wcs:taxon:1", "scratchpad",
 						"functional-test.e-monocot.org").get("/endpoint")
 						.andReturn().body().asString();
+		logger.debug("the xml checkwebservicefunctionaltest is attempting to create is" + xml)
 		assertEquals("TaxonName id should equal TaxonConcept.Name ref",
 				with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"),
 				with(xml).get("DataSet.TaxonNames.TaxonName.@id"));
