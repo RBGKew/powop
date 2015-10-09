@@ -25,7 +25,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
 
-import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
 import org.emonocot.test.TestDataManager;
 import org.junit.After;
 import org.junit.Before;
