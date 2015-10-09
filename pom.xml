@@ -1590,7 +1590,8 @@
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>letmein</cargo.remote.password>
 				<cargo.portal.context.path>/</cargo.portal.context.path>
-				<wagon.static.url>scp://localhost:2222/var/www/</wagon.static.url>
+				<wagon.target.dir>/var/www/</wagon.target.dir>
+				<wagon.static.url>scp://localhost:2222${wagon.target.dir}</wagon.static.url>
 				<wagon.server.id>vagrant</wagon.server.id>
 				<liquibase.drop.database.first>true</liquibase.drop.database.first>
 				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>

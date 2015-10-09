@@ -11,22 +11,15 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <output.file>${project.artifactId}-${project.version}-default.tar.gz</output.file>
   </properties>
-
-  <!-- NOTES:
-    Two final artefacts are produced, with different Maven classifiers:
-    ⓪ emonocot-static-${version}-default.tar.gz
-    ① emonocot-static-${version}-world-flora.tar.gz
-    The default one uses the static resources required by eMonocot.
-    The World Flora one uses the same resources as the eMonocot base, but overwrites some with different versions, from src/main/world-flora.
-  -->
 
   <build>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>1.0-beta-7</version>
+        <version>1.0</version>
       </extension>
     </extensions>
 
@@ -46,6 +39,14 @@
             <phase>none</phase>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- Skip default deploy stuff, we move files around manually -->
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>
 
       <plugin>
@@ -101,48 +102,6 @@
                 </copy>
                 <copy todir="${project.build.directory}/static/tiles">
                   <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
-                </copy>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-
-          <execution>
-            <id>world-flora-static.output.dir</id>
-            <phase>process-resources</phase>
-            <configuration>
-              <tasks>
-                <delete dir="${project.build.directory}/world-flora/static/" />
-
-                <mkdir dir="${project.build.directory}/world-flora/static/js/" />
-                <mkdir dir="${project.build.directory}/world-flora/static/css/" />
-                <mkdir dir="${project.build.directory}/world-flora/static/tiles/" />
-
-                <!-- Copy default static resources into place. -->
-                <copy todir="${project.build.directory}/world-flora/static/css/images">
-                  <fileset dir="${basedir}/src/main/images" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/world-flora/static/css/terms">
-                  <fileset dir="${basedir}/src/main/terms" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/world-flora/static/css/video">
-                  <fileset dir="${basedir}/src/main/video" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/world-flora/static/css/fonts">
-                  <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/world-flora/static/css/data">
-                  <fileset dir="${basedir}/src/main/data" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/world-flora/static/tiles">
-                  <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
-                </copy>
-
-                <!-- Copy World Flora static resources to replace the defaults. -->
-                <copy todir="${project.build.directory}/world-flora/static/css/images" overwrite="true">
-                  <fileset dir="${basedir}/src/main/world-flora/images" includes="**/*" />
                 </copy>
               </tasks>
             </configuration>
@@ -283,14 +242,36 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
-        <configuration>
-          <fromDir>${project.build.directory}/static</fromDir>
-          <includes>**</includes>
-          <excludes>uncompressed/*.js</excludes>
-          <serverId>${wagon.server.id}</serverId>
-          <url>${wagon.static.url}</url>
-        </configuration>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>upload-asset-bundle</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>${project.build.directory}/${output.file}</fromFile>
+              <serverId>${wagon.server.id}</serverId>
+              <url>${wagon.static.url}</url>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>unpack-assets</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <serverId>${wagon.server.id}</serverId>
+              <url>${wagon.static.url}</url>
+              <commands>
+                <command>tar -xzf ${wagon.target.dir}${output.file} -C ${wagon.target.dir}</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Make a TAR.GZs of the static resources. -->
@@ -310,19 +291,6 @@
               </descriptors>
             </configuration>
           </execution>
-
-          <execution>
-            <id>world-flora.create-distribution</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>src/main/world-flora/assembly/static.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
 
@@ -339,28 +307,12 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>${project.build.directory}/${project.artifactId}-${project.version}-default.tar.gz</file>
+              <file>${project.build.directory}/${output.file}</file>
               <artifactId>${project.artifactId}</artifactId>
               <groupId>${project.groupId}</groupId>
               <version>${project.version}</version>
               <packaging>tar.gz</packaging>
               <classifier>default</classifier>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>world-flora.install.static.zip.file</id>
-            <phase>install</phase>
-            <goals>
-              <goal>install-file</goal>
-            </goals>
-            <configuration>
-              <file>${project.build.directory}/${project.artifactId}-${project.version}-world-flora.tar.gz</file>
-              <artifactId>${project.artifactId}</artifactId>
-              <groupId>${project.groupId}</groupId>
-              <version>${project.version}</version>
-              <packaging>tar.gz</packaging>
-              <classifier>world-flora</classifier>
             </configuration>
           </execution>
         </executions>
