@@ -178,7 +178,7 @@ public class ChecklistWebserviceFunctionalTest {
 						"urn:kew.org:wcs:taxon:1", "scratchpad",
 						"functional-test.e-monocot.org").get("/endpoint")
 						.andReturn().body().asString();
-		logger.debug("the xml checkwebservicefunctionaltest is attempting to create is" + xml)
+		logger.debug("the xml checkwebservicefunctionaltest is attempting to create is" + xml);
 		assertEquals("TaxonName id should equal TaxonConcept.Name ref",
 				with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"),
 				with(xml).get("DataSet.TaxonNames.TaxonName.@id"));
