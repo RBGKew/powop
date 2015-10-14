@@ -9,24 +9,26 @@ Feature: Faceted Search
 Background:
   Given that the indexes are clean
   And there are organisations with the following properties:
-  | identifier | uri                 | title | commentsEmailedTo |
-  | test       | http://example.com  | Test  | test@example.com  |
+  | identifier | uri                 | title      | commentsEmailedTo |
+  | test       | http://example.com  | Test       | test@example.com  |
+  | space test | http://another.com  | Space Test | test@another.com  |
   And there are taxa with the following properties:
-  | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source | iucnConservationStatus    |
-  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test   |                           |
-  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted |               |               | test   | lc                        |
-  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | Accepted |               |               | test   | lc                        |
-  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | Accepted |               |               | test   | lc                        |
-  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | Synonym  |               |               | test   |                           |
-  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae                | Araceae   | SPECIES | Accepted | TUR           |               | test   |                           |
-  | urn:kew.org:wcs:taxon:16041  | Arum apulum                    | Araceae   | SPECIES | Accepted | ITA           |               | test   |                           |
-  | urn:kew.org:wcs:taxon:16050  | Arum balansanum                | Araceae   | SPECIES | Accepted | TUR           |               | test   |                           |
-  | urn:kew.org:wcs:taxon:16052  | Arum besserianum               | Araceae   | SPECIES | Accepted | POL           | UKR           | test   |                           |
-  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum                | Araceae   | SPECIES | Accepted | TUE           | TUR           | test   |                           |
-  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum               | Araceae   | SPECIES | Accepted | GRC           | KRI           | test   |                           |
-  | urn:kew.org:wcs:taxon:16088  | Arum creticum                  | Araceae   | SPECIES | Accepted | KRI           | EAI           | test   |                           |
-  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum              | Araceae   | SPECIES | Accepted | DEN           | SWE           | test   |                           |
-  | urn:kew.org:wcs:taxon:16240  | Arum maculatum                 | Araceae   | SPECIES | Accepted |               |               | test   |                           |
+  | identifier                   | name                           | family    | rank    | status   | distribution1 | distribution2 | source     | iucnConservationStatus    |
+  | urn:kew.org:wcs:taxon:2295   | Acorus                         | Acoraceae | GENUS   | Accepted |               |               | test       |                           |
+  | urn:kew.org:wcs:taxon:2304   | Acorus calamus                 | Acoraceae | SPECIES | Accepted |               |               | test       | lc                        |
+  | urn:kew.org:wcs:taxon:2305   | Acorus calamus var. americanus | Acoraceae | VARIETY | Accepted |               |               | test       | lc                        |
+  | urn:kew.org:wcs:taxon:2306   | Acorus calamus var. angustatus | Acoraceae | VARIETY | Accepted |               |               | test       | lc                        |
+  | urn:kew.org:wcs:taxon:2296   | Acorus adulterinus             | Acoraceae | SPECIES | Synonym  |               |               | test       |                           |
+  | urn:kew.org:wcs:taxon:456456 | Arum alpinariae                | Araceae   | SPECIES | Accepted | TUR           |               | test       |                           |
+  | urn:kew.org:wcs:taxon:16041  | Arum apulum                    | Araceae   | SPECIES | Accepted | ITA           |               | test       |                           |
+  | urn:kew.org:wcs:taxon:16050  | Arum balansanum                | Araceae   | SPECIES | Accepted | TUR           |               | test       |                           |
+  | urn:kew.org:wcs:taxon:16052  | Arum besserianum               | Araceae   | SPECIES | Accepted | POL           | UKR           | test       |                           |
+  | urn:kew.org:wcs:taxon:16060  | Arum byzantinum                | Araceae   | SPECIES | Accepted | TUE           | TUR           | test       |                           |
+  | urn:kew.org:wcs:taxon:16074  | Arum concinnatum               | Araceae   | SPECIES | Accepted | GRC           | KRI           | test       |                           |
+  | urn:kew.org:wcs:taxon:16088  | Arum creticum                  | Araceae   | SPECIES | Accepted | KRI           | EAI           | test       |                           |
+  | urn:kew.org:wcs:taxon:16095  | Arum cylindraceum              | Araceae   | SPECIES | Accepted | DEN           | SWE           | test       |                           |
+  | urn:kew.org:wcs:taxon:16240  | Arum maculatum                 | Araceae   | SPECIES | Accepted |               |               | test       |                           |
+  | urn:kew.org:wcs:taxon:232286 | Carex zizaniifolia             | Carex     | SPECIES | Accepted |               |               | space test |                           |
   And there are images with the following properties:
   | identifier                                                                            | caption | source |
   | urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg | Acorus  | test   |
@@ -107,3 +109,8 @@ Scenario: Facet on continent and region
   | urn:kew.org:wcs:taxon:16060 | Arum byzantinum  |
   | urn:kew.org:wcs:taxon:16074 | Arum concinnatum |
   | urn:kew.org:wcs:taxon:16088 | Arum creticum    |
+
+Scenario: Facets with a space in the identifier return results
+  When I search for "Carex"
+  And I restrict the "searchable.sources_ss" by selecting "space test"
+  Then there should be 1 result

@@ -1221,11 +1221,20 @@ public class Taxon extends SearchableObject {
 			}
 		}
 
-		sid.addField("taxon.identifications_not_empty_b", !getIdentifications().isEmpty());
+		sid.addField("taxon.name_used_b", !getIdentifications().isEmpty());
+
+		Set<String> usedAt = new HashSet<>();
+		for(Identification identification : getIdentifications()) {
+			usedAt.add(identification.getIdentifiedBy());
+		}
+		for(String used : usedAt) {
+			sid.addField("taxon.name_used_at_ss", used);
+		}
 
 		for(Taxon synonym : getSynonymNameUsages()) {
 			summary.append(" ").append(synonym.getScientificName());
 		}
+
 		sid.addField("searchable.solrsummary_t", summary);
 		sid.addField("taxon.has_data_b", hasUsefulData(sid));
 		return sid;
@@ -1245,10 +1254,10 @@ public class Taxon extends SearchableObject {
 		String[] usefulFields = {
 				"taxon.descriptions_not_empty_b",
 				"taxon.distribution_not_empty_b",
-				"taxon.identifications_not_empty_b",
 				"taxon.identifiers_not_empty_b",
 				"taxon.images_not_empty_b",
 				"taxon.measurements_or_facts_not_empty_b",
+				"taxon.name_used_b",
 				"taxon.references_not_empty_b",
 				"taxon.taxonomic_placement_not_empty_b",
 				"taxon.types_and_specimens_not_empty_b",

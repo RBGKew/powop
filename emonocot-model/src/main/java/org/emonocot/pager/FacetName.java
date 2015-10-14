@@ -26,10 +26,10 @@ public enum FacetName {
 	CLASS("base.class_s", false),
 	ORDER("taxon.order_s", false),
 	FAMILY("taxon.family_ss", false),
-	SUBFAMILY("taxon.subfamily_ss", true),
-	TRIBE("taxon.tribe_ss", true),
-	SUBTRIBE("taxon.subtribe_ss", true),
-	GENUS("taxon.genus_ss", false),
+	SUBFAMILY("taxon.subfamily_ss", true, FAMILY),
+	TRIBE("taxon.tribe_ss", true, SUBFAMILY),
+	SUBTRIBE("taxon.subtribe_ss", true, TRIBE),
+	GENUS("taxon.genus_ss", false, SUBTRIBE),
 	SPECIES("taxon.specific_epithet_s", false),
 	CONTINENT("taxon.distribution_TDWG_0_ss", false),
 	REGION("taxon.distribution_TDWG_1_ss", false, CONTINENT),
@@ -54,7 +54,9 @@ public enum FacetName {
 	LAST_HARVESTED("resource.last_harvested_dt", false),
 	COMMENT_SUBJECT("comment.subject_s", false),
 	COMMENT_PAGE_TYPE("comment.comment_page_class_s", false),
-	HAS_DATA("taxon.has_data_b", false);
+	HAS_DATA("taxon.has_data_b", false),
+	NAME_USED("taxon.name_used_b", false),
+	NAME_USED_AT("taxon.name_used_at_ss", false, NAME_USED);
 
 	public static final FacetName[] taxonomyFacets = {ORDER, FAMILY, SUBFAMILY, TRIBE, SUBTRIBE, GENUS};
 
@@ -81,28 +83,39 @@ public enum FacetName {
 	/**
 	 * @return the solrField
 	 */
-	 public String getSolrField() {
-		 return solrField;
-	 }
+	public String getSolrField() {
+		return solrField;
+	}
 
-	 /**
-	  * @return the includeMissing
-	  */
-	 public boolean isIncludeMissing() {
-		 return includeMissing;
-	 }
+	/**
+	 * @return the includeMissing
+	 */
+	public boolean isIncludeMissing() {
+		return includeMissing;
+	}
 
-	 public static FacetName fromString(String string) {
-		 for(FacetName facetName : FacetName.values()) {
-			 if(facetName.solrField.equals(string)) {
-				 return facetName;
-			 }
-		 }
-		 throw new IllegalArgumentException(string + " is not a valid value for a facet");
-	 }
+	public static FacetName fromString(String string) {
+		for(FacetName facetName : FacetName.values()) {
+			if(facetName.solrField.equals(string)) {
+				return facetName;
+			}
+		}
+		throw new IllegalArgumentException(string + " is not a valid value for a facet");
+	}
 
-	 public FacetName getChild() {
-		 return child;
-	 }
+	public FacetName getChild() {
+		return child;
+	}
 
+	public boolean hasChild() {
+		return child != null;
+	}
+
+	public FacetName getParent() {
+		return parent;
+	}
+
+	public boolean hasParent() {
+		return parent != null;
+	}
 }

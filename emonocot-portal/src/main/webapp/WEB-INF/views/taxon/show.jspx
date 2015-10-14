@@ -791,9 +791,9 @@
 									</c:forEach>
 									<c:if test="${not empty taxon.identifications}">
 										<tr>
-											<th>Kew Usage</th>
-											<td>Name applied to ${taxon.identifications.size()} determination(s) in Kew databases<br />
-											<a href="#identificationsList" role="button" class="btn" data-toggle="modal" >Full details</a>
+											<th><spring:message code="name_usage.label"/></th>
+											<td><spring:message code="name_usage.desc" arguments="${taxon.identifications.size()}"/><br />
+											<a href="#identificationsList" role="button" class="btn" data-toggle="modal" ><spring:message code="name_usage.show_details" /></a>
 											</td>
 										</tr>
 									</c:if>
@@ -806,16 +806,17 @@
 				<div id="identificationsList" class="modal hide fade" tabindex="-1" role="dialog">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
-						<h3 id="identificationsListLabel">Kew Names Usage</h3>
+						<h3 id="identificationsListLabel"><spring:message code="name_usage.label"/></h3>
 					</div>
 					<div class="modal-body">
 						<table class="table table-striped">
 							<tbody>
 								<tr>
-									<th>Date Determined</th>
-									<th>Reference</th>
-									<th>Verification Status</th>
-									<th>Remarks</th>
+									<th><spring:message code="name_usage.date_used"/></th>
+									<th><spring:message code="name_usage.reference"/></th>
+									<th><spring:message code="name_usage.verification_status"/></th>
+									<th><spring:message code="name_usage.remarks"/></th>
+									<th><spring:message code="name_usage.used_by"/></th>
 								</tr>
 								<c:forEach var="identification" items="${taxon.identifications}">
 									<tr>
@@ -823,12 +824,32 @@
 										<td>${em:formatIdentificationReference(identification.identificationReferences)}</td>
 										<td>${identification.identificationVerificationStatus}</td>
 										<td>${identification.identificationRemarks}</td>
+										<td class="identified_by glossary">${identification.identifiedBy}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
+				<script type="text/javascript">
+					var identificationSources = {
+						<c:forEach var="description" items="${em:identificationSourceDescriptions(taxon.identifications)}">
+							"${description.key}": "${description.value}",
+						</c:forEach>
+					};
+					$(document).ready(function() {
+						$('.identified_by').tooltip({
+						title: function(source) {
+							return identificationSources[this.innerHTML];
+						},
+						placement: "left",
+						trigger: "click",
+						})
+						.on('show.bs.tooltip', function() {
+							$('.tooltip').not(this).hide();
+						});
+					});
+				</script>
 
 				<div class="inner no-print">
 					<div class="box linksBox">

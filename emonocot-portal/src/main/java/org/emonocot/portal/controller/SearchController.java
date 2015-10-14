@@ -19,8 +19,10 @@ package org.emonocot.portal.controller;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -167,9 +169,6 @@ public class SearchController {
 		return result;
 	}
 
-
-
-
 	/**
 	 *
 	 * @param view
@@ -178,7 +177,6 @@ public class SearchController {
 	 *            Set the class name
 	 * @return the default limit
 	 */
-
 	private String setView(String view, String className) {
 		if (view == null || view == "") {
 			return null;
@@ -194,9 +192,6 @@ public class SearchController {
 
 		} return view;
 	}
-
-
-
 
 	/**
 	 *
@@ -224,78 +219,28 @@ public class SearchController {
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
 			Model model) throws SolrServerException {
+		Map<String, String> selectedFacets = extractSelectedFacets(facets);
+		List<String> responseFacetList = buildFacetList(selectedFacets.keySet(),
+				"base.class_s",
+				"taxon.family_ss",
+				"taxon.distribution_TDWG_0_ss",
+				"taxon.measurement_or_fact_threatStatus_txt",
+				"taxon.measurement_or_fact_Lifeform_txt",
+				"taxon.measurement_or_fact_Habitat_txt",
+				"taxon.taxon_rank_s",
+				"taxon.taxonomic_status_s",
+				"searchable.sources_ss",
+				"taxon.has_data_b",
+				"taxon.name_used_b");
 
-		Map<String, String> selectedFacets = null;
-		if (facets != null && !facets.isEmpty()) {
-			selectedFacets = new HashMap<String, String>();
-			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
-			}
-			logger.debug(selectedFacets.size()
-					+ " facets have been selected from " + facets.size()
-					+ " available");
-		} else {
-			logger.debug("There were no facets available to select from");
-		}
-		if(selectedFacets != null && !selectedFacets.isEmpty()){
-			for(String key : selectedFacets.keySet()){
-				String escapeSpaceFacet =  selectedFacets.get(key).replace(" ","\\ ").replace("\\\\", "\\");
-				selectedFacets.put(key, escapeSpaceFacet);
-
-			}
-		}
-		// Decide which facets to return
-		List<String> responseFacetList = new ArrayList<String>();
 		Map<String, String> facetPrefixes = new HashMap<String, String>();
-		responseFacetList.add("base.class_s");
-		if(selectedFacets == null) {
-			responseFacetList.add(FacetName.FAMILY.getSolrField());
-		} else {
-			int taxFacetIdx = 1; //Start from FacetName.FAMILY
-			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-				if(!responseFacetList.contains(fn.getSolrField())){
-					responseFacetList.add(fn.getSolrField());
-				}
-				if(!selectedFacets.containsKey(fn.getSolrField())) {
-					break;
-				}
-			}
-			for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-			}
-		}
-		responseFacetList.add("taxon.distribution_TDWG_0_ss");
-		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
-		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
-		responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
-		responseFacetList.add("taxon.taxon_rank_s");
-		responseFacetList.add("taxon.taxonomic_status_s");
-		responseFacetList.add("searchable.sources_ss");
-		responseFacetList.add("taxon.has_data_b");
-		String className = null;
-		if (selectedFacets == null) {
-			logger.debug("No selected facets, setting default response facets");
-		} else {
-			if (selectedFacets.containsKey("base.class_s")) {
-				className = selectedFacets.get("base.class_s");
-			}
-			if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
-				logger.debug("Adding region facet");
-				responseFacetList.add("taxon.distribution_TDWG_1_ss");
-				facetPrefixes.put("taxon.distribution_TDWG_1_ss",
-						selectedFacets.get("taxon.distribution_TDWG_0_ss")
-						+ "_");
-			} else {
-				selectedFacets.remove("taxon.distribution_TDWG_1_ss");
-			}
+		if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
+			logger.debug("Adding region facet prefixes");
+			facetPrefixes.put("taxon.distribution_TDWG_1_ss", selectedFacets.get("taxon.distribution_TDWG_0_ss") + "_");
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
-		view = setView(view,className);
-		//limit = setLimit(view, className);
-
+		view = setView(view, selectedFacets.get("base.class_s"));
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -393,63 +338,24 @@ public class SearchController {
 					+ " " + decimalFormat.format(y2) + ")\"";
 		}
 
-		Map<String, String> selectedFacets = null;
-		if (facets != null && !facets.isEmpty()) {
-			selectedFacets = new HashMap<String, String>();
-			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
-			}
-			logger.debug(selectedFacets.size()
-					+ " facets have been selected from " + facets.size()
-					+ " available");
-		} else {
-			logger.debug("There were no facets available to select from");
-		}
+		Map<String, String> selectedFacets = extractSelectedFacets(facets);
+		List<String> responseFacetList = buildFacetList(selectedFacets.keySet(),
+				"base.class_s",
+				"taxon.family_ss",
+				"taxon.measurement_or_fact_threatStatus_txt",
+				"taxon.measurement_or_fact_Lifeform_txt",
+				"taxon.measurement_or_fact_Habitat_txt",
+				"taxon.taxon_rank_s",
+				"taxon.taxonomic_status_s",
+				"searchable.sources_ss");
 
-		// Decide which facets to return
-		List<String> responseFacetList = new ArrayList<String>();
-		responseFacetList.add("base.class_s");
-		if(selectedFacets == null) {
-			responseFacetList.add(FacetName.FAMILY.getSolrField());
-		} else {
-			int taxFacetIdx = 1; //Start from FacetName.FAMILY
-			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-				if(!responseFacetList.contains(fn.getSolrField())){
-					responseFacetList.add(fn.getSolrField());
-				}
-				if(!selectedFacets.containsKey(fn.getSolrField())) {
-					break;
-				}
-			}
-			for(; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx].getSolrField());
-			}
-		}
-		responseFacetList.add("taxon.measurement_or_fact_threatStatus_txt");
-		responseFacetList.add("taxon.measurement_or_fact_Lifeform_txt");
-		responseFacetList.add("taxon.measurement_or_fact_Habitat_txt");
-		responseFacetList.add("taxon.taxon_rank_s");
-		responseFacetList.add("taxon.taxonomic_status_s");
-		responseFacetList.add("searchable.sources_ss");
-		String className = null;
-		if (selectedFacets == null) {
-			logger.debug("No selected facets, setting default response facets");
-		} else {
-			if (selectedFacets.containsKey("base.class_s")) {
-				className = selectedFacets.get("base.class_s");
-			}
-			if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
-				logger.debug("Removing continent facet");
-				responseFacetList.remove("taxon.distribution_TDWG_0_ss");
-			}
+		if (selectedFacets.containsKey("taxon.distribution_TDWG_0_ss")) {
+			logger.debug("Removing continent facet");
+			responseFacetList.remove("taxon.distribution_TDWG_0_ss");
 		}
 		String[] responseFacets = new String[] {};
 		responseFacets = responseFacetList.toArray(responseFacets);
-		view = setView(view,className);
-		//limit = setLimit(view, className);
-
+		view = setView(view, selectedFacets.get("base.class_s"));
 
 		// Run the search
 		Page<? extends SearchableObject> result = runQuery(query, start, limit,
@@ -483,41 +389,16 @@ public class SearchController {
 			@RequestParam(value = "view", required = false, defaultValue = "bar") String view)
 					throws Exception {
 
-		Map<String, String> selectedFacets = null;
-		if (facets != null && !facets.isEmpty()) {
-			selectedFacets = new HashMap<String, String>();
-			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
-			}
-		}
+		Map<String, String> selectedFacets = extractSelectedFacets(facets);
 
-		List<String> facetList = new ArrayList<String>();
-		if (selectedFacets == null) {
-			facetList.add(FacetName.FAMILY.getSolrField());
-		} else {
-			int taxFacetIdx = 1; // Start from FacetName.FAMILY
-			for (; taxFacetIdx < FacetName.taxonomyFacets.length; taxFacetIdx++) {
-				FacetName fn = FacetName.taxonomyFacets[taxFacetIdx];
-				if (!facetList.contains(fn.getSolrField())) {
-					facetList.add(fn.getSolrField());
-				}
-				if (!selectedFacets.containsKey(fn.getSolrField())) {
-					break;
-				}
-			}
-			for (; taxFacetIdx < FacetName.taxonomyFacets.length; ++taxFacetIdx) {
-				selectedFacets.remove(FacetName.taxonomyFacets[taxFacetIdx]
-						.getSolrField());
-			}
-		}
-		facetList.add("taxon.distribution_TDWG_0_ss");
-		facetList.add("taxon.taxon_rank_s");
-		facetList.add("taxon.taxonomic_status_s");
-		facetList.add("searchable.sources_ss");
-		facetList.add("taxon.measurement_or_fact_threatStatus_txt");
-		facetList.add("taxon.measurement_or_fact_Lifeform_txt");
-		facetList.add("taxon.measurement_or_fact_Habitat_txt");
+		List<String> facetList = buildFacetList(selectedFacets.keySet(),
+				"taxon.distribution_TDWG_0_ss",
+				"taxon.taxon_rank_s",
+				"taxon.taxonomic_status_s",
+				"searchable.sources_ss",
+				"taxon.measurement_or_fact_threatStatus_txt",
+				"taxon.measurement_or_fact_Lifeform_txt",
+				"taxon.measurement_or_fact_Habitat_txt");
 
 		Cube cube = new Cube(selectedFacets);
 		cube.setDefaultLevel("taxon.order_s");
@@ -615,8 +496,7 @@ public class SearchController {
 		return modelAndView;
 	}
 
-	@RequestMapping(method = RequestMethod.OPTIONS,
-			produces = "application/json")
+	@RequestMapping(method = RequestMethod.OPTIONS, produces = "application/json")
 	public ResponseEntity<RestDoc> optionsResource() throws JsonMappingException {
 		RestDoc restDoc = new RestDoc();
 		HashMap<String,Schema> schemas = new HashMap<String,Schema>();
@@ -717,18 +597,7 @@ public class SearchController {
 					+ " " + decimalFormat.format(y2) + ")\"";
 		}
 
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		if (facets != null && !facets.isEmpty()) {
-			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
-			}
-			logger.debug(selectedFacets.size()
-					+ " facets have been selected from " + facets.size()
-					+ " available");
-		} else {
-			logger.debug("There were no facets available to select from");
-		}
+		Map<String,String> selectedFacets = extractSelectedFacets(facets);
 		selectedFacets.put("base.class_s", "org.emonocot.model.TypeAndSpecimen");
 
 		// Run the search
@@ -750,5 +619,54 @@ public class SearchController {
 		result.putParam("query", query);
 
 		return result;
+	}
+
+	private Map<String, String> extractSelectedFacets(List<FacetRequest> facets) {
+		Map<String, String> selectedFacets = new HashMap<String, String>();
+		if (facets != null && !facets.isEmpty()) {
+			for (FacetRequest facetRequest : facets) {
+				selectedFacets.put(facetRequest.getFacet(), facetRequest.getSelected());
+			}
+			logger.debug(selectedFacets.size() + " facets have been selected from " + facets.size() + " available");
+		} else {
+			logger.debug("There were no facets available to select from");
+		}
+
+		return selectedFacets;
+	}
+
+	/*
+	 * Builds a list of facets given a list of selected and desired facets.
+	 * When a facet with a child is selected, that child is added to the final list.
+	 * When a facet in the middle of a chain of related facets is deselected, all
+	 * facets down the chain from the deselected one are removed from the selected list
+	 */
+	private List<String> buildFacetList(Set<String> selectedFacets, String... facets) {
+		List<String> responseFacetList = new LinkedList<>();
+
+		for(String facet : facets) {
+			responseFacetList.add(facet);
+
+			FacetName fn = FacetName.fromString(facet);
+			boolean chainBroken = false;
+			while(fn.hasChild()) {
+				if(selectedFacets.contains(fn.getSolrField()) && !chainBroken) {
+					// if current facet is selected, add child facet
+					responseFacetList.add(fn.getChild().getSolrField());
+				} else {
+					// otherwise, make sure remainder of child facet chain is not selected
+					selectedFacets.remove(fn.getSolrField());
+					chainBroken = true;
+				}
+				fn = fn.getChild();
+			}
+
+			// handle last facet in chain
+			if(!selectedFacets.contains(fn.getSolrField()) && chainBroken) {
+				selectedFacets.remove(fn.getSolrField());
+			}
+		}
+
+		return responseFacetList;
 	}
 }

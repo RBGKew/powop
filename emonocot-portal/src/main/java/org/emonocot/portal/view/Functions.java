@@ -42,6 +42,7 @@ import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
+import org.emonocot.model.Identification;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
@@ -1222,5 +1223,20 @@ public class Functions {
 			reference = String.format("Herbarium specimen: <a href=\"%s\">%s</a>", reference, matcher.group(1));
 		}
 		return reference;
+	}
+
+	/*
+	 * Build map of identification source => source description. Descriptions are pulled from the 
+	 * associated organisation (authority)
+	 */
+	public static Map<String, String> identificationSourceDescriptions(Set<Identification> identifications) {
+		Map<String, String> descriptions = new HashMap<>();
+		for(Identification identification : identifications) {
+			if(!descriptions.containsKey(identification.getIdentifiedBy())) {
+				descriptions.put(identification.getIdentifiedBy(), identification.getAuthority().getDescription());
+			}
+		}
+
+		return descriptions;
 	}
 }

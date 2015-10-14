@@ -45,8 +45,6 @@ Background:
   | test:place:753 | Klatch    | MULTIPOLYGON (((-38.3235 2.9734, -72.5483 -92.4733, 3.0492 2.9047, -38.3235 2.9734)))               |
   And I am on the search page
 
-
- 
 Scenario: Search for images by their descriptions
   As a botanist in the herbarium, in order to find an image of a particular character
   I want to be able to search for images by their metadata including their descriptions.
@@ -56,4 +54,3 @@ Scenario: Search for images by their descriptions
   | page | text      |
   | 456  | Poa annua |
   | 789  | Poa annua |
- 

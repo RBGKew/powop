@@ -497,7 +497,7 @@ implements SearchableDao<T> {
 			for(String facetName : selectedFacets.keySet()) {
 				String facetValue = selectedFacets.get(facetName);
 				if(StringUtils.isNotEmpty(facetValue)) {
-					solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
+					solrQuery.addFilterQuery(facetName + ":\"" + selectedFacets.get(facetName) + "\"");
 				} else {//Subtract/Exclude documents with any value for the facet
 					solrQuery.addFilterQuery("-" + facetName + ":[* TO *]");
 				}
