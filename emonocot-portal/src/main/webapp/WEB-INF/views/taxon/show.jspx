@@ -803,12 +803,13 @@
 					</div>
 				</div>
 
-				<div id="identificationsList" class="modal hide fade" tabindex="-1" role="dialog">
+				<div id="identificationsList" class="modal hide fade lg" tabindex="-1" role="dialog">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
 						<h3 id="identificationsListLabel"><spring:message code="name_usage.label"/></h3>
 					</div>
 					<div class="modal-body">
+					<p><spring:message code="name_usage.description" /></p>
 						<table class="table table-striped">
 							<tbody>
 								<tr>
