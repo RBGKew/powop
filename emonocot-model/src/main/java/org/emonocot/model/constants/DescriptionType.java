@@ -16,6 +16,8 @@
  */
 package org.emonocot.model.constants;
 
+import java.util.Arrays;
+
 public enum DescriptionType {
 	general("http://rs.gbif.org/vocabulary/gbif/descriptionType/general", "general"),
 	diagnostic("http://rs.gbif.org/vocabulary/gbif/descriptionType/diagnostic", "diagnostic"),
@@ -54,11 +56,31 @@ public enum DescriptionType {
 	hybrids("http://rs.gbif.org/vocabulary/gbif/descriptionType/hybrids", "hybrids"),
 	literature("http://rs.gbif.org/vocabulary/gbif/descriptionType/literature", "literature"),
 	culture("http://rs.gbif.org/vocabulary/gbif/descriptionType/culture", "culture"),
-	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular");
+	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular"),
+	stemMorphology("stemMorphology"),
+	stem("stem", stemMorphology),
+	roots("roots", stemMorphology),
+	leafMorphology("leafMorphology"),
+	leaves("leaves", leafMorphology),
+	reproductiveMorphology("reproductiveMorphology"),
+	inflorescences("inflorescences", reproductiveMorphology),
+	flowers("flowers", reproductiveMorphology),
+	receptacle("receptacle", flowers),
+	perianth("perianth", flowers),
+	androecium("androecium", flowers),
+	calyx("calyx", flowers),
+	corolla("corolla", flowers),
+	gynoecium("gynoecium", flowers),
+	sterileParts("sterileParts", flowers),
+	disk("disc", flowers),
+	fruits("fruits", reproductiveMorphology),
+	seeds("seeds", reproductiveMorphology);
 
 	private String uri;
 
 	private String term;
+
+	private DescriptionType parent;
 
 	/**
 	 *
@@ -70,6 +92,15 @@ public enum DescriptionType {
 		this.term = newTerm;
 	}
 
+	private DescriptionType(final String newTerm, DescriptionType parent) {
+		this.term = newTerm;
+		this.parent = parent;
+	}
+
+	private DescriptionType(final String newTerm) {
+		this.term = newTerm;
+	}
+
 	/**
 	 *
 	 * @param uri The uri being converted into a Feature
@@ -77,12 +108,50 @@ public enum DescriptionType {
 	 *         feature matches
 	 */
 	public static DescriptionType fromString(final String string) {
+		return lookup(resolveDependencies(string));
+	}
+
+	private static DescriptionType lookup(final String string) {
 		for (DescriptionType f : DescriptionType.values()) {
-			if (f.uri.equals(string) || f.term.equals(string)) {
+			if ((f.uri != null && f.uri.equals(string)) || (f.term != null && f.term.equals(string))) {
 				return f;
 			}
 		}
 		throw new IllegalArgumentException(string
-				+ " is not an acceptable value for Feature");
+				+ " is not an acceptable value for DescriptionType");
+	}
+
+	/*
+	 * Description types can be specified hierarchically as colon delimited strings.
+	 * E.g., reproductiveMorphology:flowers:androecium
+	 */
+	private static String resolveDependencies(final String identifier) {
+		if(identifier.startsWith("http://")) {
+			return identifier;
+		}
+
+		String[] tokens = identifier.split(":");
+		validateHierarchy(tokens);
+		return tokens[tokens.length - 1];
+	}
+
+	private static void validateHierarchy(final String[] tokens) {
+		boolean root = true;
+		DescriptionType parent = null;
+
+		for(String identifier : tokens) {
+			DescriptionType dt = lookup(identifier);
+
+			if(root) {
+				root = false;
+			} else {
+				if(dt.parent != parent) {
+					throw new IllegalArgumentException(Arrays.toString(tokens)
+							+ "is not an acceptable DescriptionType hierarchy");
+				}
+			}
+
+			parent = dt;
+		}
 	}
 }
