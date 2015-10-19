@@ -1,8 +1,8 @@
-# ![eMonocot logo](http://emonocot.org/css/images/footer/logo.png) eMonocot
+# ![powop logo](https://github.com/RBGKew/powop/blob/master/emonocot-static/src/main/images/logo.png) Plants of the World Online Portal
 
-eMonocot is a global, online, biodiversity information resource.  This
-repository contains the code for the data model, harvester and web
-portal.
+Plants of the World Online Portal is a global, online, biodiversity information
+resource.  This repository contains the code for the data model, harvester 
+and web portal.
 
 The eMonocot code powers:
 * [**eMonocot** — an online resource for monocot plants](http://emonocot.org/)
