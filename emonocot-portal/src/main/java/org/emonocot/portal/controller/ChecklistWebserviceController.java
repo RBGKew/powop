@@ -19,6 +19,7 @@ package org.emonocot.portal.controller;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
@@ -116,6 +117,7 @@ public class ChecklistWebserviceController {
 			MDC.put(LoggingConstants.QUERY_KEY, query);
 			MDC.put(LoggingConstants.RESULT_COUNT_KEY,
 					Integer.toString(taxa.getSize()));
+			
 			queryLog.info("ChecklistWebserviceController.get");
 		} finally {
 			MDC.remove(LoggingConstants.SEARCH_TYPE_KEY);
@@ -134,13 +136,15 @@ public class ChecklistWebserviceController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, params = {
 			"function=details_tcs", "id" })
-	public ModelAndView get(@RequestParam(value = "id") String id) {
-		logger.debug("get");
+	public ModelAndView get(@RequestParam(value = "id") String id, HttpServletRequest request) {
+		StringBuffer requestUrl = request.getRequestURL();
+		logger.debug(" RequestUrl for checklistwebservice is " + requestUrl);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("tcsXmlResponse");
 		Taxon taxon = taxonService.load(id,"taxon-ws");
-
+		modelAndView.addObject("requestInfo", requestUrl);
 		modelAndView.addObject("result", taxon);
+		
 		try {
 			MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
 					CHECKLIST_WEBSERVICE_SEARCH_TYPE);
@@ -152,6 +156,7 @@ public class ChecklistWebserviceController {
 			MDC.remove(LoggingConstants.QUERY_KEY);
 			MDC.remove(LoggingConstants.RESULT_COUNT_KEY);
 		}
+
 		return modelAndView;
 	}
 

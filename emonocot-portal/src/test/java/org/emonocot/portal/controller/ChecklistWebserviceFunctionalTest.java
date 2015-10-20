@@ -49,6 +49,7 @@ import com.jayway.restassured.RestAssured;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/applicationContext-functionalTest.xml")
 public class ChecklistWebserviceFunctionalTest {
+	
 	private Logger logger = LoggerFactory.getLogger(ChecklistWebserviceFunctionalTest.class);
 
 	/**
@@ -72,12 +73,14 @@ public class ChecklistWebserviceFunctionalTest {
 				"META-INF/spring/application.properties");
 		properties = new Properties();
 		properties.load(propertiesFile.getInputStream());
+		
 		RestAssured.baseURI = properties.getProperty("functional.test.baseUri",
 				"http://build.e-monocot.org");
 		RestAssured.port = Integer.parseInt(properties.getProperty(
 				"functional.test.port", "80"));
 		RestAssured.basePath = properties.getProperty(
 				"functional.test.basePath", "/latest/checklist");
+
 
 		testDataManager.cleanDatabase();
 		testDataManager.cleanIndices();
@@ -172,12 +175,13 @@ public class ChecklistWebserviceFunctionalTest {
 	 */
 	@Test
 	public final void testGet() throws Exception {
+
 		String xml = given()
 				.parameters("function", "details_tcs", "id",
 						"urn:kew.org:wcs:taxon:1", "scratchpad",
 						"functional-test.e-monocot.org").get("/endpoint")
 						.andReturn().body().asString();
-		logger.debug("the xml checkwebservicefunctionaltest is attempting to create is" + xml);
+		
 		assertEquals("TaxonName id should equal TaxonConcept.Name ref",
 				with(xml).get("DataSet.TaxonConcepts.TaxonConcept.Name.@ref"),
 				with(xml).get("DataSet.TaxonNames.TaxonName.@id"));
@@ -220,8 +224,9 @@ public class ChecklistWebserviceFunctionalTest {
 				1,
 				with(xml)
 				.get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship.findAll { it.@type == 'is child taxon of' }.size()"));
+				logger.error("The external data string is:" + ((String) with(xml).get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref")));
 		assertTrue(
-				"The links to external data should be absolute, not relative",
+				"The links to external data should be absolute, not relative.",
 				((String) with(xml)
 						.get("DataSet.TaxonConcepts.TaxonConcept.TaxonRelationships.TaxonRelationship[0].ToTaxonConcept.@ref"))
 						.startsWith("http://"));

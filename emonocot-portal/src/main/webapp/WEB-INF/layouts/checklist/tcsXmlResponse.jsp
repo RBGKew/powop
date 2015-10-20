@@ -36,7 +36,7 @@
 	    <spring:message code="checklistWebserviceController.baseURL" var="baseUrl"/>
 	    <TaxonRelationships>
 	      <c:forEach var="child" items="${result.childNameUsages}">
-	        <c:url var="url" value="${baseUrl}">
+	        <c:url var="url" value="${requestInfo}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${child.identifier}"/>
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
@@ -46,7 +46,7 @@
 	        </TaxonRelationship>
 	      </c:forEach>
 	      <c:if test="${not empty result.parentNameUsage}">
-	        <c:url var="url" value="${baseUrl}">
+	        <c:url var="url" value="${requestInfo}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${result.parentNameUsage.identifier}"/>
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
@@ -56,7 +56,7 @@
 	        </TaxonRelationship>
 	      </c:if>
 	      <c:forEach var="synonym" items="${result.synonymNameUsages}">
-	        <c:url var="url" value="${baseUrl}">
+	        <c:url var="url" value="${requestInfo}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${synonym.identifier}"/>
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>
@@ -66,7 +66,7 @@
 	        </TaxonRelationship>
 	      </c:forEach>
 	      <c:if test="${not empty result.acceptedNameUsage}">
-	        <c:url var="url" value="${baseUrl}">
+	        <c:url var="url" value="${requestInfo}">
 	            <c:param name="function" value="details_tcs"/>
 	            <c:param name="id" value="${result.acceptedNameUsage.identifier}"/>
 	            <c:param name="scratchpad" value="${param.scratchpad}"/>

@@ -164,11 +164,12 @@ public class DarwinCoreJobIntegrationTest {
 		assertNotNull("The image in the multimedia file should have been persisted", imageService.load("http://media.e-taxonomy.eu/palmae/photos/palm_tc_170762_8.jpg"));
 		//This is a slightly fragile assertion as it depends on a fixed location of the test resource.
 		//I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny and ID Key as the data is in a pre-packaged zip file (dwc.zip).
-		assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load(repository + "1_1326150157_Strelitziaceae_Cron.nexorg"));
+		phylogeneticTreeService.load("https://raw.githubusercontent.com/RBGKew/eMonocot/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/1_1326150157_Strelitziaceae_Cron.nexorg");
+		assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load("https://raw.githubusercontent.com/RBGKew/eMonocot/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/1_1326150157_Strelitziaceae_Cron.nexorg"));
 
 		IdentificationKey localKey = null;
 		try {
-			localKey = identificationKeyService.load(repository + "European_Pontederiaceae.xml");
+			localKey = identificationKeyService.load("https://raw.githubusercontent.com/RBGKew/eMonocot/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/European_Pontederiaceae.xml");
 		} catch (Exception e) {}//Prefer test failure than a test error
 		assertNotNull("The key in the image file should have been persisted but was :" + localKey, localKey);
 	}
