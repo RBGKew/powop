@@ -167,7 +167,7 @@
 											<results:grid pager="${result}" />
 										</c:when>
 										<c:otherwise>
-											<results:list pager="${result}" />
+											<results:simpleList pager="${result}" />
 										</c:otherwise>
 									</c:choose>
 								</c:when>
