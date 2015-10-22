@@ -3,11 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder />
-	<context:property-override ignore-resource-not-found="true" ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
+	<context:property-override
+		ignore-resource-not-found="true"
+		ignore-unresolvable="true"
+		location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-portal.properties,classpath*:META-INF/spring/emonocot-portal-db.properties"/>
 
 	<!-- Message source can be customized to override eMonocot terminology. Earlier entries take priority. -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -22,25 +25,25 @@
 		</property>
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
-	
+
 	<context:component-scan base-package="org.emonocot" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
-    
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-	    <property name="useSuffixPatternMatch" value="false" />
-    </bean>
-    
-    <!-- Applied first to cover controller specific exception handling with @ExceptionHandler -->    
-    <bean id="localHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
-      <property name="order" value="0"/>
-    </bean>
-    
-    <!-- Applied second to handle exceptions not covered by the first -->    
-    <bean id="globalHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver">
-      <property name="order" value="1"/>
-    </bean>    
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="useSuffixPatternMatch" value="false" />
+	</bean>
+
+		<!-- Applied first to cover controller specific exception handling with @ExceptionHandler -->
+		<bean id="localHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+			<property name="order" value="0"/>
+		</bean>
+
+		<!-- Applied second to handle exceptions not covered by the first -->
+		<bean id="globalHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver">
+			<property name="order" value="1"/>
+		</bean>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
@@ -61,12 +64,12 @@
 		<property name="supportedMediaTypes" value="application/json,application/javascript" />
 		<property name="objectMapper" ref="customObjectMapper" />
 	</bean>
-	
+
 	<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-      <property name="supportedMediaTypes" value="text/plain,application/xml" />
-      <property name="writeAcceptCharset" value="false"/>
-    </bean>
-	
+		<property name="supportedMediaTypes" value="text/plain,application/xml" />
+		<property name="writeAcceptCharset" value="false"/>
+	</bean>
+
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
 
 	<mvc:view-controller path="/contribute" view-name="contribute"/>
@@ -78,51 +81,48 @@
 	<mvc:view-controller path="/notAcceptable" view-name="notAcceptable"/>
 	<mvc:view-controller path="/accessDenied" view-name="accessDenied"/>
 	<mvc:view-controller path="/unsupportedMediaType" view-name="unsupportedMediaType"/>
-    <mvc:view-controller path="/internalServerError" view-name="internalServerError"/>
-    <mvc:view-controller path="/serviceUnavailable" view-name="serviceUnavailable"/>
-    
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-	  <property name="converters">
-		<set>
-			<bean class="org.emonocot.portal.convert.AceDtoConverter" />
-			<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
-			<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
-			<bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
-			<bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
-			<bean class="org.emonocot.model.convert.StringToDurationConverter" />
-			<bean class="org.emonocot.model.convert.DurationToStringConverter" />
-			<bean class="org.emonocot.model.convert.StringToClassConverter" />
-			<bean class="org.emonocot.model.convert.ClassToStringConverter" />
-			<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
-			<bean class="org.emonocot.model.convert.StringToOrganisationConverter">
-				<property name="organisationService" ref="organisationServiceImpl" />
-			</bean>
-			<bean class="org.emonocot.model.convert.PrincipalToUserConverter">
-				<property name="service" ref="userServiceImpl" />
-			</bean>
-			<bean class="org.emonocot.model.convert.SpringAuthToUserConverter">
-				<property name="service" ref="userServiceImpl" />
-			</bean>
-		</set>
-	  </property>
-	  <property name="formatterRegistrars">
-		<set>
-			<bean class="org.emonocot.portal.format.FacetRequestFormatterRegistrar" />
-			<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
-		</set>
-	  </property>
-    </bean>
+	<mvc:view-controller path="/internalServerError" view-name="internalServerError"/>
+	<mvc:view-controller path="/serviceUnavailable" view-name="serviceUnavailable"/>
+
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="org.emonocot.portal.convert.AceDtoConverter" />
+				<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
+				<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
+				<bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToDurationConverter" />
+				<bean class="org.emonocot.model.convert.DurationToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToClassConverter" />
+				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
+				<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
+				<bean class="org.emonocot.model.convert.StringToOrganisationConverter">
+					<property name="organisationService" ref="organisationServiceImpl" />
+				</bean>
+				<bean class="org.emonocot.model.convert.PrincipalToUserConverter">
+					<property name="service" ref="userServiceImpl" />
+				</bean>
+				<bean class="org.emonocot.model.convert.SpringAuthToUserConverter">
+					<property name="service" ref="userServiceImpl" />
+				</bean>
+			</set>
+		</property>
+		<property name="formatterRegistrars">
+			<set>
+				<bean class="org.emonocot.portal.format.FacetRequestFormatterRegistrar" />
+				<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
+			</set>
+		</property>
+	</bean>
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-		id="tilesViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.tiles2.TilesView" />
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
 	</bean>
 
-	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"
-		id="tilesConfigurer">
+	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
 		<property name="definitions">
 			<list>
 				<value>/WEB-INF/layouts/layouts.xml</value>
@@ -131,7 +131,7 @@
 		</property>
 	</bean>
 	<beans profile="local.tests">
-	  <mvc:resources mapping="/css/**" location="classpath:/static/css/"/>
-	  <mvc:resources mapping="/js/**" location="classpath:/static/js/"/>
+		<mvc:resources mapping="/css/**" location="classpath:/static/css/"/>
+		<mvc:resources mapping="/js/**" location="classpath:/static/js/"/>
 	</beans>
 </beans>
