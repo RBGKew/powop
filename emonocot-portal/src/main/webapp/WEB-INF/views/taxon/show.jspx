@@ -4,7 +4,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
-	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
+	xmlns:taxon="urn:jsptagdir:/WEB-INF/tags/taxon"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:security="http://www.springframework.org/security/tags"
 	itemscope="itemscope" itemtype="http://rs.tdwg.org/dwc/terms/Taxon" itemid="${taxon.identifier}">
@@ -221,274 +221,21 @@
 				<spring:message code="notes" />${taxon.taxonRemarks}
 			</div>
 		</c:if>
+
+		<!--=============  Main Content Boxes =============-->
 		<div class="row">
 			<div class="span8">
-				<c:if test="${not empty taxon.descriptions}">
-					<section id="description" class="section-box">
-						<c:forEach var="feature" items="${em:features()}">
-							<c:set var="descriptions" value="${em:content(taxon,feature)}" />
-							<c:if test="${not empty descriptions}">
-								<div class="inner">
-									<div id="${feature}" class="box">
-										<spring:message code="${feature}" var="featureHeader"/>
-										<h2>
-											<span>${featureHeader}</span>
-											<tags:feedbackLink selector="option:contains(${featureHeader})" dataName="${featureHeader}" />
-										</h2>
-										<c:forEach var="description" items="${descriptions}">
-											<div class="description-with-citations">
-												<p class="justified">${description.description}</p>
-												<ul class="citations">
-													<li>
-														<a href="#${em:provenancekey(provenance, description)}">${em:provenanceinitial(provenance, description)}</a>
-													</li>
-													<c:if test="${not empty description.references}">
-														<c:forEach var="reference" items="${description.references}">
-															<li>
-																<c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
-																<a href="#citation${citationKey}">${citationKey}</a>
-															</li>
-														</c:forEach>
-													</c:if>
-												</ul>
-											</div>
-										</c:forEach>
-									</div>
-								</div>
-							</c:if>
-						</c:forEach>
-					</section>
-				</c:if>
 
-				<c:if test="${not empty taxon.distribution}">
-					<spring:message code="distribution.map" var="messageDistribution"/>
-					<section id="distributionMap" class="section-box">
-						<div class="inner">
-							<div class="box clearfix">
-								<h2>
-									<i class="glyphicons-icon globe"><!--  --></i> ${messageDistribution}
-									<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
-								</h2>
-								<c:set var="hasNativeDistribution" value="false"/>
-								<c:set var="hasIntroducedDistribution" value="false"/>
-								<div id="map-wrapper">
-									<geo:map bounds="${em:boundingBox(taxon,present)}"	mapClass="taxon-page-map">
-										<c:if test="${em:hasLevel1Features(taxon,present,nativ)}">
-											<c:set var="hasNativeDistribution" value="true"/>
-											<geo:layer name="level1_native" layer="tdwg:level1" style="eMonocot1_native" featureId="${em:getLevel1Features(taxon,present,nativ)}" />
-										</c:if>
-										<c:if test="${em:hasLevel1Features(taxon,present,introduced)}">
-											<c:set var="hasIntroducedDistribution" value="true"/>
-											<geo:layer name="level1_introduced" layer="tdwg:level1" style="eMonocot1_introduced" featureId="${em:getLevel1Features(taxon,present,introduced)}" />
-										</c:if>
-										<c:if test="${em:hasLevel2Features(taxon,present,nativ)}">
-											<c:set var="hasNativeDistribution" value="true"/>
-											<geo:layer name="level2_native" layer="tdwg:level2" style="eMonocot2_native" featureId="${em:getLevel2Features(taxon,present,nativ)}" />
-										</c:if>
-										<c:if test="${em:hasLevel2Features(taxon,present,introduced)}">
-											<c:set var="hasIntroducedDistribution" value="true"/>
-											<geo:layer name="level2_introduced" layer="tdwg:level2" style="eMonocot2_introduced" featureId="${em:getLevel2Features(taxon,present,introduced)}" />
-										</c:if>
-										<c:if test="${em:hasLevel3Features(taxon,present,nativ)}">
-											<c:set var="hasNativeDistribution" value="true"/>
-											<geo:layer name="level3_native" layer="tdwg:level3" style="eMonocot3_native" featureId="${em:getLevel3Features(taxon,present,nativ)}" />
-										</c:if>
-										<c:if test="${em:hasLevel3Features(taxon,present,introduced)}">
-											<c:set var="hasIntroducedDistribution" value="true"/>
-											<geo:layer name="level3_introduced" layer="tdwg:level3" style="eMonocot3_introduced" featureId="${em:getLevel3Features(taxon,present,introduced)}" />
-										</c:if>
-										<c:if test="${em:hasLevel4Features(taxon,present,nativ)}">
-											<c:set var="hasNativeDistribution" value="true"/>
-											<geo:layer name="level4_native" layer="tdwg:level4" style="eMonocot4_native" featureId="${em:getLevel4Features(taxon,present,nativ)}" />
-										</c:if>
-										<c:if test="${em:hasLevel4Features(taxon,present,introduced)}">
-											<c:set var="hasIntroducedDistribution" value="true"/>
-											<geo:layer name="level4_introduced" layer="tdwg:level4" style="eMonocot4_introduced" featureId="${em:getLevel4Features(taxon,present,introduced)}" />
-										</c:if>
-										<c:if test="${not empty taxon.typesAndSpecimens}">
-											<geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
-										</c:if>
-									</geo:map>
-								</div>
-								<c:if test="${hasNativeDistribution or hasIntroducedDistribution}">
-									<div class="row">
-										<div class="span7">
-											<ul id="distribution-map-key">
-												<c:if test="${hasNativeDistribution}">
-													<li><div class="distribution-map-key" style="background-color: #6F9449"><!--  --></div><spring:message code="native.distribution"/></li>
-												</c:if>
-												<c:if test="${hasIntroducedDistribution}">
-													<li><div class="distribution-map-key" style="background-color: #9A9261"><!--  --></div><spring:message code="introduced.distribution"/></li>
-												</c:if>
-											</ul>
-										</div>
-									</div>
-								</c:if>
-								<c:if test="${not empty taxon.typesAndSpecimens}">
-									<div class="row">
-										<div class="span7">
-											<span><spring:message code="specimenMessage" /></span>
-											<ul class="citations">
-												<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.typesAndSpecimens)}">
-													<li>
-														<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
-													</li>
-												</c:forEach>
-											</ul>
-										</div>
-									</div>
-								</c:if>
-								<div class="row">
-									<div class="span7">
-										<c:if test="${em:hasDistribution(taxon,present,nativ)}">
-											<h5><spring:message code="present.native"/></h5>
-											<ul class="distribution-textual">
-												<c:set var="previousDistribution" value="${null}"/>
-												<c:forEach var="distribution" items="${em:getDistribution(taxon,present,nativ)}">
-													<li><tags:distribution distribution="${distribution}" occurrenceStatus="Present" previousDistribution="${previousDistribution}"/></li>
-													<c:set var="previousDistribution" value="${distribution}"/>
-												</c:forEach>
-											</ul>
-										</c:if>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span7">
-										<c:if test="${em:hasDistribution(taxon,present,introduced)}">
-											<h5><spring:message code="present.introduced"/></h5>
-											<ul class="distribution-textual">
-												<c:set var="previousDistribution" value="${null}"/>
-												<c:forEach var="distribution" items="${em:getDistribution(taxon,present,introduced)}">
-													<li><tags:distribution distribution="${distribution}" occurrenceStatus="Present" previousDistribution="${previousDistribution}"/></li>
-													<c:set var="previousDistribution" value="${distribution}"/>
-												</c:forEach>
-											</ul>
-										</c:if>
-									</div>
-								</div>
-								<div class="row">
-									<div class="span7">
-										<c:if test="${em:hasDistribution(taxon,absent,nativ)}">
-											<h5><spring:message code="absent.native"/></h5>
-											<ul class="distribution-textual">
-												<c:set var="previousDistribution" value="${null}"/>
-												<c:forEach var="distribution" items="${em:getDistribution(taxon,absent,nativ)}">
-													<li><tags:distribution distribution="${distribution}" occurrenceStatus="Absent" previousDistribution="${previousDistribution}"/></li>
-													<c:set var="previousDistribution" value="${distribution}"/>
-												</c:forEach>
-											</ul>
-										</c:if>
-									</div>
-								</div>
-								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.distribution)}">
-										<li>
-											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
-										</li>
-									</c:forEach>
-									<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">
-										<li>
-											<a href="#citation${citationKey}">${citationKey}</a>
-										</li>
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
-					</section>
-				</c:if>
+				<taxon:descriptions />
 
-				<c:if test="${not empty taxon.childNameUsages}">
-					<section id="children" class="section-box">
-						<div class="inner">
-							<div class="box clearfix">
-								<h2>
-									${childrenHeader}${childrenRank}
-									<tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
-								</h2>
-								<ul class="unstyled">
-									<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">
-										<li>
-											<c:url value="/taxon/${child.identifier}" var="childUrl"/>
-											<a href="${childUrl}"><em>${child.scientificName}</em> ${child.scientificNameAuthorship}</a>
-										</li>
-									</c:forEach>
-								</ul>
-								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.childNameUsages)}">
-										<li>
-											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
-										</li>
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
-					</section>
-				</c:if>
+				<taxon:distribution />
 
-				<c:if test="${not empty taxon.synonymNameUsages}">
-					<section id="synonyms" class="section-box">
-						<div class="inner">
-							<div class="box clearfix">
-								<h2>
-									<spring:message code="synonyms" var="synonymsHeader"/>${synonymsHeader}
-									<tags:feedbackLink selector="option:contains(${synonymsHeader})" dataName="${synonymsHeader}" />
-								</h2>
-								<ul class="unstyled">
-									<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">
-										<li>
-											<c:url value="/taxon/${synonym.identifier}" var="synonymUrl"/>
-											<a href="${synonymUrl}"><em>${synonym.scientificName}</em> ${synonym.scientificNameAuthorship}</a>
-										</li>
-									</c:forEach>
-								</ul>
-								<ul class="citations">
-									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.synonymNameUsages)}">
-										<li>
-											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
-										</li>
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
-					</section>
-				</c:if>
-				<c:if test="${not empty taxon.vernacularNames}">
-					<section id="vernacularNames" class="section-box">
-						<div class="inner">
-							<div class="box clearfix">
-								<h2>
-									<spring:message code="vernacularNames" var="vernacularHeader"/>${vernacularHeader}
-									<tags:feedbackLink selector="option:contains(${vernacularHeader})" dataName="${vernacularHeader}" />
-								</h2>
-								<table class="table" id="vernacular">
-									<thead>
-										<tr>
-											<th><spring:message code="name"/></th>
-											<th><spring:message code="language"/></th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
-											<tr>
-												<td>${vernacularName.vernacularName}</td>
-												<td><c:if test="${vernacularName.language != ''}">${vernacularName.language.displayLanguage}</c:if></td>
-												<td>
-													<ul class="citations">
-														<c:set var="provenanceHolder" value="${em:provenanceinitial(provenance,vernacularName)}"/>
-														<li>
-															<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
-														</li>
-													</ul>
-												</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</section>
-				</c:if>
+				<taxon:childNameUsages />
+
+				<taxon:synonymNameUsages />
+
+				<taxon:vernacularNames />
+
 				<c:if test="${not empty bibliography.references}">
 					<section id="bibliography" class="section-box">
 						<div class="inner">
@@ -518,6 +265,7 @@
 						</div>
 					</section>
 				</c:if>
+
 				<section id="sources" class="section-box">
 					<div class="inner">
 						<div class="box clearfix">

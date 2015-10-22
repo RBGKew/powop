@@ -1,0 +1,47 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<c:set var="provenance" value="${em:provenance(taxon)}" />
+
+	<c:if test="${not empty taxon.vernacularNames}">
+		<section id="vernacularNames" class="section-box">
+			<div class="inner">
+				<div class="box clearfix">
+					<h2>
+						<spring:message code="vernacularNames" var="vernacularHeader"/>${vernacularHeader}
+						<tags:feedbackLink selector="option:contains(${vernacularHeader})" dataName="${vernacularHeader}" />
+					</h2>
+					<table class="table" id="vernacular">
+						<thead>
+							<tr>
+								<th><spring:message code="name"/></th>
+								<th><spring:message code="language"/></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="vernacularName" items="${taxon.vernacularNames}">
+								<tr>
+									<td>${vernacularName.vernacularName}</td>
+									<td><c:if test="${vernacularName.language != ''}">${vernacularName.language.displayLanguage}</c:if></td>
+									<td>
+										<ul class="citations">
+											<c:set var="provenanceHolder" value="${em:provenanceinitial(provenance,vernacularName)}"/>
+											<li>
+												<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+	</c:if>
+
+</jsp:root>
