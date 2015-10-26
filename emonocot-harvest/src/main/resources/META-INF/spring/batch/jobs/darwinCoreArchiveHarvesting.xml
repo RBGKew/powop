@@ -63,6 +63,7 @@
       <batch:next on="*" to="markTaxonRecords" />
       <batch:next on="IMPORT_TAXA" to="markTaxonRecordsForImport" />
       <batch:next on="IMPORT_TAXA_BY_AUTHORITY" to="markTaxonRecordsByAuthorityForImport" />
+      <batch:next on="IMPORT_TAXON_LINKS_ONLY" to="markTaxonRecordsForLinking" />
       <batch:next on="SKIP_TAXA" to="markTaxonRecordsForSkipping" />
       <batch:next on="SKIP_WITH_ERROR" to="checkDescriptionProcessingMode" />
     </batch:decision>
@@ -131,12 +132,39 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+    <batch:step id="markTaxonRecordsForLinking">
+      <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
+      <batch:tasklet ref="markTaxonRecordsForLinkingTasklet" />
+      <batch:next on="COMPLETED" to="importLinksOnly" />
+      <batch:listeners>
+        <batch:listener ref="markTaxonRecordsForLinkingTasklet" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
     <batch:step id="markTaxonRecordsByAuthorityForImport">
       <batch:description>Mark the taxon records we expect to be present in this archive</batch:description>
       <batch:tasklet ref="markTaxonRecordsByAuthorityTasklet" />
       <batch:next on="COMPLETED" to="importCoreFile" />
       <batch:listeners>
         <batch:listener ref="markTaxonRecordsByAuthorityTasklet" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
+    <batch:step id="importLinksOnly">
+      <batch:description>Process the core file containing the taxa, creating links only, and adding no new taxa where neccessary</batch:description>
+      <batch:tasklet>
+        <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="taxonDoNothingWriter" commit-interval="1" skip-limit="10000">
+          <batch:skippable-exception-classes>
+            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
+          </batch:skippable-exception-classes>
+        </batch:chunk>
+      </batch:tasklet>
+      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
+      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:listeners>
+        <batch:listener ref="processingExceptionProcessListener" />
+        <batch:listener ref="taxonFieldSetMapper" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
@@ -1218,6 +1246,15 @@
     <property name="subtribe" value="#{jobParameters['subtribe']}"/>
   </bean>
 
+  <bean id="markTaxonRecordsForLinkingTasklet" class="org.emonocot.job.dwc.taxon.SubsetRecordAnnotator" scope="step">
+    <property name="dataSource" ref="dataSource" />
+    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+    <property name="family" value="#{jobParameters['family']}"/>
+    <property name="subfamily" value="#{jobParameters['subfamily']}"/>
+    <property name="tribe" value="#{jobParameters['tribe']}"/>
+    <property name="subtribe" value="#{jobParameters['subtribe']}"/>
+  </bean>
+
   <bean id="markTaxonRecordsForSkippingTasklet" class="org.emonocot.job.dwc.taxon.SkippingRecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
@@ -1242,6 +1279,10 @@
   <bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor" scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
+  </bean>
+  
+  <bean id="taxonLinkingProcessor" class="org.emonocot.job.dwc.taxon.LinkingProcessor" scope="step">
+    <property name="sourceName" value="#{jobParameters['authority.name']}" />
   </bean>
 
   <bean id="taxonSkippingProcessor" class="org.emonocot.job.dwc.taxon.SkippingProcessor" scope="step">
@@ -2647,6 +2688,10 @@
   </bean>
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+ <bean id="taxonDoNothingWriter" class="org.emonocot.job.dwc.taxon.TaxonDoNothingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
