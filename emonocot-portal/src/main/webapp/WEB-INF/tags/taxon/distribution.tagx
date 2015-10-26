@@ -6,6 +6,7 @@
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags" version="2.0">
 
 	<c:set var="provenance" value="${em:provenance(taxon)}" />
+  <c:set var="bibliography" value="${em:bibliography(taxon)}" />
 
 	<c:if test="${not empty taxon.distribution}">
 		<spring:message code="distribution.map" var="messageDistribution"/>

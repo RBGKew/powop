@@ -532,31 +532,34 @@ h1, h2, h3, h4, h5, h6 {
 .span4 .inner:before, .span4 .inner:after, .span3 .inner:before, .span3 .inner:after { bottom: 9px; }
 .span2 .inner:before, .span2 .inner:after, .span1 .inner:before, .span1 .inner:after { bottom: 8px; }
 
-.box h1, .box h2, .box h3, .box h4, .box h5, .box h6 {
-	color: #5b5b5b;
-}
-
-.box h2 {
-	font-size: 16px;
-	line-height: 28px;
-}
-
-.box a h2 {
-	color: #5b5b5b;
-	text-decoration: none;
-}
-
-.box a:hover h2 {
-	text-decoration: none !important
-}
-
 .box {
-	p {
-		color: #888;
-	}
-	ul {
-		color: #888;
-	}
+  h1, h2, h3, h4, h5, h6 {
+    color: #5b5b5b;
+  }
+
+  h2 {
+    font-size: 16px;
+    line-height: 28px;
+  }
+
+  a h2 {
+    color: #5b5b5b;
+    text-decoration: none;
+  }
+
+  a:hover h2 {
+    text-decoration: none !important
+  }
+
+  p, ul, dl {
+    color: #333;
+  }
+
+  .dl-horizontal dd { margin-bottom: 10px }
+  dt {
+    color: #5b5b5b;
+    size: 0.8em;
+  }
 }
 
 .description-with-citations {
@@ -965,3 +968,11 @@ li.subordinateBoxList{
 }
 
 .glossary { cursor: help; }
+
+.more-details {
+	display: block;
+	border: 0;
+	color: #08c;
+	background: #fff;
+	font-style: italic;
+}

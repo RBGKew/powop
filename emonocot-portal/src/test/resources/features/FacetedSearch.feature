@@ -66,8 +66,6 @@ Scenario: Search for Only Taxa
   Then there should be 2 results
   When I restrict the "taxon.taxonomic_status_s" by selecting "Accepted Name"
   Then there should be 1 result
-  And the result status for Acorus calamus should be "Accepted Name"
-  And the result rank for Acorus calamus should be "Species"
 
 Scenario: Search for Only Images
   As a member of the public, I would like to be able to search for an

@@ -794,7 +794,7 @@ public class StepDefinitions {
 	public void thereShouldBeAParagraphWithTheHeading(String paragraph, String heading) {
 		assertEquals(paragraph,
 				((org.emonocot.portal.driver.taxon.Show) currentPage)
-				.getParagraph(heading));
+				.getDescription(heading));
 	}
 
 	@Then("^there should not be a paragraph with the heading \"([^\"]*)\"$")
