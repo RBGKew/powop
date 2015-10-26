@@ -61,35 +61,17 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-
-
-
-/**
- * @author ben
- */
 public class StepDefinitions {
 
 	private static Logger logger = LoggerFactory.getLogger(StepDefinitions.class);
 
-	/**
-	 *
-	 */
 	private static Integer MILLISECONDS_IN_A_SECOND = 1000;
 
-	/**
-	 *
-	 */
 	private PageObject currentPage;
 
-	/**
-	 *
-	 */
 	@Autowired
 	private Portal portal;
 
-	/**
-	 *
-	 */
 	@After
 	public void tearDown() {
 		if (currentPage != null) {
@@ -98,59 +80,36 @@ public class StepDefinitions {
 		}
 	}
 
-	/**
-	 * @param nodeName
-	 *            the node name to expand
-	 */
 	@When("^I expand \"([^\"]*)\"$")
 	public void iExpand(String nodeName) {
 		((Classification) currentPage).expandNode(nodeName);
 	}
 
-	/**
-	 * @param query
-	 *            Set the search query
-	 */
 	@When("^I search for \"([^\"]*)\"$")
 	public void whenISearchFor(String query) {
 		currentPage = portal.search(query);
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the source list page$")
 	public void iAmOnTheSourceListPage() {
 		currentPage = portal.getSourceListPage();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the classification page$")
 	public void iAmOnTheClassificationPage() {
 		currentPage = portal.getClassificationPage();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the group page$")
 	public void iAmOnTheGroupPage() {
 		currentPage = portal.getListGroupsPage();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the search page$")
 	public void iAmOnTheSearchPage() {
 		currentPage = portal.search("");
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the spatial search page$")
 	public void iAmOnTheSpatialSearchPage() {
 		currentPage = portal.spatialSearch(null, null, null, null);
@@ -193,10 +152,6 @@ public class StepDefinitions {
 				org.emonocot.portal.driver.group.Create.class);
 	}
 
-	/**
-	 * @param groupRows
-	 *            set the group rows
-	 */
 	@When("^I enter the following data into the group form:$")
 	public void iEnterTheFollowingDataInTheGroupForm(
 			List<GroupRow> groupRows) {
@@ -204,10 +159,6 @@ public class StepDefinitions {
 		.setGroupName(groupRows.get(0).identifier);
 	}
 
-	/**
-	 * @param sourceRows
-	 *            set the source rows
-	 */
 	@When("^I enter the following data into the create source form:$")
 	public void iEnterTheFollowingDataIntoTheCreateSourceForm(
 			List<OrganisationRow> sourceRows) {
@@ -222,13 +173,8 @@ public class StepDefinitions {
 		.setFormField("title", sourceRows.get(0).title);
 	}
 
-	/**
-	 * @param sourceRows
-	 *            set the source rows
-	 */
 	@When("^I enter the following data into the update source form:$")
-	public void iEnterTheFollowingDataIntoTheUpdateSourceForm(
-			List<OrganisationRow> sourceRows) {
+	public void iEnterTheFollowingDataIntoTheUpdateSourceForm(List<OrganisationRow> sourceRows) {
 		((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
 				"uri", sourceRows.get(0).uri);
 		((org.emonocot.portal.driver.organisation.Update) currentPage).setFormField(
@@ -248,31 +194,18 @@ public class StepDefinitions {
 		.setSecureObject(aceRows.get(0).object);
 	}
 
-	/**
-	 * @param userRows
-	 *            Set the user rows
-	 */
 	@When("^I enter the following data into the members form:$")
-	public void iEnterTheFollowingDataIntoTheMembersForm(
-			List<UserRow> userRows) {
+	public void iEnterTheFollowingDataIntoTheMembersForm(List<UserRow> userRows) {
 		((org.emonocot.portal.driver.group.Update) currentPage)
 		.setMember(userRows.get(0).identifier);
 	}
 
-	/**
-	 * @param linkText
-	 *            Set the link text
-	 */
 	@When("^I select \"(Create a new organisation)\"$")
 	public void iSelectCreateANewSource(String linkText) {
 		currentPage = currentPage.selectLink(linkText,
 				org.emonocot.portal.driver.organisation.Create.class);
 	}
 
-	/**
-	 * @param linkText
-	 *            Set the link text
-	 */
 	@When("^I select \"(Edit this group)\"$")
 	public void iSelectEditThisGroup(String linkText) {
 		currentPage = ((org.emonocot.portal.driver.group.Show) currentPage)
@@ -280,10 +213,6 @@ public class StepDefinitions {
 						org.emonocot.portal.driver.group.Update.class);
 	}
 
-	/**
-	 * @param linkText
-	 *            Set the link text
-	 */
 	@When("^I select \"(Edit this organisation)\"$")
 	public void iSelectEditThisSource(String linkText) {
 		currentPage = ((org.emonocot.portal.driver.organisation.Show) currentPage)
@@ -291,55 +220,36 @@ public class StepDefinitions {
 						org.emonocot.portal.driver.organisation.Update.class);
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the access controls form$")
 	public void iSubmitTheAccessControlsForm() {
 		currentPage = ((org.emonocot.portal.driver.group.Update) currentPage)
 				.submitAceForm();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the group form$")
 	public void iSubmitTheGroupForm() {
 		currentPage = ((org.emonocot.portal.driver.group.Create) currentPage)
 				.submit();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the update source form$")
 	public void iSubmitTheUpdateSourceForm() {
 		currentPage = ((org.emonocot.portal.driver.organisation.Update) currentPage)
 				.submit();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the create source form$")
 	public void iSubmitTheCreateSourceForm() {
 		currentPage = ((org.emonocot.portal.driver.organisation.Create) currentPage)
 				.submit();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the members form$")
 	public void iSubmitTheMembersForm() {
 		currentPage = ((org.emonocot.portal.driver.group.Update) currentPage)
 				.submitMemberForm();
 	}
 
-	/**
-	 * @param groupName
-	 *            Set the groupName
-	 */
 	@When("^I go to the page for the group \"([^\"]*)\"$")
 	public void iGoToThePageForTheGroup(String groupName) {
 		currentPage = portal.getGroupPage(groupName);
@@ -374,10 +284,6 @@ public class StepDefinitions {
 		iSelect("base.class_s", facetValue);
 	}
 
-	/**
-	 * @param query
-	 *            Set the query
-	 */
 	@When("^I type for \"([^\"]*)\" in the search box$")
 	public void typeInTheSearchBox(String query) {
 		((Search) currentPage).setQuery(query);
@@ -416,20 +322,12 @@ public class StepDefinitions {
 		currentPage = ((Login) currentPage).submit();
 	}
 
-	/**
-	 * @param job
-	 *            Set the job
-	 */
 	@When("^I select the (\\d+)\\w+ job$")
 	public void iSelectTheJob(int job) {
 		currentPage = ((org.emonocot.portal.driver.organisation.Show) currentPage)
 				.selectResource(job);
 	}
 
-	/**
-	 * @param keyword
-	 *            Set the keyword
-	 */
 	@When("^I click on the keyword \"([^\"]*)\"$")
 	public void iClickOnTheKeyword(String keyword) {
 		currentPage = ((org.emonocot.portal.driver.image.Show) currentPage)
@@ -441,23 +339,14 @@ public class StepDefinitions {
 		currentPage = ((org.emonocot.portal.driver.Search) currentPage).selectNextPage();
 	}
 
-	/**
-	 * @param category
-	 *            Set the category
-	 */
 	@When("^I restrict the job \"([^\"]*)\" by selecting \"([^\"]*)\"$")
 	public void iSelectTheJobCategory(String facetName, String facetValue) {
 		currentPage = ((org.emonocot.portal.driver.organisation.ResourceOutput) currentPage)
 				.selectFacet(facetName, facetValue);
 	}
 
-	/**
-	 * @param results
-	 *            Set the expected results
-	 */
 	@Then("^the following nodes should be displayed:$")
-	public void theFollowingNodesShouldBeDisplayed(
-			List<ResultRow> results) {
+	public void theFollowingNodesShouldBeDisplayed(List<ResultRow> results) {
 		int actualNumberOfResults = (int) ((Classification) currentPage)
 				.getNodeNumber();
 		assertEquals(results.size(), actualNumberOfResults);
@@ -477,13 +366,8 @@ public class StepDefinitions {
 		assertEquals(message, currentPage.getInfoMessage());
 	}
 
-	/**
-	 * @param results
-	 *            Set the results
-	 */
 	@Then("^the summary results should be as follows:$")
-	public void theSummaryResultsShouldBeAsFollows(
-			List<SummaryRow> results) {
+	public void theSummaryResultsShouldBeAsFollows(List<SummaryRow> results) {
 		int actualNumberOfResults = (int) ((ResourceOutput) currentPage)
 				.getResultNumber();
 		assertEquals(results.size(), actualNumberOfResults);
@@ -526,9 +410,6 @@ public class StepDefinitions {
 				.getOrganisationLogo());
 	}
 
-	/**
-	 *
-	 */
 	@Then("^the view icons should be displayed$")
 	public void theViewIconsShouldBeDisplayed() {
 		assertTrue(((Search) currentPage).viewIconDisplay());
@@ -580,10 +461,6 @@ public class StepDefinitions {
 		assertEquals(label, ((Search) currentPage).getPaginationLabel());
 	}
 
-	/**
-	 * @param ancestors
-	 *            Set the ancestors
-	 */
 	@Then("^there should be (\\d+) ancestor[s]?$")
 	public void thereShouldBeAncestors(Integer ancestors) {
 		assertEquals(ancestors,
@@ -591,10 +468,6 @@ public class StepDefinitions {
 				.getAncestorsNumber());
 	}
 
-	/**
-	 *
-	 * @param taxonStatus Set the taxonomic status
-	 */
 	@Then("^the taxon status should be '([^\"]*)'$")
 	public void theTaxonStatusShouldBe(String taxonStatus) {
 		assertEquals(taxonStatus,
@@ -618,8 +491,7 @@ public class StepDefinitions {
 	 *            Set the number of subordinate taxa
 	 */
 	@Then("^there should be (\\d+) subordinate taxa$")
-	public void thereShouldBeSubordinateTaxa(
-			Integer subordinateNumber) {
+	public void thereShouldBeSubordinateTaxa(Integer subordinateNumber) {
 		assertEquals(subordinateNumber,
 				((org.emonocot.portal.driver.taxon.Show) currentPage)
 				.getChildrenNumber());
@@ -632,15 +504,9 @@ public class StepDefinitions {
 				.getPhylogenyNumber());
 	}
 
-	/**
-	 * @param results
-	 *            Set the results
-	 */
 	@Then("^the following results should be displayed:$")
-	public void theFollowingResultsShouldBeDisplayed(
-			List<ResultRow> results) {
-		int actualNumberOfResults = (int) ((Search) currentPage)
-				.getResultNumber();
+	public void theFollowingResultsShouldBeDisplayed(List<ResultRow> results) {
+		int actualNumberOfResults = (int) ((Search) currentPage).getResultNumber();
 		assertEquals(results.size(), actualNumberOfResults);
 		List<String[]> actualResults = ((Search) currentPage).getResults();
 		for (int i = 0; i < actualNumberOfResults; i++) {
@@ -711,17 +577,12 @@ public class StepDefinitions {
 	 *            Set the expected citations
 	 */
 	@Then("^the citation for the \"([^\"]*)\" topic should be \"([^\"]*)\"$")
-	public void theCitationForTheTopicShouldBe(String topic,
-			String citations) {
+	public void theCitationForTheTopicShouldBe(String topic, String citations) {
 		assertEquals(
 				citations, ((org.emonocot.portal.driver.taxon.Show)
 						currentPage).getCitations(topic).replaceAll("\\s+",""));
 	}
 
-	/**
-	 * @param title
-	 *            Set the name
-	 */
 	@Then("^the source title should be \"([^\"]*)\"$")
 	public void theSourceTitleShouldBe(String title) {
 		assertEquals(title,
@@ -736,26 +597,16 @@ public class StepDefinitions {
 				.getTitle());
 	}
 
-	/**
-	 * @param message
-	 *            Set the message
-	 */
 	@Then("^the search results page should display \"([^\"]*)\"$")
 	public void theSearchResultsPageShouldDisplay(String message) {
 		assertEquals(message, ((Search) currentPage).getMessage());
 	}
 
-	/**
-	 *
-	 */
 	@Then("^I select the identify link on the home page$")
 	public void iSelectTheIdentifyLinkOnTheHomePage() {
 		currentPage = currentPage.selectIdentifyLink();
 	}
 
-	/**
-	 *
-	 */
 	@Then("^I select the classify link on the home page$")
 	public void iSelectTheClassifyLinkOnTheHomePage() {
 		currentPage = currentPage.selectClassifyLink();
@@ -771,7 +622,6 @@ public class StepDefinitions {
 		assertEquals(currentPage.getClass(), TermsOfUse.class);
 	}
 
-
 	@Then("^I select the about link in the footer$")
 	public void iSelectTheAboutLinkInTheFooter() {
 		currentPage = currentPage.selectAboutLink();
@@ -782,56 +632,31 @@ public class StepDefinitions {
 		assertEquals(currentPage.getClass(), About.class);
 	}
 
-
-	/**
-	 * @param options
-	 *            Set the options
-	 */
 	@Then("^the Type facet should have the following options:$")
 	public void thereShouldBeOptionsForClassFacet(List<Row> options) {
 		assertFacets("base.class_s", options);
 	}
 
-	/**
-	 * @param options
-	 *            Set the options
-	 */
 	@Then("^the Family facet should have the following options:$")
 	public void thereShouldBeOptionsForFamilyFacet(List<Row> options) {
 		assertFacets("taxon.family_ss", options);
 	}
 
-	/**
-	 * @param options
-	 *            Set the options
-	 */
 	@Then("^the IUCN status facet should have the following options:$")
 	public void thereShouldBeOptionsForIUCNFacet(List<Row> options) {
 		assertFacets("taxon.measurement_or_fact_threatStatus_txt", options);
 	}
 
-	/**
-	 * @param options
-	 *            Set the options
-	 */
 	@Then("^the Rank facet should have the following options:$")
 	public void thereShouldBeOptionsForRankFacet(List<Row> options) {
 		assertFacets("taxon.taxon_rank_s", options);
 	}
 
-	/**
-	 * @param options
-	 *            Set the options
-	 */
 	@Then("^the Status facet should have the following options:$")
 	public void thereShouldBeOptionsForStatusFacet(List<Row> options) {
 		assertFacets("taxon.taxonomic_status_s", options);
 	}
 
-	/**
-	 * @param options
-	 *            Set the options
-	 */
 	@Then("^the autocomplete box should display the following options:$")
 	public void theAutocompleteBoxShouldDisplayTheFollowingOptions(
 			List<Row> options) {
@@ -843,14 +668,7 @@ public class StepDefinitions {
 		assertArrayEquals(expected, actual);
 	}
 
-	/**
-	 * @param facetName
-	 *            Set the facet name
-	 * @param options
-	 *            Set the options
-	 */
-	public void assertFacets(String facetName,
-			List<Row> options) {
+	public void assertFacets(String facetName, List<Row> options) {
 		String[] expected = new String[options.size()];
 		for (int i = 0; i < options.size(); i++) {
 			expected[i] = options.get(i).option;
@@ -860,9 +678,6 @@ public class StepDefinitions {
 
 	}
 
-	/**
-	 *
-	 */
 	@Then("^the images should be displayed in a grid.$")
 	public void theImagesShouldBeDisplayedInAGrid() {
 		assertTrue(((Search) currentPage).resultsAreDisplayedInGrid());
@@ -943,20 +758,12 @@ public class StepDefinitions {
 		}
 	}
 
-	/**
-	 * @param thumbnail
-	 *            Set the thumbnail
-	 */
 	@When("I select the (\\d+)\\w+ thumbnail")
 	public void selectTheThumbnail(Integer thumbnail) {
 		((org.emonocot.portal.driver.taxon.Show) currentPage)
 		.selectThumbnail(thumbnail);
 	}
 
-	/**
-	 * @param title
-	 *            Set the title
-	 */
 	@Then("^the page title should be \"([^\"]*)\"$")
 	public void thePageTitleShouldBeAcorus(String title) {
 		assertEquals(title,
@@ -964,9 +771,6 @@ public class StepDefinitions {
 				.getTaxonName());
 	}
 
-	/**
-	 *
-	 */
 	@Then("the image page should be displayed")
 	public void theImagePageShouldBeDisplayed() {
 		assertEquals(currentPage.getClass(),
@@ -980,43 +784,26 @@ public class StepDefinitions {
 	 *            Set the expected value
 	 */
 	@Then("^the page title \"([^\"]*)\" should be \"([^\"]*)\"$")
-	public void theTitleAttributeShouldBeTaxonName(
-			String attribute, String value) {
+	public void theTitleAttributeShouldBeTaxonName(String attribute, String value) {
 		assertEquals(value,
 				((org.emonocot.portal.driver.taxon.Show) currentPage)
 				.getTaxonNameStyle(attribute));
 	}
 
-	/**
-	 * @param paragraph
-	 *            Set the paragraph
-	 * @param heading
-	 *            Set the heading
-	 */
 	@Then("^there should be a paragraph \"([^\"]*)\" with the heading \"([^\"]*)\"$")
-	public void thereShouldBeAParagraphWithTheHeading(
-			String paragraph, String heading) {
+	public void thereShouldBeAParagraphWithTheHeading(String paragraph, String heading) {
 		assertEquals(paragraph,
 				((org.emonocot.portal.driver.taxon.Show) currentPage)
 				.getParagraph(heading));
 	}
 
-	/**
-	 * /**
-	 *
-	 * @param heading
-	 *            Set the heading
-	 */
 	@Then("^there should not be a paragraph with the heading \"([^\"]*)\"$")
-	public void thereShouldNotBeAParagraphWithTheHeading(
-			String heading) {
+	public void thereShouldNotBeAParagraphWithTheHeading(String heading) {
 		assertFalse(((org.emonocot.portal.driver.taxon.Show) currentPage)
 				.doesParagraphExist(heading));
 	}
 
 	/**
-	 *
-	 *
 	 * @param elementId The element of the id you are checking for
 	 */
 	@Then("^there should not be a \"([^\"]*)\" visible$")
@@ -1026,8 +813,6 @@ public class StepDefinitions {
 	}
 
 	/**
-	 *
-	 *
 	 * @param elementId The element of the id you are checking for
 	 */
 	@Then("^there should be a \"([^\"]*)\" visible$")
@@ -1036,10 +821,6 @@ public class StepDefinitions {
 				.isElementVisible(elementId));
 	}
 
-	/**
-	 * @param protologue
-	 *            Set the protologue
-	 */
 	@Then("^the protologue should be \"([^\"]*)\"$")
 	public void theProtologueShouldBe(String protologue) {
 		assertEquals(
@@ -1048,10 +829,6 @@ public class StepDefinitions {
 				protologue);
 	}
 
-	/**
-	 * @param protologLink
-	 *            Set the protologue link
-	 */
 	@Then("^the protolog link should be \"([^\"]*)\"$")
 	public void theProtologueLinkShouldBe(String protologLink) {
 		assertEquals(
@@ -1060,10 +837,6 @@ public class StepDefinitions {
 				protologLink);
 	}
 
-	/**
-	 * @param provenance
-	 *            Set the provenance
-	 */
 	@And("^the provenance entry \"([^\"]*)\" should be \"([^\"]*)\"$")
 	public void theProvenanceEntryShouldBe(String provenanceKey, String provenanceEntry) {
 		assertEquals(
@@ -1080,35 +853,22 @@ public class StepDefinitions {
 	 *            Set the expected value
 	 */
 	@Then("^the main image ([^\"]*) should be \"([^\"]*)\"$")
-	public void theMainImagePropertyShouldBe(String property,
-			String value) {
+	public void theMainImagePropertyShouldBe(String property, String value) {
 		assertEquals(value,
 				((IllustratedPage) currentPage).getMainImageProperty(property));
 	}
 
-	/**
-	 * @param image
-	 *            Set the image
-	 */
 	@Then("^the main image should be \"([^\"]*)\"$")
 	public void theMainImageShouldBe(String image) {
 		assertEquals(image, ((IllustratedPage) currentPage).getMainImage());
 	}
 
-	/**
-	 * @param thumbnails
-	 *            Set the thumbnails
-	 */
 	@Then("^there should be (\\d+) thumbnail[s]?$")
 	public void thereShouldBeThumbnails(int thumbnails) {
 		assertEquals(thumbnails,
 				((IllustratedPage) currentPage).getThumbnails());
 	}
 
-	/**
-	 * @param url
-	 *            Set the url
-	 */
 	@Then("^the distribution map should be \"([^\"]*)\"$")
 	public void theDistributionMapShouldBe(String url) {
 		assertEquals(url,
@@ -1116,17 +876,11 @@ public class StepDefinitions {
 				.getDistributionMap());
 	}
 
-	/**
-	 *
-	 */
 	@When("^I select \"Create a new account\"$")
 	public void selectTheRegisterLink() {
 		currentPage = ((Login) currentPage).selectRegistrationLink();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I select the main image$")
 	public void selectTheMainImage() {
 		currentPage = ((org.emonocot.portal.driver.taxon.Show) currentPage)
@@ -1138,8 +892,7 @@ public class StepDefinitions {
 	 *            Set the registration data
 	 */
 	@When("^I enter the following data into the registration form:$")
-	public void enterTheFollowingDataIntoTheRegistrationForm(
-			List<RegistrationRow> data) {
+	public void enterTheFollowingDataIntoTheRegistrationForm(List<RegistrationRow> data) {
 		((Register) currentPage).setUsername(data.get(0).username);
 		((Register) currentPage).setRepeatUsername(data.get(0).repeatUsername);
 		((Register) currentPage).setPassword(data.get(0).password);
@@ -1151,8 +904,7 @@ public class StepDefinitions {
 	 *            Set the login data
 	 */
 	@When("^I enter the following data into the login form:$")
-	public void enterTheFollowingDataIntoTheFormForm(
-			List<LoginRow> data) {
+	public void enterTheFollowingDataIntoTheFormForm(List<LoginRow> data) {
 		((Login) currentPage).setUsername(data.get(0).username);
 		((Login) currentPage).setPassword(data.get(0).password);
 	}
@@ -1174,98 +926,57 @@ public class StepDefinitions {
 				.submit();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the registration form$")
 	public void submitTheRegistrationForm() {
 		currentPage = ((Register) currentPage).submit();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I submit the login form$")
 	public void submitTheLoginForm() {
 		currentPage = ((Login) currentPage).submit();
 	}
 
-	/**
-	 *
-	 */
 	@Then("^my profile page should be displayed$")
 	public void myProfilePageShouldBeDisplayed() {
 		assertEquals(Profile.class, currentPage.getClass());
 	}
 
-	/**
-	 *
-	 */
 	@Then("^I should be logged in to the portal$")
 	public void iShouldBeLoggedInToThePortal() {
 		assertTrue(currentPage.loggedIn());
 	}
 
-	/**
-	 *
-	 */
 	@Then("^the login page should be displayed$")
 	public void theLoginPageShouldBeDisplayed() {
 		assertEquals(Login.class, currentPage.getClass());
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am not authenticated$")
 	public void amNotAuthenticated() {
 		portal.disableAuthentication();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the portal home page$")
 	public void openThePortalHomePage() {
 		currentPage = portal.getHomePage();
 	}
 
-	/**
-	 *
-	 */
 	@When("^I am on the portal features page$")
 	public void IAmOnThePortalFeaturesPage() {
 		currentPage = portal.getFeaturePage();
 	}
 
-	/**
-	 *
-	 * @param text Set the text
-	 */
 	@When("^I select the \"([^\"]+)\" link in the navbar$")
 	@And("^I select the \"([^\"]+)\" link in the page$")
 	public void iSelectLink(String text) {
 		currentPage = portal.selectLink(text);
 	}
 
-
-	/*@When("^I select the \"([^\"]+)\" link in the page$")
-    public void iSelectPageLink(String text) {
-        currentPage = portal.selectLink(text);
-    }*/
-
-	/**
-	 *
-	 */
 	@When("^I am on the classify page$")
 	public void openTheClassifyPage() {
 		currentPage = portal.getClassifyPage();
 	}
 
-	/**
-	 *
-	 * @param relativePath
-	 */
 	@Then("^I should be on the \"([^\"]+)\" page$")
 	public void iShouldBeOnThePageURL(String relativePath) {
 		assertEquals("The URI should be \"" + relativePath + "\".",
@@ -1298,40 +1009,15 @@ public class StepDefinitions {
 		assertTrue(actualText + " does not contain " + expectedPartialText,actualText.indexOf(expectedPartialText)>=0);
 	}
 
-
-
-
-
-	/**
-	 * @author ben
-	 */
 	public static class Row implements Serializable {
-		/**
-		 *
-		 */
 		private static long serialVersionUID = 1L;
-		/**
-		 *
-		 */
 		public String option;
 	}
 
-	/**
-	 * @author ben
-	 */
 	public static class ResultRow {
-		/**
-		 *
-		 */
 		public String page;
-		/**
-		 *
-		 */
 		public String text;
 
-		/**
-		 * @return the row as an array
-		 */
 		public String[] toArray() {
 			return new String[] {page, text};
 		}
