@@ -39,16 +39,8 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
-/**
- *
- * @author ben
- *
- */
 public class DataSetup {
 
-	/**
-	 *
-	 */
 	@Autowired
 	private TestDataManager testDataManager;
 
@@ -57,14 +49,8 @@ public class DataSetup {
 		testDataManager.cleanIndices();
 	}
 
-	/**
-	 *
-	 * @param imageRows
-	 *            set the image rows
-	 */
 	@Given("^there are images with the following properties:$")
-	public final void thereAreImagesWithTheFollowingProperties(
-			final List<ImageRow> imageRows) {
+	public final void thereAreImagesWithTheFollowingProperties(final List<ImageRow> imageRows) {
 		for (ImageRow imageRow : imageRows) {
 			testDataManager.createImage(imageRow.identifier, imageRow.caption,
 					imageRow.url, imageRow.source, imageRow.description,
@@ -73,14 +59,8 @@ public class DataSetup {
 		}
 	}
 
-	/**
-	 *
-	 * @param jobInstanceRows
-	 *            set the job instance rows
-	 */
 	@Given("^there are job instances with the following properties:$")
-	public final void thereAreJobInstancesWithTheFollowingProperties(
-			final List<JobInstanceRow> jobInstanceRows) {
+	public final void thereAreJobInstancesWithTheFollowingProperties(final List<JobInstanceRow> jobInstanceRows) {
 		for (JobInstanceRow jobInstanceRow : jobInstanceRows) {
 			testDataManager.createJobInstance(jobInstanceRow.jobId,
 					jobInstanceRow.jobName, jobInstanceRow.authorityName,
@@ -89,8 +69,7 @@ public class DataSetup {
 	}
 
 	@Given("^there are resources with the following properties:$")
-	public final void thereAreResourcesWithTheFollowingProperties(
-			final List<ResourceRow> jobRows) {
+	public final void thereAreResourcesWithTheFollowingProperties(final List<ResourceRow> jobRows) {
 
 		for(ResourceRow jobRow : jobRows) {
 			testDataManager.createResource(jobRow.identifier, jobRow.title,
@@ -100,14 +79,8 @@ public class DataSetup {
 		}
 	}
 
-	/**
-	 *
-	 * @param jobExecutionRows
-	 *            set the job execution rows
-	 */
 	@Given("^there are job executions with the following properties:$")
-	public final void thereAreJobExecutionsWithTheFollowingProperties(
-			final List<JobExecutionRow> jobExecutionRows) {
+	public final void thereAreJobExecutionsWithTheFollowingProperties(final List<JobExecutionRow> jobExecutionRows) {
 		for (JobExecutionRow jobExecution : jobExecutionRows) {
 			testDataManager.createJobExecution(jobExecution.jobId,
 					jobExecution.jobInstance, jobExecution.createTime,
@@ -118,14 +91,8 @@ public class DataSetup {
 		}
 	}
 
-	/**
-	 *
-	 * @param annotationRows
-	 *            set the annotation rows
-	 */
 	@Given("^there are annotations with the following properties:$")
-	public final void thereAreAnnotationsWithTheFollowingProperties(
-			final List<AnnotationRow> annotationRows) {
+	public final void thereAreAnnotationsWithTheFollowingProperties(final List<AnnotationRow> annotationRows) {
 		for (AnnotationRow annotationRow : annotationRows) {
 			testDataManager.createAnnotation(annotationRow.identifier,
 					annotationRow.code, annotationRow.type,
@@ -136,77 +103,43 @@ public class DataSetup {
 		}
 	}
 
-	/**
-	 *
-	 * @param aceRows
-	 *            set the ACE rows
-	 */
 	@Given("^there are the following access controls:$")
-	public final void thereAreTheFollowingAccessControls(
-			final List<AccessControlRow> aceRows) {
+	public final void thereAreTheFollowingAccessControls(final List<AccessControlRow> aceRows) {
 		for (AccessControlRow aceRow : aceRows) {
 			testDataManager.createAcl(aceRow.principal, aceRow.principalType,
 					aceRow.object, aceRow.objectType, aceRow.permission);
 		}
 	}
 
-	/**
-	 * @param rows
-	 *            Set the rows
-	 */
 	@Given("^there are groups with the following properties:$")
-	public final void thereGroupsWithTheFollowingProperties(
-			final List<GroupRow> rows) {
+	public final void thereGroupsWithTheFollowingProperties(final List<GroupRow> rows) {
 		for (GroupRow row : rows) {
 			testDataManager.createGroup(row.identifier, row.permission1);
 		}
 	}
 
-	/**
-	 *
-	 * @param rows
-	 *            Set the rows
-	 */
 	@Given("^there are users with the following properties:$")
-	public final void thereAreUsersWithTheFollowingProperties(
-			final List<UserRow> rows) {
+	public final void thereAreUsersWithTheFollowingProperties(final List<UserRow> rows) {
 		for (UserRow row : rows) {
 			testDataManager
 			.createUser(row.identifier, row.accountName, row.password, row.group1);
 		}
 	}
 
-	/**
-	 *
-	 * @param rows
-	 *            Set the rows
-	 */
 	@Given("^there are organisations with the following properties:$")
-	public final void thereAreOrganisationsWithTheFollowingProperties(
-			final List<OrganisationRow> rows) {
+	public final void thereAreOrganisationsWithTheFollowingProperties(final List<OrganisationRow> rows) {
 		for (OrganisationRow row : rows) {
 			testDataManager.createOrganisation(row.identifier, row.uri, row.title, row.bibliographicCitation, row.commentsEmailedTo, row.logoUrl, row.footerLogoPosition);
 		}
 	}
 
-	/**
-	 *
-	 * @param name
-	 *            Set the name
-	 */
 	@Given("^there are no taxa called \"([^\"]*)\"$")
 	public final void thereAreNoTaxaCalled(final String name) {
 		testDataManager.assertNoTaxaWithName(name);
 	}
 
-	/**
-	 *
-	 * @param rows
-	 *            set the taxon rows
-	 */
 	@Given("^there are taxa with the following properties:$")
-	public final void thereAreTaxaWithTheFollowingProperties(
-			final List<TaxonRow> rows) {
+	public final void thereAreTaxaWithTheFollowingProperties(final List<TaxonRow> rows) {
 		for (TaxonRow row : rows) {
 			testDataManager.createTaxon(row.identifier, row.name, null,
 					row.family, row.genus, row.specificEpithet, row.rank,
@@ -219,17 +152,10 @@ public class DataSetup {
 					row.diagnosticSource, row.diagnosticRights, row.diagnosticLicense,
 					row.habitatSource, row.habitatRights, row.habitatLicense, row.lifeForm, row.iucnConservationStatus, row.uri);
 		}
-
 	}
 
-	/**
-	 *
-	 * @param rows
-	 *            set the rows
-	 */
 	@Given("^there are references with the following properties:$")
-	public final void thereAreReferencesWithTheFollowingProperties(
-			final List<ReferenceRow> rows) {
+	public final void thereAreReferencesWithTheFollowingProperties(final List<ReferenceRow> rows) {
 		for (ReferenceRow row : rows) {
 			testDataManager.createReference(row.identifier, row.title,
 					row.authors, row.datePublished, row.volume, row.page,
@@ -237,25 +163,15 @@ public class DataSetup {
 		}
 	}
 
-	/**
-	 * @param rows
-	 *            ID Key rows to set
-	 */
 	@Given("^there are identification keys with the following properties:$")
-	public final void thereAreIdentificationKeysWithTheFollowingProperties(
-			final List<IdentificationKeyRow> rows) {
+	public final void thereAreIdentificationKeysWithTheFollowingProperties(final List<IdentificationKeyRow> rows) {
 		for (IdentificationKeyRow row : rows) {
 			testDataManager.createIdentificationKey(row.identifier, row.title, row.description, row.taxon, row.source);
 		}
 	}
 
-	/**
-	 * @param rows
-	 *            ID Key rows to set
-	 */
 	@Given("^there are phylogenetic trees with the following properties:$")
-	public final void thereArePhylogeneticTreesWithTheFollowingProperties(
-			final List<PhylogeneticTreeRow> rows) {
+	public final void thereArePhylogeneticTreesWithTheFollowingProperties(final List<PhylogeneticTreeRow> rows) {
 		for (PhylogeneticTreeRow row : rows) {
 			testDataManager.createPhylogeneticTree(row.identifier, row.title, row.description, row.taxon, row.source, row.phylogeny);
 		}
@@ -273,12 +189,8 @@ public class DataSetup {
 		testDataManager.cleanDatabase();
 	}
 
-	/**
-	 *
-	 */
 	@After
 	public final void tearDown() {
 		testDataManager.tearDown();
 	}
-
 }

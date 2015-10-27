@@ -25,92 +25,46 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-/**
- *
- * @author ben
- *
- */
 public class Search extends PageObject {
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "results")
 	private WebElement results;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "entryRank")
 	private WebElement rank;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "entryStatus")
 	private WebElement resultStatus;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.CLASS_NAME, using = "ui-autocomplete")
 	private WebElement autocomplete;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "query")
 	private WebElement query;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "pages")
 	private WebElement message;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "facets")
 	private WebElement facets;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "sorting")
 	private WebElement sorting;
 
 	@FindBy(how = How.CLASS_NAME, using = "pagination")
 	private WebElement pagination;
 
-
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "viewIcons")
 	private WebElement viewIcons;
 
-	/**
-	 *
-	 * @return the number of results
-	 */
 	public final Integer getResultNumber() {
 		return results.findElements(By.className("result")).size();
 	}
 
-	/**
-	 *
-	 * @return the rank of results
-	 */
 	public final String getResultEntryRank() {
 		return rank.getText();
 	}
 
-
-	/**
-	 *
-	 * @return the status of results
-	 */
 	public final String getResultEntryStatus() {
 		return resultStatus.getText();
 	}
@@ -126,7 +80,6 @@ public class Search extends PageObject {
 	}
 
 	/**
-	 *
 	 * @param sort
 	 *            The string to sort by
 	 * @return a search results page
@@ -139,7 +92,6 @@ public class Search extends PageObject {
 	}
 
 	/**
-	 *
 	 * @param grid
 	 *            Go to the grid view
 	 * @return a search results page
@@ -198,10 +150,6 @@ public class Search extends PageObject {
 		return openAs(classFacet.getAttribute("href"), Search.class);
 	}
 
-	/**
-	 *
-	 * @return an array of results
-	 */
 	public final List<String[]> getResults() {
 
 		List<WebElement> links = results.findElements(By.className("result"));
@@ -236,9 +184,7 @@ public class Search extends PageObject {
 		return linksList;
 	}
 
-
 	/**
-	 *
 	 * @return the message from the search results page
 	 */
 	public final String getMessage() {
@@ -246,7 +192,6 @@ public class Search extends PageObject {
 	}
 
 	/**
-	 *
 	 * @param queryString
 	 *            Set the query on the search results page
 	 */
@@ -255,7 +200,6 @@ public class Search extends PageObject {
 	}
 
 	/**
-	 *
 	 * @return true if the icons exist, false otherwise
 	 */
 	public final Boolean viewIconDisplay() {
@@ -268,7 +212,6 @@ public class Search extends PageObject {
 	}
 
 	/**
-	 *
 	 * @return true if the results are displayed in a grid
 	 */
 	public final boolean resultsAreDisplayedInGrid() {
@@ -278,7 +221,6 @@ public class Search extends PageObject {
 			return false;
 		}
 		return true;
-
 	}
 
 	public String getPaginationLabel() {
@@ -290,6 +232,4 @@ public class Search extends PageObject {
 		WebElement nextLink = pagination.findElement(By.xpath("ul/li[@class='next']/a"));
 		return openAs(nextLink.getAttribute("href"), Search.class);
 	}
-
-
 }

@@ -24,23 +24,14 @@ import org.openqa.selenium.WebElement;
 
 public abstract class AbstractUpdateForm extends PageObject {
 
-	/**
-	 *
-	 */
 	protected String formId;
-	/**
-	 *
-	 */
+
 	protected Class<? extends Base> objectClass;
 
-	/**
-	 *
-	 */
 	protected Class<? extends PageObject> onSubmitPageClass;
 
 
 	/**
-	 *
 	 * @return the current page
 	 */
 	public PageObject submit() {
@@ -51,7 +42,6 @@ public abstract class AbstractUpdateForm extends PageObject {
 	protected abstract WebElement getForm();
 
 	/**
-	 *
 	 * @param fieldName Set the fieldName
 	 * @param fieldValue Set the fieldValue
 	 */
@@ -61,7 +51,6 @@ public abstract class AbstractUpdateForm extends PageObject {
 	}
 
 	/**
-	 *
 	 * @param fieldName Set the fieldName
 	 * @param fieldValue Set the fieldValue
 	 */
@@ -74,7 +63,5 @@ public abstract class AbstractUpdateForm extends PageObject {
 				break;
 			}
 		}
-
 	}
-
 }
