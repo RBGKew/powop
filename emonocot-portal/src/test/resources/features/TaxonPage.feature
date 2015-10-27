@@ -71,8 +71,8 @@ Scenario: Display textual data in sections
   Description, Habitat). Where a taxon does not have content for
   a given topic, the title should not be displayed
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=37
-  Then there should be a paragraph "These grasslike evergreen plants are hemicryptophytes or geophytes." with the heading "Diagnostic Description"
-  And there should be a paragraph "Their natural habitat is at the waterside or close to marshes, often found with reedbeds." with the heading "Habitat"
+  Then there should be a paragraph "These grasslike evergreen plants are hemicryptophytes or geophytes. [PPWO.B][2]" with the heading "Diagnostic Description"
+  And there should be a paragraph "Their natural habitat is at the waterside or close to marshes, often found with reedbeds. [PPWO.A]" with the heading "Habitat"
   And there should not be a paragraph with the heading "Ecology"
 
 Scenario: Image Gallery
@@ -139,7 +139,7 @@ Scenario: Textual Citations
   bibliography at the bottom of the page. At the bottom of the page, there should be the 
   bibliography with the references listed in full.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
-  Then the citation for the "Diagnostic Description" topic should be "PPWO.B2"
+  Then the citation for the "Diagnostic Description" topic should be "[PPWO.B][2]"
   And the bibliography entry "2" should be "2 Sp. Pl. (1753): 1 304pp"
   And the provenance entry "C" should be "C All Rights Reserved"
   

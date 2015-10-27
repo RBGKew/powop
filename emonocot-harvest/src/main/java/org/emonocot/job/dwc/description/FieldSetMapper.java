@@ -18,6 +18,7 @@ package org.emonocot.job.dwc.description;
 
 import java.util.Locale;
 
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Description;
 import org.emonocot.model.Reference;
@@ -28,23 +29,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 
-/**
- *
- * @author ben
- *
- */
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 
-	/**
-	 *
-	 */
 	public FieldSetMapper() {
 		super(Description.class);
 	}
 
-	/**
-	 *
-	 */
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
 	@Override
@@ -52,7 +42,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 			final String fieldName, final String value) throws BindException {
 		super.mapField(object, fieldName, value);
 
-		Term term = getTermFactory().findTerm(fieldName);
+		Term term = TermFactory.findTerm(fieldName);
 		logger.info("Mapping " + fieldName + " " + " " + value + " to "
 				+ object);
 		if (term instanceof DcTerm) {
@@ -76,7 +66,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 			case language:
 				object.setLanguage(conversionService.convert(value, Locale.class));
 				break;
-			case source:
+			case references:
 				if (value.indexOf(",") != -1) {
 					String[] values = value.split(",");
 					for (String v : values) {
@@ -86,7 +76,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 					addReference(object,value);
 				}
 				break;
-			case references:
+			case source:
 				object.setSource(value);
 				break;
 			case type:
@@ -103,5 +93,4 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 		reference.setIdentifier(value);
 		object.getReferences().add(reference);
 	}
-
 }

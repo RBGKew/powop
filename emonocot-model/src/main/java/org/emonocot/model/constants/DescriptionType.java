@@ -16,7 +16,9 @@
  */
 package org.emonocot.model.constants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public enum DescriptionType {
 	general("http://rs.gbif.org/vocabulary/gbif/descriptionType/general", "general"),
@@ -76,17 +78,14 @@ public enum DescriptionType {
 	fruits("fruits", reproductiveMorphology),
 	seeds("seeds", reproductiveMorphology);
 
+	public static final DescriptionType generalDescriptionType = habit;
+
 	private String uri;
 
 	private String term;
 
 	private DescriptionType parent;
 
-	/**
-	 *
-	 * @param newUri The uri of this feature
-	 * @param newTerm The short name of this feature
-	 */
 	private DescriptionType(final String newUri, String newTerm) {
 		this.uri = newUri;
 		this.term = newTerm;

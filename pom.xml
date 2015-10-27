@@ -70,17 +70,33 @@
 	<developers>
 		<!-- Current developers. -->
 		<developer>
-			<name>Matthew Blissett</name>
-			<email>M.Blissett@kew.org</email>
+			<name>John Iacona</name>
+			<email>J.Iacona@kew.org</email>
 			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
 			<organizationUrl>http://www.kew.org/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2014–</role></roles>
+			<roles><role>Developer 2015–</role></roles>
+		</developer>
+		<developer>
+			<name>James Crowe</name>
+			<email>J.Crowe2@kew.org</email>
+			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
+			<organizationUrl>http://www.kew.org/</organizationUrl>
+			<timezone>Europe/London</timezone>
+			<roles><role>Developer 2015–</role></roles>
 		</developer>
 	</developers>
 
 	<contributors>
 		<!-- Contributors and previous developers. -->
+		<contributor>
+			<name>Matthew Blissett</name>
+			<email>M.Blissett@kew.org</email>
+			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
+			<organizationUrl>http://www.kew.org/</organizationUrl>
+			<timezone>Europe/London</timezone>
+			<roles><role>Developer 2014–2015</role></roles>
+		</contributor>
 		<contributor>
 			<name>Ben Clark</name>
 			<email>benjamin.clark@zoo.ox.ac.uk</email>

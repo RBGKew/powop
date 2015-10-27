@@ -21,14 +21,10 @@ import org.emonocot.model.Base;
 public abstract class AbstractCreateForm extends
 AbstractUpdateForm {
 
-	/**
-	 *
-	 */
 	private String objectIdentifier;
 
 
 	/**
-	 *
 	 * @return the current page
 	 */
 	@Override
@@ -48,11 +44,6 @@ AbstractUpdateForm {
 		return getPage(onSubmitPageClass);
 	}
 
-	/**
-	 *
-	 * @param fieldValue Set the identifier
-	 * @param fieldName TODO
-	 */
 	public final void setObjectIdentifier(final String fieldValue, String fieldName) {
 		objectIdentifier = fieldValue;
 		super.setFormField(fieldName, fieldValue);

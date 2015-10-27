@@ -787,6 +787,7 @@ public class TestDataManager {
 		description.setType(feature);
 		description.setLicense(license);
 		description.setRights(rights);
+		description.setSource(authority);
 		if(authority == null){
 			description.setAuthority(source);
 		} else{

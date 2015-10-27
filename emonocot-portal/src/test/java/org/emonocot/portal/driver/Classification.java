@@ -29,20 +29,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-/**
- *
- * @author ben
- *
- */
 public class Classification extends PageObject {
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID, using = "classification")
 	private WebElement treeRoot;
 
 	/**
-	 *
 	 * @return the number of nodes in the classification tree
 	 */
 	public final int getNodeNumber() {
@@ -53,7 +44,6 @@ public class Classification extends PageObject {
 	}
 
 	/**
-	 *
 	 * @return a list of nodes from the classification tree
 	 */
 	public final List<String[]> getNodes() {
@@ -71,11 +61,6 @@ public class Classification extends PageObject {
 		return results;
 	}
 
-	/**
-	 *
-	 * @author ben
-	 *
-	 */
 	class PositionComparator implements Comparator<WebElement> {
 
 		/**

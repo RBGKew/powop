@@ -429,4 +429,19 @@
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.util.Map identificationSourceDescriptions(java.util.Set)</function-signature>
   </function>
+  <function>
+    <name>descriptionsBySource</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.Map descriptionsBySource(java.util.Set)</function-signature>
+  </function>
+  <function>
+    <name>partitionDescription</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.Map partitionDescription(java.util.Set)</function-signature>
+  </function>
+  <function>
+    <name>uuid</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.lang.String uuid()</function-signature>
+  </function>
 </taglib>

@@ -1,0 +1,148 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:geo="urn:jsptagdir:/WEB-INF/tags/geo"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<c:set var="provenance" value="${em:provenance(taxon)}" />
+  <c:set var="bibliography" value="${em:bibliography(taxon)}" />
+
+	<c:if test="${not empty taxon.distribution}">
+		<spring:message code="distribution.map" var="messageDistribution"/>
+		<section id="distributionMap" class="section-box">
+			<div class="inner">
+				<div class="box clearfix">
+					<h2>
+						<i class="glyphicons-icon globe"><!--  --></i> ${messageDistribution}
+						<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
+					</h2>
+					<c:set var="hasNativeDistribution" value="false"/>
+					<c:set var="hasIntroducedDistribution" value="false"/>
+					<div id="map-wrapper">
+						<geo:map bounds="${em:boundingBox(taxon,present)}"	mapClass="taxon-page-map">
+							<c:if test="${em:hasLevel1Features(taxon,present,nativ)}">
+								<c:set var="hasNativeDistribution" value="true"/>
+								<geo:layer name="level1_native" layer="tdwg:level1" style="eMonocot1_native" featureId="${em:getLevel1Features(taxon,present,nativ)}" />
+							</c:if>
+							<c:if test="${em:hasLevel1Features(taxon,present,introduced)}">
+								<c:set var="hasIntroducedDistribution" value="true"/>
+								<geo:layer name="level1_introduced" layer="tdwg:level1" style="eMonocot1_introduced" featureId="${em:getLevel1Features(taxon,present,introduced)}" />
+							</c:if>
+							<c:if test="${em:hasLevel2Features(taxon,present,nativ)}">
+								<c:set var="hasNativeDistribution" value="true"/>
+								<geo:layer name="level2_native" layer="tdwg:level2" style="eMonocot2_native" featureId="${em:getLevel2Features(taxon,present,nativ)}" />
+							</c:if>
+							<c:if test="${em:hasLevel2Features(taxon,present,introduced)}">
+								<c:set var="hasIntroducedDistribution" value="true"/>
+								<geo:layer name="level2_introduced" layer="tdwg:level2" style="eMonocot2_introduced" featureId="${em:getLevel2Features(taxon,present,introduced)}" />
+							</c:if>
+							<c:if test="${em:hasLevel3Features(taxon,present,nativ)}">
+								<c:set var="hasNativeDistribution" value="true"/>
+								<geo:layer name="level3_native" layer="tdwg:level3" style="eMonocot3_native" featureId="${em:getLevel3Features(taxon,present,nativ)}" />
+							</c:if>
+							<c:if test="${em:hasLevel3Features(taxon,present,introduced)}">
+								<c:set var="hasIntroducedDistribution" value="true"/>
+								<geo:layer name="level3_introduced" layer="tdwg:level3" style="eMonocot3_introduced" featureId="${em:getLevel3Features(taxon,present,introduced)}" />
+							</c:if>
+							<c:if test="${em:hasLevel4Features(taxon,present,nativ)}">
+								<c:set var="hasNativeDistribution" value="true"/>
+								<geo:layer name="level4_native" layer="tdwg:level4" style="eMonocot4_native" featureId="${em:getLevel4Features(taxon,present,nativ)}" />
+							</c:if>
+							<c:if test="${em:hasLevel4Features(taxon,present,introduced)}">
+								<c:set var="hasIntroducedDistribution" value="true"/>
+								<geo:layer name="level4_introduced" layer="tdwg:level4" style="eMonocot4_introduced" featureId="${em:getLevel4Features(taxon,present,introduced)}" />
+							</c:if>
+							<c:if test="${not empty taxon.typesAndSpecimens}">
+								<geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />
+							</c:if>
+						</geo:map>
+					</div>
+					<c:if test="${hasNativeDistribution or hasIntroducedDistribution}">
+						<div class="row">
+							<div class="span7">
+								<ul id="distribution-map-key">
+									<c:if test="${hasNativeDistribution}">
+										<li><div class="distribution-map-key" style="background-color: #6F9449"><!--  --></div><spring:message code="native.distribution"/></li>
+									</c:if>
+									<c:if test="${hasIntroducedDistribution}">
+										<li><div class="distribution-map-key" style="background-color: #9A9261"><!--  --></div><spring:message code="introduced.distribution"/></li>
+									</c:if>
+								</ul>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="${not empty taxon.typesAndSpecimens}">
+						<div class="row">
+							<div class="span7">
+								<span><spring:message code="specimenMessage" /></span>
+								<ul class="citations">
+									<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.typesAndSpecimens)}">
+										<li>
+											<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</c:if>
+					<div class="row">
+						<div class="span7">
+							<c:if test="${em:hasDistribution(taxon,present,nativ)}">
+								<h5><spring:message code="present.native"/></h5>
+								<ul class="distribution-textual">
+									<c:set var="previousDistribution" value="${null}"/>
+									<c:forEach var="distribution" items="${em:getDistribution(taxon,present,nativ)}">
+										<li><tags:distribution distribution="${distribution}" occurrenceStatus="Present" previousDistribution="${previousDistribution}"/></li>
+										<c:set var="previousDistribution" value="${distribution}"/>
+									</c:forEach>
+								</ul>
+							</c:if>
+						</div>
+					</div>
+					<div class="row">
+						<div class="span7">
+							<c:if test="${em:hasDistribution(taxon,present,introduced)}">
+								<h5><spring:message code="present.introduced"/></h5>
+								<ul class="distribution-textual">
+									<c:set var="previousDistribution" value="${null}"/>
+									<c:forEach var="distribution" items="${em:getDistribution(taxon,present,introduced)}">
+										<li><tags:distribution distribution="${distribution}" occurrenceStatus="Present" previousDistribution="${previousDistribution}"/></li>
+										<c:set var="previousDistribution" value="${distribution}"/>
+									</c:forEach>
+								</ul>
+							</c:if>
+						</div>
+					</div>
+					<div class="row">
+						<div class="span7">
+							<c:if test="${em:hasDistribution(taxon,absent,nativ)}">
+								<h5><spring:message code="absent.native"/></h5>
+								<ul class="distribution-textual">
+									<c:set var="previousDistribution" value="${null}"/>
+									<c:forEach var="distribution" items="${em:getDistribution(taxon,absent,nativ)}">
+										<li><tags:distribution distribution="${distribution}" occurrenceStatus="Absent" previousDistribution="${previousDistribution}"/></li>
+										<c:set var="previousDistribution" value="${distribution}"/>
+									</c:forEach>
+								</ul>
+							</c:if>
+						</div>
+					</div>
+					<ul class="citations">
+						<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,taxon.distribution)}">
+							<li>
+								<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
+							</li>
+						</c:forEach>
+						<c:forEach var="citationKey" items="${em:citekeys(bibliography,taxon.distribution)}">
+							<li>
+								<a href="#citation${citationKey}">${citationKey}</a>
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</c:if>
+
+</jsp:root>

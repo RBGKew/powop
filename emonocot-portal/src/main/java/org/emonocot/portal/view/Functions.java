@@ -17,6 +17,9 @@
 package org.emonocot.portal.view;
 
 import java.awt.Color;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1238,5 +1242,48 @@ public class Functions {
 		}
 
 		return descriptions;
+	}
+
+	public static Map<String, Set<Description>> descriptionsBySource(Set<Description> descriptions) {
+		Map<String, Set<Description>> descriptionsBySource = new HashMap<>();
+		for(Description description : descriptions) {
+			String source = description.getSource();
+			if(!descriptionsBySource.containsKey(source)) {
+				descriptionsBySource.put(source, new HashSet<Description>());
+			}
+
+			descriptionsBySource.get(source).add(description);
+		}
+
+		return descriptionsBySource;
+	}
+
+	public static Map<String, List<Description>> partitionDescription(Set<Description> descriptions) {
+		List<Description> general = new ArrayList<>();
+		List<Description> detailed = new ArrayList<>();
+		Map<String, List<Description>> result = new HashMap<>();
+
+		result.put("general", general);
+		result.put("detailed", detailed);
+
+		for(Description description : descriptions) {
+			if(DescriptionType.generalDescriptionType == description.getType()) {
+				general.add(description);
+			} else {
+				detailed.add(description);
+			}
+		}
+
+		Collections.sort(detailed, new Comparator<Description>() {
+			public int compare(Description d1, Description d2) {
+				return d1.getType().toString().compareTo(d2.getType().toString());
+			}
+		});
+
+		return result;
+	}
+
+	public static String uuid() {
+		return UUID.randomUUID().toString();
 	}
 }
