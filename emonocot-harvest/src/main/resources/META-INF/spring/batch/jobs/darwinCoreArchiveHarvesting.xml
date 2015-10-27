@@ -2692,7 +2692,6 @@
   </bean>
 
  <bean id="taxonDoNothingWriter" class="org.emonocot.job.dwc.taxon.TaxonDoNothingWriter">
-    <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
   <bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
