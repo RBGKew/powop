@@ -1,0 +1,23 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:em="http://e-monocot.org/portal/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tags="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+
+	<jsp:directive.attribute name="provenance" type="org.emonocot.portal.view.provenance.ProvenanceManager" required="true" />
+	<jsp:directive.attribute name="bibliography" type="org.emonocot.portal.view.bibliography.Bibliography" required="true" />
+	<jsp:directive.attribute name="description" type="org.emonocot.model.Description" required="true" />
+
+	<sup class="citations">
+		<a href="#${em:provenancekey(provenance, description)}">
+			[${em:provenanceinitial(provenance, description)}]
+		</a>
+		<c:if test="${not empty description.references}">
+			<c:forEach var="reference" items="${description.references}">
+				<c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
+				<a href="#citation${citationKey}">[${citationKey}]</a>
+			</c:forEach>
+		</c:if>
+	</sup>
+
+</jsp:root>

@@ -2,7 +2,7 @@
   xmlns:c="http://java.sun.com/jsp/jstl/core"
   xmlns:em="http://e-monocot.org/portal/functions"
   xmlns:spring="http://www.springframework.org/tags"
-  xmlns:tags="urn:jsptagdir:/WEB-INF/tags" version="2.0">
+  xmlns:taxon="urn:jsptagdir:/WEB-INF/tags/taxon" version="2.0">
 
   <c:set var="provenance" value="${em:provenance(taxon)}" />
   <c:set var="bibliography" value="${em:bibliography(taxon)}" />
@@ -21,12 +21,9 @@
             <c:choose>
               <c:when test="${not empty partitionedDescriptions.general}">
                 <c:forEach var="generalDescription" items="${partitionedDescriptions.general}">
-                  <p>${generalDescription.description}
-                    <sup>
-                      <a href="#${em:provenancekey(provenance, generalDescription)}">
-                        [${em:provenanceinitial(provenance, generalDescription)}]
-                      </a>
-                    </sup>
+                  <p>
+                    ${generalDescription.description}
+                    <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${generalDescription}" />
                   </p>
                 </c:forEach>
                 <c:if test="${not empty partitionedDescriptions.detailed}">
@@ -35,12 +32,9 @@
                     <dl class="dl-horizontal">
                       <c:forEach var="description" items="${partitionedDescriptions.detailed}">
                         <dt class="${description.type}"><spring:message code="${description.type}" /></dt>
-                        <dd>${description.description}
-                          <sup class="citations">
-                            <a href="#${em:provenancekey(provenance, description)}">
-                              [${em:provenanceinitial(provenance, description)}]
-                            </a>
-                          </sup>
+                        <dd>
+                          ${description.description}
+                          <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" />
                         </dd>
                       </c:forEach>
                     </dl>
@@ -50,22 +44,14 @@
               <c:otherwise>
                 <c:forEach var="description" items="${taxon.descriptions}">
                   <dt class="${description.type}"><spring:message code="${description.type}" /></dt>
-                  <dd>${description.description}
-                    <sup class="citations">
-                      <a href="#${em:provenancekey(provenance, description)}">[${em:provenanceinitial(provenance, description)}]</a>
-                      <c:if test="${not empty description.references}">
-                        <c:forEach var="reference" items="${description.references}">
-                          <c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
-                          <a href="#citation${citationKey}">[${citationKey}]</a>
-                        </c:forEach>
-                      </c:if>
-                    </sup>
+                  <dd>
+                    ${description.description}
+                    <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" />
                   </dd>
                 </c:forEach>
               </c:otherwise>
             </c:choose>
           </c:if>
-
         </c:forEach>
       </div>
     </section>
