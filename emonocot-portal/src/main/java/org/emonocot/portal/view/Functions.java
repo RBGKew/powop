@@ -17,9 +17,6 @@
 package org.emonocot.portal.view;
 
 import java.awt.Color;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -64,6 +61,7 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
@@ -1244,18 +1242,18 @@ public class Functions {
 		return descriptions;
 	}
 
-	public static Map<String, Set<Description>> descriptionsBySource(Set<Description> descriptions) {
-		Map<String, Set<Description>> descriptionsBySource = new HashMap<>();
+	public static Map<String, Set<Description>> descriptionsByResource(Set<Description> descriptions) {
+		Map<String, Set<Description>> descriptionsByResource = new HashMap<>();
 		for(Description description : descriptions) {
-			String source = description.getSource();
-			if(!descriptionsBySource.containsKey(source)) {
-				descriptionsBySource.put(source, new HashSet<Description>());
+			String resource = description.getResource().getTitle();
+			if(!descriptionsByResource.containsKey(resource)) {
+				descriptionsByResource.put(resource, new HashSet<Description>());
 			}
 
-			descriptionsBySource.get(source).add(description);
+			descriptionsByResource.get(resource).add(description);
 		}
 
-		return descriptionsBySource;
+		return descriptionsByResource;
 	}
 
 	public static Map<String, List<Description>> partitionDescription(Set<Description> descriptions) {

@@ -430,9 +430,9 @@
     <function-signature>java.util.Map identificationSourceDescriptions(java.util.Set)</function-signature>
   </function>
   <function>
-    <name>descriptionsBySource</name>
+    <name>descriptionsByResource</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.util.Map descriptionsBySource(java.util.Set)</function-signature>
+    <function-signature>java.util.Map descriptionsByResource(java.util.Set)</function-signature>
   </function>
   <function>
     <name>partitionDescription</name>

@@ -11,7 +11,7 @@
     <section id="description" class="section-box">
       <div class="box inner">
         <h4>Description</h4>
-        <c:forEach var="source" items="${em:descriptionsBySource(taxon.descriptions)}">
+        <c:forEach var="source" items="${em:descriptionsByResource(taxon.descriptions)}">
           <h5>According to ${source.key}</h5>
           <c:set var="descriptions" value="${source.value}" />
           <c:set var="descId" value="${em:uuid()}" />
