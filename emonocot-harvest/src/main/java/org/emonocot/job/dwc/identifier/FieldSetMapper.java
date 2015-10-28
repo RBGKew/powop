@@ -24,23 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 
-/**
- *
- * @author ben
- *
- */
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<Identifier> {
 
-	/**
-	 *
-	 */
 	public FieldSetMapper() {
 		super(Identifier.class);
 	}
 
-	/**
-	 *
-	 */
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
 	@Override
