@@ -1245,7 +1245,7 @@ public class Functions {
 	public static Map<String, Set<Description>> descriptionsByResource(Set<Description> descriptions) {
 		Map<String, Set<Description>> descriptionsByResource = new HashMap<>();
 		for(Description description : descriptions) {
-			String resource = description.getResource().getTitle();
+			String resource = description.getAuthority().getTitle();
 			if(!descriptionsByResource.containsKey(resource)) {
 				descriptionsByResource.put(resource, new HashSet<Description>());
 			}

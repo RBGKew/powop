@@ -9,9 +9,7 @@
 	<jsp:directive.attribute name="description" type="org.emonocot.model.Description" required="true" />
 
 	<sup class="citations">
-		<a href="#${em:provenancekey(provenance, description)}">
-			[${em:provenanceinitial(provenance, description)}]
-		</a>
+		<a href="#${em:provenancekey(provenance, description)}">[${em:provenanceinitial(provenance, description)}]</a>
 		<c:if test="${not empty description.references}">
 			<c:forEach var="reference" items="${description.references}">
 				<c:set var="citationKey" value="${em:citekey(bibliography, reference)}"/>
