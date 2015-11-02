@@ -1,5 +1,7 @@
 # ![powop logo](https://github.com/RBGKew/powop/blob/master/emonocot-static/src/main/images/logo.png) Plants of the World Online Portal
 
+[![Build Status](https://travis-ci.org/RBGKew/powop.svg?branch=master)](https://travis-ci.org/RBGKew/powop)
+
 Plants of the World Online Portal is a global, online, biodiversity information
 resource.  This repository contains the code for the data model, harvester 
 and web portal.
