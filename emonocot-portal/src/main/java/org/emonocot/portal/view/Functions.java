@@ -17,15 +17,13 @@
 package org.emonocot.portal.view;
 
 import java.awt.Color;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -64,6 +62,7 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
@@ -1244,43 +1243,45 @@ public class Functions {
 		return descriptions;
 	}
 
-	public static Map<String, Set<Description>> descriptionsBySource(Set<Description> descriptions) {
-		Map<String, Set<Description>> descriptionsBySource = new HashMap<>();
+	public static Map<String, Set<Description>> descriptionsByResource(Set<Description> descriptions) {
+		Map<String, Set<Description>> descriptionsByResource = new HashMap<>();
 		for(Description description : descriptions) {
-			String source = description.getSource();
-			if(!descriptionsBySource.containsKey(source)) {
-				descriptionsBySource.put(source, new HashSet<Description>());
+			String resource = description.getAuthority().getTitle();
+			if(!descriptionsByResource.containsKey(resource)) {
+				descriptionsByResource.put(resource, new HashSet<Description>());
 			}
 
-			descriptionsBySource.get(source).add(description);
+			descriptionsByResource.get(resource).add(description);
 		}
 
-		return descriptionsBySource;
+		return descriptionsByResource;
 	}
 
-	public static Map<String, List<Description>> partitionDescription(Set<Description> descriptions) {
+	public static List<Description> generalDescription(Set<Description> descriptions) {
 		List<Description> general = new ArrayList<>();
-		List<Description> detailed = new ArrayList<>();
-		Map<String, List<Description>> result = new HashMap<>();
-
-		result.put("general", general);
-		result.put("detailed", detailed);
 
 		for(Description description : descriptions) {
 			if(DescriptionType.generalDescriptionType == description.getType()) {
 				general.add(description);
-			} else {
-				detailed.add(description);
 			}
 		}
 
-		Collections.sort(detailed, new Comparator<Description>() {
-			public int compare(Description d1, Description d2) {
-				return d1.getType().toString().compareTo(d2.getType().toString());
-			}
-		});
+		return general;
+	}
 
-		return result;
+	public static Map<DescriptionType, List<Description>> detailedDescription(Set<Description> descriptions) {
+		Map<DescriptionType, List<Description>> detailed = new EnumMap<>(DescriptionType.class);
+
+		for(Description description : descriptions) {
+			if(DescriptionType.generalDescriptionType != description.getType()) {
+				if(!detailed.containsKey(description.getType())) {
+					detailed.put(description.getType(), new ArrayList<Description>());
+				}
+				detailed.get(description.getType()).add(description);
+			}
+		}
+
+		return detailed;
 	}
 
 	public static String uuid() {

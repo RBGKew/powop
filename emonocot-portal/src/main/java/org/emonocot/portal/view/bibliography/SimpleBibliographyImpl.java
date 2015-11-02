@@ -31,23 +31,11 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.compare.ReferenceComparator;
 
-/**
- *
- * @author ben
- *
- */
 public class SimpleBibliographyImpl implements Bibliography {
-	/**
-	 *
-	 */
 	List<Reference> references = new ArrayList<Reference>();
 
 	SortedSet<ReferenceWrapper> refs = new TreeSet<ReferenceWrapper>(new ReferenceWrapperComparator());
 
-	/**
-	 *
-	 * @param taxon Set the taxon
-	 */
 	public final void setReferences(final Taxon taxon) {
 
 		for(Reference reference : taxon.getReferences()) {
@@ -69,7 +57,6 @@ public class SimpleBibliographyImpl implements Bibliography {
 	}
 
 	/**
-	 *
 	 * @param reference Set the reference
 	 * @return A string key which can be displayed in the taxon page as a
 	 *         citation reference to the reference
@@ -86,19 +73,10 @@ public class SimpleBibliographyImpl implements Bibliography {
 		return new Integer(references.indexOf(wrapper.reference) + 1).toString();
 	}
 
-	/**
-	 *
-	 * @return a sorted list of references
-	 */
 	public final List<Reference> getReferences() {
 		return references;
 	}
 
-	/**
-	 *
-	 * @author ben
-	 *
-	 */
 	class ReferenceWrapperComparator implements Comparator<ReferenceWrapper> {
 
 		private Comparator<Reference> referenceComparator = new ReferenceComparator();
