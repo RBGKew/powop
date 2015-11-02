@@ -435,9 +435,14 @@
     <function-signature>java.util.Map descriptionsByResource(java.util.Set)</function-signature>
   </function>
   <function>
-    <name>partitionDescription</name>
+    <name>generalDescription</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.util.Map partitionDescription(java.util.Set)</function-signature>
+    <function-signature>java.util.List generalDescription(java.util.Set)</function-signature>
+  </function>
+  <function>
+    <name>detailedDescription</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.Map detailedDescription(java.util.Set)</function-signature>
   </function>
   <function>
     <name>uuid</name>

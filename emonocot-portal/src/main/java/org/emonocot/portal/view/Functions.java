@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -1256,29 +1257,31 @@ public class Functions {
 		return descriptionsByResource;
 	}
 
-	public static Map<String, List<Description>> partitionDescription(Set<Description> descriptions) {
+	public static List<Description> generalDescription(Set<Description> descriptions) {
 		List<Description> general = new ArrayList<>();
-		List<Description> detailed = new ArrayList<>();
-		Map<String, List<Description>> result = new HashMap<>();
-
-		result.put("general", general);
-		result.put("detailed", detailed);
 
 		for(Description description : descriptions) {
 			if(DescriptionType.generalDescriptionType == description.getType()) {
 				general.add(description);
-			} else {
-				detailed.add(description);
 			}
 		}
 
-		Collections.sort(detailed, new Comparator<Description>() {
-			public int compare(Description d1, Description d2) {
-				return d1.getType().toString().compareTo(d2.getType().toString());
-			}
-		});
+		return general;
+	}
 
-		return result;
+	public static Map<DescriptionType, List<Description>> detailedDescription(Set<Description> descriptions) {
+		Map<DescriptionType, List<Description>> detailed = new EnumMap<>(DescriptionType.class);
+
+		for(Description description : descriptions) {
+			if(DescriptionType.generalDescriptionType != description.getType()) {
+				if(!detailed.containsKey(description.getType())) {
+					detailed.put(description.getType(), new ArrayList<Description>());
+				}
+				detailed.get(description.getType()).add(description);
+			}
+		}
+
+		return detailed;
 	}
 
 	public static String uuid() {

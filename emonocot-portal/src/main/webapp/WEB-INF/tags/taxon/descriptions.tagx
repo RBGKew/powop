@@ -16,25 +16,28 @@
           <c:set var="descriptions" value="${source.value}" />
           <c:set var="descId" value="${em:uuid()}" />
           <c:if test="${not empty descriptions}">
-            <c:set var="partitionedDescriptions" value="${em:partitionDescription(descriptions)}" />
+            <c:set var="generalDescriptions" value="${em:generalDescription(descriptions)}" />
+            <c:set var="detailedDescriptions" value="${em:detailedDescription(descriptions)}" />
 
             <c:choose>
-              <c:when test="${not empty partitionedDescriptions.general}">
-                <c:forEach var="generalDescription" items="${partitionedDescriptions.general}">
+              <c:when test="${not empty generalDescriptions}">
+                <c:forEach var="generalDescription" items="${generalDescriptions}">
                   <p>
                     ${generalDescription.description}
                     <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${generalDescription}" />
                   </p>
                 </c:forEach>
-                <c:if test="${not empty partitionedDescriptions.detailed}">
+                <c:if test="${not empty detailedDescriptions}">
                   <button data-toggle="collapse" type="button" href="#${descId}" class="more-details">More Details ››</button>
                   <div class="collapse" id="${descId}">
                     <dl class="dl-horizontal">
-                      <c:forEach var="description" items="${partitionedDescriptions.detailed}">
-                        <dt class="${description.type}"><spring:message code="${description.type}" /></dt>
+                      <c:forEach var="descriptions" items="${detailedDescriptions}">
+                        <dt class="${descriptions.key}"><spring:message code="${descriptions.key}" /></dt>
                         <dd>
-                          ${description.description}
-                          <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" />
+                          <c:forEach var="description" items="${descriptions.value}">
+                            ${description.description}.
+                            <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" />
+                          </c:forEach>
                         </dd>
                       </c:forEach>
                     </dl>
