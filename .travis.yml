@@ -1,5 +1,5 @@
 language: java
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.site.skip=true -B -V
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.site.skip=true -B -V -q
 script: mvn test -Punit
 cache:
   directories:
