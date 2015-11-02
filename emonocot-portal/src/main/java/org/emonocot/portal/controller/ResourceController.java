@@ -16,12 +16,23 @@
  */
 package org.emonocot.portal.controller;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.groups.Default;
+
+import net.java.truevfs.access.TPath;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.AnnotationService;
@@ -314,6 +325,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 
 		 logger.error("Creating Resource " + resource + " with organisation " + resource.getOrganisation());
 		 getService().saveOrUpdate(resource);
+		 getDwcCOntents(resource.getId());
 		 String[] codes = new String[] { "resource.was.created" };
 		 Object[] args = new Object[] { resource.getTitle() };
 		 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
@@ -515,12 +527,10 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 			 redirectAttributes.addFlashAttribute("info", message);
 			 return "redirect:/resource/";
-	 
 		 }
-		 
-		 try {
+		 try{
 			getService().deleteResourceRecords(resource_id);
-		 } catch(ResourceAlreadyBeingHarvestedException rabhe) {
+		 }catch(ResourceAlreadyBeingHarvestedException rabhe) {
 			 String[] codes = new String[] { "job.running" };
 			 Object[] args = new Object[] {};
 			 DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
@@ -537,4 +547,68 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		 }
 		 return "redirect:/resource/";
 	 }
+	 
+	 public String getDwcCOntents(Long resource_id){
+		 Resource resource = getService().find(resource_id);
+		 Map<String,String> parameters = new HashMap<String, String>();
+		 if(resource.getResourceType() == ResourceType.DwC_Archive){
+		 String uri = resource.getUri();
+		 logger.debug("uri of dwc is " + uri);
+		 try {
+			Path path = new TPath(new URI(uri + "/meta.xml"));
+			logger.debug("uri of meta.xml is" +  path.toUri().getPath());
+			try (InputStream in = Files.newInputStream(path)){
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+					String line = reader.readLine();
+					while(line != null){
+						String[] words = line.split(" ");
+						for(String word : words){
+
+							if(word.startsWith("rowType=")){
+								logger.debug("Rowtype of metaxml is " + word);
+								if(word.contains("Taxon")){
+									parameters.put("taxon.processing.mode", "SKIP_TAXA");
+								}
+								if(word.contains("Description")){
+									parameters.put("description.processing.mode", "IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL");
+								}
+								if(word.contains("Distribution")){
+									parameters.put("distribution.processing.mode", "IMPORT_DISTRIBUTION");
+								}
+								if(word.contains("Reference")){
+									parameters.put("reference.processing.mode", "IMPORT_REFERENCES");
+								}
+								if(word.contains("Identification")){
+									parameters.put("identification.processing.mode", "IMPORT_IDENTIFICATIONS");
+								}
+							}
+						}
+						line = reader.readLine();
+					}
+				
+				
+			} catch (IOException e) {
+				logger.debug("the file at " + uri + "could not be read");
+				resource.setExitCode("COULD NOT GET PARAMETERS");
+				resource.setExitDescription("The Darwin core archive parameters cannot be read."
+						+ " Please check that the file is available at the specified location, or enter parameters manually");
+				
+			}
+		} catch (URISyntaxException e) {
+			logger.debug("the uri " + uri + "is invalid");
+			resource.setExitCode("Invalid URI");
+			getService().saveOrUpdate(resource);
+			return null;
+		}
+		 
+		 }
+		
+		resource.setParameters(parameters);
+		resource.setExitCode("DEFAULT PARAMETERS SET");
+		getService().saveOrUpdate(resource);
+		return null;
+		 
+	 }
+	 
+
 }
