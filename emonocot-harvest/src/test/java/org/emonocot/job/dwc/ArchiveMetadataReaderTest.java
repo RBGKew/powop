@@ -31,6 +31,7 @@ import org.easymock.EasyMock;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.job.dwc.read.ArchiveMetadataReader;
 import org.emonocot.model.registry.Organisation;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
@@ -255,7 +256,7 @@ public class ArchiveMetadataReaderTest {
 		assertEquals(source.getBibliographicCitation(), "Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 14 Dec 2011 . 17 Dec 2011.");
 		assertEquals(source.getTitle(), "CATE Araceae");
 		assertEquals(source.getUri(), "http://www.cate-araceae.org");
-		assertEquals(source.getCreated().toString(), "2011-04-27T00:00:00.000+01:00");
+		assertEquals(source.getCreated(), new DateTime("2011-04-27"));
 		assertNull(source.getModified());
 	}
 

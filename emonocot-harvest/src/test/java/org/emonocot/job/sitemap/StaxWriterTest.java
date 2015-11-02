@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.emonocot.model.marshall.xml.StaxEventItemWriter;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,13 +79,13 @@ public class StaxWriterTest {
 	 */
 	@Test
 	public void testWriteUrlToFile() throws Exception {
-		String expectedXml = "<?xml version='1.0' encoding='UTF-8'?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap\"><url><loc>http://build.e-monocot.org/test/identifier</loc><lastmod>1986-07-11T22:15:00.000+01:00</lastmod></url></urlset>";
+		String expectedXml = "<?xml version='1.0' encoding='UTF-8'?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap\"><url><loc>http://build.e-monocot.org/test/identifier</loc><lastmod>1986-07-11T22:15:00.000Z</lastmod></url></urlset>";
 		ExecutionContext executionContext = new ExecutionContext();
 		executionContext.put("query.string", "from Taxon");
 		writer.open(executionContext);
 		ArrayList<Url> items = new ArrayList<Url>();
 		Url data = new Url();
-		data.setLastmod(ISODateTimeFormat.dateTime().print(new DateTime(1986, 07, 11, 22, 15, 00, 00)));
+		data.setLastmod(ISODateTimeFormat.dateTime().print(new DateTime(1986, 07, 11, 22, 15, 00, 00, DateTimeZone.UTC)));
 		data.setLoc(new URL("http://build.e-monocot.org/test/identifier"));
 		items.add(data);
 		writer.write(items);
