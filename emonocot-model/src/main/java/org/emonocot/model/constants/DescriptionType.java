@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum DescriptionType {
+
+	// standard gbif-extension types
 	general("http://rs.gbif.org/vocabulary/gbif/descriptionType/general", "general"),
 	diagnostic("http://rs.gbif.org/vocabulary/gbif/descriptionType/diagnostic", "diagnostic"),
 	morphology("http://rs.gbif.org/vocabulary/gbif/descriptionType/morphology", "morphology"),
@@ -59,24 +61,39 @@ public enum DescriptionType {
 	literature("http://rs.gbif.org/vocabulary/gbif/descriptionType/literature", "literature"),
 	culture("http://rs.gbif.org/vocabulary/gbif/descriptionType/culture", "culture"),
 	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular"),
-	stemMorphology("stemMorphology"),
-	stem("stem", stemMorphology),
-	roots("roots", stemMorphology),
-	leafMorphology("leafMorphology"),
-	leaves("leaves", leafMorphology),
-	reproductiveMorphology("reproductiveMorphology"),
-	inflorescences("inflorescences", reproductiveMorphology),
-	flowers("flowers", reproductiveMorphology),
-	receptacle("receptacle", flowers),
-	perianth("perianth", flowers),
-	androecium("androecium", flowers),
-	calyx("calyx", flowers),
-	corolla("corolla", flowers),
-	gynoecium("gynoecium", flowers),
-	sterileParts("sterileParts", flowers),
-	disk("disc", flowers),
-	fruits("fruits", reproductiveMorphology),
-	seeds("seeds", reproductiveMorphology);
+
+	// non-standard description types
+	generalMorphology("generalMorphology"),
+	indumentum("generalMorphology:Indumentum"),
+	roots("rootMorphology:roots"),
+	stem("stemMorphology:stem"),
+	bulbils("vegetativeMultiplication:bulbils"),
+	rhizome("vegetativeMultiplication:rhizome"),
+	tubers("vegetativeMultiplication:tubers"),
+	leaves("leafMorphology:leaves"),
+	stipules("leafMorphology:stipules"),
+	inflorescences("reproductiveMorphology:inflorescences"),
+	maleInflorescences("reproductiveMorphology:inflorescences:male"),
+	femaleInflorescences("reproductiveMorphology:inflorescences:female"),
+	flowers("reproductiveMorphology:flowers"),
+	receptacle("reproductiveMorphology:flowers:receptacle"),
+	perianth("reproductiveMorphology:flowers:perianth"),
+	calyx("reproductiveMorphology:flowers:calyx"),
+	corolla("reproductiveMorphology:flowers:corolla"),
+	sterileParts("reproductiveMorphology:flowers:sterileParts"),
+	androecium("reproductiveMorphology:flowers:androecium"),
+	nectaries("reproductiveMorphology:flowers:nectaries"),
+	gynoecium("reproductiveMorphology:flowers:gynoecium"),
+	maleFlowers("reproductiveMorphology:flowers:male"),
+	femaleFlowers("reproductiveMorphology:flowers:female"),
+	disk("reproductiveMorphology:flowers:disc"),
+	fruits("reproductiveMorphology:fruits"),
+	seeds("reproductiveMorphology:seeds"),
+	cones("reproductiveMorphology:cones"),
+	femaleCones("reproductiveMorphology:cones:female"),
+	maleCones("reproductiveMorphology:cones:male"),
+
+	concept("concept");
 
 	public static final DescriptionType generalDescriptionType = habit;
 
@@ -84,16 +101,9 @@ public enum DescriptionType {
 
 	private String term;
 
-	private DescriptionType parent;
-
 	private DescriptionType(final String newUri, String newTerm) {
 		this.uri = newUri;
 		this.term = newTerm;
-	}
-
-	private DescriptionType(final String newTerm, DescriptionType parent) {
-		this.term = newTerm;
-		this.parent = parent;
 	}
 
 	private DescriptionType(final String newTerm) {
@@ -107,7 +117,7 @@ public enum DescriptionType {
 	 *         feature matches
 	 */
 	public static DescriptionType fromString(final String string) {
-		return lookup(resolveDependencies(string));
+		return lookup(string);
 	}
 
 	private static DescriptionType lookup(final String string) {
@@ -118,39 +128,5 @@ public enum DescriptionType {
 		}
 		throw new IllegalArgumentException(string
 				+ " is not an acceptable value for DescriptionType");
-	}
-
-	/*
-	 * Description types can be specified hierarchically as colon delimited strings.
-	 * E.g., reproductiveMorphology:flowers:androecium
-	 */
-	private static String resolveDependencies(final String identifier) {
-		if(identifier.startsWith("http://")) {
-			return identifier;
-		}
-
-		String[] tokens = identifier.split(":");
-		validateHierarchy(tokens);
-		return tokens[tokens.length - 1];
-	}
-
-	private static void validateHierarchy(final String[] tokens) {
-		boolean root = true;
-		DescriptionType parent = null;
-
-		for(String identifier : tokens) {
-			DescriptionType dt = lookup(identifier);
-
-			if(root) {
-				root = false;
-			} else {
-				if(dt.parent != parent) {
-					throw new IllegalArgumentException(Arrays.toString(tokens)
-							+ "is not an acceptable DescriptionType hierarchy");
-				}
-			}
-
-			parent = dt;
-		}
 	}
 }
