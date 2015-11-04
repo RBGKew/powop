@@ -49,6 +49,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+/**
+ * @see http://rs.gbif.org/extension/dwc/measurements_or_facts.xml
+ */
 @Entity
 public class MeasurementOrFact extends OwnedEntity {
 

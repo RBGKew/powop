@@ -66,7 +66,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * @author ben
+ * Schema definition: http://tdwg.github.io/dwc/terms/index.htm#Taxon
  */
 @Entity
 public class Taxon extends SearchableObject {

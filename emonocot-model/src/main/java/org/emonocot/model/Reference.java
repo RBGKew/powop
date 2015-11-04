@@ -45,9 +45,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- *
- * @author ben
- *
+ * Schema definition: http://rs.gbif.org/extension/gbif/1.0/references.xml
  */
 @Entity
 public class Reference extends BaseData implements NonOwned {

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @see http://rs.gbif.org/vocabulary/gbif/descriptionType
+ */
 public enum DescriptionType {
 
 	// standard gbif-extension types

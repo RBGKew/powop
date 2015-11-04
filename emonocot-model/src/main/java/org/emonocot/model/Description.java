@@ -50,9 +50,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- *
- * @author ben
- *
+ * @see http://rs.gbif.org/extension/gbif/1.0/description.xml
  */
 @Entity
 public class Description extends OwnedEntity {

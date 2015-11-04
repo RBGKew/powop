@@ -38,9 +38,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- *
- * @author ben
- *
+ * @see http://rs.gbif.org/extension/gbif/1.0/identifier.xml
  */
 @Entity
 public class Identifier extends OwnedEntity {

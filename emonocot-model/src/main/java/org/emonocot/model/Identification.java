@@ -18,8 +18,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.joda.time.DateTime;
 
-/*
- * Based on http://tdwg.github.io/dwc/terms/index.htm#Identification
+/**
+ * @see http://tdwg.github.io/dwc/terms/index.htm#Identification
  */
 @Entity
 public class Identification extends OwnedEntity {

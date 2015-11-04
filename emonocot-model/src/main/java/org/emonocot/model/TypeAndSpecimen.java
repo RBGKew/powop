@@ -59,9 +59,7 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.WKTWriter;
 
 /**
- *
- * @author ben
- *
+ * @see http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml
  */
 @Entity
 public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {

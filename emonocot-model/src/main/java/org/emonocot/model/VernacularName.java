@@ -44,6 +44,9 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @see http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml
+ */
 @Entity
 public class VernacularName extends OwnedEntity {
 
