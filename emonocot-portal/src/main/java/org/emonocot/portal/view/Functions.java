@@ -1269,11 +1269,22 @@ public class Functions {
 		return general;
 	}
 
+	public static String concept(Set<Description> descriptions) {
+		for(Description description : descriptions) {
+			if(description.getType() == DescriptionType.concept) {
+				return String.format("%s in", description.getDescription());
+			}
+		}
+
+		return "";
+	}
+
 	public static Map<DescriptionType, List<Description>> detailedDescription(Set<Description> descriptions) {
 		Map<DescriptionType, List<Description>> detailed = new EnumMap<>(DescriptionType.class);
+		List<DescriptionType> blacklist = Arrays.asList(DescriptionType.generalDescriptionType, DescriptionType.concept);
 
 		for(Description description : descriptions) {
-			if(DescriptionType.generalDescriptionType != description.getType()) {
+			if(!blacklist.contains(description.getType())) {
 				if(!detailed.containsKey(description.getType())) {
 					detailed.put(description.getType(), new ArrayList<Description>());
 				}

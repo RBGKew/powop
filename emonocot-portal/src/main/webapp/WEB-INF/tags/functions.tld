@@ -440,6 +440,11 @@
     <function-signature>java.util.List generalDescription(java.util.Set)</function-signature>
   </function>
   <function>
+    <name>concept</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>org.emonocot.model.Description concept(java.util.Set)</function-signature>
+  </function>
+  <function>
     <name>detailedDescription</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.util.Map detailedDescription(java.util.Set)</function-signature>
