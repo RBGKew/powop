@@ -449,36 +449,38 @@
 								<tbody>
 									<c:forEach var="measurement" items="${em:measurements()}">
 										<c:set var="facts" value="${em:facts(taxon, measurement)}" />
-										<tr>
-											<th class="span1"><spring:message code="${measurement}" /></th>
-											<td>
-												<ul id="${measurement}" class="unstyled">
-													<c:forEach var="fact" items="${facts}">
-														<li>
-															<c:choose>
-																<c:when test="${not empty fact.source}">
-																	<a href="${fact.source}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></a>
-																</c:when>
-																<c:otherwise>
-																	<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
-																</c:otherwise>
-															</c:choose>
-														</li>
-													</c:forEach>
-												</ul>
-											</td>
-											<td>
-												<c:if test="${not empty facts}">
-													<ul class="citations">
-														<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,facts)}">
+										<c:if test="${not empty facts}">
+											<tr>
+												<th class="span1"><spring:message code="${measurement}" /></th>
+												<td>
+													<ul id="${measurement}" class="unstyled">
+														<c:forEach var="fact" items="${facts}">
 															<li>
-																<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
+																<c:choose>
+																	<c:when test="${not empty fact.source}">
+																		<a href="${fact.source}"><spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/></a>
+																	</c:when>
+																	<c:otherwise>
+																		<spring:message code="measurementorfact_${fact.measurementType}_${fact.measurementValue}" text="${fact.measurementValue}"/>
+																	</c:otherwise>
+																</c:choose>
 															</li>
 														</c:forEach>
 													</ul>
-												</c:if>
-											</td>
-										</tr>
+												</td>
+												<td>
+													<c:if test="${not empty facts}">
+														<ul class="citations">
+															<c:forEach var="provenanceHolder" items="${em:provenanceinitials(provenance,facts)}">
+																<li>
+																	<a href="#${em:initialtokey(provenanceHolder)}">${provenanceHolder}</a>
+																</li>
+															</c:forEach>
+														</ul>
+													</c:if>
+												</td>
+											</tr>
+										</c:if>
 										<c:if test="${measurement.toString() eq 'iucn:threatStatus'}">
 											<c:forEach var="fact" items="${facts}">
 												<tr>
@@ -540,7 +542,7 @@
 									<c:if test="${not empty taxon.identifications}">
 										<tr>
 											<th><spring:message code="name_usage.label"/></th>
-											<td><spring:message code="name_usage.desc" arguments="${taxon.identifications.size()}"/><br />
+											<td colspan="2"><spring:message code="name_usage.desc" arguments="${taxon.identifications.size()}"/><br />
 												<a href="#identificationsList" role="button" class="btn" data-toggle="modal" ><spring:message code="name_usage.show_details" /></a>
 											</td>
 										</tr>
@@ -618,27 +620,14 @@
 								<li><a id="boldLink" href="${boldUrl}"><spring:message code="boldSystems"/><!--  --></a></li>
 								<c:url var="gbifUrl" value="http://www.gbif.org/species/search?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&amp;highertaxon_key=6&amp;q=${taxon.scientificName}"/>
 								<li><a id="GBIFLink" href="${gbifUrl}"><spring:message code="gbif"/><!--  --></a></li>
+								<c:if test="${not empty taxon.uri}">
+									<li><a id="sourceUrl" href="${taxon.uri}"><spring:message code="ipni"/><!-- --></a></li>
+								</c:if>
 							</ul>
 
 						</section>
 					</div>
 				</div>
-
-				<c:if test="${not empty taxon.uri}">
-					<div class="inner no-print">
-						<div class="box linksBox">
-							<section class="sidebarBox" id="sourceUrl">
-								<h2>
-									<i class="glyphicons-icon link">
-										<!-- -->
-									</i>
-									<spring:message code="source.link" />
-								</h2>
-								<a id="sourceUrl" href="${taxon.uri}">${taxon.uri}</a>
-							</section>
-						</div>
-					</div>
-				</c:if>
 
 				<c:url value="/ncbi" var="ncbiAjaxUrl">
 					<c:param name="query" value="${taxon.scientificName}"/>

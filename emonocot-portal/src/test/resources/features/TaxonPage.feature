@@ -164,10 +164,3 @@ Scenario: Bibliography
 #  http://build.e-monocot.org/bugzilla/show_bug.cgi?id=201
 #  When I navigate to taxon page "urn:kew.org:wcs:taxon:109275"
 #  Then the distribution should list "Føroyar"
-
-Scenario: Source URL
-  Taxa should show a link to their source record in the datasource they
-  were harvested from, if available
-  Then there should be a "http://test-url.com" link on the page
-  When I navigate to taxon page "urn:kew.org:wcs:taxon:109275"
-  Then there should not be a "sourceUrl" visible
