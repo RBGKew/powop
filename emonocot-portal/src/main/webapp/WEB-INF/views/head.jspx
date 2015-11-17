@@ -6,7 +6,6 @@
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
 	<jsp:output omit-xml-declaration="true" />
-	<spring:message code="portal.baseUrl" var="baseUrl"/>
 	<spring:message code="google.analytics.id" var="googleAnalyticsId"/>
 	<meta charset="utf-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,21 +20,17 @@
 			<title>${em:evaluate(pageTitle,pageContext)}</title>
 		</c:otherwise>
 	</c:choose>		
-	<link type="images/x-icon" href="${baseUrl}/css/images/favicon.ico" rel="shortcut icon" />
-	<link rel="stylesheet" type="text/css" media="screen" href="${baseUrl}/css/style.css"/>
+	<link type="images/x-icon" href="/css/images/favicon.ico" rel="shortcut icon" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css"/>
 	
 	<!-- TODO - remove once there is no need to support ie9 -->
 	&lt;!--[if lt IE 10]&gt;
-	<link rel="stylesheet" type="text/css" media="all" href="${baseUrl}/css/ie9.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="/css/ie9.css"/>
 	&lt;![endif]--&gt;
-	<link rel="stylesheet" type="text/css" media="print" href="${baseUrl}/css/print.css"/>
-	
-	
-	<script type="text/javascript" src="${baseUrl}/js/header.js">/* */</script>
-	
+	<link rel="stylesheet" type="text/css" media="print" href="/css/print.css"/>
+	<script type="text/javascript" src="/js/header.js">/* */</script>
 
 	<c:if test="${not empty googleAnalyticsId}">
-	
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', '${googleAnalyticsId}']);
@@ -47,7 +42,6 @@
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 				})();
 		</script>
-	
 	</c:if>
 	<noscript>
 		<style>
