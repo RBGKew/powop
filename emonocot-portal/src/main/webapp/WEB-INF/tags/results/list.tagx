@@ -37,10 +37,10 @@
 							${item.namePublishedInString}
 							<br />
 							<div>
-								<em><spring:message code="resultStatus" /></em>
+								<em><spring:message code="resultStatus" />&#160;</em>
 								<c:choose>
 									<c:when test="${em:isSynonym(item)}">
-									    <spring:message code="${item.taxonomicStatus}" var="taxonomicStatus"/>
+										<spring:message code="${item.taxonomicStatus}" var="taxonomicStatus"/>
 										<span id="entryStatus"><spring:message code="synonymStatus" arguments="${taxonomicStatus}"/></span>
 										<c:url var="acceptedUrl" value="/taxon/${item.acceptedNameUsage.identifier}" />
 										<a href="${acceptedUrl}">
@@ -54,12 +54,12 @@
 								</c:choose>
 							</div>
 							<div>
-								<em><spring:message code="resultRank" /></em>
+								<em><spring:message code="resultRank" />&#160;</em>
 								<span id="entryRank"><spring:message code="${item.taxonRank}" /></span>
 							</div>
 							<c:if test="${item.family != null}">
 								<div>
-									<em><spring:message code="resultFamily" /></em> ${item.family}
+									<em><spring:message code="resultFamily" />&#160;</em>${item.family}
 								</div>
 							</c:if>
 							<c:if test="${item.order != null}">
@@ -97,9 +97,9 @@
 								<div>
 									<em><spring:message code="image.description" /></em>:
 									<c:choose>
-							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
-									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
-								    </c:choose>									
+										<c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+										<c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+									</c:choose>
 								</div>
 							</c:if>
 							<c:if test="${item.spatial != null}">
@@ -128,9 +128,9 @@
 								<div>
 									<em><spring:message code="key.description" /></em>:
 									<c:choose>
-							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
-									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
-								    </c:choose>
+										<c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+										<c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+									</c:choose>
 								</div>
 							</c:if>
 						</results:listEntry>
@@ -153,9 +153,9 @@
 								<div>
 									<em><spring:message code="phylo.description" /></em>:
 									<c:choose>
-							          <c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
-									  <c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
-								    </c:choose>
+										<c:when test="${fn:length(item.description) lt 255}">${item.description}</c:when>
+										<c:otherwise>${fn:substring(item.description,0,254)} &#8230;</c:otherwise>
+									</c:choose>
 								</div>
 							</c:if>
 						</results:listEntry>
@@ -179,9 +179,9 @@
 								<div>
 									<em><spring:message code="concept.definition" /></em>:
 									<c:choose>
-							          <c:when test="${fn:length(item.definition) lt 255}">${item.definition}</c:when>
-									  <c:otherwise>${fn:substring(item.definition,0,254)} &#8230;</c:otherwise>
-								    </c:choose>
+										<c:when test="${fn:length(item.definition) lt 255}">${item.definition}</c:when>
+										<c:otherwise>${fn:substring(item.definition,0,254)} &#8230;</c:otherwise>
+									</c:choose>
 								</div>
 							</c:if>
 						</results:listEntry>

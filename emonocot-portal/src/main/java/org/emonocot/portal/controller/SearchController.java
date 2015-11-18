@@ -216,7 +216,7 @@ public class SearchController {
 			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
-			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "sort", required = false, defaultValue = "searchable.label_sort_asc") String sort,
 			@RequestParam(value = "view", required = false) String view,
 			Model model) throws SolrServerException {
 		Map<String, String> selectedFacets = extractSelectedFacets(facets);
