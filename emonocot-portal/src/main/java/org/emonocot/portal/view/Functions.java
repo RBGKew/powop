@@ -1272,7 +1272,7 @@ public class Functions {
 	public static String concept(Set<Description> descriptions) {
 		for(Description description : descriptions) {
 			if(description.getType() == DescriptionType.concept) {
-				return String.format("%s in", description.getDescription());
+				return description.getDescription();
 			}
 		}
 

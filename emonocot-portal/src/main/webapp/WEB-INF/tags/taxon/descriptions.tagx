@@ -12,10 +12,10 @@
       <div class="box inner">
         <h4>Description</h4>
         <c:forEach var="source" items="${em:descriptionsByResource(taxon.descriptions)}">
-          <h5>According to ${em:concept(taxon.descriptions)} ${source.key}</h5>
           <c:set var="descriptions" value="${source.value}" />
           <c:set var="descId" value="${em:uuid()}" />
           <c:if test="${not empty descriptions}">
+            <h5>According to ${source.key} ${em:concept(descriptions)}</h5>
             <c:set var="generalDescriptions" value="${em:generalDescription(descriptions)}" />
             <c:set var="detailedDescriptions" value="${em:detailedDescription(descriptions)}" />
 
