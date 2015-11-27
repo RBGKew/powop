@@ -1721,18 +1721,7 @@
 				<email.smtp.port>25</email.smtp.port>
 				<email.smtp.auth>false</email.smtp.auth>
 				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.imap.username>portal</email.imap.username>
-				<email.imap.password>portal</email.imap.password>
-				<email.imap.port>143</email.imap.port>
-				<email.imap.server>localhost</email.imap.server>
-				<email.imap.folder>INBOX</email.imap.folder>
-				<email.imap.enable.starttls>false</email.imap.enable.starttls>
-				<email.imap.socketfactory.class>javax.net.ssl.SSLSocketFactory</email.imap.socketfactory.class>
-				<email.imap.socketfactory.fallback>true</email.imap.socketfactory.fallback>
 				<email.fromAddress>portal@localhost</email.fromAddress>
-				<comment.email.template>org/emonocot/integration/comment/CommentEmail.vm</comment.email.template>
-				<comment.email.subject>Comment submitted via. eMonocot</comment.email.subject>
-				<comment.emailedTo>'vagrant@localhost'</comment.emailedTo>
 				<maven.javadoc.skip>true</maven.javadoc.skip>
 				<maven.site.skip>true</maven.site.skip>
 			</properties>

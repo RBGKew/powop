@@ -126,8 +126,6 @@
     <property name="annotatedPackages" value="org.emonocot.model" />
   </bean>
 
-  <integration:service-activator input-channel="indexingChannel" expression="@commentServiceImpl.index(payload['id'])" />
-
   <bean id="solrIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingListener" ref="solrIndexingListener" />
@@ -297,7 +295,6 @@
     <property name="systemUser" value="${email.fromAddress}"/>
     <property name="resourceService" ref="resourceServiceImpl"/>
     <property name="userService" ref="userServiceImpl"/>
-    <property name="commentService" ref="commentServiceImpl"/>
     <property name="annotationService" ref="annotationServiceImpl"/>
     <property name="jobRepository" ref="jobRepository"/>
   </bean>
@@ -315,24 +312,6 @@
       </props>
     </property>
   </bean>
-
-  <int-mail:inbound-channel-adapter id="imapAdapter"
-    store-uri="${email.mailbox.uri}"
-    java-mail-properties="javaMailProperties"
-    channel="inboundEmailChannel"
-    should-delete-messages="true"
-    should-mark-messages-as-read="true"
-    auto-startup="true">
-    <integration:poller max-messages-per-poll="1" fixed-rate="60000"/>
-  </int-mail:inbound-channel-adapter>
-
-  <util:properties id="javaMailProperties">
-    <prop key="mail.imap.socketFactory.class">${email.imap.socketfactory.class}</prop>
-    <prop key="mail.imap.socketFactory.fallback">${email.imap.socketfactory.fallback}</prop>
-    <prop key="mail.imap.starttls.enable">${email.imap.enable.starttls}</prop>
-    <prop key="mail.store.protocol">imaps</prop>
-    <prop key="mail.debug">${email.debug}</prop>
-  </util:properties>
 
   <beans profile="default">
     <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
