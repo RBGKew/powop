@@ -78,7 +78,9 @@
             <phase>process-resources</phase>
             <configuration>
               <tasks>
-                <delete dir="${project.build.directory}/static/" />
+                <delete includeEmptyDirs="true" quiet="true">
+                  <fileset dir="${project.build.directory}/static" includes="**/*" />
+                </delete>
 
                 <mkdir dir="${project.build.directory}/static/js/" />
                 <mkdir dir="${project.build.directory}/static/css/" />
