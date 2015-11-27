@@ -15,10 +15,11 @@
 			<i class="glyphicons-icon leaf"><!--  --></i> <em class="taxonName" itemprop="scientificName">${taxon.scientificName}</em>&#160;<span itemprop="scientificNameAuthorship">${taxon.scientificNameAuthorship}</span>
 			<ul class="unstyled">
 				<li>
-					<small class="protologueText">
-						<span id="protologue" itemprop="namePublishedIn">${taxon.namePublishedInString}</span>
-						<c:if test="${not empty taxon.nomenclaturalStatus}">&#160;<span itemprop="nomenclaturalStatus" content="${taxon.nomenclaturalStatus}"><spring:message code="nomenclatural_status_abbreviation_${taxon.nomenclaturalStatus}" text="${taxon.nomenclaturalStatus}"/></span></c:if>
-					</small>
+					<c:if test="${taxon.taxonomicStatus == 'Accepted'}">
+						<h4 id="acceptedName">
+							<i class="glyphicons-icon tag"><!--  --></i> This Name is Accepted
+						</h4>
+					</c:if>
 				</li>
 				<c:if test="${not empty preferred}">
 					<li>
@@ -33,14 +34,8 @@
 	<section id="printHeader" class="hide print">
 		<h2 id="page-title">
 			<i class="glyphicons-icon leaf"><!--  --></i> <em>${taxon.scientificName}</em>&#160;<span>${taxon.scientificNameAuthorship}</span>
-			<ul class="unstyled">
-				<li>
-					<small>
-						<span id="protologue">${taxon.namePublishedInString}</span>
-						<c:if test="${not empty taxon.nomenclaturalStatus}">&#160;<span ><spring:message code="nomenclatural_status_abbreviation_${taxon.nomenclaturalStatus}" text="${taxon.nomenclaturalStatus}"/></span></c:if>
-					</small>
-				</li>
-				<li>
+				<ul>
+				<li>	
 					<c:set var="preferred" value="${em:getPreferred(taxon)}" />
 					<c:if test="${not empty preferred}">
 						<small>${preferred.vernacularName}</small>
@@ -190,41 +185,13 @@
 			</div>
 		</div>
 		<br />
-		<div id="taxonomicStatus">
-			<section>
-				<c:choose>
-					<c:when test="${em:isSynonym(taxon) and taxon.acceptedNameUsage != null}">
-						<spring:message code="isSynonymOf" />
-						<c:url var="acceptedUrl"
-							value="/taxon/${taxon.acceptedNameUsage.identifier}" />
-						<a href="${acceptedUrl}">${taxon.acceptedNameUsage.scientificName}
-							${taxon.acceptedNameUsage.scientificNameAuthorship}</a>
-					</c:when>
-					<c:when test="${em:isSynonym(taxon) and taxon.acceptedNameUsage == null}">
-						<spring:message code="isNotAcceptedBy" />
-						<c:url var="organisationUrl" value="/organisation/${taxon.authority.identifier}" />
-						<a href="${organisationUrl}">${taxon.authority.title}</a>
-					</c:when>
-					<c:when test="${taxon.taxonomicStatus == 'Doubtful'}">
-						<spring:message code="isUnplaced" />
-					</c:when>
-					<c:when test="${taxon.taxonomicStatus == 'Accepted'}">
-						<spring:message code="isAcceptedBy" />
-						<c:url var="organisationUrl" value="/organisation/${taxon.authority.identifier}" />
-						<a href="${organisationUrl}">${taxon.authority.title}</a>
-					</c:when>
-				</c:choose>
-			</section>
-		</div>
-		<c:if test="${not empty taxon.taxonRemarks}">
-			<div id="taxonRemarks">
-				<spring:message code="notes" />${taxon.taxonRemarks}
-			</div>
-		</c:if>
+		
 
 		<!--=============  Main Content Boxes =============-->
 		<div class="row">
 			<div class="span8">
+			
+				<taxon:nameStatus />
 
 				<taxon:descriptions />
 
@@ -236,31 +203,26 @@
 
 				<taxon:vernacularNames />
 
-				<c:if test="${not empty bibliography.references}">
+				<c:if test="${not empty bibliography.references or not empty taxon.namePublishedInString}">
 					<section id="bibliography" class="section-box">
 						<div class="inner">
 							<div class="box clearfix">
-								<spring:message code="bibliography" var="bibliographyHeader"/>
-								<h2>
-									<i class="glyphicons-icon book">&#160;</i> ${bibliographyHeader}
-									<tags:feedbackLink selector="option:contains(${bibliographyHeader})" dataName="${bibliographyHeader}" />
-								</h2>
-								<ul>
-									<c:forEach var="reference" items="${bibliography.references}">
-										<li>
-											<c:set var="citationKey" value="${em:citekey(bibliography,reference)}"/>
-											<a id="citation${citationKey}">${citationKey}</a>
-											<c:choose>
-												<c:when test="${not empty reference.uri}">
-													<a href="${reference.uri}">${reference.bibliographicCitation}</a>
-												</c:when>
-												<c:otherwise>
-													${reference.bibliographicCitation}
-												</c:otherwise>
-											</c:choose>
-										</li>
-									</c:forEach>
-								</ul>
+								<c:if test="${not empty taxon.namePublishedInString}">
+									<h2 id ="protologue">
+										<i class="glyphicons-icon book">&#160;</i><spring:message code="firstPublishedIn"/><b>${taxon.namePublishedInString}</b>
+									</h2>
+								</c:if>
+								<c:if test="${not empty bibliography.references}">
+									<c:if test="${taxon.taxonomicStatus == 'Accepted'}">
+										<taxon:bibliography refViewType='Accepted' />
+										<taxon:bibliography refViewType='Synonym' />
+									</c:if>
+									<c:if test="${taxon.taxonomicStatus != 'Accepted'}">
+										<taxon:bibliography refViewType='Synonym' />
+										<taxon:bibliography refViewType='Accepted' />
+									</c:if>
+									<taxon:bibliography refViewType='bibliography' />
+								</c:if>
 							</div>
 						</div>
 					</section>

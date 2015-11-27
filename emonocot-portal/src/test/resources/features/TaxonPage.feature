@@ -127,11 +127,11 @@ Scenario: Display Vernacular Names
   
 Scenario: Accepted name show for synonyms
   Taxa should show their status at the top of the page
-  Then the taxon status should be 'This taxon is accepted by Test Organisation'
+  Then title banner should contain 'This Name is Accepted'
   When I navigate to taxon page "urn:kew.org:wcs:taxon:29332"
-  Then the taxon status should be 'This is a synonym of Acorus'
+  Then the taxon status should be 'Synonym of Acorus'
   When I navigate to taxon page "urn:kew.org:wcs:taxon:65181"
-  Then the taxon status should be 'This taxon is unplaced'
+  Then the taxon status should be 'Taxon is not accepted by World Checklist of Selected Plant Families'
   
 Scenario: Textual Citations
   The textual parts of the page (habitat, diagnosis, description etc) can have references
@@ -140,7 +140,7 @@ Scenario: Textual Citations
   bibliography with the references listed in full.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=38
   Then the citation for the "Diagnostic Description" topic should be "[PPWO.B][2]"
-  And the bibliography entry "2" should be "2 Sp. Pl. (1753): 1 304pp"
+  And the bibliography entry "2" should be "[2] Sp. Pl. (1753): 1 304pp"
   And the provenance entry "C" should be "C All Rights Reserved"
   
 Scenario: Information from
@@ -155,7 +155,7 @@ Scenario: Bibliography
   Taxa can have general references as well, and these should be displayed in the bibliography
   at the bottom of the page.
   http://build.e-monocot.org/bugzilla/show_bug.cgi?id=118
-  Then the bibliography entry "1" should be "1 Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
+  Then the bibliography entry "1" should be "[1] Govaerts, R. & Frodin, D.G. (2002). World Checklist and Bibliography of Araceae (and Acoraceae): 1-560. The Board of Trustees of the Royal Botanic Gardens, Kew."
  
 # Unfortunately, really difficult to test   
 #Scenario: Distribution

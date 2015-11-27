@@ -25,8 +25,12 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Show extends PageObject implements IllustratedPage {
+	
+	Logger logger = LoggerFactory.getLogger(Show.class);
 
 	@FindBy(how = How.ID, using = "page-title")
 	private WebElement title;
@@ -63,6 +67,9 @@ public class Show extends PageObject implements IllustratedPage {
 
 	@FindBy(how = How.ID, using = "alternative-map")
 	private WebElement map;
+	
+	@FindBy(how = How.ID, using = "acceptedName")
+	private WebElement acceptedName;
 
 	public String getTaxonName() {
 		return title.findElement(By.xpath("em")).getText();
@@ -99,7 +106,8 @@ public class Show extends PageObject implements IllustratedPage {
 	}
 
 	public String getProtologue() {
-		return protologue.getText();
+		WebElement protologueText = protologue.findElement(By.tagName("b"));
+		return protologueText.getText();
 	}
 
 	/**
@@ -188,9 +196,11 @@ public class Show extends PageObject implements IllustratedPage {
 	 * @return the bibliography entry
 	 */
 	public String getBibliographyEntry(String citeKey) {
-		WebElement bibliography = webDriver.findElement(By.id("bibliography"));
+		WebElement bibliography = webDriver.findElement(By.id("bibliographylist"));
+		logger.error(bibliography.getText());
 		WebElement element = bibliography.findElement(By
-				.xpath("div/div/ul/li[a = '" + citeKey + "']"));
+				.xpath("li[a = '" + "[" + citeKey + "]" + "']"));
+		logger.error("bibliographic entry:" + element.getText());
 		return element.getText();
 	}
 
@@ -247,5 +257,9 @@ public class Show extends PageObject implements IllustratedPage {
 			WebElement link = links.get(number - 1);
 			return openAs(link.getAttribute("href"), org.emonocot.portal.driver.phylo.Show.class);
 		}
+	}
+	
+	public String getAcceptedName() {
+		return acceptedName.getText();
 	}
 }

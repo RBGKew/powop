@@ -157,6 +157,11 @@
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.lang.String stripXml(java.lang.String)</function-signature>
   </function>
+    <function>
+    <name>escapeHtml</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.lang.String escapeHtml(java.lang.String)</function-signature>
+  </function>
   <function>
     <name>sortItems</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
@@ -293,7 +298,7 @@
   <function>
     <name>provenanceinitials</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.String
+    <function-signature>java.util.SortedSet
       provenanceinitials(org.emonocot.portal.view.provenance.ProvenanceManager,
       java.util.Collection)
     </function-signature>
@@ -448,6 +453,26 @@
     <name>detailedDescription</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.util.Map detailedDescription(java.util.Set)</function-signature>
+  </function>
+  <function>
+    <name>filterNameRef</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.List filterNameRef(org.emonocot.portal.view.bibliography.Bibliography, java.lang.String)</function-signature>
+  </function>
+  <function>
+    <name>sortReferencesByDate</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.List sortReferencesByDate(java.util.List)</function-signature>
+  </function>
+  <function>
+    <name>sortReferencesByAuthor</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.List sortReferencesByAuthor(java.util.List)</function-signature>
+  </function>
+  <function>
+    <name>sortReferencesByAcceptedName</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.util.List sortReferencesByAcceptedName(java.util.List)</function-signature>
   </function>
   <function>
     <name>uuid</name>

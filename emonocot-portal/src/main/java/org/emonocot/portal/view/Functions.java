@@ -17,6 +17,8 @@
 package org.emonocot.portal.view;
 
 import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,7 +39,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
-
+import org.springframework.web.util.HtmlUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.emonocot.api.job.EmonocotTerm;
 import org.emonocot.api.job.WCSPTerm;
@@ -62,7 +64,6 @@ import org.emonocot.model.constants.Status;
 import org.emonocot.model.convert.ClassToStringConverter;
 import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
-import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.view.bibliography.Bibliography;
@@ -87,9 +88,10 @@ import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.ocpsoft.prettytime.PrettyTime;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
-
+import org.slf4j.Logger;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -101,6 +103,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  *
  */
 public class Functions {
+	
+	private static Logger logger = LoggerFactory.getLogger(Functions.class);
 
 	private static DateTimeFormatter timeOnlyFormatter = DateTimeFormat
 			.forPattern("HH:mm:ss");
@@ -147,6 +151,10 @@ public class Functions {
 	 */
 	public static String stripXml(String string) {
 		return string.replaceAll("\\<.*?>", "");
+	}
+	
+	public static String escapeHtml(String string){
+		return HtmlUtils.htmlEscape(string);
 	}
 
 	public static String printTimeOnly(DateTime dateTime) {
@@ -1217,6 +1225,8 @@ public class Functions {
 		return facts;
 	}
 
+	
+	
 	/*
 	 * Linkify herbcat references
 	 */
@@ -1298,4 +1308,111 @@ public class Functions {
 	public static String uuid() {
 		return UUID.randomUUID().toString();
 	}
+	
+	
+	public static List<Reference> filterNameRef(Bibliography bibliography, String subject){
+		List<Reference> referenceList = bibliography.getReferences();
+		if(referenceList != null && !referenceList.isEmpty()){
+		List<Reference> referenceNameList = new ArrayList<Reference>();
+		if(subject.contains("bibliography")){
+			for(Reference reference : referenceList){
+				if(reference.getSubject() == null || (!reference.getSubject().contains("Synonym") && !reference.getSubject().contains("Accepted"))){
+					referenceNameList.add(reference);
+					System.out.println(reference.getBibliographicCitation());
+				}
+			}	
+		}
+		for(Reference reference : referenceList){
+			if(reference.getSubject() != null && reference.getSubject().contains(subject)){
+				referenceNameList.add(reference);
+				System.out.println(reference.getBibliographicCitation());
+			}
+		}
+		
+		return referenceNameList;
+		}
+		return null;
+	}
+	
+	
+	
+	public static List<Reference> sortReferencesByDate(List<Reference> referenceList) {
+
+		Collections.sort(referenceList, new Comparator<Reference>(){
+			@Override
+			public int compare(Reference ref0, Reference ref1) {
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+				Date date0 = null;
+				Date date1 = null;
+				try {
+					date0 = sdf.parse(ref0.getDate());
+				} catch (ParseException e) {
+				}
+				try {
+					date1 = sdf.parse(ref1.getDate());
+				}catch (ParseException e) {
+				}
+				//moves references with an unparsable date to bottom
+				if(date0 == null && date1 == null){
+					return 0;
+				}
+				if(date0 == null){
+					return -1;
+				}
+				if(date1 == null){
+					return 1;
+				}
+				return date0.compareTo(date1);
+			}
+		});	
+		return referenceList;
+	}
+	
+	public static List<Reference> sortReferencesByAuthor(List<Reference> referenceList){
+		Collections.sort(referenceList, new Comparator<Reference>(){
+			@Override
+			public int compare(Reference ref0, Reference ref1) {
+				
+				if(ref0.getCreator() == null && ref1.getCreator() == null){
+					return 0;
+				}
+				if(ref0.getCreator() == null){
+					return -1;
+				}
+				if(ref1.getCreator() == null){
+					return 1;
+				}
+				return ref0.getCreator().compareTo(ref1.getCreator());
+			}
+			
+		});
+
+		return referenceList;
+		
+	}
+	
+	public static  List<Reference> sortReferencesByAcceptedName(List<Reference> referenceList){
+
+		Collections.sort(referenceList, new Comparator<Reference>(){
+			@Override
+			public int compare(Reference ref0, Reference ref1) {
+				
+				if(ref0.getTaxonRemarks() == null && ref1.getTaxonRemarks() == null){
+					return 0;
+				}
+				if(ref0.getCreator() == null){
+					return -1;
+				}
+				if(ref1.getCreator() == null){
+					return 1;
+				}
+
+				return ref0.getTaxonRemarks().compareTo(ref1.getTaxonRemarks());
+			}			
+		});
+
+		return referenceList;
+	}
+	
 }

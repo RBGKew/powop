@@ -466,6 +466,15 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+.fail-snail {
+	position: relative;
+	margin: 0 0 20px;
+	padding: 0;
+	background-image: url('@{imagePath}/banner/fail-snail.png'), #eff2ea;
+	background-position: center center;
+	border-radius: 0 0 0 0;
+}
+
 .form-inline {
 	text-align: center;
 	display:block;
@@ -487,9 +496,9 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 19px;
 	margin-bottom: 20px;
 	position: relative;
-	-webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+	/*-webkit-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
 	-moz-box-shadow: inset 1px 1px 30px 1px #f9f9f9;
-	box-shadow: inset 1px 1px 30px 1px #f9f9f9;
+	box-shadow: inset 1px 1px 30px 1px #f9f9f9;*/
 }
 
 .inner {
@@ -509,20 +518,20 @@ h1, h2, h3, h4, h5, h6 {
 	-ms-transform: skew(-5deg) rotate(-3deg);
 	-o-transform: skew(-5deg) rotate(-3deg);
 	transform: skew(-5deg) rotate(-3deg);
-	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+	/*-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
 	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);*/
 	z-index: -1;
 }
 
 .inner:after  {
 	left: auto;
 	right: 12px;
-	-webkit-transform: skew(5deg) rotate(3deg);
+	/*-webkit-transform: skew(5deg) rotate(3deg);
 	-moz-transform: skew(5deg) rotate(3deg);
 	-ms-transform: skew(5deg) rotate(3deg);
 	-o-transform: skew(5deg) rotate(3deg);
-	transform: skew(5deg) rotate(3deg);
+	transform: skew(5deg) rotate(3deg);*/
 }
 
 .span12 .inner:before, .span12 .inner:after, .span11 .inner:before, .span11 .inner:after { bottom: 16px; }
@@ -538,9 +547,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   h2 {
-    font-size: 16px;
+    font-size: 16px;	
     line-height: 28px;
   }
+  
+   h3 {
+	font-size: 22px;
+	line-height: 24px;	
+	}
 
   a h2 {
     color: #5b5b5b;
@@ -576,6 +590,7 @@ h1, h2, h3, h4, h5, h6 {
 .description-with-citations  p {
 	margin-bottom: 0px;
 }
+
 
 
 /**
@@ -634,7 +649,7 @@ footer.navbar {
 .page-banner {
 	position: relative;
 	overflow: hidden;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	background-color: @heroBackground;
 
 	.page-header {
@@ -775,7 +790,7 @@ td ul.citations {
 	}
 }
 
-section#bibliography ul {
+ul#bibliography_list ul {
 	list-style: none;
 
 	li a {

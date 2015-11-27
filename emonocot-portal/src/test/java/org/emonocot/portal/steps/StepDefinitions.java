@@ -468,11 +468,11 @@ public class StepDefinitions {
 				.getAncestorsNumber());
 	}
 
-	@Then("^the taxon status should be '([^\"]*)'$")
-	public void theTaxonStatusShouldBe(String taxonStatus) {
-		assertEquals(taxonStatus,
+	@Then("^the title banner should contain '([^\"]*)'$")
+	public void theTitleBannerShouldRead(String acceptedName) {
+		assertEquals(acceptedName,
 				((org.emonocot.portal.driver.taxon.Show) currentPage)
-				.getTaxonomicStatus());
+				.getAcceptedName());
 	}
 
 	/**
