@@ -9,7 +9,6 @@
 	<tags:pageheader>
 		
 		<h2 id="page-title"><i class="glyphicons-icon keys"><!--  --></i>${identificationKey.title}</h2>
-		<tags:feedbackLink selector="${identificationKey.title}" dataName="${identificationKey.title}" />
 		<small><spring:message code="key.creator" /> ${identificationKey.creator}</small>
 		
 		<div class="row">

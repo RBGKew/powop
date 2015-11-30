@@ -10,7 +10,6 @@
 	<tags:pageheader>
 		<h2 id="page-title"><i class="glyphicons-icon picture"><!--  --></i> ${image.title}</h2>
 		<div class="span1 pull-right">
-			<tags:feedbackLink selector="${image.title}" dataName="${image.title}" />
 		</div>
 	</tags:pageheader>
 	<div class="container">

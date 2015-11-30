@@ -12,7 +12,6 @@
 				<div class="box clearfix">
 					<h2>
 						<spring:message code="synonyms" var="synonymsHeader"/>${synonymsHeader}
-						<tags:feedbackLink selector="option:contains(${synonymsHeader})" dataName="${synonymsHeader}" />
 					</h2>
 					<ul class="unstyled">
 						<c:forEach var="synonym" items="${em:sort(taxon.synonymNameUsages)}">

@@ -10,7 +10,6 @@
         <small><spring:message code="phylo.creator" /> ${phylogeneticTree.creator}</small>						
 		<div class="row">			
             <div class="span1 offset9">
-                <tags:feedbackLink selector="${phylogeneticTree.title}" dataName="${phylogeneticTree.title}" />
             </div>
 		</div>
 	</tags:pageheader>

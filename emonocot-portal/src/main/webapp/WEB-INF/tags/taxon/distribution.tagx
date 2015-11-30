@@ -15,7 +15,6 @@
 				<div class="box clearfix">
 					<h2>
 						<i class="glyphicons-icon globe"><!--  --></i> ${messageDistribution}
-						<tags:feedbackLink selector="option:contains(${messageDistribution})" dataName="${messageDistribution}" />
 					</h2>
 					<c:set var="hasNativeDistribution" value="false"/>
 					<c:set var="hasIntroducedDistribution" value="false"/>

@@ -12,7 +12,6 @@
 				<div class="box clearfix">
 					<h2>
 						${childrenHeader}${childrenRank}
-						<tags:feedbackLink selector="option:contains(${childrenHeader})" dataName="${childrenHeader}" />
 					</h2>
 					<ul class="unstyled">
 						<c:forEach var="child" items="${em:sort(taxon.childNameUsages)}">

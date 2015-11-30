@@ -12,7 +12,6 @@
 				<div class="box clearfix">
 					<h2>
 						<spring:message code="vernacularNames" var="vernacularHeader"/>${vernacularHeader}
-						<tags:feedbackLink selector="option:contains(${vernacularHeader})" dataName="${vernacularHeader}" />
 					</h2>
 					<table class="table" id="vernacular">
 						<thead>

@@ -11,7 +11,5 @@
 		<c:set var="modalId" value="feedbackModal"/>
 	</c:if>
 	<c:set var="clickScript" value="$('${selector}').attr('selected', true); return true;" />
-	<a class="pull-right" rel="tooltip" data-placement="right" title="Comment on ${dataName}." onclick="${clickScript}"  data-toggle="modal" href="#${modalId}">
-		<i class="halflings-icon comments submitComment"><!--  --></i>
-	</a>
+	
 </jsp:root>
