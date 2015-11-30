@@ -1347,11 +1347,11 @@ public class Functions {
 				Date date1 = null;
 				try {
 					date0 = sdf.parse(ref0.getDate());
-				} catch (ParseException e) {
+				} catch (Exception e) {
 				}
 				try {
 					date1 = sdf.parse(ref1.getDate());
-				}catch (ParseException e) {
+				}catch (Exception e) {
 				}
 				//moves references with an unparsable date to bottom
 				if(date0 == null && date1 == null){
