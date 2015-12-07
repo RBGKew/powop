@@ -240,42 +240,6 @@
         </executions>
       </plugin>
 
-      <!-- Copies to a server (for development/testing only). -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0</version>
-        <executions>
-          <execution>
-            <id>upload-asset-bundle</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>upload-single</goal>
-            </goals>
-            <configuration>
-              <fromFile>${project.build.directory}/${output.file}</fromFile>
-              <serverId>${wagon.server.id}</serverId>
-              <url>${wagon.static.url}</url>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>unpack-assets</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>sshexec</goal>
-            </goals>
-            <configuration>
-              <serverId>${wagon.server.id}</serverId>
-              <url>${wagon.static.url}</url>
-              <commands>
-                <command>tar -xzf ${wagon.target.dir}${output.file} -C ${wagon.target.dir}</command>
-              </commands>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Make a TAR.GZs of the static resources. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -363,4 +327,50 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <!-- Copies to a server (for development/testing only). -->
+  <profiles>
+    <profile>
+      <id>portal.test.vagrant</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0</version>
+            <executions>
+              <execution>
+                <id>upload-asset-bundle</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload-single</goal>
+                </goals>
+                <configuration>
+                  <fromFile>${project.build.directory}/${output.file}</fromFile>
+                  <serverId>${wagon.server.id}</serverId>
+                  <url>${wagon.static.url}</url>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>unpack-assets</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>sshexec</goal>
+                </goals>
+                <configuration>
+                  <serverId>${wagon.server.id}</serverId>
+                  <url>${wagon.static.url}</url>
+                  <commands>
+                    <command>tar -xzf ${wagon.target.dir}${output.file} -C ${wagon.target.dir}</command>
+                  </commands>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
