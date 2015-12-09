@@ -4,7 +4,7 @@
   <parent>
     <artifactId>emonocot</artifactId>
     <groupId>org.emonocot</groupId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.2</version>
   </parent>
 
   <artifactId>emonocot-service</artifactId>
