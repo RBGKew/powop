@@ -36,88 +36,46 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author ben
- */
 public class PageObject {
 
 	private Pattern pattern = Pattern.compile("^(.*?);jsessionid=[A-Z0-9]+$");
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.TAG_NAME, using = "footer")
 	private WebElement foot;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID_OR_NAME, using = "identify-box")
 	private WebElement identifyBox;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.ID_OR_NAME, using = "classify-box")
 	private WebElement classifyBox;
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.CLASS_NAME, using = "navbar")
 	private WebElement nav;
-	/**
-	 *
-	 */
 	private static final Integer AJAX_WAIT_STEP = 100;
 
-	/**
-	 *
-	 */
 	private static Logger logger = LoggerFactory.getLogger(PageObject.class);
 
-	/**
-	 * @return the identify link
-	 */
 	public final Identify selectIdentifyLink() {
 		return openAs(
 				identifyBox.findElement(By.linkText("identification features")).getAttribute("href"),
 				Identify.class);
 	}
 
-	/**
-	 * @return the identify link
-	 */
 	public final Identify selectClassifyLink() {
 		return openAs(
 				classifyBox.findElement(By.linkText("classification features")).getAttribute("href"),
 				Identify.class);
 	}
 
-	/**
-	 *
-	 */
 	@FindBy(how = How.TAG_NAME, using = "a")
 	private List<WebElement> links;
 
-	/**
-	 *
-	 */
 	protected WebDriver webDriver;
 
-	/**
-	 *
-	 */
 	protected ImageDaoImpl imageDao;
 
-	/**
-	 *
-	 */
 	protected IdentificationKeyDaoImpl keyDao;
 
-	/**
-	 *
-	 */
 	private String baseUri;
 
 	private String host;
@@ -126,22 +84,12 @@ public class PageObject {
 
 	private int port;
 
-	/**
-	 *
-	 */
 	protected TestDataManager testDataManager;
 
-	/**
-	 * @param newBaseUri
-	 *            Set the base Uri
-	 */
 	public final void setBaseUri(final String newBaseUri) {
 		this.baseUri = newBaseUri;
 	}
 
-	/**
-	 * @return the base uri
-	 */
 	public final String getBaseUri() {
 		return baseUri;
 	}
@@ -223,17 +171,10 @@ public class PageObject {
 		return PageFactory.initElements(webDriver, pageClass);
 	}
 
-	/**
-	 * @param address
-	 *            Set hte address
-	 */
 	private void open(final String address) {
 		webDriver.navigate().to(address);
 	}
 
-	/**
-	 * @return the web driver
-	 */
 	public final WebDriver getWebDriver() {
 		return webDriver;
 	}
@@ -270,38 +211,25 @@ public class PageObject {
 		}
 	}
 
-	/**
-	 * @return the login page
-	 */
 	public final Login selectLoginLink() {
 		return this.openAs(
 				nav.findElement(By.linkText("Sign in")).getAttribute("href"),
 				Login.class);
 	}
 
-	/**
-	 * @return true, if the user is logged in
-	 */
 	public final Boolean loggedIn() {
 		WebElement userMenu = nav.findElement(By.cssSelector("#menuUser"));
 		return (userMenu != null);
 	}
 
-	/**
-	 *
-	 */
 	public final void logOut() {
 		try {
 			openAs(getBaseUri() + "/logout", Index.class);
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
-
 	}
 
-	/**
-	 * @return the info message
-	 */
 	public final String getInfoMessage() {
 		WebElement webElement = webDriver.findElement(By
 				.cssSelector(".alert.info p"));
@@ -321,9 +249,6 @@ public class PageObject {
 				.getAttribute("href"), clazz);
 	}
 
-	/**
-	 * @return the about page
-	 */
 	public final About selectAboutLink() {
 		return openAs(
 				foot.findElement(By.linkText("About us")).getAttribute("href"),
@@ -336,9 +261,6 @@ public class PageObject {
 				TermsOfUse.class);
 	}
 
-	/**
-	 * @return the contact page
-	 */
 	public final String getContactLink() {
 		return foot.findElement(By.xpath("div/div/div/ul/li/ul/li/a[@class='contactLinkOverlay']")).getAttribute("href");
 	}
@@ -367,10 +289,6 @@ public class PageObject {
 		return selectLink(text, PageObject.class);
 	}
 
-	/**
-	 * @param elementId
-	 * @return Whether an element with this id is visible
-	 */
 	public boolean isElementVisible(String elementId) {
 		try {
 			WebElement element = webDriver.findElement(By.id(elementId));
@@ -380,9 +298,6 @@ public class PageObject {
 		}
 	}
 
-	/**
-	 * @return the footer icons arrangement
-	 */
 	public final List<List<String>> getFooterIconsArrangement() {
 		List<List<String>> returnRows = new ArrayList<List<String>>();
 
@@ -395,14 +310,9 @@ public class PageObject {
 			}
 			returnRows.add(returnRow);
 		}
-
 		return returnRows;
 	}
 
-	/**
-	 * @param paragraphNameOrId
-	 * @return
-	 */
 	public String paragraphText(String paragraphNameOrId) {
 		WebElement element = null;
 		try{
@@ -456,5 +366,4 @@ public class PageObject {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
 }
