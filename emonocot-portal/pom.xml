@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>emonocot</artifactId>
-    <groupId>org.emonocot</groupId>
-    <version>1.1.3-SNAPSHOT</version>
-  </parent>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>emonocot</artifactId>
+		<groupId>org.emonocot</groupId>
+		<version>1.1.3-SNAPSHOT</version>
+	</parent>
 
 	<artifactId>emonocot-portal</artifactId>
 	<packaging>war</packaging>
@@ -398,6 +398,42 @@
 					<configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
+
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>functional</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.kew.maven.plugins</groupId>
+						<artifactId>wait-http-maven-plugin</artifactId>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+						<version>1.0-SNAPSHOT</version>
+						<executions>
+							<execution>
+								<id>docker</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>wait-http</goal>
+								</goals>
+								<configuration>
+									<protocol>http</protocol>
+									<host>localhost</host>
+									<port>10080</port>
+									<file>/search</file>
+									<maxcount>20</maxcount>
+									<timeout>10000</timeout>
+									<initialWait>10000</initialWait>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
+		</profile>
+	</profiles>
 </project>
