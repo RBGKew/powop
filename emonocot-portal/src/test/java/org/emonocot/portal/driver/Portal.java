@@ -121,7 +121,7 @@ public class Portal extends PageObject {
 	}
 
 	public final PageObject getImagePage(final String identifier) {
-		return openAs(getBaseUri() + "/image/" + identifier, org.emonocot.portal.driver.image.Show.class);
+		return openAs(imageDao.getPageLocation(identifier), org.emonocot.portal.driver.image.Show.class);
 	}
 
 	public final PageObject getSourcePage(final String identifier) {
