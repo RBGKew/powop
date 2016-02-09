@@ -375,7 +375,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="handleBinaryImages" />
+      <batch:next on="COMPLETED" to="deleteAbsentImages" />
       <batch:next on="FAILED" to="indexAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
@@ -384,29 +384,10 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
-    <batch:step id="handleBinaryImages">
-      <batch:description>Retrieve images which are not cached, obtain EXIF metadata from the binary files
-        then resize the images
-      </batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="processImageFilesReader" processor="processImageFilesProcessor" writer="itemWriter" commit-interval="10" skip-limit="100">
-          <batch:skippable-exception-classes>
-            <batch:include class="org.apache.sanselan.ImageReadException" />
-            <batch:include  class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
-          </batch:skippable-exception-classes>
-        </batch:chunk>
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentImages" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="processingExceptionProcessListener" />
-      </batch:listeners>
-    </batch:step>
     <batch:step id="deleteAbsentImages">
       <batch:description>Delete the images which we expected to be present in the archive but which were absent</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="deleteImagesReader" writer="imageDeletingWriter" commit-interval="100" />
+        <batch:chunk reader="deleteImagesReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="indexImages" />
       <batch:listeners>
@@ -1581,37 +1562,9 @@
     <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
-  <bean id="processImageFilesReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
+  <bean id="deleteImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i from Image i join i.authority a where a.identifier = :authority" />
-    <property name="parameterValues">
-      <map>
-        <entry key="authority" value="#{jobParameters['authority.name']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="processImageFilesProcessor"
-    class="org.springframework.batch.item.support.CompositeItemProcessor">
-    <property name="delegates">
-      <list>
-        <ref bean="imageFetchingProcessor" />
-        <ref bean="imageResizer"/>
-        <ref bean="imageThumbnailProcessor"/>
-        <ref bean="imageMetadataProcessor" />
-      </list>
-    </property>
-  </bean>
-
-  <bean id="deleteImagesReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i from Image i join i.annotations a where a.jobId = :jobId and a.code = :code" />
+    <property name="queryString" value="select i from Image i join i.annotations a where a.jobId = :jobId and a.code = :code" />
     <property name="parameterValues">
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
@@ -2669,16 +2622,6 @@
   </bean>
 
   <!-- Writing -->
-  <bean id="imageDeletingWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
-    <property name="delegates">
-      <list>
-        <ref bean="deletingWriter"/>
-        <bean id="imageResourceDeletingWriter" class="org.emonocot.job.dwc.image.ImageFileDeletingWriter">
-          <property name="imageDirectory" value="${harvester.image.directory}"/>
-        </bean>
-      </list>
-    </property>
-  </bean>
   <bean id="processingExceptionProcessListener"
     class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener"
     scope="step">
