@@ -123,33 +123,6 @@
 
   <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 
-  <bean id="imageFetchingProcessor" class="org.emonocot.harvest.media.ImageFileProcessorImpl" scope="step">
-    <property name="getResourceClient" ref="getResourceClient" />
-    <property name="imageDirectory" value="${harvester.image.directory}"/>
-    <property name="imageAnnotator" ref="imageAnnotator" />
-  </bean>
-
-  <bean id="imageThumbnailProcessor" class="org.emonocot.harvest.media.ImageThumbnailGeneratorImpl" scope="step">
-    <property name="thumbnailDirectory" value="${harvester.thumbnail.directory}"/>
-    <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-    <property name="imageDirectory" value="${harvester.image.directory}"/>
-    <property name="imageAnnotator" ref="imageAnnotator"/>
-  </bean>
-
-  <bean id="imageResizer" class="org.emonocot.harvest.media.ImageResizerImpl" scope="step">
-    <property name="imageMagickSearchPath" value="${harvester.imagemagick.path}"/>
-    <property name="imageDirectory" value="${harvester.image.directory}"/>
-    <property name="imageAnnotator" ref="imageAnnotator"/>
-  </bean>
-
-  <bean id="imageMetadataProcessor" class="org.emonocot.harvest.media.ImageMetadataExtractorImpl" scope="step"
-    init-method="afterPropertiesSet" >
-    <property name="imageAnnotator" ref="imageAnnotator" />
-    <property name="imageDirectory" value="${harvester.image.directory}"/>
-    <property name="sanitizer" ref="htmlSanitizer" />
-    <property name="validator" ref="validator"/>
-  </bean>
-
   <bean id="imageAnnotator" class="org.emonocot.harvest.media.ImageAnnotatorImpl" scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
     <property name="sessionFactory" ref="sessionFactory" />
