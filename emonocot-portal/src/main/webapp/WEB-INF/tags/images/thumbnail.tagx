@@ -1,0 +1,38 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:em="http://e-monocot.org/portal/functions"
+  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  version="2.0">
+
+	<jsp:directive.attribute name="image" type="org.emonocot.model.Image" required="true"/>
+	<jsp:directive.attribute name="imageAlign" type="java.lang.String" required="false"/>
+
+	<c:url var="imageUrl" value="/image/${image.id}"/>
+	<c:url var="fullsize" value="${em:fullsizeImageUrl(image)}" />
+	<c:url var="thumbnail" value="${em:thumbnailImageUrl(image)}"/>
+
+	<c:set var="imageClass" value="thumbnail ${imageAlign}"/>
+
+	<c:choose>
+		<c:when test="${not empty image}">
+			<c:choose>
+				<c:when test="${not empty image.license}">
+					<c:set var="imageLicense" value="${image.license}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="imageLicense" value="All right reserved" />
+				</c:otherwise>
+			</c:choose>
+			<a class="result slideshow" href="${fullsize}"
+				data-link="${imageUrl}" data-icon="icon-white icon-picture"
+				data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
+				<img class="${imageClass}" src="${thumbnail}" title="${em:stripXml(image.title)}"/>
+			</a>
+		</c:when>
+		<c:otherwise>
+			<c:url var="thumbnail" value="/css/images/no_image.jpg"/>
+			<img class="${imageClass}" src="${thumbnail}"/>
+		</c:otherwise>
+	</c:choose>
+</jsp:root>

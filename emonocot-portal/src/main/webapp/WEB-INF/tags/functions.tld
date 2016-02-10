@@ -479,4 +479,19 @@
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.lang.String uuid()</function-signature>
   </function>
+  <function>
+    <name>thumbnailImageUrl</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.lang.String thumbnailImageUrl(org.emonocot.model.Image)</function-signature>
+  </function>
+  <function>
+    <name>fullsizeImageUrl</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.lang.String fullsizeImageUrl(org.emonocot.model.Image)</function-signature>
+  </function>
+  <function>
+    <name>originalImageUrl</name>
+    <function-class>org.emonocot.portal.view.Functions</function-class>
+    <function-signature>java.lang.String originalImageUrl(org.emonocot.model.Image)</function-signature>
+  </function>
 </taglib>

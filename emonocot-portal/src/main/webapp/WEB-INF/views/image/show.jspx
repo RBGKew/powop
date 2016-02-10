@@ -4,6 +4,7 @@
 	xmlns:em="http://e-monocot.org/portal/functions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:tags="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:images="urn:jsptagdir:/WEB-INF/tags/images"
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags">
 
@@ -20,8 +21,7 @@
 			<div class="centeredImage section-box">
 				<div class="inner">
 					<div class="box">
-						<c:url value="/images/fullsize/${image.id}.${image.format}" var="imageUrl"/>
-						<img id="main-img" class="imageSize" src="${imageUrl}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
+						<img id="main-img" class="imageSize" src="${em:fullsizeImageUrl(image)}" title="${fn:escapeXml(image.title)}" alt="${status.index}" />
 					</div>
 				</div>
 			</div>
@@ -136,22 +136,7 @@
 											<ul class="thumbnails">	
 												<c:forEach var="image" items="${image.taxon.images}" begin="${status.index}" end="${status.index + 5}">
 													<li>
-														<c:choose>
-															<c:when test="${not empty image.license}">
-																<c:set var="imageLicense" value="${image.license}" />
-															</c:when>
-															<c:otherwise>
-																<c:set var="imageLicense" value="All right reserved" />
-															</c:otherwise>
-														</c:choose>
-														<c:url var="fullsize" value="/images/fullsize/${image.id}.${image.format}" />
-														<c:url var="imageUrl" value="/image/${image.id}"/>
-														<a class="slideshow" href="${fullsize}" 
-															data-link="${imageUrl}" data-icon="icon-white icon-picture" 
-															data-creator="${image.creator}" data-license="${imageLicense}" title="${em:stripXml(image.title)}">
-															<c:url var="thumbnail" value="/images/thumbnails/${image.id}.${image.format}"/>
-															<img class="thumbnail pull-right" src="${thumbnail}" title="${em:stripXml(image.title)}"/>
-														</a>
+													<images:thumbnail image="${image}" imageAlign="pull-right" />
 													</li>
 												</c:forEach>
 											</ul>

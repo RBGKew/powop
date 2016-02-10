@@ -1414,5 +1414,20 @@ public class Functions {
 
 		return referenceList;
 	}
-	
+
+	private static final Pattern ImageFilename = Pattern.compile("\\/([\\w]+)(.jpg)$");
+	public static String thumbnailImageUrl(Image image) {
+		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
+		return matcher.replaceAll("/$1_thumbnail$2");
+	}
+
+	public static String fullsizeImageUrl(Image image) {
+		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
+		return matcher.replaceAll("/$1_fullsize$2");
+	}
+
+	public static String originalImageUrl(Image image) {
+		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
+		return matcher.replaceAll("/$1_original$2");
+	}
 }
