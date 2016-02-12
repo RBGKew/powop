@@ -100,8 +100,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 					&& ((persisted.getModified() != null && t.getModified() != null) && !persisted
 							.getModified().isBefore(t.getModified()))) {
 				bindTaxon(persisted);
-				replaceAnnotation(persisted, AnnotationType.Info,
-						AnnotationCode.Skipped);
+				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 			} else {
 				bindRelationships(t, persisted);
 				persisted.setAccessRights(t.getAccessRights());
@@ -110,8 +109,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setModified(t.getModified());
 				persisted.setRights(t.getRights());
 				persisted.setRightsHolder(t.getRightsHolder());
-				persisted
-				.setBibliographicCitation(t.getBibliographicCitation());
+				persisted.setBibliographicCitation(t.getBibliographicCitation());
 				persisted.setClazz(t.getClazz());
 				persisted.setFamily(t.getFamily());
 				persisted.setGenus(t.getGenus());
@@ -119,16 +117,14 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setKingdom(t.getKingdom());
 				persisted.setNameAccordingTo(t.getNameAccordingTo());
 				persisted.setNamePublishedIn(t.getNamePublishedIn());
-				persisted
-				.setNamePublishedInString(t.getNamePublishedInString());
+				persisted.setNamePublishedInString(t.getNamePublishedInString());
 				persisted.setNamePublishedInYear(t.getNamePublishedInYear());
 				persisted.setNomenclaturalCode(t.getNomenclaturalCode());
 				persisted.setNomenclaturalStatus(t.getNomenclaturalStatus());
 				persisted.setOrder(t.getOrder());
 				persisted.setPhylum(t.getPhylum());
 				persisted.setScientificName(t.getScientificName());
-				persisted.setScientificNameAuthorship(t
-						.getScientificNameAuthorship());
+				persisted.setScientificNameAuthorship(t.getScientificNameAuthorship());
 				persisted.setScientificNameID(t.getScientificNameID());
 				persisted.setSource(t.getSource());
 				persisted.setSpecificEpithet(t.getSpecificEpithet());
@@ -143,8 +139,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setUri(t.getUri());
 				validate(t);
 
-				replaceAnnotation(persisted, AnnotationType.Info,
-						AnnotationCode.Update);
+				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 			}
 			logger.info("Overwriting taxon " + persisted);
 			return persisted;

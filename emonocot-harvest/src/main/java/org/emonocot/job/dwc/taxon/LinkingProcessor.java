@@ -17,32 +17,23 @@ package org.emonocot.job.dwc.taxon;
  * ‘COPYING’.  It is also available from <http://www.gnu.org/licenses/>.
  */
 
-
-import org.emonocot.api.AnnotationService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.exception.CannotFindRecordException;
 import org.emonocot.job.dwc.exception.NoIdentifierException;
 import org.emonocot.job.dwc.read.DarwinCoreProcessor;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.AnnotationCode;
+import org.emonocot.model.constants.AnnotationType;
+import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
-	/**
-	 *
-	 */
 	private Logger logger = LoggerFactory.getLogger(CheckingProcessor.class);
 
 	private TaxonService taxonService;
 
-	private AnnotationService annotationService;
-	
 	private Taxon persistedTaxon;
 
 	@Autowired
@@ -50,32 +41,17 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		this.taxonService = taxonService;
 	}
 
-	@Autowired
-	public void setAnnotationService(AnnotationService annotationService) {
-		this.annotationService = annotationService;
-	}
-
-	/**
-	 * @param taxon a taxon object
-	 * @throws Exception if something goes wrong
-	 * @return Taxon a taxon object
-	 */
 	@Override
 	public Taxon doProcess(Taxon taxon) throws Exception {
 		logger.info("Processing " + taxon.getIdentifier());
 		if (taxon.getIdentifier() == null || taxon.getIdentifier().isEmpty()) {
 			throw new NoIdentifierException(taxon);
 		}
-		//update all elements of taxon with their real database objects, not just an identifier. Not sure
-		//if hibernate is smart enough to do this automatically or not. Edit: Turns out it isn't
-		
-		 persistedTaxon = taxonService.find(taxon.getIdentifier());
-		
-		
-		
+		persistedTaxon = taxonService.find(taxon.getIdentifier());
+
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
-		}else{
+		} else {
 			linkRecords(taxon);
 			logger.debug("found taxon with id " + persistedTaxon.getId());
 			persistedTaxon.setCreated(taxon.getCreated());
@@ -93,37 +69,34 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 			persistedTaxon.setSubtribe(taxon.getSubtribe());
 			persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
 			persistedTaxon.setTaxonRemarks(taxon.getTaxonRemarks());
-			logger.debug("updating taxon");
-			taxonService.saveOrUpdate(persistedTaxon);
-			logger.debug("updated taxon");
-
+			persistedTaxon.getAnnotations().add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
 		}
-		
-		
+
 		return persistedTaxon;
 	}
+
 	private Taxon linkRecords(Taxon taxon) throws Exception {
-		if(taxon.getParentNameUsage() != null){
+		if (taxon.getParentNameUsage() != null) {
 			logger.debug("setting " + taxon.getIdentifier() + "as a child of " + taxon.getParentNameUsage().getIdentifier());
 			persistedTaxon.setParentNameUsage(taxonService.find(taxon.getParentNameUsage().getIdentifier()));
-		}else{
+		} else {
 			persistedTaxon.setParentNameUsage(null);
 		}
-		if(taxon.getAcceptedNameUsage() != null){
+
+		if (taxon.getAcceptedNameUsage() != null) {
 			logger.debug("setting" + taxon.getIdentifier() + "as a synonym of " + taxon.getAcceptedNameUsage().getIdentifier());
 			persistedTaxon.setAcceptedNameUsage(taxonService.find(taxon.getAcceptedNameUsage().getIdentifier()));
-		}else{
+		} else {
 			taxon.setParentNameUsage(null);
 		}
-		if(taxon.getOriginalNameUsage() != null){
+
+		if (taxon.getOriginalNameUsage() != null) {
 			logger.debug("setting" + taxon.getIdentifier() + "as an orginal name of " + taxon.getOriginalNameUsage().getIdentifier());
 			persistedTaxon.setOriginalNameUsage(taxonService.find(taxon.getOriginalNameUsage().getIdentifier()));
-		}else{
+		} else {
 			persistedTaxon.setOriginalNameUsage(null);
 		}
-		
-		return taxon;
-		
-	}
 
+		return taxon;
+	}
 }

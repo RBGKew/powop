@@ -153,7 +153,7 @@
     <batch:step id="importLinksOnly">
       <batch:description>Process the core file containing the taxa, creating links only, and adding no new taxa where neccessary</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="taxonDoNothingWriter" commit-interval="1" skip-limit="10000">
+        <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="itemWriter" commit-interval="1" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -2632,9 +2632,6 @@
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
     <property name="sessionFactory" ref="sessionFactory" />
-  </bean>
-
- <bean id="taxonDoNothingWriter" class="org.emonocot.job.dwc.taxon.TaxonDoNothingWriter">
   </bean>
 
   <bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
