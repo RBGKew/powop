@@ -109,7 +109,6 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		persisted.setLatitude(t.getLatitude());
 		persisted.setLongitude(t.getLongitude());
 		persisted.setReferences(t.getReferences());
-		persisted.setSpatial(t.getSubject());
 		persisted.setTaxon(t.getTaxon());
 		persisted.setTitle(t.getTitle());
 	}

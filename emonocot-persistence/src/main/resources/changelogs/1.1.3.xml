@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet id="2016-02-17_01" author="ji10kg">
+    <comment>Add new Audubon media fields to image</comment>
+    <addColumn tableName="image">
+       <column name="CVTerm" type="varchar(255)"/>
+       <column name="associatedObservationReference" type="varchar(255)"/>
+       <column name="associatedSpecimenReference" type="varchar(255)"/>
+       <column name="caption" type="varchar(255)"/>
+       <column name="providerManagedId" type="varchar(255)"/>
+       <column name="subjectPart" type="varchar(255)"/>
+       <column name="taxonCoverage" type="varchar(255)"/>
+    </addColumn>
+  </changeSet>
+
+  <changeSet id="2016-02-17_02" author="ji10kg">
+    <comment>Remove unused image fields</comment>
+    <dropColumn tableName="image" columnName="locality"/>
+    <dropColumn tableName="image" columnName="location"/>
+    <dropColumn tableName="image" columnName="image_id"/>
+  </changeSet>
+</databaseChangeLog>

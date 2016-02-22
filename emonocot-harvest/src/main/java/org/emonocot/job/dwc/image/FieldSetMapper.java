@@ -16,6 +16,7 @@
  */
 package org.emonocot.job.dwc.image;
 
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
@@ -26,31 +27,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 
-/**
- *
- * @author ben
- *
- */
-public class FieldSetMapper extends
-NonOwnedFieldSetMapper<Image> {
+public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
-	/**
-	 *
-	 */
 	public FieldSetMapper() {
 		super(Image.class);
 	}
 
-	/**
-	 *
-	 */
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
 	@Override
 	public void mapField(final Image object, final String fieldName,
 			final String value) throws BindException {
 		super.mapField(object, fieldName, value);
-		Term term = getTermFactory().findTerm(fieldName);
+		Term term = TermFactory.findTerm(fieldName);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {
@@ -77,9 +66,6 @@ NonOwnedFieldSetMapper<Image> {
 				break;
 			case references:
 				object.setReferences(value);
-				break;
-			case spatial:
-				object.setSpatial(htmlSanitizer.sanitize(value));
 				break;
 			case subject:
 				object.setSubject(htmlSanitizer.sanitize(value));
