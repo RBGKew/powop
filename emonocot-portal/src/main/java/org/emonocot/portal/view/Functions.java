@@ -1415,7 +1415,7 @@ public class Functions {
 		return referenceList;
 	}
 
-	private static final Pattern ImageFilename = Pattern.compile("\\/([\\w]+)(.jpg)$");
+	private static final Pattern ImageFilename = Pattern.compile("\\/(.+)(\\.jpg)$");
 	public static String thumbnailImageUrl(Image image) {
 		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
 		return matcher.replaceAll("/$1_thumbnail$2");
