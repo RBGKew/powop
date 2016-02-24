@@ -25,7 +25,7 @@ public class DescriptionTypeTest {
 	public void testFromHierarchicalIdentifier() {
 		assertEquals(
 				DescriptionType.fromString("reproductiveMorphology:flowers:perianth"),
-				DescriptionType.perianth);
+				DescriptionType.reproductiveMorphologyFlowersPerianth);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
