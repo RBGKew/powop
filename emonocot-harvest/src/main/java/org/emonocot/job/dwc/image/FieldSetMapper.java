@@ -25,10 +25,19 @@ import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
+	
+	private String imageServer = "";
+	
+	@Autowired
+	public void setImageServer(String imageServer){
+		this.imageServer = imageServer;
+	}
+	
 	public FieldSetMapper() {
 		super(Image.class);
 	}
@@ -59,7 +68,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setFormat(conversionService.convert(value, MediaFormat.class));
 				break;
 			case identifier:
-				object.setIdentifier(value);
+				object.setIdentifier(imageServer + value);
 				break;
 			case publisher:
 				object.setPublisher(htmlSanitizer.sanitize(value));
@@ -77,7 +86,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				break;
 			}
 		}
-
+		
 		// WGS84 Terms
 		if (term instanceof Wgs84Term) {
 			Wgs84Term wgs84Term = (Wgs84Term)term;
@@ -93,4 +102,5 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			}
 		}
 	}
+	
 }
