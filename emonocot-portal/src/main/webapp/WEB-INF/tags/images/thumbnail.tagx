@@ -9,13 +9,13 @@
 	<jsp:directive.attribute name="imageAlign" type="java.lang.String" required="false"/>
 
 	<c:url var="imageUrl" value="/image/${image.id}"/>
-	<c:url var="fullsize" value="${em:fullsizeImageUrl(image)}" />
-	<c:url var="thumbnail" value="${em:thumbnailImageUrl(image)}"/>
 
 	<c:set var="imageClass" value="thumbnail ${imageAlign}"/>
 
 	<c:choose>
 		<c:when test="${not empty image}">
+			<c:url var="fullsize" value="${em:fullsizeImageUrl(image)}" />
+			<c:url var="thumbnail" value="${em:thumbnailImageUrl(image)}"/>
 			<c:choose>
 				<c:when test="${not empty image.license}">
 					<c:set var="imageLicense" value="${image.license}" />
