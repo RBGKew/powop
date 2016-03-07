@@ -16,13 +16,21 @@
  */
 package org.emonocot.job.dwc.image;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.MediaFormat;
+import org.emonocot.model.constants.MediaType;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.AcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +75,8 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case format:
 				object.setFormat(conversionService.convert(value, MediaFormat.class));
 				break;
-			case identifier:
-				object.setIdentifier(imageServer + value);
+			case identifier:	
+				object.setIdentifier(value);
 				break;
 			case publisher:
 				object.setPublisher(htmlSanitizer.sanitize(value));
@@ -82,11 +90,56 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case title:
 				object.setTitle(htmlSanitizer.sanitize(value));
 				break;
+			case type:
+				MediaType mediaType = conversionService.convert(value, MediaType.class);
+				object.setType(mediaType);
+				break;
 			default:
 				break;
 			}
 		}
-		
+		if (term instanceof AcTerm) {
+			AcTerm AcTerm = (AcTerm)term;
+			switch (AcTerm) {
+			case associatedObservationReference:
+				object.setAssociatedObservationReference(htmlSanitizer.sanitize(value));
+				break;
+			case associatedSpecimenReference:
+				object.setAssociatedObservationReference(htmlSanitizer.sanitize(value));
+				break;
+			case caption:
+				object.setCaption(htmlSanitizer.sanitize(value));
+				break;
+			case providerManagedID:
+				object.setProviderManagedId(htmlSanitizer.sanitize(value));
+				break;
+			case subjectPart:
+				object.setSubjectPart(handleSubjectPart(value));
+				break;
+			case taxonCoverage:
+            	if (value != null && value.trim().length() != 0) {
+            		if(object.getTaxonCoverage() == null) {
+            			Taxon taxon = new Taxon();
+            			object.setTaxonCoverage(taxon);
+            		}
+            		object.getTaxonCoverage().setIdentifier(value);
+
+            	}
+				break;
+			case accessURI:
+				if(imageServer != null){
+					  object.setAccessUri(imageServer + value);
+					  break;
+					}			
+					object.setAccessUri(value);
+					break;
+			case subtype:
+				object.setSubType(htmlSanitizer.sanitize(value));
+				break;
+			default:
+				break;
+			}
+			}
 		// WGS84 Terms
 		if (term instanceof Wgs84Term) {
 			Wgs84Term wgs84Term = (Wgs84Term)term;
@@ -103,4 +156,21 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 		}
 	}
 	
+	public Set<DescriptionType> handleSubjectPart(String value){
+		Set<DescriptionType> descriptionType = new HashSet<DescriptionType>();
+		logger.debug("Full Description value is:" + value);
+		if (value != null && value.trim().length() != 0){
+			Set<String> set = new HashSet<String>(Arrays.asList(value.split("\\|")));
+			for(String item : set){
+				logger.debug("Description Item is:" + item);
+				item = item.trim();
+				if(item != null){
+					descriptionType.add(conversionService.convert(item, DescriptionType.class));
+				}
+			}
+			return descriptionType;
+		}
+		return null;				
+	}
+
 }

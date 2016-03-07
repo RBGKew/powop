@@ -217,7 +217,6 @@ public class TestDataManager {
 		image.setTitle(caption);
 		image.setIdentifier(identifier);
 		image.setDescription(description);
-		image.setSpatial(locality);
 		image.setCreator(creator);
 		image.setLicense(license);
 		image.setSubject(keywords);

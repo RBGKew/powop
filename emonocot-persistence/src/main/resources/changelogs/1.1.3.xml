@@ -6,20 +6,34 @@
   <changeSet id="2016-02-17_01" author="ji10kg">
     <comment>Add new Audubon media fields to image</comment>
     <addColumn tableName="image">
-       <column name="CVTerm" type="varchar(255)"/>
        <column name="associatedObservationReference" type="varchar(255)"/>
        <column name="associatedSpecimenReference" type="varchar(255)"/>
        <column name="caption" type="varchar(255)"/>
        <column name="providerManagedId" type="varchar(255)"/>
-       <column name="subjectPart" type="varchar(255)"/>
-       <column name="taxonCoverage" type="varchar(255)"/>
+       <column name="taxonCoverage_id" type="bigint"/>
     </addColumn>
   </changeSet>
 
   <changeSet id="2016-02-17_02" author="ji10kg">
     <comment>Remove unused image fields</comment>
-    <dropColumn tableName="image" columnName="locality"/>
-    <dropColumn tableName="image" columnName="location"/>
     <dropColumn tableName="image" columnName="image_id"/>
   </changeSet>
+
+	<changeSet id="2016-03-01_01" author="jc20kg">
+	<createTable tableName="image_SubjectPart">
+			<column name="image_id" type="bigint">
+      		</column>
+      		<column name="subjectPart" type="varchar(255)">
+      		</column>
+    	</createTable>
+    </changeSet>
+    
+  <changeSet id="2016-03-2_01" author="jc20kg">
+    <comment>AcessUri field</comment>
+    <addColumn tableName="image" >
+    	<column name="accessUri" type="varchar(255)"/>
+    	<column name="subType" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
+    
 </databaseChangeLog>

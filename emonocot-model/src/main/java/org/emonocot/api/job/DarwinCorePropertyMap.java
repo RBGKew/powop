@@ -22,6 +22,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.emonocot.model.compare.TermComparator;
+import org.gbif.dwc.terms.AcTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -173,7 +174,15 @@ public class DarwinCorePropertyMap {
 		imageTerms.put(DcTerm.references, "references");
 		imageTerms.put(DcTerm.subject, "subject");
 		imageTerms.put(DcTerm.title, "title");
-
+		imageTerms.put(AcTerm.accessURI, "accessURI");
+		imageTerms.put(AcTerm.associatedObservationReference, "associatedObservationReference");
+		imageTerms.put(AcTerm.associatedSpecimenReference, "associatedSpecimenReference");
+		imageTerms.put(AcTerm.caption, "caption");
+		imageTerms.put(AcTerm.providerManagedID, "providerManagedID");
+		imageTerms.put(AcTerm.subjectPart, "subjectPart");
+		imageTerms.put(AcTerm.taxonCoverage, "taxonCoverage");
+		imageTerms.put(AcTerm.subtype, "subtype");
+		
 		identifierTerms.put(DcTerm.accessRights,"accessRights");
 		identifierTerms.put(DwcTerm.datasetID,"authority.identifier");
 		identifierTerms.put(DwcTerm.datasetName,"authority.title");

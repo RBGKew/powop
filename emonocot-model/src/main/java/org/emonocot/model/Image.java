@@ -21,7 +21,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +41,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
@@ -68,12 +74,28 @@ public class Image extends Multimedia {
 	private Long id;
 
 	private Taxon taxon;
+	
+	private String AccessUri;
 
 	private Set<Taxon> taxa = new HashSet<Taxon>();
 
 	private List<Comment> comments = new ArrayList<>();
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
+	
+	private String associatedObservationReference;
+	
+	private String associatedSpecimenReference;
+	
+	private String caption;
+	
+	private String providerManagedId;
+	
+	private Set<DescriptionType> subjectPart;
+	
+	private Taxon taxonCoverage;
+	
+	private  String subType;
 
 	@Size(max = 255)
 	public String getSubject() {
@@ -187,13 +209,61 @@ public class Image extends Multimedia {
 		this.comments = comments;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.emonocot.model.Multimedia#getType()
-	 */
-	@Override
-	@Transient
-	public MediaType getType() {
-		return MediaType.StillImage;
+	public String getAssociatedObservationReference() {
+		return associatedObservationReference;
+	}
+
+	public void setAssociatedObservationReference(String associatedObservationReference) {
+		this.associatedObservationReference = associatedObservationReference;
+	}
+
+	public String getAssociatedSpecimenReference() {
+		return associatedSpecimenReference;
+	}
+
+	public void setAssociatedSpecimenReference(String associatedSpecimenReference) {
+		this.associatedSpecimenReference = associatedSpecimenReference;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+
+	public String getProviderManagedId() {
+		return providerManagedId;
+	}
+
+	public void setProviderManagedId(String providerManagedId) {
+		this.providerManagedId = providerManagedId;
+	}
+
+	@ElementCollection
+	@CollectionTable(name="image_SubjectPart", joinColumns=@JoinColumn(name="image_id"))
+	@Column(name="subjectPart")
+	@Enumerated(value = EnumType.STRING)
+	public Set<DescriptionType> getSubjectPart() {
+		return subjectPart;
+	}
+
+	
+	public void setSubjectPart(Set<DescriptionType> subjectPart) {
+		this.subjectPart = subjectPart;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JsonSerialize(using = TaxonSerializer.class)
+	public Taxon getTaxonCoverage() {
+		return taxonCoverage;
+	}
+	
+	@JsonDeserialize(using = TaxonDeserializer.class)
+	public void setTaxonCoverage(Taxon taxonCoverage) {
+		this.taxonCoverage = taxonCoverage;
 	}
 
 	@Override
@@ -238,4 +308,24 @@ public class Image extends Multimedia {
 		}
 		return stringBuffer.toString();
 	}
+
+	public String getAccessUri() {
+		return AccessUri;
+	}
+
+	public void setAccessUri(String accessUrl) {
+		AccessUri = accessUrl;
+	}
+
+	public String getSubType() {
+		return subType;
+	}
+
+	public void setSubType(String subType) {
+		this.subType = subType;
+	}
+
+
+
+
 }
