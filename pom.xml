@@ -659,7 +659,7 @@
 			<dependency>
 				<groupId>net.sourceforge.hatbox</groupId>
 				<artifactId>hatbox</artifactId>
-				<version>1.0.b8</version>
+				<version>1.0.b7</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
