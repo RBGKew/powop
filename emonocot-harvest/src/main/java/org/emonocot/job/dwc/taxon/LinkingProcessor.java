@@ -56,17 +56,9 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 			logger.debug("found taxon with id " + persistedTaxon.getId());
 			persistedTaxon.setCreated(taxon.getCreated());
 			persistedTaxon.setModified(taxon.getModified());
-			persistedTaxon.setFamily(taxon.getFamily());
-			persistedTaxon.setSubgenus(taxon.getSubgenus());
-			persistedTaxon.setKingdom(taxon.getKingdom());
-			persistedTaxon.setOrder(taxon.getOrder());
-			persistedTaxon.setPhylum(taxon.getPhylum());
 			persistedTaxon.setTaxonomicStatus(taxon.getTaxonomicStatus());
 			persistedTaxon.setAuthority(getSource());
 			persistedTaxon.setClazz(taxon.getClazz());
-			persistedTaxon.setSubfamily(taxon.getSubfamily());
-			persistedTaxon.setTribe(taxon.getTribe());
-			persistedTaxon.setSubtribe(taxon.getSubtribe());
 			persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
 			persistedTaxon.setTaxonRemarks(taxon.getTaxonRemarks());
 			persistedTaxon.getAnnotations().add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
