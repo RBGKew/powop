@@ -65,7 +65,7 @@
 								</tr>								
 								<tr>
 									<th><spring:message code="image.spatial"/></th>
-									<td>${image.spatial}</td>
+									<td> </td>
 								</tr>
 								<tr>
 									<th><spring:message code="image.location"/></th>
