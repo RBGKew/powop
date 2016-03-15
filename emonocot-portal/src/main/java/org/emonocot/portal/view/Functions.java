@@ -1415,19 +1415,27 @@ public class Functions {
 		return referenceList;
 	}
 
-	private static final Pattern ImageFilename = Pattern.compile("\\/(.+)(\\.jpg)$");
 	public static String thumbnailImageUrl(Image image) {
-		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
-		return matcher.replaceAll("/$1_thumbnail$2");
+		return image.getAccessUri() + "_thumbnail.jpg";
 	}
 
 	public static String fullsizeImageUrl(Image image) {
-		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
-		return matcher.replaceAll("/$1_fullsize$2");
+		return image.getAccessUri() + "_fullsize.jpg";
 	}
 
 	public static String originalImageUrl(Image image) {
-		Matcher matcher = ImageFilename.matcher(image.getIdentifier());
-		return matcher.replaceAll("/$1_original$2");
+		return image.getAccessUri() + "_original." +image.getFormat();
 	}
+	public static Image getImageofType(Taxon taxon, DescriptionType descriptionType){
+		for(Image image : taxon.getImages()){
+			for(DescriptionType type : image.getSubjectPart()){
+				if(type == descriptionType){
+					return image;
+				}
+			}
+		}
+		return null;
+		
+	}
+	
 }

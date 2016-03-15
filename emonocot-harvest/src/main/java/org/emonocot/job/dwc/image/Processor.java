@@ -22,6 +22,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.emonocot.api.ImageService;
+import org.emonocot.api.ReferenceService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
@@ -58,7 +60,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 	public final void setImageService(ImageService imageService) {
 		super.service = imageService;
 	}
-
+	
 	/**
 	 * @param images the list of images written
 	 */
@@ -74,6 +76,11 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 
 		Comparator<Taxon> comparator = new RankBasedTaxonComparator();
 		for (Image image : images) {
+			Taxon taxonCoverage = null;
+			if(image.getTaxonCoverage() != null){
+				taxonCoverage = super.getTaxonService().find(image.getTaxonCoverage().getIdentifier());
+			}
+			image.setTaxonCoverage(taxonCoverage);
 			if (!image.getTaxa().isEmpty()) {
 				for(Taxon taxon : image.getTaxa()) {
 					if(!taxon.getImages().contains(image)) {
@@ -109,9 +116,20 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		persisted.setLatitude(t.getLatitude());
 		persisted.setLongitude(t.getLongitude());
 		persisted.setReferences(t.getReferences());
-		persisted.setSpatial(t.getSubject());
 		persisted.setTaxon(t.getTaxon());
 		persisted.setTitle(t.getTitle());
+		persisted.setAssociatedObservationReference(t.getAssociatedObservationReference());
+		persisted.setAssociatedSpecimenReference(t.getAssociatedSpecimenReference());
+		persisted.setCaption(t.getCaption());
+		persisted.setSubjectPart(t.getSubjectPart());
+		persisted.setTaxonCoverage(t.getTaxonCoverage());
+		persisted.setAccessUri(t.getAccessUri());
+		persisted.setAssociatedObservationReference(t.getAssociatedObservationReference());
+		persisted.setAssociatedSpecimenReference(t.getAssociatedSpecimenReference());
+		persisted.setCaption(t.getCaption());
+		persisted.setProviderManagedId(t.getProviderManagedId());
+		persisted.setSubjectPart(t.getSubjectPart());
+		
 	}
 
 	@Override

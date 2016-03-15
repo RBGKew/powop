@@ -719,7 +719,7 @@ public class StepDefinitions {
 		contactLink = currentPage.getContactLink();
 	}
 
-	@Then("^I should see logos in this arrangement:$")
+	/*@Then("^I should see logos in this arrangement:$")
 	public void I_should_see_logos_in_this_arrangement(List<List<String>> requiredArrangement) throws Throwable {
 
 		List<List<String>> actual = currentPage.getFooterIconsArrangement();
@@ -741,7 +741,7 @@ public class StepDefinitions {
 				}
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * @param job

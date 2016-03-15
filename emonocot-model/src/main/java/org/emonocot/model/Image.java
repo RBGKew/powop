@@ -21,8 +21,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,13 +41,12 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,10 +54,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.io.WKTWriter;
 
 /**
  * @see http://rs.gbif.org/extension/gbif/1.0/images.xml
@@ -66,11 +65,7 @@ public class Image extends Multimedia {
 
 	private static final long serialVersionUID = 3341900807619517602L;
 
-	private String spatial;
-
 	private String subject;
-
-	private Point location;
 
 	private Double latitude;
 
@@ -79,26 +74,44 @@ public class Image extends Multimedia {
 	private Long id;
 
 	private Taxon taxon;
+	
+	private String AccessUri;
 
 	private Set<Taxon> taxa = new HashSet<Taxon>();
 
 	private List<Comment> comments = new ArrayList<>();
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
-
-	/**
-	 * REMEMBER: spatial is a reserved word in mysql!
-	 * @return the location as a string
-	 */
-	@Column(name = "locality")
-	@Size(max = 255)
-	public String getSpatial() {
-		return spatial;
-	}
-
-	public void setSpatial(final String locality) {
-		this.spatial = locality;
-	}
+	
+	private String associatedObservationReference;
+	
+	private String associatedSpecimenReference;
+	
+	private String caption;
+	
+	private String providerManagedId;
+	
+	private Set<DescriptionType> subjectPart;
+	
+	private Taxon taxonCoverage;
+	
+	private  String subType;
+	
+	private String WorldRegion;
+	
+	private String CountryCode;
+	
+	private String CountryName;
+	
+	private String ProvinceState;
+	
+	private String Sublocation;
+	
+	private Integer PixelXDimension;
+	
+	private Integer PixelYDimension;
+	
+	private Integer Rating;
 
 	@Size(max = 255)
 	public String getSubject() {
@@ -108,16 +121,6 @@ public class Image extends Multimedia {
 	public void setSubject(String keywords) {
 		this.subject = keywords;
 	}
-
-	@Type(type = "spatialType")
-	public Point getLocation() {
-		return location;
-	}
-
-	public void setLocation(Point location) {
-		this.location = location;
-	}
-
 
 	public void setId(Long newId) {
 		this.id = newId;
@@ -133,10 +136,8 @@ public class Image extends Multimedia {
 		return latitude;
 	}
 
-
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
-		updateLocation();
 	}
 
 	public Double getLongitude() {
@@ -145,16 +146,6 @@ public class Image extends Multimedia {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
-		updateLocation();
-	}
-
-	private void updateLocation() {
-		if(this.latitude != null && this.longitude != null) {
-			GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
-			this.location = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
-		} else {
-			this.location = null;
-		}
 	}
 
 	/**
@@ -234,13 +225,61 @@ public class Image extends Multimedia {
 		this.comments = comments;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.emonocot.model.Multimedia#getType()
-	 */
-	@Override
-	@Transient
-	public MediaType getType() {
-		return MediaType.StillImage;
+	public String getAssociatedObservationReference() {
+		return associatedObservationReference;
+	}
+
+	public void setAssociatedObservationReference(String associatedObservationReference) {
+		this.associatedObservationReference = associatedObservationReference;
+	}
+
+	public String getAssociatedSpecimenReference() {
+		return associatedSpecimenReference;
+	}
+
+	public void setAssociatedSpecimenReference(String associatedSpecimenReference) {
+		this.associatedSpecimenReference = associatedSpecimenReference;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+
+	public String getProviderManagedId() {
+		return providerManagedId;
+	}
+
+	public void setProviderManagedId(String providerManagedId) {
+		this.providerManagedId = providerManagedId;
+	}
+
+	@ElementCollection
+	@CollectionTable(name="image_SubjectPart", joinColumns=@JoinColumn(name="image_id"))
+	@Column(name="subjectPart")
+	@Enumerated(value = EnumType.STRING)
+	public Set<DescriptionType> getSubjectPart() {
+		return subjectPart;
+	}
+
+	
+	public void setSubjectPart(Set<DescriptionType> subjectPart) {
+		this.subjectPart = subjectPart;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@Cascade({ CascadeType.SAVE_UPDATE })
+	@JsonSerialize(using = TaxonSerializer.class)
+	public Taxon getTaxonCoverage() {
+		return taxonCoverage;
+	}
+	
+	@JsonDeserialize(using = TaxonDeserializer.class)
+	public void setTaxonCoverage(Taxon taxonCoverage) {
+		this.taxonCoverage = taxonCoverage;
 	}
 
 	@Override
@@ -251,8 +290,7 @@ public class Image extends Multimedia {
 				.append(" ").append(getCreator()).append(" ")
 				.append(getDescription()).append(" ").append(getPublisher())
 				.append(" ").append(getReferences()).append(" ")
-				.append(getSpatial()).append(" ").append(getSubject())
-				.append(" ").append(getTitle()).append(" ");
+				.append(getSubject()).append(" ").append(getTitle()).append(" ");
 		if(getTaxon() != null) {
 			addField(sid,"taxon.family_ss", getTaxon().getFamily());
 			addField(sid,"taxon.genus_ss", getTaxon().getGenus());
@@ -274,14 +312,6 @@ public class Image extends Multimedia {
 			.append(" ").append(getTaxon().getTribe());
 		}
 		sid.addField("searchable.solrsummary_t", summary);
-		if (getLocation() != null) {
-			try {
-				WKTWriter wktWriter = new WKTWriter();
-				sid.addField("geo", wktWriter.write(getLocation()));
-			} catch (Exception e) {
-				logger.error(e.getLocalizedMessage());
-			}
-		}
 		return sid;
 	}
 
@@ -294,4 +324,88 @@ public class Image extends Multimedia {
 		}
 		return stringBuffer.toString();
 	}
+
+	public String getAccessUri() {
+		return AccessUri;
+	}
+
+	public void setAccessUri(String accessUrl) {
+		AccessUri = accessUrl;
+	}
+
+	public String getSubType() {
+		return subType;
+	}
+
+	public void setSubType(String subType) {
+		this.subType = subType;
+	}
+
+	public String getWorldRegion() {
+		return WorldRegion;
+	}
+
+	public void setWorldRegion(String worldRegion) {
+		WorldRegion = worldRegion;
+	}
+
+	public String getCountryCode() {
+		return CountryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		CountryCode = countryCode;
+	}
+
+	public String getCountryName() {
+		return CountryName;
+	}
+
+	public void setCountryName(String countryName) {
+		CountryName = countryName;
+	}
+
+	public String getProvinceState() {
+		return ProvinceState;
+	}
+
+	public void setProvinceState(String provinceState) {
+		ProvinceState = provinceState;
+	}
+
+	public String getSublocation() {
+		return Sublocation;
+	}
+
+	public void setSublocation(String sublocation) {
+		Sublocation = sublocation;
+	}
+
+	public Integer getPixelXDimension() {
+		return PixelXDimension;
+	}
+
+	public void setPixelXDimension(Integer pixelXDimension) {
+		PixelXDimension = pixelXDimension;
+	}
+
+	public Integer getPixelYDimension() {
+		return PixelYDimension;
+	}
+
+	public void setPixelYDimension(Integer pixelYDimension) {
+		PixelYDimension = pixelYDimension;
+	}
+
+	public Integer getRating() {
+		return Rating;
+	}
+
+	public void setRating(Integer rating) {
+		Rating = rating;
+	}
+
+
+
+
 }

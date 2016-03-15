@@ -251,7 +251,7 @@ public class JsonConversionTest {
 						EasyMock.eq("taxon-page"))).andReturn(taxon).times(1);
 		EasyMock.replay(referenceService, taxonService);
 
-		String content = "{\"location\":null,\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"title\":\"Acorus\",\"format\":null,\"subject\":null,\"spatial\":null,\"authority\":null,\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
+		String content = "{\"id\":null,\"description\":null,\"taxon\":null,\"taxa\":[\"urn:kew.org:wcs:taxon:2295\"],\"title\":\"Acorus\",\"format\":null,\"subject\":null,\"authority\":null,\"license\":null,\"created\":null,\"modified\":null,\"creator\":null,\"identifier\":\"urn:http:upload.wikimedia.org:wikipedia.commons.2.25:Illustration_Acorus_calamus0.jpg\"}";
 		Image image = (Image) objectMapper.readValue(content, Image.class);
 		EasyMock.verify(referenceService, taxonService);
 

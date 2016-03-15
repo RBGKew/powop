@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.gbif.dwc.terms.AcTerm;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -66,6 +67,10 @@ public class TermFactory {
 		if (term == null) {
 			term = findTermInEnum(normTermName, GbifTerm.values(),
 					new String[] {GbifTerm.PREFIX, GbifTerm.NS});
+		}
+		if (term ==null) {
+			term = findTermInEnum(normTermName, AcTerm.values(),
+					new String[] {AcTerm.PREFIX, AcTerm.NS});
 		}
 		if (term == null) {
 			term = findTermInEnum(normTermName, IucnTerm.values(),
