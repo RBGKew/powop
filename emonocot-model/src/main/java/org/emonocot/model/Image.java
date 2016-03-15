@@ -96,6 +96,22 @@ public class Image extends Multimedia {
 	private Taxon taxonCoverage;
 	
 	private  String subType;
+	
+	private String WorldRegion;
+	
+	private String CountryCode;
+	
+	private String CountryName;
+	
+	private String ProvinceState;
+	
+	private String Sublocation;
+	
+	private Integer PixelXDimension;
+	
+	private Integer PixelYDimension;
+	
+	private Integer Rating;
 
 	@Size(max = 255)
 	public String getSubject() {
@@ -323,6 +339,70 @@ public class Image extends Multimedia {
 
 	public void setSubType(String subType) {
 		this.subType = subType;
+	}
+
+	public String getWorldRegion() {
+		return WorldRegion;
+	}
+
+	public void setWorldRegion(String worldRegion) {
+		WorldRegion = worldRegion;
+	}
+
+	public String getCountryCode() {
+		return CountryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		CountryCode = countryCode;
+	}
+
+	public String getCountryName() {
+		return CountryName;
+	}
+
+	public void setCountryName(String countryName) {
+		CountryName = countryName;
+	}
+
+	public String getProvinceState() {
+		return ProvinceState;
+	}
+
+	public void setProvinceState(String provinceState) {
+		ProvinceState = provinceState;
+	}
+
+	public String getSublocation() {
+		return Sublocation;
+	}
+
+	public void setSublocation(String sublocation) {
+		Sublocation = sublocation;
+	}
+
+	public Integer getPixelXDimension() {
+		return PixelXDimension;
+	}
+
+	public void setPixelXDimension(Integer pixelXDimension) {
+		PixelXDimension = pixelXDimension;
+	}
+
+	public Integer getPixelYDimension() {
+		return PixelYDimension;
+	}
+
+	public void setPixelYDimension(Integer pixelYDimension) {
+		PixelYDimension = pixelYDimension;
+	}
+
+	public Integer getRating() {
+		return Rating;
+	}
+
+	public void setRating(Integer rating) {
+		Rating = rating;
 	}
 
 

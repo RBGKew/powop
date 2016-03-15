@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
@@ -154,6 +155,29 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				break;
 			}
 		}
+		if (term instanceof ExtendedAcTerm) {
+			ExtendedAcTerm extendedAcTerm = (ExtendedAcTerm)term;
+			switch (extendedAcTerm) {
+			case WorldRegion:
+				object.setWorldRegion(htmlSanitizer.sanitize(value));
+			case CountryCode:
+				object.setCountryCode(htmlSanitizer.sanitize(value));
+			case CountryName:
+				object.setCountryName(htmlSanitizer.sanitize(value));
+			case ProvinceState:
+				object.setProvinceState(htmlSanitizer.sanitize(value));
+			case Sublocation:
+				object.setSublocation(htmlSanitizer.sanitize(value));
+			case PixelXDimension:
+				object.setPixelXDimension(conversionService.convert(value, Integer.class));
+			case PixelYDimension:
+				object.setPixelYDimension(conversionService.convert(value, Integer.class));
+			case Rating:
+				object.setRating(conversionService.convert(value, Integer.class));
+			default:
+				break; 
+				}
+			}
 	}
 	
 	public Set<DescriptionType> handleSubjectPart(String value){
