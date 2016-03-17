@@ -32,8 +32,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.emonocot.api.OrganisationService;
+import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.SkosTerm;
 import org.emonocot.model.registry.Organisation;
+import org.gbif.dwc.terms.AcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
@@ -147,9 +149,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 						"distribution", DwcTerm.taxonID, failOnError);
 			}
 
-			if (archive.getExtension(GbifTerm.Image) != null) {
-				getMetadata(archive.getExtension(GbifTerm.Image), "image",
-						DwcTerm.taxonID, failOnError);
+			if (archive.getExtension(ExtendedAcTerm.Multimedia) != null) {
+				getMetadata(archive.getExtension(ExtendedAcTerm.Multimedia),
+						"image", DwcTerm.taxonID, failOnError);
 			}
 
 			if (archive.getExtension(GbifTerm.Reference) != null) {
@@ -340,22 +342,17 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 	private void getMetadata(final ArchiveFile archiveFile,
 			final String prefix, final Term identifierTerm, boolean failOnError) throws IOException {
 		logger.info("Processing " + archiveFile.getRowType());
-		ExecutionContext executionContext = this.stepExecution
-				.getJobExecution().getExecutionContext();
+		ExecutionContext executionContext = this.stepExecution .getJobExecution().getExecutionContext();
 
-		executionContext.put("dwca." + prefix + ".file", archiveFile
-				.getLocationFile().getAbsolutePath());
-		executionContext.put("dwca." + prefix + ".fieldsTerminatedBy",
-				archiveFile.getFieldsTerminatedBy());
-		executionContext.put("dwca." + prefix + ".linesTerminatedBy",
-				archiveFile.getLinesTerminatedBy());
+		executionContext.put("dwca." + prefix + ".file", archiveFile.getLocationFile().getAbsolutePath());
+		executionContext.put("dwca." + prefix + ".fieldsTerminatedBy", archiveFile.getFieldsTerminatedBy());
+		executionContext.put("dwca." + prefix + ".linesTerminatedBy", archiveFile.getLinesTerminatedBy());
 		if(archiveFile.getFieldsEnclosedBy() != null) {
 			executionContext.put("dwca." + prefix + ".fieldsEnclosedBy", archiveFile.getFieldsEnclosedBy());
 		} else {
 			executionContext.put("dwca." + prefix + ".fieldsEnclosedBy", '\u0000');
 		}
-		executionContext.put("dwca." + prefix + ".encoding",
-				archiveFile.getEncoding());
+		executionContext.put("dwca." + prefix + ".encoding", archiveFile.getEncoding());
 
 		Integer headerLinesToSkip = 0;
 		if (archiveFile.getIgnoreHeaderLines() != null) {
@@ -365,7 +362,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		executionContext.put("dwca." + prefix + ".ignoreHeaderLines", headerLinesToSkip);
 		ArchiveField idField = archiveFile.getId();
 		idField.setTerm(identifierTerm);
-
 
 		List<ArchiveField> fields = archiveFile.getFieldsSorted();
 		/**
@@ -386,8 +382,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
 		File file = archiveFile.getLocationFile();
 		FileInputStream fileInputStream = new FileInputStream(file);
-		LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(
-				fileInputStream,Charset.forName(archiveFile.getEncoding())));
+		LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(fileInputStream,Charset.forName(archiveFile.getEncoding())));
 
 		String firstDataLine = null;
 		String line = null;
@@ -427,11 +422,8 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		}
 
 		executionContext.put("dwca." + prefix + ".totalColumns", totalColumns);
-
 		executionContext.put("dwca." + prefix + ".totalRecords", lineNumberReader.getLineNumber() - headerLinesToSkip);
-
 		executionContext.put("dwca." + prefix + ".fieldNames", toFieldNames(fields, totalColumns));
-
 		executionContext.put("dwca." + prefix + ".defaultValues",  getDefaultValues(fields));
 	}
 

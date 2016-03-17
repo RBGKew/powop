@@ -31,7 +31,8 @@ public enum ExtendedAcTerm implements Term {
 	Sublocation,
 	PixelXDimension,
 	PixelYDimension,
-	Rating;
+	Rating,
+	Multimedia;
 
 	public static final String NS = "http://rs.tdwg.org/ac/terms/";
 	public static final String PREFIX = "ac";

@@ -39,14 +39,13 @@ import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
-	
-	private String imageServer = "";
-	
-	@Autowired
+
+	private String imageServer;
+
 	public void setImageServer(String imageServer){
 		this.imageServer = imageServer;
 	}
-	
+
 	public FieldSetMapper() {
 		super(Image.class);
 	}
@@ -118,29 +117,25 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setSubjectPart(handleSubjectPart(value));
 				break;
 			case taxonCoverage:
-            	if (value != null && value.trim().length() != 0) {
-            		if(object.getTaxonCoverage() == null) {
-            			Taxon taxon = new Taxon();
-            			object.setTaxonCoverage(taxon);
-            		}
-            		object.getTaxonCoverage().setIdentifier(value);
-
-            	}
+				if (value != null && value.trim().length() != 0) {
+					if(object.getTaxonCoverage() == null) {
+						Taxon taxon = new Taxon();
+						object.setTaxonCoverage(taxon);
+					}
+					object.getTaxonCoverage().setIdentifier(value);
+				}
 				break;
 			case accessURI:
-				if(imageServer != null){
-					  object.setAccessUri(imageServer + value);
-					  break;
-					}			
-					object.setAccessUri(value);
-					break;
+				String fullyQualifiedUrl = String.format("%s%s", imageServer, value);
+				object.setAccessUri(fullyQualifiedUrl);
+				break;
 			case subtype:
 				object.setSubType(htmlSanitizer.sanitize(value));
 				break;
 			default:
 				break;
 			}
-			}
+		}
 		// WGS84 Terms
 		if (term instanceof Wgs84Term) {
 			Wgs84Term wgs84Term = (Wgs84Term)term;
@@ -175,11 +170,11 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case Rating:
 				object.setRating(conversionService.convert(value, Integer.class));
 			default:
-				break; 
-				}
+				break;
 			}
+		}
 	}
-	
+
 	public Set<DescriptionType> handleSubjectPart(String value){
 		Set<DescriptionType> descriptionType = new HashSet<DescriptionType>();
 		logger.debug("Full Description value is:" + value);
@@ -194,7 +189,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			}
 			return descriptionType;
 		}
-		return null;				
+		return null;
 	}
 
 }

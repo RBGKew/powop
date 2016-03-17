@@ -72,6 +72,10 @@ public class TermFactory {
 			term = findTermInEnum(normTermName, AcTerm.values(),
 					new String[] {AcTerm.PREFIX, AcTerm.NS});
 		}
+		if (term ==null) {
+			term = findTermInEnum(normTermName, ExtendedAcTerm.values(),
+					new String[] {AcTerm.PREFIX, ExtendedAcTerm.NS});
+		}
 		if (term == null) {
 			term = findTermInEnum(normTermName, IucnTerm.values(),
 					new String[] {IucnTerm.PREFIX, IucnTerm.NS});

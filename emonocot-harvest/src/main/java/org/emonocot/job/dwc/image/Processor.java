@@ -22,8 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.emonocot.api.ImageService;
-import org.emonocot.api.ReferenceService;
-import org.emonocot.api.TaxonService;
 import org.emonocot.job.dwc.read.NonOwnedProcessor;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
@@ -129,7 +127,6 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		persisted.setCaption(t.getCaption());
 		persisted.setProviderManagedId(t.getProviderManagedId());
 		persisted.setSubjectPart(t.getSubjectPart());
-		
 	}
 
 	@Override

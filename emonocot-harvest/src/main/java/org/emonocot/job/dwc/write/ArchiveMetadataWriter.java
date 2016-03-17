@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.TermFactory;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -303,7 +304,7 @@ public class ArchiveMetadataWriter implements Tasklet {
 			archive.addExtension(buildArchiveFile(referenceFields,referenceDefaultValues,GbifTerm.Reference, DwcTerm.taxonID,"reference.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(imageFields != null) {
-			archive.addExtension(buildArchiveFile(imageFields,imageDefaultValues,GbifTerm.Image, DwcTerm.taxonID,"image.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+			archive.addExtension(buildArchiveFile(imageFields,imageDefaultValues,ExtendedAcTerm.Multimedia, DwcTerm.taxonID,"image.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
 		}
 		if(typeAndSpecimenFields != null) {
 			archive.addExtension(buildArchiveFile(typeAndSpecimenFields,typeAndSpecimenDefaultValues,GbifTerm.TypesAndSpecimen, DwcTerm.taxonID,"typeAndSpecimen.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));

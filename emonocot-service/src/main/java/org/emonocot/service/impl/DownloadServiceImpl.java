@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.emonocot.api.job.DarwinCorePropertyMap;
+import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
@@ -124,7 +125,7 @@ public class DownloadServiceImpl implements DownloadService {
 					jobParametersMap.put("download.measurementOrFact", toParameter(DarwinCorePropertyMap.getConceptTerms(DwcTerm.MeasurementOrFact)));
 					break;
 				case "image":
-					jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Image)));
+					jobParametersMap.put("download.image", toParameter(DarwinCorePropertyMap.getConceptTerms(ExtendedAcTerm.Multimedia)));
 					break;
 				case "reference":
 					jobParametersMap.put("download.reference", toParameter(DarwinCorePropertyMap.getConceptTerms(GbifTerm.Reference)));
