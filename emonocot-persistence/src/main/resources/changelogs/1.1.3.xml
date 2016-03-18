@@ -44,10 +44,12 @@
   		<column name="countryName" type="varchar(255)"/>
   		<column name="provinceState" type="varchar(255)"/>
   		<column name="sublocation" type="varchar(255)"/>
-  		<column name="PixelXDimension" type="int"/>
-  		<column name="PixelYDimension" type="int"/>
-  		<column name="Rating" type="int"/>
+  		<column name="pixelXDimension" type="int"/>
+  		<column name="pixelYDimension" type="int"/>
+  		<column name="rating" type="int"/>
+  		<column name="type" type="varchar(255)" />
+  		<column name="subjectCategoryVocabulary" type="varchar(255)" />
   	</addColumn>
-  </changeSet>
-    
+  </changeSet>  
+  
 </databaseChangeLog>

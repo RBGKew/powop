@@ -75,7 +75,7 @@ public class Image extends Multimedia {
 
 	private Taxon taxon;
 	
-	private String AccessUri;
+	private String accessUri;
 
 	private Set<Taxon> taxa = new HashSet<Taxon>();
 
@@ -97,21 +97,23 @@ public class Image extends Multimedia {
 	
 	private  String subType;
 	
-	private String WorldRegion;
+	private String worldRegion;
 	
-	private String CountryCode;
+	private String countryCode;
 	
-	private String CountryName;
+	private String countryName;
 	
-	private String ProvinceState;
+	private String provinceState;
 	
-	private String Sublocation;
+	private String sublocation;
 	
-	private Integer PixelXDimension;
+	private Integer pixelXDimension;
 	
-	private Integer PixelYDimension;
+	private Integer pixelYDimension;
 	
-	private Integer Rating;
+	private Integer rating;
+	
+	private String subjectCategoryVocabulary;
 
 	@Size(max = 255)
 	public String getSubject() {
@@ -326,11 +328,11 @@ public class Image extends Multimedia {
 	}
 
 	public String getAccessUri() {
-		return AccessUri;
+		return accessUri;
 	}
 
 	public void setAccessUri(String accessUrl) {
-		AccessUri = accessUrl;
+		this.accessUri = accessUrl;
 	}
 
 	public String getSubType() {
@@ -342,68 +344,78 @@ public class Image extends Multimedia {
 	}
 
 	public String getWorldRegion() {
-		return WorldRegion;
+		return worldRegion;
 	}
 
 	public void setWorldRegion(String worldRegion) {
-		WorldRegion = worldRegion;
+		this.worldRegion = worldRegion;
 	}
 
 	public String getCountryCode() {
-		return CountryCode;
+		return countryCode;
 	}
 
 	public void setCountryCode(String countryCode) {
-		CountryCode = countryCode;
+		this.countryCode = countryCode;
 	}
 
 	public String getCountryName() {
-		return CountryName;
+		return countryName;
 	}
 
 	public void setCountryName(String countryName) {
-		CountryName = countryName;
+		this.countryName = countryName;
 	}
 
 	public String getProvinceState() {
-		return ProvinceState;
+		return provinceState;
 	}
 
 	public void setProvinceState(String provinceState) {
-		ProvinceState = provinceState;
+		this.provinceState = provinceState;
 	}
 
 	public String getSublocation() {
-		return Sublocation;
+		return sublocation;
 	}
 
 	public void setSublocation(String sublocation) {
-		Sublocation = sublocation;
+		this.sublocation = sublocation;
 	}
 
 	public Integer getPixelXDimension() {
-		return PixelXDimension;
+		return pixelXDimension;
 	}
 
 	public void setPixelXDimension(Integer pixelXDimension) {
-		PixelXDimension = pixelXDimension;
+		this.pixelXDimension = pixelXDimension;
 	}
 
 	public Integer getPixelYDimension() {
-		return PixelYDimension;
+		return pixelYDimension;
 	}
 
 	public void setPixelYDimension(Integer pixelYDimension) {
-		PixelYDimension = pixelYDimension;
+		this.pixelYDimension = pixelYDimension;
 	}
 
 	public Integer getRating() {
-		return Rating;
+		return rating;
 	}
 
 	public void setRating(Integer rating) {
-		Rating = rating;
+		this.rating = rating;
 	}
+
+	public String getSubjectCategoryVocabulary() {
+		return subjectCategoryVocabulary;
+	}
+
+	public void setSubjectCategoryVocabulary(String subjectCategoryVocabulary) {
+		this.subjectCategoryVocabulary = subjectCategoryVocabulary;
+	}
+
+
 
 
 

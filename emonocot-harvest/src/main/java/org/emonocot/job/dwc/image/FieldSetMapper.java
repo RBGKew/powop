@@ -34,7 +34,6 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.AcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
@@ -126,11 +125,17 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				}
 				break;
 			case accessURI:
-				String fullyQualifiedUrl = String.format("%s%s", imageServer, value);
-				object.setAccessUri(fullyQualifiedUrl);
+				if(imageServer != null){
+					object.setAccessUri(imageServer + value);
+					break;
+				}
+				object.setAccessUri(value);
 				break;
 			case subtype:
 				object.setSubType(htmlSanitizer.sanitize(value));
+				break;
+			case subjectCategoryVocabulary:
+				object.setSubjectCategoryVocabulary(htmlSanitizer.sanitize(value));
 				break;
 			default:
 				break;
@@ -155,20 +160,28 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			switch (extendedAcTerm) {
 			case WorldRegion:
 				object.setWorldRegion(htmlSanitizer.sanitize(value));
+				break;
 			case CountryCode:
 				object.setCountryCode(htmlSanitizer.sanitize(value));
+				break;
 			case CountryName:
 				object.setCountryName(htmlSanitizer.sanitize(value));
+				break;
 			case ProvinceState:
 				object.setProvinceState(htmlSanitizer.sanitize(value));
+				break;
 			case Sublocation:
 				object.setSublocation(htmlSanitizer.sanitize(value));
+				break;
 			case PixelXDimension:
 				object.setPixelXDimension(conversionService.convert(value, Integer.class));
+				break;
 			case PixelYDimension:
 				object.setPixelYDimension(conversionService.convert(value, Integer.class));
+				break;
 			case Rating:
 				object.setRating(conversionService.convert(value, Integer.class));
+				break;
 			default:
 				break;
 			}
