@@ -1409,7 +1409,7 @@ public class Functions {
 				}
 
 				return ref0.getTaxonRemarks().compareTo(ref1.getTaxonRemarks());
-			}			
+			}
 		});
 
 		return referenceList;
@@ -1424,7 +1424,7 @@ public class Functions {
 	}
 
 	public static String originalImageUrl(Image image) {
-		return image.getAccessUri() + "_original." +image.getFormat();
+		return image.getAccessUri() + "_original." + image.getFormat();
 	}
 	public static Image getImageofType(Taxon taxon, DescriptionType descriptionType){
 		for(Image image : taxon.getImages()){

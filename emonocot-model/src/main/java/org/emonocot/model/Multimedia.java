@@ -32,7 +32,7 @@ import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.MediaType;
 
 /**
- * @see http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">http://rs.gbif.org/extension/gbif/1.0/multimedia.xml
+ * @see http://rs.gbif.org/extension/gbif/1.0/multimedia.xml
  */
 @MappedSuperclass
 public class Multimedia extends SearchableObject implements NonOwned, Media {

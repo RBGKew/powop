@@ -74,7 +74,7 @@ public class Image extends Multimedia {
 	private Long id;
 
 	private Taxon taxon;
-	
+
 	private String accessUri;
 
 	private Set<Taxon> taxa = new HashSet<Taxon>();
@@ -82,37 +82,37 @@ public class Image extends Multimedia {
 	private List<Comment> comments = new ArrayList<>();
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
-	
+
 	private String associatedObservationReference;
-	
+
 	private String associatedSpecimenReference;
-	
+
 	private String caption;
-	
+
 	private String providerManagedId;
-	
+
 	private Set<DescriptionType> subjectPart;
-	
+
 	private Taxon taxonCoverage;
-	
+
 	private  String subType;
-	
+
 	private String worldRegion;
-	
+
 	private String countryCode;
-	
+
 	private String countryName;
-	
+
 	private String provinceState;
-	
+
 	private String sublocation;
-	
+
 	private Integer pixelXDimension;
-	
+
 	private Integer pixelYDimension;
-	
+
 	private Integer rating;
-	
+
 	private String subjectCategoryVocabulary;
 
 	@Size(max = 255)
@@ -267,18 +267,17 @@ public class Image extends Multimedia {
 		return subjectPart;
 	}
 
-	
 	public void setSubjectPart(Set<DescriptionType> subjectPart) {
 		this.subjectPart = subjectPart;
 	}
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonSerialize(using = TaxonSerializer.class)
 	public Taxon getTaxonCoverage() {
 		return taxonCoverage;
 	}
-	
+
 	@JsonDeserialize(using = TaxonDeserializer.class)
 	public void setTaxonCoverage(Taxon taxonCoverage) {
 		this.taxonCoverage = taxonCoverage;
@@ -414,10 +413,4 @@ public class Image extends Multimedia {
 	public void setSubjectCategoryVocabulary(String subjectCategoryVocabulary) {
 		this.subjectCategoryVocabulary = subjectCategoryVocabulary;
 	}
-
-
-
-
-
-
 }

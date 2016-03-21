@@ -129,7 +129,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 					object.setAccessUri(imageServer + value);
 					break;
 				}
-				object.setAccessUri(value);
+					object.setAccessUri(value);
 				break;
 			case subtype:
 				object.setSubType(htmlSanitizer.sanitize(value));
