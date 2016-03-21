@@ -368,7 +368,7 @@
     <batch:step id="processImageFile">
       <batch:description>Process the extension file containing the images</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="compositeImageReader" processor="imageProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+        <batch:chunk reader="imageReader" processor="imageProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include  class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -405,7 +405,6 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
-
 
     <!--================= Identification Key processing steps ======================-->
     <batch:decision decider="keyProcessingModeDecider" id="checkKeyProcessingMode">
@@ -1495,12 +1494,6 @@
     <property name="subfamily" value="#{jobParameters['subfamily']}" />
     <property name="tribe" value="#{jobParameters['tribe']}" />
     <property name="subtribe" value="#{jobParameters['subtribe']}" />
-  </bean>
-
-  <bean id="compositeImageReader" class="org.emonocot.harvest.common.CompositeItemReader" scope="step">
-    <!-- N.B. This approach requires some filtering in the processors as exists for Phylos & Keys -->
-    <property name="delegates" value="#{{((jobExecutionContext['dwca.image.file'] == null)? null: imageReader),
-      ((jobExecutionContext['dwca.multimedia.file'] == null)? null: multimediaReader)}}"/>
   </bean>
 
   <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
