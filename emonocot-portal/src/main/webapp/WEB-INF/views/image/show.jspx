@@ -32,7 +32,7 @@
 							<tbody>
 								<tr>
 									<th><spring:message code="image.title"/></th>
-									<td>${image.title}</td>
+									<td>${image.caption}</td>
 								</tr>
 								<tr>
 									<th><spring:message code="image.creator"/></th>
@@ -78,20 +78,9 @@
 								<tr>
 									<th><spring:message code="image.subject"/></th>
 									<td id="keywords">
-										<c:if test="${not empty image.subject}">
-											<c:forEach var="keyword" items="${em:split(image.subject,',')}" varStatus="status">
-												<c:url var="keywordUrl" value="/search">
-													<c:param name="query" value="${keyword}"/>
-													<c:param name="facet" value="base.class_s:org.emonocot.model.Image"/>
-												</c:url>
-												<c:choose>
-													<c:when test="${status.last}">
-														<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>
-													</c:when>
-													<c:otherwise>
-														<a href="${keywordUrl}" title="${fn:escapeXml(keyword)}"><span class="label">${keyword}</span></a>,&#160;
-													</c:otherwise>
-												</c:choose>
+										<c:if test="${not empty image.subjectPart}">
+											<c:forEach var="keyword" items="${ image.subjectPart }" varStatus="status">
+												<span class="label"><spring:message code="${keyword}" /></span>
 											</c:forEach>
 										</c:if>
 									</td>
