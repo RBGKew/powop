@@ -62,10 +62,6 @@
 								<tr>
 									<th><spring:message code="image.description"/></th>
 									<td>${image.description}</td>
-								</tr>								
-								<tr>
-									<th><spring:message code="image.spatial"/></th>
-									<td> </td>
 								</tr>
 								<tr>
 									<th><spring:message code="image.location"/></th>

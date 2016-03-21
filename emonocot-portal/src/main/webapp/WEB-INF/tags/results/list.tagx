@@ -102,12 +102,6 @@
 									</c:choose>
 								</div>
 							</c:if>
-							<c:if test="${item.spatial != null}">
-								<div>
-									<em><spring:message code="image.spatial" /></em>:
-									${item.spatial}
-								</div>
-							</c:if>
 						</results:listEntry>
 					</c:when>
 					<c:when test="${item.className == 'IdentificationKey'}">

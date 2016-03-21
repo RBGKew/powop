@@ -95,7 +95,7 @@ public class Image extends Multimedia {
 
 	private Taxon taxonCoverage;
 
-	private  String subType;
+	private String subType;
 
 	private String worldRegion;
 
