@@ -111,7 +111,7 @@ public class Image extends Multimedia {
 
 	private Integer pixelYDimension;
 
-	private Integer rating;
+	private Float rating;
 
 	private String subjectCategoryVocabulary;
 
@@ -398,11 +398,11 @@ public class Image extends Multimedia {
 		this.pixelYDimension = pixelYDimension;
 	}
 
-	public Integer getRating() {
+	public Float getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(Float rating) {
 		this.rating = rating;
 	}
 

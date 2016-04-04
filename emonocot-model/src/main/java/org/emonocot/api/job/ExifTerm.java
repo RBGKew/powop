@@ -20,20 +20,22 @@ import org.gbif.dwc.terms.Term;
 
 
 /**
- * @author jc20kg
- * adding in some of the terms not previously included in 
+ * @author ben
+ * @author jk00kg
+ * Preserving normalised and alternative name methods for potenial backward compatibility
  */
-public enum ExtendedAcTerm implements Term {
-	Multimedia;
+public enum ExifTerm implements Term {
+	PixelXDimension,
+	PixelYDimension;
 
-	public static final String NS = "http://rs.tdwg.org/ac/terms/";
-	public static final String PREFIX = "ac";
+	public static final String NS = "http://ns.adobe.com/exif/1.0/";
+	public static final String PREFIX = "exif";
 	static final String[] PREFIXES = {NS, PREFIX + ":"};
 
 	public final String normQName;
 	public final String[] normAlts;
 
-	ExtendedAcTerm(String... alternatives) {
+	ExifTerm(String... alternatives) {
 		normQName = TermFactory.normaliseTerm(qualifiedName());
 		for (int i = 0; i < alternatives.length; i++) {
 			alternatives[i] = TermFactory.normaliseTerm(alternatives[i]);
