@@ -102,8 +102,7 @@
     <property name="solrServer" ref="solrServer"/>
   </bean>
 
-  <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
-    destroy-method="shutdown">
+  <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean" destroy-method="shutdown">
     <property name="solrHome" value="classpath:/META-INF/solr/"/>
   </bean>
 

@@ -16,15 +16,17 @@
  */
 package org.emonocot.test;
 
-import org.apache.solr.client.solrj.SolrServer;
+import java.io.IOException;
+
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.Resource;
 
-public class EmbeddedSolrServerFactoryBean implements FactoryBean<SolrServer> {
+public class EmbeddedSolrServerFactoryBean implements FactoryBean<SolrClient> {
 
-	private SolrServer solrServer = null;
+	private SolrClient solrClient = null;
 
 	private CoreContainer coreContainer = null;
 
@@ -34,25 +36,29 @@ public class EmbeddedSolrServerFactoryBean implements FactoryBean<SolrServer> {
 		this.solrHome = solrHome;
 	}
 
-	public void shutdown() {
-		solrServer.shutdown();
-		coreContainer.shutdown();
+	public void shutdown() throws IOException {
+		if(solrClient != null) {
+			solrClient.close();
+		}
+		if(coreContainer != null) {
+			coreContainer.shutdown();
+		}
 	}
 
 	@Override
-	public SolrServer getObject() throws Exception {
-		if(solrServer == null) {
+	public SolrClient getObject() throws Exception {
+		if(solrClient == null) {
 			System.setProperty("solr.solr.home", solrHome.getFile().getAbsolutePath());
-			CoreContainer.Initializer initializer = new CoreContainer.Initializer();
-			coreContainer = initializer.initialize();
-			solrServer = new EmbeddedSolrServer(coreContainer, "collection1");
+			coreContainer = new CoreContainer();
+			coreContainer.load();
+			solrClient = new EmbeddedSolrServer(coreContainer, "powop");
 		}
-		return solrServer;
+		return solrClient;
 	}
 
 	@Override
 	public Class<?> getObjectType() {
-		return SolrServer.class;
+		return SolrClient.class;
 	}
 
 	@Override

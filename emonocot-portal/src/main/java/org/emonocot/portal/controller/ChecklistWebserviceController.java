@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,7 +103,7 @@ public class ChecklistWebserviceController {
 	@RequestMapping(method = RequestMethod.GET, params = { "function=search",
 	"search" })
 	public ModelAndView search(
-			@RequestParam(value = "search", required = true) String search) throws SolrServerException {
+			@RequestParam(value = "search", required = true) String search) throws SolrServerException, IOException {
 		logger.debug("search for " + search);
 		String query = new String("searchable.label_sort:" + search);
 		Map<String,String> selectedFacets = new HashMap<String,String>();

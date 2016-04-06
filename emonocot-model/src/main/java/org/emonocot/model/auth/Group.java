@@ -167,7 +167,7 @@ public class Group extends Principal {
 		//sid.addField("group.name_t", getName());
 		sid.addField("searchable.label_sort", getName());
 		StringBuilder summary = new StringBuilder().append(getName());
-		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("searchable.solrsummary_t", summary.toString());
 		return sid;
 	}
 }

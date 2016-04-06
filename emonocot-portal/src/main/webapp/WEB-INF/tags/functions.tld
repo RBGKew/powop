@@ -365,52 +365,16 @@
     <function-signature>java.util.Set sources(org.emonocot.model.Taxon)</function-signature>
   </function>
   <function>
-    <name>hasLevel1Features</name>
+    <name>hasLevelFeatures</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.lang.Boolean
-      hasLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      hasLevelFeatures(int,org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
   </function>
   <function>
-    <name>getLevel1Features</name>
+    <name>getLevelFeatures</name>
     <function-class>org.emonocot.portal.view.Functions</function-class>
     <function-signature>java.lang.String
-      getLevel1Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-  </function>
-  <function>
-    <name>hasLevel2Features</name>
-    <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.Boolean
-      hasLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-  </function>
-  <function>
-    <name>getLevel2Features</name>
-    <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.String
-      getLevel2Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-  </function>
-  <function>
-    <name>hasLevel3Features</name>
-    <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.Boolean
-      hasLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-  </function>
-  <function>
-    <name>getLevel3Features</name>
-    <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.String
-      getLevel3Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-  </function>
-  <function>
-    <name>hasLevel4Features</name>
-    <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.Boolean
-      hasLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
-  </function>
-  <function>
-    <name>getLevel4Features</name>
-    <function-class>org.emonocot.portal.view.Functions</function-class>
-    <function-signature>java.lang.String
-      getLevel4Features(org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
+      getLevelFeatures(int,org.emonocot.model.Taxon,org.gbif.ecat.voc.OccurrenceStatus,org.gbif.ecat.voc.EstablishmentMeans)</function-signature>
   </function>
   <function>
     <name>hasDistribution</name>

@@ -33,6 +33,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;
@@ -351,7 +352,7 @@ public class Comment extends Base implements Searchable {
 		}
 		//sid.addField("comment.comment_t",getComment());
 		sid.addField("comment.created_dt",dateTimeFormatter.print(getCreated()));
-		sid.addField("comment.status_t",getStatus());
+		sid.addField("comment.status_t", ObjectUtils.toString(getStatus(), null));
 		sid.addField("comment.subject_s",getSubject());
 		sid.addField("searchable.solrsummary_t", summary.toString());
 		return sid;

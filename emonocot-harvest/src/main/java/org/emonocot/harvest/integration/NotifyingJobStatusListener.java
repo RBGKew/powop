@@ -16,6 +16,7 @@
  */
 package org.emonocot.harvest.integration;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -165,9 +166,8 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 						}
 					}
 				}
-			} catch (SolrServerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (SolrServerException | IOException e) {
+				logger.error("Error contacting solr server", e);
 			}
 
 			exitDescription.append("Harvested " + resource.getTitle() + " " + jobExecution.getExitStatus().getExitCode());

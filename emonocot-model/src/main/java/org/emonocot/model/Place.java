@@ -218,7 +218,7 @@ public class Place extends SearchableObject {
 		sid.addField("searchable.label_sort", getTitle());
 		//addField(sid,"place.fips_code_t", getFipsCode());
 		StringBuilder summary = new StringBuilder().append(getTitle()).append(" ").append(getFipsCode());
-		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("searchable.solrsummary_t", summary.toString());
 		if (getShape() != null) {
 			try {
 				WKTWriter wktWriter = new WKTWriter();

@@ -146,7 +146,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			 @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			 @RequestParam(value = "sort", required = false) String sort,
 			 @RequestParam(value = "view", required = false) String view,
-			 Model model) throws SolrServerException {
+			 Model model) throws SolrServerException, IOException {
 		 Resource resource = getService().load(resourceId,"job-with-source");
 		 model.addAttribute("resource", resource);
 
@@ -258,7 +258,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 			 @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			 @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			 @RequestParam(value = "sort", required = false) String sort,
-			 @RequestParam(value = "view", required = false) String view) throws SolrServerException {
+			 @RequestParam(value = "view", required = false) String view) throws SolrServerException, IOException {
 		 Map<String, String> selectedFacets = new HashMap<String, String>();
 		 if (facets != null && !facets.isEmpty()) {
 			 for (FacetRequest facetRequest : facets) {

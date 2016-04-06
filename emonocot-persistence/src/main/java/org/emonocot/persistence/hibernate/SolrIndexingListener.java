@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
@@ -45,10 +45,10 @@ PostUpdateEventListener, PostDeleteEventListener {
 	 */
 	private static final long serialVersionUID = 961123073889114601L;
 
-	private SolrServer solrServer = null;
+	private SolrClient solrClient = null;
 
-	public void setSolrServer(SolrServer solrServer) {
-		this.solrServer = solrServer;
+	public void setSolrServer(SolrClient solrServer) {
+		this.solrClient = solrServer;
 	}
 
 	public void indexObjects(Collection<? extends Searchable> searchableObjects) {
@@ -57,12 +57,12 @@ PostUpdateEventListener, PostDeleteEventListener {
 			documents.add(searchable.toSolrInputDocument());
 		}
 		try {
-			UpdateResponse updateResponse = solrServer.add(documents);
+			UpdateResponse updateResponse = solrClient.add(documents);
 			if (updateResponse.getStatus() != 0) {
 				logger.error("Exception adding solr documents " + updateResponse.toString());
-				updateResponse = solrServer.rollback();
+				updateResponse = solrClient.rollback();
 			} else {
-				updateResponse = solrServer.commit(true,true);
+				updateResponse = solrClient.commit(true,true);
 			}
 		} catch (SolrServerException sse) {
 			logger.error(sse.getLocalizedMessage());
@@ -85,8 +85,8 @@ PostUpdateEventListener, PostDeleteEventListener {
 
 	public void deleteObject(Searchable searchableObject) {
 		try {
-			solrServer.deleteById(searchableObject.getDocumentId());
-			solrServer.commit(true,true);
+			solrClient.deleteById(searchableObject.getDocumentId());
+			solrClient.commit(true,true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

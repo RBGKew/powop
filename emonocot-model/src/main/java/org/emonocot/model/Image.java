@@ -311,7 +311,7 @@ public class Image extends Multimedia {
 			.append(" ").append(getTaxon().getSubtribe())
 			.append(" ").append(getTaxon().getTribe());
 		}
-		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("searchable.solrsummary_t", summary.toString());
 		return sid;
 	}
 

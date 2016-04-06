@@ -353,7 +353,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 		 StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
 				 .append(getCreator()).append(" ").append(getDescription()).append(" ")
 				 .append(getPublisherName()).append(" ").append(getSubject()).append(" ").append(getTitle());
-		 sid.addField("searchable.solrsummary_t", summary);
+		 sid.addField("searchable.solrsummary_t", summary.toString());
 		 return sid;
 	 }
 

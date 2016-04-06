@@ -141,9 +141,8 @@
     <property name="solrServer" ref="solrServer"/>
   </bean>
 
-  <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+  <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
     <constructor-arg value="${solr.url}"/>
-    <property name="maxRetries" value="2" />
   </bean>
 
   <bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">

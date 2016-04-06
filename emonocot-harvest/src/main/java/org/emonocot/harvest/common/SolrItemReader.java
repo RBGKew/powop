@@ -16,6 +16,7 @@
  */
 package org.emonocot.harvest.common;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +76,7 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 	protected void doReadPage() {
 		try {
 			results = service.search(queryString, spatialString, getPageSize(), getPage(), null, null, selectedFacets, sort, "object-page").getRecords();
-		} catch (SolrServerException sse) {
+		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);
 		}
 		logger.debug("Search for " + queryString + " (page number " + getPage() + " got a page of " + results.size()

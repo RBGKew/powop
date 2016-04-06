@@ -216,7 +216,7 @@ public class Concept extends SearchableObject implements NonOwned {
 		StringBuilder summary = new StringBuilder().append(getAltLabel())
 				.append(" ").append(getCreator()).append(" ")
 				.append(getDefinition()).append(" ").append(getSource());
-		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("searchable.solrsummary_t", summary.toString());
 
 		return sid;
 	}

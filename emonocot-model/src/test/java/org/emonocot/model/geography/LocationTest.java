@@ -16,6 +16,9 @@
  */
 package org.emonocot.model.geography;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,21 +31,13 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.WKTReader;
 
-/**
- *
- * @author ben
- *
- */
 public class LocationTest {
 
 	private static Logger logger = LoggerFactory.getLogger(LocationTest.class);
 
-
-	/**
-	 *
-	 */
-	@Test
 	public final void testCompareGeography() throws Exception {
 		List<Geometry> list = new ArrayList<Geometry>();
 		list.add(Location.EUROPE.getEnvelope());
@@ -59,11 +54,16 @@ public class LocationTest {
 		GeometryCollection geometryCollection = new GeometryCollection(
 				list.toArray(new Geometry[list.size()]), new GeometryFactory());
 
-		Coordinate[] envelope = geometryCollection.getEnvelope()
-				.getCoordinates();
+		Coordinate[] envelope = geometryCollection.getEnvelope().getCoordinates();
 		for (Coordinate c : envelope) {
 			logger.debug(Math.round(c.x) + " " + Math.round(c.y));
 		}
 	}
 
+	@Test
+	public final void testGetEnvelopeForSolr() throws Exception {
+		String paraguayWKT = "POLYGON ((-62.64372600000005 -27.588293504882838, -54.24392600000006 -27.588293504882838, -54.24392600000006 -19.296693504882825, -62.64372600000005 -19.296693504882825, -62.64372600000005 -27.588293504882838))";
+		Polygon paraguay = (Polygon)(new WKTReader().read(paraguayWKT));
+		assertThat(Location.PAR.getEnvelopeForSolr(), is(paraguay));
+	}
 }

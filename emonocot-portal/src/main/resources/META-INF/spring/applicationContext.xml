@@ -193,7 +193,7 @@
     <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl" depends-on="springLiquibase"/>
     <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl" depends-on="springLiquibase"/>
 
-    <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer"  destroy-method="shutdown">
+    <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
       <constructor-arg value="${solr.url}"/>
     </bean>
 

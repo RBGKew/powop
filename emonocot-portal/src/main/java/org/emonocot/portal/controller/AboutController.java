@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,8 @@ import org.emonocot.api.SearchableObjectService;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,24 +41,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/about")
 public class AboutController {
 
+	private static final Logger logger = LoggerFactory.getLogger(AboutController.class);
 	/**
 	 * A list of identifiers for 'sources' not to be listed on the page
 	 */
 	private String[] excludeIdentifiers = {"WCS", "e-monocot.org"};
 
-	/**
-	 *
-	 */
 	private OrganisationService organisationService;
 
 	private SearchableObjectService searchableObjectService;
-
 
 	@Autowired
 	public void setSearchableObjectService(SearchableObjectService searchableObjectService) {
 		this.searchableObjectService = searchableObjectService;
 	}
-
 
 	/**
 	 * @param service Set the Source service
@@ -91,10 +90,9 @@ public class AboutController {
 			responseFacets.add("base.class_s");
 			Page<SearchableObject> stats = searchableObjectService.search("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
 			model.addAttribute("stats", stats);
-		} catch (SolrServerException sse) {
-
+		} catch (SolrServerException | IOException e) {
+			logger.error("Error connecting to solr: ", e);
 		}
 		return "about";
 	}
-
 }

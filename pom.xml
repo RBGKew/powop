@@ -41,7 +41,7 @@
 		<hibernate.version>3.6.7.Final</hibernate.version>
 		<java.version>1.7</java.version>
 		<liquibase.version>2.0.5</liquibase.version>
-		<lucene.version>4.0.0</lucene.version>
+		<lucene.version>5.5.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -796,7 +796,7 @@
 			<dependency>
 				<groupId>com.vividsolutions</groupId>
 				<artifactId>jts</artifactId>
-				<version>1.11</version>
+				<version>1.13</version>
 				<exclusions>
 					<exclusion>
 						<groupId>xerces</groupId>
@@ -969,7 +969,7 @@
 			<dependency>
 				<groupId>com.spatial4j</groupId>
 				<artifactId>spatial4j</artifactId>
-				<version>0.3</version>
+				<version>0.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ocpsoft.prettytime</groupId>

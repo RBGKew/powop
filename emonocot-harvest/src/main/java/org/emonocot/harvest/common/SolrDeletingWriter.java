@@ -18,7 +18,7 @@ package org.emonocot.harvest.common;
 
 import java.util.List;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.springframework.batch.item.ItemWriter;
 
 /**
@@ -28,10 +28,10 @@ import org.springframework.batch.item.ItemWriter;
  */
 public class SolrDeletingWriter implements ItemWriter<String> {
 
-	private SolrServer solrServer;
+	private SolrClient solrClient;
 
-	public void setSolrServer(SolrServer solrServer) {
-		this.solrServer = solrServer;
+	public void setSolrServer(SolrClient solrServer) {
+		this.solrClient = solrServer;
 	}
 
 	public void write(List<? extends String> documentIdentifiers) throws Exception {
@@ -39,8 +39,8 @@ public class SolrDeletingWriter implements ItemWriter<String> {
 
 			try {
 
-				solrServer.deleteById((List) documentIdentifiers);
-				solrServer.commit(true,true);
+				solrClient.deleteById((List) documentIdentifiers);
+				solrClient.commit(true,true);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +54,7 @@ public class IndexController {
 
 
 	@RequestMapping(method = RequestMethod.GET,produces = "text/html")
-	public String index(Model uiModel) throws SolrServerException {
+	public String index(Model uiModel) throws SolrServerException, IOException {
 		// Cope with solr unavailability
 		try {
 			Map<String, String> selectedFacets = new HashMap<String, String>();

@@ -16,6 +16,7 @@
  */
 package org.emonocot.api;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 */
 	Page<T> search(String query, String spatialQuery, Integer pageSize,
 			Integer pageNumber, String[] facets,
-			Map<String, String> facetPrefixes, Map<String, String> selectedFacets, String sort, String fetch) throws SolrServerException;
+			Map<String, String> facetPrefixes, Map<String, String> selectedFacets, String sort, String fetch) throws SolrServerException, IOException;
 
 	/**
 	 *
@@ -64,7 +65,7 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 * @param selectedFacets any restrictions on the search
 	 * @return a list of match objects
 	 */
-	List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException;
+	List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException, IOException;
 
 	/**
 	 *
@@ -75,7 +76,7 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 * @param sort
 	 * @return
 	 */
-	Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException;
+	Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException, IOException;
 
 	/**
 	 * Produce a 1 or 2 dimensional table of count data based on the solr
@@ -94,7 +95,7 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 */
 	CellSet analyse(String rows, String cols, Integer firstCol,
 			Integer maxCols, Integer firstRow, Integer maxRows,
-			Map<String, String> selectedFacets, String[] array, Cube cube) throws SolrServerException;
+			Map<String, String> selectedFacets, String[] array, Cube cube) throws SolrServerException, IOException;
 
 	/**
 	 *

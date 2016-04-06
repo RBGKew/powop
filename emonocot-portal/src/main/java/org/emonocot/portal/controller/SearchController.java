@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -157,7 +158,7 @@ public class SearchController {
 	private Page<? extends SearchableObject> runQuery(String query,
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
-			String sort, Map<String, String> selectedFacets) throws SolrServerException {
+			String sort, Map<String, String> selectedFacets) throws SolrServerException, IOException {
 		Page<? extends SearchableObject> result = searchableObjectService
 				.search(query, spatial, limit, start, responseFacets,
 						facetPrefixes, selectedFacets, sort, "taxon-with-image");
@@ -218,7 +219,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false, defaultValue = "searchable.label_sort_asc") String sort,
 			@RequestParam(value = "view", required = false) String view,
-			Model model) throws SolrServerException {
+			Model model) throws SolrServerException, IOException {
 		Map<String, String> selectedFacets = extractSelectedFacets(facets);
 		List<String> responseFacetList = buildFacetList(selectedFacets.keySet(),
 				"base.class_s",
@@ -263,7 +264,7 @@ public class SearchController {
 			@RequestParam(value = "x2", required = false) Double x2,
 			@RequestParam(value = "y2", required = false) Double y2,
 			@RequestParam(value = "sort", required = false) String sort,
-			Model model) throws SolrServerException {
+			Model model) throws SolrServerException, IOException {
 
 		spatial(query,x1, y1, x2, y2, null, limit,start,facets,sort,null,model);
 		return new ResponseEntity<Page>((Page) model.asMap().get("result"),HttpStatus.OK);
@@ -281,7 +282,7 @@ public class SearchController {
 			@RequestParam(value = "y2", required = false) Double y2,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "callback", required = true) String callback,
-			Model model) throws SolrServerException {
+			Model model) throws SolrServerException, IOException {
 
 		spatial(query,x1, y1, x2, y2, null, limit,start,facets,sort,null,model);
 		return new ResponseEntity<JSONPObject>(new JSONPObject(callback,(Page) model.asMap().get("result")),HttpStatus.OK);
@@ -325,7 +326,7 @@ public class SearchController {
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
-			Model model) throws SolrServerException {
+			Model model) throws SolrServerException, IOException {
 		String spatial = null;
 		DecimalFormat decimalFormat = new DecimalFormat("###0.0");
 		if (x1 != null
@@ -464,27 +465,27 @@ public class SearchController {
 	 */
 	@RequestMapping(value = "/autocomplete",   method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException {
+	List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException, IOException {
 		return searchableObjectService.autocomplete(term, 10, null);
 	}
 
 	@RequestMapping(value = "/autocomplete/comment", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Match> autocompleteComments(@RequestParam(required = true) String term) throws SolrServerException {
+	public @ResponseBody List<Match> autocompleteComments(@RequestParam(required = true) String term) throws SolrServerException, IOException {
 		return commentService.autocomplete(term, 10, null);
 	}
 
 	@RequestMapping(value = "/autocomplete/user", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Match> autocompleteUsers(@RequestParam(required = true) String term) throws SolrServerException {
+	public @ResponseBody List<Match> autocompleteUsers(@RequestParam(required = true) String term) throws SolrServerException, IOException {
 		return userService.autocomplete(term, 10, null);
 	}
 
 	@RequestMapping(value = "/autocomplete/organisation", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Match> autocompleteOrganisations(@RequestParam(required = true) String term) throws SolrServerException {
+	public @ResponseBody List<Match> autocompleteOrganisations(@RequestParam(required = true) String term) throws SolrServerException, IOException {
 		return organisationService.autocomplete(term, 10, null);
 	}
 
 	@RequestMapping(value = "/autocomplete/resource", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Match> autocompleteResources(@RequestParam(required = true) String term) throws SolrServerException {
+	public @ResponseBody List<Match> autocompleteResources(@RequestParam(required = true) String term) throws SolrServerException, IOException {
 		return resourceService.autocomplete(term, 10, null);
 	}
 
@@ -584,7 +585,7 @@ public class SearchController {
 			@RequestParam(value = "y2", required = false) Double y2,
 			@RequestParam(value = "limit", required = false, defaultValue = "5000") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
-			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets) throws SolrServerException {
+			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets) throws SolrServerException, IOException {
 		String spatial = null;
 		DecimalFormat decimalFormat = new DecimalFormat("###0.0");
 		if (x1 != null
@@ -614,7 +615,7 @@ public class SearchController {
 	private Page<TypeAndSpecimen> typeAndSpecimenQuery(String query,
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
-			String sort, Map<String, String> selectedFacets) throws SolrServerException {
+			String sort, Map<String, String> selectedFacets) throws SolrServerException, IOException {
 		Page<TypeAndSpecimen> result = typeAndSpecimenService.search(query, spatial, limit, start, responseFacets,facetPrefixes, selectedFacets, sort, null);
 		result.putParam("query", query);
 

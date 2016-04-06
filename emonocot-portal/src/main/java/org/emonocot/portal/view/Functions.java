@@ -1015,44 +1015,13 @@ public class Functions {
 		return distribution;
 	}
 
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
-	 * @return true if the taxon has level 1 features, false otherwise
-	 */
-	public static Boolean hasLevel1Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
-		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(0)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
-				return Boolean.TRUE;
-			}
-		}
-		return Boolean.FALSE;
-	}
-
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
-	 * @return the level 1 feature identifiers (FIDs)
-	 */
-	public static String getLevel1Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
+	public static String getLevelFeatures(int level, Taxon taxon, OccurrenceStatus occurrenceStatus, EstablishmentMeans establishmentMeans) {
 		boolean first = true;
 		StringBuffer features = new StringBuffer();
 		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(0)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
+			if (d.getLocation().getLevel().equals(level -1)
+					&& toPresentAbsent(d.getOccurrenceStatus()).equals(occurrenceStatus)
+					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(establishmentMeans)) {
 				if (!first) {
 					features.append(",");
 				}
@@ -1063,136 +1032,15 @@ public class Functions {
 		return features.toString();
 	}
 
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
-	 * @return true if the taxon has level 2 features, false otherwise
-	 */
-	public static Boolean hasLevel2Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
+	public static Boolean hasLevelFeatures(int level, Taxon taxon, OccurrenceStatus occurrenceStatus, EstablishmentMeans establishmentMeans) {
 		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(1)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
+			if (d.getLocation().getLevel().equals(level - 1)
+					&& toPresentAbsent(d.getOccurrenceStatus()).equals(occurrenceStatus)
+					&& toNativeIntroduced(d.getEstablishmentMeans()).equals(establishmentMeans)) {
 				return Boolean.TRUE;
 			}
 		}
 		return Boolean.FALSE;
-	}
-
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
-	 * @return the level 2 feature identifiers (FIDs)
-	 */
-	public static String getLevel2Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
-		boolean first = true;
-		StringBuffer features = new StringBuffer();
-		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(1)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
-				if (!first) {
-					features.append(",");
-				}
-				features.append(d.getLocation().getFeatureId());
-				first = false;
-			}
-		}
-		return features.toString();
-	}
-
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
-	 * @return true if the taxon has level 3 features, false otherwise
-	 */
-	public static Boolean hasLevel3Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
-		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(2)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
-				return Boolean.TRUE;
-			}
-		}
-		return Boolean.FALSE;
-	}
-
-	public static Boolean hasLevel4Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
-		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(3)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
-				return Boolean.TRUE;
-			}
-		}
-		return Boolean.FALSE;
-	}
-
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
-	 * @return the level 3 feature identifiers (FIDs)
-	 */
-	public static String getLevel3Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
-		boolean first = true;
-		StringBuffer features = new StringBuffer();
-		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(2)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
-				if (!first) {
-					features.append(",");
-				}
-				features.append(d.getLocation().getFeatureId());
-				first = false;
-			}
-		}
-		return features.toString();
-	}
-
-	public static String getLevel4Features(Taxon taxon,
-			OccurrenceStatus occurrenceStatus,
-			EstablishmentMeans establishmentMeans) {
-		boolean first = true;
-		StringBuffer features = new StringBuffer();
-		for (Distribution d : taxon.getDistribution()) {
-			if (d.getLocation().getLevel().equals(3)
-					&& toPresentAbsent(d.getOccurrenceStatus()).equals(
-							occurrenceStatus)
-							&& toNativeIntroduced(d.getEstablishmentMeans()).equals(
-									establishmentMeans)) {
-				if (!first) {
-					features.append(",");
-				}
-				features.append(d.getLocation().getFeatureId());
-				first = false;
-			}
-		}
-		return features.toString();
 	}
 
 	/**
@@ -1212,8 +1060,7 @@ public class Functions {
 	 *            Set the measurement
 	 * @return a Content object, or null
 	 */
-	public static Set<MeasurementOrFact> facts(Taxon taxon,
-			Term measurements) {
+	public static Set<MeasurementOrFact> facts(Taxon taxon, Term measurements) {
 		Set<MeasurementOrFact> facts = new HashSet<MeasurementOrFact>();
 
 		for (MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
@@ -1225,8 +1072,6 @@ public class Functions {
 		return facts;
 	}
 
-	
-	
 	/*
 	 * Linkify herbcat references
 	 */
