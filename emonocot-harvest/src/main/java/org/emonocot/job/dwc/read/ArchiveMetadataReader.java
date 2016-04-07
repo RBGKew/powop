@@ -99,7 +99,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 			ArchiveFile core = archive.getCore();
 
 			if (archive.getMetadataLocation() != null) {
-				String metadataFileName = archiveDirectoryName + File.separator  + archive.getMetadataLocation();
+				String metadataFileName = metaDir.getCanonicalPath() + File.separator  + archive.getMetadataLocation();
 				try {
 					Eml eml = EmlFactory.build(new FileInputStream(metadataFileName));
 					updateSourceMetadata(eml);
