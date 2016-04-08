@@ -40,9 +40,9 @@ Background:
   | 999          | Key to the genus Rhipogonum         | urn:kew.org:wcs:taxon:286768 |
   And there are places with the following properties:
   | identifier     | name      | shape                                                                                               |
-  | test:place:468 | Narnia    | MULTIPOLYGON (((38.3235 2.9734, 24.2348 90.2389, 23.0492 23.9047, 38.3235 2.9734)))                 |
-  | test:place:123 | Bartledan | MULTIPOLYGON (((48.7545 92.9734, 17.4929 98.3473, 83.0492 73.9047, 48.7545 92.9734)))               |
-  | test:place:753 | Klatch    | MULTIPOLYGON (((-38.3235 2.9734, -72.5483 -92.4733, 3.0492 2.9047, -38.3235 2.9734)))               |
+  | test:place:468 | Narnia    | MULTIPOLYGON (((2.9734 38.3235, 90.2389 24.2348, 23.9047 23.0492, 2.9734 38.3235)))                 |
+  | test:place:123 | Bartledan | MULTIPOLYGON (((92.9734 48.7545, 98.3473 17.4929, 73.9047 83.0492, 92.9734 48.7545)))               |
+  | test:place:753 | Klatch    | MULTIPOLYGON (((2.9734 -38.3235, -92.4733 -72.5483, 2.9047 3.0492, 2.9734 -38.3235)))               |
   And I am on the search page
 
 Scenario: Search for images by their descriptions

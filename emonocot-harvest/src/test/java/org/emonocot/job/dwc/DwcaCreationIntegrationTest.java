@@ -30,7 +30,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -87,7 +87,7 @@ public class DwcaCreationIntegrationTest {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Autowired SolrServer solrServer;
+	@Autowired SolrClient solrServer;
 
 	@Autowired SolrIndexingListener solrIndexingListener;
 

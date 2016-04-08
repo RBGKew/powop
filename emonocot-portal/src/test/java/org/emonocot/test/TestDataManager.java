@@ -27,7 +27,7 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
@@ -180,7 +180,7 @@ public class TestDataManager {
 	private PlaceService placeService;
 
 	@Autowired
-	private SolrServer solrServer;
+	private SolrClient solrServer;
 
 	@Autowired
 	private CommentService commentService;
