@@ -16,11 +16,15 @@
  */
 package org.emonocot.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -61,7 +65,7 @@ public class Description extends OwnedEntity {
 
 	private Taxon taxon;
 
-	private DescriptionType type;
+	private List<DescriptionType> types;
 
 	private String creator;
 
@@ -114,11 +118,28 @@ public class Description extends OwnedEntity {
 
 	/**
 	 *
-	 * @return Return the subject that this content is about.
+	 * @return Return the subjects that this content is about.
 	 */
-	@Enumerated(value = EnumType.STRING)
+	@ElementCollection
+	@Column(name = "type")
+	@Enumerated(EnumType.STRING)
+	public List<DescriptionType> getTypes() {
+		return types;
+	}
+
+	/**
+	 * Convenience method for accessing the first description type.
+	 * In many cases there will only be one
+	 * 
+	 * @return The first description type associated with this description
+	 */
+	@Transient
 	public DescriptionType getType() {
-		return type;
+		if(types != null && !types.isEmpty()) {
+			return types.get(0);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -126,8 +147,25 @@ public class Description extends OwnedEntity {
 	 * @param newFeature
 	 *            Set the subject that this content is about.
 	 */
-	public void setType(DescriptionType newFeature) {
-		this.type = newFeature;
+	public void setTypes(List<DescriptionType> newFeature) {
+		this.types = newFeature;
+	}
+
+	/**
+	 *
+	 * @param type
+	 *            Sets the primary type for this description
+	 */
+	public void setType(DescriptionType type) {
+		if(types == null) {
+			types = new ArrayList<>();
+		}
+
+		if(types.isEmpty()) {
+			types.add(type);
+		} else {
+			types.set(0, type);
+		}
 	}
 
 	/**
@@ -280,8 +318,8 @@ public class Description extends OwnedEntity {
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
-		if(type != null) {
-			stringBuffer.append(type.toString());
+		if(types != null) {
+			stringBuffer.append(types.toString());
 		}
 		if(description != null) {
 			if(description.length() > 32) {

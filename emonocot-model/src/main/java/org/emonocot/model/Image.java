@@ -91,7 +91,7 @@ public class Image extends Multimedia {
 	
 	private String providerManagedId;
 	
-	private Set<DescriptionType> subjectPart;
+	private List<DescriptionType> subjectPart;
 	
 	private Taxon taxonCoverage;
 	
@@ -261,12 +261,12 @@ public class Image extends Multimedia {
 	@CollectionTable(name="image_SubjectPart", joinColumns=@JoinColumn(name="image_id"))
 	@Column(name="subjectPart")
 	@Enumerated(value = EnumType.STRING)
-	public Set<DescriptionType> getSubjectPart() {
+	public List<DescriptionType> getSubjectPart() {
 		return subjectPart;
 	}
 
 	
-	public void setSubjectPart(Set<DescriptionType> subjectPart) {
+	public void setSubjectPart(List<DescriptionType> subjectPart) {
 		this.subjectPart = subjectPart;
 	}
 	

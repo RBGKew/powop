@@ -16,9 +16,7 @@
  */
 package org.emonocot.job.dwc.image;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.TermFactory;
@@ -35,24 +33,26 @@ import org.gbif.dwc.terms.AcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
-	
+
 	private String imageServer = "";
-	
+
 	@Autowired
 	public void setImageServer(String imageServer){
 		this.imageServer = imageServer;
 	}
-	
+
 	public FieldSetMapper() {
 		super(Image.class);
 	}
 
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void mapField(final Image object, final String fieldName,
 			final String value) throws BindException {
@@ -76,7 +76,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case format:
 				object.setFormat(conversionService.convert(value, MediaFormat.class));
 				break;
-			case identifier:	
+			case identifier:
 				object.setIdentifier(value);
 				break;
 			case publisher:
@@ -115,32 +115,33 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setProviderManagedId(htmlSanitizer.sanitize(value));
 				break;
 			case subjectPart:
-				object.setSubjectPart(handleSubjectPart(value));
+				object.setSubjectPart((List<DescriptionType>)conversionService.convert(value,
+						TypeDescriptor.valueOf(String.class),
+						TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(DescriptionType.class))));
 				break;
 			case taxonCoverage:
-            	if (value != null && value.trim().length() != 0) {
-            		if(object.getTaxonCoverage() == null) {
-            			Taxon taxon = new Taxon();
-            			object.setTaxonCoverage(taxon);
-            		}
-            		object.getTaxonCoverage().setIdentifier(value);
-
-            	}
+				if (value != null && value.trim().length() != 0) {
+					if(object.getTaxonCoverage() == null) {
+						Taxon taxon = new Taxon();
+						object.setTaxonCoverage(taxon);
+					}
+					object.getTaxonCoverage().setIdentifier(value);
+				}
 				break;
 			case accessURI:
-				if(imageServer != null){
-					  object.setAccessUri(imageServer + value);
-					  break;
-					}			
+				if(imageServer == null){
 					object.setAccessUri(value);
-					break;
+				} else {
+					object.setAccessUri(imageServer + value);
+				}
+				break;
 			case subtype:
 				object.setSubType(htmlSanitizer.sanitize(value));
 				break;
 			default:
 				break;
 			}
-			}
+		}
 		// WGS84 Terms
 		if (term instanceof Wgs84Term) {
 			Wgs84Term wgs84Term = (Wgs84Term)term;
@@ -176,25 +177,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setRating(conversionService.convert(value, Integer.class));
 			default:
 				break; 
-				}
 			}
-	}
-	
-	public Set<DescriptionType> handleSubjectPart(String value){
-		Set<DescriptionType> descriptionType = new HashSet<DescriptionType>();
-		logger.debug("Full Description value is:" + value);
-		if (value != null && value.trim().length() != 0){
-			Set<String> set = new HashSet<String>(Arrays.asList(value.split("\\|")));
-			for(String item : set){
-				logger.debug("Description Item is:" + item);
-				item = item.trim();
-				if(item != null){
-					descriptionType.add(conversionService.convert(item, DescriptionType.class));
-				}
-			}
-			return descriptionType;
 		}
-		return null;				
 	}
-
 }

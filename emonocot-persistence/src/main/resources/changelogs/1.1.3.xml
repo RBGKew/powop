@@ -49,5 +49,12 @@
   		<column name="Rating" type="int"/>
   	</addColumn>
   </changeSet>
-    
+
+  <changeSet id="2016-04-13_01" author="ji10kg">
+    <comment>New table description_types</comment>
+    <createTable tableName="description_types">
+      <column name="description_id" type="bigint" />
+      <column name="type" type="varchar(255)" />
+    </createTable>
+  </changeSet>
 </databaseChangeLog>

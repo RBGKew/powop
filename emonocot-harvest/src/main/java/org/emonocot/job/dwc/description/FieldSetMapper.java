@@ -16,6 +16,7 @@
  */
 package org.emonocot.job.dwc.description;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.emonocot.api.job.TermFactory;
@@ -27,6 +28,7 @@ import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
@@ -37,6 +39,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public final void mapField(final Description object,
 			final String fieldName, final String value) throws BindException {
@@ -80,7 +83,9 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 				object.setSource(value);
 				break;
 			case type:
-				object.setType(conversionService.convert(value, DescriptionType.class));
+				object.setTypes((List<DescriptionType>) conversionService.convert(value,
+						TypeDescriptor.valueOf(String.class),
+						TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(DescriptionType.class))));
 				break;
 			default:
 				break;
