@@ -46,6 +46,7 @@ import org.emonocot.model.marshall.json.ReferenceDeserializer;
 import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -123,6 +124,7 @@ public class Description extends OwnedEntity {
 	@ElementCollection
 	@Column(name = "type")
 	@Enumerated(EnumType.STRING)
+	@Sort
 	public List<DescriptionType> getTypes() {
 		return types;
 	}
