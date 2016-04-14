@@ -17,7 +17,6 @@
 package org.emonocot.portal.view;
 
 import java.awt.Color;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +91,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.slf4j.Logger;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -1137,6 +1137,11 @@ public class Functions {
 	public static Map<DescriptionType, List<Description>> detailedDescription(Set<Description> descriptions) {
 		Map<DescriptionType, List<Description>> detailed = new EnumMap<>(DescriptionType.class);
 		List<DescriptionType> blacklist = Arrays.asList(DescriptionType.generalDescriptionType, DescriptionType.concept);
+		Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {
+			public int compare(Description d1, Description d2) {
+				return d1.getTypes().size() - d2.getTypes().size();
+			}
+		};
 
 		for(Description description : descriptions) {
 			if(!blacklist.contains(description.getType())) {
@@ -1145,6 +1150,10 @@ public class Functions {
 				}
 				detailed.get(description.getType()).add(description);
 			}
+		}
+
+		for(List<Description> list : detailed.values()) {
+			Collections.sort(list, generalDescriptionsFirst);
 		}
 
 		return detailed;
@@ -1282,5 +1291,4 @@ public class Functions {
 		return null;
 		
 	}
-	
 }
