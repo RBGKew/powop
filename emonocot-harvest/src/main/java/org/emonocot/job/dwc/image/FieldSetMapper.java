@@ -16,7 +16,8 @@
  */
 package org.emonocot.job.dwc.image;
 
-import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 
 import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.TermFactory;
@@ -115,9 +116,9 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setProviderManagedId(htmlSanitizer.sanitize(value));
 				break;
 			case subjectPart:
-				object.setSubjectPart((List<DescriptionType>)conversionService.convert(value,
+				object.setSubjectPart((Set<DescriptionType>)conversionService.convert(value,
 						TypeDescriptor.valueOf(String.class),
-						TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(DescriptionType.class))));
+						TypeDescriptor.collection(SortedSet.class, TypeDescriptor.valueOf(DescriptionType.class))));
 				break;
 			case taxonCoverage:
 				if (value != null && value.trim().length() != 0) {

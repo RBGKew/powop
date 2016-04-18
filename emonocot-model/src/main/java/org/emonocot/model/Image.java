@@ -37,12 +37,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -91,7 +89,7 @@ public class Image extends Multimedia {
 	
 	private String providerManagedId;
 	
-	private List<DescriptionType> subjectPart;
+	private Set<DescriptionType> subjectPart;
 	
 	private Taxon taxonCoverage;
 	
@@ -261,12 +259,12 @@ public class Image extends Multimedia {
 	@CollectionTable(name="image_SubjectPart", joinColumns=@JoinColumn(name="image_id"))
 	@Column(name="subjectPart")
 	@Enumerated(value = EnumType.STRING)
-	public List<DescriptionType> getSubjectPart() {
+	public Set<DescriptionType> getSubjectPart() {
 		return subjectPart;
 	}
 
 	
-	public void setSubjectPart(List<DescriptionType> subjectPart) {
+	public void setSubjectPart(Set<DescriptionType> subjectPart) {
 		this.subjectPart = subjectPart;
 	}
 	

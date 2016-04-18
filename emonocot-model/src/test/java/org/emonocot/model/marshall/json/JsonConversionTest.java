@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.GroupService;
@@ -144,7 +145,7 @@ public class JsonConversionTest {
 				.isEmpty());
 		Description habitat = null;
 		for(Description d : taxon.getDescriptions()) {
-			if(d.getTypes().get(0).equals(DescriptionType.habitat)) {
+			if(d.getTypes().first().equals(DescriptionType.habitat)) {
 				habitat = d;
 				break;
 			}
@@ -185,7 +186,7 @@ public class JsonConversionTest {
 		taxon.setScientificName("Acorus");
 		Description description = new Description();
 		description.setDescription("Lorem ipsum");
-		description.setTypes(Arrays.asList(DescriptionType.habitat));
+		description.setTypes(new TreeSet<>(Arrays.asList(DescriptionType.habitat)));
 		description.getReferences().add(reference);
 		description.setTaxon(taxon);
 		taxon.getDescriptions().add(description);

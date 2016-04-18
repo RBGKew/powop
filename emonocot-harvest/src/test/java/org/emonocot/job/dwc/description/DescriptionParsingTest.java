@@ -18,6 +18,7 @@ package org.emonocot.job.dwc.description;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import static org.easymock.EasyMock.*;
 import org.emonocot.api.TaxonService;
@@ -91,7 +92,7 @@ public class DescriptionParsingTest {
 	 */
 	@Test
 	public final void testRead() throws Exception {
-		expect(conversionService.convert(isA(String.class), isA(TypeDescriptor.class), isA(TypeDescriptor.class))).andReturn(Arrays.asList(DescriptionType.general));
+		expect(conversionService.convert(isA(String.class), isA(TypeDescriptor.class), isA(TypeDescriptor.class))).andReturn(new TreeSet<>(Arrays.asList(DescriptionType.general)));
 		expect(conversionService.convert(isA(String.class), eq(DateTime.class))).andReturn(new DateTime());
 		expect(taxonService.find(isA(String.class))).andReturn(new Taxon()).anyTimes();
 		expect(taxonService.find(isA(String.class), eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();

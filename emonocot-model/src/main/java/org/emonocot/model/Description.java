@@ -16,11 +16,11 @@
  */
 package org.emonocot.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -47,6 +47,7 @@ import org.emonocot.model.marshall.json.ReferenceSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -66,7 +67,7 @@ public class Description extends OwnedEntity {
 
 	private Taxon taxon;
 
-	private List<DescriptionType> types;
+	private SortedSet<DescriptionType> types;
 
 	private String creator;
 
@@ -124,8 +125,8 @@ public class Description extends OwnedEntity {
 	@ElementCollection
 	@Column(name = "type")
 	@Enumerated(EnumType.STRING)
-	@Sort
-	public List<DescriptionType> getTypes() {
+	@Sort(type = SortType.NATURAL)
+	public SortedSet<DescriptionType> getTypes() {
 		return types;
 	}
 
@@ -138,7 +139,7 @@ public class Description extends OwnedEntity {
 	@Transient
 	public DescriptionType getType() {
 		if(types != null && !types.isEmpty()) {
-			return types.get(0);
+			return types.first();
 		} else {
 			return null;
 		}
@@ -146,11 +147,11 @@ public class Description extends OwnedEntity {
 
 	/**
 	 *
-	 * @param newFeature
+	 * @param types
 	 *            Set the subject that this content is about.
 	 */
-	public void setTypes(List<DescriptionType> newFeature) {
-		this.types = newFeature;
+	public void setTypes(SortedSet<DescriptionType> types) {
+		this.types = types;
 	}
 
 	/**
@@ -160,14 +161,13 @@ public class Description extends OwnedEntity {
 	 */
 	public void setType(DescriptionType type) {
 		if(types == null) {
-			types = new ArrayList<>();
+			types = new TreeSet<>();
 		}
 
-		if(types.isEmpty()) {
-			types.add(type);
-		} else {
-			types.set(0, type);
+		if(!types.isEmpty()) {
+			types.remove(types.first());
 		}
+		types.add(type);
 	}
 
 	/**

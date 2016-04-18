@@ -18,6 +18,7 @@ package org.emonocot.job.dwc.description;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedSet;
 
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
@@ -83,9 +84,9 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 				object.setSource(value);
 				break;
 			case type:
-				object.setTypes((List<DescriptionType>) conversionService.convert(value,
+				object.setTypes((SortedSet<DescriptionType>) conversionService.convert(value,
 						TypeDescriptor.valueOf(String.class),
-						TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(DescriptionType.class))));
+						TypeDescriptor.collection(SortedSet.class, TypeDescriptor.valueOf(DescriptionType.class))));
 				break;
 			default:
 				break;

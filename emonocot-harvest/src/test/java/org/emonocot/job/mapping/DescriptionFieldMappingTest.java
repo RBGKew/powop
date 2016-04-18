@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.harvest.common.HtmlSanitizer;
@@ -59,10 +61,10 @@ public class DescriptionFieldMappingTest {
 	@Test
 	public void testMultiTypeMapping() throws BindException {
 		String inputString = "reproductiveMorphology:fruits|sex:male";
-		List<DescriptionType> expected = Arrays.asList(DescriptionType.reproductiveMorphologyFruits, DescriptionType.sexMale);
+		SortedSet<DescriptionType> expected = new TreeSet<>(Arrays.asList(DescriptionType.reproductiveMorphologyFruits, DescriptionType.sexMale));
 		expect(conversionService.convert(inputString,
 				TypeDescriptor.valueOf(String.class),
-				TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(DescriptionType.class))))
+				TypeDescriptor.collection(SortedSet.class, TypeDescriptor.valueOf(DescriptionType.class))))
 		.andReturn(expected);
 		mapper.setConversionService(conversionService);
 		replay(conversionService);
