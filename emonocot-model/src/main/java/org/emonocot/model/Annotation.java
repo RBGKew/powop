@@ -42,6 +42,7 @@ import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -79,6 +80,8 @@ public class Annotation extends Base implements Searchable {
 
 	private String value;
 
+	private Resource resource;
+
 	@Id
 	@GeneratedValue(generator = "annotation-sequence")
 	public Long getId() {
@@ -98,6 +101,15 @@ public class Annotation extends Base implements Searchable {
 	@JsonDeserialize(using = OrganisationDeserialiser.class)
 	public void setAuthority(Organisation source) {
 		this.authority = source;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Resource getResource() {
+		return resource;
+	}
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
 	}
 
 	@Enumerated(value = EnumType.STRING)

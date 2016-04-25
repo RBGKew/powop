@@ -64,7 +64,7 @@ public abstract class BaseData extends Base implements Annotated {
 	private Organisation authority;
 
 	private String uri;
-	
+
 	private Resource resource;
 
 	/**
@@ -218,11 +218,10 @@ public abstract class BaseData extends Base implements Annotated {
 	public Resource getResource(){
 		return resource;
 	}
-	
+
 	@JsonDeserialize(using = ResourceDeserializer.class)
 	public void setResource(Resource resource){
 		this.resource = resource;
 	}
-	
 }
 

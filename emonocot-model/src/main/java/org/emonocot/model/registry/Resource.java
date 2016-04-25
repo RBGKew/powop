@@ -119,7 +119,7 @@ public class Resource extends Base implements Searchable {
 	private Long lastHarvestedJobId;
 
 	public Resource() {
-		this.identifier = UUID.randomUUID().toString();
+		setIdentifier(UUID.randomUUID().toString());
 	}
 
 	@NotEmpty
@@ -590,5 +590,4 @@ public class Resource extends Base implements Searchable {
 	public void setLastAttempt(DateTime lastAttempt) {
 		this.lastAttempt = lastAttempt;
 	}
-
 }

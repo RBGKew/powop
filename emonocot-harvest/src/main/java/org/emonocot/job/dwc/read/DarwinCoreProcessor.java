@@ -261,6 +261,12 @@ ItemProcessor<T, T>, ChunkListener {
 		return outOfScope;
 	}
 
+	protected Annotation createAnnotation(final BaseData object, RecordType recordType, AnnotationCode code, AnnotationType annotationType) {
+		Annotation annotation = super.createAnnotation(object, recordType, code, annotationType);
+		annotation.setResource(object.getResource());
+		return annotation;
+	}
+
 	protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {
 		boolean annotationPresent = false;
 

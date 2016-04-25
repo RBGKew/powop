@@ -35,11 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class Processor extends OwnedEntityProcessor<Description, DescriptionService> {
 
 	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
@@ -47,7 +42,6 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	private ReferenceService referenceService;
-
 
 	@Autowired
 	public void setReferenceService(ReferenceService referenceService) {

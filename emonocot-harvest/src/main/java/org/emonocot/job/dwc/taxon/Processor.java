@@ -187,8 +187,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 			if (taxon == null) {
 				taxon = new Taxon();
-				Annotation annotation = createAnnotation(taxon, RecordType.Taxon,
-						AnnotationCode.Create, AnnotationType.Info);
+				Annotation annotation = createAnnotation(taxon, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
 				taxon.getAnnotations().add(annotation);
 				taxon.setAuthority(getSource());
 				taxon.setIdentifier(identifier);

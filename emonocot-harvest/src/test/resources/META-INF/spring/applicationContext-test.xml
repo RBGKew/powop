@@ -123,13 +123,6 @@
 
   <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 
-  <bean id="imageAnnotator" class="org.emonocot.harvest.media.ImageAnnotatorImpl" scope="step">
-    <property name="sourceName" value="#{jobParameters['authority.name']}" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="transactionManager" ref="transactionManager" />
-    <property name="jobId" value="#{jobExecutionContext['job.execution.id']}"></property>
-  </bean>
-
   <bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
   <bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
