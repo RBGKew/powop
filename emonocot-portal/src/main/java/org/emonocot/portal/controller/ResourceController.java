@@ -570,7 +570,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 									parameters.put("taxon.processing.mode", "SKIP_TAXA");
 								}
 								if(word.contains("Description")){
-									parameters.put("description.processing.mode", "IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL");
+									parameters.put("description.processing.mode", "IMPORT_DESCRIPTIONS");
 								}
 								if(word.contains("Distribution")){
 									parameters.put("distribution.processing.mode", "IMPORT_DISTRIBUTION");

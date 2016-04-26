@@ -328,9 +328,9 @@
 
     <!--================= Identification Key processing steps ======================-->
     <batch:decision decider="keyProcessingModeDecider" id="checkKeyProcessingMode">
-      <!-- IMPORT_KEYS is the default -->
-      <batch:next on="*" to="markKeyRecords" />
-      <batch:next on="SKIP_KEYS" to="checkPhylogenyProcessingMode" />
+      <!-- SKIP_KEYS is the default -->
+      <batch:next on="*" to="checkPhylogenyProcessingMode" />
+      <batch:next on="IMPORT_KEYS" to="markKeyRecords" />
     </batch:decision>
 
     <batch:step id="markKeyRecords">
@@ -394,9 +394,9 @@
 
     <!--==================== Phylogeny processing steps ====================-->
     <batch:decision decider="phylogenyProcessingModeDecider" id="checkPhylogenyProcessingMode">
-      <!-- IMPORT_PHYLOGENIES is the default -->
-      <batch:next on="*" to="markPhylogenyRecords" />
-      <batch:next on="SKIP_PHYLOGONIES" to="checkReferenceProcessingMode" />
+      <!-- SKIP_PHYLOGONIES is the default -->
+      <batch:next on="*" to="checkReferenceProcessingMode" />
+      <batch:next on="IMPORT_PHYLOGENIES" to="markPhylogenyRecords" />
     </batch:decision>
 
     <batch:step id="markPhylogenyRecords">
@@ -1063,7 +1063,7 @@
 
   <bean id="taxonProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="taxon.processing.mode" />
-    <property name="defaultProcessingMode" value="CHECK_TAXA" />
+    <property name="defaultProcessingMode" value="SKIP_TAXA" />
   </bean>
 
   <bean id="markTaxonRecordsByResourceTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
@@ -1199,7 +1199,7 @@
 
   <bean id="descriptionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="description.processing.mode" />
-    <property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS_DONT_DELETE_GLOBAL" />
+    <property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS" />
   </bean>
 
   <bean id="processDescriptionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -1847,7 +1847,7 @@
 
   <bean id="distributionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="distribution.processing.mode" />
-    <property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION_DONT_DELETE_GLOBAL" />
+    <property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION" />
   </bean>
 
   <bean id="processDistributionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -1933,7 +1933,7 @@
 
   <bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="measurementOrFact.processing.mode" />
-    <property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT_DONT_DELETE_GLOBAL" />
+    <property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT" />
   </bean>
 
   <bean id="processMeasurementOrFactDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
@@ -2021,7 +2021,7 @@
 
   <bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="vernacularName.processing.mode" />
-    <property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME_DONT_DELETE_GLOBAL" />
+    <property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME" />
   </bean>
 
   <bean id="processVernacularNameDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
