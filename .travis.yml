@@ -2,7 +2,9 @@ language: java
 before_install:
   - echo "MAVEN_OPTS='-Xmx2g -XX:MaxPermSize=512m'" > ~/.mavenrc
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.site.skip=true -B -V -q
-script: mvn test -Punit
+script:
+  - mvn test -Punit
+  - mvn integration-test -Pintegration,portal.test.vagrant
 cache:
   directories:
     - $HOME/.m2
