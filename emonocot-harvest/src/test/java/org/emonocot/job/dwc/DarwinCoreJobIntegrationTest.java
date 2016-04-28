@@ -128,6 +128,11 @@ public class DarwinCoreJobIntegrationTest {
 				.willReturn(aResponse()
 						.withStatus(200)
 						.withBodyFile("/1_1326150157_Strelitziaceae_Cron.nexorg")));
+
+		stubFor(get(urlEqualTo("/European_Pontederiaceae.xml"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/European_Pontederiaceae.xml")));
 	}
 
 	/**
@@ -180,7 +185,7 @@ public class DarwinCoreJobIntegrationTest {
 
 		IdentificationKey localKey = null;
 		try {
-			localKey = identificationKeyService.load("https://raw.githubusercontent.com/RBGKew/eMonocot/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/European_Pontederiaceae.xml");
+			localKey = identificationKeyService.load(mockHttpUrl + "/European_Pontederiaceae.xml");
 		} catch (Exception e) {}//Prefer test failure than a test error
 		assertNotNull("The key in the image file should have been persisted but was :" + localKey, localKey);
 	}

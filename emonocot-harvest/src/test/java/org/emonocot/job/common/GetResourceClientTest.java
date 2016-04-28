@@ -53,7 +53,7 @@ public class GetResourceClientTest {
 
 	private BasicHttpResponse httpResponse = new BasicHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "OK"));
 
-	private Resource content = new ClassPathResource("/org/emonocot/job/common/dwc.zip");
+	private Resource content = new ClassPathResource("/__files/dwc.zip");
 
 	// Only a mock URL.
 	private final String testzip = "http://build.e-monocot.org/test/test.zip";

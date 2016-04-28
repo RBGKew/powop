@@ -30,10 +30,10 @@ public class ContentTypeDetectionTest {
 
 	private Tika tika;
 
-	Resource lucidKey = new ClassPathResource("org/emonocot/job/common/testKey.xml");
-	Resource xperKey = new ClassPathResource("org/emonocot/job/common/testXperKey.xml");
-	Resource nexusFile = new ClassPathResource("org/emonocot/job/common/test.nex");
-	Resource newickFile = new ClassPathResource("org/emonocot/job/common/test.nwk");
+	Resource lucidKey = new ClassPathResource("__files/testKey.xml");
+	Resource xperKey = new ClassPathResource("__files/testXperKey.xml");
+	Resource nexusFile = new ClassPathResource("__files/test.nex");
+	Resource newickFile = new ClassPathResource("__files/test.nwk");
 
 	@Before
 	public void setUp() {
