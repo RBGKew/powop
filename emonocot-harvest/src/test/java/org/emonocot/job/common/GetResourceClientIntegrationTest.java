@@ -16,6 +16,10 @@
  */
 package org.emonocot.job.common;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -29,6 +33,7 @@ import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +45,17 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
-/**
- *
- * @author ben
- *
- */
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 public class GetResourceClientIntegrationTest {
 
 	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	private Logger logger = LoggerFactory.getLogger(GetResourceClientIntegrationTest.class);
 
@@ -58,12 +66,13 @@ public class GetResourceClientIntegrationTest {
 	@Before
 	public final void setUp() throws IOException {
 		getResourceClient = new GetResourceClient();
-		Resource propertiesFile = new ClassPathResource(
-				"/META-INF/spring/application.properties");
+		Resource propertiesFile = new ClassPathResource( "/META-INF/spring/application.properties");
 		properties = new Properties();
 		properties.load(propertiesFile.getInputStream());
-		getResourceClient.setProxyHost(properties.getProperty("http.proxyHost", null));
-		getResourceClient.setProxyPort(properties.getProperty("http.proxyPort", null));
+		stubFor(get(urlEqualTo("/dwc.zip"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/dwc.zip")));
 	}
 
 	/**
@@ -80,10 +89,7 @@ public class GetResourceClientIntegrationTest {
 		File tempFile = File.createTempFile("test", "zip");
 		tempFile.deleteOnExit();
 
-		String repository = properties.getProperty("test.resource.baseUrl");
-
-		ExitStatus exitStatus = getResourceClient
-				.getResource(repository + "dwc.zip",
+		ExitStatus exitStatus = getResourceClient.getResource(mockHttpUrl + "/dwc.zip",
 						Long.toString(PAST_DATETIME.getMillis()),
 						tempFile.getAbsolutePath());
 
@@ -102,10 +108,8 @@ public class GetResourceClientIntegrationTest {
 	public final void testGetResourceNotModified() throws IOException {
 		File tempFile = File.createTempFile("test", "zip");
 		tempFile.deleteOnExit();
-		String repository = properties.getProperty("test.resource.baseUrl");
 
-		ExitStatus exitStatus = getResourceClient
-				.getResource(repository + "dwc.zip",
+		ExitStatus exitStatus = getResourceClient.getResource(mockHttpUrl + "/dwc.zip",
 						Long.toString(new Date().getTime() - 60000L),
 						tempFile.getAbsolutePath());
 

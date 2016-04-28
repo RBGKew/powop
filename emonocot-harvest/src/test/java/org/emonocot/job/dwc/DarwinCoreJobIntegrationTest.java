@@ -18,6 +18,7 @@ package org.emonocot.job.dwc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import org.emonocot.model.IdentificationKey;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -57,11 +59,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- *
- * @author ben
- *
- */
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml",
@@ -69,6 +68,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 "/META-INF/spring/applicationContext-test.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class DarwinCoreJobIntegrationTest {
+
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	private Logger logger = LoggerFactory.getLogger(DarwinCoreJobIntegrationTest.class);
 
@@ -110,10 +115,19 @@ public class DarwinCoreJobIntegrationTest {
 		File thumbnailDirectory = new File("./target/images/thumbnails");
 		thumbnailDirectory.mkdirs();
 		thumbnailDirectory.deleteOnExit();
-		Resource propertiesFile = new ClassPathResource(
-				"META-INF/spring/application.properties");
+		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
 		properties = new Properties();
 		properties.load(propertiesFile.getInputStream());
+
+		stubFor(get(urlEqualTo("/dwc.zip"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/dwc.zip")));
+
+		stubFor(get(urlEqualTo("/1_1326150157_Strelitziaceae_Cron.nexorg"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/1_1326150157_Strelitziaceae_Cron.nexorg")));
 	}
 
 	/**
@@ -136,16 +150,14 @@ public class DarwinCoreJobIntegrationTest {
 	NoSuchJobException, JobExecutionAlreadyRunningException,
 	JobRestartException, JobInstanceAlreadyCompleteException,
 	JobParametersInvalidException {
-		Map<String, JobParameter> parameters =
-				new HashMap<String, JobParameter>();
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("authority.name", new JobParameter("test"));
 		parameters.put("family", new JobParameter("Arecaceae"));
-		String repository = properties.getProperty("test.resource.baseUrl");
-		parameters.put("authority.uri", new JobParameter(repository + "dwc.zip"));
-		parameters.put("authority.last.harvested",
-				new JobParameter(Long.toString((DarwinCoreJobIntegrationTest.PAST_DATETIME.getMillis()))));
-		parameters.put("phylogeny.processing.mode", new JobParameter("IMPORT_PHYLOGENIES_DONT_DELETE_GLOBAL"));
-		parameters.put("key.processing.mode", new JobParameter("IMPORT_KEYS_DONT_DELETE_GLOBAL"));
+		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/dwc.zip"));
+		parameters.put("authority.last.harvested", new JobParameter(Long.toString((DarwinCoreJobIntegrationTest.PAST_DATETIME.getMillis()))));
+		parameters.put("resource.id", new JobParameter("134"));
+		parameters.put("phylogeny.processing.mode", new JobParameter("IMPORT_PHYLOGENIES"));
+		parameters.put("key.processing.mode", new JobParameter("IMPORT_KEYS"));
 		JobParameters jobParameters = new JobParameters(parameters);
 
 		Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
@@ -164,8 +176,7 @@ public class DarwinCoreJobIntegrationTest {
 		assertNotNull("The image in the multimedia file should have been persisted", imageService.load("http://media.e-taxonomy.eu/palmae/photos/palm_tc_170762_8.jpg"));
 		//This is a slightly fragile assertion as it depends on a fixed location of the test resource.
 		//I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny and ID Key as the data is in a pre-packaged zip file (dwc.zip).
-		phylogeneticTreeService.load("https://raw.githubusercontent.com/RBGKew/eMonocot/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/1_1326150157_Strelitziaceae_Cron.nexorg");
-		assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load("https://raw.githubusercontent.com/RBGKew/eMonocot/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/1_1326150157_Strelitziaceae_Cron.nexorg"));
+		assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load(mockHttpUrl + "/1_1326150157_Strelitziaceae_Cron.nexorg"));
 
 		IdentificationKey localKey = null;
 		try {

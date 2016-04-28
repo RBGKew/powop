@@ -634,12 +634,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit-dep</artifactId>
-				<version>4.8.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>1.3.168</version>
@@ -1435,7 +1429,6 @@
 				<jdbc.driver.username>sa</jdbc.driver.username>
 				<jdbc.driver.password>org.h2.Driver</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:h2:mem:</jdbc.driver.url>
-				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1472,9 +1465,6 @@
 			<id>integration</id>
 			<properties>
 				<skip.global.tests>true</skip.global.tests>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
-				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
 				<plugins>
@@ -1490,7 +1480,7 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort} -Dhttps.proxyHost=${http.proxyHost} -Dhttps.proxyPort=${http.proxyPort}</argLine>
+									<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
 									<skip>false</skip>
 									<includes>
 										<include>**/*IntegrationTest.java</include>
@@ -1741,6 +1731,18 @@
 			<groupId>net.java.truevfs</groupId>
 			<artifactId>truevfs-profile-default</artifactId>
 			<version>0.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>1.57</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

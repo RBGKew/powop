@@ -59,10 +59,6 @@
 			<artifactId>ecat-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit-dep</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 		</dependency>

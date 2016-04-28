@@ -18,6 +18,7 @@ package org.emonocot.job.dwc.taxon;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import org.emonocot.api.ReferenceService;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -54,6 +56,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 /**
  *
  * @author ben
@@ -69,6 +73,12 @@ public class TaxonImportingIntegrationTest {
 
 	private Logger logger = LoggerFactory.getLogger(TaxonImportingIntegrationTest.class);
 
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
+
 	@Autowired
 	private JobLocator jobLocator;
 
@@ -77,9 +87,6 @@ public class TaxonImportingIntegrationTest {
 	private JobLauncher jobLauncher;
 
 	private Properties properties;
-
-	@Autowired
-	private ReferenceService referenceService;
 
 	/**
 	 * 1288569600 in unix time.
@@ -101,6 +108,10 @@ public class TaxonImportingIntegrationTest {
 		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
 		properties = new Properties();
 		properties.load(propertiesFile.getInputStream());
+		stubFor(get(urlEqualTo("/dwc.zip"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/dwc.zip")));
 	}
 
 	/**
@@ -123,17 +134,12 @@ public class TaxonImportingIntegrationTest {
 	NoSuchJobException, JobExecutionAlreadyRunningException,
 	JobRestartException, JobInstanceAlreadyCompleteException,
 	JobParametersInvalidException {
-		Map<String, JobParameter> parameters =
-				new HashMap<String, JobParameter>();
-		parameters.put("authority.name", new JobParameter(
-				"test"));
-		parameters.put("family", new JobParameter(
-				"Araceae"));
-		parameters.put("taxon.processing.mode", new JobParameter("IMPORT_TAXA_BY_AUTHORITY"));
-		String repository = properties.getProperty("test.resource.baseUrl");
-		parameters.put("authority.uri", new JobParameter(repository + "dwc.zip"));
-		parameters.put("authority.last.harvested",
-				new JobParameter(Long.toString((TaxonImportingIntegrationTest.PAST_DATETIME.getMillis()))));
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
+		parameters.put("taxon.processing.mode", new JobParameter("IMPORT_TAXA"));
+		parameters.put("authority.name", new JobParameter("test"));
+		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/dwc.zip"));
+		parameters.put("authority.last.harvested", new JobParameter(Long.toString((TaxonImportingIntegrationTest.PAST_DATETIME.getMillis()))));
+		parameters.put("resource.id", new JobParameter("123"));
 		JobParameters jobParameters = new JobParameters(parameters);
 
 		Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
@@ -146,9 +152,5 @@ public class TaxonImportingIntegrationTest {
 					+ stepExecution.getFilterCount() + " "
 					+ stepExecution.getWriteCount());
 		}
-
-		//Test namePublishedIn is saved
-		//        assertNotNull("The namePublishedIn should have been saved.",
-		//                referenceService.find("urn:example.com:test:ref:numerouno"));
 	}
 }

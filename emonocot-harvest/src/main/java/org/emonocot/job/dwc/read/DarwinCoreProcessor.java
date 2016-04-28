@@ -40,6 +40,7 @@ import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.emonocot.service.impl.ResourceServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,11 +79,9 @@ ItemProcessor<T, T>, ChunkListener {
 	private int itemsRead;
 
 	private static final String WCS_UNPLACED_IDENTIFIER = "urn:kew.org:wcs:taxon:-9999";
-
-	private ResourceService resourceService;
 	
 	@Value("#{jobParameters['resource.id']}")
-	private String resource_id;
+	private Long resourceId;
 	
 	@Autowired
 	public void setValidator(Validator validator) {
@@ -289,11 +288,6 @@ ItemProcessor<T, T>, ChunkListener {
 		this.taxonService = taxonService;
 	}
 	
-	@Autowired
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
-
 	/**
 	 *
 	 * @return the taxon service set
@@ -307,7 +301,7 @@ ItemProcessor<T, T>, ChunkListener {
 		if(!violations.isEmpty()) {
 			StepExecution stepExecution = this.getStepExecution();
 			RecordType recordType = DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
-			StringBuffer stringBuffer = new StringBuffer();
+			StringBuffer stringBuffer = new StringBuffer(t.getClass() + " has ");
 			stringBuffer.append(violations.size()).append(" constraint violations:");
 			for(ConstraintViolation<T> violation : violations) {
 				stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
@@ -322,10 +316,12 @@ ItemProcessor<T, T>, ChunkListener {
 	 * @return an object of class T
 	 */
 	public T process(T t) throws Exception {
-		logger.debug("resource_id is" + resource_id);
+		logger.debug("resourceId is" + resourceId);
 		logger.debug("object identifer is" + t.getIdentifier());
-		if(resource_id != null){
-			t.setResource(resourceService.load(Long.parseLong(resource_id)));
+		if(resourceId != null){
+			Resource resource = new Resource();
+			resource.setId(resourceId);
+			t.setResource(resource);
 		}
 		this.itemsRead++;
 		return doProcess(t);

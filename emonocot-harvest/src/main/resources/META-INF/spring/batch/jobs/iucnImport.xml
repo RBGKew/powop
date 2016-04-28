@@ -170,14 +170,11 @@
     <property name="subtribe" value="#{jobParameters['subtribe']}"/>
   </bean>
 
-  <bean id="markMeasurementOrFactRecordsTasklet"	class="org.emonocot.job.dwc.read.OwnedRecordAnnotator" scope="step">
+  <bean id="markMeasurementOrFactRecordsTasklet"	class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}" />
-    <property name="annotatedObjType" value="MeasurementOrFact" />
-    <property name="family" value="#{jobParameters['family']}" />
-    <property name="subfamily" value="#{jobParameters['subfamily']}" />
-    <property name="tribe" value="#{jobParameters['tribe']}" />
-    <property name="subtribe" value="#{jobParameters['subtribe']}" />
+    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="annotatedObjectType" value="MeasurementOrFact" />
   </bean>
 
   <bean id="checkEmptyResponseTasklet" class="org.emonocot.job.iucn.CheckEmptyResponseTasklet">

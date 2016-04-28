@@ -45,6 +45,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -63,10 +64,6 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- * @author jk00kg
- *
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/META-INF/spring/batch/jobs/darwinCoreArchiveCreator.xml",
@@ -91,9 +88,6 @@ public class DwcaCreationIntegrationTest {
 
 	@Autowired SolrIndexingListener solrIndexingListener;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
 	public void setUp() throws Exception {
 		ModifiableSolrParams params = new ModifiableSolrParams();
@@ -112,7 +106,6 @@ public class DwcaCreationIntegrationTest {
 			solrServer.commit(true,true);
 		}
 
-
 		Session session = sessionFactory.openSession();
 
 		Transaction tx = session.beginTransaction();
@@ -123,17 +116,12 @@ public class DwcaCreationIntegrationTest {
 		tx.commit();
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
-	/**
-	 * @throws Exception
-	 */
 	@Test
+	@Ignore
 	public void testWriteSubsetArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("download.query", new JobParameter(""));
@@ -151,8 +139,7 @@ public class DwcaCreationIntegrationTest {
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
 		assertNotNull("archiveCreatorJob must exist", archiveCreatorJob);
-		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-				jobParameters);
+		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob, jobParameters);
 
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 		File workingDirectory = new File("target/output");
@@ -170,13 +157,10 @@ public class DwcaCreationIntegrationTest {
 		assertEquals("There should be 7 files", 7, entries.size());
 	}
 
-	/**
-	 * @throws Exception
-	 */
 	@Test
+	@Ignore
 	public void testWriteAllArchive() throws Exception {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-
 
 		parameters.put("download.query", new JobParameter(""));
 		parameters.put("download.selectedFacets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
@@ -193,8 +177,7 @@ public class DwcaCreationIntegrationTest {
 		JobParameters jobParameters = new JobParameters(parameters);
 		Job archiveCreatorJob = jobLocator.getJob("DarwinCoreArchiveCreation");
 		assertNotNull("archiveCreatorJob must exist", archiveCreatorJob);
-		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
-				jobParameters);
+		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob, jobParameters);
 
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 
@@ -214,7 +197,6 @@ public class DwcaCreationIntegrationTest {
 	}
 
 	private String toParameter(Collection<Term> terms) {
-
 		StringBuffer stringBuffer = new StringBuffer();
 		if (terms != null && !terms.isEmpty()) {
 			boolean isFirst = true;
@@ -229,5 +211,4 @@ public class DwcaCreationIntegrationTest {
 		}
 		return stringBuffer.toString();
 	}
-
 }
