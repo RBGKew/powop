@@ -19,18 +19,26 @@ package org.emonocot.model.constants;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.geotools.geometry.jts.JTS;
+import org.geotools.referencing.CRS;
+import org.opengis.geometry.MismatchedDimensionException;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.CoordinateFilter;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
-/**
- *
- * @author ben
- *
- * @param <T>
- */
 public enum Location {
 
+	/*
+	 *  Polygons are envelopes for the regions specified in EPSG:3857.
+	 *  Points are specified as (x, y) [(long, lat)] coordinates
+	 */
 	EUROPE("1",1,0,"TDWG","Europe","POLYGON((-2732035.7132802345 4137942.3699627547,7370519.770783563 4137942.3699627547,7370519.770783563 16048150.912687898,-2732035.7132802345 16048150.912687898,-2732035.7132802345 4137942.3699627547))"),
 	AFRICA("2",2,0,"TDWG","Africa","POLYGON((-3483186.241306008 -4139717.16544481,8070040.318979417 -4139717.16544481,8070040.318979417 4796708.160054236,-3483186.241306008 4796708.160054236,-3483186.241306008 -4139717.16544481))"),
 	ASIA_TEMPERATE("3",3,0,"TDWG","Asia-Temperate","POLYGON((-20034424.167278748 1413248.9697204947,20037497.836455688 1413248.9697204947,20037497.836455688 16850417.3918806,-20034424.167278748 16850417.3918806,-20034424.167278748 1413248.9697204947))"),
@@ -1126,244 +1134,280 @@ public enum Location {
 	 *
 	 * @return the geographical region code
 	 */
-	 public String getCode() {
-		 return code;
-	 }
+	public String getCode() {
+		return code;
+	}
 
-	 @Override
-	 public String toString() {
-		 if(parent != null) {
-			 return parent.toString() + "_" + name();
-		 } else {
-			 return name();
-		 }
-	 }
+	@Override
+	public String toString() {
+		if(parent != null) {
+			return parent.toString() + "_" + name();
+		} else {
+			return name();
+		}
+	}
 
-	 /**
-	  *
-	  * @param other the other region
-	  * @return 1 if other is after this, -1 if other is before this and 0 if
-	  *         other is equal to this
-	  */
-	 public int compareNames(Location other) {
-		 return this.name.compareTo(other.name);
-	 }
+	/**
+	 *
+	 * @param other the other region
+	 * @return 1 if other is after this, -1 if other is before this and 0 if
+	 *         other is equal to this
+	 */
+	public int compareNames(Location other) {
+		return this.name.compareTo(other.name);
+	}
 
-	 /**
-	  *
-	  * @return the feature id
-	  */
-	 public Integer getFeatureId() {
-		 return featureId;
-	 }
+	/**
+	 *
+	 * @return the feature id
+	 */
+	public Integer getFeatureId() {
+		return featureId;
+	}
 
-	 /**
-	  *
-	  * @return the envelope (MBR)
-	  */
-	 public Polygon getEnvelope() {
-		 return envelope;
-	 }
+	/**
+	 *
+	 * @return the envelope (MBR)
+	 */
+	public Polygon getEnvelope() {
+		return envelope;
+	}
 
-	 public Integer getLevel() {
-		 return level;
-	 }
+	/*
+	 * Region polygons are stored in EPSG:3857 (x,y) coordinates. Solr expects geospatial data to be in
+	 * EPSG:4326 (y, x) coordinates.
+	 */
+	public Polygon getEnvelopeForSolr() {
+		try {
+			CoordinateReferenceSystem epsg4326 = CRS.decode("EPSG:4326");
+			CoordinateReferenceSystem epsg3857 = CRS.decode("EPSG:3857");
 
-	 public String getPrefix() {
-		 return prefix;
-	 }
+			MathTransform transform = CRS.findMathTransform(epsg3857, epsg4326);
+			CoordinateFilter coordinateInverter = new CoordinateFilter() {
+				public void filter(Coordinate coord) {
+					double oldX = coord.x;
+					coord.x = coord.y;
+					coord.y = oldX;
+				}
+			};
 
-	 public Location getParent() {
-		 return parent;
-	 }
+			Polygon transformed = (Polygon) JTS.transform(envelope, transform).getEnvelope();
+			transformed.apply(coordinateInverter);
 
-	 public Set<Location> getChildren() {
-		 return children;
-	 }
+			return transformed;
+		} catch (FactoryException | MismatchedDimensionException | TransformException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
 
-	 public boolean isChildOf(Location location) {
-		 switch(level) {
-		 case 0:
-			 return false;
-		 case 1:
-			 switch(location.level) {
-			 case 0:
-				 return parent.equals(location);
-			 case 1:
-				 return false;
-			 case 2:
-				 return false;
-			 case 3:
-				 return false;
-			 }
-		 case 2:
-			 switch(location.level) {
-			 case 0:
-				 return parent.getParent().equals(location);
-			 case 1:
-				 return parent.equals(location);
-			 case 2:
-				 return false;
-			 case 3:
-				 return false;
-			 }
-		 case 3:
-			 switch(location.level) {
-			 case 0:
-				 return parent.getParent().getParent().equals(location);
-			 case 1:
-				 return parent.getParent().equals(location);
-			 case 2:
-				 return parent.equals(location);
-			 case 3:
-				 return false;
-			 }
-		 default:
-			 return false;
-		 }
-	 }
+	public Integer getLevel() {
+		return level;
+	}
 
-	 public Location getContinent() {
-		 switch(level) {
-		 case 0:
-			 return this;
-		 case 1:
-			 return this.parent;
-		 case 2:
-			 return this.parent.parent;
-		 case 3:
-			 return this.parent.parent.parent;
-		 default:
-			 return null;
-		 }
-	 }
+	public String getPrefix() {
+		return prefix;
+	}
 
-	 public Location getRegion() {
-		 switch(level) {
-		 case 0:
-			 return null;
-		 case 1:
-			 return this;
-		 case 2:
-			 return this.parent;
-		 case 3:
-			 return this.parent.parent;
-		 default:
-			 return null;
-		 }
-	 }
+	public Location getParent() {
+		return parent;
+	}
 
-	 public boolean differentContinent(Location location) {
-		 switch(level) {
-		 case 0:
-			 switch(location.level) {
-			 case 0:
-				 return this.equals(location);
-			 case 1:
-				 return this.equals(location.parent);
-			 case 2:
-				 return this.equals(location.parent.parent);
-			 case 3:
-				 return this.equals(location.parent.parent.parent);
-			 }
-		 case 1:
-			 switch(location.level) {
-			 case 0:
-				 return this.parent.equals(location);
-			 case 1:
-				 return this.parent.equals(location.parent);
-			 case 2:
-				 return this.parent.equals(location.parent.parent);
-			 case 3:
-				 return this.parent.equals(location.parent.parent.parent);
-			 }
-		 case 2:
-			 switch(location.level) {
-			 case 0:
-				 return this.parent.parent.equals(location);
-			 case 1:
-				 return this.parent.parent.equals(location.parent);
-			 case 2:
-				 return this.parent.parent.equals(location.parent.parent);
-			 case 3:
-				 return this.parent.parent.equals(location.parent.parent.parent);
-			 }
-		 case 3:
-			 switch(location.level) {
-			 case 0:
-				 return this.parent.parent.parent.equals(location);
-			 case 1:
-				 return this.parent.parent.parent.equals(location.parent);
-			 case 2:
-				 return this.parent.parent.parent.equals(location.parent.parent);
-			 case 3:
-				 return this.parent.parent.parent.equals(location.parent.parent.parent);
-			 }
-		 default:
-			 return false;
-		 }
-	 }
+	public Set<Location> getChildren() {
+		return children;
+	}
 
-	 public boolean differentRegion(Location location) {
-		 switch(level) {
-		 case 0:
-			 return true;
-		 case 1:
-			 switch(location.level) {
-			 case 0:
-				 return true;
-			 case 1:
-				 return this.equals(location);
-			 case 2:
-				 return this.equals(location.parent);
-			 case 3:
-				 return this.equals(location.parent.parent);
-			 }
-		 case 2:
-			 switch(location.level) {
-			 case 0:
-				 return true;
-			 case 1:
-				 return this.parent.equals(location);
-			 case 2:
-				 return this.parent.equals(location.parent);
-			 case 3:
-				 return this.parent.equals(location.parent.parent);
-			 }
-		 case 3:
-			 switch(location.level) {
-			 case 0:
-				 return true;
-			 case 1:
-				 return this.parent.parent.equals(location);
-			 case 2:
-				 return this.parent.parent.equals(location.parent);
-			 case 3:
-				 return this.parent.parent.equals(location.parent.parent);
-			 }
-		 default:
-			 return false;
-		 }
-	 }
+	public boolean isChildOf(Location location) {
+		switch(level) {
+		case 0:
+			return false;
+		case 1:
+			switch(location.level) {
+			case 0:
+				return parent.equals(location);
+			case 1:
+				return false;
+			case 2:
+				return false;
+			case 3:
+				return false;
+			}
+		case 2:
+			switch(location.level) {
+			case 0:
+				return parent.getParent().equals(location);
+			case 1:
+				return parent.equals(location);
+			case 2:
+				return false;
+			case 3:
+				return false;
+			}
+		case 3:
+			switch(location.level) {
+			case 0:
+				return parent.getParent().getParent().equals(location);
+			case 1:
+				return parent.getParent().equals(location);
+			case 2:
+				return parent.equals(location);
+			case 3:
+				return false;
+			}
+		default:
+			return false;
+		}
+	}
 
-	 public static Location fromString(String string) {
-		 for(Location l : Location.values()) {
-			 if(l.code.equals(string)) {
-				 return l;
-			 }
-		 }
-		 throw new IllegalArgumentException(string + " is not a valid TDWG region");
-	 }
+	public Location getContinent() {
+		switch(level) {
+		case 0:
+			return this;
+		case 1:
+			return this.parent;
+		case 2:
+			return this.parent.parent;
+		case 3:
+			return this.parent.parent.parent;
+		default:
+			return null;
+		}
+	}
 
-	 public boolean isSiblingOf(Location location) {
-		 if(level.equals(location.level)) {
-			 if(level == 0) { // top level continents are all siblings
-				 return true;
-			 } else {
-				 return parent.equals(location.getParent());
-			 }
-		 } else {
-			 return false;
-		 }
-	 }
+	public Location getRegion() {
+		switch(level) {
+		case 0:
+			return null;
+		case 1:
+			return this;
+		case 2:
+			return this.parent;
+		case 3:
+			return this.parent.parent;
+		default:
+			return null;
+		}
+	}
+
+	public boolean differentContinent(Location location) {
+		switch(level) {
+		case 0:
+			switch(location.level) {
+			case 0:
+				return this.equals(location);
+			case 1:
+				return this.equals(location.parent);
+			case 2:
+				return this.equals(location.parent.parent);
+			case 3:
+				return this.equals(location.parent.parent.parent);
+			}
+		case 1:
+			switch(location.level) {
+			case 0:
+				return this.parent.equals(location);
+			case 1:
+				return this.parent.equals(location.parent);
+			case 2:
+				return this.parent.equals(location.parent.parent);
+			case 3:
+				return this.parent.equals(location.parent.parent.parent);
+			}
+		case 2:
+			switch(location.level) {
+			case 0:
+				return this.parent.parent.equals(location);
+			case 1:
+				return this.parent.parent.equals(location.parent);
+			case 2:
+				return this.parent.parent.equals(location.parent.parent);
+			case 3:
+				return this.parent.parent.equals(location.parent.parent.parent);
+			}
+		case 3:
+			switch(location.level) {
+			case 0:
+				return this.parent.parent.parent.equals(location);
+			case 1:
+				return this.parent.parent.parent.equals(location.parent);
+			case 2:
+				return this.parent.parent.parent.equals(location.parent.parent);
+			case 3:
+				return this.parent.parent.parent.equals(location.parent.parent.parent);
+			}
+		default:
+			return false;
+		}
+	}
+
+	public boolean differentRegion(Location location) {
+		switch(level) {
+		case 0:
+			return true;
+		case 1:
+			switch(location.level) {
+			case 0:
+				return true;
+			case 1:
+				return this.equals(location);
+			case 2:
+				return this.equals(location.parent);
+			case 3:
+				return this.equals(location.parent.parent);
+			}
+		case 2:
+			switch(location.level) {
+			case 0:
+				return true;
+			case 1:
+				return this.parent.equals(location);
+			case 2:
+				return this.parent.equals(location.parent);
+			case 3:
+				return this.parent.equals(location.parent.parent);
+			}
+		case 3:
+			switch(location.level) {
+			case 0:
+				return true;
+			case 1:
+				return this.parent.parent.equals(location);
+			case 2:
+				return this.parent.parent.equals(location.parent);
+			case 3:
+				return this.parent.parent.equals(location.parent.parent);
+			}
+		default:
+			return false;
+		}
+	}
+
+	public static Location fromString(String string) {
+		for(Location l : Location.values()) {
+			if(l.code.equals(string)) {
+				return l;
+			}
+		}
+		throw new IllegalArgumentException(string + " is not a valid TDWG region");
+	}
+
+	public boolean isSiblingOf(Location location) {
+		if(level.equals(location.level)) {
+			if(level == 0) { // top level continents are all siblings
+				return true;
+			} else {
+				return parent.equals(location.getParent());
+			}
+		} else {
+			return false;
+		}
+	}
+
+	private static class InvertCoordinateFilter implements CoordinateFilter {
+		public void filter(Coordinate coord) {
+			double oldX = coord.x;
+			coord.x = coord.y;
+			coord.y = oldX;
+		}
+	}
 }

@@ -41,6 +41,8 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -54,6 +56,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 	"/META-INF/spring/batch/jobs/reindex.xml",
 	"/META-INF/spring/applicationContext-integration.xml",
 "/META-INF/spring/applicationContext-test.xml" })
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class ReIndexingJobIntegrationTest {
 
 	private Logger logger = LoggerFactory.getLogger(ReIndexingJobIntegrationTest.class);

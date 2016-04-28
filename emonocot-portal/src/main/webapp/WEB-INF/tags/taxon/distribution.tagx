@@ -20,37 +20,37 @@
 					<c:set var="hasIntroducedDistribution" value="false"/>
 					<div id="map-wrapper">
 						<geo:map bounds="${em:boundingBox(taxon,present)}"	mapClass="taxon-page-map">
-							<c:if test="${em:hasLevel1Features(taxon,present,nativ)}">
+							<c:if test="${em:hasLevelFeatures(1,taxon,present,nativ)}">
 								<c:set var="hasNativeDistribution" value="true"/>
-								<geo:layer name="level1_native" layer="tdwg:level1" style="eMonocot1_native" featureId="${em:getLevel1Features(taxon,present,nativ)}" />
+								<geo:layer name="level1_native" layer="tdwg:level1" style="eMonocot1_native" featureId="${em:getLevelFeatures(1,taxon,present,nativ)}" />
 							</c:if>
-							<c:if test="${em:hasLevel1Features(taxon,present,introduced)}">
+							<c:if test="${em:hasLevelFeatures(1,taxon,present,introduced)}">
 								<c:set var="hasIntroducedDistribution" value="true"/>
-								<geo:layer name="level1_introduced" layer="tdwg:level1" style="eMonocot1_introduced" featureId="${em:getLevel1Features(taxon,present,introduced)}" />
+								<geo:layer name="level1_introduced" layer="tdwg:level1" style="eMonocot1_introduced" featureId="${em:getLevelFeatures(1,taxon,present,introduced)}" />
 							</c:if>
-							<c:if test="${em:hasLevel2Features(taxon,present,nativ)}">
+							<c:if test="${em:hasLevelFeatures(2,taxon,present,nativ)}">
 								<c:set var="hasNativeDistribution" value="true"/>
-								<geo:layer name="level2_native" layer="tdwg:level2" style="eMonocot2_native" featureId="${em:getLevel2Features(taxon,present,nativ)}" />
+								<geo:layer name="level2_native" layer="tdwg:level2" style="eMonocot2_native" featureId="${em:getLevelFeatures(2,taxon,present,nativ)}" />
 							</c:if>
-							<c:if test="${em:hasLevel2Features(taxon,present,introduced)}">
+							<c:if test="${em:hasLevelFeatures(2,taxon,present,introduced)}">
 								<c:set var="hasIntroducedDistribution" value="true"/>
-								<geo:layer name="level2_introduced" layer="tdwg:level2" style="eMonocot2_introduced" featureId="${em:getLevel2Features(taxon,present,introduced)}" />
+								<geo:layer name="level2_introduced" layer="tdwg:level2" style="eMonocot2_introduced" featureId="${em:getLevelFeatures(2,taxon,present,introduced)}" />
 							</c:if>
-							<c:if test="${em:hasLevel3Features(taxon,present,nativ)}">
+							<c:if test="${em:hasLevelFeatures(3,taxon,present,nativ)}">
 								<c:set var="hasNativeDistribution" value="true"/>
-								<geo:layer name="level3_native" layer="tdwg:level3" style="eMonocot3_native" featureId="${em:getLevel3Features(taxon,present,nativ)}" />
+								<geo:layer name="level3_native" layer="tdwg:level3" style="eMonocot3_native" featureId="${em:getLevelFeatures(3,taxon,present,nativ)}" />
 							</c:if>
-							<c:if test="${em:hasLevel3Features(taxon,present,introduced)}">
+							<c:if test="${em:hasLevelFeatures(4,taxon,present,introduced)}">
 								<c:set var="hasIntroducedDistribution" value="true"/>
-								<geo:layer name="level3_introduced" layer="tdwg:level3" style="eMonocot3_introduced" featureId="${em:getLevel3Features(taxon,present,introduced)}" />
+								<geo:layer name="level3_introduced" layer="tdwg:level3" style="eMonocot3_introduced" featureId="${em:getLevelFeatures(4,taxon,present,introduced)}" />
 							</c:if>
-							<c:if test="${em:hasLevel4Features(taxon,present,nativ)}">
+							<c:if test="${em:hasLevelFeatures(4,taxon,present,nativ)}">
 								<c:set var="hasNativeDistribution" value="true"/>
-								<geo:layer name="level4_native" layer="tdwg:level4" style="eMonocot4_native" featureId="${em:getLevel4Features(taxon,present,nativ)}" />
+								<geo:layer name="level4_native" layer="tdwg:level4" style="eMonocot4_native" featureId="${em:getLevelFeatures(4,taxon,present,nativ)}" />
 							</c:if>
-							<c:if test="${em:hasLevel4Features(taxon,present,introduced)}">
+							<c:if test="${em:hasLevelFeatures(4,taxon,present,introduced)}">
 								<c:set var="hasIntroducedDistribution" value="true"/>
-								<geo:layer name="level4_introduced" layer="tdwg:level4" style="eMonocot4_introduced" featureId="${em:getLevel4Features(taxon,present,introduced)}" />
+								<geo:layer name="level4_introduced" layer="tdwg:level4" style="eMonocot4_introduced" featureId="${em:getLevelFeatures(4,taxon,present,introduced)}" />
 							</c:if>
 							<c:if test="${not empty taxon.typesAndSpecimens}">
 								<geo:vector_layer typesAndSpecimens="${taxon.typesAndSpecimens}" name="typesAndSpecimens" />

@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
-			@RequestParam(value = "view", required = false) String view) throws SolrServerException {
+			@RequestParam(value = "view", required = false) String view) throws SolrServerException, IOException {
 
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {

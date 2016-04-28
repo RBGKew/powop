@@ -6,7 +6,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.emonocot.model.*;
 import org.emonocot.job.delete.GenericHibernateDeleter;
 
@@ -14,7 +14,7 @@ public class HibernateDeletingTasklet implements Tasklet{
 
 	private SessionFactory sessionFactory;
 	
-	private SolrServer solrServer;
+	private SolrClient solrClient;
 	
 	private GenericHibernateDeleter<Taxon> taxonDeleter = new GenericHibernateDeleter<Taxon>();
 	
@@ -49,8 +49,8 @@ public class HibernateDeletingTasklet implements Tasklet{
 	
 	
 	@Autowired
-	public void setSolrServer(SolrServer solrServer) {
-		this.solrServer = solrServer;
+	public void setSolrServer(SolrClient solrClient) {
+		this.solrClient = solrClient;
 	}
 
 
@@ -64,19 +64,19 @@ public class HibernateDeletingTasklet implements Tasklet{
 		String resource_id = (String) chunkcontext.getStepContext().getStepExecution()
                 .getJobExecution().getJobInstance().getJobParameters().getString("resource_id");
 		
-		taxonDeleter.Delete(sessionFactory, Taxon.class, resource_id, "Taxon", solrServer);
-		descriptionDeleter.Delete(sessionFactory, Description.class, resource_id, "Description", solrServer);
-		conceptDeleter.Delete(sessionFactory, Concept.class, resource_id, "Concept", solrServer);
-		distributionDeleter.Delete(sessionFactory, Distribution.class, resource_id, "Distribution", solrServer);
-		identificationKeyDeleter.Delete(sessionFactory, IdentificationKey.class, resource_id, "IdentificationKey", solrServer);
-		identifierDeleter.Delete(sessionFactory, Identifier.class, resource_id, "Identifier", solrServer);
-		imageDeleter.Delete(sessionFactory, Image.class, resource_id, "Image", solrServer);
-		measurementorFactDeleter.Delete(sessionFactory, MeasurementOrFact.class, resource_id, "MeasurementOrFact", solrServer);
-		phylogenetictreeDeleter.Delete(sessionFactory, PhylogeneticTree.class, resource_id, "PhylogeneticTree", solrServer);
-		placeDeleter.Delete(sessionFactory, Place.class, resource_id, "Place", solrServer);
-		referenceDeleter.Delete(sessionFactory, Reference.class, resource_id, "Reference", solrServer);
-		typeandspecimenDeleter.Delete(sessionFactory, TypeAndSpecimen.class, resource_id, "TypeAndSpecimen", solrServer);
-		vernacularnameDeleter.Delete(sessionFactory, VernacularName.class, resource_id, "VernacularName", solrServer);
+		taxonDeleter.Delete(sessionFactory, Taxon.class, resource_id, "Taxon", solrClient);
+		descriptionDeleter.Delete(sessionFactory, Description.class, resource_id, "Description", solrClient);
+		conceptDeleter.Delete(sessionFactory, Concept.class, resource_id, "Concept", solrClient);
+		distributionDeleter.Delete(sessionFactory, Distribution.class, resource_id, "Distribution", solrClient);
+		identificationKeyDeleter.Delete(sessionFactory, IdentificationKey.class, resource_id, "IdentificationKey", solrClient);
+		identifierDeleter.Delete(sessionFactory, Identifier.class, resource_id, "Identifier", solrClient);
+		imageDeleter.Delete(sessionFactory, Image.class, resource_id, "Image", solrClient);
+		measurementorFactDeleter.Delete(sessionFactory, MeasurementOrFact.class, resource_id, "MeasurementOrFact", solrClient);
+		phylogenetictreeDeleter.Delete(sessionFactory, PhylogeneticTree.class, resource_id, "PhylogeneticTree", solrClient);
+		placeDeleter.Delete(sessionFactory, Place.class, resource_id, "Place", solrClient);
+		referenceDeleter.Delete(sessionFactory, Reference.class, resource_id, "Reference", solrClient);
+		typeandspecimenDeleter.Delete(sessionFactory, TypeAndSpecimen.class, resource_id, "TypeAndSpecimen", solrClient);
+		vernacularnameDeleter.Delete(sessionFactory, VernacularName.class, resource_id, "VernacularName", solrClient);
 		
 		return null;
 	}

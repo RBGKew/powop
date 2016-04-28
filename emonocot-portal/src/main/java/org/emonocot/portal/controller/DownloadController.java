@@ -17,6 +17,7 @@
 package org.emonocot.portal.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -157,7 +158,7 @@ public class DownloadController {
 			@RequestParam(value = "x2", required = false) Double x2,
 			@RequestParam(value = "y2", required = false) Double y2,
 			Principal principal,
-			Model model) throws SolrServerException {
+			Model model) throws SolrServerException, IOException {
 
 		User requestingUser = userService.load(principal.getName());
 
@@ -214,7 +215,7 @@ public class DownloadController {
 			@RequestParam(value="downloadFormat", required = true) String downloadFormat,
 			@RequestParam(value = "archiveOptions", required = false) List<String> archiveOptions,
 			RedirectAttributes redirectAttributes,
-			Principal principal) throws SolrServerException {
+			Principal principal) throws SolrServerException, IOException {
 
 		User user = userService.load(principal.getName());
 

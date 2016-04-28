@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import com.spatial4j.core.context.jts.JtsSpatialContext;
+import com.spatial4j.core.context.jts.JtsSpatialContextFactory;
 import com.spatial4j.core.shape.Shape;
 import com.spatial4j.core.shape.jts.JtsGeometry;
 import com.vividsolutions.jts.geom.Geometry;
@@ -55,7 +56,9 @@ public class JtsGeometryTest {
 	 */
 	@Test
 	public void testCountries() throws Exception {
-		JtsSpatialContext ctx = new JtsSpatialContext(false);
+		JtsSpatialContextFactory factory = new JtsSpatialContextFactory();
+		factory.geo = false;
+		JtsSpatialContext ctx = new JtsSpatialContext(factory);
 		SampleDataReader sampleDataReader = new SampleDataReader(countriesResource.getInputStream());
 		WKTReader wktreader = new WKTReader();
 		WKTWriter wktWriter = new WKTWriter();
@@ -69,7 +72,7 @@ public class JtsGeometryTest {
 			}
 
 
-			Shape shape = new JtsGeometry(geom, ctx, true);
+			Shape shape = new JtsGeometry(geom, ctx, true, false);
 		}
 	}
 
@@ -82,7 +85,9 @@ public class JtsGeometryTest {
 	 */
 	@Test
 	public void testRegions() throws Exception {
-		JtsSpatialContext ctx = new JtsSpatialContext(false);
+		JtsSpatialContextFactory factory = new JtsSpatialContextFactory();
+		factory.geo = false;
+		JtsSpatialContext ctx = new JtsSpatialContext(factory);
 		SampleDataReader sampleDataReader = new SampleDataReader(regionsResource.getInputStream());
 		WKTReader wktreader = new WKTReader();
 		WKTWriter wktwriter = new WKTWriter();
@@ -95,14 +100,16 @@ public class JtsGeometryTest {
 				logger.warn(sampleData.name + " is not valid");
 			}
 
-			Shape shape = new JtsGeometry(geom, ctx, true);
+			Shape shape = new JtsGeometry(geom, ctx, true, false);
 		}
 	}
 
 	@Ignore
 	@Test
 	public void testContinents() throws Exception {
-		JtsSpatialContext ctx = new JtsSpatialContext(false);
+		JtsSpatialContextFactory factory = new JtsSpatialContextFactory();
+		factory.geo = false;
+		JtsSpatialContext ctx = new JtsSpatialContext(factory);
 		SampleDataReader sampleDataReader = new SampleDataReader(continentsResource.getInputStream());
 		WKTReader wktreader = new WKTReader();
 		WKTWriter wktwriter = new WKTWriter();
@@ -116,13 +123,13 @@ public class JtsGeometryTest {
 			}
 
 			if(false) {
-				Shape shape = new JtsGeometry(TopologyPreservingSimplifier.simplify(geom,0.1), ctx, true);
+				Shape shape = new JtsGeometry(TopologyPreservingSimplifier.simplify(geom,0.1), ctx, true, false);
 				logger.debug(sampleData.code + " " + wktwriter.write(TopologyPreservingSimplifier.simplify(geom,0.1)));
 			} else if (sampleData.code.equals("1")) {
 
 			} else {
 				logger.debug(sampleData.code);
-				Shape shape = new JtsGeometry(geom, ctx, true);
+				Shape shape = new JtsGeometry(geom, ctx, true, false);
 			}
 		}
 	}
@@ -130,7 +137,9 @@ public class JtsGeometryTest {
 	@Test
 	@Ignore
 	public void testSimplifyLevel4() throws Exception {
-		JtsSpatialContext ctx = new JtsSpatialContext(false);
+		JtsSpatialContextFactory factory = new JtsSpatialContextFactory();
+		factory.geo = false;
+		JtsSpatialContext ctx = new JtsSpatialContext(factory);
 		SampleDataReader sampleDataReader = new SampleDataReader(level4Resource.getInputStream());
 		PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter("level4_simplified.txt")));
 		WKTReader wktreader = new WKTReader();

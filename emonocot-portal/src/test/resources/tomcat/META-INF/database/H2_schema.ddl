@@ -66,6 +66,8 @@ drop table if exists VernacularName;
 create table VernacularName (id bigint not null, identifier varchar(255), accessRights varchar(255), created timestamp, creator varchar(255), license varchar(255), modified timestamp, rights clob, rightsHolder varchar(255), countryCode varchar(255), language varchar(255), lifeStage varchar(255), locality varchar(255), location varchar(255), organismPart varchar(255), plural boolean, preferredName boolean, sex varchar(255), source varchar(255), taxonRemarks varchar(255), temporal varchar(255), vernacularName varchar(255), authority_id bigint, taxon_id bigint, primary key (id), unique (identifier));
 drop table if exists Identification;
 create table Identification (id bigint not null, dateIdentified timestamp, identificationQualifier varchar(255), identificationReferences varchar(255), identificationRemarks varchar(255), identificationVerificationStatus varchar(255), identifiedBy varchar(255), identifier varchar(255), taxon_id bigint(20), typeStatus varchar(255), license varchar(255), created timestamp, modified timestamp, accessRights varchar(255), rights clob, rightsHolder varchar(255), authority_id bigint, uri varchar(255), resource_id bigint, primary key (id), unique (identifier));
+drop table if exists Description_types;
+create table Description_types (description_id bigint, type varchar(255));
 alter table Annotation add constraint FK1A21C74FCF3DA2C4 foreign key (authority_id) references Organisation;
 alter table Comment add constraint FKC35AE4F16C64D29C foreign key (authority_id) references Organisation;
 alter table Comment_alternativeIdentifiers add constraint FK7B63B2A45090CB20 foreign key (Comment_id) references Comment;

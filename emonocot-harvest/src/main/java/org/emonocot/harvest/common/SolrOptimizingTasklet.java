@@ -16,7 +16,7 @@
  */
 package org.emonocot.harvest.common;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.request.CoreAdminRequest;
 import org.apache.solr.client.solrj.response.CoreAdminResponse;
 import org.apache.solr.common.util.NamedList;
@@ -35,7 +35,7 @@ public class SolrOptimizingTasklet implements Tasklet {
 
 	private Integer maxSegments;
 
-	private SolrServer solrServer;
+	private SolrClient solrClient;
 
 	public void setCore(String core) {
 		this.core = core;
@@ -45,15 +45,16 @@ public class SolrOptimizingTasklet implements Tasklet {
 		this.maxSegments = maxSegments;
 	}
 
-	public void setSolrServer(SolrServer solrServer) {
-		this.solrServer = solrServer;
+	public void setSolrServer(SolrClient solrServer) {
+		this.solrClient = solrServer;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public RepeatStatus execute(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 
-		CoreAdminResponse coreAdminResponse = CoreAdminRequest.getStatus(core, solrServer);
+		CoreAdminResponse coreAdminResponse = CoreAdminRequest.getStatus(core, solrClient);
 		NamedList<Object> index = (NamedList<Object>)coreAdminResponse.getCoreStatus(core).get("index");
 		Integer segmentCount = (Integer)index.get("segmentCount");
 
@@ -61,7 +62,7 @@ public class SolrOptimizingTasklet implements Tasklet {
 			logger.debug("Core " + core + " only has " + segmentCount + " segments, skipping optimization");
 		} else {
 			logger.debug("Core " + core + " has " + segmentCount + " segments, starting optimization");
-			solrServer.optimize(true, true);
+			solrClient.optimize(true, true);
 			logger.debug("Core " + core + " optimized");
 		}
 

@@ -61,7 +61,7 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 
 	@Override
 	protected void doValidate(Description t) {
-		if (t.getType() == null) {
+		if (t.getTypes() == null) {
 			throw new RequiredFieldException("Description " + t + " at line " + getLineNumber()  + " has no Feature set", RecordType.Description, getStepExecution().getReadCount());
 		}
 
@@ -78,7 +78,7 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 		persisted.setDescription(t.getDescription());
 		persisted.setLanguage(t.getLanguage());
 		persisted.setSource(t.getSource());
-		persisted.setType(t.getType());
+		persisted.setTypes(t.getTypes());
 
 		persisted.getReferences().clear();
 		for(Reference r : t.getReferences()) {

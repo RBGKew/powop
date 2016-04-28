@@ -37,12 +37,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.DescriptionType;
-import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
@@ -312,7 +310,7 @@ public class Image extends Multimedia {
 			.append(" ").append(getTaxon().getSubtribe())
 			.append(" ").append(getTaxon().getTribe());
 		}
-		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("searchable.solrsummary_t", summary.toString());
 		return sid;
 	}
 

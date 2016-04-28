@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -103,7 +103,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 	UserDao userDao;
 
 	@Autowired
-	SolrServer solrServer;
+	SolrClient solrServer;
 
 	/**
 	 * @param task

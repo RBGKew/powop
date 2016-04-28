@@ -50,7 +50,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Entity
 public class Reference extends BaseData implements NonOwned {
 
-	private static long serialVersionUID = -5928234699377084008L;
+	private static final long serialVersionUID = -5928234699377084008L;
 
 	private String title;
 

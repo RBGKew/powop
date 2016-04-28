@@ -16,6 +16,7 @@
  */
 package org.emonocot.harvest.common;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class SolrDocumentItemReader extends AbstractPagingItemReader<SolrDocumen
 	protected void doReadPage() {
 		try {
 			results = searchableObjectService.searchForDocuments(queryString, getPageSize(), getPage(), selectedFacets, sort).getRecords();
-		} catch (SolrServerException sse) {
+		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);
 		}
 

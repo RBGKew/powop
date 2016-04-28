@@ -6,23 +6,11 @@
   <changeSet id="2016-02-17_01" author="ji10kg">
     <comment>Add new Audubon media fields to image</comment>
     <addColumn tableName="image">
-      <column name="accessUri" type="varchar(255)"/>
-      <column name="associatedObservationReference" type="varchar(255)"/>
-      <column name="associatedSpecimenReference" type="varchar(255)"/>
-      <column name="caption" type="varchar(255)"/>
-      <column name="countryCode" type="varchar(255)"/>
-      <column name="countryName" type="varchar(255)"/>
-      <column name="pixelXDimension" type="int"/>
-      <column name="pixelYDimension" type="int"/>
-      <column name="providerManagedId" type="varchar(255)"/>
-      <column name="provinceState" type="varchar(255)"/>
-      <column name="rating" type="double"/>
-      <column name="subType" type="varchar(255)"/>
-      <column name="subjectCategoryVocabulary" type="varchar(255)" />
-      <column name="sublocation" type="varchar(255)"/>
-      <column name="taxonCoverage_id" type="bigint"/>
-      <column name="type" type="varchar(255)" />
-      <column name="worldRegion" type="varchar(255)"/>
+       <column name="associatedObservationReference" type="varchar(255)"/>
+       <column name="associatedSpecimenReference" type="varchar(255)"/>
+       <column name="caption" type="varchar(255)"/>
+       <column name="providerManagedId" type="varchar(255)"/>
+       <column name="taxonCoverage_id" type="bigint"/>
     </addColumn>
   </changeSet>
 
@@ -31,11 +19,42 @@
     <dropColumn tableName="image" columnName="image_id"/>
   </changeSet>
 
-  <changeSet id="2016-03-01_01" author="jc20kg">
-    <comment>Create image/subject part table</comment>
-    <createTable tableName="image_SubjectPart">
-      <column name="image_id" type="bigint"/>
-      <column name="subjectPart" type="varchar(255)"/>
+	<changeSet id="2016-03-01_01" author="jc20kg">
+	<createTable tableName="image_SubjectPart">
+			<column name="image_id" type="bigint">
+      		</column>
+      		<column name="subjectPart" type="varchar(255)">
+      		</column>
+    	</createTable>
+    </changeSet>
+    
+  <changeSet id="2016-03-2_01" author="jc20kg">
+    <comment>AcessUri field</comment>
+    <addColumn tableName="image" >
+    	<column name="accessUri" type="varchar(255)"/>
+    	<column name="subType" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
+  
+  <changeSet id="2016-03-14_01" author="jc20kg" >
+  	<comment> added extra audobon fields</comment>
+  	<addColumn tableName="image" >
+  		<column name="worldRegion" type="varchar(255)"/>
+  		<column name="countryCode" type="varchar(255)"/>
+  		<column name="countryName" type="varchar(255)"/>
+  		<column name="provinceState" type="varchar(255)"/>
+  		<column name="sublocation" type="varchar(255)"/>
+  		<column name="PixelXDimension" type="int"/>
+  		<column name="PixelYDimension" type="int"/>
+  		<column name="Rating" type="int"/>
+  	</addColumn>
+  </changeSet>
+
+  <changeSet id="2016-04-13_01" author="ji10kg">
+    <comment>New table description_types</comment>
+    <createTable tableName="description_types">
+      <column name="description_id" type="bigint" />
+      <column name="type" type="varchar(255)" />
     </createTable>
   </changeSet>
 </databaseChangeLog>

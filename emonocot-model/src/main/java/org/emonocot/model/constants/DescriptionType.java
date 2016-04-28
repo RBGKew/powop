@@ -16,10 +16,6 @@
  */
 package org.emonocot.model.constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @see http://rs.gbif.org/vocabulary/gbif/descriptionType
  */
@@ -67,11 +63,10 @@ public enum DescriptionType {
 
 	// non-standard description types
 	concept("concept"),
-	fern("fern"),
+	constructionalOrganisationGrowth("constructionalOrganisation:growth"),
 	figures("figures"),
 	floralDiagram("floralDiagram"),
 	generalMorphology("generalMorphology"),
-	generalMorphologyWood("generalMorphology:Wood"),
 	generalMorphologyAreoles("generalMorphology:areoles"),
 	generalMorphologyBuds("generalMorphology:buds"),
 	generalMorphologyColleters("generalMorphology:colleters"),
@@ -80,12 +75,11 @@ public enum DescriptionType {
 	generalMorphologyGlands("generalMorphology:glands"),
 	generalMorphologyHabit("generalMorphology:habit"),
 	generalMorphologyIndumentum("generalMorphology:indumentum"),
-	generalMorphologyScales("generalMorphology:scales"),
-	generalMorphologySclaes("generalMorphology:sclaes"),
 	generalMorphologySpines("generalMorphology:spines"),
 	generalMorphologyTendrils("generalMorphology:tendrils"),
 	generalMorphologyThallus("generalMorphology:thallus"),
 	generalMorphologyTraps("generalMorphology:traps"),
+	generalMorphologyWood("generalMorphology:wood"),
 	glossary("glossary"),
 	leafMorphology("leafMorphology"),
 	leafMorphologyLamina("leafMorphology:lamina"),
@@ -93,16 +87,14 @@ public enum DescriptionType {
 	leafMorphologyLaminaVenation("leafMorphology:lamina:venation"),
 	leafMorphologyLeafSheaths("leafMorphology:leaf-sheaths"),
 	leafMorphologyLigule("leafMorphology:ligule"),
-	leafMorphologyLigules("leafMorphology:ligules"),
 	leafMorphologyOcrea("leafMorphology:ocrea"),
 	leafMorphologyPetiole("leafMorphology:petiole"),
+	leafMorphologyScaleLeaves("leafMorphology:scaleLeaves"),
 	leafMorphologyStipules("leafMorphology:stipules"),
 	note("note"),
 	reference("reference"),
 	reproductiveMorphology("reproductiveMorphology"),
 	reproductiveMorphologyCones("reproductiveMorphology:cones"),
-	reproductiveMorphologyConesFemale("reproductiveMorphology:cones:female"),
-	reproductiveMorphologyConesMale("reproductiveMorphology:cones:male"),
 	reproductiveMorphologyFlowers("reproductiveMorphology:flowers"),
 	reproductiveMorphologyFlowersAndroecium("reproductiveMorphology:flowers:androecium"),
 	reproductiveMorphologyFlowersAndrogynophore("reproductiveMorphology:flowers:androgynophore"),
@@ -112,25 +104,11 @@ public enum DescriptionType {
 	reproductiveMorphologyFlowersColumn("reproductiveMorphology:flowers:column"),
 	reproductiveMorphologyFlowersCorolla("reproductiveMorphology:flowers:corolla"),
 	reproductiveMorphologyFlowersCorona("reproductiveMorphology:flowers:corona"),
-	reproductiveMorphologyFlowersDisc("reproductiveMorphology:flowers:disc"),
 	reproductiveMorphologyFlowersEpicalyx("reproductiveMorphology:flowers:epicalyx"),
-	reproductiveMorphologyFlowersFemale("reproductiveMorphology:flowers:female"),
-	reproductiveMorphologyFlowersFemaleCalyx("reproductiveMorphology:flowers:female:calyx"),
-	reproductiveMorphologyFlowersFemaleCorolla("reproductiveMorphology:flowers:female:corolla"),
-	reproductiveMorphologyFlowersFemaleGynoecium("reproductiveMorphology:flowers:female:gynoecium"),
-	reproductiveMorphologyFlowersFemalePerianth("reproductiveMorphology:flowers:female:perianth"),
-	reproductiveMorphologyFlowersFemaleReceptacle("reproductiveMorphology:flowers:female:receptacle"),
-	reproductiveMorphologyFlowersFemaleSterileParts("reproductiveMorphology:flowers:female:sterileParts"),
 	reproductiveMorphologyFlowersGynoecium("reproductiveMorphology:flowers:gynoecium"),
 	reproductiveMorphologyFlowersGynophore("reproductiveMorphology:flowers:gynophore"),
-	reproductiveMorphologyFlowersHermaphrodite("reproductiveMorphology:flowers:hermaphrodite"),
 	reproductiveMorphologyFlowersHypanthium("reproductiveMorphology:flowers:hypanthium"),
 	reproductiveMorphologyFlowersLodicules("reproductiveMorphology:flowers:lodicules"),
-	reproductiveMorphologyFlowersMale("reproductiveMorphology:flowers:male"),
-	reproductiveMorphologyFlowersMaleAndroecium("reproductiveMorphology:flowers:male:androecium"),
-	reproductiveMorphologyFlowersMaleBuds("reproductiveMorphology:flowers:male:buds"),
-	reproductiveMorphologyFlowersMaleCalyx("reproductiveMorphology:flowers:male:calyx"),
-	reproductiveMorphologyFlowersMaleCorolla("reproductiveMorphology:flowers:male:corolla"),
 	reproductiveMorphologyFlowersNectaries("reproductiveMorphology:flowers:nectaries"),
 	reproductiveMorphologyFlowersPedicel("reproductiveMorphology:flowers:pedicel"),
 	reproductiveMorphologyFlowersPerianth("reproductiveMorphology:flowers:perianth"),
@@ -139,21 +117,15 @@ public enum DescriptionType {
 	reproductiveMorphologyFruits("reproductiveMorphology:fruits"),
 	reproductiveMorphologyGermination("reproductiveMorphology:germination"),
 	reproductiveMorphologyInflorescences("reproductiveMorphology:inflorescences"),
-	reproductiveMorphologyInflorescencesBracteole("reproductiveMorphology:inflorescences:bracteole"),
 	reproductiveMorphologyInflorescencesBracts("reproductiveMorphology:inflorescences:bracts"),
-	reproductiveMorphologyInflorescencesFemale("reproductiveMorphology:inflorescences:female"),
-	reproductiveMorphologyInflorescencesMale("reproductiveMorphology:inflorescences:male"),
 	reproductiveMorphologyInflorescencesPeduncle("reproductiveMorphology:inflorescences:peduncle"),
 	reproductiveMorphologyInflorescencesScape("reproductiveMorphology:inflorescences:scape"),
 	reproductiveMorphologyInflorescencesSpikelets("reproductiveMorphology:inflorescences:spikelets"),
-	reproductiveMorphologyInflorescencesSpikeletsFemale("reproductiveMorphology:inflorescences:spikelets:female"),
-	reproductiveMorphologyInflorescencesSpikeletsMale("reproductiveMorphology:inflorescences:spikelets:male"),
 	reproductiveMorphologyInflorescencesSpikeletsPedicelled("reproductiveMorphology:inflorescences:spikelets:pedicelled"),
 	reproductiveMorphologyInflorescencesSpikeletsSessile("reproductiveMorphology:inflorescences:spikelets:sessile"),
 	reproductiveMorphologyInflorescencesSpikeletsSubsessile("reproductiveMorphology:inflorescences:spikelets:subsessile"),
 	reproductiveMorphologyInfructescences("reproductiveMorphology:infructescences"),
 	reproductiveMorphologySeeds("reproductiveMorphology:seeds"),
-	reproductiveMorphologyStaminodes("reproductiveMorphology:staminodes"),
 	rootMorphology("rootMorphology"),
 	stemMorphology("stemMorphology"),
 	stemMorphologyCladodes("stemMorphology:cladodes"),
@@ -163,7 +135,12 @@ public enum DescriptionType {
 	vegetativeMultiplicationCorms("vegetativeMultiplication:corms"),
 	vegetativeMultiplicationPseudobulbs("vegetativeMultiplication:pseudobulbs"),
 	vegetativeMultiplicationRhizome("vegetativeMultiplication:rhizome"),
-	vegetativeMultiplicationTubers("vegetativeMultiplication:tubers");
+	vegetativeMultiplicationTubers("vegetativeMultiplication:tubers"),
+
+	// Second level non-standard types. They are separated so that they sort after everything else
+	sexHermaphrodite("sex:hermaphrodite"),
+	sexFemale("sex:female"),
+	sexMale("sex:male");
 
 	public static final DescriptionType generalDescriptionType = habit;
 

@@ -16,6 +16,7 @@
  */
 package org.emonocot.job.taxonmatch;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -126,7 +127,7 @@ public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 		Page<SearchableObject> page;
 		try {
 			page = searchableObjectService.search(searchTerm, null, null, null, null, null, selectedFacets, null, null);
-		} catch (SolrServerException sse) {
+		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);
 		}
 

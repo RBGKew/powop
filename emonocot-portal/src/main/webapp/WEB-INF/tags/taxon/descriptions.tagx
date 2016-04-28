@@ -31,33 +31,31 @@
                 <c:if test="${not empty detailedDescriptions}">
                   <button data-toggle="collapse" type="button" href="#${descId}" class="more-details">More Details ››</button>
                   <div class="collapse" id="${descId}">
-                    <table>
-                    	<tbody>
-                      <c:forEach var="descriptions" items="${detailedDescriptions}">
-                      	<tr class="description-table-row">
-                        	<th class="${descriptions.key} description-table-heading"><spring:message code="${descriptions.key}" /></th>
-	                        <c:set var="image" value="${em:getImageofType(taxon, descriptions.key)}" />
-	                        <c:choose>
-		                        <c:when test="${not empty image}">
-		                        	<td class="description-table-text">
-		                          		<c:forEach var="description" items="${descriptions.value}">
-		                           		 	${description.description}.
-		                            		<taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" />
-		                          		</c:forEach>
-		                        	</td>
-		                        	<td><images:thumbnail image="${image}" /></td>
-		                        </c:when>
-		                       	<c:otherwise>
-		                          		<td class="description-table-text" colspan="2">
-		                         			<c:forEach var="description" items="${descriptions.value}">
-		                            			${description.description}.
-		                            			<taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" />
-		                          			</c:forEach>
-		                       			 </td>
-		                        	</c:otherwise>
-	                        </c:choose>
-                        </tr>
-                      </c:forEach>
+                    <table class="description-table">
+                      <tbody>
+                        <c:forEach var="descriptions" items="${detailedDescriptions}">
+                          <tr>
+                            <th class="${descriptions.key}"><spring:message code="${descriptions.key}" /></th>
+                            <c:set var="image" value="${em:getImageofType(taxon, descriptions.key)}" />
+                            <c:choose>
+                              <c:when test="${not empty image}">
+                                <td>
+                                  <c:forEach var="description" items="${descriptions.value}">
+                                    <p>${description.description} <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" /></p>
+                                  </c:forEach>
+                                </td>
+                                <td><images:thumbnail image="${image}" /></td>
+                              </c:when>
+                              <c:otherwise>
+                                <td colspan="2">
+                                  <c:forEach var="description" items="${descriptions.value}">
+                                    <p>${description.description} <taxon:descriptionCitation provenance="${provenance}" bibliography="${bibliography}" description="${description}" /></p>
+                                  </c:forEach>
+                                </td>
+                              </c:otherwise>
+                            </c:choose>
+                          </tr>
+                        </c:forEach>
                       </tbody>
                     </table>
                   </div>

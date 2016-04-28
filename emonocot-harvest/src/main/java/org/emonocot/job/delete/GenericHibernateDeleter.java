@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.model.Taxon;
 import org.hibernate.Query;
@@ -31,7 +31,7 @@ public class GenericHibernateDeleter<T>{
 		
 	}
 	
-	public void Delete(SessionFactory sessionFactory, Class<T> clazz, String resource_id, String type, SolrServer solrServer){
+	public void Delete(SessionFactory sessionFactory, Class<T> clazz, String resource_id, String type, SolrClient solrClient){
 		int listsize = 5000;
 		while(listsize > 0){
 			Session session = sessionFactory.openSession();
@@ -49,8 +49,8 @@ public class GenericHibernateDeleter<T>{
 				}
 				
 				try {
-					solrServer.deleteById(type + "_" + item.toString() );
-					solrServer.commit(true,true);
+					solrClient.deleteById(type + "_" + item.toString() );
+					solrClient.commit(true,true);
 				} catch (SolrServerException | IOException e) {
 					logger.debug(e.getMessage());		
 				}

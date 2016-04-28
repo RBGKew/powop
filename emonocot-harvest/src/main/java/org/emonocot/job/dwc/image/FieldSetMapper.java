@@ -16,9 +16,8 @@
  */
 package org.emonocot.job.dwc.image;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.emonocot.api.job.ExifTerm;
 import org.emonocot.api.job.ExtendedAcTerm;
@@ -37,6 +36,8 @@ import org.gbif.dwc.terms.XmpTerm;
 import org.gbif.dwc.terms.AcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
@@ -44,6 +45,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
 	private String imageServer;
 
+	@Autowired
 	public void setImageServer(String imageServer){
 		this.imageServer = imageServer;
 	}
@@ -54,6 +56,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void mapField(final Image object, final String fieldName,
 			final String value) throws BindException {
@@ -77,7 +80,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case format:
 				object.setFormat(conversionService.convert(value, MediaFormat.class));
 				break;
-			case identifier:	
+			case identifier:
 				object.setIdentifier(value);
 				break;
 			case publisher:
@@ -116,7 +119,9 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setProviderManagedId(htmlSanitizer.sanitize(value));
 				break;
 			case subjectPart:
-				object.setSubjectPart(handleSubjectPart(value));
+				object.setSubjectPart((Set<DescriptionType>)conversionService.convert(value,
+						TypeDescriptor.valueOf(String.class),
+						TypeDescriptor.collection(SortedSet.class, TypeDescriptor.valueOf(DescriptionType.class))));
 				break;
 			case taxonCoverage:
 				if (value != null && value.trim().length() != 0) {
@@ -128,11 +133,11 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				}
 				break;
 			case accessURI:
-				if(imageServer != null){
-					object.setAccessUri(imageServer + value);
-					break;
-				}
+				if(imageServer == null){
 					object.setAccessUri(value);
+				} else {
+					object.setAccessUri(imageServer + value);
+				}
 				break;
 			case subtype:
 				object.setSubType(htmlSanitizer.sanitize(value));
@@ -198,26 +203,10 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setPixelYDimension(conversionService.convert(value, Integer.class));
 				break;
 			default:
-				break;
+
+				break; 
 			}
 		}
+>>>>>>> master
 	}
-
-	public Set<DescriptionType> handleSubjectPart(String value){
-		Set<DescriptionType> descriptionType = new HashSet<DescriptionType>();
-		logger.debug("Full Description value is:" + value);
-		if (value != null && value.trim().length() != 0){
-			Set<String> set = new HashSet<String>(Arrays.asList(value.split("\\|")));
-			for(String item : set){
-				logger.debug("Description Item is:" + item);
-				item = item.trim();
-				if(item != null){
-					descriptionType.add(conversionService.convert(item, DescriptionType.class));
-				}
-			}
-			return descriptionType;
-		}
-		return null;
-	}
-
 }

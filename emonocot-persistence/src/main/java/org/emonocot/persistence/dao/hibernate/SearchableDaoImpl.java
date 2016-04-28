@@ -26,8 +26,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.charfilter.HTMLStripCharFilter;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.Group;
@@ -57,11 +57,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
 implements SearchableDao<T> {
 
-	private SolrServer solrServer = null;
+	private SolrClient solrClient = null;
 
 	@Autowired
-	public void setSolrServer(SolrServer solrServer) {
-		this.solrServer = solrServer;
+	public void setSolrServer(SolrClient solrClient) {
+		this.solrClient = solrClient;
 	}
 
 	/**
@@ -108,7 +108,7 @@ implements SearchableDao<T> {
 			final Integer pageSize, final Integer pageNumber,
 			final String[] facets,
 			Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
-			final String sort, final String fetch) throws SolrServerException {
+			final String sort, final String fetch) throws SolrServerException, IOException {
 		SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
 		solrQuery.set("spellcheck", "true");
 		solrQuery.set("spellcheck.collate", "true");
@@ -152,7 +152,14 @@ implements SearchableDao<T> {
 				}
 			}
 		}
-		QueryResponse queryResponse = solrServer.query(solrQuery);
+		QueryResponse queryResponse;
+
+		try {
+			queryResponse = solrClient.query(solrQuery);
+		} catch (IOException e) {
+			logger.error("Error querying solr server: ", e);
+			throw new SolrServerException(e);
+		}
 
 		List<T> results = new ArrayList<T>();
 		for(SolrDocument solrDocument : queryResponse.getResults()) {
@@ -182,7 +189,7 @@ implements SearchableDao<T> {
 		}
 	}
 
-	public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException {
+	public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException, IOException {
 		SolrQuery solrQuery = new SolrQuery();
 
 		if (query != null && !query.trim().equals("")) {
@@ -216,7 +223,7 @@ implements SearchableDao<T> {
 		solrQuery.set("group","true");
 		solrQuery.set("group.field", "autocomplete");
 
-		QueryResponse queryResponse = solrServer.query(solrQuery);
+		QueryResponse queryResponse = solrClient.query(solrQuery);
 
 		List<Match> results = new ArrayList<Match>();
 		Map<String,Match> matchMap = new HashMap<String,Match>();
@@ -266,10 +273,10 @@ implements SearchableDao<T> {
 	}
 
 	@Override
-	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException {
+	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException, IOException {
 		SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
 
-		QueryResponse queryResponse = solrServer.query(solrQuery);
+		QueryResponse queryResponse = solrClient.query(solrQuery);
 
 		Long totalResults = new Long(queryResponse.getResults().getNumFound());
 		Page<SolrDocument> page = new DefaultPageImpl<SolrDocument>(totalResults.intValue(), pageNumber, pageSize, queryResponse.getResults(), queryResponse);
@@ -297,7 +304,7 @@ implements SearchableDao<T> {
 		}
 	}
 
-	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) throws SolrServerException {
+	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] facets, Cube cube) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
 		query.setQuery("*:*");
 		SolrQuery totalQuery = new SolrQuery();
@@ -423,8 +430,8 @@ implements SearchableDao<T> {
 			}
 		}
 
-		QueryResponse response = solrServer.query(query);
-		QueryResponse totalResponse = solrServer.query(totalQuery);
+		QueryResponse response = solrClient.query(query);
+		QueryResponse totalResponse = solrClient.query(totalQuery);
 		FacetField totalRows = null;
 		FacetField totalCols = null;
 		if (totalResponse.getFacetField("totalRows") != null) {
@@ -449,7 +456,7 @@ implements SearchableDao<T> {
 	 * @param pageSize
 	 * @param pageNumber
 	 * @param selectedFacets
-	 * @return A {@link SolrQuery} that can be customised before passing to a {@link SolrServer}
+	 * @return A {@link SolrQuery} that can be customised before passing to a {@link SolrClient}
 	 */
 	protected SolrQuery prepareQuery(String query, String sort, Integer pageSize, Integer pageNumber, Map<String,String> selectedFacets){
 		SolrQuery solrQuery = new SolrQuery();
@@ -478,10 +485,10 @@ implements SearchableDao<T> {
 					//Do nothing
 				} else if(singleSort.endsWith("_asc")) {
 					String sortField = singleSort.substring(0,singleSort.length() - 4);
-					solrQuery.addSortField(sortField, SolrQuery.ORDER.asc);
+					solrQuery.addSort(sortField, SolrQuery.ORDER.asc);
 				} else if(singleSort.endsWith("_desc")) {
 					String sortField = singleSort.substring(0,singleSort.length() - 5);
-					solrQuery.addSortField(sortField, SolrQuery.ORDER.desc);
+					solrQuery.addSort(sortField, SolrQuery.ORDER.desc);
 				}
 			}
 		}

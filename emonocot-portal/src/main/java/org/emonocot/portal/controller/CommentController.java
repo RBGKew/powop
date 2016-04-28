@@ -16,6 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -289,7 +290,7 @@ public class CommentController extends GenericController<Comment, CommentService
 			 @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			 @RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			 @RequestParam(value = "sort", required = false, defaultValue = "comment.created_dt_desc") String sort,
-			 @RequestParam(value = "view", required = false) String view) throws SolrServerException {
+			 @RequestParam(value = "view", required = false) String view) throws SolrServerException, IOException {
 
 		 Map<String, String> selectedFacets = new HashMap<String, String>();
 		 if (facets != null && !facets.isEmpty()) {

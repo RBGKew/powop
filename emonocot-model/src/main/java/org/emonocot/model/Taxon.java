@@ -37,6 +37,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.constants.Location;
@@ -1098,8 +1099,8 @@ public class Taxon extends SearchableObject {
 			addField(sid,FacetName.SUBTRIBE.getSolrField(), getAcceptedNameUsage().getSubtribe());
 		}
 
-		addField(sid,"taxon.taxonomic_status_s", getTaxonomicStatus());
-		addField(sid,"taxon.taxon_rank_s", getTaxonRank());
+		addField(sid,"taxon.taxonomic_status_s", ObjectUtils.toString(getTaxonomicStatus(), null));
+		addField(sid,"taxon.taxon_rank_s", ObjectUtils.toString(getTaxonRank(), null));
 
 		addField(sid,FacetName.TRIBE.getSolrField(), getTribe());
 		if(Rank.Tribe.equals(getTaxonRank()) && getTribe() == null) {
@@ -1235,7 +1236,7 @@ public class Taxon extends SearchableObject {
 			summary.append(" ").append(synonym.getScientificName());
 		}
 
-		sid.addField("searchable.solrsummary_t", summary);
+		sid.addField("searchable.solrsummary_t", summary.toString());
 		sid.addField("taxon.has_data_b", hasUsefulData(sid));
 		return sid;
 	}

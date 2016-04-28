@@ -442,7 +442,7 @@ public class User extends Principal implements UserDetails {
 				 .append(" ").append(getFirstName()).append(" ")
 				 .append(getFamilyName()).append(" ").append(getName())
 				 .append(" ").append(getTopicInterest()).append(" ").append(getOrganization());
-		 sid.addField("searchable.solrsummary_t", summary);
+		 sid.addField("searchable.solrsummary_t", summary.toString());
 		 return sid;
 	 }
 

@@ -16,9 +16,11 @@
  */
 package org.emonocot.job.dwc.description;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 
-import org.easymock.EasyMock;
+import static org.easymock.EasyMock.*;
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Description;
@@ -32,37 +34,20 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-/**
- *
- * @author ben
- *
- */
 public class DescriptionParsingTest {
 
-	/**
-	 *
-	 */
-	private Resource content = new ClassPathResource(
-			"/org/emonocot/job/dwc/description.txt");
+	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/description.txt");
 
-	/**
-	 *
-	 */
 	private TaxonService taxonService = null;
 
 	private ConversionService conversionService = null;
 
-	/**
-	 *
-	 */
 	private FlatFileItemReader<Description> flatFileItemReader = new FlatFileItemReader<Description>();
 
-	/**
-	 *
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		String[] names = new String[] {
@@ -80,8 +65,8 @@ public class DescriptionParsingTest {
 		tokenizer.setDelimiter('\t');
 		tokenizer.setNames(names);
 
-		taxonService = EasyMock.createMock(TaxonService.class);
-		conversionService = EasyMock.createMock(ConversionService.class);
+		taxonService = createMock(TaxonService.class);
+		conversionService = createMock(ConversionService.class);
 
 		FieldSetMapper fieldSetMapper = new FieldSetMapper();
 		fieldSetMapper.setConversionService(conversionService);
@@ -91,8 +76,7 @@ public class DescriptionParsingTest {
 		fieldSetMapper.setFieldNames(names);
 		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
 		fieldSetMapper.setTaxonService(taxonService);
-		DefaultLineMapper<Description> lineMapper
-		= new DefaultLineMapper<Description>();
+		DefaultLineMapper<Description> lineMapper = new DefaultLineMapper<Description>();
 		lineMapper.setFieldSetMapper(fieldSetMapper);
 		lineMapper.setLineTokenizer(tokenizer);
 
@@ -108,14 +92,12 @@ public class DescriptionParsingTest {
 	 */
 	@Test
 	public final void testRead() throws Exception {
-		EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DescriptionType.class))).andReturn(DescriptionType.general);
-		EasyMock.expect(conversionService.convert(EasyMock.isA(String.class), EasyMock.eq(DateTime.class))).andReturn(new DateTime());
-		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
-		EasyMock.expect(taxonService.find(EasyMock.isA(String.class), EasyMock.eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
-		EasyMock.replay(taxonService,conversionService);
+		expect(conversionService.convert(isA(String.class), isA(TypeDescriptor.class), isA(TypeDescriptor.class))).andReturn(new TreeSet<>(Arrays.asList(DescriptionType.general)));
+		expect(conversionService.convert(isA(String.class), eq(DateTime.class))).andReturn(new DateTime());
+		expect(taxonService.find(isA(String.class))).andReturn(new Taxon()).anyTimes();
+		expect(taxonService.find(isA(String.class), eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
+		replay(taxonService,conversionService);
 		flatFileItemReader.open(new ExecutionContext());
 		flatFileItemReader.read();
-
 	}
-
 }
