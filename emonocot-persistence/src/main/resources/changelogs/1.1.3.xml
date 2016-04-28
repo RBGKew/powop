@@ -16,7 +16,7 @@
       <column name="pixelYDimension" type="int"/>
       <column name="providerManagedId" type="varchar(255)"/>
       <column name="provinceState" type="varchar(255)"/>
-      <column name="rating" type="int"/>
+      <column name="rating" type="double"/>
       <column name="subType" type="varchar(255)"/>
       <column name="subjectCategoryVocabulary" type="varchar(255)" />
       <column name="sublocation" type="varchar(255)"/>

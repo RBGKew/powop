@@ -162,7 +162,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			XmpTerm xmpTerm = (XmpTerm)term;
 			switch(xmpTerm) {
 			case Rating:
-				object.setRating(conversionService.convert(value, Float.class));
+				object.setRating(conversionService.convert(value, Double.class));
 				break;
 			default:
 				break;

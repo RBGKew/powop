@@ -32,7 +32,9 @@ import org.emonocot.model.constants.Location;
 import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.vividsolutions.jts.io.WKTWriter;
 
@@ -41,7 +43,8 @@ import com.vividsolutions.jts.io.WKTWriter;
  * @author ben
  *
  */
-public class SpatialSearchTest extends AbstractPersistenceTest {
+
+public class SpatialSearchIntegrationTest extends AbstractPersistenceTest {
 
 	WKTWriter wktWriter = new WKTWriter();
 

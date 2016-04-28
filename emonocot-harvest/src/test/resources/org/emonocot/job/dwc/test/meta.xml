@@ -52,7 +52,7 @@
     <field index="4" term="http://purl.org/dc/terms/type"/> 
     <field index="5" term="http://purl.org/dc/terms/references"/> 
   </extension>
-  <extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Image">
+  <extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/ac/terms/Multimedia">
     <files>
       <location>images.txt</location>
     </files>

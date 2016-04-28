@@ -36,22 +36,25 @@ import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  *
  * @author ben
  *
  */
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class AnnotationDaoTest extends AbstractPersistenceTest {
 
-	private static Logger logger = LoggerFactory.getLogger(AnnotationDaoTest.class);
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
+
+	private static Logger logger = LoggerFactory.getLogger(AnnotationDaoIntegrationTest.class);
 
 	/**
 	 *
@@ -97,7 +100,6 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
 
 		Annotation annotation1 = createAnnotation(1L, taxon1,
 				AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
-
 		taxon1.getAnnotations().add(annotation1);
 		Annotation annotation2 = createAnnotation(1L, taxon2,
 				AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
@@ -115,7 +117,7 @@ public class AnnotationDaoTest extends AbstractPersistenceTest {
 
 	/**
 	 *
-	 */
+	*/
 	@Test
 	public final void testGetJobExecutions() throws Exception {
 		assertNotNull(annotationDao);

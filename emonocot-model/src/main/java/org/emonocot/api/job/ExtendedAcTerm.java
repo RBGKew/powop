@@ -24,6 +24,7 @@ import org.gbif.dwc.terms.Term;
  * adding in some of the terms not previously included in 
  */
 public enum ExtendedAcTerm implements Term {
+	Image,
 	Multimedia;
 
 	public static final String NS = "http://rs.tdwg.org/ac/terms/";

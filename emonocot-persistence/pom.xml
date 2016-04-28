@@ -46,6 +46,10 @@
       </exclusions>
     </dependency>
     <dependency>
+    	<groupId>org.hibernatespatial</groupId>
+		<artifactId>hibernate-spatial-mysql</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.hibernatespatial</groupId>
       <artifactId>hibernate-spatial-h2-geodb</artifactId>
     </dependency>
@@ -86,8 +90,8 @@
       <artifactId>hamcrest-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
     </dependency>
     <dependency>
       <groupId>commons-beanutils</groupId>
@@ -133,7 +137,23 @@
           <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
         </configuration>
       </plugin>
-
+		<!--<plugin>
+		     <groupId>org.codehaus.mojo</groupId>
+		     <artifactId>exec-maven-plugin</artifactId>
+		     <version>1.2.1</version>
+		     <executions>
+		         <execution>
+		             <phase>test</phase>
+		             <goals>
+		                 <goal>exec</goal>
+		             </goals>
+		         </execution>
+		     </executions>
+		     <configuration>
+		         <executable>/usr/bin/docker</executable>
+		             <commandlineArgs>stop powop-unit-test-db</commandlineArgs>
+		     </configuration>    
+		</plugin>-->
     </plugins>
     <pluginManagement>
       <plugins>
@@ -167,6 +187,43 @@
             </lifecycleMappingMetadata>
           </configuration>
         </plugin>
+        <plugin>
+		     <groupId>org.codehaus.mojo</groupId>
+		     <artifactId>exec-maven-plugin</artifactId>
+		     <version>1.2.1</version>
+		     <executions>
+		         <execution>
+		             <id>default-cli</id>
+		             <goals>
+		                 <goal>exec</goal>
+		             </goals>
+		         </execution>
+		     </executions>
+		     <configuration>
+		         <executable>/usr/bin/mysqldump</executable>
+		         	 <properties>liquibase-testdb.properties</properties>
+		             <workingDirectory></workingDirectory>
+		             <commandlineArgs> --no-data --skip-comments --skip-set-charset --host=127.0.0.1 --port=13306 --user=emonocot --password=emonocot --all-databases --result-file=/home/jc20kg/emonocot/emonocot-persistence/src/main/resources/testdb_sql.sql</commandlineArgs>
+		    </configuration>
+		</plugin>
+
+		<!-- <plugin>
+		     <groupId>org.codehaus.mojo</groupId>
+		     <artifactId>exec-maven-plugin</artifactId>
+		     <version>1.2.1</version>
+		     <executions>
+		         <execution>
+		             <phase>test</phase>
+		             <goals>
+		                 <goal>stop-docker</goal>
+		             </goals>
+		         </execution>
+		     </executions>
+		     <configuration>
+		         <executable>/usr/bin/docker</executable>
+		             <commandlineArgs>stop powop-unit-test-db; stop powop-unit-test-db*</commandlineArgs>
+		     </configuration>    
+		</plugin>-->
       </plugins>
     </pluginManagement>
   </build>

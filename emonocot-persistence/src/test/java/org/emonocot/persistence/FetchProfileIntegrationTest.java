@@ -33,13 +33,15 @@ import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  *
  * @author ben
  *
  */
-public class FetchProfileTest extends AbstractPersistenceTest {
+
+public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 
 	/**
 	 * @throws java.lang.Exception if there is a problem

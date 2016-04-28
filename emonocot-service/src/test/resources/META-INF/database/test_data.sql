@@ -1,2 +1,18 @@
-insert into Principal (id, DTYPE, identifier, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled) values (1, 'User', 'admin@e-monocot.org', '9e63f0a7536ff8551784a7a83342d841', true, true, true, true);
-insert into User_permissions (User_id, permissions) values (1, 19)
+insert into Principal (id, DTYPE, identifier, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, notifybyemail) values (1, 'User', 'admin@e-monocot.org', '9e63f0a7536ff8551784a7a83342d841', true, true, true, true, false);
+insert into User_permissions (User_id, permissions) values (1, 19);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Comment',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Concept',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Description',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Distribution',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('IdentificationKey',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Identifier',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Image',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Resource',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('MeasurementOrFact',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Place',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Principal',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Reference',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Organisation',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('Taxon',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('TypeAndSpecimen',1);
+insert into hibernate_sequences (sequence_name, sequence_next_hi_value) values ('VernacularName',1);

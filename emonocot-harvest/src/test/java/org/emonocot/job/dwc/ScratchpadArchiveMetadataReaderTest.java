@@ -134,18 +134,18 @@ public class ScratchpadArchiveMetadataReaderTest {
 		}
 
 		assertNotNull("image file must be present",
-				executionContext.getString("dwca.image.file"));
+				executionContext.getString("dwca.multimedia.file"));
 		assertEquals("fieldsTerminatedBy must be present", ",",
 				executionContext.getString(
-						"dwca.image.fieldsTerminatedBy"));
+						"dwca.multimedia.fieldsTerminatedBy"));
 		assertEquals("fieldsEnclosedBy must be present", '\"',
-				executionContext.get("dwca.image.fieldsEnclosedBy"));
+				executionContext.get("dwca.multimedia.fieldsEnclosedBy"));
 		assertEquals("encoding must be present", "UTF-8",
-				executionContext.getString("dwca.image.encoding"));
+				executionContext.getString("dwca.multimedia.encoding"));
 		assertEquals("ignoreHeaderLines must be present", 0,
-				executionContext.getInt("dwca.image.ignoreHeaderLines"));
+				executionContext.getInt("dwca.multimedia.ignoreHeaderLines"));
 		assertNotNull("field names must be present",
-				executionContext.get("dwca.image.fieldNames"));
+				executionContext.get("dwca.multimedia.fieldNames"));
 
 		String[] expectedImageFieldNames = new String[] {
 				"http://rs.tdwg.org/dwc/terms/taxonID",
