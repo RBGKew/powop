@@ -19,7 +19,9 @@ package org.emonocot.job.dwc.image;
 import java.util.Set;
 import java.util.SortedSet;
 
+import org.emonocot.api.job.ExifTerm;
 import org.emonocot.api.job.ExtendedAcTerm;
+import org.emonocot.api.job.Iptc4xmpTerm;
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.api.job.Wgs84Term;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
@@ -30,6 +32,7 @@ import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.MediaType;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.XmpTerm;
 import org.gbif.dwc.terms.AcTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +43,7 @@ import org.springframework.validation.BindException;
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
 
-	private String imageServer = "";
+	private String imageServer;
 
 	@Autowired
 	public void setImageServer(String imageServer){
@@ -139,6 +142,9 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case subtype:
 				object.setSubType(htmlSanitizer.sanitize(value));
 				break;
+			case subjectCategoryVocabulary:
+				object.setSubjectCategoryVocabulary(htmlSanitizer.sanitize(value));
+				break;
 			default:
 				break;
 			}
@@ -157,26 +163,47 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				break;
 			}
 		}
-		if (term instanceof ExtendedAcTerm) {
-			ExtendedAcTerm extendedAcTerm = (ExtendedAcTerm)term;
-			switch (extendedAcTerm) {
+		if (term instanceof XmpTerm) {
+			XmpTerm xmpTerm = (XmpTerm)term;
+			switch(xmpTerm) {
+			case Rating:
+				object.setRating(conversionService.convert(value, Double.class));
+				break;
+			default:
+				break;
+			}
+		}
+		if (term instanceof Iptc4xmpTerm) {
+			Iptc4xmpTerm iptc4xmpTerm = (Iptc4xmpTerm)term;
+			switch (iptc4xmpTerm) {
 			case WorldRegion:
 				object.setWorldRegion(htmlSanitizer.sanitize(value));
+				break;
 			case CountryCode:
 				object.setCountryCode(htmlSanitizer.sanitize(value));
+				break;
 			case CountryName:
 				object.setCountryName(htmlSanitizer.sanitize(value));
+				break;
 			case ProvinceState:
 				object.setProvinceState(htmlSanitizer.sanitize(value));
+				break;
 			case Sublocation:
 				object.setSublocation(htmlSanitizer.sanitize(value));
+				break;
+			}	
+		}
+		if (term instanceof ExifTerm) {
+			ExifTerm exifTerm = (ExifTerm)term;
+			switch (exifTerm) {
 			case PixelXDimension:
 				object.setPixelXDimension(conversionService.convert(value, Integer.class));
+				break;
 			case PixelYDimension:
 				object.setPixelYDimension(conversionService.convert(value, Integer.class));
-			case Rating:
-				object.setRating(conversionService.convert(value, Integer.class));
+				break;
 			default:
+
 				break; 
 			}
 		}

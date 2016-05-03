@@ -72,44 +72,46 @@ public class Image extends Multimedia {
 	private Long id;
 
 	private Taxon taxon;
-	
-	private String AccessUri;
+
+	private String accessUri;
 
 	private Set<Taxon> taxa = new HashSet<Taxon>();
 
 	private List<Comment> comments = new ArrayList<>();
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
-	
+
 	private String associatedObservationReference;
-	
+
 	private String associatedSpecimenReference;
-	
+
 	private String caption;
-	
+
 	private String providerManagedId;
-	
+
 	private Set<DescriptionType> subjectPart;
-	
+
 	private Taxon taxonCoverage;
-	
-	private  String subType;
-	
-	private String WorldRegion;
-	
-	private String CountryCode;
-	
-	private String CountryName;
-	
-	private String ProvinceState;
-	
-	private String Sublocation;
-	
-	private Integer PixelXDimension;
-	
-	private Integer PixelYDimension;
-	
-	private Integer Rating;
+
+	private String subType;
+
+	private String worldRegion;
+
+	private String countryCode;
+
+	private String countryName;
+
+	private String provinceState;
+
+	private String sublocation;
+
+	private Integer pixelXDimension;
+
+	private Integer pixelYDimension;
+
+	private Double rating;
+
+	private String subjectCategoryVocabulary;
 
 	@Size(max = 255)
 	public String getSubject() {
@@ -263,18 +265,17 @@ public class Image extends Multimedia {
 		return subjectPart;
 	}
 
-	
 	public void setSubjectPart(Set<DescriptionType> subjectPart) {
 		this.subjectPart = subjectPart;
 	}
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JsonSerialize(using = TaxonSerializer.class)
 	public Taxon getTaxonCoverage() {
 		return taxonCoverage;
 	}
-	
+
 	@JsonDeserialize(using = TaxonDeserializer.class)
 	public void setTaxonCoverage(Taxon taxonCoverage) {
 		this.taxonCoverage = taxonCoverage;
@@ -324,11 +325,11 @@ public class Image extends Multimedia {
 	}
 
 	public String getAccessUri() {
-		return AccessUri;
+		return accessUri;
 	}
 
 	public void setAccessUri(String accessUrl) {
-		AccessUri = accessUrl;
+		this.accessUri = accessUrl;
 	}
 
 	public String getSubType() {
@@ -340,70 +341,74 @@ public class Image extends Multimedia {
 	}
 
 	public String getWorldRegion() {
-		return WorldRegion;
+		return worldRegion;
 	}
 
 	public void setWorldRegion(String worldRegion) {
-		WorldRegion = worldRegion;
+		this.worldRegion = worldRegion;
 	}
 
 	public String getCountryCode() {
-		return CountryCode;
+		return countryCode;
 	}
 
 	public void setCountryCode(String countryCode) {
-		CountryCode = countryCode;
+		this.countryCode = countryCode;
 	}
 
 	public String getCountryName() {
-		return CountryName;
+		return countryName;
 	}
 
 	public void setCountryName(String countryName) {
-		CountryName = countryName;
+		this.countryName = countryName;
 	}
 
 	public String getProvinceState() {
-		return ProvinceState;
+		return provinceState;
 	}
 
 	public void setProvinceState(String provinceState) {
-		ProvinceState = provinceState;
+		this.provinceState = provinceState;
 	}
 
 	public String getSublocation() {
-		return Sublocation;
+		return sublocation;
 	}
 
 	public void setSublocation(String sublocation) {
-		Sublocation = sublocation;
+		this.sublocation = sublocation;
 	}
 
 	public Integer getPixelXDimension() {
-		return PixelXDimension;
+		return pixelXDimension;
 	}
 
 	public void setPixelXDimension(Integer pixelXDimension) {
-		PixelXDimension = pixelXDimension;
+		this.pixelXDimension = pixelXDimension;
 	}
 
 	public Integer getPixelYDimension() {
-		return PixelYDimension;
+		return pixelYDimension;
 	}
 
 	public void setPixelYDimension(Integer pixelYDimension) {
-		PixelYDimension = pixelYDimension;
+		this.pixelYDimension = pixelYDimension;
 	}
 
-	public Integer getRating() {
-		return Rating;
+	public Double getRating() {
+		return rating;
 	}
 
-	public void setRating(Integer rating) {
-		Rating = rating;
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 
+	public String getSubjectCategoryVocabulary() {
+		return subjectCategoryVocabulary;
+	}
 
-
-
+	public void setSubjectCategoryVocabulary(String subjectCategoryVocabulary) {
+		this.subjectCategoryVocabulary = subjectCategoryVocabulary;
+	}
 }

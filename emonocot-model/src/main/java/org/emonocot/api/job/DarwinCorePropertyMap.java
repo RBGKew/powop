@@ -306,7 +306,7 @@ public class DarwinCorePropertyMap {
 			return measurementOrFactTerms;
 		} else if(conceptTerm.equals(GbifTerm.VernacularName)) {
 			return vernacularNameTerms;
-		} else if(conceptTerm.equals(GbifTerm.Image)) {
+		} else if(conceptTerm.equals(ExtendedAcTerm.Multimedia)) {
 			return imageTerms;
 		} else if(conceptTerm.equals(GbifTerm.TypesAndSpecimen)) {
 			return typeAndSpecimenTerms;
@@ -333,7 +333,7 @@ public class DarwinCorePropertyMap {
 			conceptTerms.addAll(measurementOrFactTerms.keySet());
 		} else if(conceptTerm.equals(GbifTerm.VernacularName)) {
 			conceptTerms.addAll(vernacularNameTerms.keySet());
-		} else if(conceptTerm.equals(GbifTerm.Image)) {
+		} else if(conceptTerm.equals(ExtendedAcTerm.Multimedia)) {
 			conceptTerms.addAll(imageTerms.keySet());
 		} else if(conceptTerm.equals(GbifTerm.TypesAndSpecimen)) {
 			conceptTerms.addAll(typeAndSpecimenTerms.keySet());

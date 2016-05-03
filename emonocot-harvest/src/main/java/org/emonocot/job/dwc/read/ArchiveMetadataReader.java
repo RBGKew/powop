@@ -32,8 +32,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.emonocot.api.OrganisationService;
+import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.SkosTerm;
 import org.emonocot.model.registry.Organisation;
+import org.gbif.dwc.terms.AcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
@@ -116,6 +118,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 			if (archive.getExtension(GbifTerm.Distribution) != null) {
 				getMetadata(archive.getExtension(GbifTerm.Distribution), "distribution", DwcTerm.taxonID, failOnError);
 			}
+
 
 			if (archive.getExtension(GbifTerm.Image) != null) {
 				getMetadata(archive.getExtension(GbifTerm.Image), "image", DwcTerm.taxonID, failOnError);
@@ -287,7 +290,9 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 	private void getMetadata(final ArchiveFile archiveFile,
 			final String prefix, final Term identifierTerm, boolean failOnError) throws IOException {
 		logger.info("Processing " + archiveFile.getRowType());
+
 		ExecutionContext executionContext = this.stepExecution.getJobExecution().getExecutionContext();
+
 
 		executionContext.put("dwca." + prefix + ".file", archiveFile.getLocationFile().getAbsolutePath());
 		executionContext.put("dwca." + prefix + ".fieldsTerminatedBy", archiveFile.getFieldsTerminatedBy());

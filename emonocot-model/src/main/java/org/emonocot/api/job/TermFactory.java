@@ -28,6 +28,7 @@ import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.IucnTerm;
+import org.gbif.dwc.terms.XmpTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
@@ -72,6 +73,10 @@ public class TermFactory {
 			term = findTermInEnum(normTermName, AcTerm.values(),
 					new String[] {AcTerm.PREFIX, AcTerm.NS});
 		}
+		if (term ==null) {
+			term = findTermInEnum(normTermName, ExtendedAcTerm.values(),
+					new String[] {AcTerm.PREFIX, ExtendedAcTerm.NS});
+		}
 		if (term == null) {
 			term = findTermInEnum(normTermName, IucnTerm.values(),
 					new String[] {IucnTerm.PREFIX, IucnTerm.NS});
@@ -91,6 +96,18 @@ public class TermFactory {
 		if (term == null) {
 			term = findTermInEnum(normTermName, SkosTerm.values(),
 					new String[] {SkosTerm.PREFIX, SkosTerm.NS});
+		}
+		if (term == null) {
+			term = findTermInEnum(normTermName, ExifTerm.values(),
+					new String[] {ExifTerm.PREFIX, ExifTerm.NS});
+		}
+		if (term == null) {
+			term = findTermInEnum(normTermName, Iptc4xmpTerm.values(),
+					new String[] {Iptc4xmpTerm.PREFIX, Iptc4xmpTerm.NS});
+		}
+		if (term == null) {
+			term = findTermInEnum(normTermName, XmpTerm.values(),
+					new String[] {XmpTerm.PREFIX, XmpTerm.NS});
 		}
 		if (term == null) {
 			term = findTermInEnum(normTermName, unkownTerms);

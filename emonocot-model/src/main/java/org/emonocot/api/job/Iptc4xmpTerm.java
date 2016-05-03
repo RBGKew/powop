@@ -20,21 +20,25 @@ import org.gbif.dwc.terms.Term;
 
 
 /**
- * @author jc20kg
- * adding in some of the terms not previously included in 
+ * @author ben
+ * @author jk00kg
+ * Preserving normalised and alternative name methods for potenial backward compatibility
  */
-public enum ExtendedAcTerm implements Term {
-	Image,
-	Multimedia;
+public enum Iptc4xmpTerm implements Term {
+	WorldRegion,
+	CountryCode,
+	CountryName,
+	ProvinceState,
+	Sublocation;
 
-	public static final String NS = "http://rs.tdwg.org/ac/terms/";
-	public static final String PREFIX = "ac";
+	public static final String NS = "http://iptc.org/std/Iptc4xmpExt/2008-02-29/";
+	public static final String PREFIX = "Iptc4xmpExt";
 	static final String[] PREFIXES = {NS, PREFIX + ":"};
 
 	public final String normQName;
 	public final String[] normAlts;
 
-	ExtendedAcTerm(String... alternatives) {
+	Iptc4xmpTerm(String... alternatives) {
 		normQName = TermFactory.normaliseTerm(qualifiedName());
 		for (int i = 0; i < alternatives.length; i++) {
 			alternatives[i] = TermFactory.normaliseTerm(alternatives[i]);

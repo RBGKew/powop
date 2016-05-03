@@ -46,7 +46,7 @@
   		<column name="sublocation" type="varchar(255)"/>
   		<column name="PixelXDimension" type="int"/>
   		<column name="PixelYDimension" type="int"/>
-  		<column name="Rating" type="int"/>
+  		<column name="Rating" type="double"/>
   	</addColumn>
   </changeSet>
 
