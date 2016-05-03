@@ -207,6 +207,5 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				break; 
 			}
 		}
->>>>>>> master
 	}
 }
