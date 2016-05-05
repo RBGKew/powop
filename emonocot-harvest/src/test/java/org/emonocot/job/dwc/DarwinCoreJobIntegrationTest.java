@@ -178,9 +178,6 @@ public class DarwinCoreJobIntegrationTest {
 		logger.info(jobExecution.getExitStatus().getExitCode() + " | " + jobExecution.getExitStatus().getExitDescription());
 
 		assertNotNull("The image in the image file should have been persisted", imageService.load("http://media.e-taxonomy.eu/palmae/photos/palm_tc_170762_1.jpg"));
-		assertNotNull("The image in the multimedia file should have been persisted", imageService.load("http://media.e-taxonomy.eu/palmae/photos/palm_tc_170762_8.jpg"));
-		//This is a slightly fragile assertion as it depends on a fixed location of the test resource.
-		//I couldn't find a way of using the "test.resources.baseUrl" in the URL of the phylogeny and ID Key as the data is in a pre-packaged zip file (dwc.zip).
 		assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load(mockHttpUrl + "/1_1326150157_Strelitziaceae_Cron.nexorg"));
 
 		IdentificationKey localKey = null;

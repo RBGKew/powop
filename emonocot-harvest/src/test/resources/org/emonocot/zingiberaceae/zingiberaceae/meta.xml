@@ -51,7 +51,7 @@
     <coreid index="0" />
     <field index="1" term="http://rs.tdwg.org/dwc/terms/locationID" />
   </extension>
-  <extension encoding="UTF-8" linesTerminatedBy="\r\n" fieldsTerminatedBy="," fieldsEnclosedBy="&quot;" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Image">
+  <extension encoding="UTF-8" linesTerminatedBy="\r\n" fieldsTerminatedBy="," fieldsEnclosedBy="&quot;" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/ac/terms/Multimedia">
     <files>
       <location>image.txt</location>
     </files>
