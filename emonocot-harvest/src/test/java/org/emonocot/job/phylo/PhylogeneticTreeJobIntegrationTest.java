@@ -39,6 +39,7 @@ import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -139,6 +140,7 @@ public class PhylogeneticTreeJobIntegrationTest {
 	 *             if the job is already running
 	 */
 	@Test
+	@Ignore
 	public final void testNotModifiedResponse() throws IOException,
 	NoSuchJobException, JobExecutionAlreadyRunningException,
 	JobRestartException, JobInstanceAlreadyCompleteException,
