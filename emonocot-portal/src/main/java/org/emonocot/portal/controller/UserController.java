@@ -47,75 +47,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping("/user")
 public class UserController extends GenericController<User, UserService> {
 
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	/**
-	 *
-	 */
 	public UserController() {
 		super("user", User.class);
 	}
 
-	/**
-	 *
-	 */
 	private ConversionService conversionService;
 
-	/**
-	 *
-	 */
 	@Autowired
 	public final void setConversionService(
 			final ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
 
-	/**
-	 * @param userService
-	 *            set the user service
-	 */
 	@Autowired
 	public final void setUserService(final UserService userService) {
 		super.setService(userService);
 	}
 
-	/**
-	 * @param identifier
-	 *            Set the identifier of the user
-	 * @return A response entity containing the status
-	 */
 	@RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public final ResponseEntity<AceDto> addPermission(
 			@PathVariable final String identifier, @RequestBody final AceDto ace) {
-		SecuredObject object = conversionService.convert(ace,
-				SecuredObject.class);
+		SecuredObject object = conversionService.convert(ace, SecuredObject.class);
 		getService().addPermission(object, identifier, ace.getPermission(), ace.getClazz());
-		ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace,
-				HttpStatus.CREATED);
+		ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace, HttpStatus.CREATED);
 		return responseEntity;
 	}
 
-	/**
-	 * @param identifier
-	 *            Set the identifier of the user
-	 * @return A response entity containing the status
-	 */
 	@RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public final ResponseEntity<AceDto> deletePermission(
 			@PathVariable final String identifier, @RequestBody final AceDto ace) {
-		SecuredObject object = conversionService.convert(ace,
-				SecuredObject.class);
-		getService().deletePermission(object, identifier, ace.getPermission(),
-				ace.getClazz());
+		SecuredObject object = conversionService.convert(ace, SecuredObject.class);
+		getService().deletePermission(object, identifier, ace.getPermission(), ace.getClazz());
 		return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
 	}
 
@@ -188,8 +156,7 @@ public class UserController extends GenericController<User, UserService> {
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
-						facetRequest.getSelected());
+				selectedFacets.put(facetRequest.getFacet(), facetRequest.getSelected());
 			}
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.auth.User");

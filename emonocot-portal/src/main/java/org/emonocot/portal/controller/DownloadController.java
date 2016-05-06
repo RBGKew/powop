@@ -72,11 +72,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping(value = "/download")
 public class DownloadController {
@@ -133,21 +128,7 @@ public class DownloadController {
 	public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
 		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
-	/**
-	 *
-	 * @param query
-	 *            Set the query
-	 * @param limit
-	 *            Limit the number of returned results
-	 * @param start
-	 *            Set the offset
-	 * @param facets
-	 *            The facets to set
-	 * @param view Set the view
-	 * @param model Set the model
-	 *
-	 * @return a model and view
-	 */
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String search(
 			@RequestParam(value = "query", required = false) String query,
@@ -324,7 +305,6 @@ public class DownloadController {
 				jobExecutionInfo.setExitCode(exitStatus.getExitCode());
 				jobExecutionInfo.setExitDescription(exitStatus.getExitDescription());
 
-
 				Integer readSkip = 0;
 				Integer processSkip = 0;
 				Integer writeSkip = 0;
@@ -361,7 +341,6 @@ public class DownloadController {
 					}
 				}
 			}
-
 		}
 		return jobExecutionInfo;
 	}
@@ -414,5 +393,4 @@ public class DownloadController {
 		queryLog.info("DownloadPhylogeny: \'{}\', format: {}, purpose: {}", new Object[] {id, format, purpose});
 		return tree.getPhylogeny();
 	}
-
 }
