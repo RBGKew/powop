@@ -137,23 +137,6 @@
           <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
         </configuration>
       </plugin>
-		<!--<plugin>
-		     <groupId>org.codehaus.mojo</groupId>
-		     <artifactId>exec-maven-plugin</artifactId>
-		     <version>1.2.1</version>
-		     <executions>
-		         <execution>
-		             <phase>test</phase>
-		             <goals>
-		                 <goal>exec</goal>
-		             </goals>
-		         </execution>
-		     </executions>
-		     <configuration>
-		         <executable>/usr/bin/docker</executable>
-		             <commandlineArgs>stop powop-unit-test-db</commandlineArgs>
-		     </configuration>    
-		</plugin>-->
     </plugins>
     <pluginManagement>
       <plugins>
@@ -228,6 +211,20 @@
     </pluginManagement>
   </build>
   <profiles>
+  	<profile>
+  	   <id>integration</id>
+  	   <build>
+  		 <plugins>
+  		    <plugin>
+  		  	<groupId>org.codehaus.mojo</groupId>
+			<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+  		 </plugins>
+  	   </build>
+  	</profile>
     <profile>
       <id>migrate.vagrant</id>
       <build>

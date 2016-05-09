@@ -346,8 +346,16 @@ CREATE TABLE `description_reference` (
   KEY `Description_Reference_references_id_IDX` (`references_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `distribution`;
+DROP TABLE IF EXISTS `description_types`;
 
+CREATE TABLE `description_types` (
+  `Description_id` bigint(20) NOT NULL DEFAULT '0',
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`Description_id`),
+  KEY `Description_Reference_Description_id_IDX` (`Description_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `distribution`; 
 
 CREATE TABLE `distribution` (
   `id` bigint(20) NOT NULL,

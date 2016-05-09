@@ -31,11 +31,10 @@ import org.emonocot.model.constants.Location;
 import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
 import com.vividsolutions.jts.io.WKTWriter;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author ben
@@ -47,7 +46,7 @@ public class SpatialSearchIntegrationTest extends AbstractPersistenceTest {
 
 	WKTWriter wktWriter = new WKTWriter();
 
-	Logger logger = LoggerFactory.getLogger(SpatialSearchTest.class);
+	Logger logger = LoggerFactory.getLogger(SpatialSearchIntegrationTest.class);
 
 	@Before
 	public final void setUp() throws Exception {

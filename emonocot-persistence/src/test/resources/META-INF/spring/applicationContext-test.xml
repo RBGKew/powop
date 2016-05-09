@@ -16,7 +16,7 @@
   <bean name="dataSource"
     class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
     <property name="testDatabaseName" value="emonocot" />
-    <property name="url" value="jdbc:mysql://127.0.0.1:23306/emonocot" />
+    <property name="url" value="jdbc:mysql://localhost:23306/emonocot" />
     <property name="username" value="emonocot" />
     <property name="password" value="emonocot" />
     <property name="schemaLocations">

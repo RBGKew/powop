@@ -1156,6 +1156,49 @@
 						</formats>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>1.2.1</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+					<executions>
+						<execution>
+							<id>build_test_db</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<executable>/bin/sh</executable>
+								<commandlineArgs>../src/test/resources/start-powop-unit-test-db.sh -c ${test.container} -u emonocot -p emonocot -P ${test.db.port} -d ${test.db}   -v ${test.db.conf} </commandlineArgs>
+							</configuration>
+						</execution>
+						<execution>
+							<id>stop_test_db</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<executable>/usr/bin/docker</executable>
+								<commandlineArgs>stop powop-unit-test-db</commandlineArgs>
+							</configuration>
+						</execution>
+						<execution>
+							<id>destroy_test_db</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<executable>/usr/bin/docker</executable>
+								<commandlineArgs>rm powop-unit-test-db</commandlineArgs>
+							</configuration>
+						</execution>
+					</executions>    
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -1358,6 +1401,10 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>kew.internal</id>
+			<url>http://kptman01.ad.kew.org/repository/</url>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
@@ -1367,6 +1414,8 @@
 			<url>file:/var/lib/jenkins/repository</url>
 		</repository>
 	</distributionManagement>
+
+
 
 	<reporting>
 		<plugins>
@@ -1487,53 +1536,21 @@
 		<profile>
 			<id>integration</id>
 			<properties>
+				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+				<jdbc.driver.username>emonocot</jdbc.driver.username>
+				<jdbc.driver.password>emonocot</jdbc.driver.password>
+				<jdbc.driver.url>jdbc:mysql://localhost:23306/emonocot</jdbc.driver.url>
 				<skip.global.tests>true</skip.global.tests>
 				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
 				<http.proxyPort>8080</http.proxyPort>
+				<test.container>powop-unit-test-db</test.container>
+				<test.db.port>23306</test.db.port>
+				<test.db>emonocot</test.db>
+				<test.db.conf>${project.parent.basedir}/src/test/resources/mysql</test.db.conf>
 				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
 			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.2.1</version>
-					<executions>
-						<execution>
-							<id>build_test_db</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>/usr/bin/docker</executable>
-								<commandlineArgs>run -d --name powop-unit-test-db -v /home/jc20kg/emonocot/emonocot-persistence/src/test/resources/META-INF/database/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=emonocot -e MYSQL_USER=${jdbc.driver.username} -e MYSQL_PASSWORD=${jdbc.driver.password} -p 23306:3306 mysql:5.5</commandlineArgs>
-							</configuration>
-						</execution>
-						<execution>
-							<id>stop_test_db</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>/usr/bin/docker</executable>
-								<commandlineArgs>stop powop-unit-test-db</commandlineArgs>
-							</configuration>
-						</execution>
-						<execution>
-							<id>destroy_test_db</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>/usr/bin/docker</executable>
-								<commandlineArgs>rm powop-unit-test-db</commandlineArgs>
-							</configuration>
-						</execution>
-					</executions>    
-				</plugin>
 				<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
@@ -1554,12 +1571,13 @@
 									<excludes>
 										<exclude>**/*FunctionalTest.java</exclude>
 									</excludes>
-									<testFailureIgnore>true</testFailureIgnore>
+									<testFailureIgnore>false</testFailureIgnore>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
 				</plugins>
+
 			</build>
 		</profile>
 
