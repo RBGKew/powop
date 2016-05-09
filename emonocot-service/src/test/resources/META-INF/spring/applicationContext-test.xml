@@ -11,15 +11,16 @@
   <tx:annotation-driven />
   <context:annotation-config />
 
+
   <bean name="dataSource"
     class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-    <property name="testDatabaseName" value="testdb" />
+    <property name="testDatabaseName" value="emonocot" />
+    <property name="url" value="jdbc:mysql://127.0.0.1:23306/emonocot" />
+    <property name="username" value="emonocot" />
+    <property name="password" value="emonocot" />
     <property name="schemaLocations">
       <list>
-        <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-        <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
-        <value>classpath:/META-INF/database/H2_schema.ddl</value>
-        <value>classpath:/META-INF/database/acl.ddl</value>
+        <value>classpath:/testdb_sql.sql</value>
       </list>
     </property>
     <property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
@@ -35,21 +36,23 @@
   </bean>
 
   <bean id="jobExecutionIncrementer"
-    class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
-    <constructor-arg ref="dataSource" />
-    <constructor-arg value="BATCH_JOB_EXECUTION_SEQ" />
+    class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
+    <constructor-arg index="0" ref="dataSource" />
+    <constructor-arg index="1"  value="BATCH_JOB_EXECUTION_SEQ"/>
+    <constructor-arg index="2"  value="ID"/>
   </bean>
 
   <bean id="jobIncrementer"
-    class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
-    <constructor-arg ref="dataSource" />
-    <constructor-arg value="BATCH_JOB_SEQ" />
-  </bean>
+    class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
+    <constructor-arg index="0" ref="dataSource" />
+    <constructor-arg index="1"  value="BATCH_JOB_SEQ"/>
+    <constructor-arg index="2"  value="ID"/>
+  </bean> 
 
   <bean name="jdbcJobInstanceDao"
     class="org.springframework.batch.core.repository.dao.JdbcJobInstanceDao">
     <property name="jdbcTemplate" ref="jdbcTemplate" />
-    <property name="jobIncrementer" ref="jobIncrementer" />
+    <property name="jobIncrementer" ref="jobIncrementer" /> 
   </bean>
 
   <bean name="jdbcJobExecutionDao"
@@ -63,7 +66,7 @@
     <property name="dataSource" ref="dataSource" />
     <property name="hibernateProperties">
       <value>
-        hibernate.dialect=org.hibernatespatial.geodb.GeoDBDialect
+        hibernate.dialect=org.hibernatespatial.mysql.MySQLSpatialDialect
         hibernate.hbm2ddl.auto=validate
         hibernate.validator.autoregister_listeners=false
       </value>

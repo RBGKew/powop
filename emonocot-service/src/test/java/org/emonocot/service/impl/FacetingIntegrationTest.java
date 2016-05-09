@@ -64,7 +64,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
-public class FacetingTest extends DataManagementSupport {
+public class FacetingIntegrationTest extends DataManagementSupport {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;

@@ -33,18 +33,21 @@ import org.emonocot.model.constants.Location;
 import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  *
  * @author ben
  *
  */
-public class SearchTest extends AbstractPersistenceTest {
 
-	private static Logger logger = LoggerFactory.getLogger(SearchTest.class);
+public class SearchIntegrationTest extends AbstractPersistenceTest {
+
+	private static Logger logger = LoggerFactory.getLogger(SearchIntegrationTest.class);
 
 	/**
 	 * @throws java.lang.Exception

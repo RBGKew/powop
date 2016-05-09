@@ -423,4 +423,20 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+  	<profile>
+  	   <id>integration</id>
+  	   <build>
+  		 <plugins>
+  		    <plugin>
+  		  	<groupId>org.codehaus.mojo</groupId>
+			<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+  		 </plugins>
+  	   </build>
+  	</profile>
+  </profiles>
 </project>

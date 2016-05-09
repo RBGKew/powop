@@ -35,6 +35,7 @@ import org.emonocot.model.registry.Organisation;
 import org.emonocot.test.DataManagementSupport;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -52,13 +53,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  *
  * @author ben
- *
+ 
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
-public class ACLTest extends DataManagementSupport {
+public class ACLIntegrationTest extends DataManagementSupport {
 
-	private static Logger logger = LoggerFactory.getLogger(ACLTest.class);
+	private static Logger logger = LoggerFactory.getLogger(ACLIntegrationTest.class);
 
 	@Autowired
 	private AuthenticationManager authenticationManager;

@@ -32,16 +32,21 @@ import org.emonocot.pager.Page;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import com.vividsolutions.jts.io.WKTWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+/**
+ *
+ * @author ben
+ *
+ */
 
-import com.vividsolutions.jts.io.WKTWriter;
+public class SpatialSearchIntegrationTest extends AbstractPersistenceTest {
 
-public class SpatialSearchTest extends AbstractPersistenceTest {
 
 	WKTWriter wktWriter = new WKTWriter();
 
-	Logger logger = LoggerFactory.getLogger(SpatialSearchTest.class);
+	Logger logger = LoggerFactory.getLogger(SpatialSearchIntegrationTest.class);
 
 	@Before
 	public final void setUp() throws Exception {

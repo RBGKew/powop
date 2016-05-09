@@ -45,7 +45,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 /**
  * A factory that creates a data source fit for use in a system test
@@ -72,7 +74,15 @@ InitializingBean {
 	 *
 	 */
 	private String testDatabaseName;
-
+	
+	private String url;
+	
+	private String username;
+	
+	private String password;
+	
+	
+	
 	/**
 	 *
 	 */
@@ -140,6 +150,17 @@ InitializingBean {
 		this.testDatabaseName = databaseName;
 	}
 
+	public final void setUrl(final String url){
+		this.url = url;
+	}
+	
+	public final void setUsername(final String username){
+		this.username = username;
+	}
+	
+	public final void setPassword(final String password){
+		this.password = password;
+	}
 	/**
 	 * Sets the location of the file containing the schema DDL to export to the
 	 * test database.
@@ -275,10 +296,11 @@ InitializingBean {
 		DriverManagerDataSource driverManagerDataSource
 		= new DriverManagerDataSource();
 		// use the HsqlDB JDBC driver
-		driverManagerDataSource.setDriverClassName("org.h2.Driver");
+		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		// have it create an in-memory database
-		driverManagerDataSource.setUrl("jdbc:h2:mem:" + testDatabaseName
-				+ ";DB_CLOSE_DELAY=-1");
+		driverManagerDataSource.setUrl(url);
+		driverManagerDataSource.setUsername(username);
+		driverManagerDataSource.setPassword(password);
 		return driverManagerDataSource;
 	}
 
@@ -315,51 +337,27 @@ InitializingBean {
 		 * 'schema.sql' and inserting the test data in 'testdata.sql'.
 		 */
 		public void populate() {
-			Connection connection = null;
-			try {
-				connection = dataSource.getConnection();
-				createDatabaseSchema(connection);
+
+				JdbcTemplate template = new JdbcTemplate(dataSource);
+				createDatabaseSchema(template);
 				if (testDataLocation != null) {
-					insertTestData(connection);
+					insertTestData(template);
 				}
-			} catch (SQLException e) {
-				throw new RuntimeException(
-						"SQL exception occurred acquiring connection", e);
-			} finally {
-				if (connection != null) {
-					try {
-						connection.close();
-					} catch (SQLException e) {
-						// do nothing
-					}
-				}
+
 			}
-		}
+		
 
 		/**
 		 * create the application's database schema (tables, indexes, etc.).
 		 * @param connection Set the connection
 		 */
-		private void createDatabaseSchema(final Connection connection) {
-			try {
-				// add spatial capabilities to database:
-				GeoDB.InitGeoDB(connection);
-				if (schemaLocation != null) {
-					String sql = parseSqlIn(schemaLocation);
-					executeSql(sql, connection);
-				} else {
-					for (Resource location : schemaLocations) {
-						String sql = parseSqlIn(location);
-						executeSql(sql, connection);
-					}
+		private void createDatabaseSchema(final JdbcTemplate template) {
+			if (schemaLocation != null) {
+				JdbcTestUtils.executeSqlScript(template, schemaLocation, false);
+			} else {
+				for (Resource location : schemaLocations) {
+					JdbcTestUtils.executeSqlScript(template, location, false);
 				}
-			} catch (IOException e) {
-				throw new RuntimeException(
-						"I/O exception occurred accessing the database schema file",
-						e);
-			} catch (SQLException e) {
-				throw new RuntimeException(
-						"SQL exception occurred exporting database schema", e);
 			}
 		}
 
@@ -368,61 +366,8 @@ InitializingBean {
 		 *
 		 * @param connection Set the connection
 		 */
-		private void insertTestData(final Connection connection) {
-			try {
-				String sql = parseSqlIn(testDataLocation);
-				executeSql(sql, connection);
-			} catch (IOException e) {
-				throw new RuntimeException(
-						"I/O exception occurred accessing the test data file",
-						e);
-			} catch (SQLException e) {
-				throw new RuntimeException(
-						"SQL exception occurred loading test data", e);
-			}
-		}
-
-		/**
-		 * utility method to read a .sql txt input stream.
-		 *
-		 * @param resource Set the resource
-		 * @return the parsed SQL
-		 * @throws IOException if there is a problem reading the resource file
-		 */
-		private String parseSqlIn(final Resource resource) throws IOException {
-			InputStream is = null;
-			try {
-				is = resource.getInputStream();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(is));
-
-				StringWriter sw = new StringWriter();
-				BufferedWriter writer = new BufferedWriter(sw);
-
-				for (int c = reader.read(); c != -1; c = reader.read()) {
-					writer.write(c);
-				}
-				writer.flush();
-				return sw.toString();
-
-			} finally {
-				if (is != null) {
-					is.close();
-				}
-			}
-		}
-
-		/**
-		 * utility method to run the parsed sql.
-		 *
-		 * @param sql Set the SQL
-		 * @param connection Set the connection
-		 * @throws SQLException if there is a problem executing the supplied SQL
-		 */
-		private void executeSql(final String sql, final Connection connection)
-				throws SQLException {
-			Statement statement = connection.createStatement();
-			statement.execute(sql);
+		private void insertTestData(final JdbcTemplate template) {
+			JdbcTestUtils.executeSqlScript(template, testDataLocation, false);
 		}
 	}
 }
