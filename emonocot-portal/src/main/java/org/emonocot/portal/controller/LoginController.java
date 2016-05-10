@@ -29,11 +29,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 public class LoginController {
 
@@ -72,7 +67,5 @@ public class LoginController {
 			redirectAttributes.addFlashAttribute("error",message);
 			return "redirect:/login";
 		}
-
-
 	}
 }

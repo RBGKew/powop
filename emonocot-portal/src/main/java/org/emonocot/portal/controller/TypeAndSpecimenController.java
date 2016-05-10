@@ -26,8 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/typeAndSpecimen")
-public class TypeAndSpecimenController extends
-GenericController<TypeAndSpecimen, TypeAndSpecimenService> {
+public class TypeAndSpecimenController extends GenericController<TypeAndSpecimen, TypeAndSpecimenService> {
 
 	private static final Logger logger = LoggerFactory.getLogger(TypeAndSpecimenController.class);
 

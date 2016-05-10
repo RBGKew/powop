@@ -71,6 +71,7 @@ CREATE TABLE `annotation` (
   `authority_id` bigint(20) DEFAULT NULL,
   `identifier` varchar(255) DEFAULT NULL,
   `recordType` varchar(255) DEFAULT NULL,
+  `resource_id` bigint(20) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Annotation_annotatedObjId_IDX` (`annotatedObjId`),

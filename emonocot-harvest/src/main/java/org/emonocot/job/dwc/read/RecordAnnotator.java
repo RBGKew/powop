@@ -16,7 +16,6 @@
  */
 package org.emonocot.job.dwc.read;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -24,19 +23,31 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-public abstract class AbstractRecordAnnotator implements StepExecutionListener {
+import com.google.common.collect.ImmutableMap;
 
-	private Logger logger = LoggerFactory.getLogger(AbstractRecordAnnotator.class);
+public class RecordAnnotator implements StepExecutionListener, Tasklet {
+
+	private Logger logger = LoggerFactory.getLogger(RecordAnnotator.class);
 
 	protected StepExecution stepExecution;
 
 	protected NamedParameterJdbcTemplate jdbcTemplate;
 
 	private String authorityName;
+	private Long resourceId;
+	private String annotatedObjType;
+
+	public void setAnnotatedObjectType(String objectType) {
+		this.annotatedObjType = objectType;
+	}
 
 	public void setAuthorityName(String authorityName) {
 		this.authorityName = authorityName;
@@ -46,22 +57,33 @@ public abstract class AbstractRecordAnnotator implements StepExecutionListener {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	protected Integer annotate(String annotationQuery, Map<String,Object> annotationParameters) {
-		Integer authorityId = getAuthorityId();
-		stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
-
-		annotationParameters.put("authorityId", authorityId);
-		annotationParameters.put("jobId", stepExecution.getJobExecutionId());
-
-		logger.info(annotationQuery);
-		return jdbcTemplate.update(annotationQuery, annotationParameters);
+	public void setResourceId(Long resourceId) {
+		this.resourceId = resourceId;
 	}
 
 	protected Integer getAuthorityId() {
 		String authorityQuerySQL = "Select id from Organisation where identifier = :authorityName";
-		Map<String,Object> authorityQueryParameters = new HashMap<String,Object>();
-		authorityQueryParameters.put("authorityName", authorityName);
-		return jdbcTemplate.queryForInt(authorityQuerySQL,authorityQueryParameters);
+		return jdbcTemplate.queryForInt(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName));
+	}
+
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		String queryString = "INSERT INTO Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, resource_id, type, code, recordType) "
+				+ "SELECT o.id, :annotatedObjType, :jobId, now(), :authorityId, :resourceId, 'Warn', 'Absent', :annotatedObjType "
+				+ "FROM " + annotatedObjType + " o "
+				+ "WHERE o.authority_id = :authorityId AND o.resource_id = :resourceId";
+		stepExecution.getJobExecution().getExecutionContext().putLong("job.execution.id", stepExecution.getJobExecutionId());
+
+		Map<String, ? extends Object> queryParameters = ImmutableMap.of(
+				"authorityId", getAuthorityId(),
+				"resourceId", resourceId,
+				"jobId", stepExecution.getJobExecutionId(),
+				"annotatedObjType", annotatedObjType);
+
+		logger.info("Annotating: {} with params {}", queryString, queryParameters);
+		jdbcTemplate.update(queryString, queryParameters);
+
+		return RepeatStatus.FINISHED;
 	}
 
 	public void beforeStep(StepExecution newStepExecution) {
@@ -71,5 +93,4 @@ public abstract class AbstractRecordAnnotator implements StepExecutionListener {
 	public ExitStatus afterStep(StepExecution newStepExecution) {
 		return null;
 	}
-
 }

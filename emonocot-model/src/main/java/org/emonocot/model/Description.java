@@ -85,10 +85,6 @@ public class Description extends OwnedEntity {
 
 	private Set<Reference> references = new HashSet<Reference>();
 
-	public Description() {
-		this.identifier = UUID.randomUUID().toString();
-	}
-
 	/**
 	 *
 	 * @param newId

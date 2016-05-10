@@ -42,6 +42,7 @@ import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -50,235 +51,138 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/**
- *
- * @author ben
- *
- */
 @Entity
 public class Annotation extends Base implements Searchable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -3382251087008774134L;
 
-	/**
-	 *
-	 */
 	private Base annotatedObj;
 
-	/**
-	 *
-	 */
 	private Long jobId;
 
-	/**
-	 *
-	 */
 	private AnnotationCode code;
 
-	/**
-	 *
-	 */
 	private String text;
 
-	/**
-	 *
-	 */
 	private Organisation authority;
 
-	/**
-	 *
-	 */
 	private AnnotationType type;
 
-	/**
-	 *
-	 */
 	public Annotation() {
 		setIdentifier(UUID.randomUUID().toString());
 	}
 
-	/**
-	 *
-	 */
 	private DateTime dateTime = new DateTime();
 
-	/**
-	 *
-	 */
 	private Long id;
 
-	/**
-	 *
-	 */
 	private RecordType recordType;
 
-	/**
-	 *
-	 */
 	private String value;
 
-	/**
-	 *
-	 * @return the id
-	 */
+	private Resource resource;
+
 	@Id
 	@GeneratedValue(generator = "annotation-sequence")
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 *
-	 * @param newId
-	 *            Set the identifier of this object.
-	 */
 	public void setId(Long newId) {
 		this.id = newId;
 	}
 
-	/**
-	 * @return the authority
-	 */
 	@JsonSerialize(using = OrganisationSerializer.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Organisation getAuthority() {
 		return authority;
 	}
 
-	/**
-	 * @param source the source to set
-	 */
 	@JsonDeserialize(using = OrganisationDeserialiser.class)
 	public void setAuthority(Organisation source) {
 		this.authority = source;
 	}
 
-	/**
-	 * @return the type
-	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Resource getResource() {
+		return resource;
+	}
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
+	}
+
 	@Enumerated(value = EnumType.STRING)
 	public AnnotationType getType() {
 		return type;
 	}
 
-	/**
-	 * @param type the type to set
-	 */
 	public void setType(AnnotationType type) {
 		this.type = type;
 	}
 
-	/**
-	 * @return the annotatedObj
-	 */
-	@Any(metaColumn = @Column(name = "annotatedObjType"), optional = true,
-			fetch = FetchType.LAZY,metaDef = "AnnotationMetaDef")
+	@Any(metaColumn = @Column(name = "annotatedObjType"), optional = true, fetch = FetchType.LAZY,metaDef = "AnnotationMetaDef")
 	@JoinColumn(name = "annotatedObjId", nullable = true)
 	@JsonSerialize(using = AnnotatableObjectSerializer.class)
 	public Base getAnnotatedObj() {
 		return annotatedObj;
 	}
 
-	/**
-	 * @param annotatedObj
-	 *            the annotatedObj to set
-	 */
 	@JsonDeserialize(using = AnnotatableObjectDeserializer.class)
 	public void setAnnotatedObj(Base annotatedObj) {
 		this.annotatedObj = annotatedObj;
 	}
 
-	/**
-	 * @return the jobId
-	 */
 	public Long getJobId() {
 		return jobId;
 	}
 
-	/**
-	 * @param jobId
-	 *            the jobId to set
-	 */
 	public void setJobId(Long jobId) {
 		this.jobId = jobId;
 	}
 
-	/**
-	 *
-	 * @param code Set the code
-	 */
 	public void setCode(AnnotationCode code) {
 		this.code = code;
 	}
 
-	/**
-	 * @return the text
-	 */
 	@Lob
 	public String getText() {
 		return text;
 	}
 
-	/**
-	 * @param text the text to set
-	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 
-	/**
-	 * @return the code
-	 */
 	@Enumerated(value = EnumType.STRING)
 	public AnnotationCode getCode() {
 		return code;
 	}
 
-	/**
-	 * @return the record type
-	 */
 	@Enumerated(value = EnumType.STRING)
 	public RecordType getRecordType() {
 		return recordType;
 	}
 
-	/**
-	 * @param recordType Set the record type
-	 */
 	public void setRecordType(RecordType recordType) {
 		this.recordType = recordType;
 	}
 
-	/**
-	 * @return the dateTime
-	 */
 	@Type(type="dateTimeUserType")
 	@JsonSerialize(using = DateTimeSerializer.class)
 	public DateTime getDateTime() {
 		return dateTime;
 	}
 
-	/**
-	 * @param dateTime the dateTime to set
-	 */
 	@JsonDeserialize(using = DateTimeDeserializer.class)
 	public void setDateTime(DateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 
-	/**
-	 * @return the value
-	 */
 	public String getValue() {
 		return value;
 	}
 
-	/**
-	 * @param value the value to set
-	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
@@ -311,7 +215,6 @@ public class Annotation extends Base implements Searchable {
 		}
 
 		sid.addField("searchable.solrsummary_t", summary.toString());
-		//sid.addField("annotation.text_t",getText());
 		return sid;
 	}
 
@@ -327,5 +230,4 @@ public class Annotation extends Base implements Searchable {
 	public String getDocumentId() {
 		return getClassName() + "_" + getId();
 	}
-
 }

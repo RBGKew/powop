@@ -22,31 +22,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping("/reference")
-public class ReferenceController extends
-GenericController<Reference, ReferenceService> {
+public class ReferenceController extends GenericController<Reference, ReferenceService> {
 
-	/**
-	 *
-	 */
 	public ReferenceController() {
 		super("reference", Reference.class);
 	}
 
-	/**
-	 *
-	 * @param referenceService
-	 *            Set the reference service
-	 */
 	@Autowired
-	public final void setReferenceService(
-			final ReferenceService referenceService) {
+	public final void setReferenceService(final ReferenceService referenceService) {
 		super.setService(referenceService);
 	}
 }

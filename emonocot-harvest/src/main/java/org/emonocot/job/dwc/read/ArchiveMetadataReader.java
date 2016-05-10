@@ -119,9 +119,8 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 				getMetadata(archive.getExtension(GbifTerm.Distribution), "distribution", DwcTerm.taxonID, failOnError);
 			}
 
-
-			if (archive.getExtension(GbifTerm.Image) != null) {
-				getMetadata(archive.getExtension(GbifTerm.Image), "image", DwcTerm.taxonID, failOnError);
+			if (archive.getExtension(ExtendedAcTerm.Multimedia) != null) {
+				getMetadata(archive.getExtension(ExtendedAcTerm.Multimedia), "image", DwcTerm.taxonID, failOnError);
 			}
 
 			if (archive.getExtension(GbifTerm.Reference) != null) {

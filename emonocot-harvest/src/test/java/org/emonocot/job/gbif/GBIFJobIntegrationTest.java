@@ -18,6 +18,7 @@ package org.emonocot.job.gbif;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -59,6 +61,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 /**
  *
  * @author ben
@@ -75,7 +79,11 @@ public class GBIFJobIntegrationTest {
 
 	private Logger logger = LoggerFactory.getLogger(GBIFJobIntegrationTest.class);
 
-	private Resource inputFile = new ClassPathResource("/org/emonocot/job/gbif/list.xml");
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	@Autowired
 	private JobLocator jobLocator;
@@ -95,8 +103,7 @@ public class GBIFJobIntegrationTest {
 	/**
 	 * 1288569600 in unix time.
 	 */
-	private static final BaseDateTime PAST_DATETIME
-	= new DateTime(2010, 11, 1, 9, 0, 0, 0);
+	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
 	@Before
 	public void setUp() throws Exception {
@@ -106,6 +113,7 @@ public class GBIFJobIntegrationTest {
 		File spoolDirectory = new File("./target/spool");
 		spoolDirectory.mkdirs();
 		spoolDirectory.deleteOnExit();
+		stubFor(get(urlEqualTo("/list.xml")).willReturn(aResponse().withStatus(200).withBodyFile("/list.xml")));
 	}
 
 	/**
@@ -135,17 +143,12 @@ public class GBIFJobIntegrationTest {
 		solrIndexingListener.indexObjects(taxa);
 		tx.commit();
 
-		Map<String, JobParameter> parameters =
-				new HashMap<String, JobParameter>();
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("family", new JobParameter("Araceae"));
 		parameters.put("authority.name", new JobParameter("test"));
-		String repository = properties.getProperty("test.resource.baseUrl",
-				"http://build.e-monocot.org/git/?p=emonocot.git;a=blob_plain;f=emonocot-harvest/src/test/resources/org/emonocot/job/common/");
-		parameters.put("authority.uri", new JobParameter(repository + "list.xml"));
-
-		//parameters.put("authority.uri", new JobParameter("http://data.gbif.org/ws/rest/occurrence/list?taxonconceptkey=6979&maxresults=1000&typesonly=true&format=darwin&mode=raw&startindex="));
-		parameters.put("authority.last.harvested",
-				new JobParameter(Long.toString((GBIFJobIntegrationTest.PAST_DATETIME.getMillis()))));
+		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/list.xml"));
+		parameters.put("resource.id", new JobParameter("123"));
+		parameters.put("authority.last.harvested", new JobParameter(Long.toString((GBIFJobIntegrationTest.PAST_DATETIME.getMillis()))));
 
 
 		JobParameters jobParameters = new JobParameters(parameters);
@@ -153,6 +156,9 @@ public class GBIFJobIntegrationTest {
 		Job job = jobLocator.getJob("GBIFImport");
 		assertNotNull("GBIFImport must not be null", job);
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		if(jobExecution.getExitStatus().getExitCode() == "FAILED"){
+			logger.info("Errors: " + jobExecution.getFailureExceptions());
+		}
 		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
 		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
 			logger.info(stepExecution.getStepName() + " "

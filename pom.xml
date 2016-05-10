@@ -634,12 +634,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit-dep</artifactId>
-				<version>4.8.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>1.4.191</version>
@@ -1133,6 +1127,16 @@
 				<artifactId>wait-http-maven-plugin</artifactId>
 				<version>1.0</version>
 			</dependency>
+			<dependency>
+				<groupId>com.github.tomakehurst</groupId>
+				<artifactId>wiremock</artifactId>
+				<version>1.57</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -1489,10 +1493,6 @@
 		<profile>
 			<id>unit</id>
 			<properties>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.username>emonocot</jdbc.driver.username>
-				<jdbc.driver.password>emonocot</jdbc.driver.password>
-				<jdbc.driver.url>jdbc:mysql://localhost:23306/emonocot</jdbc.driver.url>
 				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
@@ -1563,7 +1563,7 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort} -Dhttps.proxyHost=${http.proxyHost} -Dhttps.proxyPort=${http.proxyPort}</argLine>
+									<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
 									<skip>false</skip>
 									<includes>
 										<include>**/*IntegrationTest.java</include>
@@ -1813,9 +1813,14 @@
 	</profiles>
 	<dependencies>
 		<dependency>
-			<groupId>net.java.truevfs</groupId>
-			<artifactId>truevfs-profile-default</artifactId>
-			<version>0.11.0</version>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

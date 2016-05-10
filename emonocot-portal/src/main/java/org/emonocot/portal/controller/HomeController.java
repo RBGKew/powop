@@ -31,11 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping("/home")
 public class HomeController {
@@ -47,10 +42,6 @@ public class HomeController {
 		userService = service;
 	}
 
-	/**
-	 * @param model Set the model
-	 * @return A model and view containing a user
-	 */
 	@RequestMapping(method = RequestMethod.GET, params = "!form")
 	public String show(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -103,10 +94,8 @@ public class HomeController {
 		userService.saveOrUpdate(authorizedUser);
 		String[] codes = new String[] {"profile.updated" };
 		Object[] args = new Object[] {user.getAccountName()};
-		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-				codes, args);
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/home";
 	}
-
 }

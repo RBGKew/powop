@@ -123,21 +123,12 @@
 
   <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 
-  <bean id="imageAnnotator" class="org.emonocot.harvest.media.ImageAnnotatorImpl" scope="step">
-    <property name="sourceName" value="#{jobParameters['authority.name']}" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="transactionManager" ref="transactionManager" />
-    <property name="jobId" value="#{jobExecutionContext['job.execution.id']}"></property>
-  </bean>
-
   <bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
   <bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
 
-  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
-    <property name="proxyHost" value="${http.proxyHost}" />
-    <property name="proxyPort" value="${http.proxyPort}"/>
-  </bean>
+  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient" />
+
   <bean name="dataSource"
     class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
     <property name="testDatabaseName" value="emonocot" />

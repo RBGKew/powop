@@ -59,10 +59,6 @@
 			<artifactId>ecat-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit-dep</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 		</dependency>
@@ -309,6 +305,10 @@
 		<dependency>
 			<groupId>org.apache.ws.commons.axiom</groupId>
 			<artifactId>axiom-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.java.truevfs</groupId>
+			<artifactId>truevfs-profile-default</artifactId>
 		</dependency>
 	</dependencies>
 

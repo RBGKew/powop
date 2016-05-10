@@ -28,40 +28,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping("/term")
 public class ConceptController extends GenericController<Concept, ConceptService> {
 
 	private static Logger queryLog = LoggerFactory.getLogger("query");
 
-	/**
-	 *
-	 * @param imageService
-	 *            Set the image service
-	 */
 	@Autowired
 	public final void setConceptService(ConceptService conceptService) {
 		super.setService(conceptService);
 	}
 
-	/**
-	 *
-	 */
 	public ConceptController() {
 		super("term", Concept.class);
 	}
 
-	/**
-	 * @param identifier
-	 *            Set the identifier of the image
-	 * @param model Set the model
-	 * @return the name of the view
-	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public final String show(@PathVariable final Long id, final Model model) {
 		Concept concept = getService().load(id,"concept-page");

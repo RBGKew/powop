@@ -81,19 +81,10 @@ SERVICE extends Service<T>> {
 		this.type = type;
 	}
 
-	/**
-	 *
-	 * @return the directory where this resource is found
-	 */
 	private String getDirectory() {
 		return directory;
 	}
 
-	/**
-	 * @param identifier
-	 *            Set the identifier of the image
-	 * @return A model and view containing a image
-	 */
 	@RequestMapping(value = "/{identifier}",
 			method = RequestMethod.GET,
 			consumes = "application/json",
@@ -102,11 +93,6 @@ SERVICE extends Service<T>> {
 		return new ResponseEntity<T>(service.find(identifier,fetch), HttpStatus.OK);
 	}
 
-	/**
-	 * @param identifier
-	 *            Set the identifier of the image
-	 * @return A model and view containing a image
-	 */
 	@RequestMapping(value = "/{identifier}",
 			params = "callback",
 			method = RequestMethod.GET,
@@ -124,12 +110,6 @@ SERVICE extends Service<T>> {
 		return new ResponseEntity<Page<T>>(service.list(start, limit, null), HttpStatus.OK);
 	}
 
-	/**
-	 * @param object
-	 *            the object to save
-	 * @return A response entity containing a newly created image
-	 * @throws Exception
-	 */
 	@RequestMapping(method = RequestMethod.POST,
 			produces = "application/json",
 			consumes = "application/json")
@@ -152,11 +132,6 @@ SERVICE extends Service<T>> {
 		return new ResponseEntity<T>(object, headers, HttpStatus.CREATED);
 	}
 
-	/**
-	 * @param identifier
-	 *            Set the identifier of the image
-	 * @return A response entity containing the status
-	 */
 	@RequestMapping(value = "/{id}",
 			method = RequestMethod.DELETE,
 			consumes = "application/json",
@@ -272,17 +247,10 @@ SERVICE extends Service<T>> {
 		return new ResponseEntity<RestDoc>(restDoc,HttpStatus.OK);
 	}
 
-	/**
-	 *
-	 * @param newService Set the service
-	 */
 	public void setService(SERVICE newService) {
 		this.service = newService;
 	}
 
-	/**
-	 * @return the service
-	 */
 	public SERVICE getService() {
 		return service;
 	}

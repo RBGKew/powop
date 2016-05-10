@@ -19,8 +19,6 @@ package org.emonocot.portal.controller;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -76,18 +74,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 public class SearchController {
 
 	private static Logger queryLog = LoggerFactory.getLogger("query");
 
-	private static Logger logger = LoggerFactory
-			.getLogger(SearchController.class);
+	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
 
 	private SearchableObjectService searchableObjectService;
 
@@ -145,16 +137,6 @@ public class SearchController {
 		this.ncbiService = ncbiService;
 	}
 
-	/**
-	 * @param query
-	 * @param start
-	 * @param limit
-	 * @param spatial
-	 * @param responseFacets
-	 * @param sort
-	 * @param selectedFacets
-	 * @return
-	 */
 	private Page<? extends SearchableObject> runQuery(String query,
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
@@ -170,14 +152,6 @@ public class SearchController {
 		return result;
 	}
 
-	/**
-	 *
-	 * @param view
-	 *            Set the view name
-	 * @param className
-	 *            Set the class name
-	 * @return the default limit
-	 */
 	private String setView(String view, String className) {
 		if (view == null || view == "") {
 			return null;
@@ -194,23 +168,6 @@ public class SearchController {
 		} return view;
 	}
 
-	/**
-	 *
-	 * @param query
-	 *            Set the query
-	 * @param limit
-	 *            Limit the number of returned results
-	 * @param start
-	 *            Set the offset
-	 * @param facets
-	 *            The facets to set
-	 * @param view
-	 *            Set the view
-	 * @param model
-	 *            Set the model
-	 *
-	 * @return a model and view
-	 */
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String search(
 			@RequestParam(value = "query", required = false) String query,
@@ -288,31 +245,6 @@ public class SearchController {
 		return new ResponseEntity<JSONPObject>(new JSONPObject(callback,(Page) model.asMap().get("result")),HttpStatus.OK);
 	}
 
-	/**
-	 *
-	 * @param query
-	 *            Set the query
-	 * @param limit
-	 *            Limit the number of returned results
-	 * @param start
-	 *            Set the offset
-	 * @param facets
-	 *            The facets to set
-	 * @param x1
-	 *            the first latitude
-	 * @param x2
-	 *            the second latitude
-	 * @param y1
-	 *            the first longitude
-	 * @param y2
-	 *            the second longitude
-	 * @param view
-	 *            Set the view
-	 * @param model
-	 *            Set the model
-	 *
-	 * @return a model and view
-	 */
 	@RequestMapping(value = "/spatial", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String spatial(
 			@RequestParam(value = "query", required = false) String query,
@@ -438,8 +370,7 @@ public class SearchController {
 
 		Dimension conservationStatus = new Dimension("conservationStatus");
 		cube.addDimension(conservationStatus);
-		conservationStatus.addLevel(
-				"taxon.measurement_or_fact_threatStatus_txt", false);
+		conservationStatus.addLevel("taxon.measurement_or_fact_threatStatus_txt", false);
 
 		Dimension withDescriptions = new Dimension("hasDescriptions");
 		cube.addDimension(withDescriptions);

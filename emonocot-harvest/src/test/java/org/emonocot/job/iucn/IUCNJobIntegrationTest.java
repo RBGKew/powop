@@ -16,6 +16,10 @@
  */
 package org.emonocot.job.iucn;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -34,6 +38,7 @@ import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -59,6 +64,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 /**
  *
  * @author ben
@@ -73,6 +80,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class IUCNJobIntegrationTest {
 
 	private Logger logger = LoggerFactory.getLogger(IUCNJobIntegrationTest.class);
+
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	@Autowired
 	private JobLocator jobLocator;
@@ -92,8 +105,7 @@ public class IUCNJobIntegrationTest {
 	/**
 	 * 1288569600 in unix time.
 	 */
-	private static final BaseDateTime PAST_DATETIME
-	= new DateTime(2010, 11, 1, 9, 0, 0, 0);
+	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
 	@Before
 	public void setUp() throws Exception {
@@ -103,6 +115,10 @@ public class IUCNJobIntegrationTest {
 		File spoolDirectory = new File("./target/spool");
 		spoolDirectory.mkdirs();
 		spoolDirectory.deleteOnExit();
+		stubFor(get(urlEqualTo("/iucn.json"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/iucn.json")));
 	}
 
 	/**
@@ -132,13 +148,11 @@ public class IUCNJobIntegrationTest {
 		solrIndexingListener.indexObjects(taxa);
 		tx.commit();
 
-		Map<String, JobParameter> parameters =
-				new HashMap<String, JobParameter>();
+		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("authority.name", new JobParameter("test"));
-		String repository = properties.getProperty("test.resource.baseUrl");
-		parameters.put("authority.uri", new JobParameter(repository + "iucn.json"));
-		parameters.put("authority.last.harvested",
-				new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
+		parameters.put("resource.id", new JobParameter("123"));
+		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/iucn.json"));
+		parameters.put("authority.last.harvested", new JobParameter(Long.toString((IUCNJobIntegrationTest.PAST_DATETIME.getMillis()))));
 
 
 		JobParameters jobParameters = new JobParameters(parameters);

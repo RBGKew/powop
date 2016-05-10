@@ -43,22 +43,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping("/endpoint")
 public class ChecklistWebserviceController {
 
 	private static String CHECKLIST_WEBSERVICE_SEARCH_TYPE = "te";
 
-	/**
-	 * Logger for debugging requests, errors etc.
-	 */
-	private static Logger logger = LoggerFactory
-			.getLogger(ChecklistWebserviceController.class);
+	private static Logger logger = LoggerFactory.getLogger(ChecklistWebserviceController.class);
 
 	/**
 	 * Querylog for logging requests for reporting etc.
@@ -109,15 +100,12 @@ public class ChecklistWebserviceController {
 		Map<String,String> selectedFacets = new HashMap<String,String>();
 		selectedFacets.put("base.class_s","org.emonocot.model.Taxon");
 		ModelAndView modelAndView = new ModelAndView("rdfResponse");
-		Page<SearchableObject> taxa = searchableObjectService.search(query, null, null, null, null,
-				null, selectedFacets, null, null);
+		Page<SearchableObject> taxa = searchableObjectService.search(query, null, null, null, null, null, selectedFacets, null, null);
 		modelAndView.addObject("result", taxa.getRecords());
 		try {
-			MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
-					CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+			MDC.put(LoggingConstants.SEARCH_TYPE_KEY, CHECKLIST_WEBSERVICE_SEARCH_TYPE);
 			MDC.put(LoggingConstants.QUERY_KEY, query);
-			MDC.put(LoggingConstants.RESULT_COUNT_KEY,
-					Integer.toString(taxa.getSize()));
+			MDC.put(LoggingConstants.RESULT_COUNT_KEY, Integer.toString(taxa.getSize()));
 			
 			queryLog.info("ChecklistWebserviceController.get");
 		} finally {
@@ -147,8 +135,7 @@ public class ChecklistWebserviceController {
 		modelAndView.addObject("result", taxon);
 		
 		try {
-			MDC.put(LoggingConstants.SEARCH_TYPE_KEY,
-					CHECKLIST_WEBSERVICE_SEARCH_TYPE);
+			MDC.put(LoggingConstants.SEARCH_TYPE_KEY, CHECKLIST_WEBSERVICE_SEARCH_TYPE);
 			MDC.put(LoggingConstants.QUERY_KEY, id.toString());
 			MDC.put(LoggingConstants.RESULT_COUNT_KEY, "1");
 			queryLog.info("ChecklistWebserviceController.get");

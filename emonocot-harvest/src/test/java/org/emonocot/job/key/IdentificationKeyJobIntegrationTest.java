@@ -16,6 +16,10 @@
  */
 package org.emonocot.job.key;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -35,6 +39,7 @@ import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -60,11 +65,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- *
- * @author ben
- *
- */
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/META-INF/spring/batch/jobs/identificationKeyHarvesting.xml",
@@ -73,8 +75,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class IdentificationKeyJobIntegrationTest {
 
-	private Logger logger = LoggerFactory.getLogger(
-			IdentificationKeyJobIntegrationTest.class);
+	private Logger logger = LoggerFactory.getLogger(IdentificationKeyJobIntegrationTest.class);
+
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	@Autowired
 	private JobLocator jobLocator;
@@ -94,12 +101,8 @@ public class IdentificationKeyJobIntegrationTest {
 	/**
 	 * 1288569600 in unix time.
 	 */
-	private static final BaseDateTime PAST_DATETIME
-	= new DateTime(2010, 11, 1, 9, 0, 0, 0);
+	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
-	/**
-	 *
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		String fullSizeImagesDirectoryName = "./target/images/fullsize";
@@ -116,6 +119,10 @@ public class IdentificationKeyJobIntegrationTest {
 		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
 		properties = new Properties();
 		properties.load(propertiesFile.getInputStream());
+		stubFor(get(urlEqualTo("/testKey.xml"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/testKey.xml")));
 	}
 
 
@@ -149,9 +156,9 @@ public class IdentificationKeyJobIntegrationTest {
 		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
 		parameters.put("authority.name", new JobParameter("test"));
 		parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
-		String repository = properties.getProperty("test.resource.baseUrl");
-		parameters.put("authority.uri", new JobParameter(repository + "testKey.xml"));
+		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/testKey.xml"));
 		parameters.put("authority.last.harvested", new JobParameter(Long.toString((IdentificationKeyJobIntegrationTest.PAST_DATETIME.getMillis()))));
+		parameters.put("resource.id", new JobParameter("123"));
 		JobParameters jobParameters = new JobParameters(parameters);
 
 		Job identificationKeyHarvestingJob = jobLocator.getJob("IdentificationKeyHarvesting");
@@ -164,7 +171,6 @@ public class IdentificationKeyJobIntegrationTest {
 					+ stepExecution.getFilterCount() + " "
 					+ stepExecution.getWriteCount());
 		}
-
 
 		List<Annotation> annotations = session.createQuery("from Annotation a").list();
 		for(Annotation a : annotations) {

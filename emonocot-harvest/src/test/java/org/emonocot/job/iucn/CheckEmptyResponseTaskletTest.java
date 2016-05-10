@@ -28,16 +28,10 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-/**
- *
- * @author ben
- *
- */
 public class CheckEmptyResponseTaskletTest {
 
-	Resource responseWithData = new ClassPathResource("org/emonocot/job/common/iucn.json");
-
-	Resource emptyResponse = new ClassPathResource("org/emonocot/job/common/empty.json");
+	Resource responseWithData = new ClassPathResource("__files/iucn.json");
+	Resource emptyResponse = new ClassPathResource("__files/empty.json");
 
 	StepContribution stepContribution;
 

@@ -33,23 +33,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 public class ClassificationController {
 
-	/**
-	 *
-	 */
 	private TaxonService taxonService;
 	private static final int NUM_CHILDREN=70;
 
-	/**
-	 * @param service Set the taxon service
-	 */
 	@Autowired
 	public final void setTaxonService(final TaxonService service) {
 		this.taxonService = service;
@@ -61,9 +50,6 @@ public class ClassificationController {
 		model.addAttribute("result", results);
 		return "classification";
 	}
-	/**
-	 * @return the list of nodes
-	 */
 	@RequestMapping(value = "/taxonTree", method = RequestMethod.GET, produces = "application/json")
 	public final @ResponseBody
 	List<Node> getTaxonTreeRoots() {
@@ -75,10 +61,6 @@ public class ClassificationController {
 		return nodes;
 	}
 
-	/**
-	 * @param identifier set the identifier
-	 * @return the list of nodes
-	 */
 	@RequestMapping(value = "/taxonTree/{identifier}",
 			method = RequestMethod.GET,
 			produces = "application/json")
@@ -92,31 +74,13 @@ public class ClassificationController {
 		return nodes;
 	}
 
-	/**
-	 * Used to return the taxon tree nodes.
-	 * @author ben
-	 *
-	 */
 	class Node {
-		/**
-		 *
-		 */
 		private Map<String, Object> data = new HashMap<String, Object>();
 
-		/**
-		 *
-		 */
 		private String state = "closed";
 
-		/**
-		 *
-		 */
 		private Map<String, String> attr = new HashMap<String, String>();
 
-		/**
-		 *
-		 * @param taxon Set the taxon
-		 */
 		public Node(final Taxon taxon) {
 			data.put("title", taxon.getScientificName());
 			Map<String, Object> dataAttr = new HashMap<String, Object>();
@@ -143,28 +107,16 @@ public class ClassificationController {
 			}
 			data.put("attr", dataAttr);
 			attr.put("id", taxon.getIdentifier());
-
 		}
 
-		/**
-		 * @return the state
-		 */
 		public final String getState() {
 			return state;
 		}
 
-		/**
-		 * @param newState the state to set
-		 */
 		public final void setState(final String newState) {
 			this.state = newState;
 		}
 
-		/**
-		 *
-		 * @param name Set the name
-		 * @param identifier Set the identifier
-		 */
 		public Node(final String name, final String identifier) {
 			data.put("title", name);
 			Map<String, String> dataAttr = new HashMap<String, String>();
@@ -173,30 +125,18 @@ public class ClassificationController {
 			attr.put("id", identifier);
 		}
 
-		/**
-		 * @return the data
-		 */
 		public final Map<String, Object> getData() {
 			return data;
 		}
 
-		/**
-		 * @param newData the data to set
-		 */
 		public final void setData(final Map<String, Object> newData) {
 			this.data = newData;
 		}
 
-		/**
-		 * @return the attr
-		 */
 		public final Map<String, String> getAttr() {
 			return attr;
 		}
 
-		/**
-		 * @param newAttr the attr to set
-		 */
 		public final void setAttr(final Map<String, String> newAttr) {
 			this.attr = newAttr;
 		}

@@ -82,8 +82,6 @@ ChunkListener {
 			T persisted = null;
 			if(t.getIdentifier() != null) {
 				persisted = retrieveBound(t);
-			} else {
-				t.setIdentifier(UUID.randomUUID().toString());
 			}
 
 			if (persisted == null) {

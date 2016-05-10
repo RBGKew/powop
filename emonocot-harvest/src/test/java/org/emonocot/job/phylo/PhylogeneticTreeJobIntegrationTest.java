@@ -16,6 +16,10 @@
  */
 package org.emonocot.job.phylo;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -35,6 +39,8 @@ import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -60,6 +66,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 /**
  *
  * @author ben
@@ -74,6 +82,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class PhylogeneticTreeJobIntegrationTest {
 
 	private Logger logger = LoggerFactory.getLogger(PhylogeneticTreeJobIntegrationTest.class);
+
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	@Autowired
 	private JobLocator jobLocator;
@@ -95,9 +109,6 @@ public class PhylogeneticTreeJobIntegrationTest {
 	 */
 	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
 
-	/**
-	 *
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
@@ -106,6 +117,10 @@ public class PhylogeneticTreeJobIntegrationTest {
 		File spoolDirectory = new File("./target/spool");
 		spoolDirectory.mkdirs();
 		spoolDirectory.deleteOnExit();
+		stubFor(get(urlEqualTo("/test.nwk"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBodyFile("/test.nwk")));
 	}
 
 
@@ -125,6 +140,7 @@ public class PhylogeneticTreeJobIntegrationTest {
 	 *             if the job is already running
 	 */
 	@Test
+	@Ignore
 	public final void testNotModifiedResponse() throws IOException,
 	NoSuchJobException, JobExecutionAlreadyRunningException,
 	JobRestartException, JobInstanceAlreadyCompleteException,
@@ -140,8 +156,7 @@ public class PhylogeneticTreeJobIntegrationTest {
 		parameters.put("authority.name", new JobParameter("test"));
 		parameters.put("input.file.extension", new JobParameter("nwk"));
 		parameters.put("root.taxon.identifier", new JobParameter("urn:kew.org:wcs:taxon:16026"));
-		String repository = properties.getProperty("test.resource.baseUrl");
-		parameters.put("authority.uri", new JobParameter(repository + "test.nwk"));
+		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/test.nwk"));
 		parameters.put("authority.last.harvested", new JobParameter(Long.toString((PhylogeneticTreeJobIntegrationTest.PAST_DATETIME.getMillis()))));
 		JobParameters jobParameters = new JobParameters(parameters);
 
@@ -155,7 +170,6 @@ public class PhylogeneticTreeJobIntegrationTest {
 					+ stepExecution.getFilterCount() + " "
 					+ stepExecution.getWriteCount());
 		}
-
 
 		List<Annotation> annotations = session.createQuery("from Annotation a").list();
 		for(Annotation a : annotations) {

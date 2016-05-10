@@ -42,59 +42,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- *
- * @author ben
- *
- */
 @Controller
 @RequestMapping("/organisation")
 public class OrganisationController extends GenericController<Organisation, OrganisationService> {
 
 	private static Logger logger = LoggerFactory.getLogger(OrganisationController.class);
 
-	/**
-	 *
-	 */
 	public OrganisationController() {
 		super("organisation", Organisation.class);
 	}
 
-	/**
-	 *
-	 */
 	private ResourceService resourceService;
 
-	/**
-	 *
-	 * @param resourceService
-	 *            Set the source service
-	 */
 	@Autowired
 	public void setResourceService(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
 
-	/**
-	 *
-	 * @param organisationService
-	 *            Set the source service
-	 */
 	@Autowired
 	public void setOrganisationService(OrganisationService organisationService) {
 		super.setService(organisationService);
 	}
 
-	/**
-	 *
-	 * @param model
-	 *            Set the model
-	 * @param limit
-	 *            Set the maximum number of objects to return
-	 * @param start
-	 *            Set the offset
-	 * @return the name of the view
-	 */
 	@RequestMapping(method = RequestMethod.GET, params = {"!form"}, produces = "text/html")
 	public String list(
 			Model model,
@@ -120,27 +89,12 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		return "organisation/list";
 	}
 
-	/**
-	 *
-	 * @param model
-	 *            Set the model
-	 * @return the name of the view
-	 */
 	@RequestMapping(method = RequestMethod.GET, params = "form", produces = "text/html")
 	public String create(Model model) {
 		model.addAttribute(new Organisation());
 		return "organisation/create";
 	}
 
-	/**
-	 * @param session
-	 *            Set the session
-	 * @param organisation
-	 *            Set the source
-	 * @param result
-	 *            Set the binding results
-	 * @return a model and view
-	 */
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String post(@Valid Organisation organisation,
 			BindingResult result, RedirectAttributes redirectAttributes) {
@@ -157,17 +111,6 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		return "redirect:/organisation";
 	}
 
-	/**
-	 * @param organisationId
-	 *            Set the identifier of the source
-	 * @param limit
-	 *            Set the maximum number of results
-	 * @param start
-	 *            Set the offset
-	 * @param uiModel
-	 *            Set the model
-	 * @return the view name
-	 */
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = {"!form", "!delete"}, produces = "text/html")
 	public String show(@PathVariable String organisationId,
 			Model uiModel) {
@@ -175,14 +118,6 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		return "organisation/show";
 	}
 
-	/**
-	 *
-	 * @param model
-	 *            Set the model
-	 * @param organisationId
-	 *            Set the identifier
-	 * @return the name of the view
-	 */
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = "form", produces = "text/html")
 	public String update(@PathVariable String organisationId,
 			Model model) {
@@ -190,17 +125,6 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		return "organisation/update";
 	}
 
-	/**
-	 * @param organisationId
-	 *            Set the identifier
-	 * @param session
-	 *            Set the session
-	 * @param organisation
-	 *            Set the source
-	 * @param result
-	 *            Set the binding results
-	 * @return the model name
-	 */
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.POST, produces = "text/html")
 	public String post(
 			@PathVariable String organisationId,

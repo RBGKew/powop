@@ -25,27 +25,13 @@ import org.hibernate.proxy.HibernateProxyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author ben
- *
- */
 @MappedSuperclass
 public abstract class Base implements Serializable, Identifiable, SecuredObject {
 
-	/**
-	 *
-	 */
 	private Logger logger = LoggerFactory.getLogger(Base.class);
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 4778611345983453363L;
 
-	/**
-	 *
-	 */
 	protected String identifier;
 
 	@Override
