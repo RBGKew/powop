@@ -17,7 +17,7 @@
 package org.emonocot.model.constants;
 
 /**
- * @see http://rs.gbif.org/vocabulary/gbif/descriptionType
+ * @see http://rs.gbif.org/vocabulary/gbif/description_type.xml
  */
 public enum DescriptionType {
 
