@@ -2,29 +2,46 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:jdbc="http://www.springframework.org/schema/jdbc"
   xmlns:tx="http://www.springframework.org/schema/tx"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+  http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
   <context:component-scan base-package="org.emonocot" />
 
   <tx:annotation-driven />
-
   <context:annotation-config />
 
+
   <bean name="dataSource"
-    class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-    <property name="testDatabaseName" value="emonocot" />
-    <property name="url" value="jdbc:mysql://localhost:23306/emonocot" />
+    class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="url" value="jdbc:mysql://127.0.0.1:23306/emonocot" />
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     <property name="username" value="emonocot" />
     <property name="password" value="emonocot" />
-    <property name="schemaLocations">
-      <list>
-        <value>classpath:/testdb_sql.sql</value>
-      </list>
-    </property>
+    <property name="initialSize" value="8" />
+      <property name="maxActive" value="200" />
+      <property name="maxIdle" value="100" />
+      <property name="minIdle" value="1" />
+      <property name="maxWait" value="10000" />
+      <property name="removeAbandoned" value="true" />
+      <property name="removeAbandonedTimeout" value="30" />
+      <property name="logAbandoned" value="true" />
+      <property name="defaultAutoCommit" value="true" />
+      <property name="defaultReadOnly" value="false" />
+      <property name="validationQuery" value="SELECT 1" />
+      <property name="timeBetweenEvictionRunsMillis" value="60000" />
+      <property name="minEvictableIdleTimeMillis" value="30000" />
+      <property name="numTestsPerEvictionRun" value="3" />
+      <property name="testWhileIdle" value="true" />
+      <property name="testOnReturn" value="true" />
+      <property name="testOnBorrow" value="true" />
+      <property name="defaultTransactionIsolation" value="2" />
   </bean>
+
+
 
   <bean name="jdbcTemplate"
     class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">

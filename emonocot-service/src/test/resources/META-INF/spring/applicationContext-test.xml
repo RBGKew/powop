@@ -11,8 +11,33 @@
   <tx:annotation-driven />
   <context:annotation-config />
 
-
   <bean name="dataSource"
+    class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="url" value="jdbc:mysql://127.0.0.1:23306/emonocot" />
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    <property name="username" value="emonocot" />
+    <property name="password" value="emonocot" />
+    <property name="initialSize" value="8" />
+      <property name="maxActive" value="200" />
+      <property name="maxIdle" value="100" />
+      <property name="minIdle" value="1" />
+      <property name="maxWait" value="10000" />
+      <property name="removeAbandoned" value="true" />
+      <property name="removeAbandonedTimeout" value="30" />
+      <property name="logAbandoned" value="true" />
+      <property name="defaultAutoCommit" value="true" />
+      <property name="defaultReadOnly" value="false" />
+      <property name="validationQuery" value="SELECT 1" />
+      <property name="timeBetweenEvictionRunsMillis" value="60000" />
+      <property name="minEvictableIdleTimeMillis" value="30000" />
+      <property name="numTestsPerEvictionRun" value="3" />
+      <property name="testWhileIdle" value="true" />
+      <property name="testOnReturn" value="true" />
+      <property name="testOnBorrow" value="true" />
+      <property name="defaultTransactionIsolation" value="2" />
+  </bean>
+  
+  <!-- <bean name="dataSource"
     class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
     <property name="testDatabaseName" value="emonocot" />
     <property name="url" value="jdbc:mysql://127.0.0.1:23306/emonocot" />
@@ -24,7 +49,7 @@
       </list>
     </property>
     <property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
-  </bean>
+  </bean>-->
 
   <bean id="messageBasedReadOnlyJobLauncher" class="org.emonocot.integration.MockJobLauncher"/>
 

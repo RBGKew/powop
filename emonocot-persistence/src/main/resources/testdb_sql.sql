@@ -1,7 +1,3 @@
-
-
-USE `emonocot`;
-
 DROP TABLE IF EXISTS `acl_class`;
 
 

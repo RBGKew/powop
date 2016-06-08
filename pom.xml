@@ -1137,6 +1137,16 @@
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+    			<artifactId>spring-test</artifactId>
+    			<version>2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -1176,7 +1186,7 @@
 							</goals>
 							<configuration>
 								<executable>/bin/sh</executable>
-								<commandlineArgs>../src/test/resources/start-powop-unit-test-db.sh -c ${test.container} -u emonocot -p emonocot -P ${test.db.port} -d ${test.db}   -v ${test.db.conf} </commandlineArgs>
+								<commandlineArgs>../src/test/resources/start-powop-unit-test-db.sh -c ${test.container} -u emonocot -p emonocot -P ${test.db.port} -d emonocot   -v ${test.db.conf} </commandlineArgs>
 							</configuration>
 						</execution>
 						<execution>
@@ -1202,6 +1212,24 @@
 							</configuration>
 						</execution>
 					</executions>    
+				</plugin>
+				<plugin>
+				    <groupId>org.codehaus.mojo</groupId>
+                	<artifactId>sql-maven-plugin</artifactId>
+                	<version>1.5</version>
+                	<dependencies>
+                    	<dependency>
+                    		<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>${mysql-connector.version}</version>
+                    	</dependency>        
+                	</dependencies>
+                	<configuration>
+                   		<driver>com.mysql.jdbc.Driver</driver>
+                   		<url>jdbc:mysql://127.0.0.1:23306/emonocot</url>
+                   		<username>emonocot</username>
+                	   	<password>emonocot</password>
+                	</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

@@ -24,10 +24,6 @@
       <artifactId>emonocot-persistence</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.hibernatespatial</groupId>
-      <artifactId>hibernate-spatial-h2-geodb</artifactId>
-    </dependency>
-    <dependency>
     	<groupId>org.hibernatespatial</groupId>
 		<artifactId>hibernate-spatial-mysql</artifactId>
     </dependency>
@@ -56,20 +52,12 @@
       <artifactId>hamcrest-library</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
     </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.sourceforge.hatbox</groupId>
-      <artifactId>hatbox</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -128,6 +116,26 @@
 				<configuration>
 					<skip>false</skip>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+					<executions>
+		                <execution>
+		                    <id>populate-db</id>
+		                    <phase>pre-integration-test</phase>
+		                    <goals>
+		                        <goal>execute</goal>
+		                    </goals>
+		                    <configuration>
+		                        <srcFiles>
+		                            <srcFile>../emonocot-persistence/src/main/resources/testdb_sql.sql</srcFile>
+		                            <srcFile>src/test/resources/META-INF/database/test_data.sql</srcFile> 
+		                        </srcFiles>
+		                    </configuration>
+		                </execution>
+            	</executions>
 			</plugin>
   		 </plugins>
   	   </build>
