@@ -1,8 +1,6 @@
 ---
 layout: page
 title: "Harvester"
+permalink: /harvester
 category: dev
-date: 2016-04-26 16:53:13
 ---
-
-
