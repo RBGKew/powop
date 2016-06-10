@@ -11,12 +11,16 @@ navigation: 1
 # URL to source code, used in _includes/footer.html
 codeurl: 'https://github.com/RBGKew/powop'
 
-# Default categories (in order) to appear in the navigation
-sections: [
-    ['content', 'Content Management'],
-    ['dev', 'Developer Documentation'],
-    ['arch', 'Architecture Documentation'],
-]
+collections:
+  content_management:
+    output: true
+    display: Content Management
+  dev:
+    output: true
+    display: Developer Documentation
+  arch:
+    output: true
+    display: Architecture Documentation
 
 # Keep as an empty string if served up at the root. If served up at a specific
 # path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project

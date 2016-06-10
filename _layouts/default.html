@@ -22,8 +22,8 @@
             </div>
 
             <div class="row">
-                {% assign post_count = site.posts|size %}
-                {% if site.navigation != 0 and site.navigation == 1 or post_count > 0 %}
+                {% assign sections = site.collections|size %}
+                {% if site.navigation != 0 and site.navigation == 1 or sections > 0 %}
                     <div id="navigation" class="col-sm-2">
                         {% include navigation.html %}
                     </div>
