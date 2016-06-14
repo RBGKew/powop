@@ -24,8 +24,8 @@ public class DescriptionTypeTest {
 	@Test
 	public void testFromHierarchicalIdentifier() {
 		assertEquals(
-				DescriptionType.fromString("reproductiveMorphology:flowers:perianth"),
-				DescriptionType.reproductiveMorphologyFlowersPerianth);
+				DescriptionType.fromString("morphology:reproductive:flowers:perianth"),
+				DescriptionType.morphologyReproductiveFlowersPerianth);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -40,6 +40,6 @@ public class DescriptionTypeTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidHierarchy() {
-		DescriptionType.fromString("leafMorphology:flowers:corolla");
+		DescriptionType.fromString("morphology:leaf:flowers:corolla");
 	}
 }
