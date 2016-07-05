@@ -279,8 +279,8 @@
 
   <beans profile="default">
     <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
-      <property name="proxyHost" value="${http.proxyHost}" />
-      <property name="proxyPort" value="${http.proxyPort}" />
+      <property name="proxyHost" value="${http.proxy.host}" />
+      <property name="proxyPort" value="${http.proxy.port}" />
     </bean>
 
     <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
@@ -289,8 +289,8 @@
           <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}"/>
           <constructor-arg>
             <bean class="java.net.InetSocketAddress">
-              <constructor-arg value="${http.proxyHost}"/>
-              <constructor-arg value="${http.proxyPort}"/>
+              <constructor-arg value="${http.proxy.host}"/>
+              <constructor-arg value="${http.proxy.port}"/>
             </bean>
           </constructor-arg>
         </bean>

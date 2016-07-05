@@ -270,8 +270,8 @@
           <constructor-arg value="#{T(java.net.Proxy$Type).HTTP}" />
           <constructor-arg>
             <bean class="java.net.InetSocketAddress">
-              <constructor-arg value="${http.proxyHost}" type="String" />
-              <constructor-arg value="${http.proxyPort}" type="int" />
+              <constructor-arg value="${http.proxy.host}" type="String" />
+              <constructor-arg value="${http.proxy.port}" type="int" />
             </bean>
           </constructor-arg>
         </bean>

@@ -1563,8 +1563,6 @@
 				<jdbc.driver.password>emonocot</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:mysql://localhost:23306/emonocot</jdbc.driver.url>
 				<skip.global.tests>true</skip.global.tests>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
 				<test.container>powop-unit-test-db</test.container>
 				<test.db.port>23306</test.db.port>
 				<test.db>emonocot</test.db>
@@ -1622,7 +1620,7 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxyHost} -Dhttp.proxyPort=${http.proxyPort} -Dhttps.proxyHost=${http.proxyHost} -Dhttps.proxyPort=${http.proxyPort}</argLine>
+									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxy.host} -Dhttp.proxyPort=${http.proxy.port} -Dhttps.proxyHost=${http.proxy.host} -Dhttps.proxyPort=${http.proxy.port}</argLine>
 									<skip>false</skip>
 									<includes>
 										<include>**/*FunctionalTest.java</include>
@@ -1682,8 +1680,6 @@
 				<selenium.webdriver.mode>local</selenium.webdriver.mode>
 				<selenium.display.port>:1</selenium.display.port>
 				<solr.url>http://localhost:8983/solr</solr.url>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>false</email.debug>
 				<email.smtp.username />
 				<email.smtp.password />
@@ -1746,8 +1742,6 @@
 				<selenium.webdriver.mode>local</selenium.webdriver.mode>
 				<selenium.display.port>:0</selenium.display.port>
 				<solr.url>http://localhost:18983/solr</solr.url>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
 				<email.debug>false</email.debug>
 				<email.smtp.username />
 				<email.smtp.password />
@@ -1791,8 +1785,6 @@
 				<cargo.remote.username>admin</cargo.remote.username>
 				<cargo.remote.password>letmein</cargo.remote.password>
 				<cargo.harvester.context.path>emonocot-harvest</cargo.harvester.context.path>
-				<http.proxyHost>proxy.ad.kew.org</http.proxyHost>
-				<http.proxyPort>8080</http.proxyPort>
 				<liquibase.drop.database.first>false</liquibase.drop.database.first>
 				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
 				<liquibase.username>liquibase</liquibase.username>
