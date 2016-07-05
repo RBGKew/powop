@@ -330,20 +330,6 @@
     </bean>
     <bean id="jobInstanceDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobInstanceDaoImpl"/>
     <bean id="jobExecutionDaoImpl" class="org.emonocot.persistence.dao.jdbc.JobExecutionDaoImpl"/>
-    <bean name="dataSource"
-      class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-      <property name="testDatabaseName" value="testdb" />
-      <property name="schemaLocations">
-        <list>
-          <value>classpath:/org/springframework/batch/core/schema-drop-h2.sql</value>
-          <value>classpath:/org/springframework/batch/core/schema-h2.sql</value>
-          <value>classpath:/META-INF/database/H2_schema.ddl</value>
-          <value>classpath:/META-INF/database/H2_quartz.ddl</value>
-          <value>classpath:/createAclSchema.sql</value>
-        </list>
-      </property>
-      <property name="testDataLocation" value="classpath:META-INF/database/test_data.sql" />
-    </bean>
     <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean" destroy-method="shutdown">
       <property name="solrHome" value="classpath:/META-INF/solr/"/>
     </bean>
