@@ -54,11 +54,6 @@ import org.springframework.batch.retry.backoff.FixedBackOffPolicy;
 import org.springframework.batch.retry.policy.SimpleRetryPolicy;
 import org.springframework.batch.retry.support.RetryTemplate;
 
-/**
- *
- * @author ben
- *
- */
 public class GetResourceClient {
 
 	static final int BUFFER = 2048;
@@ -272,8 +267,7 @@ public class GetResourceClient {
 				BufferedOutputStream bufferedOutputStream = null;
 
 				HttpGet httpGet = new HttpGet(resource.replace(" ", "%20"));
-				httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils
-						.formatDate(new Date(Long.parseLong(ifModifiedSince)))));
+				httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils .formatDate(new Date(Long.parseLong(ifModifiedSince)))));
 				try {
 					HttpResponse httpResponse = httpClient.execute(httpGet);
 
@@ -283,15 +277,11 @@ public class GetResourceClient {
 					case HttpURLConnection.HTTP_OK:
 						HttpEntity entity = httpResponse.getEntity();
 						if (entity != null) {
-							bufferedInputStream =
-									new BufferedInputStream(entity.getContent());
-							bufferedOutputStream =
-									new BufferedOutputStream(new FileOutputStream(
-											new File(temporaryFileName)));
+							bufferedInputStream = new BufferedInputStream(entity.getContent());
+							bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(new File(temporaryFileName)));
 							int count;
 							byte[] data = new byte[BUFFER];
-							while ((count
-									= bufferedInputStream.read(data, 0, BUFFER)) != -1) {
+							while ((count = bufferedInputStream.read(data, 0, BUFFER)) != -1) {
 								bufferedOutputStream.write(data, 0, count);
 							}
 							bufferedOutputStream.flush();
@@ -311,10 +301,8 @@ public class GetResourceClient {
 								+ httpResponse.getStatusLine() + " for document "
 								+ resource); // This is not an error in this
 						// application but a server side error
-						BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
-								httpResponse.getEntity());
-						InputStreamReader reader = new InputStreamReader(
-								bufferedEntity.getContent());
+						BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(httpResponse.getEntity());
+						InputStreamReader reader = new InputStreamReader(bufferedEntity.getContent());
 						StringBuffer stringBuffer = new StringBuffer();
 						int count;
 						char[] content = new char[BUFFER];
@@ -373,8 +361,7 @@ public class GetResourceClient {
 		return getWithRetry(new RetryCallback<ExitStatus> () {
 
 			@Override
-			public ExitStatus doWithRetry(RetryContext context)
-					throws Exception {
+			public ExitStatus doWithRetry(RetryContext context) throws Exception {
 				InputStreamReader reader = null;
 
 				HttpPost httpPost = new HttpPost(authorityURI.replace(" ", "%20"));
@@ -390,10 +377,8 @@ public class GetResourceClient {
 						}
 						HttpEntity entity = httpResponse.getEntity();
 						if (entity != null) {
-							BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
-									httpResponse.getEntity());
-							reader = new InputStreamReader(
-									bufferedEntity.getContent());
+							BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(httpResponse.getEntity());
+							reader = new InputStreamReader(bufferedEntity.getContent());
 
 							int count;
 							char[] content = new char[BUFFER];
@@ -414,10 +399,8 @@ public class GetResourceClient {
 								+ httpResponse.getStatusLine() + " for document "
 								+ authorityURI); // This is not an error in this
 						// application but a server side error
-						BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(
-								httpResponse.getEntity());
-						reader = new InputStreamReader(
-								bufferedEntity.getContent());
+						BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(httpResponse.getEntity());
+						reader = new InputStreamReader(bufferedEntity.getContent());
 						StringBuffer stringBuffer = new StringBuffer();
 						int count;
 						char[] content = new char[BUFFER];
@@ -430,7 +413,6 @@ public class GetResourceClient {
 								+ httpResponse.getStatusLine() + " for document "
 								+ authorityURI);
 					}
-
 				} catch (ClientProtocolException cpe) {
 					if(cpe instanceof HttpResponseException) {
 						HttpResponseException hre = (HttpResponseException) cpe;
