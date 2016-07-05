@@ -1461,7 +1461,6 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.3</version>
 				<configuration>
-					<excludePackageNames>org.emonocot.portal.ws.ncbi</excludePackageNames>
 					<failOnError>false</failOnError>
 				</configuration>
 			</plugin>

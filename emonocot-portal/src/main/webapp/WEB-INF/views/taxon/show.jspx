@@ -563,41 +563,11 @@
 								<c:if test="${not empty taxon.uri}">
 									<li><a id="sourceUrl" href="${taxon.uri}"><spring:message code="ipni"/><!-- --></a></li>
 								</c:if>
-								<c:url var="ncbiUrl" value="http://www.ncbi.nlm.nih.gov/gquery/gquery.fcgi">
-									<c:param name="term" value="${taxon.scientificName}[orgn]"/>
-								</c:url>
-								<li><a id="NCBILink" href="${ncbiUrl}"><spring:message code="ncbi"/><!--  --></a></li>
 							</ul>
 
 						</section>
 					</div>
 				</div>
-
-				<c:url value="/ncbi" var="ncbiAjaxUrl">
-					<c:param name="query" value="${taxon.scientificName}"/>
-				</c:url>
-				<script type="text/javascript">
-					$(document).ready(function(){
-						$.ajax({
-							dataType: "json",
-							url: "${ncbiAjaxUrl}",
-							beforeSend: function(xhr) {
-								xhr.setRequestHeader('Accept', 'application/json');
-								xhr.setRequestHeader('Content-Type', 'application/json');
-							},
-							success: function( data ) {
-								var items = [];
-								items.push( "<li>" + data.nucleotideEntries + " nucleotides</li>" );
-								items.push( "<li>" + data.protienEntries + " proteins</li>" );
-								items.push( "<li>" + data.pubMedEntries + " publications</li>" );
-								 $( "<ul/>", {
-									 html: items.join( "" )
-									 }).appendTo( "#NCBILink" );
-							}
-						});
-					});
-				</script>
-
 			</div>
 		</div>
 	</div>

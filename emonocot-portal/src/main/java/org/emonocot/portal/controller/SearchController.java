@@ -17,7 +17,6 @@
 package org.emonocot.portal.controller;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,11 +41,9 @@ import org.emonocot.pager.Cube;
 import org.emonocot.pager.Dimension;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
-import org.emonocot.portal.controller.form.NcbiDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.view.geojson.Feature;
 import org.emonocot.portal.view.geojson.FeatureCollection;
-import org.emonocot.portal.ws.ncbi.NcbiService;
 import org.restdoc.api.GlobalHeader;
 import org.restdoc.api.MethodDefinition;
 import org.restdoc.api.ParamValidation;
@@ -93,8 +90,6 @@ public class SearchController {
 
 	private UserService userService;
 
-	private NcbiService ncbiService;
-
 	private ObjectMapper objectMapper;
 
 	@Autowired
@@ -130,11 +125,6 @@ public class SearchController {
 	@Autowired
 	public void setTypeAndSpecimenService(TypeAndSpecimenService typeAndSpecimenService) {
 		this.typeAndSpecimenService = typeAndSpecimenService;
-	}
-
-	@Autowired
-	public void setNcbiService(NcbiService ncbiService) {
-		this.ncbiService = ncbiService;
 	}
 
 	private Page<? extends SearchableObject> runQuery(String query,
@@ -492,20 +482,6 @@ public class SearchController {
 
 		return new ResponseEntity<RestDoc>(restDoc,HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/ncbi", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<NcbiDto> ncbi(@RequestParam(value = "query", required = true) String query) {
-		NcbiDto ncbiDto = new NcbiDto();
-		try {
-			ncbiDto = ncbiService.issueRequest(query);
-		} catch (RemoteException re) {
-			logger.error("Exception using NCBI Service :" + re.getMessage(), re);
-			return new ResponseEntity<NcbiDto>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return new ResponseEntity<NcbiDto>(ncbiDto,HttpStatus.OK);
-	}
-
 
 	@RequestMapping(value = "/geo", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	public ResponseEntity<FeatureCollection> spatial(
