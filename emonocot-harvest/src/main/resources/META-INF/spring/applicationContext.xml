@@ -225,19 +225,6 @@
     <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>
   </bean>
 
-  <!-- <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.CompositeTaxonMatcher">
-        <property name="matchers">
-            <list>
-                <bean class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher">
-                  <property name="nameParser" ref="nameParser"/>
-                </bean>
-                <bean class="org.emonocot.job.taxonmatch.ExampleTaxonMatcher">
-                  <property name="nameParser" ref="nameParser"/>
-                </bean>
-            </list>
-        </property>
-    </bean>-->
-
   <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 
   <bean id="emailService" class="org.emonocot.service.impl.EmailServiceImpl">
@@ -278,6 +265,11 @@
   </bean>
 
   <beans profile="default">
+    <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
+    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
+  </beans>
+
+  <beans profile="use.proxy">
     <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient">
       <property name="proxyHost" value="${http.proxy.host}" />
       <property name="proxyPort" value="${http.proxy.port}" />
@@ -296,10 +288,5 @@
         </bean>
       </property>
     </bean>
-  </beans>
-
-  <beans profile="emonocot.no.proxy">
-    <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
-    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
   </beans>
 </beans>
