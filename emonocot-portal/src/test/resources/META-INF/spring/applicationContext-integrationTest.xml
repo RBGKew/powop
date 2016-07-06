@@ -87,8 +87,6 @@
     class="org.emonocot.portal.http.StaticUsernameAndPasswordHttpClientFactory">
     <property name="username" value="${portalWebservice.harvester.username}" />
     <property name="password" value="${portalWebservice.harvester.password}" />
-    <property name="proxyHost" value="${http.proxy.host}" />
-    <property name="proxyPort" value="${http.proxy.port}" />
   </bean>
 
   <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener"/>
