@@ -25,7 +25,7 @@ public enum DescriptionType {
 	general("http://rs.gbif.org/vocabulary/gbif/descriptionType/general", "general"),
 	diagnostic("http://rs.gbif.org/vocabulary/gbif/descriptionType/diagnostic", "diagnostic"),
 	morphology("http://rs.gbif.org/vocabulary/gbif/descriptionType/morphology", "morphology"),
-	habit("http://rs.gbif.org/vocabulary/gbif/descriptionType/habit", "generalMorphology:habit"),
+	habit("http://rs.gbif.org/vocabulary/gbif/descriptionType/habit", "morphology:general:habit"),
 	cytology("http://rs.gbif.org/vocabulary/gbif/descriptionType/cytology", "cytology"),
 	physiology("http://rs.gbif.org/vocabulary/gbif/descriptionType/physiology", "physiology"),
 	size("http://rs.gbif.org/vocabulary/gbif/descriptionType/size", "size"),
