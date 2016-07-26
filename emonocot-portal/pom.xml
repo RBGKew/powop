@@ -396,21 +396,21 @@
 			<id>functional</id>
 			<build>
 				<plugins>
-					<plugin>
+			<plugin>
 						<groupId>org.kew.maven.plugins</groupId>
 						<artifactId>wait-http-maven-plugin</artifactId>
-						<configuration>
+				<configuration>
 							<skip>false</skip>
-						</configuration>
+				</configuration>
 						<version>1.0-SNAPSHOT</version>
-						<executions>
-							<execution>
+				<executions>
+					<execution>
 								<id>docker</id>
 								<phase>pre-integration-test</phase>
-								<goals>
+						<goals>
 									<goal>wait-http</goal>
-								</goals>
-								<configuration>
+						</goals>
+						<configuration>
 									<protocol>http</protocol>
 									<host>localhost</host>
 									<port>10080</port>
@@ -418,12 +418,12 @@
 									<maxcount>20</maxcount>
 									<timeout>10000</timeout>
 									<initialWait>10000</initialWait>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 		</profile>
 	</profiles>
 </project>

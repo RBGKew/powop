@@ -819,9 +819,9 @@
 				<version>${liquibase.version}</version>
 			</dependency>
 			<dependency>
-			     <groupId>org.liquibase</groupId>
-			     <artifactId>liquibase-maven-plugin</artifactId>
-			     <version>${liquibase.version}</version>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yahoo.platform.yui</groupId>
@@ -1139,8 +1139,8 @@
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.mojo</groupId>
-                <artifactId>sql-maven-plugin</artifactId>
-                <version>1.5</version>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -1206,25 +1206,25 @@
 								<commandlineArgs>rm powop-unit-test-db</commandlineArgs>
 							</configuration>
 						</execution>
-					</executions>    
+					</executions>
 				</plugin>
 				<plugin>
-				    <groupId>org.codehaus.mojo</groupId>
-                	<artifactId>sql-maven-plugin</artifactId>
-                	<version>1.5</version>
-                	<dependencies>
-                    	<dependency>
-                    		<groupId>mysql</groupId>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.5</version>
+					<dependencies>
+						<dependency>
+							<groupId>mysql</groupId>
 							<artifactId>mysql-connector-java</artifactId>
 							<version>${mysql-connector.version}</version>
-                    	</dependency>        
-                	</dependencies>
-                	<configuration>
-                   		<driver>com.mysql.jdbc.Driver</driver>
-                   		<url>jdbc:mysql://127.0.0.1:23306/emonocot</url>
-                   		<username>emonocot</username>
-                	   	<password>emonocot</password>
-                	</configuration>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<driver>com.mysql.jdbc.Driver</driver>
+						<url>jdbc:mysql://127.0.0.1:23306/emonocot</url>
+						<username>emonocot</username>
+						<password>emonocot</password>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -1272,7 +1272,7 @@
 			<plugin>
 		     <groupId>org.codehaus.mojo</groupId>
 		     <artifactId>exec-maven-plugin</artifactId>
-		     <version>1.2.1</version>   
+		     <version>1.2.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
