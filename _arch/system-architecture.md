@@ -22,7 +22,8 @@ The web application is split into two components, the portal and harvester. Each
 packaged in it's own tomcat container and run independently. Apache sits in front of the
 tomcat applications as a proxy and to serve static assets.
 
-Docker images are built via maven and the spotify docker-maven-plugin. Docker
+Docker images are built via maven and the
+[docker-maven-plugin](https://github.com/spotify/docker-maven-plugin). Docker
 configuration lives in the `docker/` directory of the relevant submodule.
 
 # Kubernetes
