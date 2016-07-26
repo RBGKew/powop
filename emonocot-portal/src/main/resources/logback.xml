@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} | %-5p | %t | %logger{1} | %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.apache" level="warn"/>
+  <logger name="org.hibernate" level="info"/>
+  <logger name="org.springframework.beans" level="info"/>
+  <logger name="org.springframework.jdbc" level="info"/>
+  <logger name="org.springframework.orm" level="info"/>
+  <logger name="org.springframework.security" level="info" />
+  <logger name="org.springframework.scheduling" level="info" />
+  <logger name="org.emonocot.job.dwc.read.BaseDataFieldSetMapper" level="info"/>
+  <logger name="org.emonocot.job.dwc.taxon.FieldSetMapper" level="info"/>
+  <logger name="org.apache.jasper.servlet.TldScanner" level="fine" />
+  <logger name="org.quartz" level="info" />
+
+  <root level="info">
+    <appender-ref ref="stdout"/>
+  </root>
+</configuration>

@@ -16,7 +16,8 @@
     http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties,classpath*:META-INF/spring/emonocot-harvest.properties,classpath*:META-INF/spring/emonocot-harvest-db.properties" />
+  <context:property-placeholder location="classpath*:META-INF/spring/test.properties" order="1" ignore-unresolvable="true" />
+  <context:property-placeholder location="classpath*:META-INF/spring/application.properties" order="2" />
 
   <!-- Integration setup for read write jobs -->
   <bean id="readWriteJobLaunchRequestsQueue" class="org.apache.activemq.command.ActiveMQQueue">

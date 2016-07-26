@@ -11,9 +11,8 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-  <context:property-placeholder ignore-unresolvable="true" location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
-
-  <context:property-placeholder location="classpath*:META-INF/spring/application.properties,classpath*:META-INF/spring/database.properties" />
+  <context:property-placeholder location="classpath*:META-INF/spring/test.properties" order="1" ignore-unresolvable="true" />
+  <context:property-placeholder location="classpath*:META-INF/spring/application.properties" order="2" />
 
   <context:component-scan base-package="org.emonocot">
     <context:exclude-filter type="assignable" expression="org.emonocot.service.DownloadService" />

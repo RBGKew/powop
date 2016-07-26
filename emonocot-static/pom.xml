@@ -68,7 +68,7 @@
         </executions>
       </plugin>
 
-      <!-- Copy static resources into target/static/ and target/world-flora/static/ structure -->
+      <!-- Copy static resources into target/static/ -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -104,25 +104,6 @@
                 </copy>
                 <copy todir="${project.build.directory}/static/tiles">
                   <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
-                </copy>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-
-          <!-- AFTER the LESS/JS has been compiled, duplicate the base version into the world-flora build directory -->
-          <execution>
-            <id>world-flora-static.copy.css.and.js</id>
-            <phase>prepare-package</phase>
-            <configuration>
-              <tasks>
-                <copy todir="${project.build.directory}/world-flora/static/css">
-                  <fileset dir="${project.build.directory}/static/css/" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/world-flora/static/js">
-                  <fileset dir="${project.build.directory}/static/js/" includes="**/*" />
                 </copy>
               </tasks>
             </configuration>
@@ -283,7 +264,47 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- Build apache container with bundled assets -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.11</version>
+				<configuration>
+					<imageName>${docker.registry}/apache</imageName>
+					<dockerDirectory>${project.basedir}/docker</dockerDirectory>
+					<forceTags>true</forceTags>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+              <include>static/</include>
+						</resource>
+					</resources>
+				</configuration>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>tag-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+						<configuration>
+							<image>${docker.registry}/apache</image>
+							<newName>${docker.registry}/apache:${project.version}</newName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
@@ -327,50 +348,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <!-- Copies to a server (for development/testing only). -->
-  <profiles>
-    <profile>
-      <id>portal.test.vagrant</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>wagon-maven-plugin</artifactId>
-            <version>1.0</version>
-            <executions>
-              <execution>
-                <id>upload-asset-bundle</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>upload-single</goal>
-                </goals>
-                <configuration>
-                  <fromFile>${project.build.directory}/${output.file}</fromFile>
-                  <serverId>${wagon.server.id}</serverId>
-                  <url>${wagon.static.url}</url>
-                </configuration>
-              </execution>
-
-              <execution>
-                <id>unpack-assets</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>sshexec</goal>
-                </goals>
-                <configuration>
-                  <serverId>${wagon.server.id}</serverId>
-                  <url>${wagon.static.url}</url>
-                  <commands>
-                    <command>tar -xzf ${wagon.target.dir}${output.file} -C ${wagon.target.dir}</command>
-                  </commands>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
 </project>

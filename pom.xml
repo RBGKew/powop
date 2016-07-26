@@ -36,6 +36,7 @@
 
 	<properties>
 		<aspectj.version>1.6.12</aspectj.version>
+		<docker.registry>eu.gcr.io/powop-1349</docker.registry>
 		<geotools.version>2.7.0</geotools.version>
 		<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
 		<hibernate.version>3.6.7.Final</hibernate.version>
@@ -46,13 +47,13 @@
 		<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skip.global.tests>true</skip.global.tests>
+		<skip.global.tests>true</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
 		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
 		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
 		<spring.integration.version>2.2.1.RELEASE</spring.integration.version>
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		<spring.version>3.2.1.RELEASE</spring.version>
-		<skip.global.tests>true</skip.global.tests>
 	</properties>
 
 	<!--issueManagement>
@@ -1142,6 +1143,11 @@
 				<artifactId>sql-maven-plugin</artifactId>
 				<version>1.5</version>
 			</dependency>
+			<dependency>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.11</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -1442,8 +1448,6 @@
 		</repository>
 	</distributionManagement>
 
-
-
 	<reporting>
 		<plugins>
 			<plugin>
@@ -1515,7 +1519,6 @@
 		<profile>
 			<id>unit</id>
 			<properties>
-				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 				<skip.global.tests>true</skip.global.tests>
 			</properties>
 			<build>
@@ -1567,7 +1570,6 @@
 				<test.db.port>23306</test.db.port>
 				<test.db>emonocot</test.db>
 				<test.db.conf>${project.parent.basedir}/src/test/resources/mysql</test.db.conf>
-				<test.resource.baseUrl>https://github.com/RBGKew/eMonocot/raw/master/emonocot-harvest/src/test/resources/org/emonocot/job/common/</test.resource.baseUrl>
 			</properties>
 			<build>
 			<plugins>
@@ -1599,230 +1601,6 @@
 				</plugins>
 
 			</build>
-		</profile>
-
-		<profile>
-			<id>functional</id>
-			<properties>
-				<skip.global.tests>true</skip.global.tests>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.8.1</version>
-						<executions>
-							<execution>
-								<id>functional-tests</id>
-								<phase>integration-test</phase>
-								<goals>
-									<goal>test</goal>
-								</goals>
-								<configuration>
-									<argLine>-Xmx1024m -XX:MaxPermSize=512m -Dhttp.proxyHost=${http.proxy.host} -Dhttp.proxyPort=${http.proxy.port} -Dhttps.proxyHost=${http.proxy.host} -Dhttps.proxyPort=${http.proxy.port}</argLine>
-									<skip>false</skip>
-									<includes>
-										<include>**/*FunctionalTest.java</include>
-									</includes>
-									<excludes>
-										<exclude>**/*IntegrationTest.java</exclude>
-									</excludes>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>portal.test.kpttapp</id>
-			<!-- Profile for running tests against the Continuous Integration server kpttapp01.ad.kew.org. -->
-			<properties>
-				<use.remote.solr>false</use.remote.solr>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>http://kpttapp01.ad.kew.org:8080/geoserver/wms</web.map.server.url><!-- Change to kpttweb when fixed. -->
-				<amq.broker.uri>tcp://kpttapp01:6166</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
-				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://kpttapp01.ad.kew.org:18080</portal.baseUrl><!-- Change to kpttweb when fixed. -->
-				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://kpttapp01.ad.kew.org:8080/emonocot-portal</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://kpttapp01.ad.kew.org:8080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>sadmin</cargo.remote.username>
-				<cargo.remote.password>kewadmin</cargo.remote.password>
-				<cargo.portal.context.path>/emonocot-portal</cargo.portal.context.path>
-				<wagon.static.url>scp://kpttweb01.ad.kew.org:/var/www/html/</wagon.static.url><!-- May need changing once kpttweb01 is fixed. -->
-				<wagon.server.id>kpttweb01</wagon.server.id>
-				<liquibase.drop.database.first>true</liquibase.drop.database.first>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.show_sql>false</hibernate.show_sql>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
-				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
-				<spring.security.class.identity.query>call identity()</spring.security.class.identity.query>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://ktdb01.ad.kew.org:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot</jdbc.driver.username>
-				<jdbc.driver.password>m0n0pa55</jdbc.driver.password>
-				<functional.test.baseUri>http://kpttapp01.ad.kew.org</functional.test.baseUri><!-- Change to kpttweb when fixed. -->
-				<functional.test.basePath>/emonocot-portal</functional.test.basePath>
-				<functional.test.port>8080</functional.test.port><!-- Change to 80 when kpttweb fixed. -->
-				<functional.test.solr.url>http://kpttapp01.ad.kew.org:8983/solr</functional.test.solr.url>
-				<functional.test.username>test@e-monocot.org</functional.test.username>
-				<functional.test.password>t35t.pa55w0rd</functional.test.password>
-				<selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
-				<selenium.webdriver.mode>local</selenium.webdriver.mode>
-				<selenium.display.port>:1</selenium.display.port>
-				<solr.url>http://localhost:8983/solr</solr.url>
-				<email.debug>false</email.debug>
-				<email.smtp.username />
-				<email.smtp.password />
-				<email.smtp.host>localhost</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>test-portal@kpttapp01</email.fromAddress>
-				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
-				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
-				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-			</properties>
-			<!-- TODO: Pre-deployment of application to Tomcat. -->
-		</profile>
-
-		<profile>
-			<id>portal.test.vagrant</id>
-			<!-- Profile for running tests against a local Vagrant setup. -->
-			<!-- Many of these parameters shouldn't be necessary, they should be supplied on Tomcat's classpath (external configuration). -->
-			<properties>
-				<spring.profiles.active>local.tests</spring.profiles.active>
-				<use.remote.solr>false</use.remote.solr>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<web.map.server.url>/geoserver/wms</web.map.server.url>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
-				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<portal.baseUrl>http://localhost:10080</portal.baseUrl>
-				<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.url>http://localhost:18080</cargo.tomcat.url>
-				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>letmein</cargo.remote.password>
-				<cargo.portal.context.path>/</cargo.portal.context.path>
-				<wagon.target.dir>/var/www/</wagon.target.dir>
-				<wagon.static.url>scp://localhost:2222${wagon.target.dir}</wagon.static.url>
-				<wagon.server.id>vagrant</wagon.server.id>
-				<liquibase.drop.database.first>true</liquibase.drop.database.first>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.show_sql>false</hibernate.show_sql>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-portal/cache</ehcache.diskstore.path>
-				<ehcache.config.location>classpath:/META-INF/ehcache.xml</ehcache.config.location>
-				<spring.security.sid.identity.query>call identity()</spring.security.sid.identity.query>
-				<spring.security.class.identity.query>call identity()</spring.security.class.identity.query>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
-				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-				<functional.test.baseUri>http://localhost</functional.test.baseUri>
-				<functional.test.basePath />
-				<functional.test.port>10080</functional.test.port>
-				<functional.test.solr.url>http://localhost:18983/solr</functional.test.solr.url>
-				<functional.test.username>test@e-monocot.org</functional.test.username>
-				<functional.test.password>t35t.pa55w0rd</functional.test.password>
-				<selenium.webdriver.impl>org.openqa.selenium.firefox.FirefoxDriver</selenium.webdriver.impl>
-				<selenium.webdriver.mode>local</selenium.webdriver.mode>
-				<selenium.display.port>:0</selenium.display.port>
-				<solr.url>http://localhost:18983/solr</solr.url>
-				<email.debug>false</email.debug>
-				<email.smtp.username />
-				<email.smtp.password />
-				<email.smtp.host>localhost</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>portal@localhost</email.fromAddress>
-				<portal.image.temporary.directory>/var/spool/emonocot</portal.image.temporary.directory>
-				<portal.profile.image.directory>/var/lib/emonocot/images/profiles</portal.profile.image.directory>
-				<support.issuetracker>http://build.e-monocot.org/bugzilla/enter_bug.cgi</support.issuetracker>
-				<maven.javadoc.skip>true</maven.javadoc.skip>
-				<maven.site.skip>true</maven.site.skip>
-			</properties>
-			<!-- TODO: Deploy using Cargo -->
-		</profile>
-
-		<profile>
-			<id>harvest.test.vagrant</id>
-			<properties>
-				<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
-				<portalWebservice.harvester.username>portal</portalWebservice.harvester.username>
-				<portalWebservice.harvester.password>portal</portalWebservice.harvester.password>
-				<portal.baseUrl>http://localhost:10080</portal.baseUrl>
-				<amq.broker.uri>tcp://localhost:61616</amq.broker.uri>
-				<amq.broker.userName>emonocot</amq.broker.userName>
-				<amq.broker.password>emonocot</amq.broker.password>
-				<amq.broker.readOnlyQueue>emonocot.readOnlyQueue</amq.broker.readOnlyQueue>
-				<amq.broker.readWriteQueue>emonocot.readWriteQueue</amq.broker.readWriteQueue>
-				<harvester.baseUrl>http://localhost:10080/emonocot-harvest</harvester.baseUrl>
-				<harvester.services.client.identifier>zoo.ox.ac.uk</harvester.services.client.identifier>
-				<harvester.admin.password>adm1n</harvester.admin.password>
-				<harvester.image.directory>/var/lib/emonocot/images/fullsize</harvester.image.directory>
-				<harvester.thumbnail.directory>/var/lib/emonocot/images/thumbnails</harvester.thumbnail.directory>
-				<harvester.imagemagick.path>/usr/bin</harvester.imagemagick.path>
-				<harvester.spool.directory>/var/spool/emonocot</harvester.spool.directory>
-				<harvester.output.directory>/var/lib/emonocot/output/</harvester.output.directory>
-				<batch.job.configuration.file.dir>file:/var/cache/tomcat7/temp/emonocot/</batch.job.configuration.file.dir>
-				<cargo.containerId>tomcat7x</cargo.containerId>
-				<cargo.tomcat.manager.url>http://localhost:18080/manager/text</cargo.tomcat.manager.url>
-				<cargo.remote.username>admin</cargo.remote.username>
-				<cargo.remote.password>letmein</cargo.remote.password>
-				<cargo.harvester.context.path>emonocot-harvest</cargo.harvester.context.path>
-				<liquibase.drop.database.first>false</liquibase.drop.database.first>
-				<liquibase.changelog>changelog.mysql.xml</liquibase.changelog>
-				<liquibase.username>liquibase</liquibase.username>
-				<liquibase.password>l1qu1ba53</liquibase.password>
-				<liquibase.default.schema.name>emonocot</liquibase.default.schema.name>
-				<hibernate.dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</hibernate.dialect>
-				<hibernate.show_sql>false</hibernate.show_sql>
-				<solr.url>http://localhost:8983/solr</solr.url>
-				<solr.core>collection1</solr.core>
-				<solr.max.segments>5</solr.max.segments>
-				<ehcache.diskstore.path>/var/cache/tomcat7/work/emonocot-harvest/cache</ehcache.diskstore.path>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.url>jdbc:mysql://localhost:3306/emonocot</jdbc.driver.url>
-				<jdbc.driver.username>emonocot-user</jdbc.driver.username>
-				<jdbc.driver.password>eM0n0c0t</jdbc.driver.password>
-				<download.citation.string>eMonocot Citation String</download.citation.string>
-				<download.creator.email>creator@e-monocot.org</download.creator.email>
-				<download.creator.name>Creator Name</download.creator.name>
-				<download.meta.description>Description String</download.meta.description>
-				<download.homepage.url>http://e-monocot.org</download.homepage.url>
-				<download.identifier>eMonocot</download.identifier>
-				<download.logo.url>http://e-monocot.org/css/images/logo.png</download.logo.url>
-				<download.publisher.email>publisher@e-monocot.org</download.publisher.email>
-				<download.publisher.name>Publisher Name</download.publisher.name>
-				<download.rights>Rights Statement</download.rights>
-				<download.subject>Subject Keywords</download.subject>
-				<download.title>eMonocot Download</download.title>
-				<email.debug>false</email.debug>
-				<email.smtp.username>portal</email.smtp.username>
-				<email.smtp.password>portal</email.smtp.password>
-				<email.smtp.host>localhost</email.smtp.host>
-				<email.smtp.port>25</email.smtp.port>
-				<email.smtp.auth>false</email.smtp.auth>
-				<email.smtp.enable.starttls>false</email.smtp.enable.starttls>
-				<email.fromAddress>portal@localhost</email.fromAddress>
-				<maven.javadoc.skip>true</maven.javadoc.skip>
-				<maven.site.skip>true</maven.site.skip>
-			</properties>
 		</profile>
 	</profiles>
 	<dependencies>

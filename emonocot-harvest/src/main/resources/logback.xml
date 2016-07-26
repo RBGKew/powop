@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} | %-5p | %t | %logger{1} | %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.apache" level="warn"/>
+  <!--logger name="org.hibernate.SQL" level="debug"/ -->
+  <!-- logger name="org.hibernate.type" level="all" /-->
+  <logger name="org.springframework" level="info"/>
+  <logger name="org.springframework.jdbc" level="info"/>
+  <logger name="org.springframework.orm" level="info"/>
+  <logger name="org.springframework.security" level="info"/>
+  <logger name="org.emonocot.job.dwc.read.BaseDataFieldSetMapper" level="info"/>
+  <logger name="org.emonocot.job.dwc.taxon.FieldSetMapper" level="info"/>
+
+  <root level="info">
+    <appender-ref ref="stdout"/>
+  </root>
+
+  <!-- uncomment to see spring integration messages -->
+  <!-- <logger level="DEBUG" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger> -->
+
+  <!-- uncomment to see job output -->
+  <!-- <logger name="org.emonocot.job" level="DEBUG" additivity="false">
+    <appender-ref ref="file"/>
+  </logger>-->
+</configuration>

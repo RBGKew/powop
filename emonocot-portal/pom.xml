@@ -310,6 +310,10 @@
 			<groupId>net.java.truevfs</groupId>
 			<artifactId>truevfs-profile-default</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.spotify</groupId>
+			<artifactId>docker-maven-plugin</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -345,42 +349,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.1.4</version>
-				<configuration>
-					<container>
-						<containerId>${cargo.containerId}</containerId>
-						<type>remote</type>
-					</container>
-					<configuration>
-						<type>runtime</type>
-						<properties>
-              <!-- These parameters are defined in ../pom.xml or a profile in $HOME/.m2/settings.xml -->
-							<cargo.remote.uri>${cargo.tomcat.manager.url}</cargo.remote.uri>
-							<cargo.remote.username>${cargo.remote.username}</cargo.remote.username>
-							<cargo.remote.password>${cargo.remote.password}</cargo.remote.password>
-						</properties>
-					</configuration>
-					<deployer>
-						<type>remote</type>
-						<deployables>
-							<deployable>
-								<groupId>${project.groupId}</groupId>
-								<artifactId>${project.artifactId}</artifactId>
-								<type>war</type>
-								<pingURL>${cargo.tomcat.url}/login</pingURL>
-								<pingTimeout>10000</pingTimeout>
-								<properties>
-									<context>${cargo.portal.context.path}</context>
-								</properties>
-							</deployable>
-						</deployables>
-					</deployer>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.8</version>
@@ -389,41 +357,43 @@
 				</configuration>
 			</plugin>
 
-		</plugins>
-	</build>
-	<profiles>
-		<profile>
-			<id>functional</id>
-			<build>
-				<plugins>
 			<plugin>
-						<groupId>org.kew.maven.plugins</groupId>
-						<artifactId>wait-http-maven-plugin</artifactId>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.11</version>
 				<configuration>
-							<skip>false</skip>
+					<imageName>${docker.registry}/portal</imageName>
+					<dockerDirectory>${project.basedir}/docker</dockerDirectory>
+					<forceTags>true</forceTags>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.war</include>
+						</resource>
+					</resources>
 				</configuration>
-						<version>1.0-SNAPSHOT</version>
 				<executions>
 					<execution>
-								<id>docker</id>
-								<phase>pre-integration-test</phase>
+						<id>build-image</id>
+						<phase>package</phase>
 						<goals>
-									<goal>wait-http</goal>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>tag-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>tag</goal>
 						</goals>
 						<configuration>
-									<protocol>http</protocol>
-									<host>localhost</host>
-									<port>10080</port>
-									<file>/search</file>
-									<maxcount>20</maxcount>
-									<timeout>10000</timeout>
-									<initialWait>10000</initialWait>
+							<image>${docker.registry}/portal</image>
+							<newName>${docker.registry}/portal:${project.version}</newName>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-		</profile>
-	</profiles>
 </project>
