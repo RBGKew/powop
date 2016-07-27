@@ -16,6 +16,11 @@
  */
 package org.emonocot.model.constants;
 
+import java.util.Set;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
 /**
  * @see http://rs.gbif.org/vocabulary/gbif/description_type.xml
  */
@@ -88,6 +93,7 @@ public enum DescriptionType {
 	morphologyLeafLaminaVenation("morphology:leaf:lamina:venation"),
 	morphologyLeafLeafSheaths("morphology:leaf:leaf-sheaths"),
 	morphologyLeafLigule("morphology:leaf:ligule"),
+	morphologyLeafLigules("morphology:leaf:ligules"),
 	morphologyLeafOcrea("morphology:leaf:ocrea"),
 	morphologyLeafPetiole("morphology:leaf:petiole"),
 	morphologyLeafStipules("morphology:leaf:stipules"),
@@ -102,6 +108,7 @@ public enum DescriptionType {
 	morphologyReproductiveFlowersColumn("morphology:reproductive:flowers:column"),
 	morphologyReproductiveFlowersCorolla("morphology:reproductive:flowers:corolla"),
 	morphologyReproductiveFlowersCorona("morphology:reproductive:flowers:corona"),
+	morphologyReproductiveFlowersDisc("morphology:reproductive:flowers:disc"),
 	morphologyReproductiveFlowersEpicalyx("morphology:reproductive:flowers:epicalyx"),
 	morphologyReproductiveFlowersGynoecium("morphology:reproductive:flowers:gynoecium"),
 	morphologyReproductiveFlowersGynophore("morphology:reproductive:flowers:gynophore"),
@@ -145,6 +152,86 @@ public enum DescriptionType {
 
 	public static final DescriptionType generalDescriptionType = habit;
 
+	public static final ImmutableMap<String, Set<DescriptionType>> searchCategories = ImmutableMap.<String, Set<DescriptionType>>builder()
+			.put("appearance", ImmutableSet.<DescriptionType>of(
+					morphologyGeneral,
+					morphologyGeneralAreoles,
+					morphologyGeneralBuds,
+					morphologyGeneralColleters,
+					morphologyGeneralCystoliths,
+					morphologyGeneralExudate,
+					morphologyGeneralGlands,
+					morphologyGeneralHabit,
+					morphologyGeneralIndumentum,
+					morphologyGeneralSpines,
+					morphologyGeneralTendrils,
+					morphologyGeneralThallus,
+					morphologyGeneralTraps,
+					morphologyRoot,
+					morphologyStem,
+					morphologyStemCladodes,
+					morphologyGeneralWood,
+					vegetativeMultiplication,
+					constructionalOrganisationGrowth))
+			.put("inflorescence", ImmutableSet.<DescriptionType>of(
+					morphologyReproductiveCones,
+					morphologyReproductiveInflorescences,
+					morphologyReproductiveInflorescencesBracts,
+					morphologyReproductiveInflorescencesPeduncle,
+					morphologyReproductiveInflorescencesScape,
+					morphologyReproductiveInflorescencesSpikelets,
+					morphologyReproductiveInflorescencesSpikeletsPedicelled,
+					morphologyReproductiveInflorescencesSpikeletsSessile,
+					morphologyReproductiveInflorescencesSpikeletsSubsessile))
+			.put("fruit", ImmutableSet.<DescriptionType>of(
+					morphologyReproductiveFruits,
+					morphologyReproductiveInfructescences))
+			.put("leaves", ImmutableSet.<DescriptionType>of(
+					morphologyLeaf,
+					morphologyLeafScaleLeaves,
+					morphologyLeafLamina,
+					morphologyLeafLaminaMargins,
+					morphologyLeafLaminaVenation,
+					morphologyLeafLeafSheaths,
+					morphologyLeafLigule,
+					morphologyLeafLigules,
+					morphologyLeafOcrea,
+					morphologyLeafPetiole,
+					morphologyLeafStipules))
+			.put("flower", ImmutableSet.<DescriptionType>of(
+					morphologyReproductive,
+					morphologyReproductiveFlowers,
+					morphologyReproductiveFlowersAndroecium,
+					morphologyReproductiveFlowersAndrogynophore,
+					morphologyReproductiveFlowersBracts,
+					morphologyReproductiveFlowersBuds,
+					morphologyReproductiveFlowersCalyx,
+					morphologyReproductiveFlowersColumn,
+					morphologyReproductiveFlowersCorolla,
+					morphologyReproductiveFlowersCorona,
+					morphologyReproductiveFlowersEpicalyx,
+					morphologyReproductiveFlowersGynoecium,
+					morphologyReproductiveFlowersGynophore,
+					morphologyReproductiveFlowersHypanthium,
+					morphologyReproductiveFlowersLodicules,
+					morphologyReproductiveFlowersNectaries,
+					morphologyReproductiveFlowersPedicel,
+					morphologyReproductiveFlowersPerianth,
+					morphologyReproductiveFlowersReceptacle,
+					morphologyReproductiveFlowersSterileParts,
+					morphologyReproductiveFlowersDisc))
+			.put("seed", ImmutableSet.<DescriptionType>of(
+					morphologyReproductiveGermination,
+					morphologyReproductiveSeeds))
+			.put("vegitativePropagation", ImmutableSet.<DescriptionType>of(
+					vegetativeMultiplicationBulbils,
+					vegetativeMultiplicationBulbs,
+					vegetativeMultiplicationCorms,
+					vegetativeMultiplicationPseudobulbs,
+					vegetativeMultiplicationRhizome,
+					vegetativeMultiplicationTubers))
+			.build();
+
 	private String uri;
 
 	private String term;
@@ -167,6 +254,21 @@ public enum DescriptionType {
 	public static DescriptionType fromString(final String string) {
 		return lookup(string);
 	}
+
+	public boolean hasSearchCategory() {
+		return getSearchCategory() != null;
+	}
+
+	public String getSearchCategory() {
+		for(String category : searchCategories.keySet()) {
+			if(searchCategories.get(category).contains(this)) {
+				return category;
+			}
+		}
+
+		return null;
+	}
+
 
 	private static DescriptionType lookup(final String string) {
 		for (DescriptionType f : DescriptionType.values()) {

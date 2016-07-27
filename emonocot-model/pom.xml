@@ -164,6 +164,10 @@
       <groupId>com.spatial4j</groupId>
       <artifactId>spatial4j</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

@@ -39,37 +39,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 
-/**
- *
- * @author ben
- *
- */
-
 public class SearchIntegrationTest extends AbstractPersistenceTest {
 
 	private static Logger logger = LoggerFactory.getLogger(SearchIntegrationTest.class);
 
-	/**
-	 * @throws java.lang.Exception
-	 *             if there is a problem
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		super.doSetUp();
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 *             if there is a problem
-	 */
 	@After
 	public final void tearDown() throws Exception {
 		super.doTearDown();
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public final void setUpTestData() {
 		Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
@@ -92,15 +75,11 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 				null, null, new Location[] {}, null);
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void testSearch() throws Exception {
 		Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
-				new String[] {"taxon.distribution_TDWG_0_ss" }, null, null, null, null);
+				new String[] {"taxon.distribution_ss" }, null, null, null, null);
 		assertEquals("There should be 5 taxa matching Aus", new Integer(5), (Integer)results.getSize());
-
 	}
 
 	@Test
@@ -109,17 +88,14 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 		assertEquals("The nomenclaturalStatus must be null",null,taxon.getNomenclaturalStatus());
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void testRestrictedSearch() throws Exception {
 		Map<String, String> selectedFacets = new HashMap<String, String>();
 
-		selectedFacets.put("taxon.distribution_TDWG_0_ss", "AUSTRALASIA");
+		selectedFacets.put("taxon.distribution_ss", Location.AUSTRALASIA.getCode());
 
 		Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
-				new String[] {"taxon.distribution_TDWG_0_ss" , "taxon.distribution_TDWG_1_ss"}, null, selectedFacets, null, null);
+				new String[] {"taxon.distribution_ss"}, null, selectedFacets, null, null);
 		assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", new Integer(2), (Integer)results.getSize());
 		for(String facetName : results.getFacetNames()) {
 			logger.debug(facetName);
@@ -130,13 +106,9 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 		}
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void testSearchEmbeddedContent() throws Exception {
-		Page<SearchableObject> page = getSearchableObjectDao().search("Lorem", null, null, null,
-				null, null, null, null, null);
+		Page<SearchableObject> page = getSearchableObjectDao().search("Lorem", null, null, null, null, null, null, null, null);
 
 		assertFalse(page.getSize() == 0);
 	}
@@ -151,7 +123,6 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	@Test
 	public final void testSearchBySynonym() throws Exception {
 		Page<SearchableObject> results = searchableObjectDao.search("deus", null, null, null, null, null, null, null, null);
-
 
 		assertEquals("There should be 2 results, the synonym and accepted name", 2, results.getSize().intValue());
 	}

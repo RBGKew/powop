@@ -38,6 +38,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.MediaType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.emonocot.model.solr.IdentificationKeySolrInputDocument;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -155,36 +156,6 @@ public class IdentificationKey extends Multimedia {
 
 	@Override
 	public SolrInputDocument toSolrInputDocument() {
-		SolrInputDocument sid = super.toSolrInputDocument();
-		StringBuilder summary = new StringBuilder().append(getTitle()).append(" ")
-				.append(getCreator()).append(" ").append(getDescription());
-		if(getTaxa() != null) {
-			boolean first = true;
-			for(Taxon t : getTaxa()) {
-				if(first) {
-					addField(sid,"taxon.order_s", t.getOrder());
-					addField(sid,"taxon.subgenus_s", t.getSubgenus());
-				}
-				addField(sid,"taxon.family_ss", t.getFamily());
-				addField(sid,"taxon.genus_ss", t.getGenus());
-				addField(sid,"taxon.subfamily_ss", t.getSubfamily());
-				addField(sid,"taxon.subtribe_ss", t.getSubtribe());
-				addField(sid,"taxon.tribe_ss", t.getTribe());
-				summary.append(" ").append(t.getClazz())
-				.append(" ").append(t.getFamily())
-				.append(" ").append(t.getGenus())
-				.append(" ").append(t.getKingdom())
-				.append(" ").append(t.getOrder())
-				.append(" ").append(t.getPhylum())
-				.append(" ").append(t.getSubfamily())
-				.append(" ").append(t.getSubgenus())
-				.append(" ").append(t.getSubtribe())
-				.append(" ").append(t.getTribe());
-				first = false;
-			}
-		}
-		sid.addField("searchable.solrsummary_t", summary.toString());
-
-		return sid;
+		return new IdentificationKeySolrInputDocument(this).build();
 	}
 }

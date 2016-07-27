@@ -1402,12 +1402,4 @@ public enum Location {
 			return false;
 		}
 	}
-
-	private static class InvertCoordinateFilter implements CoordinateFilter {
-		public void filter(Coordinate coord) {
-			double oldX = coord.x;
-			coord.x = coord.y;
-			coord.y = oldX;
-		}
-	}
 }

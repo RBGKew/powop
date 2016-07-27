@@ -17,6 +17,15 @@
 package org.emonocot.model.constants;
 
 public enum MeasurementUnit {
-	METRES
+	KILOMETRES,
+	KILOMETERS,
+	METRES,
+	METERS,
+	CENTEMETRES,
+	CENTEMETERS,
+	MILLIMITRES,
+	MILLIMITERS,
 
+	FEET,
+	INCHES,
 }

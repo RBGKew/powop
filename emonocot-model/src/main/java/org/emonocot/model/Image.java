@@ -43,6 +43,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.marshall.json.TaxonDeserializer;
 import org.emonocot.model.marshall.json.TaxonSerializer;
+import org.emonocot.model.solr.ImageSolrInputDocument;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -283,35 +284,7 @@ public class Image extends Multimedia {
 
 	@Override
 	public SolrInputDocument toSolrInputDocument() {
-		SolrInputDocument sid = super.toSolrInputDocument();
-
-		StringBuilder summary = new StringBuilder().append(getAudience())
-				.append(" ").append(getCreator()).append(" ")
-				.append(getDescription()).append(" ").append(getPublisher())
-				.append(" ").append(getReferences()).append(" ")
-				.append(getSubject()).append(" ").append(getTitle()).append(" ");
-		if(getTaxon() != null) {
-			addField(sid,"taxon.family_ss", getTaxon().getFamily());
-			addField(sid,"taxon.genus_ss", getTaxon().getGenus());
-			addField(sid,"taxon.order_s", getTaxon().getOrder());
-			addField(sid,"taxon.subfamily_ss", getTaxon().getSubfamily());
-			addField(sid,"taxon.subgenus_s", getTaxon().getSubgenus());
-			addField(sid,"taxon.subtribe_ss", getTaxon().getSubtribe());
-			addField(sid,"taxon.tribe_ss", getTaxon().getTribe());
-			summary.append(" ").append(getTaxon().getClazz())
-			.append(" ").append(getTaxon().getClazz())
-			.append(" ").append(getTaxon().getFamily())
-			.append(" ").append(getTaxon().getGenus())
-			.append(" ").append(getTaxon().getKingdom())
-			.append(" ").append(getTaxon().getOrder())
-			.append(" ").append(getTaxon().getPhylum())
-			.append(" ").append(getTaxon().getSubfamily())
-			.append(" ").append(getTaxon().getSubgenus())
-			.append(" ").append(getTaxon().getSubtribe())
-			.append(" ").append(getTaxon().getTribe());
-		}
-		sid.addField("searchable.solrsummary_t", summary.toString());
-		return sid;
+		return new ImageSolrInputDocument(this).build();
 	}
 
 	@Override
