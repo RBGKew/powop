@@ -1,0 +1,432 @@
+Europe	3	1
+Africa	3	2
+Asia-Temperate	3	3
+Asia-Tropical	3	4
+Australasia	1	5
+Pacific	3	6
+Northern America	3	7
+Southern America	3	8
+Antarctic	3	9
+
+Northern Europe	1	10
+Middle Europe	1	11
+Southwestern Europe	1	12
+Southeastern Europe	1	13
+Eastern Europe	1	14
+Northern Africa	1	20
+Macaronesia	2	21
+West Tropical Africa	1	22
+West-Central Tropical Africa	1	23
+Northeast Tropical Africa	1	24
+East Tropical Africa	1	25
+South Tropical Africa	1	26
+Southern Africa	1	27
+Middle Atlantic Ocean	1	28
+Western Indian Ocean	1	29
+Siberia	2	30
+Russian Far East	1	31
+Middle Asia	1	32
+Caucasus	2	33
+Western Asia	1	34
+Arabian Peninsula	1	35
+China	2	36
+Mongolia	2	37
+Eastern Asia	1	38
+Indian Subcontinent	1	40
+Indo-China	1	41
+Malesia	2	42
+Papuasia	2	43
+Australia	2	50
+New Zealand	2	51
+Southwestern Pacific	1	60
+South-Central Pacific	1	61
+Northwestern Pacific	1	62
+North-Central Pacific	1	63
+Subarctic America	1	70
+Western Canada	1	71
+Eastern Canada	1	72
+Northwestern U.S.A.	1	73
+North-Central U.S.A.	1	74
+Northeastern U.S.A.	1	75
+Southwestern U.S.A.	1	76
+South-Central U.S.A.	1	77
+Southeastern U.S.A.	1	78
+Mexico	2	79
+Central America	1	80
+Caribbean	2	81
+Northern South America	1	82
+Western South America	1	83
+Brazil	2	84
+Southern South America	1	85
+Subantarctic Islands	1	90
+Antarctic Continent	1	91
+
+Krym	2	KRY
+Poland	2	POL
+Austria	2	AUT
+Belgium	2	BGM
+Germany	2	GER
+Hungary	2	HUN
+Norway	2	NOR
+Sweden	2	SWE
+Belarus	2	BLR
+Ukraine	2	UKR
+Denmark	2	DEN
+Finland	2	FIN
+Føroyar	2	FOR
+Iceland	2	ICE
+Ireland	2	IRE
+Svalbard	2	SVA
+Netherlands	2	NET
+Switzerland	2	SWI
+Corse	2	COR
+Spain	2	SPA
+Italy	2	ITA
+Kriti	2	KRI
+France	2	FRA
+Greece	2	GRC
+Albania	2	ALB
+Romania	2	ROM
+Sicilia	2	SIC
+Czechoslovakia	2	CZE
+Baleares	2	BAL
+Portugal	2	POR
+Sardegna	2	SAR
+Bulgaria	2	BUL
+Baltic States	2	BLT
+Great Britain	2	GRB
+Yugoslavia	2	YUG
+East European Russia	2	RUE
+Turkey-in-Europe	2	TUE
+North European Russia	2	RUN
+South European Russia	2	RUS
+Central European Russia	2	RUC
+Northwest European Russia	2	RUW
+Azores	2	AZO
+Madeira	2	MDR
+Egypt	2	EGY
+Libya	2	LBY
+Selvagens	2	SEL
+Canary Is.	2	CNY
+Cape Verde	2	CVI
+Algeria	2	ALG
+Morocco	2	MOR
+Tunisia	2	TUN
+Lesotho	2	LES
+Namibia	2	NAM
+Botswana	2	BOT
+Mali	2	MLI
+Togo	2	TOG
+Swaziland	2	SWZ
+Benin	2	BEN
+Ghana	2	GHA
+Niger	2	NGR
+Kenya	2	KEN
+Free State	2	OFS
+Guinea	2	GUI
+Uganda	2	UGA
+Burkina	2	BKN
+Liberia	2	LBR
+Nigeria	2	NGA
+Senegal	2	SEN
+Angola	2	ANG
+Malawi	2	MLW
+Zambia	2	ZAM
+Aldabra	2	ALD
+Comoros	2	COM
+Réunion	2	REU
+Tanzania	2	TAN
+Caprivi Strip	2	CPV
+KwaZulu-Natal	2	NAT
+Western Sahara	2	WSA
+Chad	2	CHA
+Zimbabwe	2	ZIM
+Cape Provinces	2	CPP
+Mauritius	2	MAU
+Rodrigues	2	ROD
+Mauritania	2	MTN
+Sudan	2	SUD
+Ascension	2	ASC
+St.Helena	2	STH
+Madagascar	2	MDG
+Seychelles	2	SEY
+Gambia, The	2	GAM
+Ivory Coast	2	IVO
+Mozambique	2	MOZ
+Sierra Leone	2	SIE
+Eritrea	2	ERI
+Socotra	2	SOC
+Somalia	2	SOM
+Guinea-Bissau	2	GNB
+Congo	2	CON
+Gabon	2	GAB
+Zaïre	2	ZAI
+Djibouti	2	DJI
+Ethiopia	2	ETH
+Northern Provinces	2	TVL
+Rwanda	2	RWA
+Burundi	2	BUR
+Cabinda	2	CAB
+Cameroon	2	CMN
+Chagos Archipelago	2	CGS
+Mozambique Channel Is.	2	MCI
+Equatorial Guinea	2	EQG
+Gulf of Guinea Is.	2	GGI
+Central African Republic	2	CAF
+Tibet	2	CHT
+Tuva	2	TVA
+Hainan	2	CHH
+Altay	2	ALT
+Chita	2	CTA
+Qinghai	2	CHQ
+Xinjiang	2	CHX
+Irkutsk	2	IRK
+Manchuria	2	CHM
+Buryatiya	2	BRY
+Iran	2	IRN
+Iraq	2	IRQ
+Mongolia	2	MON
+Yakutskiya	2	YAK
+Sinai	2	SIN
+Japan	2	JAP
+Korea	2	KOR
+Krasnoyarsk	2	KRA
+Cyprus	2	CYP
+Turkey	2	TUR
+Taiwan	2	TAI
+West Siberia	2	WSB
+Inner Mongolia	2	CHI
+Amur	2	AMU
+China Southeast	2	CHS
+Kazakhstan	2	KAZ
+Uzbekistan	2	UZB
+Transcaucasus	2	TCS
+Palestine	2	PAL
+Oman	2	OMA
+Kirgizistan	2	KGZ
+North Caucasus	2	NCS
+Yemen	2	YEM
+Magadan	2	MAG
+Turkmenistan	2	TKM
+Tadzhikistan	2	TZK
+Afghanistan	2	AFG
+Kuwait	2	KUW
+Kazan-retto	2	KZN
+Primorye	2	PRM
+Sakhalin	2	SAK
+China South-Central	2	CHC
+China North-Central	2	CHN
+Nansei-shoto	2	NNS
+Kamchatka	2	KAM
+Kuril Is.	2	KUR
+Lebanon-Syria	2	LBS
+Khabarovsk	2	KHA
+East Aegean Is.	2	EAI
+Ogasawara-shoto	2	OGA
+Gulf States	2	GST
+Saudi Arabia	2	SAU
+Jawa	2	JAW
+Borneo	2	BOR
+Malaya	2	MLY
+Maluku	2	MOL
+Laos	2	LAO
+Sulawesi	2	SUL
+Sumatera	2	SUM
+Myanmar	2	MYA
+Vietnam	2	VIE
+Cambodia	2	CBD
+Thailand	2	THA
+Philippines	2	PHI
+New Guinea	2	NWG
+Christmas I.	2	XMS
+Solomon Is.	2	SOL
+Andaman Is.	2	AND
+Nicobar Is.	2	NCB
+Lesser Sunda Is.	2	LSI
+Assam	2	ASS
+India	2	IND
+Nepal	2	NEP
+South China Sea	2	SCS
+Cocos (Keeling) I.	2	CKI
+Maldives	2	MDV
+Pakistan	2	PAK
+Sri Lanka	2	SRL
+Bismarck Archipelago	2	BIS
+Bangladesh	2	BAN
+East Himalaya	2	EHM
+Laccadive Is.	2	LDV
+West Himalaya	2	WHM
+Tasmania	2	TAS
+Victoria	2	VIC
+Queensland	2	QLD
+Norfolk Is.	2	NFK
+Chatham Is.	2	CTM
+Kermadec Is.	2	KER
+New South Wales	2	NSW
+South Australia	2	SOA
+Antipodean Is.	2	ATP
+Western Australia	2	WAU
+Northern Territory	2	NTA
+New Zealand North	2	NZN
+New Zealand South	2	NZS
+Fiji	2	FIJ
+Niue	2	NUE
+Nauru	2	NRU
+Samoa	2	SAM
+Tonga	2	TON
+Tuvalu	2	TUV
+Vanuatu	2	VAN
+Wake I.	2	WAK
+Hawaii	2	HAW
+Tuamotu	2	TUA
+Marianas	2	MRN
+Cook Is.	2	COO
+Line Is.	2	LIN
+Marcus I.	2	MCS
+Marquesas	2	MRQ
+Gilbert Is.	2	GIL
+Phoenix Is.	2	PHX
+Easter Is.	2	EAS
+Tubuai Is.	2	TUB
+Society Is.	2	SCI
+Caroline Is.	2	CRL
+Marshall Is.	2	MRS
+New Caledonia	2	NWC
+Pitcairn Is.	2	PIT
+Santa Cruz Is.	2	SCZ
+Tokelau-Manihiki	2	TOK
+Howland-Baker Is.	2	HBI
+Wallis-Futuna Is.	2	WAL
+Mexico Gulf	2	MXG
+Québec	2	QUE
+Mexico Central	2	MXC
+Alberta	2	ABT
+Ontario	2	ONT
+Yukon	2	YUK
+Manitoba	2	MAN
+Labrador	2	LAB
+Mexico Northeast	2	MXE
+Mexico Northwest	2	MXN
+Mexico Southwest	2	MXS
+Mexico Southeast	2	MXT
+Alaska	2	ASK
+Ohio	2	OHI
+Utah	2	UTA
+Nunavut	2	NUN
+Idaho	2	IDA
+Iowa	2	IOW
+Maine	2	MAI
+Nova Scotia	2	NSC
+Oregon	2	ORE
+Nevada	2	NEV
+Texas	2	TEX
+Mexican Pacific Is.	2	MXI
+Greenland	2	GNL
+Saskatchewan	2	SAS
+Newfoundland	2	NFL
+Montana	2	MNT
+Wyoming	2	WYO
+Kansas	2	KAN
+Indiana	2	INI
+Vermont	2	VER
+Arizona	2	ARI
+Alabama	2	ALA
+Florida	2	FLA
+Georgia	2	GEO
+New Brunswick	2	NBR
+Colorado	2	COL
+Michigan	2	MIC
+New York	2	NWY
+Rhode I.	2	RHO
+Arkansas	2	ARK
+Delaware	2	DEL
+Kentucky	2	KTY
+Maryland	2	MRY
+Virginia	2	VRG
+Illinois	2	ILL
+Missouri	2	MSO
+Nebraska	2	NEB
+Oklahoma	2	OKL
+Louisiana	2	LOU
+Tennessee	2	TEN
+Aleutian Is.	2	ALU
+Washington	2	WAS
+Minnesota	2	MIN
+Wisconsin	2	WIS
+New Jersey	2	NWJ
+California	2	CAL
+British Columbia	2	BRC
+Prince Edward I.	2	PEI
+Connecticut	2	CNT
+New Mexico	2	NWM
+Mississippi	2	MSI
+Pennsylvania	2	PEN
+North Dakota	2	NDA
+South Dakota	2	SDA
+Massachusetts	2	MAS
+New Hampshire	2	NWH
+West Virginia	2	WVA
+North Carolina	2	NCA
+South Carolina	2	SCA
+Northwest Territories	2	NWT
+District of Columbia	2	WDC
+Cuba	2	CUB
+Aruba	2	ARU
+Haiti	2	HAI
+Bahamas	2	BAH
+Bermuda	2	BER
+Jamaica	2	JAM
+Brazil North	2	BZN
+Brazil South	2	BZS
+Cayman Is.	2	CAY
+Puerto Rico	2	PUE
+Belize	2	BLZ
+Panama	2	PAN
+Windward Is.	2	WIN
+Brazil Northeast	2	BZE
+Brazil Southeast	2	BZL
+Honduras	2	HON
+Guatemala	2	GUA
+Nicaragua	2	NIC
+Trinidad-Tobago	2	TRT
+Costa Rica	2	COS
+Turks-Caicos Is.	2	TCI
+Peru	2	PER
+Brazil West-Central	2	BZC
+El Salvador	2	ELS
+Dominican Republic	2	DOM
+Leeward Is. AB Ant	2	LEE
+Southwest Caribbean	2	SWC
+Venezuelan Antilles	2	VNA
+Guyana	2	GUY
+Bolivia	2	BOL
+Ecuador	2	ECU
+Netherlands Antilles	2	NLA
+Surinam	2	SUR
+Colombia	2	CLM
+Uruguay	2	URU
+Galápagos	2	GAL
+Paraguay	2	PAR
+Venezuela	2	VEN
+Chile North	2	CLN
+Chile South	2	CLS
+French Guiana	2	FRG
+Chile Central	2	CLC
+Argentina South	2	AGS
+C. American Pacific Is.	2	CPI
+Desventurados Is.	2	DSV
+Juan Fernández Is.	2	JNF
+Argentina Northeast	2	AGE
+Argentina Northwest	2	AGW
+Bouvet I.	2	BOU
+Kerguelen	2	KEG
+Antarctica	2	ANT
+Crozet Is.	2	CRZ
+Falkland Is.	2	FAL
+Macquarie Is.	2	MAQ
+South Georgia	2	SGE
+Tristan da Cunha	2	TDC
+Heard-McDonald Is.	2	HMD
+South Sandwich Is.	2	SSA
+Amsterdam-St.Paul Is.	2	ASP
+Marion-Prince Edward Is.	2	MPE

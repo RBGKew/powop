@@ -155,6 +155,37 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.4.11</version>
+        <executions>
+          <!-- Build solr -->
+          <execution>
+            <id>build-solr</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+            <configuration>
+              <imageName>${docker.registry}/solr</imageName>
+              <dockerDirectory>${project.basedir}/docker/solr</dockerDirectory>
+              <forceTags>true</forceTags>
+            </configuration>
+          </execution>
+          <execution>
+            <id>tag-solr</id>
+            <phase>package</phase>
+            <goals>
+              <goal>tag</goal>
+            </goals>
+            <configuration>
+              <image>${docker.registry}/solr</image>
+              <newName>${docker.registry}/solr:${project.version}</newName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
