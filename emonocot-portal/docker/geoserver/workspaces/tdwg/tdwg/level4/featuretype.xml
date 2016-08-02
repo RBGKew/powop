@@ -1,0 +1,40 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--39f9e8b5:1419c9002d3:-7ffd</id>
+  <name>level4</name>
+  <nativeName>level4</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-7b6ee8a6:136f3e3efa1:-7fee</id>
+  </namespace>
+  <title>level4</title>
+  <keywords>
+    <string>features</string>
+    <string>level4</string>
+  </keywords>
+  <srs>EPSG:3857</srs>
+  <nativeBoundingBox>
+    <minx>-2.0037508342789244E7</minx>
+    <maxx>2.0037508342789244E7</maxx>
+    <miny>-2.0037508343038823E7</miny>
+    <maxy>1.8418392656748686E7</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-180.00000000000003</minx>
+    <maxx>180.00000000000003</maxx>
+    <miny>-85.05112878</miny>
+    <maxy>83.62360649511713</maxy>
+    <crs>GEOGCS[&quot;WGS84(DD)&quot;, 
+  DATUM[&quot;WGS84&quot;, 
+    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]], 
+  PRIMEM[&quot;Greenwich&quot;, 0.0], 
+  UNIT[&quot;degree&quot;, 0.017453292519943295], 
+  AXIS[&quot;Geodetic longitude&quot;, EAST], 
+  AXIS[&quot;Geodetic latitude&quot;, NORTH]]</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-7b6ee8a6:136f3e3efa1:-7fe6</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+</featureType>

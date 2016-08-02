@@ -1,0 +1,73 @@
+version: '2'
+services:
+  db:
+    image: eu.gcr.io/powop-1349/db:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+      - src/main/resources/docker/env/portal.env
+    volumes:
+      - portal_data:/var/lib/mysql
+    ports:
+      - "13306:3306"
+  portal:
+    image: eu.gcr.io/powop-1349/portal:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    links:
+      - activemq
+      - db
+      - geoserver
+      - solr
+    mem_limit: 500M
+
+  harvester:
+    image: eu.gcr.io/powop-1349/harvester:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    links:
+      - activemq
+      - db
+      - geoserver
+      - solr
+    mem_limit: 500M
+
+  apache:
+    image: eu.gcr.io/powop-1349/apache:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    links:
+      - geoserver
+      - harvester
+      - portal
+    ports:
+      - "10080:80"
+    mem_limit: 200M
+
+  activemq:
+    image: rmohr/activemq:5.12.0
+
+  solr:
+    image: eu.gcr.io/powop-1349/solr:latest
+    ports:
+      - "18983:8983"
+    volumes:
+      - solr_data:/opt/solr/server/solr/powop/data
+
+  geoserver:
+    image: eu.gcr.io/powop-1349/geoserver
+    env_file: src/main/resources/docker/env/common.env
+    links:
+      - geodb
+    ports:
+      - "18080:8080"
+
+  geodb:
+    image: eu.gcr.io/powop-1349/geodb
+    env_file:
+      - src/main/resources/docker/env/common.env
+      - src/main/resources/docker/env/geoserver.env
+
+
+volumes:
+  portal_data: {}
+  solr_data: {}

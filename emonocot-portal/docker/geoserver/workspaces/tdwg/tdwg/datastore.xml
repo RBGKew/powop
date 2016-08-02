@@ -1,0 +1,27 @@
+<dataStore>
+  <id>DataStoreInfoImpl-7b6ee8a6:136f3e3efa1:-7fe6</id>
+  <name>tdwg</name>
+  <description>TDWG World Geographical Scheme for recording plant distributions</description>
+  <type>MySQL</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-7b6ee8a6:136f3e3efa1:-7fef</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="Connection timeout">20</entry>
+    <entry key="port">3306</entry>
+    <entry key="passwd">gs</entry>
+    <entry key="dbtype">mysql</entry>
+    <entry key="host">geodb</entry>
+    <entry key="validate connections">true</entry>
+    <entry key="storage engine">MyISAM</entry>
+    <entry key="max connections">10</entry>
+    <entry key="database">gis</entry>
+    <entry key="namespace">http://tdwg.org</entry>
+    <entry key="Expose primary keys">false</entry>
+    <entry key="fetch size">1000</entry>
+    <entry key="user">geoserver</entry>
+    <entry key="min connections">1</entry>
+  </connectionParameters>
+  <__default>false</__default>
+</dataStore>

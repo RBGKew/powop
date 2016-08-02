@@ -361,28 +361,29 @@
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.11</version>
-				<configuration>
-					<imageName>${docker.registry}/portal</imageName>
-					<dockerDirectory>${project.basedir}/docker</dockerDirectory>
-					<forceTags>true</forceTags>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.war</include>
-						</resource>
-					</resources>
-				</configuration>
 				<executions>
+          <!-- Build portal application -->
 					<execution>
-						<id>build-image</id>
+						<id>build-portal</id>
 						<phase>package</phase>
 						<goals>
 							<goal>build</goal>
 						</goals>
+            <configuration>
+              <imageName>${docker.registry}/portal</imageName>
+              <dockerDirectory>${project.basedir}/docker/portal</dockerDirectory>
+              <forceTags>true</forceTags>
+              <resources>
+                <resource>
+                  <targetPath>/</targetPath>
+                  <directory>${project.build.directory}</directory>
+                  <include>${project.build.finalName}.war</include>
+                </resource>
+              </resources>
+            </configuration>
 					</execution>
 					<execution>
-						<id>tag-image</id>
+						<id>tag-portal</id>
 						<phase>package</phase>
 						<goals>
 							<goal>tag</goal>
@@ -390,6 +391,31 @@
 						<configuration>
 							<image>${docker.registry}/portal</image>
 							<newName>${docker.registry}/portal:${project.version}</newName>
+						</configuration>
+					</execution>
+
+          <!-- Build geoserver application -->
+					<execution>
+						<id>build-geoserver</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+            <configuration>
+              <imageName>${docker.registry}/geoserver</imageName>
+              <dockerDirectory>${project.basedir}/docker/geoserver</dockerDirectory>
+              <forceTags>true</forceTags>
+            </configuration>
+					</execution>
+					<execution>
+						<id>tag-geoserver</id>
+						<phase>package</phase>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+						<configuration>
+							<image>${docker.registry}/geoserver</image>
+							<newName>${docker.registry}/geoserver:${project.version}</newName>
 						</configuration>
 					</execution>
 				</executions>

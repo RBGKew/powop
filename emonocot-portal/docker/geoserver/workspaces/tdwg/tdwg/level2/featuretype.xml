@@ -1,0 +1,34 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-7b6ee8a6:136f3e3efa1:-7fdc</id>
+  <name>level2</name>
+  <nativeName>level2</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-7b6ee8a6:136f3e3efa1:-7fee</id>
+  </namespace>
+  <title>TDWG Level 2 Regions</title>
+  <keywords>
+    <string>level2</string>
+    <string>features</string>
+  </keywords>
+  <srs>EPSG:3857</srs>
+  <nativeBoundingBox>
+    <minx>-2.0037508342789244E7</minx>
+    <maxx>2.0037508342789244E7</maxx>
+    <miny>-2.0037508343038823E7</miny>
+    <maxy>1.8418391314130433E7</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-180.00000000000003</minx>
+    <maxx>180.00000000000003</maxx>
+    <miny>-85.05112878</miny>
+    <maxy>83.62360515563473</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-7b6ee8a6:136f3e3efa1:-7fe6</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+</featureType>

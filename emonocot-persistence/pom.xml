@@ -184,6 +184,56 @@
               <newName>${docker.registry}/solr:${project.version}</newName>
             </configuration>
           </execution>
+
+          <!-- build portal db -->
+          <execution>
+            <id>build-db</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+            <configuration>
+              <imageName>${docker.registry}/db</imageName>
+              <dockerDirectory>${project.basedir}/docker/mysql</dockerDirectory>
+              <forceTags>true</forceTags>
+            </configuration>
+          </execution>
+          <execution>
+            <id>tag-db</id>
+            <phase>package</phase>
+            <goals>
+              <goal>tag</goal>
+            </goals>
+            <configuration>
+              <image>${docker.registry}/db</image>
+              <newName>${docker.registry}/db:${project.version}</newName>
+            </configuration>
+          </execution>
+
+          <!-- build geoserver db -->
+          <execution>
+            <id>build-geodb</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+            <configuration>
+              <imageName>${docker.registry}/geodb</imageName>
+              <dockerDirectory>${project.basedir}/docker/geodb</dockerDirectory>
+              <forceTags>true</forceTags>
+            </configuration>
+          </execution>
+          <execution>
+            <id>tag-geodb</id>
+            <phase>package</phase>
+            <goals>
+              <goal>tag</goal>
+            </goals>
+            <configuration>
+              <image>${docker.registry}/geodb</image>
+              <newName>${docker.registry}/geodb:${project.version}</newName>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
