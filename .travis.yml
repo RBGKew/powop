@@ -4,10 +4,10 @@ jdk:
   - oraclejdk7
 before_install:
   - echo "MAVEN_OPTS='-Xmx2g -XX:MaxPermSize=512m'" > ~/.mavenrc
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.site.skip=true -B -V -q
+install: mvn install -DskipTests=true -B -V -q
 script:
-  - mvn test -Punit -Dmaven.javadoc.skip=true -Dmaven.site.skip=true -q
-  - mvn verify -Pintegration-Dmaven.javadoc.skip=true -Dmaven.site.skip=true -q
+  - mvn test -Punit -q
+  - mvn verify -Pintegration -q
 services:
   - docker
 cache:
