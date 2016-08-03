@@ -36,6 +36,7 @@
       <!-- Skip default deploy stuff, we move files around manually -->
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.2.1</version>
         <configuration>
           <skip>true</skip>
         </configuration>
@@ -263,7 +264,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.11</version>
 				<configuration>
-					<imageName>${docker.registry}/apache</imageName>
+					<imageName>${docker.registry}apache</imageName>
 					<dockerDirectory>${project.basedir}/docker</dockerDirectory>
 					<forceTags>true</forceTags>
 					<resources>
@@ -289,8 +290,8 @@
 							<goal>tag</goal>
 						</goals>
 						<configuration>
-							<image>${docker.registry}/apache</image>
-							<newName>${docker.registry}/apache:${project.version}</newName>
+							<image>${docker.registry}apache</image>
+							<newName>${docker.registry}apache:${project.version}</newName>
 						</configuration>
 					</execution>
 				</executions>

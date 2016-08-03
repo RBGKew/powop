@@ -36,7 +36,7 @@
 
 	<properties>
 		<aspectj.version>1.6.12</aspectj.version>
-		<docker.registry>eu.gcr.io/powop-1349</docker.registry>
+		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY so it can be picked up by docker-compose -->
 		<geotools.version>2.7.0</geotools.version>
 		<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
 		<hibernate.version>3.6.7.Final</hibernate.version>

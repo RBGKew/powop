@@ -347,7 +347,7 @@
         <artifactId>docker-maven-plugin</artifactId>
         <version>0.4.11</version>
         <configuration>
-          <imageName>${docker.registry}/harvester</imageName>
+          <imageName>${docker.registry}harvester</imageName>
           <dockerDirectory>${project.basedir}/docker</dockerDirectory>
           <forceTags>true</forceTags>
           <resources>
@@ -373,8 +373,8 @@
               <goal>tag</goal>
             </goals>
             <configuration>
-              <image>${docker.registry}/harvester</image>
-              <newName>${docker.registry}/harvester:${project.version}</newName>
+              <image>${docker.registry}harvester</image>
+              <newName>${docker.registry}harvester:${project.version}</newName>
             </configuration>
           </execution>
         </executions>

@@ -370,7 +370,7 @@
 							<goal>build</goal>
 						</goals>
             <configuration>
-              <imageName>${docker.registry}/portal</imageName>
+              <imageName>${docker.registry}portal</imageName>
               <dockerDirectory>${project.basedir}/docker/portal</dockerDirectory>
               <forceTags>true</forceTags>
               <resources>
@@ -389,8 +389,8 @@
 							<goal>tag</goal>
 						</goals>
 						<configuration>
-							<image>${docker.registry}/portal</image>
-							<newName>${docker.registry}/portal:${project.version}</newName>
+							<image>${docker.registry}portal</image>
+							<newName>${docker.registry}portal:${project.version}</newName>
 						</configuration>
 					</execution>
 
@@ -402,7 +402,7 @@
 							<goal>build</goal>
 						</goals>
             <configuration>
-              <imageName>${docker.registry}/geoserver</imageName>
+              <imageName>${docker.registry}geoserver</imageName>
               <dockerDirectory>${project.basedir}/docker/geoserver</dockerDirectory>
               <forceTags>true</forceTags>
             </configuration>
@@ -414,8 +414,8 @@
 							<goal>tag</goal>
 						</goals>
 						<configuration>
-							<image>${docker.registry}/geoserver</image>
-							<newName>${docker.registry}/geoserver:${project.version}</newName>
+							<image>${docker.registry}geoserver</image>
+							<newName>${docker.registry}geoserver:${project.version}</newName>
 						</configuration>
 					</execution>
 				</executions>

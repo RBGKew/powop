@@ -168,7 +168,7 @@
               <goal>build</goal>
             </goals>
             <configuration>
-              <imageName>${docker.registry}/solr</imageName>
+              <imageName>${docker.registry}solr</imageName>
               <dockerDirectory>${project.basedir}/docker/solr</dockerDirectory>
               <forceTags>true</forceTags>
             </configuration>
@@ -180,8 +180,8 @@
               <goal>tag</goal>
             </goals>
             <configuration>
-              <image>${docker.registry}/solr</image>
-              <newName>${docker.registry}/solr:${project.version}</newName>
+              <image>${docker.registry}solr</image>
+              <newName>${docker.registry}solr:${project.version}</newName>
             </configuration>
           </execution>
 
@@ -193,7 +193,7 @@
               <goal>build</goal>
             </goals>
             <configuration>
-              <imageName>${docker.registry}/db</imageName>
+              <imageName>${docker.registry}db</imageName>
               <dockerDirectory>${project.basedir}/docker/mysql</dockerDirectory>
               <forceTags>true</forceTags>
             </configuration>
@@ -205,8 +205,8 @@
               <goal>tag</goal>
             </goals>
             <configuration>
-              <image>${docker.registry}/db</image>
-              <newName>${docker.registry}/db:${project.version}</newName>
+              <image>${docker.registry}db</image>
+              <newName>${docker.registry}db:${project.version}</newName>
             </configuration>
           </execution>
 
@@ -218,7 +218,7 @@
               <goal>build</goal>
             </goals>
             <configuration>
-              <imageName>${docker.registry}/geodb</imageName>
+              <imageName>${docker.registry}geodb</imageName>
               <dockerDirectory>${project.basedir}/docker/geodb</dockerDirectory>
               <forceTags>true</forceTags>
             </configuration>
@@ -230,8 +230,8 @@
               <goal>tag</goal>
             </goals>
             <configuration>
-              <image>${docker.registry}/geodb</image>
-              <newName>${docker.registry}/geodb:${project.version}</newName>
+              <image>${docker.registry}geodb</image>
+              <newName>${docker.registry}geodb:${project.version}</newName>
             </configuration>
           </execution>
         </executions>
