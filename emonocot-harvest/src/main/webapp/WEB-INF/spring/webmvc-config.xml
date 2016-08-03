@@ -22,8 +22,6 @@
   -->
   <context:mbean-server id="mbeanServer" />
 
-  <context:mbean-export default-domain="${webAppRootKey}" server="mbeanServer" />
-
   <bean id="batchMBeanExporter" class="org.springframework.batch.admin.jmx.BatchMBeanExporter">
     <property name="server" ref="mbeanServer" />
     <property name="jobService">
@@ -32,7 +30,6 @@
         <property name="interceptorNames" value="cacheInterceptor" />
       </bean>
     </property>
-    <property name="defaultDomain" value="${webAppRootKey}" />
   </bean>
 
   <bean id="cacheInterceptor" class="org.springframework.batch.admin.util.SimpleEhCacheInterceptor" />

@@ -4,10 +4,6 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <display-name>eMonocot Portal</display-name>
   <context-param>
-    <param-name>webAppRootKey</param-name>
-    <param-value>${portal.webAppRootKey}</param-value>
-  </context-param>
-  <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath*:META-INF/spring/applicationContext*.xml</param-value>
   </context-param>

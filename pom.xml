@@ -38,13 +38,11 @@
 		<aspectj.version>1.6.12</aspectj.version>
 		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY so it can be picked up by docker-compose -->
 		<geotools.version>2.7.0</geotools.version>
-		<harvester.webAppRootKey>emonocot-harvest</harvester.webAppRootKey>
 		<hibernate.version>3.6.7.Final</hibernate.version>
 		<java.version>1.7</java.version>
 		<liquibase.version>3.4.2</liquibase.version>
 		<lucene.version>5.5.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
-		<portal.webAppRootKey>emonocot-portal</portal.webAppRootKey>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skip.global.tests>true</skip.global.tests>
 		<skip.global.tests>true</skip.global.tests>
