@@ -54,8 +54,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 	 *         the value to the object
 	 */
 	@Override
-	public final void mapField(final Taxon object, final String fieldName,
-			final String value) throws BindException {
+	public final void mapField(final Taxon object, final String fieldName, final String value) throws BindException {
 		super.mapField(object, fieldName, value);
 
 		Term term = getTermFactory().findTerm(fieldName);
@@ -77,6 +76,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 				break;
 			}
 		}
+
 		// DwcTerms
 		if (term instanceof DwcTerm) {
 			DwcTerm dwcTerm = (DwcTerm) term;
@@ -117,109 +117,104 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 			case nameAccordingToID:
 				object.setNameAccordingTo(handleReference(value));
 				break;
-				/*TODO: Add a string as exists for namePublishedIn
-            case nameAccordingTo:
-                object.setNameAccordingTo(handleReference(value));
-                break;*/
-            case namePublishedInID:
-            	object.setNamePublishedIn(handleReference(value));
-            	break;
-            case namePublishedIn:
-            	object.setNamePublishedInString(value);
-            	break;
-            case namePublishedInYear:
-            	object.setNamePublishedInYear(conversionService.convert(value, Integer.class));
-            	break;
-            case nomenclaturalCode:
-            	object.setNomenclaturalCode(conversionService.convert(value, NomenclaturalCode.class));
-            	break;
-            case nomenclaturalStatus:
-            	object.setNomenclaturalStatus(conversionService.convert(value, NomenclaturalStatus.class));
-            	break;
-            case order:
-            	object.setOrder(value);
-            	break;
-            case originalNameUsageID:
-            	if (value != null && value.trim().length() != 0) {
-            		if(object.getOriginalNameUsage() == null) {
-            			Taxon taxon = new Taxon();
-            			object.setOriginalNameUsage(taxon);
-            		}
-            		object.getOriginalNameUsage().setIdentifier(value);
+			case namePublishedInID:
+				object.setNamePublishedIn(handleReference(value));
+				break;
+			case namePublishedIn:
+				object.setNamePublishedInString(value);
+				break;
+			case namePublishedInYear:
+				object.setNamePublishedInYear(conversionService.convert(value, Integer.class));
+				break;
+			case nomenclaturalCode:
+				object.setNomenclaturalCode(conversionService.convert(value, NomenclaturalCode.class));
+				break;
+			case nomenclaturalStatus:
+				object.setNomenclaturalStatus(conversionService.convert(value, NomenclaturalStatus.class));
+				break;
+			case order:
+				object.setOrder(value);
+				break;
+			case originalNameUsageID:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getOriginalNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setOriginalNameUsage(taxon);
+					}
+					object.getOriginalNameUsage().setIdentifier(value);
 
-            	}
-            	break;
-            case originalNameUsage:
-            	if (value != null && value.trim().length() != 0) {
-            		if(object.getOriginalNameUsage() == null) {
-            			Taxon taxon = new Taxon();
-            			object.setOriginalNameUsage(taxon);
-            		}
-            		object.getOriginalNameUsage().setScientificName(value);
-
-            	}
-            	break;
-            case parentNameUsageID:
-            	if (value != null && value.trim().length() != 0) {
-            		if(object.getParentNameUsage() == null) {
-            			Taxon taxon = new Taxon();
-            			object.setParentNameUsage(taxon);
-            		}
-            		object.getParentNameUsage().setIdentifier(value);
-            	}
-            	break;
-            case parentNameUsage:
-            	if (value != null && value.trim().length() != 0) {
-            		if(object.getParentNameUsage() == null) {
-            			Taxon taxon = new Taxon();
-            			object.setParentNameUsage(taxon);
-            		}
-            		object.getParentNameUsage().setScientificName(value);
-            	}
-            	break;
-            case phylum:
-            	object.setPhylum(value);
-            	break;
-            case scientificName:
-            	object.setScientificName(value);
-            	break;
-            case scientificNameAuthorship:
-            	object.setScientificNameAuthorship(value);
-            	break;
-            case scientificNameID:
-            	object.setScientificNameID(value);
-            	break;
-            case specificEpithet:
-            	object.setSpecificEpithet(value);
-            	break;
-            case subgenus:
-            	object.setSubgenus(value);
-            	break;
-            case taxonID:
-            	object.setIdentifier(value);
-            	break;
-            case taxonomicStatus:
-            	try {
-            		object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));
-            	} catch (ConversionException ce) {
-            		logger.error(ce.getMessage());
-            	}
-            	break;
-            case taxonRank:
-            	try {
-            		object.setTaxonRank(conversionService.convert(value, Rank.class));
-            	} catch (ConversionException ce) {
-            		logger.error(ce.getMessage());
-            	}
-            	break;
-            case taxonRemarks:
-            	object.setTaxonRemarks(value);
-            	break;
-            case verbatimTaxonRank:
-            	object.setVerbatimTaxonRank(value);
-            	break;
-            default:
-            	break;
+				}
+				break;
+			case originalNameUsage:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getOriginalNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setOriginalNameUsage(taxon);
+					}
+					object.getOriginalNameUsage().setScientificName(value);
+				}
+				break;
+			case parentNameUsageID:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getParentNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setParentNameUsage(taxon);
+					}
+					object.getParentNameUsage().setIdentifier(value);
+				}
+				break;
+			case parentNameUsage:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getParentNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setParentNameUsage(taxon);
+					}
+					object.getParentNameUsage().setScientificName(value);
+				}
+				break;
+			case phylum:
+				object.setPhylum(value);
+				break;
+			case scientificName:
+				object.setScientificName(value);
+				break;
+			case scientificNameAuthorship:
+				object.setScientificNameAuthorship(value);
+				break;
+			case scientificNameID:
+				object.setScientificNameID(value);
+				break;
+			case specificEpithet:
+				object.setSpecificEpithet(value);
+				break;
+			case subgenus:
+				object.setSubgenus(value);
+				break;
+			case taxonID:
+				object.setIdentifier(value);
+				break;
+			case taxonomicStatus:
+				try {
+					object.setTaxonomicStatus(conversionService.convert(value, TaxonomicStatus.class));
+				} catch (ConversionException ce) {
+					logger.error(ce.getMessage());
+				}
+				break;
+			case taxonRank:
+				try {
+					object.setTaxonRank(conversionService.convert(value, Rank.class));
+				} catch (ConversionException ce) {
+					logger.error(ce.getMessage());
+				}
+				break;
+			case taxonRemarks:
+				object.setTaxonRemarks(value);
+				break;
+			case verbatimTaxonRank:
+				object.setVerbatimTaxonRank(value);
+				break;
+			default:
+				break;
 			}
 		}
 		// eMonocot Terms
