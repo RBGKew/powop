@@ -20,9 +20,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.emonocot.api.AnnotationService;
@@ -34,6 +36,7 @@ import org.emonocot.model.Comment;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
@@ -138,34 +141,38 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 			Resource resource = resourceService.find(jobExecution
 					.getJobInstance().getJobParameters()
 					.getString("resource.identifier"));
-			Map<String, String> selectedFacets = new HashMap<String, String>();
-			selectedFacets.put("base.class_s", "org.emonocot.model.Annotation");
-			selectedFacets.put("annotation.job_id_l", new Long(jobExecution.getId()).toString());
+			
+			SolrQuery query = new QueryBuilder()
+							  .addParam("base.class_s", "org.emonocot.model.Annotation")
+							  .addParam("annotation.job_id_l", jobExecution.getId().toString())
+							  .addParam("base.class_searchable_b", "false")
+							  .addParam("pageNumber", "0")
+							  .addParam("pageSize", "1")
+							  .build();
+			logger.debug(query.toString());
+			query.addFacetQuery("annotation.type_s:Info");
+			query.addFacetQuery("annotation.type_s:Warn");
+			query.addFacetQuery("annotation.type_s:Error");
 			try {
-				Page<Annotation> result = annotationService.search(null, null,
-						1, 0, new String[] { "annotation.type_s" }, null,
-						selectedFacets, null, "annotated-obj");
-				FacetField annotationTypes = result.getFacetField("annotation.type_s");
+				Page<Annotation> result = annotationService.search(query, "annotated-obj");
+				Map<String, Integer> facets = result.getFacetQuerys();
 
-				for (FacetField.Count value : annotationTypes.getValues()) {
-					if(value.getName() == null) {
-
-					} else {
-						switch (value.getName()) {
-						case "Info":
-							info = value.getCount();
+				for (Entry<String, Integer> facet : facets.entrySet()) {
+						switch (facet.getKey()) {
+						case "annotation.type_s:Info":
+							info = facet.getValue();
 							break;
-						case "Warn":
-							warn = value.getCount();
+						case "annotation.type_s:Warn":
+							warn = facet.getValue();
 							break;
-						case "Error":
-							error = value.getCount();
+						case "annotation.type_s:Error":
+							error = facet.getValue();
 							break;
 						default:
 							break;
 						}
 					}
-				}
+				
 			} catch (SolrServerException | IOException e) {
 				logger.error("Error contacting solr server", e);
 			}

@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
@@ -54,9 +56,9 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 *            Set the fetch profile
 	 * @return a Page from the resultset
 	 */
-	Page<T> search(String query, String spatialQuery, Integer pageSize,
-			Integer pageNumber, String[] facets,
-			Map<String, String> facetPrefixes, Map<String, String> selectedFacets, String sort, String fetch) throws SolrServerException, IOException;
+	Page<T> search(SolrQuery query, String fetch) throws SolrServerException, IOException;
+	
+	QueryResponse search(SolrQuery solrQuery);
 
 	/**
 	 *
@@ -65,7 +67,7 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 * @param selectedFacets any restrictions on the search
 	 * @return a list of match objects
 	 */
-	List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException, IOException;
+	List<Match> autocomplete(SolrQuery query) throws SolrServerException, IOException;
 
 	/**
 	 *
@@ -76,7 +78,7 @@ public interface SearchableService<T extends Base> extends Service<T> {
 	 * @param sort
 	 * @return
 	 */
-	Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException, IOException;
+	Page<SolrDocument> searchForDocuments(SolrQuery query) throws SolrServerException, IOException;
 
 	/**
 	 * Produce a 1 or 2 dimensional table of count data based on the solr

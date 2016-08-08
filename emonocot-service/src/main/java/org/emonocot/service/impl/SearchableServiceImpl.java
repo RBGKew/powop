@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableService;
 import org.emonocot.api.autocomplete.Match;
@@ -70,23 +72,23 @@ extends ServiceImpl<T, DAO> implements SearchableService<T> {
 	 * @return a page of results
 	 */
 	@Transactional(readOnly = true)
-	public final Page<T> search(final String query, final String spatialQuery,
-			final Integer pageSize, final Integer pageNumber,
-			final String[] facets,
-			Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
-			final String sort, final String fetch)  throws SolrServerException, IOException {
-		return dao.search(query, spatialQuery, pageSize, pageNumber, facets,
-				facetPrefixes, selectedFacets, sort, fetch);
+	public final Page<T> search(final SolrQuery query, final String fetch)  throws SolrServerException, IOException {
+		return dao.search(query, fetch );
+	}
+	
+	@Transactional(readOnly = true)
+	public final QueryResponse search(final SolrQuery query) {
+		return dao.search(query);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets)  throws SolrServerException, IOException {
-		return dao.autocomplete(query, pageSize, selectedFacets);
+	public List<Match> autocomplete(final SolrQuery query)  throws SolrServerException, IOException {
+		return dao.autocomplete(query);
 	}
 
 	@Transactional(readOnly = true)
-	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort)  throws SolrServerException, IOException {
-		return dao.searchForDocuments(query, pageSize, pageNumber, selectedFacets, sort);
+	public Page<SolrDocument> searchForDocuments(SolrQuery query)  throws SolrServerException, IOException {
+		return dao.searchForDocuments(query);
 	}
 
 

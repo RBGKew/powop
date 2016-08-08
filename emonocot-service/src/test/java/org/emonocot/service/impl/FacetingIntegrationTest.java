@@ -23,9 +23,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.ImageService;
@@ -42,6 +45,7 @@ import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.emonocot.test.DataManagementSupport;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
@@ -49,6 +53,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -65,7 +71,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class FacetingIntegrationTest extends DataManagementSupport {
-
+	private static Logger logger = LoggerFactory.getLogger(FacetingIntegrationTest.class);
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -167,9 +173,6 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 		Taxon taxon5 = createTaxon("Aus eus", "5", null, taxon3, "Ausaceae",
 				null, null, "(1935)", Rank.SPECIES, TaxonomicStatus.Synonym,
 				source1, new Location[] {}, new Organisation[] {source1});
-		Image img1 = createImage("Aus", "1", source2,taxon2, new Organisation[] {source2,source1});
-		Image img2 = createImage("Aus bus", "2", source2,taxon2, new Organisation[] {source2,source1});
-
 		Place place1 = createPlace("gb", "Great Britain");
 
 	}
@@ -179,123 +182,26 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 	 */
 	@Test
 	public final void testSearch() throws Exception {
-		Page<SearchableObject> pager = searchableObjectService.search("Aus",
-				null, null, null, null, null, null, null, null);
-		assertEquals("there should be seven objects saved", (Integer) 7,
+		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();
+		Page<SearchableObject> pager = searchableObjectService.search(query, null);
+		assertEquals("there should be five objects saved", (Integer) 5,
 				pager.getSize());
 	}
 
-	/**
-	 *
-	 */
-	@Test
-	public final void testSearchWithFacets() throws Exception {
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-		Page<SearchableObject> pager = searchableObjectService.search("Aus",
-				null, null, null, new String[] {"base.class_s",
-				"taxon.family_ss", "taxon.distribution_TDWG_0_ss",
-		"searchable.sources_ss" },
-		null, selectedFacets, null, null);
-		assertThat("There should be two facets returned",
-				pager.getFacetNames(), containsInAnyOrder("base.class_s",
-						"taxon.family_ss", "taxon.distribution_TDWG_0_ss",
-						"searchable.sources_ss"));
 
-		FacetField classFacet = pager.getFacetField("base.class_s");
-		String[] Strings = new String[classFacet.getValueCount()];
-		for (int i = 0; i < Strings.length; i++) {
-			Strings[i] = classFacet.getValues().get(i).getName();
-		}
 
-		assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
-				Strings, hasItemInArray("org.emonocot.model.Taxon"));
-		assertEquals("There should be one value for the FAMILY facet", 1, pager
-				.getFacetField("taxon.family_ss").getValues().size());
-	}
 
-	/**
-	 *
-	 */
-	@Test
-	public final void testSearchWithRegion() throws Exception {
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-		selectedFacets.put("taxon.distribution_TDWG_1_ss", "AUSTRALASIA_NEW_ZEALAND");
-		Page<SearchableObject> pager = searchableObjectService.search("Aus",
-				null, null, null, new String[] {"base.class_s",
-				"taxon.family_ss", "taxon.distribution_TDWG_0_ss",
-				"taxon.distribution_TDWG_1_ss", "searchable.sources_ss" },
-				null, selectedFacets, null, null);
-		assertThat("There should be two facets returned",
-				pager.getFacetNames(), containsInAnyOrder("base.class_s",
-						"taxon.family_ss", "taxon.distribution_TDWG_0_ss",
-						"taxon.distribution_TDWG_1_ss", "searchable.sources_ss"));
-
-		FacetField classFacet = pager.getFacetField("base.class_s");
-		String[] Strings = new String[classFacet.getValueCount()];
-		for (int i = 0; i < Strings.length; i++) {
-			Strings[i] = classFacet.getValues().get(i).getName();
-		}
-
-		assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
-				Strings, hasItemInArray("org.emonocot.model.Taxon"));
-		assertEquals("There should be one value for the FAMILY facet", 1, pager
-				.getFacetField("taxon.family_ss").getValueCount());
-	}
-
-	/**
-	 * @throws Exception
-	 *             if there is a problem tearing down and adding the test data
-	 */
-	@Test
-	public final void testSearchWithFacetsInTaxonDao() throws Exception {
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
-		Page<SearchableObject> pager = searchableObjectService.search("Aus", null, null, null,
-				new String[] { "base.class_s", "taxon.family_ss",
-				"taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
-				"taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
-				null, selectedFacets, null, null);
-		assertEquals("There should be five taxa returned", (Integer) 5,
-				pager.getSize());
-		assertThat("There should be six facets returned",
-				pager.getFacetNames(), containsInAnyOrder("base.class_s", "taxon.family_ss",
-						"taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
-						"taxon.taxon_rank_s", "taxon.taxonomic_status_s"));
-
-		FacetField classFacet = pager.getFacetField("base.class_s");
-		String[] Strings = new String[classFacet.getValueCount()];
-		for (int i = 0; i < Strings.length; i++) {
-			Strings[i] = classFacet.getValues().get(i).getName();
-		}
-
-		assertThat("org.emonocot.model.Taxon should be a facet in CLASS",
-				Strings, hasItemInArray("org.emonocot.model.Taxon"));
-		assertEquals("There should be one values for the FAMILY facet", 1, pager
-				.getFacetField("taxon.family_ss").getValueCount());
-
-		selectedFacets.put("taxon.taxon_rank_s", "SPECIES");
-		pager = searchableObjectService.search("Aus", null, null, null,
-				new String[] {"base.class_s", "taxon.family_ss",
-				"taxon.distribution_TDWG_0_ss", "searchable.sources_ss",
-				"taxon.taxon_rank_s", "taxon.taxonomic_status_s" },
-				null, selectedFacets, null, null);
-		assertEquals("There should be four taxa returned", (Integer) 4,
-				pager.getSize());
-	}
 
 	/**
 	 *
 	 */
 	@Test
 	public final void testSearchWithSorting() throws Exception {
-		Page<SearchableObject> results = searchableObjectService.search("Au*",
-				null, null, null, null, null, null, null, null);
+		SolrQuery query = new QueryBuilder().addParam("main.query", "Au*").build();
+		Page<SearchableObject> results = searchableObjectService.search(query, null);
 
-		String sort = "searchable.label_sort_asc";
-		results = searchableObjectService.search("Au*", null, null, null, null,
-				null, null, sort, null);
+		query = new QueryBuilder().addParam("main.query", "Au*").addParam("sort", "searchable.label_sort").build();
+		results = searchableObjectService.search(query, null);
 		String[] actual = new String[results.getSize()];
 		for (int i = 0; i < results.getSize(); i++) {
 			if (results.getRecords().get(i).getClassName().equals("Taxon")) {
@@ -305,53 +211,9 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 			}
 		}
 
-		String[] expected = new String[] {"Aus", "Aus", "Aus bus", "Aus bus",
+		String[] expected = new String[] {"Aus",  "Aus bus",
 				"Aus ceus", "Aus deus", "Aus eus" };
-
 		assertArrayEquals(expected, actual);
 	}
-
-	@Test
-	public final void testFacetOnSource() throws Exception {
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		Page<?> results = searchableObjectService.search(null,
-				null, null, null,
-				new String[] {"base.class_s", "taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
-				null, null, null, null);
-		selectedFacets.clear();
-		selectedFacets.put("taxon.family_ss", "Ausaceae");
-		results = searchableObjectService.search(null,
-				null, null, null,
-				new String[] {"base.class_s", "taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss" },
-				null, selectedFacets, null, null);
-		selectedFacets.clear();
-		selectedFacets.put("taxon.family_ss", "Ausaceae");
-		selectedFacets.put("base.class_s", "org.emonocot.model.taxon.Taxon");
-		selectedFacets.put("searchable.sources_ss", "source2");
-
-
-		results = searchableObjectService.search(null,
-				null, null, null,
-				new String[] {"base.class_s","taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
-				null, selectedFacets, null, null);
-		selectedFacets.clear();
-		selectedFacets.put("searchable.sources_ss", "source2");
-
-
-		results = searchableObjectService.search(null,
-				null, null, null,
-				new String[] {"base.class_s","taxon.family_ss", "taxon.distribution_TDWG_0_ss","searchable.sources_ss"},
-				null, selectedFacets, null, null);
-	}
-
-	/**
-	 * BUG # 334  As a user of eMonocot I want to be able to perform a faceted search by place
-	 */
-	@Test
-	public final void testFacetOnPlace() throws Exception {
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-		selectedFacets.put("base.class_s", "org.emonocot.model.Place");
-		Page<SearchableObject> places = searchableObjectService.search(null, null, 10, 0, new String[] {}, null, selectedFacets, null, null);
-		assertEquals("There should be one place in the result list",(Integer)places.getSize(),(Integer)1);
-	}
 }
+

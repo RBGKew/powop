@@ -61,6 +61,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexRank(Rank.GENUS, "genus");
 		indexRank(Rank.Tribe, "tribe");
 		indexRank(Rank.Subtribe, "subtribe");
+		
 
 		addField(sid, "taxon.infraspecific_epithet_s", taxon.getInfraspecificEpithet());
 		addField(sid, "taxon.name_published_in_string_s", taxon.getNamePublishedInString());
@@ -73,7 +74,9 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.taxon_rank_s", ObjectUtils.toString(taxon.getTaxonRank(), null));
 		addField(sid, "taxon.taxonomic_status_s", ObjectUtils.toString(taxon.getTaxonomicStatus(), null));
 		addField(sid, "taxon.verbatim_taxon_rank_s", taxon.getVerbatimTaxonRank()); 
-
+		if(taxon.getTaxonRank() == Rank.SPECIES){
+			addField(sid, "taxon.species_ss", taxon.getScientificName());
+		}
 		sid.addField("taxon.descriptions_not_empty_b", !taxon.getDescriptions().isEmpty());
 		sid.addField("taxon.distribution_not_empty_b", !taxon.getDistribution().isEmpty());
 		sid.addField("taxon.images_not_empty_b", !taxon.getImages().isEmpty());
@@ -83,7 +86,12 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		sid.addField("taxon.vernacular_names_not_empty_b", !taxon.getVernacularNames().isEmpty());
 		sid.addField("taxon.name_used_b", !taxon.getIdentifications().isEmpty());
 		sid.addField("taxon.has_data_b", hasUsefulData(sid));
-
+		if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
+			Set<Taxon> synonymList = taxon.getSynonymNameUsages();
+			for(Taxon synonym : synonymList){
+				addField(sid, "taxon.scientific_name_t", synonym.getScientificName());
+			}			
+		}
 		indexDescriptions();
 		indexDistributions();
 		indexVernacularNames();
@@ -154,7 +162,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void indexDescriptions() {
 		for(Description d : taxon.getDescriptions()) {
-			if (d.getType().hasSearchCategory()) {
+			if(d.getType() != null && d.getType().hasSearchCategory()) {
 				sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), d.getDescription());
 			}
 			sid.addField("taxon.description_t", d.getDescription());
@@ -168,6 +176,10 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void indexDistributions() {
 		TreeSet<String> locations = new TreeSet<>();
+		//Distributions need splitting into all/native/introduced. Naming convention: 
+		//taxon.distribution_ss
+		//taxon.distribution_native_ss
+		//taxon.distribution_introduced_ss
 		for(Distribution d : taxon.getDistribution()) {
 			locations.add(d.getLocation().getCode());
 			indexChildLocations(locations, d.getLocation().getChildren());
@@ -212,9 +224,17 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				addField(sid, solrField, BeanUtils.getProperty(taxon, property));
 			}
 
-			// When a taxon is a synonym, the accepted name should also be indexed
-			if(taxon.getAcceptedNameUsage() != null) {
-				addField(sid, solrField, BeanUtils.getProperty(taxon.getAcceptedNameUsage(), property));
+			// When a taxon is an accepted name, the synonyms should also be indexed
+			if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
+				Set<Taxon> synonymList = taxon.getSynonymNameUsages();
+				for(Taxon taxon : synonymList){
+					if(rank.equals(taxon.getTaxonRank()) && BeanUtils.getProperty(taxon, property) == null) {
+						addField(sid, solrField, taxon.getScientificName());
+					} else {
+						addField(sid, solrField, BeanUtils.getProperty(taxon, property));
+					}
+				}
+					
 			}
 		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			logger.error("Error getting property {} from taxon. Does get{}() exist?", property, property);

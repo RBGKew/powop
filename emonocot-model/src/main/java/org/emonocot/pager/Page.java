@@ -160,6 +160,8 @@ public interface Page<T> {
 	 */
 	List<Integer> getIndices();
 
+	
+	Map<String, Integer>getFacetQuerys();
 	/**
 	 *
 	 * @return a list of the names of selected facets

@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.emonocot.model.auth.User;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
@@ -84,6 +86,12 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 
 	@Override
 	public User getUserByApiKey(String apiKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryResponse search(SolrQuery solrQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}

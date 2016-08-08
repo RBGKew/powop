@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ResourceService;
@@ -46,6 +47,7 @@ import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.emonocot.service.DownloadService;
 import org.forester.io.parsers.PhylogenyParser;
 import org.forester.io.parsers.phyloxml.PhyloXmlParser;
@@ -163,8 +165,9 @@ public class DownloadController {
 		}
 
 		//Run the search
-		Page<? extends SearchableObject> result = searchableObjectService.search(query, spatial, 10, 0, null, null, selectedFacets, sort, null);
-
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		(query, spatial, 10, 0, null, null, selectedFacets, sort, null);
+		Page<? extends SearchableObject> result = searchableObjectService.search(solrQuery, null);
 		result.setSort(sort);
 		result.putParam("query", query);
 		model.addAttribute("taxonTerms", DarwinCorePropertyMap.getConceptTerms(DwcTerm.Taxon));
@@ -218,8 +221,9 @@ public class DownloadController {
 		if(archiveOptions == null) {
 			archiveOptions = new ArrayList<String>();
 		}
-		Page<? extends SearchableObject> result = searchableObjectService.search(query, spatial, 10, 0, null, null, selectedFacets, sort, null);
-
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		(query, spatial, 10, 0, null, null, selectedFacets, sort, null);
+		Page<? extends SearchableObject> result = searchableObjectService.search(solrQuery, null);
 		Resource resource = new Resource();
 		resource.setTitle("download" + Long.toString(System.currentTimeMillis()));
 

@@ -93,11 +93,10 @@ public class ReIndexingJobIntegrationTest {
 		parameters.put("query.string", new JobParameter("select t.id from Taxon t"));
 		parameters.put("query.type", new JobParameter("org.emonocot.model.Taxon"));
 		parameters.put("solr.selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
-
 		JobParameters jobParameters = new JobParameters(parameters);
-
 		Job job = jobLocator
 				.getJob("ReIndex");
+
 		assertNotNull("ReIndex must not be null",
 				job);
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);

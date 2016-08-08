@@ -72,6 +72,8 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 	private QueryResponse queryResponse = null;
 
 	private Map<Integer, String> pageNumbers;
+	
+	private Map<String, Integer> facetQuerys;
 
 	private ArrayList<Integer> indices;
 
@@ -105,7 +107,7 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 		} else {
 			this.currentIndex = 0;
 		}
-
+		
 		this.queryResponse = queryResponse;
 		this.pageSize = newPageSize;
 		this.pageNumbers = new HashMap<Integer, String>();
@@ -211,7 +213,11 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 				this.suggestedSpelling = this.queryResponse.getSpellCheckResponse().getCollatedResults().get(0).getCollationQueryString();
 			}
 		}
-
+		
+		if(this.queryResponse != null && this.queryResponse.getFacetQuery() != null) {
+			this.facetQuerys = this.queryResponse.getFacetQuery();
+		}
+		
 		if(this.queryResponse != null && this.queryResponse.getSpellCheckResponse() != null) {
 			this.correctlySpelled = this.queryResponse.getSpellCheckResponse().isCorrectlySpelled();
 		}
@@ -292,6 +298,11 @@ public abstract class AbstractPageImpl<T> implements Page<T>, Serializable {
 	 */
 	public Integer getPageSize() {
 		return pageSize;
+	}
+	
+	public Map<String, Integer>getFacetQuerys() {
+		return facetQuerys;
+		
 	}
 
 	/**

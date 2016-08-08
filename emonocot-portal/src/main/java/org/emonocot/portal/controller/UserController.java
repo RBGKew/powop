@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.UserService;
 import org.emonocot.model.SecuredObject;
@@ -30,6 +31,7 @@ import org.emonocot.model.auth.User;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.AceDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +162,9 @@ public class UserController extends GenericController<User, UserService> {
 			}
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.auth.User");
-		Page<User> result = getService().search(query, null, limit, start, null, null, selectedFacets, sort, null);
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		(query, null, limit, start, null, null, selectedFacets, sort, null);
+		Page<User> result = getService().search(solrQuery, null);
 		result.putParam("query", query);
 		model.addAttribute("result", result);
 		return "user/list";

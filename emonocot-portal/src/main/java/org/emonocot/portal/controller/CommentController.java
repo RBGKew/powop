@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.CommentService;
 import org.emonocot.api.ConceptService;
@@ -57,6 +58,7 @@ import org.emonocot.model.auth.User;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.CommentForm;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -299,10 +301,13 @@ public class CommentController extends GenericController<Comment, CommentService
 						 facetRequest.getSelected());
 			 }
 		 }
+		 selectedFacets.put("base.class_searchable_b:", "false");
 		 selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
 		 selectedFacets.put("comment.status_t", "SENT");
-		 Page<Comment> result = getService().search(query, null, limit, start,
+		 SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		 (query, null, limit, start,
 				 new String[] {"taxon.family_ss", "comment.subject_s","comment.comment_page_class_s" }, null, selectedFacets, sort, "aboutData");
+		 Page<Comment> result = getService().search(solrQuery, "aboutData");
 		 model.addAttribute("result", result);
 		 result.putParam("query", query);
 		 return "comment/list";

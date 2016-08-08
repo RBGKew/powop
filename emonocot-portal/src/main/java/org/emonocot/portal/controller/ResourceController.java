@@ -33,6 +33,7 @@ import javax.validation.groups.Default;
 
 import net.java.truevfs.access.TPath;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.OrganisationService;
@@ -48,6 +49,7 @@ import org.emonocot.model.registry.Resource.ReadResource;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.controller.form.ResourceParameterDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -141,13 +143,15 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		} else {
 			selectedFacets.put("annotation.job_id_l", new Long(resource.getLastHarvestedJobId()).toString());
 		}
-		Page<Annotation> result = annotationService.search(query, null, limit,
+		
+		SolrQuery solrQuery =  new OldSearchBuilder().oldSearchBuilder(query, null, limit,
 				start, new String[] {
 						"annotation.code_s",
 						"annotation.type_s",
 						"annotation.record_type_s",
 						"annotation.job_id_l"
 		}, null, selectedFacets, null, "annotated-obj");
+		Page<Annotation> result = annotationService.search(solrQuery, "annotated-obj");
 		result.putParam("query", query);
 		model.addAttribute("result", result);
 
@@ -213,8 +217,10 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 						facetRequest.getSelected());
 			}
 		}
+		selectedFacets.put("base.class_searchable_b", "false");
 		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Resource");
-		Page<Resource> result = getService().search(query, null, limit, start,
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		(query, null, limit, start,
 				new String[] { "resource.exit_code_s",
 						"resource.resource_type_s",
 						"resource.scheduled_b",
@@ -223,6 +229,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 						"resource.last_harvested_dt",
 						"resource.organisation_s"
 		}, null, selectedFacets, sort, null);
+		Page<Resource> result = getService().search(solrQuery, null);
 		result.putParam("query", query);
 		model.addAttribute("result", result);
 		return "resource/list";

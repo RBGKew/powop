@@ -22,12 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.CommentService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.model.Comment;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.pager.Page;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,11 +62,15 @@ public class IndexController {
 			Map<String, String> selectedFacets = new HashMap<String, String>();
 			selectedFacets.put("base.class_s", "org.emonocot.model.Comment");
 			selectedFacets.put("comment.status_t", "SENT");
-			Page<Comment> comments = commentService.search(null, null, 5, 0, null, null, selectedFacets, "comment.created_dt_desc", "aboutData");
+			SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+			(null, null, 5, 0, null, null, selectedFacets, "comment.created_dt_desc", "aboutData");
+			Page<Comment> comments = commentService.search(solrQuery, "aboutData");
 			uiModel.addAttribute("comments", comments);
 			List<String> responseFacets = new ArrayList<String>();
 			responseFacets.add("base.class_s");
-			Page<SearchableObject> stats = searchableObjectService.search("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
+			solrQuery = new OldSearchBuilder().oldSearchBuilder
+			("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
+			Page<SearchableObject> stats = searchableObjectService.search(solrQuery, null);
 			uiModel.addAttribute("stats", stats);
 		} catch (SolrServerException sse) {
 

@@ -125,10 +125,13 @@ public class Functions {
 	private Functions() {
 	}
 
+	
+	//use thymeleaf th:text=${html}
 	public static String escape(final String string) {
 		return StringEscapeUtils.escapeXml(string);
 	}
 
+	//maybe un needed, depends on hieracies, remove for now
 	public static Boolean isChildFacet(String parent, String facet) {
 		try {
 			FacetName parentFacetName = FacetName.fromString(parent);
@@ -149,14 +152,19 @@ public class Functions {
 	 *            Set the string to strip xml from
 	 * @return an stripped string
 	 */
+	
+	
 	public static String stripXml(String string) {
 		return string.replaceAll("\\<.*?>", "");
 	}
 	
+	
+	//remove
 	public static String escapeHtml(String string){
 		return HtmlUtils.htmlEscape(string);
 	}
 
+	//remove
 	public static String printTimeOnly(DateTime dateTime) {
 		if (dateTime == null) {
 			return null;
@@ -170,6 +178,7 @@ public class Functions {
 	 *            Set the status
 	 * @return true if the job is startable
 	 */
+	
 	public static Boolean isStartable(BatchStatus status) {
 		if (status == null) {
 			return Boolean.TRUE;
@@ -189,6 +198,7 @@ public class Functions {
 		}
 	}
 
+	//remove
 	public static Map<String, Map<String, String>> phylocolors(
 			Collection<Taxon> taxa) {
 		Map<String, Map<String, String>> phylocolors = new HashMap<String, Map<String, String>>();
@@ -216,6 +226,7 @@ public class Functions {
 		return phylocolors;
 	}
 
+	//remove
 	private static Map<String, String> getColorMap(Set<String> categories) {
 		int numberOfCategories = categories.size();
 		float increment = 0.5f / (numberOfCategories / 5);
@@ -241,7 +252,8 @@ public class Functions {
 
 		return colorMap;
 	}
-
+	
+	
 	public static String evaluate(String expressionString,
 			PageContext pageContext) throws ELException {
 		return (String) pageContext.getExpressionEvaluator().evaluate(
@@ -251,6 +263,8 @@ public class Functions {
 
 	static PrettyTime prettyTime = new PrettyTime();
 
+	
+	//can all be done with javascript
 	public static String prettyTime(DateTime dateTime) {
 		if (dateTime == null) {
 			return null;
@@ -265,6 +279,8 @@ public class Functions {
 	 *            Set the rank
 	 * @return the abbreviated rank
 	 */
+	
+	//needs something - lookup table?
 	public static String abbreviateRank(Rank rank) {
 		if (rank == null) {
 			return null;
@@ -301,6 +317,8 @@ public class Functions {
 	 *            Set the rank
 	 * @return the formatted rank
 	 */
+	
+	//
 	public static String formatRank(Rank rank) {
 		if (rank == null) {
 			return null;

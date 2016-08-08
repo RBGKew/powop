@@ -23,12 +23,14 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +84,11 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			}
 		}
 		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Organisation");
-		Page<Organisation> result = getService().search(query, null, limit, start,
+		selectedFacets.put("base.class_searchable_b", "false");
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		(query, null, limit, start,
 				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, "source-with-jobs");
+		Page<Organisation> result = getService().search(solrQuery, "source-with-jobs");
 		model.addAttribute("result", result);
 		result.putParam("query", query);
 		return "organisation/list";

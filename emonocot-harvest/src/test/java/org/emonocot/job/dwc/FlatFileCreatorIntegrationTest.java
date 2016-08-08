@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrClient;
@@ -55,6 +56,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import au.org.ala.delta.Logger;
 
 /**
  * @author jk00kg
@@ -140,6 +143,7 @@ public class FlatFileCreatorIntegrationTest {
 		JobExecution jobExecution = jobLauncher.run(archiveCreatorJob,
 				jobParameters);
 
+		
 		assertEquals("The Job should be sucessful", ExitStatus.COMPLETED, jobExecution.getExitStatus());
 	}
 

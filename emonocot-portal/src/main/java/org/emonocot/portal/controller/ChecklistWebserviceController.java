@@ -22,12 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.emonocot.portal.logging.LoggingConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +102,9 @@ public class ChecklistWebserviceController {
 		Map<String,String> selectedFacets = new HashMap<String,String>();
 		selectedFacets.put("base.class_s","org.emonocot.model.Taxon");
 		ModelAndView modelAndView = new ModelAndView("rdfResponse");
-		Page<SearchableObject> taxa = searchableObjectService.search(query, null, null, null, null, null, selectedFacets, null, null);
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+		(query, null, null, null, null, null, selectedFacets, null, null);
+		Page<SearchableObject> taxa = searchableObjectService.search(solrQuery, null);
 		modelAndView.addObject("result", taxa.getRecords());
 		try {
 			MDC.put(LoggingConstants.SEARCH_TYPE_KEY, CHECKLIST_WEBSERVICE_SEARCH_TYPE);

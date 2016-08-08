@@ -19,25 +19,25 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.solr.client.solrj.response.FacetField;
-import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.pager.Page;
+import org.emonocot.persistence.solr.AutoCompleteBuilder;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.ContextConfiguration;
 
 public class SearchIntegrationTest extends AbstractPersistenceTest {
 
@@ -77,8 +77,8 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 
 	@Test
 	public final void testSearch() throws Exception {
-		Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
-				new String[] {"taxon.distribution_ss" }, null, null, null, null);
+		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();
+		Page<SearchableObject> results = getSearchableObjectDao().search(query, null);		
 		assertEquals("There should be 5 taxa matching Aus", new Integer(5), (Integer)results.getSize());
 	}
 
@@ -89,42 +89,44 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	}
 
 	@Test
+	public final void testFacetsReturned() throws SolrServerException, IOException{
+		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();
+		Page<SearchableObject> results = getSearchableObjectDao().search(query, null);
+		Map<String, Integer> facetNames = results.getFacetQuerys();
+		assertEquals("The Facet Count for accepted names should be 2", new Integer(2), facetNames.get("taxon.taxonomic_status_s:Accepted"));
+		assertEquals("The Facet Count for images should be 0", new Integer(0), facetNames.get("taxon.images_not_empty_b:true"));
+	}
+	
+	@Test
 	public final void testRestrictedSearch() throws Exception {
-		Map<String, String> selectedFacets = new HashMap<String, String>();
-
-		selectedFacets.put("taxon.distribution_ss", Location.AUSTRALASIA.getCode());
-
-		Page<SearchableObject> results = getSearchableObjectDao().search("taxon.scientific_name_t:Aus", null, null, null,
-				new String[] {"taxon.distribution_ss"}, null, selectedFacets, null, null);
+		SolrQuery query = new QueryBuilder().addParam("taxon.distribution_ss", Location.AUSTRALASIA.getCode()).addParam("taxon.scientific_name_t", "Aus").build();
+		
+		Page<SearchableObject> results = getSearchableObjectDao().search(query, null);
 		assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", new Integer(2), (Integer)results.getSize());
-		for(String facetName : results.getFacetNames()) {
-			logger.debug(facetName);
-			FacetField facet = results.getFacetField(facetName);
-			for(Count count : facet.getValues()) {
-				logger.debug("\t" + count.getName() + " " + count.getCount());
-			}
-		}
 	}
 
 	@Test
 	public final void testSearchEmbeddedContent() throws Exception {
-		Page<SearchableObject> page = getSearchableObjectDao().search("Lorem", null, null, null, null, null, null, null, null);
+		SolrQuery query = new QueryBuilder().addParam("main.query", "Lorem").build();
+		Page<SearchableObject> page = getSearchableObjectDao().search(query, null);
 
 		assertFalse(page.getSize() == 0);
 	}
 
 	@Test
 	public final void testSearchByHigherName() throws Exception {
-		Page<SearchableObject> results = searchableObjectDao.search("Aaceae", null, null, null, null, null, null, null, null);
+		SolrQuery query = new QueryBuilder().addParam("taxon.family_ss", "Aaceae").build();
+		Page<SearchableObject> results = searchableObjectDao.search(query, null);
 
 		assertEquals("There should be 3 results", 3, results.getSize().intValue());
 	}
 
 	@Test
 	public final void testSearchBySynonym() throws Exception {
-		Page<SearchableObject> results = searchableObjectDao.search("deus", null, null, null, null, null, null, null, null);
-
-		assertEquals("There should be 2 results, the synonym and accepted name", 2, results.getSize().intValue());
+		SolrQuery query = new QueryBuilder().addParam("main.query", "deus").build();
+		Page<SearchableObject> results = searchableObjectDao.search(query, null);
+		assertEquals("The first result ID should be 2", "2", results.getRecords().get(0).getIdentifier());	
+		assertEquals("There should be 2 results, the synonym and accepted name", new Integer(2), results.getSize());
 	}
 
 	/**
@@ -145,11 +147,12 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	 */
 	@Test
 	public final void testSearchWithNulls() throws Exception {
-		Page<SearchableObject> results = searchableObjectDao.search("", null, null, null, null, null, null, "searchable.label_sort_asc", null);
+		SolrQuery query = new QueryBuilder().addParam("main.query", "").build();
+		Page<SearchableObject> results = searchableObjectDao.search(query, null);
 
 		assertEquals("There should be 7 results", 7, results.getSize().intValue());
 
-		assertEquals("The first results should be urn:kew.org:wcs:taxon:294463", "urn:kew.org:wcs:taxon:294463", results.getRecords().get(0).getIdentifier());
+		assertEquals("The first results should be 1", "1", results.getRecords().get(0).getIdentifier());
 	}
 
 	/**
@@ -158,8 +161,9 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	@Test
 	public final void testLeadingWhitespace() {
 		boolean exceptionThrown = false;
+		SolrQuery query = new QueryBuilder().addParam("main.query", " Aus bus").build();
 		try {
-			Page<SearchableObject> results = getSearchableObjectDao().search(" Aus bus", null, null, null, null, null, null, null, null);
+			Page<SearchableObject> results = getSearchableObjectDao().search(query, null);
 		} catch(Exception e) {
 			exceptionThrown = true;
 		}
@@ -171,6 +175,10 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	 */
 	@Test
 	public final void testAutocomplete() throws Exception {
-		List<Match> matched = getSearchableObjectDao().autocomplete("Aus bu", 10, null);
+		SolrQuery query = new AutoCompleteBuilder().setQuery("taxon.scientific_name_t", "Aus bu").pageSize(10).build();
+		List<Match> matched = getSearchableObjectDao().autocomplete(query);
+		for(Match match : matched){
+			logger.error(match.getLabel());
+		}
 	}
 }

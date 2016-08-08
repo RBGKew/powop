@@ -20,12 +20,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +90,9 @@ public class AboutController {
 		try {
 			List<String> responseFacets = new ArrayList<String>();
 			responseFacets.add("base.class_s");
-			Page<SearchableObject> stats = searchableObjectService.search("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
+			SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+			("", null, 1, 0, responseFacets.toArray(new String[1]), null, null, null, null);
+			Page<SearchableObject> stats = searchableObjectService.search(solrQuery, null);
 			model.addAttribute("stats", stats);
 		} catch (SolrServerException | IOException e) {
 			logger.error("Error connecting to solr: ", e);

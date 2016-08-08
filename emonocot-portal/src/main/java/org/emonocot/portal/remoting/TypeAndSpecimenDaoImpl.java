@@ -20,7 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
@@ -79,6 +81,12 @@ TypeAndSpecimenDao {
 			Integer maxCols, Integer firstRow, Integer maxRows,
 			Map<String, String> selectedFacets, String[] array, Cube cube)
 					throws SolrServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryResponse search(SolrQuery solrQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}

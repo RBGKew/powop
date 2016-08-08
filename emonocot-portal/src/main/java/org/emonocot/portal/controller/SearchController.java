@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.CommentService;
 import org.emonocot.api.OrganisationService;
@@ -42,6 +43,7 @@ import org.emonocot.pager.Dimension;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
+import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.emonocot.portal.view.geojson.Feature;
 import org.emonocot.portal.view.geojson.FeatureCollection;
 import org.restdoc.api.GlobalHeader;
@@ -131,9 +133,11 @@ public class SearchController {
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
 			String sort, Map<String, String> selectedFacets) throws SolrServerException, IOException {
-		Page<? extends SearchableObject> result = searchableObjectService
-				.search(query, spatial, limit, start, responseFacets,
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+				(query, spatial, limit, start, responseFacets,
 						facetPrefixes, selectedFacets, sort, "taxon-with-image");
+		Page<? extends SearchableObject> result = searchableObjectService
+				.search(solrQuery, "taxon-with-image");
 		queryLog.info("Query: \'{}\', start: {}, limit: {},"
 				+ "facet: [{}], {} results", new Object[] { query, start,
 						limit, selectedFacets, result.getSize() });
@@ -249,7 +253,7 @@ public class SearchController {
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view,
 			Model model) throws SolrServerException, IOException {
-		String spatial = null;
+		String spatial = null; 
 		DecimalFormat decimalFormat = new DecimalFormat("###0.0");
 		if (x1 != null
 				&& y1 != null
@@ -387,27 +391,32 @@ public class SearchController {
 	@RequestMapping(value = "/autocomplete",   method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	List<Match> autocomplete(@RequestParam(required = true) String term) throws SolrServerException, IOException {
-		return searchableObjectService.autocomplete(term, 10, null);
+		SolrQuery query = new OldSearchBuilder().oldAutocomplete(term, 10, null);
+		return searchableObjectService.autocomplete(query);
 	}
 
 	@RequestMapping(value = "/autocomplete/comment", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Match> autocompleteComments(@RequestParam(required = true) String term) throws SolrServerException, IOException {
-		return commentService.autocomplete(term, 10, null);
+		SolrQuery query = new OldSearchBuilder().oldAutocomplete(term, 10, null);
+		return commentService.autocomplete(query);
 	}
 
 	@RequestMapping(value = "/autocomplete/user", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Match> autocompleteUsers(@RequestParam(required = true) String term) throws SolrServerException, IOException {
-		return userService.autocomplete(term, 10, null);
+		SolrQuery query = new OldSearchBuilder().oldAutocomplete(term, 10, null);
+		return userService.autocomplete(query);
 	}
 
 	@RequestMapping(value = "/autocomplete/organisation", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Match> autocompleteOrganisations(@RequestParam(required = true) String term) throws SolrServerException, IOException {
-		return organisationService.autocomplete(term, 10, null);
+		SolrQuery query = new OldSearchBuilder().oldAutocomplete(term, 10, null);
+		return organisationService.autocomplete(query);
 	}
 
 	@RequestMapping(value = "/autocomplete/resource", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Match> autocompleteResources(@RequestParam(required = true) String term) throws SolrServerException, IOException {
-		return resourceService.autocomplete(term, 10, null);
+		SolrQuery query = new OldSearchBuilder().oldAutocomplete(term, 10, null);
+		return resourceService.autocomplete(query);
 	}
 
 	@ExceptionHandler(SolrServerException.class)
@@ -523,7 +532,9 @@ public class SearchController {
 			Integer start, Integer limit, String spatial,
 			String[] responseFacets, Map<String, String> facetPrefixes,
 			String sort, Map<String, String> selectedFacets) throws SolrServerException, IOException {
-		Page<TypeAndSpecimen> result = typeAndSpecimenService.search(query, spatial, limit, start, responseFacets,facetPrefixes, selectedFacets, sort, null);
+		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
+				(query, spatial, limit, start, responseFacets,facetPrefixes, selectedFacets, sort, null);
+		Page<TypeAndSpecimen> result = typeAndSpecimenService.search(solrQuery, null);
 		result.putParam("query", query);
 
 		return result;

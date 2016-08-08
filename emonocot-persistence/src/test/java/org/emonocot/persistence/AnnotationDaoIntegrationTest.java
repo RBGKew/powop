@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.emonocot.model.Annotation;
@@ -34,6 +35,7 @@ import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -121,48 +123,16 @@ public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
 	@Test
 	public final void testGetJobExecutions() throws Exception {
 		assertNotNull(annotationDao);
-		String[] facets = new String[] {
-				"base.authority_s",
-				"annotation.job_id_l",
-				"annotation.type_s",
-				"annotation.record_type_s"
-		};
-		Map<String,String> selectedFacets = new HashMap<String, String>();
-		selectedFacets.put("base.authority_s", "WCS");
-		selectedFacets.put("annotation.job_id_l", "1");
-		Page<Annotation> results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
-		for(String facetName : results.getFacetNames()) {
-			logger.debug(facetName);
-			FacetField facet = results.getFacetField(facetName);
-			for(Count count : facet.getValues()) {
-				logger.debug("\t" + count.getName() + " " + count.getCount());
-			}
-		}
+		
+		SolrQuery query = new QueryBuilder().addParam("base.authority_s", "WCS").addParam("annotation.job_id_l", "1").addParam("base.class_searchable_b", "false").build();
+		Page<Annotation> results = annotationDao.search(query, null);
 		assertFalse(results.getRecords().isEmpty());
-
-		selectedFacets.clear();
-		selectedFacets.put("annotation.job_id_l", "1");
-		results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
-		for(String facetName : results.getFacetNames()) {
-			logger.debug(facetName);
-			FacetField facet = results.getFacetField(facetName);
-			for(Count count : facet.getValues()) {
-				logger.debug("\t" + count.getName() + " " + count.getCount());
-			}
-		}
-		selectedFacets.clear();
-		selectedFacets.put("annotation.job_id_l", "1");
-		selectedFacets.put("annotation.record_type_s", "Taxon");
-		selectedFacets.put("annotation.type_s", "Create");
-		results = annotationDao.search(null, null, null, null, facets, null, selectedFacets, null, null);
-		for(String facetName : results.getFacetNames()) {
-			logger.debug(facetName);
-			FacetField facet = results.getFacetField(facetName);
-			for(Count count : facet.getValues()) {
-				logger.debug("\t" + count.getName() + " " + count.getCount());
-			}
-		}
-
+		query = new QueryBuilder().addParam("annotation.job_id_l", "1").addParam("base.class_searchable_b", "false").build();
+		results = annotationDao.search(query, null);
+		logger.error("" + results.getSize());
+		query = new QueryBuilder().addParam("annotation.job_id_l", "1").addParam("annotation.record_type_s", "Taxon").addParam("annotation.type_s", "Create").addParam("base.class_searchable_b", "false").build();
+		results = annotationDao.search(query, null);
+		logger.error("" + results.getSize());
 	}
 
 }

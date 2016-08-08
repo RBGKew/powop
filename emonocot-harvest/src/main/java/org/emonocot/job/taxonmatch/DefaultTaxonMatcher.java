@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.match.Match;
@@ -33,6 +34,7 @@ import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.pager.Page;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.gbif.ecat.model.ParsedName;
 import org.gbif.ecat.parser.NameParser;
 import org.gbif.ecat.parser.UnparsableException;
@@ -82,51 +84,49 @@ public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 	 * )
 	 */
 	public List<Match<Taxon>> match(ParsedName<String> parsed) {
-		StringBuilder stringBuilder = new StringBuilder();
+		QueryBuilder queryBuilder = new QueryBuilder();
 		if (parsed.getSpecificEpithet() == null) {
-			stringBuilder.append("searchable.label_sort:" + parsed.getGenusOrAbove());
+			queryBuilder.addParam("searchable.label_sort", parsed.getGenusOrAbove());
+			
 			if(parsed.getAuthorship() != null) {
-				stringBuilder.append(" AND taxon.scientific_name_authorship_s:"
-						+ parsed.getAuthorship());
+				queryBuilder.addParam("taxon.scientific_name_authorship_s",
+						parsed.getAuthorship());
 			}
 		} else {
-			stringBuilder.append("taxon.genus_ns:" + parsed.getGenusOrAbove());
+			queryBuilder.addParam("taxon.genus_s", parsed.getGenusOrAbove());
 			if (parsed.getSpecificEpithet() != null) {
-				stringBuilder.append(" AND taxon.specific_epithet_s:"
-						+ parsed.getSpecificEpithet());
+				queryBuilder.addParam("taxon.specific_epithet_s",
+						parsed.getSpecificEpithet());
 			}
 			if (parsed.getInfraGeneric() != null) {
-				stringBuilder.append(" AND taxon.subgenus_s:"
-						+ parsed.getInfraGeneric());
+				queryBuilder.addParam("taxon.subgenus_s",
+						parsed.getInfraGeneric());
 			}
 			if (parsed.getInfraSpecificEpithet() != null) {
-				stringBuilder.append(" AND taxon.infraspecific_epithet_s:"
-						+ parsed.getInfraSpecificEpithet());
+				queryBuilder.addParam("taxon.infraspecific_epithet_s",
+						parsed.getInfraSpecificEpithet());
 			} else {
-				stringBuilder.append(" AND -taxon.infraspecific_epithet_s:[* TO *]");
+				queryBuilder.addParam("-taxon.infraspecific_epithet_s", "[* TO *]");
 			}
 			if (parsed.getRank() != null) {
 				if (parsed.getRank().equals(Rank.SPECIES)) {
-					stringBuilder.append(" AND taxon.taxon_rank_s:SPECIES");
+					queryBuilder.addParam("taxon.taxon_rank_s", "SPECIES");
 				} else {
 
 				}
 
 			}
 			if(parsed.getAuthorship() != null) {
-				stringBuilder.append(" AND taxon.scientific_name_authorship_s:"
-						+ parsed.getAuthorship());
+				queryBuilder.addParam("taxon.scientific_name_authorship_s", 
+						parsed.getAuthorship());
 			}
 		}
 
-		String searchTerm = stringBuilder.toString();
-		logger.debug("Attempting to match " + searchTerm);
 		List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
-		Map<String,String> selectedFacets = new HashMap<String,String>();
-		selectedFacets.put("base.class_s", "org.emonocot.model.Taxon");
+		SolrQuery query = queryBuilder.addParam("base.class_s", "org.emonocot.model.Taxon").build();
 		Page<SearchableObject> page;
 		try {
-			page = searchableObjectService.search(searchTerm, null, null, null, null, null, selectedFacets, null, null);
+			page = searchableObjectService.search(query, null);
 		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);
 		}

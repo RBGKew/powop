@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
@@ -287,21 +288,10 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 	 }
 
 	 /**
-	  * @param query set the query
-	  * @param spatialQuery set the spatial query
-	  * @param pageSize set the page size
-	  * @param pageNumber set the page number
-	  * @param facets set the facets to be calculated
-	  * @param facetPrefixes TODO
-	  * @param selectedFacets set the facets that are selected
-	  * @param fetch TODO
-	  * @return a page of objects
+	  * @param solrQuery TODO
+	 * @return a page of objects
 	  */
-	 public final Page<T> search(final String query, final String spatialQuery,
-			 final Integer pageSize, final Integer pageNumber,
-			 final String[] facets,
-			 Map<String, String> facetPrefixes,
-			 final Map<String, String> selectedFacets, final String sort, String fetch) {
+	 public final Page<T> search(SolrQuery solrQuery, String fetch) {
 		 // TODO Auto-generated method stub
 		 // TODO move persistence to persistence package?
 		 return null;
@@ -328,13 +318,11 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		 return null;
 	 }
 
-	 public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) {
+	 public List<Match> autocomplete(SolrQuery query) {
 		 return null;
 	 }
 
-	 public Page<SolrDocument> searchForDocuments(String query,
-			 Integer pageSize, Integer pageNumber,
-			 Map<String, String> selectedFacets, String sort) {
+	 public Page<SolrDocument> searchForDocuments(SolrQuery query) {
 		 throw new UnsupportedOperationException("Method should be overridden if supported. Unable to search for documents with query" + query);
 	 }
 

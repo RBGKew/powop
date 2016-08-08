@@ -17,12 +17,11 @@
 package org.emonocot.harvest.common;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.SearchableService;
 import org.emonocot.model.SearchableObject;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
 
 /**
@@ -35,15 +34,13 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 
 	private String queryString = null;
 
-	private String spatialString = null;
-
-	private Map<String,String> selectedFacets = new HashMap<String,String>();
-
 	private String sort = null;
 
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
+
+	private QueryBuilder queryBuilder = new QueryBuilder();
 
 	/**
 	 * @param service the service to set
@@ -57,30 +54,36 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 		if(selectedFacets != null) {
 			for(String selectedFacet : selectedFacets) {
 				String[] f = selectedFacet.split("\\=");
-				this.selectedFacets.put(f[0],f[1]);
+				queryBuilder.addParam(f[0],f[1]);
 			}
 		}
 	}
-
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
 	}
 
-	public void setSpatialString(String spatialString) {
-		this.spatialString = spatialString;
-	}
-
-
 	@Override
 	protected void doReadPage() {
+		queryBuilder = new QueryBuilder();
+		if(queryString != null && !queryString.isEmpty()){
+			queryBuilder.addParam("*", queryString);
+		}
+		if(sort != null && !sort.isEmpty()){
+			queryBuilder.addParam("sort", sort);
+		}
+
+		queryBuilder.addParam("pageSize", "" + getPageSize());
+		queryBuilder.addParam("pageNumber", "" + getPage());
+		SolrQuery query = queryBuilder.build();
 		try {
-			results = service.search(queryString, spatialString, getPageSize(), getPage(), null, null, selectedFacets, sort, "object-page").getRecords();
+			results = service.search(query, "object-page").getRecords();
+
 		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);
 		}
 		logger.debug("Search for " + queryString + " (page number " + getPage() + " got a page of " + results.size()
-				+ " (results");
+		+ " (results");
 	}
 
 	/* (non-Javadoc)

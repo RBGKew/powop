@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.CellSet;
@@ -48,9 +50,7 @@ OrganisationDao {
 	}
 
 	@Override
-	public Page<SolrDocument> searchForDocuments(String query,
-			Integer pageSize, Integer pageNumber,
-			Map<String, String> selectedFacets, String sort) {
+	public Page<SolrDocument> searchForDocuments(SolrQuery query) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -93,6 +93,12 @@ OrganisationDao {
 	public CellSet analyse(String rows, String cols, Integer firstCol,
 			Integer maxCols, Integer firstRow, Integer maxRows,
 			Map<String, String> selectedFacets, String[] array, Cube cube) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryResponse search(SolrQuery solrQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}

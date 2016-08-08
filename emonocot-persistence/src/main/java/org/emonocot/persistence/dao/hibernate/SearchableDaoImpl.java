@@ -83,84 +83,33 @@ implements SearchableDao<T> {
 		super(newType);
 	}
 
-	/**
-	 * @param query
-	 *            A lucene query
-	 * @param spatialQuery
-	 *            A spatial query to filter the results by
-	 * @param pageSize
-	 *            The maximum number of results to return
-	 * @param pageNumber
-	 *            The offset (in pageSize chunks, 0-based) from the beginning of
-	 *            the recordset
-	 * @param facets
-	 *            The names of the facets you want to calculate
-	 * @param selectedFacets
-	 *            A map of facets which you would like to restrict the search by
-	 * @param sort
-	 *            A representation for the order results should be returned in
-	 * @param fetch
-	 *            Set the fetch profile
-	 * @return a Page from the resultset
-	 * @throws SolrServerException
-	 */
-	public final Page<T> search(final String query, final String spatialQuery,
-			final Integer pageSize, final Integer pageNumber,
-			final String[] facets,
-			Map<String, String> facetPrefixes, final Map<String, String> selectedFacets,
-			final String sort, final String fetch) throws SolrServerException, IOException {
-		SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
-		solrQuery.set("spellcheck", "true");
-		solrQuery.set("spellcheck.collate", "true");
-		solrQuery.set("spellcheck.count", "1");
-		solrQuery.set("bq", "base.class_s:org.emonocot.model.Taxon^2.0");
 
-		// Filter the searchable objects out
-		solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
-
-		if (spatialQuery != null && spatialQuery.trim().length() != 0) {
-			solrQuery.addFilterQuery(spatialQuery);
+	public final QueryResponse search(SolrQuery solrQuery){ 
+		QueryResponse queryResponse = null;
+		if(solrQuery != null){
+		try {
+			queryResponse = solrClient.query(solrQuery);
+		} catch (IOException e) {
+			logger.error("Error querying solr server: ", e);
+			return null;
+			
+		} catch (SolrServerException e) {
+			logger.error("Error querying solr server: ", e);
+			return null;	
 		}
-
-		if (facets != null && facets.length != 0) {
-			solrQuery.setFacet(true);
-			solrQuery.setFacetMinCount(1);
-			solrQuery.setFacetSort(FacetParams.FACET_SORT_INDEX);
-
-			for(String facet : facets) {
-				if(facet.equals("base.class_s")) {
-					solrQuery.setParam("f.base.class_s.facet.sort", FacetParams.FACET_SORT_COUNT);
-				}
-				if(facet.endsWith("_dt")) {
-					/**
-					 * Is a date facet. Once Solr 4.2 is released, we can implement variable length buckets, but for now
-					 * stick with fixed buckets https://issues.apache.org/jira/browse/SOLR-2366
-					 */
-
-					solrQuery.add("facet.range",facet);
-					solrQuery.add("f." + facet + ".facet.range.start","NOW/DAY-1YEARS");
-					solrQuery.add("f." + facet + ".facet.range.end","NOW/DAY");
-					solrQuery.add("f." + facet + ".facet.range.gap","+1MONTH");
-				} else {
-					solrQuery.addFacetField(facet);
-				}
-				includeMissing(solrQuery, facet);
-			}
-			if(facetPrefixes != null) {
-				for(String facet : facetPrefixes.keySet()) {
-					solrQuery.add("f." + facet + ".facet.prefix",facetPrefixes.get(facet));
-				}
-			}
+		
 		}
+		return queryResponse;
+	}
+	
+	public final Page<T> search(SolrQuery solrQuery, String fetch) throws SolrServerException, IOException {
 		QueryResponse queryResponse;
-
 		try {
 			queryResponse = solrClient.query(solrQuery);
 		} catch (IOException e) {
 			logger.error("Error querying solr server: ", e);
 			throw new SolrServerException(e);
 		}
-
 		List<T> results = new ArrayList<T>();
 		for(SolrDocument solrDocument : queryResponse.getResults()) {
 			T object = loadObjectForDocument(solrDocument);
@@ -168,12 +117,13 @@ implements SearchableDao<T> {
 			results.add(object);
 		}
 
+		Integer pageSize = solrQuery.getRows();
+		Integer pageNumber = solrQuery.getStart() / pageSize ;
 		Long totalResults = new Long(queryResponse.getResults().getNumFound());
+		
 		Page<T> page = new DefaultPageImpl<T>(totalResults.intValue(), pageNumber, pageSize, results, queryResponse);
-		if(selectedFacets != null) {
-			page.setSelectedFacets(selectedFacets);
-		}
-		page.setSort(sort);
+		
+		page.setSort(solrQuery.getSortField());
 
 		return page;
 	}
@@ -189,41 +139,9 @@ implements SearchableDao<T> {
 		}
 	}
 
-	public List<Match> autocomplete(String query, Integer pageSize, Map<String, String> selectedFacets) throws SolrServerException, IOException {
-		SolrQuery solrQuery = new SolrQuery();
+	public List<Match> autocomplete(SolrQuery query) throws SolrServerException, IOException {
 
-		if (query != null && !query.trim().equals("")) {
-			//String searchString = query.trim().replace(" ", "+");
-			solrQuery.setQuery(query);
-		} else {
-			return new ArrayList<Match>();
-		}
-
-		// Filter the searchable objects out
-		solrQuery.addFilterQuery("base.class_searchable_b:" + isSearchableObject());
-
-		// Set additional result parameters
-		solrQuery.setRows(pageSize);
-
-		if(selectedFacets != null && !selectedFacets.isEmpty()) {
-			for(String facetName : selectedFacets.keySet()) {
-				solrQuery.addFilterQuery(facetName + ":" + selectedFacets.get(facetName));
-			}
-		}
-
-		solrQuery.set("defType","edismax");
-		solrQuery.set("qf", "autocomplete^3 autocompleteng");
-		solrQuery.set("pf", "autocompletenge");
-		solrQuery.set("fl","autocomplete,id");
-		solrQuery.setHighlight(true);
-		solrQuery.set("hl.fl", "autocomplete");
-		solrQuery.set("hl.snippets",3);
-		solrQuery.setHighlightSimplePre("<b>");
-		solrQuery.setHighlightSimplePost("</b>");
-		solrQuery.set("group","true");
-		solrQuery.set("group.field", "autocomplete");
-
-		QueryResponse queryResponse = solrClient.query(solrQuery);
+		QueryResponse queryResponse = solrClient.query(query);
 
 		List<Match> results = new ArrayList<Match>();
 		Map<String,Match> matchMap = new HashMap<String,Match>();
@@ -273,17 +191,14 @@ implements SearchableDao<T> {
 	}
 
 	@Override
-	public Page<SolrDocument> searchForDocuments(String query, Integer pageSize, Integer pageNumber, Map<String, String> selectedFacets, String sort) throws SolrServerException, IOException {
-		SolrQuery solrQuery = prepareQuery(query, sort, pageSize, pageNumber, selectedFacets);
-
+	public Page<SolrDocument> searchForDocuments(SolrQuery solrQuery) throws SolrServerException, IOException {
 		QueryResponse queryResponse = solrClient.query(solrQuery);
-
+		Integer pageSize = solrQuery.getRows();
+		Integer pageNumber = solrQuery.getStart() / pageSize ;
 		Long totalResults = new Long(queryResponse.getResults().getNumFound());
 		Page<SolrDocument> page = new DefaultPageImpl<SolrDocument>(totalResults.intValue(), pageNumber, pageSize, queryResponse.getResults(), queryResponse);
-		if(selectedFacets != null) {
-			page.setSelectedFacets(selectedFacets);
-		}
-		page.setSort(sort);
+
+		page.setSort(solrQuery.getSortField());
 
 		return page;
 	}
@@ -449,69 +364,6 @@ implements SearchableDao<T> {
 		return cellSet;
 	}
 
-	/**
-	 * Prepares a {@link SolrQuery} with the parameters passed in
-	 * @param query
-	 * @param sort
-	 * @param pageSize
-	 * @param pageNumber
-	 * @param selectedFacets
-	 * @return A {@link SolrQuery} that can be customised before passing to a {@link SolrClient}
-	 */
-	protected SolrQuery prepareQuery(String query, String sort, Integer pageSize, Integer pageNumber, Map<String,String> selectedFacets){
-		SolrQuery solrQuery = new SolrQuery();
 
-		if (query != null && !query.trim().equals("")) {
-			String searchString = null;
-			if (query.indexOf(":") != -1) {
-				searchString = query;
-			} else {
-				// replace spaces with '+' so that we search on terms
-				searchString = query.trim().replace(" ", "+");
-				solrQuery.set("defType","edismax");
-				solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
-			}
-			solrQuery.setQuery(searchString);
-
-		} else {
-			solrQuery.set("defType","edismax");
-			solrQuery.set("qf", "searchable.label_sort searchable.solrsummary_t");
-			solrQuery.setQuery("*:*");
-		}
-
-		if (sort != null && sort.length() != 0) {
-			for(String singleSort : sort.split(",")) {
-				if(singleSort.equals("_asc")) {
-					//Do nothing
-				} else if(singleSort.endsWith("_asc")) {
-					String sortField = singleSort.substring(0,singleSort.length() - 4);
-					solrQuery.addSort(sortField, SolrQuery.ORDER.asc);
-				} else if(singleSort.endsWith("_desc")) {
-					String sortField = singleSort.substring(0,singleSort.length() - 5);
-					solrQuery.addSort(sortField, SolrQuery.ORDER.desc);
-				}
-			}
-		}
-
-		if (pageSize != null) {
-			solrQuery.setRows(pageSize);
-			if (pageNumber != null) {
-				solrQuery.setStart(pageSize * pageNumber);
-			}
-		}
-
-		if(selectedFacets != null && !selectedFacets.isEmpty()) {
-			for(String facetName : selectedFacets.keySet()) {
-				String facetValue = selectedFacets.get(facetName);
-				if(StringUtils.isNotEmpty(facetValue)) {
-					solrQuery.addFilterQuery(facetName + ":\"" + selectedFacets.get(facetName) + "\"");
-				} else {//Subtract/Exclude documents with any value for the facet
-					solrQuery.addFilterQuery("-" + facetName + ":[* TO *]");
-				}
-			}
-		}
-
-		return solrQuery;
-	}
 
 }
