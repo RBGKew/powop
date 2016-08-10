@@ -1,0 +1,12 @@
+.c-intro {
+  max-width: 90%;
+  margin: 0 auto 2em;
+  text-align: center;
+  p {
+    font-size: $font-size-h3;
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+}

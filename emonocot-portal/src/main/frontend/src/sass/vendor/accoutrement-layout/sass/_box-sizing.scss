@@ -1,0 +1,36 @@
+// Box Sizing
+// ==========
+
+
+// Global Box Sizing
+// -----------------
+/// Establish gloabl box-sizing within any scope.
+/// @group box-sizing
+/// @param {border-box | content-box | padding-box} $box [border-box] -
+///   The box-sizing model to establish globally.
+/// @param {Boolean} $inherit [false] -
+///   Set box-sizing as an inherited property.
+@mixin global-box-sizing(
+  $box: border-box,
+  $inherit: false
+) {
+  @if $inherit {
+    box-sizing: $box;
+
+    * {
+      &,
+      &:before,
+      &:after {
+        box-sizing: inherit;
+      }
+    }
+  } @else {
+    * {
+      &,
+      &:before,
+      &:after {
+        box-sizing: $box;
+      }
+    }
+  }
+}

@@ -118,7 +118,13 @@
 
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
+	<bean class="com.github.jknack.handlebars.springmvc.HandlebarsViewResolver" id="handlebarsViewResolver">
+		<property name="order" value="1" />
+		<property name="failOnMissingFile" value="false"/><!-- Allows for resolver chaining -->
+	</bean>
+
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
+		<property name="order" value="2" />
 		<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
 	</bean>
 

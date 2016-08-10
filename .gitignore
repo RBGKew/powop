@@ -7,3 +7,5 @@
 target
 activemq-data
 !tags
+node_modules
+dist

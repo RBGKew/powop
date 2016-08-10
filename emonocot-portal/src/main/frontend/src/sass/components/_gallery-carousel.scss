@@ -1,0 +1,24 @@
+.c-gallery-item {
+  min-width: 50%;
+  max-width: 80%;
+  margin: 0 auto;
+  background-color: #FFFFFF;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &__fig {
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    img {
+      width: 100%;
+    }
+  }
+
+  &__caption {
+    line-height: 1.2;
+    padding: $padding-large-vertical $padding-large-horizontal;
+  }
+}

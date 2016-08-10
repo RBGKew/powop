@@ -1,0 +1,15 @@
+.c-footer {
+  padding: $line-height-computed 0;
+
+  &__terms {
+    margin: 0;
+    float: left;
+  }
+
+  &__copyright {
+    display: inline-block;
+    @media (min-width: $screen-md-min) {
+      float: right;
+    }
+  }
+}

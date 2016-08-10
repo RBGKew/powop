@@ -1,0 +1,26 @@
+// Clearfix
+// ========
+
+
+// Micro Clearfix
+// --------------
+/// A small, unobtrusive clearfix for float containers.
+/// @group clearfix
+@mixin micro-clearfix {
+  &:after {
+    clear: both;
+    content: ' ';
+    display: block;
+  }
+}
+
+
+// Cleafix
+// -------
+/// Currently an alias for `micro-clearfix`,
+/// but could be used to choose between clearfix options.
+/// @group clearfix
+/// @alias micro-clearfix
+@mixin clearfix {
+  @include micro-clearfix;
+}

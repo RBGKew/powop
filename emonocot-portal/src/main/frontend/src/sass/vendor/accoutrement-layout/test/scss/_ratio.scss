@@ -1,0 +1,75 @@
+// Ratio Tests
+// ===========
+
+
+$aspect-ratios: (
+  'mine': 13 / 4,
+  'retro': 'classic',
+);
+
+
+// Get Aspect Ratio
+// ----------------
+@include test-module('Get Aspect Ratio [function]') {
+  @include test('Return a valid ratio directly') {
+    @include assert-equal(
+      _get-aspect-ratio(16 / 9),
+      16 / 9,
+      'Returns a valid ratio directly.');
+  }
+
+  @include test('Get ratio from defaults') {
+    @include assert-equal(
+      _get-aspect-ratio('octave'),
+      map-get($accoutrement-aspect-ratios, 'octave'),
+      'Returns the value of a key in the default ratios map.');
+  }
+
+  @include test('Get ratio from user settings') {
+    @include assert-equal(
+      _get-aspect-ratio('mine'),
+      map-get($aspect-ratios, 'mine'),
+      'Returns the value of a key in the user ratios map.');
+  }
+
+  @include test('Get ratio from recursive settings') {
+    @include assert-equal(
+      _get-aspect-ratio('retro'),
+      map-get($accoutrement-aspect-ratios, 'fourth'),
+      'Returns the value of a recursive key.');
+  }
+}
+
+
+// Fluid Ratio [function]
+// ----------------------
+@include test-module('Fluid Ratio [function]') {
+  @include test('Generate height from ratio') {
+    $expect: (3 / 4) * 50%;
+
+    @include assert-equal(
+      fluid-ratio('classic', 50%),
+      $expect,
+      'Returns height based on ratio and width.');
+  }
+}
+
+
+// Fluid Ratio [mixin]
+// -------------------
+@include test-module('Fluid Ratio [mixin]') {
+  @include test('Establish fluid container') {
+    @include assert('Fluid output based on aspect ratio') {
+      @include output {
+        @include fluid-ratio('widescreen', 100%);
+      }
+
+      @include expect {
+        height: 0;
+        padding-top: fluid-ratio('widescreen', 100%);
+        position: relative;
+        width: 100%;
+      }
+    }
+  }
+}

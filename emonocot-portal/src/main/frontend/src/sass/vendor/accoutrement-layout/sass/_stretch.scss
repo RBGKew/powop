@@ -1,0 +1,69 @@
+// Stretch Utilities
+// =================
+
+
+// Stretch
+// -------
+/// Stretch a positioned element in relation to its context.
+/// @group stretch
+/// @param {Number} $top [0] -
+///   Offset from the top edge.
+/// @param {Number} $right [$top] -
+///   Offset from the right edge.
+/// @param {Number} $bottom [$top] -
+///   Offset from the bottom edge.
+/// @param {Number} $left [$right] -
+///   Offset from the left edge.
+/// @param {absolute | fixed} $position [absolute] -
+///   The type of positioning to use.
+@mixin stretch(
+  $top: 0,
+  $right: $top,
+  $bottom: $top,
+  $left: $right,
+  $position: absolute
+) {
+  bottom: $bottom or null;
+  left: $left or null;
+  position: $position or null;
+  right: $right or null;
+  top: $top or null;
+}
+
+
+// Stretch
+// -------
+/// Stretch a positioned element horizontally in relation to its context.
+/// @group stretch
+/// @param {Number} $left [0] -
+///   Offset from the left edge.
+/// @param {Number} $right [$left] -
+///   Offset from the right edge.
+/// @param {absolute | fixed} $position [absolute] -
+///   The type of positioning to use.
+@mixin stretch-x(
+  $left: 0,
+  $right: $left,
+  $position: absolute
+) {
+  @include stretch(false, $right, false, $left, $position);
+}
+
+
+// Stretch
+// -------
+/// Stretch a positioned element vertically in relation to its context.
+/// @group stretch
+/// @param {Number} $top [0] -
+///   Offset from the top edge.
+/// @param {Number} $bottom [$top] -
+///   Offset from the bottom edge.
+/// @param {absolute | fixed} $position [absolute] -
+///   The type of positioning to use.
+@mixin stretch-y(
+  $top: 0,
+  $bottom: $top,
+  $position: absolute
+) {
+  @include stretch($top, false, $bottom, false, $position);
+}

@@ -1,0 +1,27 @@
+/*
+* Component - Gallery thumbnails
+*/
+.c-gallery-thumbs {
+  margin-top: 2em;
+
+  &__bg {
+    @include fluid-ratio('thumb');
+  }
+
+  &__img {
+
+    width: 33.333%;
+    overflow: hidden;
+    float: left;
+
+    border-right: 1px solid #FFFFFF;
+    background-color: #CCCCCC;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+}

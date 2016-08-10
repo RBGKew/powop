@@ -1,0 +1,168 @@
+//
+// Article
+// --------------------------------------------------
+
+.c-article {
+
+}
+
+// Component - Article Header
+.c-article-header {
+  color: $text-color-invert;
+  border: 1px solid $body-bg;
+  overflow: hidden;
+
+  .breadcrumb {
+    > .active,
+    a {
+      color: $text-color-invert;
+    }
+  }
+}
+
+
+// Component - Family list
+.c-family-list {
+
+  padding: $padding-large-vertical 0 2em;
+
+  @media (min-width: $screen-md-min) {
+    width: 50%;
+    float: left;
+  }
+
+  ol {
+    margin: 0.5em 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ol ol {
+    margin-left: 1em;
+  }
+}
+
+.c-family-list__heading {
+  margin: 0;
+  font-size: $font-size-h2;
+  @media (min-width: $screen-lg-min) {
+    font-size: $font-size-h1;
+  }
+}
+
+
+// Component - Article Navigation
+.c-article-nav {
+  background-color: $body-bg;
+  border-bottom: 5px solid #CCCCCC;
+  padding: 0;
+
+  &.affix {
+    top: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    z-index: $zindex-navbar;
+  }
+}
+
+
+// Component - Article Section
+.c-article-section {
+  padding: 2em 0;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+.c-article-section__content {
+
+  @include make-md-column(9);
+  @include make-lg-column(9);
+
+  margin-top: 2em;
+  
+  @media (min-width: $screen-md-min) {
+    float: right!important;
+  }
+
+  // Establish a baseline for all content in sections.
+  > {
+    h2, h3, h4, h5, h6 {
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-weight: bold;
+    }
+  }
+  > div {
+    margin-bottom: 3rem;
+  }
+  ul, ol, p, cite, span {
+    margin-top: 0;
+    margin-bottom: 3rem;
+  }
+}
+
+.c-article-section__title {
+  @include make-md-column(2);
+  @include make-lg-column(3);
+  font-weight: bold;
+}
+
+.c-article-section__aside {
+  @include make-md-column(3);
+  @include make-lg-column(3);
+  .glyphicon {
+    margin-right: 0.5em;
+  }
+}
+
+
+// Component - Lists
+%unstyled-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.c-plain-list {
+  @extend %unstyled-list;
+}
+
+.c-reference-list {
+  @extend %unstyled-list;
+  > li {
+    display: inline-block;
+  }
+}
+
+.c-synonym-list {
+  @extend %unstyled-list;
+  column-count: 3;
+}
+
+
+// Navbar - Styling for article.
+.navbar-default {
+  .navbar-nav--article {
+
+    width: 100%;
+
+    @media (min-width: $screen-sm-min) {
+      display: flex;
+      align-content: center;
+      justify-content: space-between;
+      float: none;
+    }
+
+    > li > a {
+      font-size: 13px;
+      padding: ($navbar-padding-vertical * 2) 0;
+      @media (min-width: $screen-md-min) {
+        font-size: 15px;
+        padding: ($navbar-padding-vertical * 2) ($navbar-padding-horizontal);
+      }
+    }
+
+    > li.active > a {
+      background-color: transparent;
+    }
+  }
+}

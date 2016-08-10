@@ -1,0 +1,104 @@
+// Media Queries
+// =============
+
+
+
+// Accoutrement Query Context
+// --------------------------
+$accoutrement-query-context: ();
+
+
+
+// Get Breakpoint [function]
+// -------------------------
+@function _get-breakpoint(
+  $break
+) {
+  @if function-exists('browser-ems') {
+    @return browser-ems($break);
+  } @else if function-exists('size') {
+    @return size($break);
+  } @else if variable-exists('sizes') {
+    @return map-get($sizes, $break) or $break;
+  } @else if variable-exists('breakpoints') {
+    $break: map-get($breakpoints, $break) or $break;
+
+    @if map-has-key($breakpoints, $break) {
+      $break: _get-breakpoint($break);
+    }
+  }
+
+  @return $break;
+}
+
+
+
+// Apply Query [mixin]
+// -------------------
+@mixin _apply-query(
+  $name,
+  $query
+) {
+  $context: ($name: $query);
+  $context: map-merge($accoutrement-query-context, $context);
+  $accoutrement-query-context: $context !global;
+
+  @media #{$query} {
+    @content;
+  }
+
+  $accoutrement-query-context: map-remove($accoutrement-query-context, $name) !global;
+}
+
+
+
+// Below [mixin]
+// -------------
+@mixin below(
+  $max,
+  $prop: 'width'
+) {
+  $name: 'below `#{$max}`';
+  $max: _get-breakpoint($max);
+  $query: '(max-#{$prop}: #{$max})';
+
+  @include _apply-query($name, $query) {
+    @content;
+  }
+}
+
+
+
+// Above [mixin]
+// -------------
+@mixin above(
+  $min,
+  $prop: 'width'
+) {
+  $name: 'above `#{$min}`';
+  $min: _get-breakpoint($min);
+  $query: '(min-#{$prop}: #{$min})';
+
+  @include _apply-query($name, $query) {
+    @content;
+  }
+}
+
+
+
+// Between [mixin]
+// ---------------
+@mixin between(
+  $min,
+  $max,
+  $prop: 'width'
+) {
+  $name: 'between `#{$min}` and `#{$max}`';
+  $min: _get-breakpoint($min);
+  $max: _get-breakpoint($max);
+  $query: '(min-#{$prop}: #{$min}) and (max-#{$prop}: #{$max})';
+
+  @include _apply-query($name, $query) {
+    @content;
+  }
+}

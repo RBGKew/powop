@@ -1,0 +1,36 @@
+// Media Query Tests
+// =================
+
+
+$breakpoints: (
+  'off-canvas': 45em,
+  'recursive': 'off-canvas',
+  'meta': 'recursive',
+  'useful': 'meta',
+);
+
+
+// Get Breakpoint
+// --------------
+@include test-module('Get Breakpoint [function]') {
+  @include test('Explicit length') {
+    @include assert-equal(
+      _get-breakpoint(30em),
+      30em,
+      'Returns an explicit length directly.');
+  }
+
+  @include test('Named breakpoint') {
+    @include assert-equal(
+      _get-breakpoint('off-canvas'),
+      45em,
+      'Returns a named breakpoint.');
+  }
+
+  @include test('Recursive breakpoint') {
+    @include assert-equal(
+      _get-breakpoint('useful'),
+      45em,
+      'Returns a recursively named breakpoint.');
+  }
+}

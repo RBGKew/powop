@@ -1,0 +1,20 @@
+/*
+* Component - Gallery thumbnails
+*/
+.c-gallery {
+  margin-top: 2em;
+}
+
+.c-gallery__img {
+  width: 33.333%;
+  overflow: hidden;
+  float: left;
+  border-right: 1px solid #FFFFFF;
+  img {
+    width: 100%;
+  }
+}
+
+.c-gallery-thumbs__caption {
+
+}

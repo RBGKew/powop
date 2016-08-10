@@ -1,0 +1,32 @@
+/*
+* Component - Search
+*/
+.c-search {
+  background: url('../img/raster/c-home-bg.jpg') no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  color: #FFFFFF;
+
+  .btn-link,
+  a {
+    color: #FFFFFF;
+  }
+
+  &__title {
+    margin: 1em 0 1.5em;
+  }
+
+  &__facets {
+    border-bottom: 1px solid rgba(#FFFFFF, 0.3);
+  }
+
+  &__refine {
+    padding: 20px 0;
+  }
+
+  &_refine-list {
+    padding: $grid-gutter-width 0;
+  }
+
+}

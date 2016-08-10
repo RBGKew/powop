@@ -1,0 +1,44 @@
+/*
+* Grid
+*/
+.grid {}
+
+.grid--columns {
+  > * {
+    @include make-sm-column(6);
+    @include make-md-column(4);
+    @include make-lg-column(3);
+  }
+}
+
+.grid--rows {
+
+}
+
+
+.grid--lines {
+
+  > * {
+    border-left: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+  }
+
+  > *:first-child {
+    border-left: none;
+  }
+
+  > *:last-child {
+    border-left: 1px solid #CCCCCC;
+  }
+
+}
+
+.grid--equal-heights {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container-fluid {
+  padding-left: $grid-gutter-width;
+  padding-right: $grid-gutter-width;
+}

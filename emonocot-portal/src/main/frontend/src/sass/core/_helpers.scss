@@ -1,0 +1,56 @@
+/*
+*  Clearfix & Clear classes
+*/
+%clearfix,
+.clearfix {
+  zoom: 1;
+
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+    flex-basis: 0;
+    order: 1;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.clear {
+  clear: both;
+}
+
+/*
+*  Accessibility
+*/
+%visuallyhidden,
+.visuallyhidden,
+.element-invisible { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+.invisible { visibility: hidden; }
+.ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.ir br { display: none; }
+
+
+.u-center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+
+/*
+* Style - Frame
+*/
+.s-page {
+  border: 15px solid #CCCCCC;
+}
+
+.s-border-bottom {
+  border-bottom: 1px solid #FFFFFF;
+}
+

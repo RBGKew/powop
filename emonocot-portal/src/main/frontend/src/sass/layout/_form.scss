@@ -1,0 +1,38 @@
+.form-inline {
+  
+  button {
+    display: none;
+  }
+
+  .form-group {
+    margin: 0;
+    select,
+    input {
+      width: 100%;
+      border-radius: 99999px;
+    }
+  }
+}
+
+.form-inline--search {
+  
+  .form-inline__select {
+    @include make-sm-column(3);
+    @include make-lg-column(3);
+    @include make-md-column(3);
+  }
+
+  .form-inline__input {
+    @include make-sm-column(9);
+    @include make-md-column(9);
+    @include make-lg-column(9);
+  }
+
+}
+
+.form-inline--home {
+
+  .form-inline__input {
+    width: 100%;
+  }
+}

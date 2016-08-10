@@ -1,0 +1,81 @@
+/*
+* Clearfix
+*/
+@mixin clearfix() {
+  zoom: 1;
+
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+    flex-basis: 0;
+    order: 1;
+  }
+
+  &:after {
+    clear: both;
+  }
+  
+}
+
+/*
+* Property handling with ems and rems
+* Ems = font-size: em(20px);
+* Rems = @include rem-property(font-size, 24px) or rem-property(line-height, 24px)
+*/
+@mixin rem-property($property, $px) {
+  #{$property}: $px;
+  #{$property}: rem($px);
+}
+
+
+/*
+* Hides an element visually, but makes it still available for screenreaders
+*/
+@mixin hide-visually {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+
+/*
+* SVG and PNG background
+*/
+@mixin svg-png-background($image) {
+  background-image: none, url(../img/svg/#{$image}.svg);
+  background-repeat: no-repeat;
+
+  .no-svg & {
+    background-image: url(../img/raster/#{$image}.png);
+  }
+}
+
+
+/*
+* Aspect Ratio
+*/
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+
+  .ratio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+}

@@ -1,0 +1,24 @@
+// Clearfix Tests
+// ==============
+
+
+// Clearfix
+// --------
+@include test-module('clearfix [mixin]') {
+  @include test('Clearfix it!') {
+    @include assert('Adds a micro-clearfix to an element') {
+      @include output {
+        @include clearfix;
+      }
+
+      @include expect {
+        &:after {
+          clear: both;
+          content: ' ';
+          display: block;
+        }
+      }
+    }
+  }
+}
+

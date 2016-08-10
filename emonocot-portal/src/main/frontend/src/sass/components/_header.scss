@@ -1,0 +1,30 @@
+$header-logo-height: 47px;
+
+.c-header {
+  overflow: hidden;
+}
+
+.c-header__logo,
+.c-header__actions {
+  height: $header-logo-height;
+  line-height: $header-logo-height;
+  margin: 30px 0;
+}
+
+.c-header__logo {
+  width: 213px;
+  float: left;
+}
+
+.c-header__actions {
+  float: right;
+}
+
+
+/*
+* Kew Logo
+*/
+.svg--sprite-kew-science-potwp-dims { 
+  width: 219px; 
+  height: 52.6px;
+}

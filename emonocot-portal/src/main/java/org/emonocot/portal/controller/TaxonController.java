@@ -52,7 +52,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute("nativ", EstablishmentMeans.Native); // native is a keyword in java so we can't use it as a JSP variable, at least in tomcat
 		model.addAttribute("introduced", EstablishmentMeans.Introduced);
 		queryLog.info("Taxon: \'{}\'", new Object[] {identifier});
-		return "taxon/show";
+		return "content";
 	}
 
 	/**

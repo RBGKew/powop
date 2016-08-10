@@ -1,0 +1,148 @@
+---
+title: Kew Science - POTWP
+layout: default
+---
+
+<header class="c-header">
+  <div class="container-fluid">
+    {{> kew-logo-header}}
+    <nav class="c-header__actions">
+      <ul class="list-inline">
+        <li>Use these results:</li>
+        <li><a href="#">Visualise</a></li>
+        <li><a href="#">Export</a></li>
+        <li><a href="#">Print</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<section class="c-search">
+  <div class="c-search__facets">
+    <div class="container-fluid">
+      <div class="btn-group btn-group--facets" role="group" aria-label="...">
+        <button type="button" class="btn btn-link">Green <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-link">Family - Poaceae <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-link">Present between 1000m - 1500m <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="c-search__refine">
+    <div class="container-fluid">
+      <h2 class="c-search__title">Add to your search</h2>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs nav-tabs--text" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Any</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Family, genus or Species name</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Characteristic</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Where</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Use</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+          {{>search-any}}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
+          {{>search-any}}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="messages">
+          {{>search-any}}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="settings">
+          {{>search-any}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="c-results c-results--grid">
+  <div class="container-fluid">
+      <nav class="navbar navbar-default">
+
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Search Results</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="#">All Results (125)</a>
+              </li>
+              <li>
+                <a href="#">Accepted names (24)</a>
+              </li>
+              <li>
+                <a href="#">With images (12)</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default navbar-btn">
+                    <span class="glyphicon glyphicon-th" aria-hidden="true">
+                  </button>
+                  <button type="button" class="btn btn-default navbar-btn">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true">
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+
+      </nav>
+  </div>
+  <div class="container-fluid container--lines">
+    <div class="grid grid--lines grid--results grid--equal-heights">
+      {{> card theme="s-theme-genus" text="Genus"}}
+      {{> card--oneimage theme="s-theme-family" text="Family"}}
+      {{> card theme="s-theme-species" text="Species"}}
+      {{> card theme="s-theme-species" text="Species"}}
+      {{> card--oneimage theme="s-theme-species" text="Species"}}
+      {{> card--twoimage theme="s-theme-common" text="Common"}}
+      {{> card theme="s-theme-family" text="Family"}}
+      {{> card--twoimage theme="s-theme-genus" text="Genus"}}
+    </div>
+  </div>
+
+  <nav class="c-pagination">
+    <ul class="pagination">
+      <li>
+        <a href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li>
+        <a href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+</section>

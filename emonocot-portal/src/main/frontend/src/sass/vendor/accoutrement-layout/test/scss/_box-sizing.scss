@@ -1,0 +1,45 @@
+// Box-Sizing Tests
+// ================
+
+
+// Global Box-Sizing
+// -----------------
+@include test-module('Global Box-Sizing [mixin]') {
+  @include test('Box-sizing on all elements') {
+    @include assert('Nested items should use border-box model.') {
+      @include output {
+        @include global-box-sizing(border-box);
+      }
+
+      @include expect {
+        * {
+          &,
+          &:before,
+          &:after {
+            box-sizing: border-box;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('Inherited box-sizing') {
+    @include assert('Nested items should inherit box model.') {
+      @include output {
+        @include global-box-sizing(border-box, inherit);
+      }
+
+      @include expect {
+        box-sizing: border-box;
+
+        * {
+          &,
+          &:before,
+          &:after {
+            box-sizing: inherit;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+
+
+%svg-common {
+	background: url(../img/sprite/sprite.svg) no-repeat;
+	
+	.no-svg & {
+		background-image: url(../img/sprite/sprite.png);
+	}
+}
+
+.sprite-kew-science-potwp {
+	@extend %svg-common;
+
+	//background-position: 0 0;
+	background-position: -3px -3px;
+	content : 3;
+	
+
+}
+
+.sprite-kew-science-potwp-dims {
+	width: 213px;
+	height: 46.6px;
+}
+
+

@@ -1,0 +1,15 @@
+.s-page {}
+
+.s-page--home {
+  border-color: #FFFFFF;
+  background-image: url('/img/raster/c-home-bg.jpg');
+  background-size: cover;
+  height: 100vh;
+  
+  .c-footer {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+  }
+}

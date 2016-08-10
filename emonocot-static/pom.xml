@@ -11,7 +11,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <output.file>${project.artifactId}-${project.version}-default.tar.gz</output.file>
   </properties>
 
   <build>
@@ -34,6 +33,13 @@
       </plugin>
 
       <!-- Skip default deploy stuff, we move files around manually -->
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>2.2.1</version>
@@ -79,181 +85,23 @@
                 <mkdir dir="${project.build.directory}/static/css/" />
                 <mkdir dir="${project.build.directory}/static/tiles/" />
 
-                <!-- Copy default static resources into place. -->
-                <copy todir="${project.build.directory}/static/css/images">
-                  <fileset dir="${basedir}/src/main/images" includes="**/*" />
+                <copy todir="${project.build.directory}/static/img">
+                  <fileset dir="${basedir}/src/frontend/img" includes="**/*" />
                 </copy>
-                <copy todir="${project.build.directory}/static/css/terms">
-                  <fileset dir="${basedir}/src/main/terms" includes="**/*" />
+                <copy todir="${project.build.directory}/static/js">
+                  <fileset dir="${basedir}/src/frontend/js" includes="**/*" />
                 </copy>
-                <copy todir="${project.build.directory}/static/css/video">
-                  <fileset dir="${basedir}/src/main/video" includes="**/*" />
+                <copy todir="${project.build.directory}/static/fonts">
+                  <fileset dir="${basedir}/src/frontend/fonts" includes="**/*" />
                 </copy>
-                <copy todir="${project.build.directory}/static/css/fonts">
-                  <fileset dir="${basedir}/src/main/fonts" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/static/css/data">
-                  <fileset dir="${basedir}/src/main/data" includes="**/*" />
-                </copy>
-                <copy todir="${project.build.directory}/static/tiles">
-                  <fileset dir="${basedir}/src/main/tiles" includes="**/*" />
+                <copy todir="${project.build.directory}/static/css">
+                  <fileset dir="${basedir}/src/frontend/css" includes="**/*" />
                 </copy>
               </tasks>
             </configuration>
             <goals>
               <goal>run</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Generates CSS from LESS. -->
-      <plugin>
-        <groupId>org.lesscss</groupId>
-        <artifactId>lesscss-maven-plugin</artifactId>
-        <version>1.3.0</version>
-        <executions>
-          <execution>
-            <id>generate.css</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/compiled-less/</outputDirectory>
-              <lessJS>${basedir}/src/main/js/less-1.3.0.min.js</lessJS>
-              <includes>
-                <include>bootstrap.less</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Compile the CSS (including that from the LESS) and JS into a small number of files -->
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <id>compress.css.and.js</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compress</goal>
-            </goals>
-            <configuration>
-              <nosuffix>true</nosuffix>
-              <aggregations>
-                <aggregation>
-                  <output>${project.build.directory}/static/css/style.css</output>
-                  <includes>
-                    <include>${project.build.directory}/compiled-less/bootstrap.css</include>
-                    <include>${basedir}/src/main/css/bootstrap-image-gallery.css</include>
-                    <include>${basedir}/src/main/css/jqueryui/jqueryui.css</include>
-                    <include>${basedir}/src/main/css/jsTree/jsTree.css</include>
-                    <include>${basedir}/src/main/css/OpenLayers/style.css</include>
-                    <include>${basedir}/src/main/css/jquery-visualize/jquery-visualize.css</include>
-                    <include>${basedir}/src/main/css/bootstrap-tour.css</include>
-                    <include>${basedir}/src/main/css/jquery.cookiebar.css</include>
-                  </includes>
-                </aggregation>
-                <aggregation>
-                  <output>${project.build.directory}/static/css/print.css</output>
-                  <includes>
-                    <include>${basedir}/src/main/css/print.css</include>
-                  </includes>
-                </aggregation>
-                <aggregation>
-                  <output>${project.build.directory}/static/css/ie9.css</output>
-                  <includes>
-                    <include>${basedir}/src/main/css/ie9.css</include>
-                  </includes>
-                </aggregation>
-                <aggregation>
-                  <output>${project.build.directory}/static/js/header.js</output>
-                  <includes>
-                    <include>${basedir}/src/main/js/jquery.min.js</include>
-                    <include>${basedir}/src/main/js/jquery-ui.min.js</include>
-                    <include>${basedir}/src/main/js/jquery-visualize/jquery-visualize.js</include>
-                    <include>${basedir}/src/main/js/OpenLayers/OpenLayers.js</include>
-                    <include>${basedir}/src/main/js/jquery.cookie.js</include>
-                    <include>${basedir}/src/main/js/jsTree/jquery.jstree.js</include>
-                    <include>${basedir}/src/main/js/jsphylosvg/jsphylosvg.js</include>
-                    <include>${basedir}/src/main/js/jsphylosvg/raphael-min.js</include>
-                    <include>${basedir}/src/main/js/jsphylosvg/raphael-zpd.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-transition.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-affix.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-alert.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-modal.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-dropdown.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-scrollspy.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-tab.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-tooltip.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-popover.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-button.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-collapse.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-carousel.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-typeahead.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-datetimepicker.js</include>
-                    <include>${basedir}/src/main/js/load-image.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-image-gallery.js</include>
-                    <include>${basedir}/src/main/js/bootstrap-tour.js</include>
-                    <include>${basedir}/src/main/js/application.js</include>
-                    <include>${basedir}/src/main/js/html5shiv.js</include>
-                    <include>${basedir}/src/main/js/jsKey/keys.js</include>
-                    <include>${basedir}/src/main/js/jsKey/key-ui-emonocot.js</include>
-                    <include>${basedir}/src/main/js/jquery.total-storage.js</include>
-                    <include>${basedir}/src/main/js/jquery.zrssfeed.min.js</include>
-                    <include>${basedir}/src/main/js/jquery.cookiebar.js</include>
-                  </includes>
-                </aggregation>
-              </aggregations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Make a TAR.GZs of the static resources. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>create-distribution</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>src/main/assembly/static.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Makes the TAR.GZs Maven artefacts. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>2.3.1</version>
-        <executions>
-          <execution>
-            <id>install.static.zip.file</id>
-            <phase>install</phase>
-            <goals>
-              <goal>install-file</goal>
-            </goals>
-            <configuration>
-              <file>${project.build.directory}/${output.file}</file>
-              <artifactId>${project.artifactId}</artifactId>
-              <groupId>${project.groupId}</groupId>
-              <version>${project.version}</version>
-              <packaging>tar.gz</packaging>
-              <classifier>default</classifier>
-            </configuration>
           </execution>
         </executions>
       </plugin>

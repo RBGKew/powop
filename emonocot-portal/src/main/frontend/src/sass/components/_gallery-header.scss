@@ -1,0 +1,30 @@
+/*
+* Component - Gallery Header
+*/
+.c-gallery-header {
+  margin-left: -$grid-gutter-width;
+  margin-right: -$grid-gutter-width;
+
+  @media (min-width: $screen-md-min) {
+    width: 50%;
+    max-width: 700px;
+    float: right;
+    margin-left: auto;
+  }
+
+  .col {
+    float: left;
+    width: 33.333333%;
+  }
+}
+
+.c-gallery-header__img {
+  @include fluid-ratio('portrait');
+  background-color: #CCCCCC;
+  border-left: 1px solid #FFFFFF;
+  > img {
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+}

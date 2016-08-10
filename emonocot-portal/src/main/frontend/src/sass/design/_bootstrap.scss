@@ -1,0 +1,170 @@
+/*
+* Glyphicon - Set font size to 15px to maintain a nice scale.
+*/
+.glyphicon {
+  font-size: 15px;
+}
+
+
+/*
+* Navbar - Small layout tweaks.
+*/
+.navbar-brand {
+  display: none;
+  padding-left: 0;
+  @media (min-width: $screen-md-min) {
+    display: block;
+  }
+}
+
+.navbar-nav {
+  font-weight: 400;
+}
+
+.navbar-collapse {
+  padding: 0;
+}
+
+/*
+* Navbar - Affix adjustments
+*/
+.navbar.affix {
+  top: 0;
+  width: 100%;
+}
+
+
+/*
+* Breadcrumb / Nav bar - remove border radius and background colours.
+*/
+.breadcrumb,
+.navbar {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.breadcrumb {
+  margin: 0;
+  padding: $padding-large-vertical 0;
+}
+
+
+/*
+* Icon - Slightly tweak the positon of the icon
+*/
+.btn-link {
+  .glyphicon {
+    top: 2px;
+  }
+}
+
+
+/*
+* Tab Pane - change the default padding seperately from other elements
+*/
+.tab-pane {
+  margin: 3em 0 2em;
+}
+
+/*
+* Font controls - sizing tweaks for design
+*/
+.form-control {
+  font-size: $font-size-h4;
+  border-radius: 0;
+  padding: 1em 1.5em;
+  height: auto;
+  border: none;
+}
+
+.form-group {
+  margin-right: 1em;
+}
+
+
+
+/*
+* Container - A container with lines applied for grids.
+*/
+.container--lines {
+  padding: 0;
+  border-top: 1px solid #CCCCCC;
+}
+
+
+
+/*
+* Btn Group - Facets
+*/
+.btn-group--facets {
+  margin: $padding-large-horizontal 0;
+  .glyphicon {
+    margin-left: 5px;
+  }
+}
+
+.nav-tabs {
+  border-bottom-color: rgba(#FFFFFF,0.3);
+}
+
+/*
+* Popover - Facets
+*/
+.popover {
+  .popover-content {
+    padding: 5px;
+  }
+}
+
+.carousel {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.carousel-inner > .item,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  height: 100vh;
+}
+
+.carousel-control.left {
+  left: -15%;
+  background-image: none;
+}
+
+.carousel-control.right {
+  right: -15%;
+  background-image: none;
+}
+
+
+
+.modal-lg {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+}
+
+.modal-content {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-toggle="modal"] {
+  cursor: pointer;
+}
+
+.modal-open {
+  .c-header,
+  .c-article {
+    filter: blur(20px);
+  }
+}
+
+.modal-backdrop.in {
+  opacity: 0.8;
+}

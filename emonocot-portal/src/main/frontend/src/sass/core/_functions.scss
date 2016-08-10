@@ -1,0 +1,20 @@
+/*
+* Strip out units
+*/
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+ }
+
+/*
+* Output em value given a px value
+*/
+@function em($px, $base: $base-font-size) {
+  @return ($px / $base) * 1em;
+}
+
+/*
+* Output rem value given a px value
+*/
+@function rem($px) {
+  @return ($px / $browser-default-font-size) * 1rem;
+}

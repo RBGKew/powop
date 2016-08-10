@@ -1,0 +1,59 @@
+// Stretch Tests
+// =============
+
+
+// Stretch
+// -------
+@include test-module('Stretch [mixin]') {
+  @include test('Position element off edges') {
+    @include assert('Element is given fixed offset from viewport') {
+      @include output {
+        @include stretch(1em, 0, null, false, fixed);
+      }
+
+      @include expect {
+        position: fixed;
+        right: 0;
+        top: 1em;
+      }
+    }
+  }
+}
+
+
+// Stetch-x
+// --------
+@include test-module('Stretch-x [mixin]') {
+  @include test('Position element horizontally') {
+    @include assert('Element is given absolute x-offset') {
+      @include output {
+        @include stretch-x(1em);
+      }
+
+      @include expect {
+        left: 1em;
+        position: absolute;
+        right: 1em;
+      }
+    }
+  }
+}
+
+
+// Stetch-y
+// --------
+@include test-module('Stretch-y [mixin]') {
+  @include test('Position element vertically') {
+    @include assert('Element is given absolute y-offset') {
+      @include output {
+        @include stretch-y(1em, 0);
+      }
+
+      @include expect {
+        bottom: 0;
+        position: absolute;
+        top: 1em;
+      }
+    }
+  }
+}

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
-  <definition name="index" extends="frontPage">
-  	<put-attribute name="pageTitle" value="indexTitle" cascade="true" />
-    <put-attribute name="hero" value="/WEB-INF/views/hero.jspx" />
-    <put-attribute name="body" value="/WEB-INF/views/index.jspx" />
-  </definition>
   <definition name="classification" extends="default">
     <put-attribute name="pageTitle" value="classifyTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/classification.jspx" />
@@ -21,11 +16,6 @@
   <definition name="termsOfUse" extends="default">
     <put-attribute name="pageTitle" value="terms.of.use" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/termsOfUse.jspx" />
-  </definition>
-  <definition name="search" extends="default">
-  	<put-attribute name="pageTitle" value="searchTitle" cascade="true" />
-    <put-attribute name="searchBox" value="null" type="object" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/search.jspx" />
   </definition>
   <definition name="visualise" extends="default">
   	<put-attribute name="pageTitle" value="visualiseTitle" cascade="true" />

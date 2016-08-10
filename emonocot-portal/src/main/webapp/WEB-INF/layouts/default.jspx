@@ -8,7 +8,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <tiles:insertAttribute name="head" />
   <body data-spy="scroll" data-target=".subnav" data-offset="100">
-	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
   </body>

@@ -1,0 +1,14 @@
+// Layout Tests
+// ============
+
+@import '../../node_modules/sass-true/sass/true';
+@import '../../sass/layout';
+
+@import 'box-sizing';
+@import 'clearfix';
+@import 'queries';
+@import 'ratio';
+@import 'stretch';
+@import 'z-index';
+
+@include report;

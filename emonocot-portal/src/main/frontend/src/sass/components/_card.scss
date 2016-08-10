@@ -1,0 +1,62 @@
+/*
+* Component - Card
+*/
+.c-card {
+
+  padding: $grid-gutter-width;
+  transition: box-shadow .3s ease-out;
+
+  &:hover {
+    box-shadow: inset 0px 0px 0px 10px rgba(#66CCCC,0.75);
+  }
+
+
+  &__title {
+    font-size: $font-size-large;
+    font-weight: 600;
+    font-style: italic;
+    cite {
+      font-style: normal;
+      font-weight: 400;
+    }
+  }
+
+  /*
+  * When in rows, change the layout
+  */
+  .grid--rows & {
+
+    position: relative;
+    width: 100%;
+
+    .c-card__type {
+      position: absolute;
+      left: $grid-gutter-width;
+      top: $grid-gutter-width;
+    }
+
+    .c-card__title {
+      margin-top: 0;
+    }
+
+    .c-card__content {
+      float: left;
+      padding-left: 150px;
+      width: 70%;
+      padding-right: $grid-gutter-width;
+    }
+
+    .c-gallery-thumbs {
+      float: left;
+      width: 30%;
+      min-width: 200px;
+      margin: 0;
+    }
+
+    .c-gallery-thumbs__img {
+      max-width: $thumbnail-max-width;
+      float: right;
+    }
+  }
+
+}

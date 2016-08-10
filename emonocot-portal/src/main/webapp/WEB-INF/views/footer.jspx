@@ -1,56 +1,13 @@
 <footer class="navbar navbar-inverse" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html" pageEncoding="UTF-8" />
 	<jsp:output omit-xml-declaration="true" />
 	<div class="navbar-inner">
 		<div class="container">
-			<div id="footer-icons" class="row visible-desktop no-print">
-				<c:forEach var="footOrgs" items="${footerOrganisations}">
-					<ul class="nav">
-						<c:forEach var="footOrg" items="${footOrgs}">
-							<li><a href="${footOrg.uri}"><img src="${footOrg.logoUrl}" height="60" alt="${footOrg.title}" target="_blank" /></a></li>
-						</c:forEach>
-					</ul>
-				</c:forEach>
-			</div>
-			<div id="footer-icons-mobile" class="row visible-phone visible-tablet no-print">
-				<c:forEach var="footOrgs" items="${footerOrganisations}">
-					<ul class="nav">
-						<c:forEach var="footOrg" items="${footOrgs}">
-							<li><a href="${footOrg.uri}"><img src="${footOrg.logoUrl}" width="72" alt="${footOrg.title}" target="_blank" /></a></li>
-						</c:forEach>
-					</ul>
-				</c:forEach>
-			</div>
-			<div id="footer-brand" class="row">
-				<c:url value="/" var="brandUrl"/>
-				<a href="${brandUrl}">
-					<div id="footer-logo"><!-- --></div>
-				</a>
-			</div>
 			<div class="row">
 				<ul class="span12 nav no-print">
-					<li>
-						<ul class="footerColumn span3">
-							<li>
-								<c:url value="/about" var="aboutUrl" />
-								<a href="${aboutUrl}"><spring:message code="about.title" /></a>
-							</li>
-							<li>								
-								<a class="contactLinkOverlay" href="mailto:enquiries@e-monocot.org?subject=eMonocot Portal enquiry" alt="eMonocot email"><spring:message code="contact.title" />&#160;<i class="halflings-icon white envelope"><!--  --></i></a>
-							</li>
-							<li>
-								<c:url var="twitterImageUrl" value="/css/images/glyphicons_white_twitter.png"/>
-								<a href="https://twitter.com/eMonocot" alt="eMonocot twitter"> <spring:message code="twitter.title" /><img src="${twitterImageUrl}"/></a>
-							</li>
-							<li>
-								<c:url var="githubImageUrl" value="/css/images/github_white.png"/>
-								<a href="https://github.com/RBGKew/eMonocot"><spring:message code="source.code" /> <img src="${githubImageUrl}" alt="GitHub"/></a>
-							</li>
-						</ul>
-					</li>
-					
 					<li>
 						<ul class="footerColumn span3">
 							<li>
@@ -62,43 +19,14 @@
 								<a href="${resourceUrl}"><spring:message code="resources.title" />&#160;<i class="halflings-icon white file"><!--  --></i></a>
 							</li>
 							<li>
-								<c:url value="/comment" var="commentUrl" />
-								<a href="${commentUrl}"><spring:message code="comments.title" />&#160;<i class="halflings-icon white comments commentPage"><!--  --></i></a>
-							</li>
-							<li>
 								<c:url value="/user" var="userUrl" />
 								<a href="${userUrl}"><spring:message code="users.title" /></a>
 							</li>
-							<li>
-								<c:url value="/group" var="groupUrl" />
-								<a href="${groupUrl}"><spring:message code="group.title" /></a>
-							</li>
+							<security:authorize access="!isAuthenticated()">
+								<c:url value="/login" var="loginUrl" />
+								<a href="${loginUrl}" class="btn btn-primary"><spring:message code="login" /></a>
+							</security:authorize>
 						</ul>
-					</li>
-					<li>
-						<ul class="footerColumn span3">
-							<li>
-								<a class="helpLinkOverlay" href="http://families.e-monocot.org/emonocot-guide"><spring:message code="help.title" /></a>
-							</li>
-							<li>
-								<c:url value="/tour" var="tourUrl" />
-								<a href="${tourUrl}"><spring:message code="eMonocot.tools" /></a>
-							</li>
-							<li>
-								<c:url value="/termsOfUse" var="termsOfUseUrl" />
-								<a href="${termsOfUseUrl}"><spring:message code="termsOfUse.title" /></a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-			<div class="row">
-				<ul class="nav no-print">
-					<li>
-						<a href="${aboutUrl}"><spring:message code="application.title"/> <spring:message code="application.version" /></a>
-					</li>
-					<li>
-						<spring:message code="design.by.designers" />
 					</li>
 				</ul>
 			</div>
