@@ -43,6 +43,8 @@ services:
       - geoserver
       - harvester
       - portal
+    volumes:
+      - $SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/:/usr/local/apache2/htdocs
     ports:
       - "10080:80"
     mem_limit: 200M
