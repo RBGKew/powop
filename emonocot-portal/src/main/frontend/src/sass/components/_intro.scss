@@ -2,11 +2,23 @@
   max-width: 90%;
   margin: 0 auto 2em;
   text-align: center;
+
   p {
-    font-size: $font-size-h3;
+    font-size: $font-size-base;
+    @media (min-width: $screen-sm-min) {
+      font-size: $font-size-h3;
+    }
+    
   }
 
   &__title {
     font-weight: bold;
+    font-size: $font-size-h3;
+    @media (min-width: $screen-sm-min) {
+      font-size: $font-size-h2;
+    }
+    @media (min-width: $screen-md-min) {
+      font-size: $font-size-h1;
+    }
   }
 }

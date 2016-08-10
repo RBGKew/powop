@@ -8,6 +8,21 @@
 	}
 }
 
+.sprite-chevron {
+	@extend %svg-common;
+
+	//background-position: -21.1px -51.6px;
+	background-position: -24.1px -54.6px;
+	content : 3;
+	
+
+}
+
+.sprite-chevron-dims {
+	width: 10.7px;
+	height: 6.1px;
+}
+
 .sprite-kew-science-potwp {
 	@extend %svg-common;
 
@@ -20,7 +35,22 @@
 
 .sprite-kew-science-potwp-dims {
 	width: 213px;
-	height: 46.6px;
+	height: 45.6px;
+}
+
+.sprite-leaf {
+	@extend %svg-common;
+
+	//background-position: 0 -51.6px;
+	background-position: -3px -54.6px;
+	content : 3;
+	
+
+}
+
+.sprite-leaf-dims {
+	width: 15.100000000000001px;
+	height: 15.100000000000001px;
 }
 
 

@@ -1,21 +1,47 @@
+/*
+* Form - Inline defaults
+*/
 .form-inline {
-  
+  button {
+    display: none;
+  }
+  select,
+  input {
+    border-radius: $input-radius;
+  }
+  select {
+    option {
+      color: #000000;
+      font-size: 16px;
+      padding: 0.4em 1.5em;
+    }
+  }
+}
+
+/*
+* Form - Inline form, results page.
+*/
+.form-inline--search {
+
   button {
     display: none;
   }
 
   .form-group {
     margin: 0;
+    .c-select,
     select,
     input {
       width: 100%;
-      border-radius: 99999px;
     }
   }
-}
 
-.form-inline--search {
-  
+  .form-inline__select,
+  .form-inline__input {
+    margin-bottom: 1em;
+    position: relative;
+  }
+
   .form-inline__select {
     @include make-sm-column(3);
     @include make-lg-column(3);
@@ -30,9 +56,54 @@
 
 }
 
+/*
+* Form - Inline form, homepage.
+*/
 .form-inline--home {
+
+  .form-group {
+    margin: 0;
+    select,
+    input {
+      width: 100%;
+      border-radius: $home-radius;
+    }
+  }
 
   .form-inline__input {
     width: 100%;
+    position: relative;
   }
+
+}
+
+
+/*
+* Form - Inline form, advanced modal.
+*/
+.form-inline--advanced {
+
+  .form-group {
+    border-bottom: 1px solid rgba(#FFFFFF,0.1);
+    width: 100%;
+    margin: 0;
+    padding: 2em 0;
+  }
+
+  label {
+    width: 25%;
+  }
+
+  .c-select {
+    width: 74.5%;
+  }
+
+  .form-control {
+    width: 74.5%;
+    background-color: transparent;
+    color: #FFFFFF;
+    border: $border-translucent;
+    padding: $input-padding-small;
+  }
+
 }

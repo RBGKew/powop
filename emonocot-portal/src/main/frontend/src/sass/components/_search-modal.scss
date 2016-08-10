@@ -1,0 +1,17 @@
+/*
+* Search Modal Overlay
+*/
+.c-search-modal {
+
+  padding: 4em 0;
+  color: $text-color-invert;
+
+  a {
+    color: $text-color-invert;
+  }
+
+  &__title {
+    margin-bottom: 2em;
+  }
+
+}

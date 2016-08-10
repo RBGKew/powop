@@ -4,7 +4,7 @@ layout: default
 ---
 
 <header class="c-header">
-  <div class="container-fluid">
+  <div class="container">
     {{> kew-logo-header}}
     <nav class="c-header__actions">
       <ul class="list-inline">
@@ -20,7 +20,7 @@ layout: default
 
 <section class="c-search">
   <div class="c-search__facets">
-    <div class="container-fluid">
+    <div class="container">
       <div class="btn-group btn-group--facets" role="group" aria-label="...">
         <button type="button" class="btn btn-link">Green <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
         <button type="button" class="btn btn-link">Family - Poaceae <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -29,7 +29,7 @@ layout: default
     </div>
   </div>
   <div class="c-search__refine">
-    <div class="container-fluid">
+    <div class="container u-rel">
       <h2 class="c-search__title">Add to your search</h2>
 
       <!-- Nav tabs -->
@@ -57,63 +57,63 @@ layout: default
         </div>
       </div>
 
+      <button type="button" class="c-search__advanced btn btn-pill btn-white" data-target=".search-modal-fullsceen" data-toggle="modal">Advanced options</button>
+
     </div>
   </div>
 </section>
 
-<section class="c-results c-results--grid">
-  <div class="container-fluid">
-      <nav class="navbar navbar-default">
+<section class="c-results">
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#search-bar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Search Results</a>
+      </div>
 
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Search Results</a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li>
-                <a href="#">All Results (125)</a>
-              </li>
-              <li>
-                <a href="#">Accepted names (24)</a>
-              </li>
-              <li>
-                <a href="#">With images (12)</a>
-              </li>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="search-bar">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#">All Results (125)</a>
+          </li>
+          <li>
+            <a href="#">Accepted names (24)</a>
+          </li>
+          <li>
+            <a href="#">With images (12)</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li>
-                <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-default navbar-btn">
-                    <span class="glyphicon glyphicon-th" aria-hidden="true">
-                  </button>
-                  <button type="button" class="btn btn-default navbar-btn">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true">
-                  </button>
-                </div>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-
-      </nav>
+          </li>
+          <li>
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" class="btn btn-default navbar-btn js-show-grid">
+                <span class="glyphicon glyphicon-th" aria-hidden="true">
+              </button>
+              <button type="button" class="btn btn-default navbar-btn js-show-list">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true">
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
   </div>
-  <div class="container-fluid container--lines">
-    <div class="grid grid--lines grid--results grid--equal-heights">
+  <div class="container container--lines">
+    <div class="grid grid--columns grid--lines grid--equal-heights">
       {{> card theme="s-theme-genus" text="Genus"}}
       {{> card--oneimage theme="s-theme-family" text="Family"}}
       {{> card theme="s-theme-species" text="Species"}}
@@ -125,24 +125,26 @@ layout: default
     </div>
   </div>
 
-  <nav class="c-pagination">
-    <ul class="pagination">
-      <li>
-        <a href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li>
-        <a href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-
+  <div class="container">
+    <nav class="c-pagination">
+      <ul class="pagination">
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </section>
+{{>search-modal}}

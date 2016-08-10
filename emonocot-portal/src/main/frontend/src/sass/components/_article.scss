@@ -68,8 +68,11 @@
 
 // Component - Article Section
 .c-article-section {
-  padding: 2em 0;
+  padding: 0 2em 0;
   border-bottom: 1px solid #EEEEEE;
+  @media (min-width: $screen-md-min) {
+    padding: 2em 0;
+  }
 }
 
 .c-article-section__content {
@@ -140,7 +143,12 @@
 
 
 // Navbar - Styling for article.
-.navbar-default {
+
+.navbar--article {
+  display: none;
+  @media (min-width: $screen-md-min) {
+    display: block;
+  }
   .navbar-nav--article {
 
     width: 100%;

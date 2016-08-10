@@ -34,14 +34,14 @@
 .ir br { display: none; }
 
 
-.u-center {
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
+.u-autocomplete-open {
+  transform: translateY(0%);
+  position: static;
 }
 
+.u-rel {
+  position: relative;
+}
 
 /*
 * Style - Frame

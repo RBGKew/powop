@@ -1,0 +1,24 @@
+.c-search-home {
+
+  padding: 0 10px;
+  margin: 0 auto;
+
+  @media (min-width: $screen-md-min) {
+    max-width: 90%;
+    padding: 0 20px;
+  }
+
+  &__links {
+    margin-top: 2em;
+    > li {
+      margin-bottom: 1em;
+    }
+    a {
+      @include btn-pill();
+      @media (min-width: $screen-md-min) {
+        margin-bottom: 2em;
+      }
+    }
+
+  }
+}

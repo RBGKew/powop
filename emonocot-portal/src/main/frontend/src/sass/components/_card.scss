@@ -10,6 +10,12 @@
     box-shadow: inset 0px 0px 0px 10px rgba(#66CCCC,0.75);
   }
 
+  > a {
+    display: block;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 
   &__title {
     font-size: $font-size-large;

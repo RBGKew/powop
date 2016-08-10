@@ -15,27 +15,33 @@ layout: home
   </div>
 </header>
 
-<section class="u-center">
+<section class="s-search-home">
   <div class="container">
+
     <div class="c-intro">
       <h1 class="c-intro__title">An online resource for the world's plants</h1>
       <p>Our aim is to document the world's plants, for public information and research. Browse through our collection of 27,354 plant names, 584 entries with images, research is ongoing.</p>
     </div>
-    <div class="c-search-landing">
+
+    <div class="c-search-home">
       <form class="form-add form-inline form-inline--home">
         <div class="form-group form-inline__input">
-          <label for="refine" class="sr-only">Search</label>
-          <input type="email" class="form-control" id="refine" placeholder="Search by species, genus or family name, or any words describing the plant">
+          <label for="search" class="sr-only">Search</label>
+          <input type="email" class="form-control" id="search" placeholder="Search by species, genus or family name, or any words describing the plant">
+          {{>autocomplete}}
         </div>
         <button type="submit" class="btn btn-default">Search</button>
       </form>
-      <ul class="c-search-landing__links list-inline">
-          <li>Or find plants by:</li>
-          <li><a href="search.html">Family, Genus or Species name</a></li>
-          <li><a href="search.html">One or more characteristic</a></li>
-          <li><a href="search.html">Where they are</a></li>
-          <li><a href="search.html">A particular use</a></li>
+      <nav>
+        <ul class="c-search-home__links list-inline">
+            <li>Or find plants by:</li>
+            <li><a href="search.html">Family, Genus or Species name</a></li>
+            <li><a href="search.html">One or more characteristic</a></li>
+            <li><a href="search.html">Where they are</a></li>
+            <li><a href="search.html">A particular use</a></li>
         </ul>
+      </nav>
     </div>
-  </div>
+
+  </div><!-- End Container -->
 </section>

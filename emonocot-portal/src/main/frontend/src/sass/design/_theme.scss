@@ -43,6 +43,10 @@
       background-color: darken($primary,30);
     }
 
+    .leaf {
+      fill: $primary;
+    }
+
   }
 
   .#{$name}.c-card {

@@ -24,6 +24,28 @@ require(['jquery', 'bootstrap'], function($){
       });
     }
 
+    $('.c-select > select').on('change',function() {
+        var context = $(this).parent();
+        $('.c-select__default > .text', context).text(
+          $(this).find(":selected").text()
+        );
+    });
+
+    $("input#search").on("focus", function() {
+      $("body").addClass("js-autocomplete js-fade-background");
+    });
+
+    $("input#search").on("blur", function() {
+      $("body").removeClass("js-autocomplete js-fade-background");
+    });
+
+    $("input#refine").on("focus", function() {
+      $("body").addClass("js-autocomplete");
+    });
+
+    $("input#refine").on("blur", function() {
+      $("body").removeClass("js-autocomplete");
+    });
 
   });
 

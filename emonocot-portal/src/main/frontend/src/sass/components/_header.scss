@@ -18,13 +18,8 @@ $header-logo-height: 47px;
 
 .c-header__actions {
   float: right;
-}
-
-
-/*
-* Kew Logo
-*/
-.svg--sprite-kew-science-potwp-dims { 
-  width: 219px; 
-  height: 52.6px;
+  display: none;
+  @media (min-width: $screen-sm-min) {
+    display: block;
+  }
 }

@@ -1,15 +1,39 @@
-.s-page {}
+// Page Home 
+.s-page {
+  position: relative;
+}
 
 .s-page--home {
+
   border-color: #FFFFFF;
   background-image: url('/img/raster/c-home-bg.jpg');
   background-size: cover;
-  height: 100vh;
+  background-attachment: fixed;
+  min-height: 100vh;
   
-  .c-footer {
+  .s-page-wrapper {
+    position: relative;
+    min-height: calc(100vh - 30px);
+  }
+
+  @media (min-width: $screen-sm-min) {
+    .c-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+}
+
+// Section Home 
+.s-search-home {
+  width: 100%;
+  @media (min-width: $screen-sm-min) {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
   }
 }

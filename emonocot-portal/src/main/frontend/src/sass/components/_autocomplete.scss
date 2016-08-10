@@ -1,0 +1,83 @@
+.c-autocomplete {
+
+  display: none;
+  padding: 1em 2em;
+  margin-bottom: 1em;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__option {
+    border-bottom: $border-translucent;
+    padding: .8em 0;
+    &:last-child {
+      border-bottom: none;
+    }
+    span {
+      width: 13%;
+      display: inline-block;
+      svg {
+        fill: #FFFFFF;
+      }
+    }
+  }
+
+  &--inline {
+    z-index: 500;
+    color: #000000;
+    background-color: #FFFFFF;
+    position: absolute;
+    left: $grid-gutter-width / 2; right: $grid-gutter-width / 2;
+    border: $border-grey;
+    @include box-shadow(0 5px 10px rgba(0,0,0,.2));
+    
+    a {
+      color: inherit;
+    }
+
+    .c-autocomplete__option {
+      border-bottom-color: rgba(#000000, 0.1);
+      span {
+        svg {
+          fill: #333;
+        }
+      }
+    }
+  }
+
+}
+
+.js-autocomplete {
+
+  .s-page-wrapper {
+    z-index: 100;
+  }
+
+  .c-autocomplete {
+    display: block;
+  }
+
+  .s-search-home {
+    position: static;
+    transform: translateY(0);
+  }
+
+  .s-page--home .c-footer {
+    position: static;
+  }
+
+}
+
+.js-fade-background {
+  &:after {
+    position: fixed;
+    content: "";
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    background-color: rgba(#000000,0.8);
+    display: block;
+  }
+}

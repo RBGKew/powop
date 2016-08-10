@@ -120,3 +120,31 @@
     right: percentage(($columns / $grid-columns));
   }
 }
+
+// Generate the huge columns
+@mixin make-hg-column($columns, $gutter: $grid-gutter-width) {
+  position: relative;
+  min-height: 1px;
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+
+  @media (min-width: $screen-hg-min) {
+    float: left;
+    width: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-hg-column-offset($columns) {
+  @media (min-width: $screen-hg-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-hg-column-push($columns) {
+  @media (min-width: $screen-hg-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-hg-column-pull($columns) {
+  @media (min-width: $screen-hg-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}

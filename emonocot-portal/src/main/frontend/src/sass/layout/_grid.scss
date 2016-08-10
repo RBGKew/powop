@@ -8,27 +8,17 @@
     @include make-sm-column(6);
     @include make-md-column(4);
     @include make-lg-column(3);
+    @include make-hg-column(3);
   }
 }
-
-.grid--rows {
-
-}
-
 
 .grid--lines {
-
+  margin: 0 ($grid-gutter-width / 2);
+  border-top: $border-grey;
+  border-right: $border-grey;
   > * {
-    border-left: 1px solid #CCCCCC;
-    border-bottom: 1px solid #CCCCCC;
-  }
-
-  > *:first-child {
-    border-left: none;
-  }
-
-  > *:last-child {
-    border-left: 1px solid #CCCCCC;
+    border-left: $border-grey;
+    border-bottom: $border-grey;
   }
 
 }
@@ -39,6 +29,13 @@
 }
 
 .container-fluid {
-  padding-left: $grid-gutter-width;
-  padding-right: $grid-gutter-width;
+  
+  padding-left: $grid-gutter-width / 2;
+  padding-right: $grid-gutter-width / 2; 
+  
+  @media (min-width: $screen-md-min) {
+    padding-left: $grid-gutter-width;
+    padding-right: $grid-gutter-width;
+  }
+
 }

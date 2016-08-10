@@ -14,15 +14,26 @@
   }
 
   &__title {
-    margin: 1em 0 1.5em;
+    margin: 0 0 1em;
+    @media (min-width: $screen-md-min) {
+      margin: 1em 0 1.5em;
+    }
   }
 
   &__facets {
-    border-bottom: 1px solid rgba(#FFFFFF, 0.3);
+    border-bottom: $border-translucent;
   }
 
   &__refine {
-    padding: 20px 0;
+    padding: $grid-gutter-width 0;
+  }
+
+  &__advanced {
+    @media (min-width: $screen-md-min) {
+      position: absolute;
+      top: 2em;
+      right: 10px;
+    }
   }
 
   &_refine-list {

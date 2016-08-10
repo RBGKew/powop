@@ -8,6 +8,8 @@
 }
 
 .c-pagination {
-  background-color: $btn-default-color;
+  color: $btn-default-color;
+  border: 1px solid #CCCCCC;
+  border-top: none;
   text-align: center;
 }

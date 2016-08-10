@@ -1,0 +1,35 @@
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal fade search-modal-fullsceen" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="container">
+        <div class="c-search-modal">
+          <h2 class="c-search-modal__title">Advanced Search</h2>
+
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs nav-tabs--text" role="tablist">
+            <li role="presentation" class="active"><a href="#category-1" aria-controls="category-1" role="tab" data-toggle="tab">Category</a></li>
+            <li role="presentation"><a href="#category-2" aria-controls="category-2" role="tab" data-toggle="tab">Category</a></li>
+            <li role="presentation"><a href="#category-3" aria-controls="category-3" role="tab" data-toggle="tab">Category</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="category-1">
+              {{>search-advanced}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="category-2">
+              {{>search-advanced}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="category-3">
+              {{>search-advanced}}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -79,3 +79,16 @@
   }
   
 }
+
+
+@mixin btn-pill() {
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.5);
+  background-color: transparent;
+  border-radius: $pill-radius;
+  padding: 0.5em 1.5em;
+  
+  &:hover {
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+}

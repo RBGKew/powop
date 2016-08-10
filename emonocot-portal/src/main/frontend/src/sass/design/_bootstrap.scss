@@ -47,16 +47,27 @@
 
 .breadcrumb {
   margin: 0;
-  padding: $padding-large-vertical 0;
+  padding: ($padding-large-vertical * 2) 0;
 }
 
 
 /*
-* Icon - Slightly tweak the positon of the icon
+* Button styles
 */
 .btn-link {
   .glyphicon {
     top: 2px;
+  }
+}
+
+.btn-pill {
+  @include btn-pill();
+}
+
+.btn-white {
+  color: #FFFFFF;
+  &:hover, &:focus, &.focus {
+    color: #FFFFFF;
   }
 }
 
@@ -65,16 +76,18 @@
 * Tab Pane - change the default padding seperately from other elements
 */
 .tab-pane {
-  margin: 3em 0 2em;
+  margin: 1em 0;
+  @media (min-width: $screen-md-min) {
+    margin: 3em 0 2em;
+  }
 }
 
 /*
 * Font controls - sizing tweaks for design
 */
 .form-control {
-  font-size: $font-size-h4;
-  border-radius: 0;
-  padding: 1em 1.5em;
+  font-size: $input-font-size;
+  padding: $input-padding;
   height: auto;
   border: none;
 }
@@ -90,7 +103,6 @@
 */
 .container--lines {
   padding: 0;
-  border-top: 1px solid #CCCCCC;
 }
 
 
@@ -159,6 +171,8 @@
 }
 
 .modal-open {
+  .c-search,
+  .c-results,
   .c-header,
   .c-article {
     filter: blur(20px);
@@ -166,5 +180,5 @@
 }
 
 .modal-backdrop.in {
-  opacity: 0.8;
+  opacity: $modal-opacity;
 }
