@@ -1307,6 +1307,7 @@
       <str name="indexPath">characteristic_suggest</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
+      <str name="separator"> </str>
     </lst>
   </searchComponent>
 

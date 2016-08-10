@@ -1,13 +1,16 @@
 package org.emonocot.portal.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.persistence.solr.AutoCompleteBuilder;
 import org.emonocot.persistence.solr.QueryBuilder;
 import org.emonocot.portal.json.ResponseBuilder;
 import org.emonocot.portal.json.MainSearchBuilder;
@@ -42,16 +45,29 @@ public class ApiController {
 		}
 		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
-		if(queryResponse == null){
-			return new ResponseEntity<MainSearchBuilder>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService);
 		jsonBuilder.sort(query.get("sort"));
 		jsonBuilder.per_page(query.getRows());
-
 		if(jsonBuilder.getTotalResults() != null && jsonBuilder.getPerPage() != null ){
 			jsonBuilder.page(jsonBuilder.getTotalResults() / jsonBuilder.getPerPage());
 		}	
 		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/suggest", method = RequestMethod.GET, produces={"application/json"})
+	public ResponseEntity<SuggesterResponse> suggest(
+			@RequestParam(value = "query", required = true) String queryString,
+			@RequestParam(value = "suggester", required = true) List<String> suggesters,
+			@RequestParam(value = "page.size", required = false, defaultValue = "5") Integer pageSize
+			) throws SolrServerException, IOException {
+		AutoCompleteBuilder autoCompleteBuilder = new AutoCompleteBuilder();
+		autoCompleteBuilder.pageSize(pageSize);
+		autoCompleteBuilder.setQuery(queryString);
+		for(String suggester : suggesters){
+			autoCompleteBuilder.addSuggester(suggester);
+		}
+		
+		SuggesterResponse response = searchableObjectService.autocomplete(autoCompleteBuilder.build());
+		return new ResponseEntity<SuggesterResponse>(response, HttpStatus.OK);	
 	}
 }

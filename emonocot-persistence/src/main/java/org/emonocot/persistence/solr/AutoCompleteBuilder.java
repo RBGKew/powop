@@ -1,17 +1,35 @@
 package org.emonocot.persistence.solr;
 
+import java.util.Set;
+
 import org.apache.solr.client.solrj.SolrQuery;
+
+import com.google.common.collect.ImmutableSet;
 
 public class AutoCompleteBuilder {
 
-	private SolrQuery query = new SolrQuery().setQuery("*:*");
-
+	private SolrQuery query = new SolrQuery().setRequestHandler("/suggest");
+	
 	private Integer pageSize = 5;
-
-
-
-	public AutoCompleteBuilder setQuery(String key, String value) {
-		query.setQuery(String.format("%s:%s", key, value));
+	
+	private static final Set<String> ranks = ImmutableSet.<String>builder()
+			.add("FAMILY")
+			.add("GENUS")
+			.add("SPECIES")
+			.build();
+	
+	public AutoCompleteBuilder addSuggester(String suggester){
+		if(ranks.contains(suggester.toUpperCase())){
+			query.add("suggest.dictionary", "scientific-name");
+			query.add("suggest.cfq", suggester.toUpperCase());
+		}else{
+			query.add("suggest.dictionary", suggester);
+		}
+		return this;
+	}
+	
+	public AutoCompleteBuilder setQuery(String string) {
+		query.setQuery(string);
 		return this;
 	}
 
@@ -21,20 +39,7 @@ public class AutoCompleteBuilder {
 	}
 
 	public SolrQuery build (){
-		query.set("spellcheck", "true");
-		query.set("spellcheck.collate", "true");
-		query.set("spellcheck.count", "1");
-		query.set("defType","edismax");
-		query.set("qf", "autocomplete^3 autocompleteng");
-		query.set("pf", "autocompletenge");
-		query.set("fl","autocomplete,id");
-		query.setHighlight(true);
-		query.set("hl.fl", "autocomplete");
-		query.set("hl.snippets",3);
-		query.setHighlightSimplePre("<b>");
-		query.setHighlightSimplePost("</b>");
-		query.set("group","true");
-		query.set("group.field", "autocomplete");
+		query.add("suggest.count", pageSize.toString());
 		return query;
 	}
 }

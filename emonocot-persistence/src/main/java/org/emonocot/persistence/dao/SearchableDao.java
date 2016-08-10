@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
@@ -51,7 +52,7 @@ public interface SearchableDao<T extends Base> extends Dao<T> {
 	 * @param selectedFacets any restrictions on the search
 	 * @return a list of match objects
 	 */
-	List<Match> autocomplete(SolrQuery solrQuery) throws SolrServerException, IOException;
+	SuggesterResponse autocomplete(SolrQuery solrQuery) throws SolrServerException, IOException;
 
 	/**
 	 *

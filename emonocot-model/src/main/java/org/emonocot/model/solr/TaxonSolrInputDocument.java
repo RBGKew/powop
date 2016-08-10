@@ -17,7 +17,6 @@ import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.VernacularName;
-import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;

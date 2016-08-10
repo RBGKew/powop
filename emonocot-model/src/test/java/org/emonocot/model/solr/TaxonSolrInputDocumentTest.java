@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.contains;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -290,16 +291,17 @@ public class TaxonSolrInputDocumentTest {
 	private void testIndexSynonymRank(TestCase test) throws Exception {
 		Taxon accepted = new Taxon();
 		Taxon synonym = new Taxon();
+		Set<Taxon> newSynonyms = new HashSet<Taxon>();
 		String acceptedName = test.rank + ": Orchidacae";
 		String synonymName = test.rank + ": Poaceae";
-
+		
 		BeanUtils.setProperty(accepted, test.rank.toString().toLowerCase(), acceptedName);
 		BeanUtils.setProperty(synonym, test.rank.toString().toLowerCase(), synonymName);
+		newSynonyms.add(synonym);
 		synonym.setAcceptedNameUsage(accepted);
-
-		SolrInputDocument doc = new TaxonSolrInputDocument(synonym).build();
-
+		accepted.setSynonymNameUsages(newSynonyms);
+		SolrInputDocument doc = new TaxonSolrInputDocument(accepted).build();
 		assertTrue("Expected " + test.solrFieldName, doc.containsKey(test.solrFieldName));
-		assertEquals(Arrays.asList(synonymName, acceptedName), doc.getFieldValues(test.solrFieldName));
+		assertEquals(Arrays.asList(acceptedName, synonymName), doc.getFieldValues(test.solrFieldName));
 	}
 }

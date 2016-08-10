@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
@@ -318,7 +319,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		 return null;
 	 }
 
-	 public List<Match> autocomplete(SolrQuery query) {
+	 public SuggesterResponse autocomplete(SolrQuery query) {
 		 return null;
 	 }
 

@@ -33,8 +33,10 @@ public class QueryBuilder {
 			.put("taxon.all_names", new AllNamesFilterQuery())
 			.put("taxon.name_published_in_year_i", new RangeFilterQuery())
 			.put("sort", new SortQuery())
+			.put("page.number", new pageNumberQuery())
 			.put("pageNumber", new pageNumberQuery())
-			.put("pageSize", new pageSizeQuery())
+			.put("page.size", new pageSizeQuery())
+			.put("pageSize" , new pageSizeQuery())
 			.put("base.class_searchable_b", new searchableFilterQuery())
 			.build();
 	private static final QueryOption basicMapper = new BasicFieldFilterQuery();

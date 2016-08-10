@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
@@ -175,10 +176,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	 */
 	@Test
 	public final void testAutocomplete() throws Exception {
-		SolrQuery query = new AutoCompleteBuilder().setQuery("taxon.scientific_name_t", "Aus bu").pageSize(10).build();
-		List<Match> matched = getSearchableObjectDao().autocomplete(query);
-		for(Match match : matched){
-			logger.error(match.getLabel());
-		}
+		SolrQuery query = new AutoCompleteBuilder().setQuery("Aus bu").pageSize(10).addSuggester("scientific-name").build();
+		SuggesterResponse matched = getSearchableObjectDao().autocomplete(query);
 	}
 }

@@ -33,6 +33,7 @@ import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.Group;
 import org.apache.solr.client.solrj.response.GroupCommand;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.FacetParams;
 import org.emonocot.api.autocomplete.Match;
@@ -139,34 +140,9 @@ implements SearchableDao<T> {
 		}
 	}
 
-	public List<Match> autocomplete(SolrQuery query) throws SolrServerException, IOException {
-
+	public SuggesterResponse autocomplete(SolrQuery query) throws SolrServerException, IOException{
 		QueryResponse queryResponse = solrClient.query(query);
-
-		List<Match> results = new ArrayList<Match>();
-		Map<String,Match> matchMap = new HashMap<String,Match>();
-		for(GroupCommand groupCommand : queryResponse.getGroupResponse().getValues()) {
-			for (Group group : groupCommand.getValues()) {
-				for (SolrDocument solrDocument : group.getResult()) {
-					Match match = new Match();
-					String label = filter((String) solrDocument.get("autocomplete"));
-					match.setLabel(label);
-					match.setValue(label);
-					matchMap.put((String) solrDocument.get("id"), match);
-					results.add(match);
-				}
-			}
-		}
-		for(String documentId : matchMap.keySet()) {
-			if(queryResponse.getHighlighting().containsKey(documentId)) {
-				Map<String, List<String>> highlightedTerms = queryResponse.getHighlighting().get(documentId);
-				if(highlightedTerms.containsKey("autocomplete")) {
-					matchMap.get(documentId).setLabel(highlightedTerms.get("autocomplete").get(0));
-				}
-			}
-		}
-
-		return results;
+		return queryResponse.getSuggesterResponse();
 	}
 
 	private String filter(String value) {

@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableService;
 import org.emonocot.api.autocomplete.Match;
@@ -82,7 +83,7 @@ extends ServiceImpl<T, DAO> implements SearchableService<T> {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Match> autocomplete(final SolrQuery query)  throws SolrServerException, IOException {
+	public SuggesterResponse autocomplete(final SolrQuery query)  throws SolrServerException, IOException {
 		return dao.autocomplete(query);
 	}
 
