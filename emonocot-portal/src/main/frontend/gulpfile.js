@@ -35,9 +35,8 @@ gulp.task('browser-sync', function() {
             baseDir: "./dist/"
         }
     });
-    gulp.watch('src/js/**/*.js',['js']);
-	  gulp.watch('src/sass/**/*.scss',['css', 'lint']);
-	  gulp.watch('src/templates/**/*.hbs',['assemble']);
+    gulp.watch('src/sass/**/*.scss',['css', 'lint']);
+    gulp.watch('src/templates/**/*.hbs',['assemble']);
 });
 
 /*
@@ -53,6 +52,7 @@ gulp.task('clean', ['clean:dist']);
 gulp.task('dev', function() {
   gulp.watch('src/sass/**/*.scss',['css']);
   gulp.watch('src/templates/**/*.hbs',['assemble']);
+  gulp.watch('src/js/**/*.js',['js']);
 });
 
 /*

@@ -15,6 +15,7 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cssnano": "^2.1.0",
+    "gulp-define-module": "^0.1.4",
     "gulp-extname": "^0.2.2",
     "gulp-filter": "^4.0.0",
     "gulp-flatten": "^0.2.0",
@@ -30,6 +31,7 @@
     "gulp-svg-sprite": "^1.2.11",
     "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
+    "handlebars": "^4.0.5",
     "imagemin-pngquant": "^4.2.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4"

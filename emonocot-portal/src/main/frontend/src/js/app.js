@@ -1,4 +1,4 @@
-require(['jquery', 'bootstrap'], function($){
+require(['jquery', 'search', 'bootstrap'], function($, search){
 
   $(document).ready(function() {
 
