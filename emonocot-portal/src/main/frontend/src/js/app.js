@@ -46,7 +46,6 @@ require(['jquery', 'search', 'bootstrap'], function($, search){
     $("input#refine").on("blur", function() {
       $("body").removeClass("js-autocomplete");
     });
-
   });
 
 });

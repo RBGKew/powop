@@ -9,3 +9,4 @@ activemq-data
 !tags
 node_modules
 dist
+**/js/templates

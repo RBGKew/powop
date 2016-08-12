@@ -9,17 +9,18 @@ module.exports = function (gulp, $) {
   var handlebars = require('gulp-handlebars');
   var rjs = require('gulp-requirejs');
 
-  gulp.task('js', function() {
-
+  gulp.task('precompile', function() {
     // precompile handlebars templates for use in frontend
-    gulp.src('src/templates/partials/**/*.hbs')
+    return gulp.src('src/templates/**/*.hbs')
       .pipe(handlebars({
         handlebars: require('handlebars')
       }))
       .pipe(defineModule('amd'))
       .pipe(gulp.dest('src/js/templates/'));
+  });
 
-    rjs({
+  gulp.task('js', ['precompile'], function() {
+    return rjs({
       baseUrl: 'src/js/',
       name: 'main',
       out: 'all.js',

@@ -13,6 +13,10 @@ module.exports = function (gulp, $) {
 		return $.del(["dist/img/*"], { force: true });
   });
 
+  gulp.task('clean:templates', function() {
+    return $.del(["src/js/templates/**/*"], { force: true});
+  });
+
 
   /*
 	* Clean all
@@ -20,5 +24,7 @@ module.exports = function (gulp, $) {
 	gulp.task('clean:dist', function() {
 		return $.del(["dist/**/*"], { force: true });
   });
+
+
 
 };

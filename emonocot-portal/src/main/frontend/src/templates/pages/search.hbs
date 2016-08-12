@@ -19,12 +19,9 @@ layout: default
 
 
 <section class="c-search">
-  <div class="c-search__facets">
+  <div class="c-search__filters">
     <div class="container">
-      <div class="btn-group btn-group--facets" role="group" aria-label="...">
-        <button type="button" class="btn btn-link">Green <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <button type="button" class="btn btn-link">Family - Poaceae <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <button type="button" class="btn btn-link">Present between 1000m - 1500m <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+      <div class="btn-group btn-group--filters" role="group" aria-label="...">
       </div>
     </div>
   </div>
@@ -34,25 +31,24 @@ layout: default
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs nav-tabs--text" role="tablist">
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Any</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Family, genus or Species name</a></li>
-        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Characteristic</a></li>
-        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Where</a></li>
-        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Use</a></li>
+        <li role="presentation" class="active"><a href="#names" aria-controls="profile" role="tab" data-toggle="tab">Family, genus or Species name</a></li>
+        <li role="presentation"><a href="#characteristics" aria-controls="messages" role="tab" data-toggle="tab">Characteristic</a></li>
+        <li role="presentation"><a href="#localities" aria-controls="settings" role="tab" data-toggle="tab">Where</a></li>
+        <li role="presentation"><a href="#uses" aria-controls="settings" role="tab" data-toggle="tab">Use</a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home">
+        <div role="tabpanel" class="tab-pane active" id="names">
           {{>search-any}}
         </div>
-        <div role="tabpanel" class="tab-pane" id="profile">
+        <div role="tabpanel" class="tab-pane" id="characteristics">
           {{>search-any}}
         </div>
-        <div role="tabpanel" class="tab-pane" id="messages">
+        <div role="tabpanel" class="tab-pane" id="localities">
           {{>search-any}}
         </div>
-        <div role="tabpanel" class="tab-pane" id="settings">
+        <div role="tabpanel" class="tab-pane" id="uses">
           {{>search-any}}
         </div>
       </div>
