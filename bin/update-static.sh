@@ -8,17 +8,15 @@
 # (git add) and run this script with no options
 
 
-deployment=emonocot
-local_prefix=*/WEB-INF/
-remote_prefix=/var/lib/tomcat7/webapps/ROOT/WEB-INF/
+container=emonocot_portal_1
+template_dir=$SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/templates
+remote_prefix=/usr/local/tomcat/webapps/ROOT/
 
-ssh $deployment "sudo chmod -R a+w $remote_prefix"
-
-for changed in `git diff --cached --name-only | grep WEB-INF/`
+for changed in `ls $template_dir`
 do
-  target=${changed#$local_prefix}
-  scp_cmd="scp $changed $deployment:$remote_prefix$target"
+  target=${changed#$template_dir}
+  cp_cmd="docker cp $template_dir/$changed $container:$remote_prefix$target"
 
-  echo "running $scp_cmd"
-  $scp_cmd
+  echo "running $cp_cmd"
+  $cp_cmd
 done
