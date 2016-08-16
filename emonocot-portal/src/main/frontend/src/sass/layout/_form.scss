@@ -1,6 +1,6 @@
 /*
-* Form - Inline defaults
-*/
+ * Form - Inline defaults
+ */
 .form-inline {
   button {
     display: none;
@@ -19,8 +19,8 @@
 }
 
 /*
-* Form - Inline form, results page.
-*/
+ * Form - Inline form, results page.
+ */
 .form-inline--search {
 
   button {
@@ -56,9 +56,37 @@
 
 }
 
+#uses {
+
+  .form-group {
+    padding-left: 15px;
+  }
+
+  form {
+    padding-top: 15px;
+  }
+
+  label {
+    font-weight: normal;
+    cursor: pointer;
+    cursor: hand;
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+    cursor: hand;
+    margin-right: 10px;
+  }
+
+  .checkbox-group {
+    width: 200px;
+    float: left;
+  }
+}
+
 /*
-* Form - Inline form, homepage.
-*/
+ * Form - Inline form, homepage.
+ */
 .form-inline--home {
 
   .form-group {
@@ -79,8 +107,8 @@
 
 
 /*
-* Form - Inline form, advanced modal.
-*/
+ * Form - Inline form, advanced modal.
+ */
 .form-inline--advanced {
 
   .form-group {
