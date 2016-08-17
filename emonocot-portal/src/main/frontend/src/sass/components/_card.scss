@@ -4,7 +4,7 @@
 .c-card {
 
   padding: $grid-gutter-width;
-  transition: box-shadow .3s ease-out;
+  transition: box-shadow .1s ease-out;
 
   &:hover {
     box-shadow: inset 0px 0px 0px 10px rgba(#66CCCC,0.75);
