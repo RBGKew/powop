@@ -28,8 +28,16 @@ define([
     pubsub.publish('search.filters.' + key, filters.get(key));
   };
 
-  var remove = function(filter) {
-    var key = doRemove(filter);
+  var remove = function(removeFilters) {
+    var key;
+    if(removeFilters.length > 1) {
+      removeFilters.each(function(_, filter) {
+        key = doRemove(filter);
+      });
+    } else {
+       key = doRemove(removeFilters);
+    }
+
     pubsub.publish('search.filters.' + key, filters.get(key));
   };
 
@@ -42,8 +50,8 @@ define([
   }
 
   function doRemove(filter) {
-    var key = filter.data('term');
-    var value = filter.data('value');
+    var key = $(filter).data('term');
+    var value = $(filter).data('value');
 
     if($.isArray(filters.get(key))) {
       var updated = $.grep(filters.get(key), function(v) {
