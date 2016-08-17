@@ -21,6 +21,15 @@ define(['./filters', './use-search'], function(filters, checkboxes) {
 
 
   $(document).ready(function() {
+    // handle location hash with tabs
+    if(location.hash.slice(1) != "") {
+      $('.nav-tabs a[href="' + location.hash + '"]').tab('show');
+    }
+
+    $('a[data-toggle="tab"]').on('click', function(e) {
+      location.hash = $(e.target).attr('href').substr(1);
+    });
+
     // click handlers to remove filter
     $('.c-search__filters').on('click', 'span.glyphicon-remove', function() {
       filters.remove($(this).parent());

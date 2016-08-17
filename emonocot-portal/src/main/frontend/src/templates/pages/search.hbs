@@ -31,25 +31,25 @@ layout: default
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs nav-tabs--text" role="tablist">
-        <li role="presentation"><a href="#any" aria-controls="profile" role="tab" data-toggle="tab">Any</a></li>
-        <li role="presentation" class="active"><a href="#names" aria-controls="profile" role="tab" data-toggle="tab">Family, genus or Species name</a></li>
+        <li role="presentation" class="active"><a href="#any" aria-controls="profile" role="tab" data-toggle="tab">Any</a></li>
+        <li role="presentation"><a href="#names" aria-controls="profile" role="tab" data-toggle="tab">Family, genus or Species name</a></li>
         <li role="presentation"><a href="#characteristics" aria-controls="messages" role="tab" data-toggle="tab">Characteristic</a></li>
-        <li role="presentation"><a href="#localities" aria-controls="settings" role="tab" data-toggle="tab">Where</a></li>
+        <li role="presentation"><a href="#locations" aria-controls="settings" role="tab" data-toggle="tab">Where</a></li>
         <li role="presentation"><a href="#uses" aria-controls="settings" role="tab" data-toggle="tab">Use</a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane" id="any" data-search-key="Any">
+        <div role="tabpanel" class="tab-pane active" id="any" data-search-key="Any">
           {{>search-any}}
         </div>
-        <div role="tabpanel" class="tab-pane active" id="names">
+        <div role="tabpanel" class="tab-pane" id="names">
           {{>search-name}}
         </div>
         <div role="tabpanel" class="tab-pane" id="characteristics">
           {{>search-characteristic}}
         </div>
-        <div role="tabpanel" class="tab-pane" id="localities" data-search-key="Location">
+        <div role="tabpanel" class="tab-pane" id="locations" data-search-key="Location">
           {{>search-location}}
         </div>
         <div role="tabpanel" class="tab-pane" id="uses">
