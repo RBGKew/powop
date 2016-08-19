@@ -1,7 +1,5 @@
 .c-autocomplete {
 
-  display: none;
-  padding: 1em 2em;
   margin-bottom: 1em;
 
   &__list {
@@ -12,7 +10,6 @@
 
   &__option {
     border-bottom: $border-translucent;
-    padding: .8em 0;
     &:last-child {
       border-bottom: none;
     }
@@ -30,12 +27,27 @@
     color: #000000;
     background-color: #FFFFFF;
     position: absolute;
-    left: $grid-gutter-width / 2; right: $grid-gutter-width / 2;
-    border: $border-grey;
+    left: $grid-gutter-width / 2;
+    right: $grid-gutter-width / 2;
+    top: 60px;
     @include box-shadow(0 5px 10px rgba(0,0,0,.2));
-    
+
     a {
       color: inherit;
+      display: block;
+      padding: 10px $grid-gutter-width;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    a:active {
+      text-decoration: none;
+    }
+
+    .selected {
+      background-color: #EEE;
     }
 
     .c-autocomplete__option {
@@ -47,7 +59,6 @@
       }
     }
   }
-
 }
 
 .js-autocomplete {

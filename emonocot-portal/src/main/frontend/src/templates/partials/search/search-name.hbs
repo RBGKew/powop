@@ -8,8 +8,8 @@
             <use xlink:href="#sprite-chevron"></use>
           </svg>
         </span>
-        <select id="searchselect" class="c-select__control form-control">
-          <option value="Name">All</option>
+        <select class="searchselect c-select__control form-control">
+          <option value="Scientific Name">All</option>
           <option value="Family">Family</option>
           <option value="Genus">Genus</option>
           <option value="Species">Species</option>
@@ -19,8 +19,7 @@
     </div>
     <div class="form-group form-inline__input">
       <label for="refine" class="sr-only">Search</label>
-      <input class="form-control refine" placeholder="Enter Family, Genus or Species name ...">
-      {{>autocomplete theme="c-autocomplete--inline"}}
+      <input class="form-control refine" data-suggester="scientific-name" placeholder="Enter Family, Genus or Species name ...">
     </div>
     <button type="submit" class="btn btn-default">Search</button>
   </form>

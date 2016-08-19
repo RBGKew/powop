@@ -2,8 +2,10 @@
   <form class="form-add form-inline form-inline--search">
     <div class="form-group form-inline__input">
       <label for="refine" class="sr-only">Search</label>
-      <input class="form-control refine" placeholder="Search by species, genus or family name, or any words describing the plant">
-      {{>autocomplete theme="c-autocomplete--inline"}}
+      <input
+         class="form-control refine"
+         data-suggester="scientific-name"
+         placeholder="Search by species, genus or family name, or any words describing the plant">
     </div>
     <button type="submit" class="btn btn-default">Search</button>
   </form>

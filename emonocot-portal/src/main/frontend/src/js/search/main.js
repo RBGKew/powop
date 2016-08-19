@@ -1,24 +1,57 @@
-define(['./filters', './use-search'], function(filters, checkboxes) {
+define([
+  'jquery',
+  './autocomplete',
+  './events',
+  './filters',
+  './use-search',
+  'libs/pubsub'
+], function($, autocomplete, events, filters, checkboxes, pubsub) {
 
-  function selectKeyLookup(trigger) {
-    return $(trigger).parent().parent().find(':selected').val();
+  function active() {
+    return $('.c-search .tab-pane.active');
   }
 
-  function inputKeyLookup(trigger) {
-    return $(trigger).closest('.tab-pane').data('search-key');
+  function selectType() {
+    return active().find('option:selected').val();
   }
 
-  function lookupKey(trigger) {
-    var lookupMap = {
-      'any' : inputKeyLookup,
-      'names' : selectKeyLookup,
-      'characteristics' : selectKeyLookup,
-      'localities' : inputKeyLookup,
+  function inputType() {
+    return active().data('search-key');
+  }
+
+  function filterValue() {
+    return active().find('input.refine').val();
+  }
+
+  function filterType() {
+    var $active = active();
+
+    var lookup = {
+      'any' : inputType,
+      'names' : selectType,
+      'characteristics' : selectType,
+      'locations' : inputType,
     }
 
-    return lookupMap[$(trigger).closest('.tab-pane').prop('id')](trigger);
+    return lookup[$active.prop('id')]($active);
   };
 
+  function handleKeypress(event) {
+    if(event.which === events.ENTER) {
+      if(filterValue() !== '') {
+        filters.add(filterType(), filterValue());
+        autocomplete.hide();
+      }
+
+      $(this).val('');
+      event.preventDefault();
+    }
+  }
+
+  function updateSuggester(event) {
+    var suggester = $(this).find(':selected').val().replace(' ', '-').toLowerCase();
+    $(this).parent().parent().find('input').data('suggester', suggester);
+  }
 
   $(document).ready(function() {
     // handle location hash with tabs
@@ -35,17 +68,13 @@ define(['./filters', './use-search'], function(filters, checkboxes) {
       filters.remove($(this).parent());
     });
 
-    // hanlders to add filter
-    $('.c-search .tab-content').on('keypress', 'input.refine', function(event) {
-      // enter pressed in the form
-      if(event.which == 13) {
-        event.preventDefault();
-        var key = lookupKey(this);
-        var value = $(this).val();
-        filters.add(key, value);
-        $(this).val('');
-      }
-    });
+    $('.c-search')
+      .on('keypress', 'input.refine', handleKeypress)
+      .on('change', '#names .c-select', updateSuggester);
+  });
+
+  pubsub.subscribe('autocomplete.selected', function(_, selected) {
+    active().find('input.refine').val(selected);
   });
 
   return {
