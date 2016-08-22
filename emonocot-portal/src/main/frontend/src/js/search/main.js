@@ -1,12 +1,13 @@
 define([
   'jquery',
+  'bootstrap',
   './autocomplete',
   './events',
   './filters',
   './use-search',
   'libs/pubsub',
   './results'
-], function($, autocomplete, events, filters, checkboxes, pubsub, results) {
+], function($, bootstrap, autocomplete, events, filters, checkboxes, pubsub, results) {
 
   function active() {
     return $('.c-search .tab-pane.active');
