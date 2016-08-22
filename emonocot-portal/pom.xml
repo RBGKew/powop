@@ -25,14 +25,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.emonocot</groupId>
-			<artifactId>emonocot-static</artifactId>
-			<version>${project.version}</version>
-			<classifier>default</classifier>
-			<type>tar.gz</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.emonocot</groupId>
 			<artifactId>emonocot-model</artifactId>
 		</dependency>
 		<dependency>
