@@ -15,13 +15,22 @@ module.exports = function (gulp, $, browserSync) {
   });
 
   /*
-  * html - run assemble
+  * Assemble
   */ 
   gulp.task('assemble', ['assemble:load'], function() {
     return app.toStream('pages')
       .pipe(app.renderFile())
       .pipe($.htmlmin())
       .pipe(gulp.dest('dist/templates/'))
+      .pipe(browserSync.stream());
+  });
+
+  gulp.task('assemble-html', ['assemble:load'], function() {
+    return app.toStream('pages')
+      .pipe(app.renderFile())
+      .pipe($.htmlmin())
+      .pipe($.extname())
+      .pipe(gulp.dest('dist/'))
       .pipe(browserSync.stream());
   });
 };

@@ -32,11 +32,12 @@ $.loadSubtasks('src/tasks/', $, browserSync);
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: "./dist/"
+            baseDir: "./dist"
         }
     });
-    gulp.watch('src/sass/**/*.scss',['css', 'lint']);
-    gulp.watch('src/templates/**/*.hbs',['assemble']);
+    gulp.watch('src/sass/**/*.scss',['css']);
+    gulp.watch('src/templates/**/*.hbs',['assemble-html']);
+    gulp.watch('src/js/search/**/*.js',['precompile', 'js']);
 });
 
 /*
