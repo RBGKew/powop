@@ -7,7 +7,7 @@ public class AllNamesFilterQuery implements QueryOption {
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
 		if(value != null && !value.isEmpty()){
-			query.addFilterQuery(String.format("taxon.family_ss:%s OR taxon.genus_ss:%s OR taxon.species_ss:%s OR taxon.vernacular_names_ss:%s", value));
+			query.addFilterQuery(String.format("taxon.scientific_name_t:%1$s OR taxon.family_ss:%1$s OR taxon.genus_ss:%1$s OR taxon.species_ss:%1$s OR taxon.vernacular_names_ss:%1$s", value));
 		}
 	}
 

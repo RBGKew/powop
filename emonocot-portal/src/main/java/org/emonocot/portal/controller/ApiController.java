@@ -47,12 +47,15 @@ public class ApiController {
 		QueryResponse queryResponse = searchableObjectService.search(query);
 		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService);
 		jsonBuilder.sort(query.get("sort"));
+		jsonBuilder.page(query.getStart() / query.getRows());
 		jsonBuilder.per_page(query.getRows());
 		if(jsonBuilder.getTotalResults() != null && jsonBuilder.getPerPage() != null ){
-			jsonBuilder.page(jsonBuilder.getTotalResults() / jsonBuilder.getPerPage());
+			jsonBuilder.totalPages(jsonBuilder.getTotalResults() / jsonBuilder.getPerPage());
 		}	
 		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
 	}
+	
+	
 	
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<SuggesterResponse> suggest(

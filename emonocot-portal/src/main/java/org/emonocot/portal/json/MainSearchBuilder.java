@@ -10,6 +10,7 @@ public class MainSearchBuilder {
 
 	private Integer totalResults;
 	private Integer page;
+	private Integer totalPages;
 	private Integer perPage;
 	private String sort;
 	private Map<String, Integer>facets = new HashMap<String, Integer>();
@@ -30,6 +31,11 @@ public class MainSearchBuilder {
 		return this;
 	}
 
+	public MainSearchBuilder totalPages(Integer totalPages){
+		this.totalPages = totalPages;
+		return this;
+	}
+	
 	public MainSearchBuilder sort(String sort){
 		this.sort = sort;
 		return this;
@@ -49,6 +55,10 @@ public class MainSearchBuilder {
 		return totalResults;
 	}
 
+	public Integer getTotalPages(){
+		return totalPages;
+	}
+	
 	public Integer getPage(){
 		return page;
 	}
@@ -68,5 +78,6 @@ public class MainSearchBuilder {
 	public List<SearchResultBuilder>getResults(){
 		return results;
 	}
+	
 
 }

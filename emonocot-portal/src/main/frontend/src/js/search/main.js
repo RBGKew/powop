@@ -4,8 +4,9 @@ define([
   './events',
   './filters',
   './use-search',
-  'libs/pubsub'
-], function($, autocomplete, events, filters, checkboxes, pubsub) {
+  'libs/pubsub',
+  './results'
+], function($, autocomplete, events, filters, checkboxes, pubsub, results) {
 
   function active() {
     return $('.c-search .tab-pane.active');
@@ -53,7 +54,12 @@ define([
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
+  pubsub.subscribe('search.filters', function(_, selected){
+    results.update(filters.toString());
+  });
+
   $(document).ready(function() {
+
     // handle location hash with tabs
     if(location.hash.slice(1) != "") {
       $('.nav-tabs a[href="' + location.hash + '"]').tab('show');

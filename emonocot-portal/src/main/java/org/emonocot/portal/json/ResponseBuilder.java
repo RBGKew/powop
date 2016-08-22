@@ -59,7 +59,13 @@ public class ResponseBuilder {
 			}
 
 			if(highlights.get(document.get("id").toString()) != null){
-				resultBuilder.snippet(highlights.get(document.get("id").toString()));
+				Map<String, List<String>> highlight = highlights.get(document.get("id"));
+				if(!highlight.isEmpty()){
+					Entry<String, List<String>> entry = highlight.entrySet().iterator().next();
+					if(!entry.getValue().isEmpty()){
+						resultBuilder.snippet(entry.getKey() + ": " + entry.getValue().get(0));
+					}
+				}
 			}
 
 

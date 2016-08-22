@@ -20,13 +20,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
-import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;

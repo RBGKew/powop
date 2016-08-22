@@ -30,7 +30,7 @@ public class QueryBuilder {
 
 	private static final Map<String, QueryOption> queryMappings = ImmutableMap.<String, QueryOption>builder()
 			.put("main.query", new MainFilterQuery())
-			.put("taxon.all_names", new AllNamesFilterQuery())
+			.put("all.names", new AllNamesFilterQuery())
 			.put("taxon.name_published_in_year_i", new RangeFilterQuery())
 			.put("sort", new SortQuery())
 			.put("page.number", new pageNumberQuery())
@@ -39,6 +39,8 @@ public class QueryBuilder {
 			.put("pageSize" , new pageSizeQuery())
 			.put("base.class_searchable_b", new searchableFilterQuery())
 			.build();
+	
+	
 	private static final QueryOption basicMapper = new BasicFieldFilterQuery();
 
 	public QueryBuilder addParam(String key, String value) {

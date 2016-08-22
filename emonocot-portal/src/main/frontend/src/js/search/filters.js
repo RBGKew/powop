@@ -42,8 +42,14 @@ define([
   };
 
   var toString = function() {
-    return $.param(filters);
+    var paramMap = {};
+    var filterMap = filters.toObject();
+    for(key in filterMap){
+      paramMap[key] = filterMap[key].join(" AND ");
+    }
+     return($.param(paramMap))
   };
+
 
   function addBreadcrumb(key, value) {
     $('.c-search__filters .btn-group').append(tmpl({searchTerm: key, searchValue: value}));

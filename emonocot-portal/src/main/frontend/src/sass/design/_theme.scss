@@ -3,7 +3,7 @@
 */
 @mixin theme-page($name, $color) {
   $primary: $color;
- 
+
   .#{$name} {
     color: $primary;
     a {
@@ -20,7 +20,7 @@
 */
 @mixin theme-type($name, $color) {
   $primary: $color;
- 
+
   .#{$name} {
 
     &.s-page {
@@ -61,9 +61,9 @@
 
 
 $type-themes: (
-  s-theme-family: #336699,
-  s-theme-genus: #339999,
-  s-theme-species: #669933,
+  s-theme-FAMILY: #336699,
+  s-theme-GENUS: #339999,
+  s-theme-SPECIES: #669933,
   s-theme-common: #993399,
 ) !default;
 

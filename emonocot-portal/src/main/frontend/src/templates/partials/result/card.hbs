@@ -1,0 +1,25 @@
+<article class="c-card s-theme-{{rank}}">
+  <a href="content.html">
+    <div class="c-card__content">
+      <span class="c-card__type">
+        <svg class="leaf sprite-leaf-dims">
+          <use xlink:href="#sprite-leaf"></use>
+        </svg>
+        {{rank}}
+      </span>
+    	<h2 class="c-card__title">{{name}} <cite>{{author}}</cite></h2>
+    	<p>{{snippet}}</p>
+    	<!--<span>Published: </span><time datetime="1944">1944</time>-->
+    </div>
+  	  <div itemscope itemtype="http://schema.org/ImageGallery" class="c-gallery-thumbs">
+          {{#each images}}
+            <figure class="c-gallery-thumbs__img">
+              <div class="c-gallery-thumbs__bg">
+                <img src={{url}} itemprop="thumbnail" alt={{caption}} />
+              </div>
+            </figure>
+          {{/each}}
+      <div class="c-gallery-thumbs__img"><div class="c-gallery-thumbs__bg"></div></div>
+  	</div>
+  </a>
+</article>

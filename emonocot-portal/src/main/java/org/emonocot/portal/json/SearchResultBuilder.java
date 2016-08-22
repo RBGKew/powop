@@ -12,7 +12,7 @@ public class SearchResultBuilder {
 	private String url;
 	private String author; 
 	private String rank;
-	private Map<String, List<String>> snippet;
+	private String snippet;
 	private List<Map<String, String>> images = new ArrayList<Map<String, String>>();
 
 	public SearchResultBuilder url(String url){
@@ -35,8 +35,8 @@ public class SearchResultBuilder {
 		return this;
 	}
 
-	public SearchResultBuilder snippet(Map<String, List<String>> map){
-		this.snippet = map;
+	public SearchResultBuilder snippet(String string){
+		this.snippet = string;
 		return this;
 	}
 
@@ -63,7 +63,7 @@ public class SearchResultBuilder {
 		return rank;
 	}
 
-	public Map<String, List<String>> getSnippet(){
+	public String getSnippet(){
 		return snippet;
 	}
 

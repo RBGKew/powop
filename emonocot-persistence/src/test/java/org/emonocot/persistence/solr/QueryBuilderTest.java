@@ -65,7 +65,6 @@ public class QueryBuilderTest {
 		SolrQuery solrQuery = autocomplete.build();
 		Map<String, String[]> params = solrQuery.getMap();
 		assertEquals("scientific-name", params.get("suggest.dictionary")[0]);
-		System.out.println(params.get("suggest.cfg"));
 		assertEquals("GENUS", params.get("suggest.cfq")[0]);
 	}
 	
