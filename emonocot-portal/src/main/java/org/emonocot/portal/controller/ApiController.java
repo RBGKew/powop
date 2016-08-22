@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.model.solr.SolrFieldNameMappings;
 import org.emonocot.persistence.solr.AutoCompleteBuilder;
 import org.emonocot.persistence.solr.QueryBuilder;
 import org.emonocot.portal.json.ResponseBuilder;
@@ -24,14 +25,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.collect.BiMap;
+
 @Controller
 @RequestMapping("/api/1/")
 public class ApiController {
 
+	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
+	
 	private static Logger logger = LoggerFactory.getLogger(ApiController.class);
 	@Autowired
 	private SearchableObjectService searchableObjectService;
-
+	
 	@Autowired
 	private TaxonService taxonService;
 
@@ -40,10 +45,15 @@ public class ApiController {
 		QueryBuilder queryBuilder = new QueryBuilder();
 		if(allRequestParams != null && !allRequestParams.isEmpty()){
 			for(Entry<String, String> requestParam : allRequestParams.entrySet()){
-				queryBuilder.addParam(requestParam.getKey(), requestParam.getValue());
+				if(fieldNames.containsKey(requestParam.getKey().toLowerCase())){
+					queryBuilder.addParam(fieldNames.get(requestParam.getKey().toLowerCase()), requestParam.getValue());
+				}else{
+					queryBuilder.addParam(requestParam.getKey(), requestParam.getValue());
+				}
 			}
 		}
 		SolrQuery query = queryBuilder.build();
+		
 		QueryResponse queryResponse = searchableObjectService.search(query);
 		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService);
 		jsonBuilder.sort(query.get("sort"));

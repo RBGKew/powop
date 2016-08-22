@@ -47,7 +47,7 @@ define([
     for(key in filterMap){
       paramMap[key] = filterMap[key].join(" AND ");
     }
-     return($.param(paramMap))
+     return($.param(paramMap));
   };
 
 

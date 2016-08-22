@@ -5,19 +5,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.emonocot.portal.json.SearchResultBuilder;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.BiMap;
+
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.solr.SolrFieldNameMappings;
 
 @Component
 public class ResponseBuilder {
 
+	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map.inverse();
+	
 	private MainSearchBuilder jsonBuilder = new MainSearchBuilder();
 
 	Map<String, Map<String, List<String>>> highlights = new HashMap<String, Map<String, List<String>>>();
@@ -55,7 +61,8 @@ public class ResponseBuilder {
 			}
 
 			if(taxon.getTaxonRank().toString() != null){
-				resultBuilder.rank(taxon.getTaxonRank().toString());
+				String rank =  WordUtils.capitalizeFully(taxon.getTaxonRank().toString());
+				resultBuilder.rank(rank);
 			}
 
 			if(highlights.get(document.get("id").toString()) != null){
@@ -63,7 +70,13 @@ public class ResponseBuilder {
 				if(!highlight.isEmpty()){
 					Entry<String, List<String>> entry = highlight.entrySet().iterator().next();
 					if(!entry.getValue().isEmpty()){
-						resultBuilder.snippet(entry.getKey() + ": " + entry.getValue().get(0));
+						if(fieldNames.containsKey(entry.getKey())){
+							String key = WordUtils.capitalizeFully(fieldNames.get(entry.getKey()));
+							resultBuilder.snippet(key + ": " + entry.getValue().get(0));
+						}else{
+							resultBuilder.snippet(entry.getKey() + ": " + entry.getValue().get(0));
+						}
+
 					}
 				}
 			}
