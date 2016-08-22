@@ -141,11 +141,18 @@
       <batch:tasklet>
         <batch:chunk reader="deleteTaxaReader"  writer="taxonDeletingWriter" commit-interval="100"/>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
+      <batch:next on="COMPLETED" to="indexNamesSuggester" />
       <batch:next on="FAILED" to="indexAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
+    </batch:step>
+
+    <batch:step id="indexNamesSuggester">
+      <batch:description>Build the scientific-names suggester index</batch:description>
+      <batch:tasklet ref="nameSuggesterIndexingTasklet" />
+      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
+      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
     </batch:step>
 
     <!--================= Description processing steps ======================-->
@@ -195,11 +202,18 @@
       <batch:tasklet>
         <batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"  commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkTermProcessingMode" />
+      <batch:next on="COMPLETED" to="indexDescriptionsSuggester" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
+    </batch:step>
+
+    <batch:step id="indexDescriptionsSuggester">
+      <batch:description>Build the characteristic suggester index</batch:description>
+      <batch:tasklet ref="descriptionSuggesterIndexingTasklet" />
+      <batch:next on="COMPLETED" to="checkTermProcessingMode" />
+      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
     </batch:step>
 
     <!--================= Term processing steps ======================-->
@@ -784,13 +798,19 @@
       <batch:tasklet>
         <batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
+      <batch:next on="COMPLETED" to="indexCommonNameSuggester" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
 
+    <batch:step id="indexCommonNameSuggester">
+      <batch:description>Build the common-name suggester index</batch:description>
+      <batch:tasklet ref="commonNameSuggesterIndexingTasklet" />
+      <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
+      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+    </batch:step>
 
     <!--==================== TypeAndSpecimen processing steps ====================-->
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
@@ -1197,6 +1217,11 @@
     </property>
   </bean>
 
+  <bean id="nameSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
+    <property name="solrClient" ref="solrServer" />
+    <property name="suggester" value="scientific-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
+  </bean>
+
   <!-- Descriptions -->
 
   <bean id="descriptionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
@@ -1267,6 +1292,11 @@
         <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
+  </bean>
+
+  <bean id="descriptionSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
+    <property name="solrClient" ref="solrServer" />
+    <property name="suggester" value="characteristic" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- Images -->
@@ -2099,6 +2129,11 @@
           value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
+  </bean>
+
+  <bean id="commonNameSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
+    <property name="solrClient" ref="solrServer" />
+    <property name="suggester" value="common-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- TypeAndSpecimen -->
