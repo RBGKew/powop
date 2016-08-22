@@ -682,12 +682,6 @@
 				<version>2.7.1</version>
 			</dependency>
 			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-java</artifactId>
-				<version>2.49.0</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy</artifactId>
 				<version>1.8.5</version>
@@ -852,24 +846,6 @@
 				</exclusions>
 			</dependency>
 			<!-- Above are required for ANT build / deploy -->
-			<dependency>
-				<groupId>info.cukes</groupId>
-				<artifactId>cucumber-spring</artifactId>
-				<version>1.1.1</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>javax</groupId>
-						<artifactId>javaee-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>info.cukes</groupId>
-				<artifactId>cucumber-junit</artifactId>
-				<version>1.1.1</version>
-				<scope>test</scope>
-			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
@@ -1088,11 +1064,6 @@
 				<version>1.16</version>
 			</dependency>
 			<dependency>
-				<groupId>org.kew.maven.plugins</groupId>
-				<artifactId>wait-http-maven-plugin</artifactId>
-				<version>1.0</version>
-			</dependency>
-			<dependency>
 				<groupId>com.github.tomakehurst</groupId>
 				<artifactId>wiremock</artifactId>
 				<version>1.57</version>
@@ -1294,11 +1265,6 @@
 			<id>maven</id>
 			<name>Maven Central Repository</name>
 			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>openqa</id>
-			<name>OpenQA Repository</name>
-			<url>http://nexus.openqa.org/content/repositories/releases/</url>
 		</repository>
 		<repository>
 			<id>gbif-all</id>
