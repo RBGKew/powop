@@ -70,8 +70,8 @@ define([
     });
 
     // click handlers to remove filter
-    $('.c-search__filters').on('click', 'span.glyphicon-remove', function() {
-      filters.remove($(this).parent());
+    $('.c-search__filters').on('click', '.filter', function() {
+      filters.remove($(this));
     });
 
     $('.c-search')
