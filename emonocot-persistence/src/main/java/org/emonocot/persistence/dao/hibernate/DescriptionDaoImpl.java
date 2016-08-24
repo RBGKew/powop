@@ -26,12 +26,8 @@ import org.hibernate.FetchMode;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DescriptionDaoImpl extends DaoImpl<Description> implements
-DescriptionDao {
+public class DescriptionDaoImpl extends DaoImpl<Description> implements DescriptionDao {
 
-	/**
-	 *
-	 */
 	private static Map<String, Fetch[]> FETCH_PROFILES;
 
 	static {

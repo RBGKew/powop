@@ -156,18 +156,10 @@
     <sec:intercept-url pattern="/jobInstance" method="GET" access="isAuthenticated()" />
     <sec:intercept-url pattern="/jobInstance/*" method="DELETE"	access="hasRole('PERMISSION_DELETE_JOBINSTANCE')" />
     <sec:intercept-url pattern="/jobInstance/*" method="GET" access="isAuthenticated()" />
-    <sec:intercept-url pattern="/key" method="POST" access="hasRole('PERMISSION_CREATE_KEY')" />
-    <sec:intercept-url pattern="/key" method="GET" access="isAuthenticated()" />
-    <sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
-    <sec:intercept-url pattern="/key/*" method="GET" access="isAuthenticated()" />
     <sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
     <sec:intercept-url pattern="/organisation" method="GET" access="isAuthenticated()" />
     <sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
     <sec:intercept-url pattern="/organisation/*" method="GET" access="isAuthenticated()" />
-    <sec:intercept-url pattern="/phylo" method="POST" access="hasRole('PERMISSION_CREATE_PHYLOGENY')" />
-    <sec:intercept-url pattern="/phylo" method="GET" access="isAuthenticated()" />
-    <sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
-    <sec:intercept-url pattern="/phylo/*" method="GET" access="isAuthenticated()" />
     <sec:intercept-url pattern="/place" method="POST" access="hasRole('PERMISSION_CREATE_PLACE')" />
     <sec:intercept-url pattern="/place" method="GET" access="isAuthenticated()" />
     <sec:intercept-url pattern="/place/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PLACE')" />
@@ -216,20 +208,17 @@
     <sec:intercept-url pattern="/login*" access="permitAll" />
     <sec:intercept-url pattern="/recovery" access="permitAll" />
     <sec:intercept-url pattern="/home" access="!isAnonymous()" />
-    <sec:intercept-url pattern="/key/*" method="DELETE" access="hasRole('PERMISSION_DELETE_KEY')" />
     <sec:intercept-url pattern="/user" method="POST" access="hasRole('PERMISSION_ADMINISTRATE')" />
     <sec:intercept-url pattern="/user/*" method="DELETE" access="hasRole('PERMISSION_DELETE_USER')" />
     <sec:intercept-url pattern="/group" method="POST" access="hasRole('PERMISSION_CREATE_GROUP')" />
     <sec:intercept-url pattern="/group/*" method="DELETE" access="hasRole('PERMISSION_DELETE_GROUP')" />
     <sec:intercept-url pattern="/organisation" method="POST" access="hasRole('PERMISSION_CREATE_SOURCE')" />
     <sec:intercept-url pattern="/organisation/*" method="DELETE" access="hasRole('PERMISSION_DELETE_SOURCE')" />
-    <sec:intercept-url pattern="/phylo/*" method="DELETE" access="hasRole('PERMISSION_DELETE_PHYLOGENY')" />
     <sec:intercept-url pattern="/resource" method="POST" access="hasRole('PERMISSION_CREATE_RESOURCE')" />
     <sec:intercept-url pattern="/resource/*" method="DELETE" access="hasRole('PERMISSION_DELETE_RESOURCE')" />
     <sec:intercept-url pattern="/comment" method="POST" access="isAuthenticated()" />
     <sec:intercept-url pattern="/comment/*" method="DELETE" access="hasRole('PERMISSION_DELETE_COMMENT')" />
     <sec:intercept-url pattern="/download" access="isAuthenticated()" />
-    <sec:intercept-url pattern="/download/phylo" access="isAuthenticated()" />
     <sec:form-login login-page='/login'	login-processing-url="/process_login" authentication-failure-url="/login?error=true" default-target-url="/home" />
     <sec:remember-me />
     <sec:access-denied-handler error-page="/accessDenied" />

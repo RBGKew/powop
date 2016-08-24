@@ -35,15 +35,9 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-/**
- * @author ben
- */
 @Repository
 public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 
-	/**
-	 *
-	 */
 	private static Map<String, Fetch[]> FETCH_PROFILES;
 
 	static {
@@ -51,8 +45,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 		FETCH_PROFILES.put("taxon-with-children", new Fetch[] {new Fetch(
 				"childNameUsages", FetchMode.SELECT)});
 		FETCH_PROFILES.put("classification-tree", new Fetch[] {
-				new Fetch("childNameUsages", FetchMode.SELECT),
-				new Fetch("keys", FetchMode.SELECT)});
+				new Fetch("childNameUsages", FetchMode.SELECT)});
 		FETCH_PROFILES.put("taxon-with-annotations", new Fetch[] {new Fetch(
 				"annotations", FetchMode.SELECT)});
 		FETCH_PROFILES.put("taxon-with-related", new Fetch[] {
@@ -78,6 +71,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 				new Fetch("distribution.references.authority", FetchMode.SELECT),
 				new Fetch("descriptions", FetchMode.SELECT),
 				new Fetch("descriptions.authority", FetchMode.SELECT),
+				new Fetch("descriptions.type", FetchMode.SELECT),
 				new Fetch("descriptions.references", FetchMode.SELECT),
 				new Fetch("descriptions.references.authority", FetchMode.SELECT),
 				new Fetch("images", FetchMode.SELECT),
@@ -95,8 +89,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 				new Fetch("measurementsOrFacts.authority", FetchMode.SELECT),
 				new Fetch("trees", FetchMode.SELECT),
 				new Fetch("trees.authority", FetchMode.SELECT),
-				new Fetch("phylogenies", FetchMode.SELECT),
-				new Fetch("phylogenies.authority", FetchMode.SELECT),
 				new Fetch("uri", FetchMode.SELECT),
 				new Fetch("typesAndSpecimens", FetchMode.SELECT),
 				new Fetch("typesAndSpecimens.authority", FetchMode.SELECT),
@@ -126,17 +118,10 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 	 */
 	private Rank rootRank;
 
-	/**
-	 * @param rank
-	 *            Set the root rank
-	 */
 	public final void setRootRank(final String rank) {
 		this.rootRank = Rank.valueOf(rank);
 	}
 
-	/**
-	 *
-	 */
 	public TaxonDaoImpl() {
 		super(Taxon.class);
 	}
@@ -146,12 +131,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 		return TaxonDaoImpl.FETCH_PROFILES.get(profile);
 	}
 
-	/**
-	 * @param t
-	 *            Set the taxon
-	 * @param fetch
-	 *            Set the fetch profile
-	 */
 	@Override
 	public final void enableProfilePostQuery(final Taxon t, final String fetch) {
 		if (fetch != null && t != null) {
@@ -220,8 +199,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 	 * @see org.emonocot.persistence.dao.SearchableDao#searchByExample(org.emonocot.model.Base, boolean, boolean)
 	 */
 	@Override
-	public Page<Taxon> searchByExample(Taxon example, boolean ignoreCase,
-			boolean useLike) {
+	public Page<Taxon> searchByExample(Taxon example, boolean ignoreCase, boolean useLike) {
 		Example criterion = Example.create(example);
 		if(ignoreCase) {
 			criterion.ignoreCase();

@@ -7,7 +7,6 @@
     <mapping package="org.emonocot.model.common"/>
     <mapping class="org.emonocot.model.identifier.Identifier"/>
     <mapping class="org.emonocot.model.job.Job"/>
-    <mapping class="org.emonocot.model.key.IdentificationKey"/>
     <mapping class="org.emonocot.model.source.Source"/>
     <mapping class="org.emonocot.model.common.Annotation"/>
     <mapping class="org.emonocot.model.description.Distribution"/>

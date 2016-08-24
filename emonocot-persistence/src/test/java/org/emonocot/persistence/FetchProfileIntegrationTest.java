@@ -35,45 +35,27 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 
-/**
- *
- * @author ben
- *
- */
-
 public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 
-	/**
-	 * @throws java.lang.Exception if there is a problem
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		super.doSetUp();
 	}
 
-	/**
-	 * @throws java.lang.Exception if there is a problem
-	 */
 	@After
 	public final void tearDown() throws Exception {
 		super.doTearDown();
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public final void setUpTestData() {
 		Organisation organisation = createSource("testOrg1", "http://example.org", "Test Organisation", "test@example.com");
-		Reference reference = createReference(
-				"urn:lsid:example.com:reference:1", "Test title",
-				"Test author");
+		Reference reference = createReference("urn:lsid:example.com:reference:1", "Test title", "Test author");
 
 		Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,
 				null, null, null, null, null, null, null,
 				organisation, new Location[] {}, null);
-		createDescription(taxon1, DescriptionType.associations, "Lorem ipsum",
-				reference);
+		createDescription(taxon1, DescriptionType.associations, "Lorem ipsum", reference);
 		Taxon taxon2 = createTaxon("Aus bus", "urn:lsid:example.com:taxon:2",
 				taxon1, null, null, null, null, null, null, null,
 				null, new Location[] {Location.AUSTRALASIA,
@@ -92,17 +74,11 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 		createComment("testComment1", "This is a comment", taxon1, user);
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void testFetchProfile() {
-		Taxon taxon = getTaxonDao().load("urn:lsid:example.com:taxon:1",
-				"taxon-page");
-		assertTrue("Images should be initialized",
-				Hibernate.isInitialized(taxon.getImages()));
-		assertTrue("Content should be initialized",
-				Hibernate.isInitialized(taxon.getDescriptions()));
+		Taxon taxon = getTaxonDao().load("urn:lsid:example.com:taxon:1", "taxon-page");
+		assertTrue("Images should be initialized", Hibernate.isInitialized(taxon.getImages()));
+		assertTrue("Content should be initialized", Hibernate.isInitialized(taxon.getDescriptions()));
 		Description description = null;
 		for(Description d : taxon.getDescriptions()) {
 			if(d.getType().equals(DescriptionType.associations)) {
@@ -112,21 +88,14 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 		}
 
 		assertNotNull("Description should not be null", description);
-		assertTrue("References should be initialized",
-				Hibernate.isInitialized(description.getReferences()));
+		assertTrue("References should be initialized", Hibernate.isInitialized(description.getReferences()));
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void testSearchableObjectFetchProfile() {
-		Image image = (Image) getSearchableObjectDao().load("image1",
-				"taxon-with-image");
-		assertTrue("Taxon should be initialized",
-				Hibernate.isInitialized(image.getTaxon()));
-		Taxon taxon = (Taxon) getSearchableObjectDao().load(
-				"urn:lsid:example.com:taxon:5", "taxon-with-image");
+		Image image = (Image) getSearchableObjectDao().load("image1", "taxon-with-image");
+		assertTrue("Taxon should be initialized", Hibernate.isInitialized(image.getTaxon()));
+		Taxon taxon = (Taxon) getSearchableObjectDao().load("urn:lsid:example.com:taxon:5", "taxon-with-image");
 	}
 
 	@Test
@@ -139,7 +108,8 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 			authority = BeanUtils.getProperty(c.getAboutData(), "authority");
 			organisation = BeanUtils.getProperty(c.getAboutData(), "organisation");
 		} catch (Exception e) {}
-		assertTrue("Their should be an Organisation that is initialized", (authority != null && Hibernate.isInitialized(authority))
-				|| (organisation != null && Hibernate.isInitialized(organisation)));
+			assertTrue("Their should be an Organisation that is initialized", 
+					(authority != null && Hibernate.isInitialized(authority))
+					|| (organisation != null && Hibernate.isInitialized(organisation)));
 	}
 }

@@ -41,6 +41,7 @@ import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
 import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -243,6 +244,7 @@ public abstract class DataManagementSupport {
 
 		if (accepted != null) {
 			taxon.setAcceptedNameUsage(accepted);
+			taxon.setTaxonomicStatus(TaxonomicStatus.Accepted);
 			accepted.getSynonymNameUsages().add(taxon);
 		}
 

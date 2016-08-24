@@ -18,11 +18,9 @@ package org.emonocot.model.marshall.json;
 
 import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
-import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.OrganisationService;
-import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
@@ -32,11 +30,6 @@ import org.springframework.beans.factory.FactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- *
- * @author ben
- *
- */
 public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 	Logger logger = LoggerFactory.getLogger(CustomObjectMapperFactory.class);
 
@@ -55,10 +48,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 	private CustomObjectMapper objectMapper;
 
 	private JobInstanceService jobInstanceService;
-
-	private IdentificationKeyService identificationKeyService;
-
-	private PhylogeneticTreeService phylogeneticTreeService;
 
 	private ConceptService conceptService;
 
@@ -90,14 +79,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 		this.jobInstanceService = jobInstanceService;
 	}
 
-	public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
-		this.identificationKeyService = identificationKeyService;
-	}
-
-	public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
-		this.phylogeneticTreeService = phylogeneticTreeService;
-	}
-
 	public void setConceptService(ConceptService conceptService) {
 		this.conceptService = conceptService;
 	}
@@ -117,8 +98,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 			objectMapper.setGroupService(groupService);
 			objectMapper.setOrganisationService(organisationService);
 			objectMapper.setJobInstanceService(jobInstanceService);
-			objectMapper.setIdentificationKeyService(identificationKeyService);
-			objectMapper.setPhylogeneticTreeService(phylogeneticTreeService);
 			objectMapper.setConceptService(conceptService);
 			objectMapper.init();
 		}

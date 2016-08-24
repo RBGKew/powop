@@ -28,6 +28,7 @@ import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.collection.PersistentCollection;
@@ -35,9 +36,11 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateObjectRetrievalFailureException;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -46,8 +49,13 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  * @param <T>
  *            the type of object managed by this dao
  */
-public abstract class DaoImpl<T extends Base> extends HibernateDaoSupport
-implements Dao<T> {
+@Transactional
+public abstract class DaoImpl<T extends Base> implements Dao<T> {
+
+	private final Logger logger = LoggerFactory.getLogger(DaoImpl.class);
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	/**
 	 *
@@ -65,8 +73,7 @@ implements Dao<T> {
 	 *            Set the name of the fetch profile
 	 * @return true if the criteria have been set, false otherwise
 	 */
-	protected boolean enableProfilePreQuery(final Criteria criteria,
-			final String fetch) {
+	protected boolean enableProfilePreQuery(final Criteria criteria, final String fetch) {
 		boolean setCriteria = false;
 		if (fetch != null) {
 			for (Fetch f : getProfile(fetch)) {
@@ -164,29 +171,14 @@ implements Dao<T> {
 		}
 	}
 
-	/**
-	 *
-	 */
 	protected Class<T> type;
 
-	/**
-	 *
-	 * @param newType
-	 *            Set the type of object handled by this DAO
-	 */
 	public DaoImpl(final Class<T> newType) {
 		this.type = newType;
 	}
 
-	/**
-	 *
-	 * @param sessionFactory
-	 *            Set the session factory
-	 */
-	@Autowired
-	public final void setHibernateSessionFactory(
-			final SessionFactory sessionFactory) {
-		this.setSessionFactory(sessionFactory);
+	protected Session getSession() {
+		return sessionFactory.getCurrentSession();
 	}
 
 	/**

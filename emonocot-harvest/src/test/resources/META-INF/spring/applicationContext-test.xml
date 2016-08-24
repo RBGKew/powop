@@ -49,8 +49,6 @@
         <bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
         <bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
         <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
-        <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
-        <bean class="org.emonocot.model.convert.MultimediaToIdentificationKeyConverter" />
       </list>
     </property>
   </bean>
@@ -130,44 +128,11 @@
   
   <bean name="dataSource"
     class="org.apache.commons.dbcp.BasicDataSource">
-    <property name="url" value="jdbc:mysql://127.0.0.1:23306/emonocot" />
+    <property name="url" value="jdbc:mysql://127.0.0.1:13306/emonocot" />
     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     <property name="username" value="emonocot" />
     <property name="password" value="emonocot" />
-    <property name="initialSize" value="8" />
-      <property name="maxActive" value="200" />
-      <property name="maxIdle" value="100" />
-      <property name="minIdle" value="1" />
-      <property name="maxWait" value="10000" />
-      <property name="removeAbandoned" value="true" />
-      <property name="removeAbandonedTimeout" value="30" />
-      <property name="logAbandoned" value="true" />
-      <property name="defaultAutoCommit" value="true" />
-      <property name="defaultReadOnly" value="false" />
-      <property name="validationQuery" value="SELECT 1" />
-      <property name="timeBetweenEvictionRunsMillis" value="60000" />
-      <property name="minEvictableIdleTimeMillis" value="30000" />
-      <property name="numTestsPerEvictionRun" value="3" />
-      <property name="testWhileIdle" value="true" />
-      <property name="testOnReturn" value="true" />
-      <property name="testOnBorrow" value="true" />
-      <property name="defaultTransactionIsolation" value="2" />
   </bean>
-
-  <!--<bean name="dataSource"
-    class="org.emonocot.persistence.spatial.GeoDBTestDataSourceFactory">
-    <property name="testDatabaseName" value="emonocot" />
-    <property name="url" value="jdbc:mysql://localhost:23306/emonocot" />
-    <property name="username" value="emonocot" />
-    <property name="password" value="emonocot" />
-    <property name="schemaLocations">
-      <list>
-        <value>classpath:/testdb_sql.sql</value>
-      </list>
-    </property>
-    <property name="testDataLocation" value="classpath:/META-INF/database/test_data.sql"/>
-  </bean>-->
-
 
   <bean id="sessionFactory"
     class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -182,14 +147,12 @@
     <property name="annotatedClasses">
       <list>
         <value>org.emonocot.model.Identifier</value>
-        <value>org.emonocot.model.IdentificationKey</value>
         <value>org.emonocot.model.Identification</value>
         <value>org.emonocot.model.Annotation</value>
         <value>org.emonocot.model.Distribution</value>
         <value>org.emonocot.model.Description</value>
         <value>org.emonocot.model.Image</value>
         <value>org.emonocot.model.MeasurementOrFact</value>
-        <value>org.emonocot.model.PhylogeneticTree</value>
         <value>org.emonocot.model.Reference</value>
         <value>org.emonocot.model.Taxon</value>
         <value>org.emonocot.model.TypeAndSpecimen</value>
@@ -215,9 +178,8 @@
     <property name="solrServer" ref="solrServer"/>
   </bean>
 
-  <bean id="solrServer" class="org.emonocot.test.EmbeddedSolrServerFactoryBean"
-    destroy-method="shutdown">
-    <property name="solrHome" value="classpath:/META-INF/solr/"/>
+  <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+    <constructor-arg value="http://127.0.0.1:18983/solr/${solr.core}"/>
   </bean>
 
   <bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">

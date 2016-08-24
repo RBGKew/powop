@@ -109,8 +109,6 @@ ItemReadListener<Base>, ItemWriteListener<Base> {
 			return RecordType.VernacularName;
 		case "processTypeAndSpecimenFile":
 			return RecordType.TypeAndSpecimen;
-		case "processKeyFile":
-			return RecordType.IdentificationKey;
 		default:
 			return null;
 		}

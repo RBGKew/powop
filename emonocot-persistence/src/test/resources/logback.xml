@@ -8,15 +8,15 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
-  <!-- uncommment to see the debug statements-->
-  <!--<logger name="org.emonocot.persistence" level="DEBUG" additivity="false">
+  <!-- uncommment to see the debug statements -->
+  <logger name="org.emonocot.persistence" level="DEBUG" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>-->
-  <!-- uncommment to see the sql statements-->
-  <!-- <logger name="org.hibernate.SQL" level="TRACE" additivity="false">
+  </logger>
+  <!-- uncommment to see the sql statements
+  <logger name="org.hibernate.SQL" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>-->
-  <!--<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" additivity="false">
+  </logger> 
+  <logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" additivity="false">
     <appender-ref ref="stdout"/>
-  </logger>-->
+  </logger> -->
 </configuration>

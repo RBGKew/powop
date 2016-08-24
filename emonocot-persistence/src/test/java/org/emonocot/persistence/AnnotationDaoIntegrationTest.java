@@ -47,42 +47,26 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 
-/**
- *
- * @author ben
- *
- */
-
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
 
 	private static Logger logger = LoggerFactory.getLogger(AnnotationDaoIntegrationTest.class);
 
-	/**
-	 *
-	 */
 	@Autowired
 	private AnnotationDao annotationDao;
 
-	/**
-	 * @throws java.lang.Exception if there is a problem
-	 */
 	@Before
 	public final void setUp() throws Exception {
+		logger.info("AnnotationDaoIntegrationTest: Setting Up");
 		super.doSetUp();
 	}
 
-	/**
-	 * @throws java.lang.Exception if there is a problem
-	 */
 	@After
 	public final void tearDown() throws Exception {
+		logger.info("AnnotationDaoIntegrationTest: Tearing Down");
 		super.doTearDown();
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public final void setUpTestData() {
 		Organisation wcs = createSource("WCS", "http://apps.kew.org/wcsTaxonExtractor", "World Checklist", "test@example.com");
@@ -117,9 +101,6 @@ public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
 		taxon1.getAnnotations().add(annotation5);
 	}
 
-	/**
-	 *
-	*/
 	@Test
 	public final void testGetJobExecutions() throws Exception {
 		assertNotNull(annotationDao);

@@ -16,20 +16,10 @@
  */
 package org.emonocot.service.impl;
 
-import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.emonocot.api.AnnotationService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.OrganisationService;
@@ -63,15 +53,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- *
- * @author ben
- *
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
 public class FacetingIntegrationTest extends DataManagementSupport {
 	private static Logger logger = LoggerFactory.getLogger(FacetingIntegrationTest.class);
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -93,13 +79,8 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 	@Autowired
 	private SearchableObjectService searchableObjectService;
 
-	private User user;
-
 	private UsernamePasswordAuthenticationToken token;
 
-	/**
-	 * @throws java.lang.Exception if there is a problem
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		setUpTestData();
@@ -123,14 +104,10 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 		SecurityContextHolder.clearContext();
 	}
 
-	/**
-	 * @throws java.lang.Exception if there is a problem
-	 */
 	@After
 	public final void tearDown() throws Exception {
 		setSetUp(new ArrayList<Object>());
-		token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org",
-				"sPePhAz6");
+		token = new UsernamePasswordAuthenticationToken("admin@e-monocot.org", "sPePhAz6");
 		Authentication authentication = authenticationManager.authenticate(token);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		while (!getTearDown().isEmpty()) {
@@ -150,9 +127,6 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 		SecurityContextHolder.clearContext();
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public final void setUpTestData() {
 		Organisation source1 = createSource("test", "http://example.com", "Test Organisation", "test@example.com");
@@ -163,7 +137,7 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 		Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Ausaceae",
 				null, null, "(1775)", Rank.SPECIES, TaxonomicStatus.Accepted,
 				source1, new Location[] {Location.AUSTRALASIA,
-				Location.BRAZIL, Location.CARIBBEAN }, new Organisation[] {source1,source2});
+						Location.BRAZIL, Location.CARIBBEAN }, new Organisation[] {source1,source2});
 		Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Ausaceae",
 				null, null, "(1805)", Rank.SPECIES, TaxonomicStatus.Accepted,
 				source1, new Location[] {Location.NEW_ZEALAND }, new Organisation[] {source1,source2});
@@ -177,9 +151,6 @@ public class FacetingIntegrationTest extends DataManagementSupport {
 
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void testSearch() throws Exception {
 		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();

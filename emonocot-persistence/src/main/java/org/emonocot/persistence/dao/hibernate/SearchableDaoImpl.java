@@ -42,17 +42,13 @@ import org.emonocot.pager.Level;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.hibernate.ObjectNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T> implements SearchableDao<T> {
 
-/**
- *
- * @author ben
- *
- * @param <T>
- */
-public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T>
-implements SearchableDao<T> {
+	private final Logger logger = LoggerFactory.getLogger(SearchableDaoImpl.class);
 
 	private SolrClient solrClient = null;
 

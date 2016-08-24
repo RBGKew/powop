@@ -71,8 +71,6 @@
         <bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
         <bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
         <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
-        <bean class="org.emonocot.model.convert.MultimediaToPhylogeneticTreeConverter" />
-        <bean class="org.emonocot.model.convert.MultimediaToIdentificationKeyConverter" />
         <!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource
           resolution -->
         <bean class="org.emonocot.model.convert.FileConverter" />
@@ -105,11 +103,9 @@
         <value>org.emonocot.model.Description</value>
         <value>org.emonocot.model.Distribution</value>
         <value>org.emonocot.model.Identification</value>
-        <value>org.emonocot.model.IdentificationKey</value>
         <value>org.emonocot.model.Identifier</value>
         <value>org.emonocot.model.Image</value>
         <value>org.emonocot.model.MeasurementOrFact</value>
-        <value>org.emonocot.model.PhylogeneticTree</value>
         <value>org.emonocot.model.Place</value>
         <value>org.emonocot.model.Reference</value>
         <value>org.emonocot.model.Taxon</value>

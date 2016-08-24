@@ -2,12 +2,16 @@ sudo: required
 language: java
 jdk:
   - oraclejdk7
+git:
+  depth: 1
 before_install:
   - echo "MAVEN_OPTS='-Xmx2g -XX:MaxPermSize=512m'" > ~/.mavenrc
 install: mvn install -DskipTests=true -B -V -q
+before_script:
+  - docker-compose -p test up -d solr db
 script:
-  - mvn test -Punit -q
-  - mvn verify -Pintegration -q
+  - mvn test -Punit -q -DskipDockerBuild -DskipDockerTag
+  - mvn verify -Pintegration -q -DskipDockerBuild -DskipDockerTag
 services:
   - docker
 cache:

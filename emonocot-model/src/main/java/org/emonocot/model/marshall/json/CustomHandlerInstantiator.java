@@ -18,10 +18,8 @@ package org.emonocot.model.marshall.json;
 
 import org.emonocot.api.ConceptService;
 import org.emonocot.api.GroupService;
-import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.OrganisationService;
-import org.emonocot.api.PhylogeneticTreeService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
@@ -40,11 +38,6 @@ import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
 
 
-/**
- *
- * @author ben
- *
- */
 public class CustomHandlerInstantiator extends HandlerInstantiator {
 
 	Logger logger = LoggerFactory.getLogger(CustomHandlerInstantiator.class);
@@ -60,10 +53,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 	private GroupService groupService;
 
 	private OrganisationService organisationService;
-
-	private IdentificationKeyService identificationKeyService;
-
-	private PhylogeneticTreeService phylogeneticTreeService;
 
 	private ConceptService conceptService;
 
@@ -89,14 +78,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 
 	public void setOrganisationService(OrganisationService organisationService) {
 		this.organisationService = organisationService;
-	}
-
-	public void setIdentificationKeyService(IdentificationKeyService identificationKeyService) {
-		this.identificationKeyService = identificationKeyService;
-	}
-
-	public void setPhylogeneticTreeService(PhylogeneticTreeService phylogeneticTreeService) {
-		this.phylogeneticTreeService = phylogeneticTreeService;
 	}
 
 	public void setConceptService(ConceptService conceptService) {
@@ -149,18 +130,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 				= OrganisationDeserialiser.class.newInstance();
 				sourceDeserializer.setService(organisationService);
 				return sourceDeserializer;
-			}   else if (jsonDeserializerClass
-					.equals(IdentificationKeyDeserializer.class)) {
-				IdentificationKeyDeserializer identificationKeyDeserializer
-				= IdentificationKeyDeserializer.class.newInstance();
-				identificationKeyDeserializer.setService(identificationKeyService);
-				return identificationKeyDeserializer;
-			} else if (jsonDeserializerClass
-					.equals(PhylogeneticTreeDeserializer.class)) {
-				PhylogeneticTreeDeserializer phylogeneticTreeDeserializer
-				= PhylogeneticTreeDeserializer.class.newInstance();
-				phylogeneticTreeDeserializer.setService(phylogeneticTreeService);
-				return phylogeneticTreeDeserializer;
 			} else if (jsonDeserializerClass
 					.equals(ConceptDeserializer.class)) {
 				ConceptDeserializer conceptDeserializer

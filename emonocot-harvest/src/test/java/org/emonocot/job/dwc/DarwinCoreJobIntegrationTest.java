@@ -26,10 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.emonocot.api.IdentificationKeyService;
 import org.emonocot.api.ImageService;
-import org.emonocot.api.PhylogeneticTreeService;
-import org.emonocot.model.IdentificationKey;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -87,12 +84,6 @@ public class DarwinCoreJobIntegrationTest {
 	@Autowired
 	private ImageService imageService;
 
-	@Autowired
-	private IdentificationKeyService identificationKeyService;
-
-	@Autowired
-	private PhylogeneticTreeService phylogeneticTreeService;
-
 	private Properties properties;
 
 	/**
@@ -106,15 +97,9 @@ public class DarwinCoreJobIntegrationTest {
 	 */
 	@Before
 	public final void setUp() throws IOException {
-		File imageDirectory = new File("./target/images/fullsize");
-		imageDirectory.mkdirs();
-		imageDirectory.deleteOnExit();
 		File spoolDirectory = new File("./target/spool");
 		spoolDirectory.mkdirs();
 		spoolDirectory.deleteOnExit();
-		File thumbnailDirectory = new File("./target/images/thumbnails");
-		thumbnailDirectory.mkdirs();
-		thumbnailDirectory.deleteOnExit();
 		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
 		properties = new Properties();
 		properties.load(propertiesFile.getInputStream());
@@ -161,8 +146,6 @@ public class DarwinCoreJobIntegrationTest {
 		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/dwc.zip"));
 		parameters.put("authority.last.harvested", new JobParameter(Long.toString((DarwinCoreJobIntegrationTest.PAST_DATETIME.getMillis()))));
 		parameters.put("resource.id", new JobParameter("134"));
-		parameters.put("phylogeny.processing.mode", new JobParameter("IMPORT_PHYLOGENIES"));
-		parameters.put("key.processing.mode", new JobParameter("IMPORT_KEYS"));
 		JobParameters jobParameters = new JobParameters(parameters);
 
 		Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
@@ -176,14 +159,5 @@ public class DarwinCoreJobIntegrationTest {
 					+ stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
 		}
 		logger.info(jobExecution.getExitStatus().getExitCode() + " | " + jobExecution.getExitStatus().getExitDescription());
-
-		assertNotNull("The image in the image file should have been persisted", imageService.load("http://media.e-taxonomy.eu/palmae/photos/palm_tc_170762_1.jpg"));
-		assertNotNull("The phylogeny in the multimedia file should have been persisted", phylogeneticTreeService.load(mockHttpUrl + "/1_1326150157_Strelitziaceae_Cron.nexorg"));
-
-		IdentificationKey localKey = null;
-		try {
-			localKey = identificationKeyService.load(mockHttpUrl + "/European_Pontederiaceae.xml");
-		} catch (Exception e) {}//Prefer test failure than a test error
-		assertNotNull("The key in the image file should have been persisted but was :" + localKey, localKey);
 	}
 }

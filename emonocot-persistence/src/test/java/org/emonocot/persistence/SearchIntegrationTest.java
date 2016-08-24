@@ -88,7 +88,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	}
 
 	@Test
-	public final void testFacetsReturned() throws SolrServerException, IOException{
+	public final void testFacetsReturned() throws SolrServerException, IOException {
 		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();
 		Page<SearchableObject> results = getSearchableObjectDao().search(query, null);
 		Map<String, Integer> facetNames = results.getFacetQuerys();
@@ -174,7 +174,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	 */
 	@Test
 	public final void testAutocomplete() throws Exception {
-		SolrQuery query = new AutoCompleteBuilder().setQuery("Aus bu").pageSize(10).addSuggester("scientific-name").build();
+		SolrQuery query = new AutoCompleteBuilder().setQuery("Africa").pageSize(10).addSuggester("location").build();
 		SuggesterResponse matched = getSearchableObjectDao().autocomplete(query);
 	}
 }

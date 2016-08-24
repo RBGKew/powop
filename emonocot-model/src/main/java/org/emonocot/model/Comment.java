@@ -340,10 +340,6 @@ public class Comment extends Base implements Searchable {
 				.append(taxon.getSubtribe()).append(" ").append(taxon.getTaxonomicStatus()).append(" ")
 				.append(taxon.getTribe());
 				sid.addField("taxon.family_ss", taxon.getFamily());
-			} else if(getCommentPage() instanceof IdentificationKey) {
-				sid.addField("comment.comment_page_class_s","org.emonocot.model.IdentificationKey");
-				IdentificationKey identificationKey = (IdentificationKey)getCommentPage();
-				summary.append(" ").append(identificationKey.getTitle());
 			} else if(getCommentPage() instanceof Image) {
 				Image image = (Image)getCommentPage();
 				summary.append(" ").append(image.getTitle());

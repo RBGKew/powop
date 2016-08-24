@@ -146,14 +146,6 @@ public class Taxon extends SearchableObject {
 
 	private List<Image> images = new ArrayList<Image>();
 
-	private Set<IdentificationKey> keys = new HashSet<IdentificationKey>();
-
-	// The Phylogenies I am the root taxon of
-	private Set<PhylogeneticTree> trees = new HashSet<PhylogeneticTree>();
-
-	// The Phylogenies I appear in
-	private Set<PhylogeneticTree> phylogenies = new HashSet<PhylogeneticTree>();
-
 	private Set<Reference> references = new HashSet<Reference>();
 
 	private Set<Description> descriptions = new HashSet<Description>();
@@ -792,15 +784,6 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
-	 * @return the keys
-	 */
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonIgnore
-	public Set<IdentificationKey> getKeys() {
-		return keys;
-	}
-
-	/**
 	 * @return the source
 	 */
 	@Size(max = 255)
@@ -899,15 +882,6 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
-	 * @param keys
-	 *            the keys to set
-	 */
-	@JsonIgnore
-	public void setKeys(Set<IdentificationKey> keys) {
-		this.keys = keys;
-	}
-
-	/**
 	 * @return a list of types and specimens
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
@@ -983,28 +957,6 @@ public class Taxon extends SearchableObject {
 	@JsonIgnore
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonIgnore
-	public Set<PhylogeneticTree> getTrees() {
-		return trees;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "leaves")
-	@JsonIgnore
-	public Set<PhylogeneticTree> getPhylogenies() {
-		return phylogenies;
-	}
-
-	@JsonIgnore
-	public void setPhylogenies(Set<PhylogeneticTree> phylogenies) {
-		this.phylogenies = phylogenies;
-	}
-
-	@JsonIgnore
-	public void setTrees(Set<PhylogeneticTree> trees) {
-		this.trees = trees;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")

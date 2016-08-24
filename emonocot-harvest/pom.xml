@@ -282,10 +282,6 @@
       <artifactId>antisamy</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.forester</groupId>
-      <artifactId>forester</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
     </dependency>

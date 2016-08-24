@@ -28,11 +28,9 @@ import org.emonocot.model.BaseData;
 import org.emonocot.model.Concept;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
-import org.emonocot.model.IdentificationKey;
 import org.emonocot.model.Identifier;
 import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
-import org.emonocot.model.PhylogeneticTree;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.VernacularName;
@@ -80,27 +78,12 @@ public class ProvenanceManagerImpl implements ProvenanceManager {
 			for (MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
 				addProvenance(measurementOrFact);
 			}
-			for (IdentificationKey key : taxon.getKeys()) {
-				addProvenance(key);
-			}
-			for (PhylogeneticTree tree : taxon.getTrees()) {
-				addProvenance(tree);
-			}
-			for (PhylogeneticTree tree : taxon.getPhylogenies()) {
-				addProvenance(tree);
-			}
 		} else if(baseData instanceof Image) {
 			Image image = (Image)baseData;
 			addProvenance(image);
-		} else if(baseData instanceof IdentificationKey) {
-			IdentificationKey key = (IdentificationKey)baseData;
-			addProvenance(key);
 		} else if(baseData instanceof Concept) {
 			Concept concept = (Concept)baseData;
 			addProvenance(concept);
-		} else if(baseData instanceof PhylogeneticTree) {
-			PhylogeneticTree tree = (PhylogeneticTree)baseData;
-			addProvenance(tree);
 		}
 
 		for(Organisation organisation : organisations) {

@@ -399,17 +399,6 @@
 				<version>${lucene.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.solr</groupId>
-				<artifactId>solr-core</artifactId>
-				<version>${lucene.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>slf4j-jdk14</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-core</artifactId>
 				<version>${lucene.version}</version>
@@ -417,6 +406,11 @@
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-queries</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-analyzers-common</artifactId>
 				<version>${lucene.version}</version>
 			</dependency>
 			<dependency>
@@ -691,12 +685,6 @@
 				<groupId>org.codehaus.groovy.modules.http-builder</groupId>
 				<artifactId>http-builder</artifactId>
 				<version>0.5.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.jayway.restassured</groupId>
-				<artifactId>rest-assured</artifactId>
-				<version>1.6.2</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -1038,12 +1026,6 @@
 				<version>1.9.18</version>
 			</dependency>
 			<dependency>
-				<!--groupId>com.google.code.forester</groupId-->
-				<groupId>org.forester</groupId>
-				<artifactId>forester</artifactId>
-				<version>1029</version>
-			</dependency>
-			<dependency>
 				<groupId>org.restdoc</groupId>
 				<artifactId>restdoc-api</artifactId>
 				<version>1.2.0</version>
@@ -1067,11 +1049,13 @@
 				<groupId>com.github.tomakehurst</groupId>
 				<artifactId>wiremock</artifactId>
 				<version>1.57</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.mojo</groupId>
@@ -1082,6 +1066,7 @@
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.11</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.github.jknack</groupId>
@@ -1097,6 +1082,7 @@
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.0</version>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -1116,49 +1102,6 @@
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>1.2.1</version>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-					<executions>
-						<execution>
-							<id>build_test_db</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>/bin/sh</executable>
-								<commandlineArgs>../src/test/resources/start-powop-unit-test-db.sh -c ${test.container} -u emonocot -p emonocot -P ${test.db.port} -d emonocot   -v ${test.db.conf} </commandlineArgs>
-							</configuration>
-						</execution>
-						<execution>
-							<id>stop_test_db</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>/usr/bin/docker</executable>
-								<commandlineArgs>stop powop-unit-test-db</commandlineArgs>
-							</configuration>
-						</execution>
-						<execution>
-							<id>destroy_test_db</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-							<configuration>
-								<executable>/usr/bin/docker</executable>
-								<commandlineArgs>rm powop-unit-test-db</commandlineArgs>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>sql-maven-plugin</artifactId>
 					<version>1.5</version>
 					<dependencies>
@@ -1170,7 +1113,7 @@
 					</dependencies>
 					<configuration>
 						<driver>com.mysql.jdbc.Driver</driver>
-						<url>jdbc:mysql://127.0.0.1:23306/emonocot</url>
+						<url>jdbc:mysql://127.0.0.1:13306/emonocot</url>
 						<username>emonocot</username>
 						<password>emonocot</password>
 					</configuration>
@@ -1218,6 +1161,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 			<plugin>
 		     <groupId>org.codehaus.mojo</groupId>
 		     <artifactId>exec-maven-plugin</artifactId>

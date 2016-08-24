@@ -1,6 +1,0 @@
-[mysqld]
-lower_case_table_names=1
-character_set_server=utf8
-collation_server=utf8_general_ci
-default-storage-engine=myisam
-max_allowed_packet=32M

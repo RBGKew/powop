@@ -36,8 +36,6 @@
 			@org.hibernate.annotations.MetaValue(targetEntity = Image.class, value = "Image"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Reference.class, value = "Reference"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Organisation.class, value = "Organisation"),
-			@org.hibernate.annotations.MetaValue(targetEntity = IdentificationKey.class, value = "IdentificationKey"),
-			@org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Concept.class, value = "Concept")
 	}),
 	@org.hibernate.annotations.AnyMetaDef(name = "CommentMetaDef", idType = "long", metaType = "string", metaValues = {
@@ -45,7 +43,6 @@
 			@org.hibernate.annotations.MetaValue(targetEntity = Description.class, value = "Description"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Distribution.class, value = "Distribution"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Identifier.class, value = "Identifier"),
-			@org.hibernate.annotations.MetaValue(targetEntity = IdentificationKey.class, value = "IdentificationKey"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Image.class, value = "Image"),
 			@org.hibernate.annotations.MetaValue(targetEntity = MeasurementOrFact.class, value = "MeasurementOrFact"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Organisation.class, value = "Organisation"),
@@ -54,7 +51,6 @@
 			@org.hibernate.annotations.MetaValue(targetEntity = Taxon.class, value = "Taxon"),
 			@org.hibernate.annotations.MetaValue(targetEntity = TypeAndSpecimen.class, value = "TypeAndSpecimen"),
 			@org.hibernate.annotations.MetaValue(targetEntity = VernacularName.class, value = "VernacularName"),
-			@org.hibernate.annotations.MetaValue(targetEntity = PhylogeneticTree.class, value = "PhylogeneticTree"),
 			@org.hibernate.annotations.MetaValue(targetEntity = Concept.class, value = "Concept")
 	})
 })
