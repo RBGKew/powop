@@ -1,0 +1,49 @@
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#search-bar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Search Results</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="search-bar">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#">All Results ({{facets.all_results}})</a>
+          </li>
+          <li>
+            <a href="#">Accepted names ({{facets.accepted_names}})</a>
+          </li>
+          <li>
+            <a href="#">With images ({{facets.has_images}})</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li>
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" class="btn btn-default navbar-btn js-show-grid">
+                <span class="glyphicon glyphicon-th" aria-hidden="true">
+              </button>
+              <button type="button" class="btn btn-default navbar-btn js-show-list">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true">
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+

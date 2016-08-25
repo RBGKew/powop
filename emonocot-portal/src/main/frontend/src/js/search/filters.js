@@ -52,9 +52,7 @@ define([
     for(key in filterMap){
       queryMap[key] = filterMap[key].join(" AND ");
     }
-    for(key in params){
-      paramMap[key] = params[key]
-    }
+    $.extend(queryMap, paramMap);
      return($.param(queryMap));
   };
 
@@ -89,14 +87,19 @@ define([
   }
 
   var setParam = function(key, value) {
-    params.set(key, value);
+    params = params.set(key, value);
     pubsub.publish('search.params.' + key, params.get(key));
+  }
+
+  var getParam = function(key) {
+    return params.get(key);
   }
 
   return {
     add: add,
     set: add,
     setParam: setParam,
+    getParam: getParam,
     remove: remove,
     toString: toString,
   };

@@ -55,8 +55,16 @@ define([
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
-  pubsub.subscribe('search.filters', function(_, selected){
+  pubsub.subscribe('search.filters', function(_, selected) {
     results.update(filters.toString());
+  });
+
+  pubsub.subscribe('search.params', function() {
+    results.updateItems(filters.toString());
+  });
+
+  pubsub.subscribe('autocomplete.selected', function(_, selected) {
+    active().find('input.refine').val(selected);
   });
 
   $(document).ready(function() {
@@ -79,13 +87,6 @@ define([
     $('.c-search')
       .on('keypress', 'input.refine', handleKeypress)
       .on('change', '#names .c-select', updateSuggester);
-
-    //$('.c-results-outer')
-    //  .on('click', )
-  });
-
-  pubsub.subscribe('autocomplete.selected', function(_, selected) {
-    active().find('input.refine').val(selected);
   });
 
   return {
