@@ -174,43 +174,51 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	private void indexDistributions() {
-		TreeSet<String> locations = new TreeSet<>();
+		TreeSet<String> locationNames = new TreeSet<>();
+		TreeSet<String> locationCodes = new TreeSet<>();
 		//Distributions need splitting into all/native/introduced. Naming convention: 
 		//taxon.distribution_ss
 		//taxon.distribution_native_ss
 		//taxon.distribution_introduced_ss
 		for(Distribution d : taxon.getDistribution()) {
-			locations.add(d.getLocation().getCode());
-			indexChildLocations(locations, d.getLocation().getChildren());
-			indexParentLocations(locations, d.getLocation().getParent());
+			locationNames.add(d.getLocation().getName());
+			locationCodes.add(d.getLocation().getCode());
+
+			indexChildLocations(locationNames, locationCodes, d.getLocation().getChildren());
+			indexParentLocations(locationNames, locationCodes, d.getLocation().getParent());
 
 			if(d.getAuthority() != null) {
 				sources.add(d.getAuthority().getIdentifier());
 			}
 		}
 
-		for(String location : locations) {
-			sid.addField("taxon.distribution_ss", location);
+		for(String name : locationNames) {
+			sid.addField("taxon.distribution_ss", name);
+		}
+		for(String code : locationCodes) {
+			sid.addField("taxon.distribution_code_ss", code);
 		}
 	}
 
-	private void indexParentLocations(TreeSet<String> locations, Location parent) {
+	private void indexParentLocations(Set<String> names, Set<String> codes, Location parent) {
 		if(parent == null) {
 			return;
 		}
 
-		locations.add(parent.getCode());
-		indexParentLocations(locations, parent.getParent());
+		names.add(parent.getName());
+		codes.add(parent.getCode());
+		indexParentLocations(names, codes, parent.getParent());
 	}
 
-	private void indexChildLocations(Set<String> resultLocations, Set<Location> locations) {
+	private void indexChildLocations(Set<String> names, Set<String> codes, Set<Location> locations) {
 		if(locations == null) {
 			return;
 		}
 
 		for(Location location : locations) {
-			resultLocations.add(location.getCode());
-			indexChildLocations(resultLocations, location.getChildren());
+			names.add(location.getName());
+			codes.add(location.getCode());
+			indexChildLocations(names, codes, location.getChildren());
 		}
 	}
 

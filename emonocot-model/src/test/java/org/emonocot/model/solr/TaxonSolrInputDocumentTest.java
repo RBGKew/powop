@@ -173,9 +173,13 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level0)));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String expectedKey = "taxon.distribution_ss";
 
-		assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
+		for(String expectedKey : expectedKeys) {
+			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
+		}
+
 		// All subregions (level 1, 2, 3) should be indexed
 		Object[] expectedLocationCodes = {
 				"9", "90", "91",
@@ -193,7 +197,26 @@ public class TaxonSolrInputDocumentTest {
 				"TDC", "TDC-OO"
 		};
 
-		assertThat(doc.getFieldValues(expectedKey), contains(expectedLocationCodes));
+		Object[] expectedLocationNames = {
+				"Amsterdam-St.Paul Is.",
+				"Antarctic",
+				"Antarctic Continent",
+				"Antarctica",
+				"Bouvet I.",
+				"Crozet Is.",
+				"Falkland Is.",
+				"Heard-McDonald Is.",
+				"Kerguelen",
+				"Macquarie Is.",
+				"Marion-Prince Edward Is.",
+				"South Georgia",
+				"South Sandwich Is.",
+				"Subantarctic Islands",
+				"Tristan da Cunha"
+		};
+
+		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
+		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
 	}
 
 	@Test
@@ -205,9 +228,13 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level1)));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String expectedKey = "taxon.distribution_ss";
 
-		assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
+		for(String expectedKey : expectedKeys) {
+			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
+		}
+
 		// All subregions (level 2, 3) should be indexed, plus parent regions to level 0
 		Object[] expectedLocationCodes = {
 				"9", "90",
@@ -224,7 +251,24 @@ public class TaxonSolrInputDocumentTest {
 				"TDC", "TDC-OO"
 		};
 
-		assertThat(doc.getFieldValues(expectedKey), contains(expectedLocationCodes));
+		Object[] expectedLocationNames = {
+				"Amsterdam-St.Paul Is.",
+				"Antarctic",
+				"Bouvet I.",
+				"Crozet Is.",
+				"Falkland Is.",
+				"Heard-McDonald Is.",
+				"Kerguelen",
+				"Macquarie Is.",
+				"Marion-Prince Edward Is.",
+				"South Georgia",
+				"South Sandwich Is.",
+				"Subantarctic Islands",
+				"Tristan da Cunha"
+		};
+
+		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
+		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
 	}
 
 	@Test
@@ -236,16 +280,24 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level2)));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String expectedKey = "taxon.distribution_ss";
+		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
 
-		assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+		for(String expectedKey : expectedKeys) {
+			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+		}
+
 		// All subregions (level 3) should be indexed, plus parent regions to level 0
 		Object[] expectedLocationCodes = {
 				"9", "90",
 				"SSA", "SSA-OO",
 		};
 
-		assertThat(doc.getFieldValues(expectedKey), contains(expectedLocationCodes));
+		Object[] expectedLocationNames = {
+				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
+		};
+
+		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
+		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
 	}
 
 	@Test
@@ -257,16 +309,24 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level3)));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String expectedKey = "taxon.distribution_ss";
+		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
 
-		assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+		for(String expectedKey : expectedKeys) {
+			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
+			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
+		}
+
 		// All parent regions to level 0 should be indexed
 		Object[] expectedLocationCodes = {
 				"9", "90",
 				"SSA", "SSA-OO",
 		};
+		Object[] expectedLocationNames = {
+				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
+		};
 
-		assertThat(doc.getFieldValues(expectedKey), contains(expectedLocationCodes));
+		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
+		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
 	}
 
 	private Description buildDescription(String description, DescriptionType... types) {
@@ -294,7 +354,7 @@ public class TaxonSolrInputDocumentTest {
 		Set<Taxon> newSynonyms = new HashSet<Taxon>();
 		String acceptedName = test.rank + ": Orchidacae";
 		String synonymName = test.rank + ": Poaceae";
-		
+
 		BeanUtils.setProperty(accepted, test.rank.toString().toLowerCase(), acceptedName);
 		BeanUtils.setProperty(synonym, test.rank.toString().toLowerCase(), synonymName);
 		newSynonyms.add(synonym);
