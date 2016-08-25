@@ -56,7 +56,7 @@ define([
   }
 
   pubsub.subscribe('search.filters', function(_, selected){
-    results.update(filters.toQueryMap());
+    results.update(filters.toString());
   });
 
   $(document).ready(function() {

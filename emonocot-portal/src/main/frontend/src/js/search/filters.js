@@ -16,7 +16,7 @@ define([
 
   var add = function(key, value) {
     if(filters.has(key)) {
-      doRemove($('button.' + key));
+      doRemove($('button.' + className(key)));
     }
 
     if($.isArray(value)) {
@@ -27,6 +27,7 @@ define([
       addBreadcrumb(key, value)
     }
 
+    console.log('Added {' + key + ', ' + value + '}. Current Filters: ' + filters.toString());
     pubsub.publish('search.filters.' + key, filters.get(key));
   };
 
@@ -40,6 +41,7 @@ define([
        key = doRemove(removeFilters);
     }
 
+    console.log('Removed {' + key + '}. Current Filters: ' + filters.toString());
     pubsub.publish('search.filters.' + key, filters.get(key));
   };
 
@@ -56,9 +58,16 @@ define([
      return($.param(queryMap));
   };
 
+  function className(key) {
+    return key.toLowerCase().replace(' ', '-');
+  }
 
   function addBreadcrumb(key, value) {
-    $('.c-search__filters .btn-group').append(tmpl({searchTerm: key, searchValue: value}));
+    $('.c-search__filters .btn-group').append(tmpl({
+      searchTerm: key,
+      searchValue: value,
+      className: className(key)
+    }));
   }
 
   function doRemove(filter) {
@@ -83,7 +92,6 @@ define([
     params.set(key, value);
     pubsub.publish('search.params.' + key, params.get(key));
   }
-
 
   return {
     add: add,
