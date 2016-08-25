@@ -19,8 +19,9 @@ public class QueryBuilder {
 		query.set("defType","edismax");
 		query.set("qf", "searchable.label_sort searchable.solrsummary_t");
 		query.addFilterQuery("base.class_searchable_b:true");
-		query.addFacetQuery("taxon.images_not_empty_b:true");
-		query.addFacetQuery("taxon.taxonomic_status_s:Accepted");
+		query.addFacetQuery("{!ex=taxon.taxonomic_status_s key=has_images}taxon.images_not_empty_b:true");
+		query.addFacetQuery("{!ex=taxon.images_not_empty_b key=accepted_names}taxon.taxonomic_status_s:Accepted");
+		query.addFacetQuery("{!ex=taxon.taxonomic_status_s,taxon.images_not_empty_b key=all_results}*:*");
 		query.setHighlight(true);
 		query.setHighlightFragsize(100);
 		query.setHighlightRequireFieldMatch(true);
@@ -37,6 +38,8 @@ public class QueryBuilder {
 			.put("pageNumber", new pageNumberQuery())
 			.put("page.size", new pageSizeQuery())
 			.put("pageSize" , new pageSizeQuery())
+			.put("taxon.taxonomic_status_s", new tagFilterQuery())
+			.put("taxon.images_not_empty_b", new tagFilterQuery())
 			.put("base.class_searchable_b", new searchableFilterQuery())
 			.build();
 	

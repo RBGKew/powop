@@ -56,11 +56,12 @@ define([
   }
 
   pubsub.subscribe('search.filters', function(_, selected){
-    results.update(filters.toString());
+    results.update(filters.toQueryMap());
   });
 
   $(document).ready(function() {
 
+    results.update(filters.toString());
     // handle location hash with tabs
     if(location.hash.slice(1) != "") {
       $('.nav-tabs a[href="' + location.hash + '"]').tab('show');
@@ -78,6 +79,9 @@ define([
     $('.c-search')
       .on('keypress', 'input.refine', handleKeypress)
       .on('change', '#names .c-select', updateSuggester);
+
+    //$('.c-results-outer')
+    //  .on('click', )
   });
 
   pubsub.subscribe('autocomplete.selected', function(_, selected) {
@@ -87,6 +91,5 @@ define([
   return {
     add: function(key, value) { filters.add(key, value); },
     remove: function(key, value) { filters.remove(key); },
-    search: function(query) { return filters.toString(); },
   };
 });

@@ -1,5 +1,5 @@
 /**
- * Filters module: Keeps track of the state of applied search filters
+ * State module: Keeps track of the state of applied search filters
  *
  * Publishes events on 'search.filters' channel
  */
@@ -11,6 +11,8 @@ define([
   ], function($, pubsub, tmpl, Immutable) {
 
   var filters = Immutable.Map();
+
+  var params = Immutable.Map();
 
   var add = function(key, value) {
     if(filters.has(key)) {
@@ -42,12 +44,16 @@ define([
   };
 
   var toString = function() {
-    var paramMap = {};
+    var queryMap = {};
     var filterMap = filters.toObject();
+    var paramMap = params.toObject();
     for(key in filterMap){
-      paramMap[key] = filterMap[key].join(" AND ");
+      queryMap[key] = filterMap[key].join(" AND ");
     }
-     return($.param(paramMap));
+    for(key in params){
+      paramMap[key] = params[key]
+    }
+     return($.param(queryMap));
   };
 
 
@@ -59,7 +65,7 @@ define([
     var key = $(filter).data('term');
     var value = $(filter).data('value');
 
-    if($.isArray(filters.get(key))) {
+    if($.isArray(filters.get(key)) && filters.get(key).length > 1) {
       var updated = $.grep(filters.get(key), function(v) {
         return value != v;
       });
@@ -73,9 +79,16 @@ define([
     return key;
   }
 
+  var setParam = function(key, value) {
+    params.set(key, value);
+    pubsub.publish('search.params.' + key, params.get(key));
+  }
+
+
   return {
     add: add,
     set: add,
+    setParam: setParam,
     remove: remove,
     toString: toString,
   };

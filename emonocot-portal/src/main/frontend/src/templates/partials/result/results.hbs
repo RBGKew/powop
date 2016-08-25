@@ -15,13 +15,13 @@
       <div class="collapse navbar-collapse" id="search-bar">
         <ul class="nav navbar-nav">
           <li>
-            <a href="#">All Results ({{totalResults}})</a>
+            <a href="#">All Results ({{facets.all_results}})</a>
           </li>
           <li>
-            <a href="#">Accepted names ({{facets.[taxon.taxonomic_status_s:Accepted]}})</a>
+            <a href="#">Accepted names ({{facets.accepted_names}})</a>
           </li>
           <li>
-            <a href="#">With images ({{facets.[taxon.images_not_empty_b:true]}})</a>
+            <a href="#">With images ({{facets.has_images}})</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

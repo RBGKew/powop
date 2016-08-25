@@ -20,5 +20,6 @@ public class SolrFieldNameMappings {
 			.put("flowers", "taxon.description_flowers_t")
 			.put("location", "taxon.distribution_ss")
 			.put("uses", "taxon.description_uses_t")
+			.put("name", "taxon.scientific_name_t")
 			.build();
 }

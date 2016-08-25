@@ -8,11 +8,11 @@ require(['jquery', 'search', 'bootstrap'], function($, search){
 
     $('[data-toggle="popover"]').popover()
 
-    $(".js-show-list").on("click", function() {
+    $(".c-results-outer").on("click", ".js-show-list", function() {
       $(".grid").addClass("grid--rows").removeClass("grid--columns");
     });
 
-    $(".js-show-grid").on("click", function() {
+    $(".c-results-outer").on("click", ".js-show-grid", function() {
       $(".grid").addClass("grid--columns").removeClass("grid--rows");
     });
 
