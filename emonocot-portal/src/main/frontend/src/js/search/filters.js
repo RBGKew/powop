@@ -39,6 +39,8 @@ define([
       filters = filters.set(key, [value]);
       addBreadcrumb(key, value)
     }
+
+    params = params.remove('page.number');
   }
 
   function doRemove(filter) {
@@ -55,6 +57,7 @@ define([
       filters = filters.delete(key);
     }
 
+    params = params.remove('page.number');
     filter.remove();
     return key;
   }
