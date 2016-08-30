@@ -1,13 +1,13 @@
-define([
-  'jquery',
-  'bootstrap',
-  './autocomplete',
-  './events',
-  './filters',
-  './use-search',
-  'libs/pubsub',
-  './results'
-], function($, bootstrap, autocomplete, events, filters, checkboxes, pubsub, results) {
+define(function(require) {
+  var $ = require('jquery');
+  var bootstrap = require('bootstrap');
+  var pubsub = require('libs/pubsub');
+
+  var autocomplete = require('./autocomplete');
+  var events = require('./events');
+  var filters = require('./filters');
+  var checkboxes = require('./use-search');
+  var results = require('./results');
 
   function active() {
     return $('.c-search .tab-pane.active');
@@ -55,12 +55,18 @@ define([
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
-  pubsub.subscribe('search.filters', function(_, selected) {
-    results.update(filters.toString());
+  pubsub.subscribe('search.updated.filters', function() {
+    results.update(filters.toQuery());
   });
 
-  pubsub.subscribe('search.params', function() {
-    results.updateItems(filters.toString());
+  pubsub.subscribe('search.updated.params', function() {
+    results.updateItems(filters.toQuery());
+  });
+
+  pubsub.subscribe('search.updated', function(_, updateHistory) {
+    if(updateHistory) {
+      history.pushState(null, null, '/search?' + filters.serialize());
+    }
   });
 
   pubsub.subscribe('autocomplete.selected', function(_, selected) {
@@ -68,8 +74,10 @@ define([
   });
 
   $(document).ready(function() {
+    if(window.location.search.length > 1) {
+      filters.deserialize(window.location.search);
+    }
 
-    results.update(filters.toString());
     // handle location hash with tabs
     if(location.hash.slice(1) != "") {
       $('.nav-tabs a[href="' + location.hash + '"]').tab('show');

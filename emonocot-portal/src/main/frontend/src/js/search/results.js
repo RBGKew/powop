@@ -33,8 +33,12 @@ define(function(require) {
       itemsOnPage: results.perPage,
       pages: results.totalPages,
       listStyle: 'pagination',
+      hrefTextPrefix: '',
       currentPage: filters.getParam('page.number'),
-      onPageClick: function(page, e) { filters.setParam('page.number', page) }
+      onPageClick: function(page, e) {
+        filters.setParam('page.number', page);
+        e.preventDefault();
+      }
     });
   }
 
