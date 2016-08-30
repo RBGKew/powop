@@ -62,7 +62,7 @@ define([
   var add = function(key, value) {
     doAdd(key, value);
     console.log('Added {' + key + ', ' + value + '}. Current Filters: ' + filters.toString());
-    pubsub.publish('search.updated.filters.' + key, filters.get(key));
+    pubsub.publish('search.updated.filters.' + key, true);
   };
 
   var remove = function(removeFilters) {
@@ -76,7 +76,7 @@ define([
     }
 
     console.log('Removed {' + key + '}. Current Filters: ' + filters.toString());
-    pubsub.publish('search.updated.filters.' + key, filters.get(key));
+    pubsub.publish('search.updated.filters.' + key, true);
   };
 
   var toQuery = function() {
