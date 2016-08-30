@@ -842,6 +842,29 @@
     </lst>
   </requestHandler>
 
+<!-- custom powop query handler, deals with a lot of the defaults -->
+  <requestHandler name="/powop_search" class="solr.SearchHandler">
+     <lst name="defaults">
+      <str name="q">*:*</str>
+      <str name="echoParams">all</str>
+      <int name="rows">24</int>
+      <int name="start">0</int>
+      <str name="spellcheck">true</str>
+      <str name="spellcheck.collate">true</str>
+      <int name="spellcheck.count">1</int>
+      <str name="defType">edismax</str>
+      <str name="qf">searchable.label_sort searchable.solrsummary_t</str>
+      <str name="fq">base.class_searchable_b:true</str>
+      <str name="facet">true</str>
+      <str name="facet.query">{!ex=taxon.taxonomic_status_s key=has_images}taxon.images_not_empty_b:true</str>
+      <str name="facet.query">{!ex=taxon.images_not_empty_b key=accepted_names}taxon.taxonomic_status_s:Accepted</str>
+      <str name="facet.query">{!ex=taxon.taxonomic_status_s,taxon.images_not_empty_b key=all_results}base.class_searchable_b:true</str>
+      <str name="hl">true</str>
+      <str name="hl.fl">*</str>
+      <str name="hl.requireFieldMatch">true</str>
+      <str name="hl.fragsize">100</str>
+    </lst>
+</requestHandler>
 
   <requestHandler name="/browse" class="solr.SearchHandler" useParams="query,facets,velocity,browse">
     <lst name="defaults">

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.util.SimpleOrderedMap;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.emonocot.portal.json.SearchResultBuilder;
 import org.springframework.stereotype.Component;
@@ -32,22 +33,35 @@ public class ResponseBuilder {
 
 	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse, TaxonService taxonService){
 		this.taxonService = taxonService;
-		jsonBuilder.totalResults((int) queryResponse.getResults().getNumFound());
-		Map<String, Integer> facets = queryResponse.getFacetQuery();
-		for(Entry<String, Integer> facet : facets.entrySet()){
-			jsonBuilder.addFacet(facet.getKey(), facet.getValue());
-		}
+		setFacets(queryResponse.getFacetQuery());
+		jsonBuilder.totalResults((int)queryResponse.getResults().getNumFound());
 		highlights = queryResponse.getHighlighting();
 		if(queryResponse.getResults() != null && !queryResponse.getResults().isEmpty()){
 			for(SolrDocument document : queryResponse.getResults()){
 				addResult(document);
 			}
 		}
+		@SuppressWarnings("unchecked")
+		SimpleOrderedMap<String> params = (SimpleOrderedMap<String>) queryResponse.getResponseHeader().get("params");
+		setParams(params);
 		return jsonBuilder;
 
 	}
 
-
+	private void setFacets(Map<String, Integer> facets){
+		for(Entry<String, Integer> facet : facets.entrySet()){
+			jsonBuilder.addFacet(facet.getKey(), facet.getValue());
+		}
+	}
+	
+	private void setParams(SimpleOrderedMap<String> params){
+		Integer start = Integer.parseInt(params.get("start"));
+		Integer rows = Integer.parseInt(params.get("rows"));
+		jsonBuilder.per_page(rows);
+		jsonBuilder.page(start / rows);
+		jsonBuilder.totalPages(jsonBuilder.getTotalResults() / rows);
+	}
+	
 	private void addResult(SolrDocument document){
 		SearchResultBuilder resultBuilder = new SearchResultBuilder();
 		Taxon taxon = taxonService.find((Long) document.get("base.id_l"));
@@ -76,12 +90,9 @@ public class ResponseBuilder {
 						}else{
 							resultBuilder.snippet(entry.getKey() + ": " + entry.getValue().get(0));
 						}
-
 					}
 				}
 			}
-
-
 			if(taxon.getImages() != null && !taxon.getImages().isEmpty()){
 				for(Image image : taxon.getImages()){
 					resultBuilder.addImage(image.getAccessUri(), image.getCaption());

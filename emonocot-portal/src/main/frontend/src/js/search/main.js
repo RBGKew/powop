@@ -50,21 +50,21 @@ define([
     }
   }
 
+  function selectFacet(event) {
+    filters.setParam("selectedFacet", $(this).attr("id"));
+  }
+
+  function selectSort(event) {
+    filters.setParam("sort", $(this).attr("id"));
+  }
+
   function updateSuggester(event) {
     var suggester = $(this).find(':selected').val().replace(' ', '-').toLowerCase();
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
-  pubsub.subscribe('search.filters', function(_, selected) {
+  pubsub.subscribe('search', function(_, selected){
     results.update(filters.toString());
-  });
-
-  pubsub.subscribe('search.params', function() {
-    results.updateItems(filters.toString());
-  });
-
-  pubsub.subscribe('autocomplete.selected', function(_, selected) {
-    active().find('input.refine').val(selected);
   });
 
   $(document).ready(function() {
@@ -87,6 +87,14 @@ define([
     $('.c-search')
       .on('keypress', 'input.refine', handleKeypress)
       .on('change', '#names .c-select', updateSuggester);
+
+    $('.c-results-outer')
+      .on('click', '.facets', selectFacet)
+      .on('click', '.sort_options', selectSort);
+  });
+
+  pubsub.subscribe('autocomplete.selected', function(_, selected) {
+    active().find('input.refine').val(selected);
   });
 
   return {

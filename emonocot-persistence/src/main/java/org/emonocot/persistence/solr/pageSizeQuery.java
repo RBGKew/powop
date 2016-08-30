@@ -6,9 +6,13 @@ public class pageSizeQuery implements QueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
-		Integer page = query.getStart() / query.getRows();
+		Integer currentRows = query.getRows();
 		Integer pageSize = Integer.valueOf(value);
 		query.setRows(pageSize);
-		query.setStart(page * pageSize);
+		if(query.getStart() != null && currentRows != null){
+			Integer page = query.getStart() / query.getRows();
+			query.setStart(page * pageSize);
+		}
+		
 	}
 }

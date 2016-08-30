@@ -11,7 +11,7 @@ public class SolrFieldNameMappings {
 			.put("genus", "taxon.genus_ss")
 			.put("species", "taxon.species_ss")
 			.put("all names", "all.names")
-			.put("common names", "taxon.vernacular_names_ss")
+			.put("common name", "taxon.vernacular_names_ss")
 			.put("any characteristic", "taxon.description_t")
 			.put("appearance", "taxon.description_appearance_t")
 			.put("inflorescence", "taxon.description_inflorescence_t")

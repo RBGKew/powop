@@ -68,6 +68,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.order_s", taxon.getOrder());
 		addField(sid, "taxon.scientific_name_authorship_s", taxon.getScientificNameAuthorship());
 		addField(sid, "taxon.scientific_name_t", taxon.getScientificName());
+		addField(sid, "taxon.scientific_name_s", taxon.getScientificName());
 		addField(sid, "taxon.specific_epithet_s", taxon.getSpecificEpithet());
 		addField(sid, "taxon.subgenus_s", taxon.getSubgenus());
 		addField(sid, "taxon.taxon_rank_s", ObjectUtils.toString(taxon.getTaxonRank(), null));

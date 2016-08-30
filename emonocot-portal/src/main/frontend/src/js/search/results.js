@@ -17,6 +17,9 @@ define(function(require) {
   var update = function(state) {
     $.getJSON("/api/1/search?" + state, function(json) {
         $('.c-results').replaceWith(resultsTmpl(json));
+        if(!json.selectedFacet){
+          $("#" + json.selectedFacet).addClass("selected")
+        }
         paginate(json);
     });
   };

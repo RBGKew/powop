@@ -14,22 +14,21 @@
       <div class="collapse navbar-collapse" id="search-bar">
         <ul class="nav navbar-nav">
           <li>
-            <a href="#">All Results ({{facets.all_results}})</a>
+            <a id="all_results" class="facets" href="#">All Results ({{facets.all_results}})</a>
           </li>
           <li>
-            <a href="#">Accepted names ({{facets.accepted_names}})</a>
+            <a id="accepted_names" class="facets" href="#">Accepted names ({{facets.accepted_names}})</a>
           </li>
           <li>
-            <a href="#">With images ({{facets.has_images}})</a>
+            <a id="has_images" class="facets" href="#">With images ({{facets.has_images}})</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
+            <a href="#" class="dropdown-toggle sort_select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
+            <ul class="dropdown-menu sort_select">
+              <li><a id="taxon.scientific_name_s_asc" class="sort_options" href="#">Sort A-Z</a></li>
+              <li><a id="taxon.scientific_name_s_desc"  class="sort_options" href="#">Sort Z-A</a></li>
             </ul>
           </li>
           <li>
@@ -46,4 +45,3 @@
       </div><!-- /.navbar-collapse -->
     </nav>
   </div>
-

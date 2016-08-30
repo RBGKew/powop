@@ -94,13 +94,19 @@ define([
   var getParam = function(key) {
     return params.get(key);
   }
+  var removeParam = function(key) {
+    params.delete(key);
+    pubsub.publish('search.params.' + key, params.get(key));
+
+  }
 
   return {
     add: add,
     set: add,
     setParam: setParam,
     getParam: getParam,
+    removeParam: removeParam,
     remove: remove,
-    toString: toString,
+    toString: toString
   };
 });

@@ -81,7 +81,7 @@
   @include make-lg-column(9);
 
   margin-top: 2em;
-  
+
   @media (min-width: $screen-md-min) {
     float: right!important;
   }
@@ -170,6 +170,10 @@
     }
 
     > li.active > a {
+      background-color: transparent;
+    }
+    > li.enabled > a {
+      color: #333333;
       background-color: transparent;
     }
   }

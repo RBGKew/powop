@@ -55,13 +55,7 @@ public class ApiController {
 		SolrQuery query = queryBuilder.build();
 		
 		QueryResponse queryResponse = searchableObjectService.search(query);
-		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService);
-		jsonBuilder.sort(query.get("sort"));
-		jsonBuilder.page(query.getStart() / query.getRows());
-		jsonBuilder.per_page(query.getRows());
-		if(jsonBuilder.getTotalResults() != null && jsonBuilder.getPerPage() != null ){
-			jsonBuilder.totalPages(jsonBuilder.getTotalResults() / jsonBuilder.getPerPage());
-		}	
+		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService);	
 		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
 	}
 	

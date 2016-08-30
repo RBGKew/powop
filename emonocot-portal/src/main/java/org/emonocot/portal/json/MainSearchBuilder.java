@@ -13,6 +13,7 @@ public class MainSearchBuilder {
 	private Integer totalPages;
 	private Integer perPage;
 	private String sort;
+	private String selectedFacet;
 	private Map<String, Integer>facets = new HashMap<String, Integer>();
 	private List<SearchResultBuilder> results = new ArrayList<SearchResultBuilder>();
 
@@ -41,6 +42,12 @@ public class MainSearchBuilder {
 		return this;
 	}
 
+	public MainSearchBuilder selectedFacet(String selectedFacet){
+		this.selectedFacet = selectedFacet;
+		return this;
+	}
+	
+	
 	public MainSearchBuilder addFacet(String facet, Integer count){
 		facets.put(facet, count);
 		return this;
@@ -71,6 +78,10 @@ public class MainSearchBuilder {
 		return sort;
 	}
 
+	public String getSelectedFacet(){
+		return selectedFacet;
+	}
+	
 	public Map<String, Integer>getFacets(){
 		return facets;
 	}
