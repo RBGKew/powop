@@ -37,7 +37,8 @@
   }
 
   .form-inline__select,
-  .form-inline__input {
+  .form-inline__input,
+  .form-inline__fullwidth {
     margin-bottom: 1em;
     position: relative;
   }
@@ -54,6 +55,10 @@
     @include make-lg-column(9);
   }
 
+  .form-inline__fullwidth {
+    width: 100%;
+    padding: 0 15px;
+  }
 }
 
 #uses {

@@ -2,8 +2,8 @@
   <div class="grid grid--columns grid--lines grid--equal-heights">
     {{#each results}}
     <article class="c-card s-theme-{{rank}}">
-      <div class="c-card__content">
-        <a href="{{url}}">
+      <a href="{{url}}">
+        <div class="c-card__content">
           <span class="c-card__type">
             <svg class="leaf sprite-leaf-dims">
               <use xlink:href="#sprite-leaf"></use>
@@ -12,17 +12,17 @@
           </span>
           <h2 class="c-card__title">{{name}} <cite>{{author}}</cite></h2>
           <p>{{{snippet}}}</p>
-      </div>
-      <div itemscope itemtype="http://schema.org/ImageGallery" class="c-gallery-thumbs">
-        {{#each images}}
-        <figure class="c-gallery-thumbs__img">
-          <div class="c-gallery-thumbs__bg">
-            <img src={{url}} itemprop="thumbnail" alt={{caption}} />
-          </div>
-        </figure>
-        {{/each}}
-        </a>
-      </div>
+        </div>
+        <div itemscope itemtype="http://schema.org/ImageGallery" class="c-gallery-thumbs">
+          {{#each images}}
+          <figure class="c-gallery-thumbs__img">
+            <div class="c-gallery-thumbs__bg">
+              <img src={{url}} itemprop="thumbnail" alt={{caption}} />
+            </div>
+          </figure>
+          {{/each}}
+        </div>
+      </a>
     </article>
     {{/each}}
   </div>

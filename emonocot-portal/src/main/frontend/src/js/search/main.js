@@ -1,13 +1,14 @@
-define([
-  'jquery',
-  'bootstrap',
-  './autocomplete',
-  './events',
-  './filters',
-  './use-search',
-  'libs/pubsub',
-  './results'
-], function($, bootstrap, autocomplete, events, filters, checkboxes, pubsub, results) {
+define(function(require) {
+  var $ = require('jquery');
+  var bootstrap = require('bootstrap');
+  var pubsub = require('libs/pubsub');
+
+  var autocomplete = require('./autocomplete');
+  var events = require('./events');
+  var filters = require('./filters');
+  var checkboxes = require('./use-search');
+  var results = require('./results');
+  var history = require('libs/native.history');
 
   function active() {
     return $('.c-search .tab-pane.active');
@@ -51,10 +52,12 @@ define([
   }
 
   function selectFacet(event) {
+    event.preventDefault();
     filters.setParam("selectedFacet", $(this).attr("id"));
   }
 
   function selectSort(event) {
+    event.preventDefault();
     filters.setParam("sort", $(this).attr("id"));
   }
 
@@ -63,13 +66,24 @@ define([
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
-  pubsub.subscribe('search', function(_, selected){
-    results.update(filters.toString());
+  pubsub.subscribe('search.updated', function(_, updateHistory) {
+    results.update(filters.toQuery());
+    if(updateHistory) {
+      History.pushState(null, null, '/search?' + filters.serialize());
+    }
+  });
+
+  pubsub.subscribe('autocomplete.selected', function(_, selected) {
+    active().find('input.refine').val(selected);
   });
 
   $(document).ready(function() {
+    if(window.location.search.length > 1) {
+      filters.deserialize(window.location.search);
+    }
 
-    results.update(filters.toString());
+    results.update(filters.toQuery());
+
     // handle location hash with tabs
     if(location.hash.slice(1) != "") {
       $('.nav-tabs a[href="' + location.hash + '"]').tab('show');

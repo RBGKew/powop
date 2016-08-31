@@ -1295,7 +1295,7 @@
       <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
       <str name="dictionaryImpl">FileDictionaryFactory</str>
       <str name="sourceLocation">tdwg.txt</str>
-      <str name="suggestAnalyzerFieldType">textSpell</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
       <str name="buildOnStartup">true</str>
     </lst>

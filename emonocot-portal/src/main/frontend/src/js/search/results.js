@@ -17,6 +17,7 @@ define(function(require) {
   var update = function(state) {
     $.getJSON("/api/1/search?" + state, function(json) {
         $('.c-results').replaceWith(resultsTmpl(json));
+        $('.c-results .container--lines').replaceWith(itemsTmpl(json));
         if(!json.selectedFacet){
           $("#" + json.selectedFacet).addClass("selected")
         }
@@ -36,8 +37,12 @@ define(function(require) {
       itemsOnPage: results.perPage,
       pages: results.totalPages,
       listStyle: 'pagination',
+      hrefTextPrefix: '',
       currentPage: filters.getParam('page.number'),
-      onPageClick: function(page, e) { filters.setParam('page.number', page) }
+      onPageClick: function(page, e) {
+        filters.setParam('page.number', page);
+        e.preventDefault();
+      }
     });
   }
 
