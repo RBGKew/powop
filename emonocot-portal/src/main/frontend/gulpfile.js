@@ -36,7 +36,6 @@ gulp.task('browser-sync', function() {
         }
     });
     gulp.watch('src/sass/**/*.scss',['css']);
-    gulp.watch('src/templates/**/*.hbs',['assemble-html']);
     gulp.watch('src/js/search/**/*.js',['precompile', 'js']);
 });
 
@@ -52,7 +51,6 @@ gulp.task('clean', ['clean:dist', 'clean:templates']);
 */
 gulp.task('dev', function() {
   gulp.watch('src/sass/**/*.scss',['css']);
-  gulp.watch('src/templates/**/*.hbs',['assemble']);
   gulp.watch('src/js/**/*.js',['precompile', 'js']);
 });
 
@@ -65,7 +63,6 @@ gulp.task('default', function(cb){
     'precompile',
     'js',
     'css',
-    'assemble'
   ], cb);
 });
 

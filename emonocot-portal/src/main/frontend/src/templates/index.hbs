@@ -1,0 +1,49 @@
+{{> partials/header}}
+<div class="s-page s-page--home s-theme-home">
+  <div class="s-page-wrapper">
+    <header class="c-header">
+      <div class="container-fluid">
+        {{> partials/header/kew-logo-header}}
+        <nav class="c-header__actions">
+          <ul class="list-inline">
+            <li>Featured plant:</li>
+            <li><a href="#">Delonix Regia</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="s-search-home">
+      <div class="container">
+
+        <div class="c-intro">
+          <h1 class="c-intro__title">An online resource for the world's plants</h1>
+          <p>Our aim is to document the world's plants, for public information and research. Browse through our collection of 27,354 plant names, 584 entries with images, research is ongoing.</p>
+        </div>
+
+        <div class="c-search-home">
+          <form class="form-add form-inline form-inline--home">
+            <div class="form-group form-inline__input">
+              <label for="search" class="sr-only">Search</label>
+              <input type="email" class="form-control" id="search" placeholder="Search by species, genus or family name, or any words describing the plant">
+              {{> partials/search/autocomplete}}
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+          <nav>
+            <ul class="c-search-home__links list-inline">
+              <li>Or find plants by:</li>
+              <li><a href="search#names">Name</a></li>
+              <li><a href="search#characteristics">Characteristic</a></li>
+              <li><a href="search#locations">Location</a></li>
+              <li><a href="search#uses">Usage</a></li>
+            </ul>
+          </nav>
+        </div>
+
+      </div><!-- End Container -->
+    </section>
+    {{> partials/footer-links-fluid}}
+  </div>
+</div>
+{{> partials/footer}}

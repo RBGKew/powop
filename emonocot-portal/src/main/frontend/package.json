@@ -9,7 +9,6 @@
   "author": "Adam Robinson",
   "license": "ISC",
   "devDependencies": {
-    "assemble": "^0.9.1",
     "browser-sync": "^2.13.0",
     "del": "^2.0.2",
     "gulp": "^3.9.1",
@@ -35,8 +34,5 @@
     "imagemin-pngquant": "^4.2.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4"
-  },
-  "dependencies": {
-    "assemble": "^0.9.1"
   }
 }

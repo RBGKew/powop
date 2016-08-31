@@ -305,7 +305,7 @@
 							<filtering>true</filtering>
 						</resource>
 						<resource>
-							<directory>src/main/frontend/dist/templates</directory>
+							<directory>src/main/frontend/src/templates</directory>
 						</resource>
 					</webResources>
 					<encoding />

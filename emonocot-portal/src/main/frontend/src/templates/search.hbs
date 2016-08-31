@@ -1,0 +1,67 @@
+{{> partials/header}}
+<div class="s-page">
+  <header class="c-header">
+    <div class="container">
+      {{> partials/header/kew-logo-header}}
+      <nav class="c-header__actions">
+        <ul class="list-inline">
+          <li>Use these results:</li>
+          <li><a href="#">Visualise</a></li>
+          <li><a href="#">Export</a></li>
+          <li><a href="#">Print</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="c-search">
+    <div class="c-search__filters">
+      <div class="container">
+        <div class="btn-group btn-group--filters" role="group" aria-label="...">
+        </div>
+      </div>
+    </div>
+    <div class="c-search__refine">
+      <div class="container u-rel">
+        <h2 class="c-search__title">Add to your search</h2>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-tabs--text" role="tablist">
+          <li role="presentation" class="active"><a href="#any" aria-controls="profile" role="tab" data-toggle="tab">Any</a></li>
+          <li role="presentation"><a href="#names" aria-controls="profile" role="tab" data-toggle="tab">Name</a></li>
+          <li role="presentation"><a href="#characteristics" aria-controls="messages" role="tab" data-toggle="tab">Characteristic</a></li>
+          <li role="presentation"><a href="#locations" aria-controls="settings" role="tab" data-toggle="tab">Location</a></li>
+          <li role="presentation"><a href="#uses" aria-controls="settings" role="tab" data-toggle="tab">Usage</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="any" data-search-key="Any">
+            {{> partials/search/search-any}}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="names">
+            {{> partials/search/search-name}}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="characteristics">
+            {{> partials/search/search-characteristic}}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="locations" data-search-key="Location">
+            {{> partials/search/search-location}}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="uses">
+            {{> partials/search/search-use}}
+          </div>
+        </div>
+
+        <button type="button" class="c-search__advanced btn btn-pill btn-white" data-target=".search-modal-fullsceen" data-toggle="modal" disabled="disabled">Advanced options</button>
+
+      </div>
+    </div>
+  </section>
+  <section class="c-results-outer">
+    <section class="c-results">
+    </section>
+  </section>
+  {{> partials/footer-links}}
+</div>
+{{> partials/footer}}
