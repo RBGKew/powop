@@ -2,12 +2,16 @@ package org.emonocot.persistence.solr;
 
 import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.emonocot.model.solr.SolrFieldNameMappings;
+
+import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
 
 public class QueryBuilder {
 
 	private SolrQuery query = new SolrQuery().setRequestHandler("/powop_search");
 
+	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
 
 	private static final Map<String, QueryOption> queryMappings = ImmutableMap.<String, QueryOption>builder()
 			.put("main.query", new MainFilterQuery())
@@ -26,6 +30,9 @@ public class QueryBuilder {
 	private static final QueryOption basicMapper = new BasicFieldFilterQuery();
 
 	public QueryBuilder addParam(String key, String value) {
+		if(fieldNames.containsKey(key.toLowerCase())){
+			key = fieldNames.get(key.toLowerCase());
+		}
 		if(queryMappings.containsKey(key)) {
 			queryMappings.get(key).addQueryOption(key, value, query);
 		} else {
@@ -34,18 +41,23 @@ public class QueryBuilder {
 		return this;
 	}
 
-	public SolrQuery build (){
-		String highlightQuery = "";
-		if(query.getFilterQueries() != null){
-			for(String filterQuery : query.getFilterQueries()){
-				if(!highlightQuery.isEmpty()){
-					highlightQuery += " OR " + filterQuery;
-				}else{
-					highlightQuery += filterQuery;
-				}
-			}
-			query.add("hl.q", highlightQuery);
+	public QueryBuilder setHighlightQuery(String key, String value) {
+		SolrQuery highlightQuery = new SolrQuery();
+		if(fieldNames.containsKey(key.toLowerCase())){
+			key = fieldNames.get(key.toLowerCase());
 		}
+		if(queryMappings.containsKey(key)) {
+			queryMappings.get(key).addQueryOption(key, value, highlightQuery);
+		} else {
+			basicMapper.addQueryOption(key, value, highlightQuery);
+		}
+		query.add("hl.q", highlightQuery.getFilterQueries());
+		return this;
+	}
+	
+	
+	public SolrQuery build (){
+
 		return query;
 	}
 }

@@ -25,13 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.common.collect.BiMap;
-
 @Controller
 @RequestMapping("/api/1/")
 public class ApiController {
 
-	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
 	
 	private static Logger logger = LoggerFactory.getLogger(ApiController.class);
 	@Autowired
@@ -44,11 +41,12 @@ public class ApiController {
 	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> allRequestParams) throws SolrServerException, IOException {
 		QueryBuilder queryBuilder = new QueryBuilder();
 		if(allRequestParams != null && !allRequestParams.isEmpty()){
-			for(Entry<String, String> requestParam : allRequestParams.entrySet()){
-				if(fieldNames.containsKey(requestParam.getKey().toLowerCase())){
-					queryBuilder.addParam(fieldNames.get(requestParam.getKey().toLowerCase()), requestParam.getValue());
+			for(String key : allRequestParams.keySet()){
+				if(key.equals("highlight")){
+					String[] values =  allRequestParams.get(key).split(":");
+					queryBuilder.setHighlightQuery(values[0], values[1]);
 				}else{
-					queryBuilder.addParam(requestParam.getKey(), requestParam.getValue());
+					queryBuilder.addParam(key, allRequestParams.get(key));
 				}
 			}
 		}

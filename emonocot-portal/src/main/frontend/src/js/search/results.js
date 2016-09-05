@@ -9,6 +9,7 @@ define(function(require) {
   var headerTmpl = require('templates/partials/result/results-header.js');
   var itemsTmpl = require('templates/partials/result/results-items.js');
   var paginationTmpl = require('templates/partials/result/results-pagination.js');
+  var Cookies = require('libs/js.cookie.js');
 
   Handlebars.registerPartial('results-header', headerTmpl);
   Handlebars.registerPartial('results-items', itemsTmpl);
@@ -18,8 +19,11 @@ define(function(require) {
     $.getJSON("/api/1/search?" + state, function(json) {
         $('.c-results').replaceWith(resultsTmpl(json));
         $('.c-results .container--lines').replaceWith(itemsTmpl(json));
-        if(!json.selectedFacet){
+        if(json.selectedFacet){
           $("#" + json.selectedFacet).addClass("selected")
+        }
+        if(Cookies.get('powop_search_view')){
+          $("#" + Cookies.get('powop_search_view')).trigger("click");
         }
         paginate(json);
     });

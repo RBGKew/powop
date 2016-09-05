@@ -9,6 +9,7 @@ define(function(require) {
   var checkboxes = require('./use-search');
   var results = require('./results');
   var history = require('libs/native.history');
+  var Cookies = require('libs/js.cookie.js');
 
   function active() {
     return $('.c-search .tab-pane.active');
@@ -51,12 +52,16 @@ define(function(require) {
     }
   }
 
-  function selectFacet(event) {
+  function setView(event) {
+    Cookies.set('powop', $(this).attr("id"), { expires: 1095 , path: '' });
+  }
+
+  function setFacet(event) {
     event.preventDefault();
     filters.setParam("selectedFacet", $(this).attr("id"));
   }
 
-  function selectSort(event) {
+  function setSort(event) {
     event.preventDefault();
     filters.setParam("sort", $(this).attr("id"));
   }
@@ -103,8 +108,9 @@ define(function(require) {
       .on('change', '#names .c-select', updateSuggester);
 
     $('.c-results-outer')
-      .on('click', '.facets', selectFacet)
-      .on('click', '.sort_options', selectSort);
+      .on('click', '.facets', setFacet)
+      .on('click', '.sort_options', setSort)
+      .on('click', '.search_view', setView);
   });
 
   pubsub.subscribe('autocomplete.selected', function(_, selected) {
