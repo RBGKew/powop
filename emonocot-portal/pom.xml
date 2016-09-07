@@ -275,6 +275,12 @@
 			<groupId>com.github.eirslett</groupId>
 			<artifactId>frontend-maven-plugin</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.10</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -63,6 +63,8 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 
 	private String description;
 
+	private String abbreviation;
+
 	private String logoUrl;
 
 	private Integer footerLogoPosition;
@@ -83,290 +85,295 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
+	private String commentsEmailedTo;
+
+	private boolean insertCommentsIntoScratchpad;
+
+	public void setId(Long newId) {
+		this.id = newId;
+	}
+
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	public Long getId() {
+		return id;
+	}
+
+	public boolean getInsertCommentsIntoScratchpad() {
+		return insertCommentsIntoScratchpad;
+	}
+
+	public void setInsertCommentsIntoScratchpad(boolean insertCommentsIntoScratchpad) {
+		this.insertCommentsIntoScratchpad = insertCommentsIntoScratchpad;
+	}
+
+	@Transient
+	@JsonIgnore
+	public String getClassName() {
+		return "Organisation";
+	}
+
+	public String getCreatorEmail() {
+		return creatorEmail;
+	}
+
 	/**
-	 *
+	 * @param newCreatorEmail the creatorEmail to set
 	 */
-	 private String commentsEmailedTo;
+	@Email
+	public void setCreatorEmail(String newCreatorEmail) {
+		this.creatorEmail = newCreatorEmail;
+	}
 
-	 private boolean insertCommentsIntoScratchpad;
+	/**
+	 * @return the description
+	 */
+	@Lob
+	@Length(max = 1431655761)
+	public String getDescription() {
+		return description;
+	}
 
-	 public void setId(Long newId) {
-		 this.id = newId;
-	 }
+	/**
+	 * @param newDescription the description to set
+	 */
+	public void setDescription(String newDescription) {
+		this.description = newDescription;
+	}
 
-	 @Id
-	 @GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-	 public Long getId() {
-		 return id;
-	 }
+	/**
+	 * @return the logoUrl
+	 */
+	@URL
+	public String getLogoUrl() {
+		return logoUrl;
+	}
 
-	 public boolean getInsertCommentsIntoScratchpad() {
-		 return insertCommentsIntoScratchpad;
-	 }
+	/**
+	 * @param logoUrl the logoUrl to set
+	 */
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
 
-	 public void setInsertCommentsIntoScratchpad(boolean insertCommentsIntoScratchpad) {
-		 this.insertCommentsIntoScratchpad = insertCommentsIntoScratchpad;
-	 }
+	/**
+	 * @return the footerLogoPosition
+	 */
+	public Integer getFooterLogoPosition() {
+		return footerLogoPosition;
+	}
 
-	 @Transient
-	 @JsonIgnore
-	 public String getClassName() {
-		 return "Organisation";
-	 }
+	/**
+	 * @param footerLogoPosition the footerLogoPosition to set
+	 */
+	public void setFooterLogoPosition(Integer footerLogoPosition) {
+		this.footerLogoPosition = footerLogoPosition;
+	}
 
-	 public String getCreatorEmail() {
-		 return creatorEmail;
-	 }
+	/**
+	 * @return the publisherName
+	 */
+	public String getPublisherName() {
+		return publisherName;
+	}
 
-	 /**
-	  * @param newCreatorEmail the creatorEmail to set
-	  */
-	 @Email
-	 public void setCreatorEmail(String newCreatorEmail) {
-		 this.creatorEmail = newCreatorEmail;
-	 }
+	/**
+	 * @param newPublisherName the publisherName to set
+	 */
+	public void setPublisherName(String newPublisherName) {
+		this.publisherName = newPublisherName;
+	}
 
-	 /**
-	  * @return the description
-	  */
-	 @Lob
-	 @Length(max = 1431655761)
-	 public String getDescription() {
-		 return description;
-	 }
+	/**
+	 * @return the publisherEmail
+	 */
+	public String getPublisherEmail() {
+		return publisherEmail;
+	}
 
-	 /**
-	  * @param newDescription the description to set
-	  */
-	 public void setDescription(String newDescription) {
-		 this.description = newDescription;
-	 }
+	/**
+	 * @param newPublisherEmail the publisherEmail to set
+	 */
+	public void setPublisherEmail(String newPublisherEmail) {
+		this.publisherEmail = newPublisherEmail;
+	}
 
-	 /**
-	  * @return the logoUrl
-	  */
-	 @URL
-	 public String getLogoUrl() {
-		 return logoUrl;
-	 }
+	/**
+	 * @return the subject
+	 */
+	public String getSubject() {
+		return subject;
+	}
 
-	 /**
-	  * @param logoUrl the logoUrl to set
-	  */
-	 public void setLogoUrl(String logoUrl) {
-		 this.logoUrl = logoUrl;
-	 }
+	/**
+	 * @param newSubject the subject to set
+	 */
+	public void setSubject(String newSubject) {
+		this.subject = newSubject;
+	}
 
-	 /**
-	  * @return the footerLogoPosition
-	  */
-	 public Integer getFooterLogoPosition() {
-		 return footerLogoPosition;
-	 }
+	/**
+	 * @return the title
+	 */
+	@NotEmpty
+	public String getTitle() {
+		return title;
+	}
 
-	 /**
-	  * @param footerLogoPosition the footerLogoPosition to set
-	  */
-	 public void setFooterLogoPosition(Integer footerLogoPosition) {
-		 this.footerLogoPosition = footerLogoPosition;
-	 }
+	/**
+	 * @param newTitle the title to set
+	 */
+	public void setTitle(String newTitle) {
+		this.title = newTitle;
+	}
 
-	 /**
-	  * @return the publisherName
-	  */
-	 public String getPublisherName() {
-		 return publisherName;
-	 }
+	/**
+	 * @return the bibliographicCitation
+	 */
+	public String getBibliographicCitation() {
+		return bibliographicCitation;
+	}
 
-	 /**
-	  * @param newPublisherName the publisherName to set
-	  */
-	 public void setPublisherName(String newPublisherName) {
-		 this.publisherName = newPublisherName;
-	 }
+	/**
+	 * @param bibliographicCitation the bibliographicCitation to set
+	 */
+	public void setBibliographicCitation(String bibliographicCitation) {
+		this.bibliographicCitation = bibliographicCitation;
+	}
 
-	 /**
-	  * @return the publisherEmail
-	  */
-	 public String getPublisherEmail() {
-		 return publisherEmail;
-	 }
+	/**
+	 * @return the creator
+	 */
+	public String getCreator() {
+		return creator;
+	}
 
-	 /**
-	  * @param newPublisherEmail the publisherEmail to set
-	  */
-	 public void setPublisherEmail(String newPublisherEmail) {
-		 this.publisherEmail = newPublisherEmail;
-	 }
+	/**
+	 * @param creator the creator to set
+	 */
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
 
-	 /**
-	  * @return the subject
-	  */
-	 public String getSubject() {
-		 return subject;
-	 }
+	/**
+	 * @return the jobs
+	 */
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+	@Cascade(CascadeType.DELETE)
+	@OrderBy("lastHarvested DESC")
+	public Set<Resource> getResources() {
+		return resources;
+	}
 
-	 /**
-	  * @param newSubject the subject to set
-	  */
-	 public void setSubject(String newSubject) {
-		 this.subject = newSubject;
-	 }
+	/**
+	 * @param resources the jobs to set
+	 */
+	@JsonIgnore
+	public void setResources(Set<Resource> resources) {
+		this.resources = resources;
+	}
 
-	 /**
-	  * @return the title
-	  */
-	 @NotEmpty
-	 public String getTitle() {
-		 return title;
-	 }
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "annotatedObjId")
+	@Where(clause = "annotatedObjType = 'Organisation'")
+	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
-	 /**
-	  * @param newTitle the title to set
-	  */
-	 public void setTitle(String newTitle) {
-		 this.title = newTitle;
-	 }
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(Set<Annotation> annotations) {
+		this.annotations = annotations;
+	}
 
-	 /**
-	  * @return the bibliographicCitation
-	  */
-	 public String getBibliographicCitation() {
-		 return bibliographicCitation;
-	 }
+	/**
+	 * @return the commentsEmailedTo
+	 */
+	public String getCommentsEmailedTo() {
+		return commentsEmailedTo;
+	}
 
-	 /**
-	  * @param bibliographicCitation the bibliographicCitation to set
-	  */
-	 public void setBibliographicCitation(String bibliographicCitation) {
-		 this.bibliographicCitation = bibliographicCitation;
-	 }
+	/**
+	 * @param commentsEmailedTo the commentsEmailedTo to set
+	 */
+	@NotBlank
+	public void setCommentsEmailedTo(String commentsEmailedTo) {
+		this.commentsEmailedTo = commentsEmailedTo;
+	}
 
-	 /**
-	  * @return the creator
-	  */
-	 public String getCreator() {
-		 return creator;
-	 }
+	public static int nullSafeStringComparator(final String one, final String two) {
+		if (one == null ^ two == null) {
+			return (one == null) ? -1 : 1;
+		}
 
-	 /**
-	  * @param creator the creator to set
-	  */
-	 public void setCreator(String creator) {
-		 this.creator = creator;
-	 }
+		if (one == null && two == null) {
+			return 0;
+		}
 
-	 /**
-	  * @return the jobs
-	  */
-	 @JsonIgnore
-	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
-	 @Cascade(CascadeType.DELETE)
-	 @OrderBy("lastHarvested DESC")
-	 public Set<Resource> getResources() {
-		 return resources;
-	 }
-
-	 /**
-	  * @param resources the jobs to set
-	  */
-	 @JsonIgnore
-	 public void setResources(Set<Resource> resources) {
-		 this.resources = resources;
-	 }
-
-	 @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-	 @JoinColumn(name = "annotatedObjId")
-	 @Where(clause = "annotatedObjType = 'Organisation'")
-	 @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	 @JsonIgnore
-	 public Set<Annotation> getAnnotations() {
-		 return annotations;
-	 }
-
-	 /**
-	  * @param annotations
-	  *            the annotations to set
-	  */
-	 public void setAnnotations(Set<Annotation> annotations) {
-		 this.annotations = annotations;
-	 }
-
-	 /**
-	  * @return the commentsEmailedTo
-	  */
-	 public String getCommentsEmailedTo() {
-		 return commentsEmailedTo;
-	 }
-
-	 /**
-	  * @param commentsEmailedTo the commentsEmailedTo to set
-	  */
-	 @NotBlank
-	 public void setCommentsEmailedTo(String commentsEmailedTo) {
-		 this.commentsEmailedTo = commentsEmailedTo;
-	 }
-
-	 public static int nullSafeStringComparator(final String one, final String two) {
-		 if (one == null ^ two == null) {
-			 return (one == null) ? -1 : 1;
-		 }
-
-		 if (one == null && two == null) {
-			 return 0;
-		 }
-
-		 return one.compareToIgnoreCase(two);
-	 }
+		return one.compareToIgnoreCase(two);
+	}
 
 
-	 @Override
-	 public int compareTo(Organisation o) {
+	@Override
+	public int compareTo(Organisation o) {
 
-		 return nullSafeStringComparator(this.title, o.title);
-	 }
+		return nullSafeStringComparator(this.title, o.title);
+	}
 
-	 @Override
-	 @Transient
-	 @JsonIgnore
-	 public String getDocumentId() {
-		 return getClassName() + "_" + getId();
-	 }
+	@Override
+	@Transient
+	@JsonIgnore
+	public String getDocumentId() {
+		return getClassName() + "_" + getId();
+	}
 
-	 @Override
-	 public SolrInputDocument toSolrInputDocument() {
-		 SolrInputDocument sid = new SolrInputDocument();
-		 sid.addField("id", getClassName() + "_" + getId());
-		 sid.addField("base.id_l", getId());
-		 sid.addField("base.class_searchable_b", false);
-		 sid.addField("base.class_s", getClass().getName());
-		 if(getAuthority() != null) {
-			 sid.addField("base.authority_s", getAuthority().getIdentifier());
-		 }
-		 sid.addField("organisation.bibliographic_citation_s",getBibliographicCitation());
-		 sid.addField("organisation.creator_t",getCreator());
-		 sid.addField("organisation.description_t",getDescription());
-		 sid.addField("organisation.publisher_name_t",getPublisherName());
-		 sid.addField("organisation.subject_t",getSubject());
-		 sid.addField("organisation.title_t",getTitle());
-		 sid.addField("searchable.label_sort", getTitle());
-		 StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
-				 .append(getCreator()).append(" ").append(getDescription()).append(" ")
-				 .append(getPublisherName()).append(" ").append(getSubject()).append(" ").append(getTitle());
-		 sid.addField("searchable.solrsummary_t", summary.toString());
-		 return sid;
-	 }
+	@Override
+	public SolrInputDocument toSolrInputDocument() {
+		SolrInputDocument sid = new SolrInputDocument();
+		sid.addField("id", getClassName() + "_" + getId());
+		sid.addField("base.id_l", getId());
+		sid.addField("base.class_searchable_b", false);
+		sid.addField("base.class_s", getClass().getName());
+		if(getAuthority() != null) {
+			sid.addField("base.authority_s", getAuthority().getIdentifier());
+		}
+		sid.addField("organisation.bibliographic_citation_s",getBibliographicCitation());
+		sid.addField("organisation.creator_t",getCreator());
+		sid.addField("organisation.description_t",getDescription());
+		sid.addField("organisation.publisher_name_t",getPublisherName());
+		sid.addField("organisation.subject_t",getSubject());
+		sid.addField("organisation.title_t",getTitle());
+		sid.addField("searchable.label_sort", getTitle());
+		StringBuilder summary = new StringBuilder().append(getBibliographicCitation()).append(" ")
+				.append(getCreator()).append(" ").append(getDescription()).append(" ")
+				.append(getPublisherName()).append(" ").append(getSubject()).append(" ").append(getTitle());
+		sid.addField("searchable.solrsummary_t", summary.toString());
+		return sid;
+	}
 
-	 @Transient
-	 @JsonIgnore
-	 public Collection<String> getCommentDestinations() {
-		 Set<String> destinations = new HashSet<String>();
-		 if(this.commentsEmailedTo != null && !this.commentsEmailedTo.isEmpty()) {
-			 destinations.add(commentsEmailedTo);
-		 }
-		 if(this.insertCommentsIntoScratchpad) {
-			 destinations.add("http://" + this.identifier + "/feedback");
-		 }
-		 return destinations;
-	 }
+	@Transient
+	@JsonIgnore
+	public Collection<String> getCommentDestinations() {
+		Set<String> destinations = new HashSet<String>();
+		if(this.commentsEmailedTo != null && !this.commentsEmailedTo.isEmpty()) {
+			destinations.add(commentsEmailedTo);
+		}
+		if(this.insertCommentsIntoScratchpad) {
+			destinations.add("http://" + this.identifier + "/feedback");
+		}
+		return destinations;
+	}
+
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
 }

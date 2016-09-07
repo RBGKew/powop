@@ -16,10 +16,18 @@
  */
 package org.emonocot.portal.controller;
 
+import org.apache.commons.lang.WordUtils;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
-import org.gbif.ecat.voc.EstablishmentMeans;
-import org.gbif.ecat.voc.OccurrenceStatus;
+import org.emonocot.portal.view.Bibliography;
+import org.emonocot.portal.view.Descriptions;
+import org.emonocot.portal.view.Distributions;
+import org.emonocot.portal.view.Images;
+import org.emonocot.portal.view.MeasurementOrFacts;
+import org.emonocot.portal.view.Sources;
+import org.emonocot.portal.view.VernacularNames;
+import org.gbif.ecat.voc.TaxonomicStatus;
+import org.emonocot.portal.view.ScientificNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/taxon")
 public class TaxonController extends GenericController<Taxon, TaxonService> {
 
-	private static Logger queryLog = LoggerFactory.getLogger("query");
+	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
 
 	public TaxonController() {
 		super("taxon", Taxon.class);
@@ -46,13 +54,34 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String show(@PathVariable String identifier, Model model) {
-		model.addAttribute(getService().load(identifier,"object-page"));
-		model.addAttribute("present", OccurrenceStatus.Present);
-		model.addAttribute("absent", OccurrenceStatus.Absent);
-		model.addAttribute("nativ", EstablishmentMeans.Native); // native is a keyword in java so we can't use it as a JSP variable, at least in tomcat
-		model.addAttribute("introduced", EstablishmentMeans.Introduced);
-		queryLog.info("Taxon: \'{}\'", new Object[] {identifier});
-		return "content";
+		Taxon taxon = getService().load(identifier, "object-page");
+		model.addAttribute(taxon);
+		model.addAttribute(new Sources(taxon));
+		model.addAttribute(new Bibliography(taxon));
+		if(!taxon.getDescriptions().isEmpty()) {
+			model.addAttribute(new Descriptions(taxon));
+		}
+		if(!taxon.getSynonymNameUsages().isEmpty()) {
+			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
+		}
+		if(!taxon.getChildNameUsages().isEmpty()) {
+			model.addAttribute("children", new ScientificNames(taxon.getChildNameUsages()));
+		}
+		if(!taxon.getMeasurementsOrFacts().isEmpty()) {
+			model.addAttribute(new MeasurementOrFacts(taxon));
+		}
+		if(!taxon.getDistribution().isEmpty()) {
+			model.addAttribute(new Distributions(taxon));
+		}
+		if(!taxon.getImages().isEmpty()) {
+			model.addAttribute(new Images(taxon));
+		}
+		if(!taxon.getVernacularNames().isEmpty()) {
+			model.addAttribute(new VernacularNames(taxon));
+		}
+		model.addAttribute("theme", bodyClass(taxon));
+
+		return "taxon";
 	}
 
 	/**
@@ -61,5 +90,13 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String list(Model model) {
 		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.Taxon";
+	}
+
+	private String bodyClass(Taxon taxon) {
+		if(taxon.getTaxonomicStatus() != null && taxon.getTaxonomicStatus().equals(TaxonomicStatus.Synonym)) {
+			return "s-theme-Synonym";
+		} else {
+			return String.format("s-theme-%s", WordUtils.capitalizeFully(taxon.getTaxonRank().toString()));
+		}
 	}
 }

@@ -23,6 +23,15 @@
 }
 
 
+// make hidden anchors higher than they actually exist to clear the navbar
+.anchor-target:before {
+  display: block;
+  content: " ";
+  height: $navbar-height;
+  margin-top: -$navbar-height;
+  visibility: hidden;
+}
+
 // Navbar heading
 //
 // Groups `.navbar-brand` and `.navbar-toggle` into a single component for easy

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:property-placeholder
 		ignore-resource-not-found="false"
@@ -121,6 +124,20 @@
 	<bean class="com.github.jknack.handlebars.springmvc.HandlebarsViewResolver" id="handlebarsViewResolver">
 		<property name="order" value="1" />
 		<property name="failOnMissingFile" value="false"/><!-- Allows for resolver chaining -->
+		<property name="valueResolvers">
+			<list>
+				<util:constant static-field="com.github.jknack.handlebars.context.JavaBeanValueResolver.INSTANCE" />
+				<util:constant static-field="com.github.jknack.handlebars.context.MapValueResolver.INSTANCE" />
+				<util:constant static-field="com.github.jknack.handlebars.context.FieldValueResolver.INSTANCE" />
+			</list>
+		</property>
+		<property name="helperSources">
+			<list>
+				<bean class="org.emonocot.portal.view.helpers.BibliographyHelper" />
+				<bean class="org.emonocot.portal.view.helpers.ImageHelper" />
+				<bean class="org.emonocot.portal.view.helpers.NameHelper" />
+			</list>
+		</property>
 	</bean>
 
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">

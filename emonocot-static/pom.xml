@@ -88,6 +88,9 @@
                 <copy todir="${project.build.directory}/static/img">
                   <fileset dir="${basedir}/src/frontend/img" includes="**/*" />
                 </copy>
+                <copy todir="${project.build.directory}/static/img/tiles">
+                  <fileset dir="${basedir}/src/main/tiles/" includes="**/*" />
+                </copy>
                 <copy todir="${project.build.directory}/static/js">
                   <fileset dir="${basedir}/src/frontend/js" includes="**/*" />
                 </copy>

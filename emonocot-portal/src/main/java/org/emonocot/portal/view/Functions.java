@@ -65,8 +65,6 @@ import org.emonocot.model.convert.PermissionToStringConverter;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.FacetName;
 import org.emonocot.pager.Page;
-import org.emonocot.portal.view.bibliography.Bibliography;
-import org.emonocot.portal.view.bibliography.SimpleBibliographyImpl;
 import org.emonocot.portal.view.provenance.ProvenanceHolder;
 import org.emonocot.portal.view.provenance.ProvenanceManager;
 import org.emonocot.portal.view.provenance.ProvenanceManagerImpl;
@@ -779,39 +777,6 @@ public class Functions {
 	 *
 	 * @param taxon
 	 *            Set the taxon
-	 * @return the bibliography
-	 */
-	public static Bibliography bibliography(Taxon taxon) {
-		Bibliography bibliography = new SimpleBibliographyImpl();
-		bibliography.setReferences(taxon);
-		return bibliography;
-	}
-
-	/**
-	 *
-	 * @param bibliography
-	 *            Set the bibliography
-	 * @param reference
-	 *            Set the reference
-	 * @return the citation key
-	 */
-	public static String citekey(Bibliography bibliography, Reference reference) {
-		return bibliography.getKey(reference);
-	}
-
-	public static SortedSet<String> citekeys(Bibliography bibliography,
-			Collection<Distribution> distributions) {
-		return bibliography.getKeys(distributions);
-	}
-
-	public static Reference getref(Bibliography bibliography, String key) {
-		return bibliography.getReference(key);
-	}
-
-	/**
-	 *
-	 * @param taxon
-	 *            Set the taxon
 	 * @return the provenance
 	 */
 	public static ProvenanceManager provenance(BaseData data) {
@@ -1181,7 +1146,7 @@ public class Functions {
 		return UUID.randomUUID().toString();
 	}
 	
-	
+/**	
 	public static List<Reference> filterNameRef(Bibliography bibliography, String subject){
 		List<Reference> referenceList = bibliography.getReferences();
 		if(referenceList != null && !referenceList.isEmpty()){
@@ -1205,7 +1170,7 @@ public class Functions {
 		}
 		return null;
 	}
-	
+**/	
 	
 	
 	public static List<Reference> sortReferencesByDate(List<Reference> referenceList) {

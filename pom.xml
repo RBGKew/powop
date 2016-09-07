@@ -38,7 +38,7 @@
 		<aspectj.version>1.6.12</aspectj.version>
 		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY so it can be picked up by docker-compose -->
 		<geotools.version>2.7.0</geotools.version>
-		<handlebars.version>4.0.5</handlebars.version>
+		<handlebars.version>4.0.7-SNAPSHOT</handlebars.version>
 		<hibernate.version>3.6.7.Final</hibernate.version>
 		<java.version>1.7</java.version>
 		<liquibase.version>3.4.2</liquibase.version>
@@ -1163,11 +1163,6 @@
 			</plugin>
 
 			<plugin>
-		     <groupId>org.codehaus.mojo</groupId>
-		     <artifactId>exec-maven-plugin</artifactId>
-		     </plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.2.1</version>
@@ -1251,6 +1246,18 @@
 			<id>kew.internal</id>
 			<url>http://kptman01.ad.kew.org/repository/</url>
 		</repository>
+
+		<!-- Snapshot repo added for handlebars.java v 4.0.7-SNAPSHOT. Remove when real release happens -->
+		<repository>
+			<id>snapshots-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
@@ -1318,8 +1325,8 @@
 				<test.db.conf>${project.parent.basedir}/src/test/resources/mysql</test.db.conf>
 			</properties>
 			<build>
-			<plugins>
-				<plugin>
+				<plugins>
+					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>2.8.1</version>

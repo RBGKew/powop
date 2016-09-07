@@ -12,7 +12,7 @@ module.exports = function (gulp, $) {
 	* Copy fonts
 	*/
 	gulp.task('copy:fonts', function() {
-	 return gulp.src( 'src/fonts/**/*.{ttf,woff,eot,svg}')
+	 return gulp.src( 'src/fonts/**/*.{ttf,woff,woff2,eot,svg}')
        .pipe(gulp.dest('dist/fonts/'));
 
   });

@@ -1,4 +1,4 @@
-{{> partials/header theme="s-theme-Family"}}
+{{> partials/header}}
 <div class="s-page">
   <header class="c-header">
     <div class="container">
@@ -16,55 +16,34 @@
   <article class="c-article">
     <header class="c-article-header">
 
+      {{#with measurementOrFacts.habitat}}
       <div class="s-border-bottom">
         <div class="container">
           <ol class="breadcrumb">
-            <li><a href="#">Habitat: Desert or Dry Shrubland</a></li>
-            <li><a href="#">IUCN Red List Status: Not Evaluated</a></li>
-            <li class="active">CITES Status: CITES Appenfix II</li>
+              <li>Habitat: {{message measurementValue}}</li>
           </ol>
         </div>
       </div>
+      {{/with}}
 
       <div class="container">
         <div class="c-family-list">
-          <ol>
-            <li>{{family}}
-              <ol>
-                <li>Asparagales Juss.
-                  <ol>
-                    <li>Scilloideae Burnett
-                      <ol>
-                        <li>Hyacinthoides Heist. ex Fabr
-                          <ol>
-                            <li><h1 class="c-family-list__heading">Campanula Rotundifolia</h1></li>
-                          </ol>
-                        </li>
-                      </ol>
-                    </li>
-                  </ol>
-                </li>
-              </ol>
-            </li>
-          </ol>
+          {{classification taxon}}
+          {{#with taxon.acceptedNameUsage }}
+          <p>Synonym of {{taxonLink this}}</p>
+          {{/with}}
         </div>
+        {{#with images}}
         <div class="c-gallery-header">
+          {{#each headerImages}}
           <div class="col">
             <figure class="c-gallery-header__img">
-              <img src="/img/raster/example-image-header.jpg" alt="Alt text" data-target=".gallery-modal-fullsceen" data-toggle="modal"> 
+              {{thumbnailImage this}}
             </figure>
           </div>
-          <div class="col">
-            <figure class="c-gallery-header__img">
-              <img src="/img/raster/example-image-header.jpg" alt="Alt text" data-target=".gallery-modal-fullsceen" data-toggle="modal">
-            </figure>
-          </div>
-          <div class="col">
-            <figure class="c-gallery-header__img">
-              <img src="/img/raster/example-image-header.jpg" alt="Alt text" data-target=".gallery-modal-fullsceen" data-toggle="modal">
-            </figure>
-          </div>
+          {{/each}}
         </div>
+        {{/with}}
       </div>
 
     </header>
@@ -75,8 +54,6 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
         </button>
       </div>
 
@@ -84,42 +61,75 @@
       <div class="c-article-nav collapse navbar-collapse" id="content-navbar">
         <div class="container">
           <ul class="nav navbar-nav navbar-nav--article">
-            <li><a href="#description">Description</a></li>
-            <li><a href="#distribution-map">Distribution Map</a></li>
-            <li><a href="#synonyms">Synonyms</a></li>
-            <li><a href="#image-gallery">Image Gallery</a></li>
-            <li><a href="#bibliography">Bibliography</a></li>
-            <li><a href="#references">References</a></li>
-            <li><a href="#sources">Sources</a></li>
-            <li><a href="#external-links">External links</a></li>
+            {{#if descriptions}}
+              <li><a href="#description">Description</a></li>
+            {{/if}}
+
+            {{#if distributions}}
+              <li><a href="#distribution-map">Distribution Map</a></li>
+            {{/if}}
+
+            {{#if children}}
+              <li><a href="#children">Included {{childRank taxon}}</a></li>
+            {{/if}}
+
+            {{#if synonyms}}
+              <li><a href="#synonyms">Synonyms</a></li>
+            {{/if}}
+
+            {{#if vernacularNames}}
+              <li><a href="#vernacular-names">Common Names</a></li>
+            {{/if}}
+
+            {{#if images}}
+              <li><a href="#image-gallery">Image Gallery</a></li>
+            {{/if}}
+
+            {{#if bibliography}}
+              <li><a href="#bibliography">Bibliography</a></li>
+            {{/if}}
+
+            {{#if sources}}
+              <li><a href="#sources">Sources</a></li>
+            {{/if}}
           </ul>
         </div>
       </div><!-- /.navbar-collapse -->
     </nav>
 
+    {{#with descriptions}}
     <section id="description" class="c-article-section">
+      <a name="description" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Description</h2>
           <div class="c-article-section__content">
-            <h3>According to Flora of Tropical East Africa</h3>
-            <p>Lorem ipsum dolor sit amet, graeco maiorum appetere qui no, suas choro blandit id cum <a href="#" data-toggle="popover" data-html="true" data-placement="auto" title="Campanula Rotundifolia" data-content='<img src="/img/raster/example-image-1.jpg">'>[view image]</a>. Et eos mazim altera salutatus. Lorem expetenda eu pri, quod eirmod maiorum duo ut. Ad dico reque accommodare cum. Verear euripidis adipiscing ut duo. Per cu facilis torquatos repudiandae, qui eu habemus maiestatis, vel cu facete iriure lobortis. Vis ignota ullamcorper necessitatibus et, at mei nulla legendos</p>
-            <h3>According to Flora Zambesiaca</h3>
-            <p>Lorem ipsum dolor sit amet, graeco maiorum appetere qui no, suas choro blandit id cum. Et eos mazim altera salutatus. Lorem expetenda eu pri, quod eirmod maiorum duo ut. Ad dico reque accommodare cum. Verear euripidis adipiscing ut duo. Per cu facilis torquatos repudiandae, qui eu habemus maiestatis, vel cu facete iriure lobortis. Vis ignota ullamcorper necessitatibus et, at mei nulla legendos</p>
+            {{#each bySource}}
+            <h3>According to {{source.title}} <small>{{bracketedSourceLink source}}</small></h3>
+              <dl>
+              {{#each byType}}
+                <dt>{{message type}}</dt>
+                <dd>
+                  {{#each descriptions}}
+                  <span>{{description}}</span>
+                  {{/each}}
+                </dd>
+              {{/each}}
+              </dl>
+            {{/each}}
           </div>
+
           <aside role="complementary" class="c-article-section__aside">
             <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
-            <ul class="c-reference-list">
-              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
-              <li><a href="#">FTEA.A</a></li>
-              <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Flora Zambesiaca B All Rights Reserved">FZ.B</a></li>
-            </ul>
           </aside>
         </div>
       </div>
     </section>
+    {{/with}}
 
-    <section id="other-data" class="c-article-section">
+    {{#with otherData}}
+    <section="other-data" class="c-article-section offset">
+      <a name="other-data" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Other data</h2>
@@ -141,88 +151,144 @@
         </div>
       </div>
     </section>
+    {{/with}}
 
+    {{#with distributions}}
     <section id="distribution-map" class="c-article-section">
+      <a name="distribution-map" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Distribution map</h2>
           <div class="c-article-section__content">
             <h3>Map</h3>
             <div class="c-map">
-
             </div>
+            <h3>Distribution</h3>
+            <ul class="c-distribution-list two-col">
+            {{#each sorted}}
+              <li>{{locality}}</li>
+            {{/each}}
+            </ul>
           </div>
           <aside role="complementary" class="c-article-section__aside">
             <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
-              <li><a href="#">FTEA.A</a></li>
-              <li><a href="#">FZ.B</a></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
             </ul>
           </aside>
         </div>
       </div>
     </section>
+    {{/with}}
 
+    {{#with children}}
+    <section id="children" class="c-article-section">
+      <a name="children" class="anchor-target"></a>
+      <div class="container">
+        <div class="row">
+          <h2 class="c-article-section__title">Included {{childRank taxon}}</h2>
+          <div class="c-article-section__content">
+            <ul class="c-synonym-list two-col">
+              {{#each sorted}}
+                <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+          {{#if sources}}
+          <aside role="complementary" class="c-article-section__aside">
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
+          </aside>
+          {{/if}}
+        </div>
+      </div>
+    </section>
+    {{/with}}
+
+    {{#with synonyms}}
     <section id="synonyms" class="c-article-section">
+      <a name="synonyms" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Synonyms</h2>
           <div class="c-article-section__content">
-            <ul class="c-synonym-list">
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
-              <li><a>Abdulmajidia Whitmore</a></li>
+            <ul class="c-synonym-list two-col">
+              {{#each sorted}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
             </ul>
           </div>
+          {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
-            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
-              <li><a href="#">FTEA.A</a></li>
-              <li><a href="#">FZ.B</a></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
             </ul>
           </aside>
+          {{/if}}
         </div>
       </div>
     </section>
+    {{/with}}
 
+    {{#with vernacularNames}}
+    <section id="vernacular-names" class="c-article-section">
+      <a name="vernacular-names" class="anchor-target"></a>
+      <div class="container">
+        <div class="row">
+          <h2 class="c-article-section__title">Vernacular Names</h2>
+          <div class="c-article-section__content">
+            <dl class="dl-horizontal">
+              {{#each sortedByLanguage as |names language|}}
+              <dt>{{language}}</dt>
+              <dd>
+                {{#each names as |commonName|}}
+                  {{commonName}}{{#unless @last}}, {{/unless}}
+                {{/each}}
+              </dd>
+              {{/each}}
+            </dl>
+          </div>
+          {{#if sources}}
+          <aside role="complementary" class="c-article-section__aside">
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
+          </aside>
+          {{/if}}
+        </div>
+      </div>
+    </section>
+    {{/with}}
+
+    {{#with taxon.images}}
     <section id="image-gallery" class="c-article-section">
+      <a name="image-gallery" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Gallery</h2>
           <div class="c-article-section__content">
 
             <div class="c-gallery clearfix">
+              {{#each images.all}}
               <div class="col">
                 <figure class="c-gallery__img">
-                  <img src="/img/raster/example-image-1.jpg" alt="Alt text" data-target=".gallery-modal-fullsceen" data-toggle="modal">
+                  {{thumbnailImage this}}
                 </figure>
               </div>
-              <div class="col">
-                <figure class="c-gallery__img">
-                  <img src="/img/raster/example-image-2.jpg" alt="Alt text" data-target=".gallery-modal-fullsceen" data-toggle="modal">
-                </figure>
-              </div>
-              <div class="col">
-                <figure class="c-gallery__img">
-                  <img src="/img/raster/example-image-1.jpg" alt="Alt text" data-target=".gallery-modal-fullsceen" data-toggle="modal">
-                </figure>
-              </div>
+            {{/each}}
             </div>
 
           </div>
@@ -232,42 +298,48 @@
         </div>
       </div>
     </section>
+    {{/with}}
 
     <section id="bibliography" class="c-article-section">
+      <a name="bibliography" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Bibliography</h2>
           <div class="c-article-section__content">
-            <h3>First published in Char. Gen. Pl:75 (1776), nom. cons.</h3>
-            <h4>Is Accepted in</h4>
-            <cite>[1] Govaerts, R.H.A (2011) World checklist of selected plant families published update. Facilitated by the Trustees of the Royal Botanic Gardens, Kew.</cite> 
+            {{#if taxon.namePublishedInString}}
+            <h3>First published in {{taxon.namePublishedInString}}</h3>
+            {{/if}}
+            <ul class="list-unstyled">
+            {{#each bibliography.references}}
+            <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
+            {{/each}}
+            </ul>
           </div>
-          <aside role="complementary" class="c-article-section__aside">
-            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
-          </aside>
         </div>
       </div>
     </section>
 
     <section id="sources" class="c-article-section">
+      <a name="sources" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Sources</h2>
           <div class="c-article-section__content">
-            <strong>Flora of West Tropical Africa</strong>
-            <p>A All Rights Reserved</p> 
-            <strong>Flora of West Tropical Africa</strong>
-            <p>A All Rights Reserved</p> 
-            <strong>Flora of West Tropical Africa</strong>
-            <p>A All Rights Reserved</p> 
+            {{#each sources.sorted}}
+            <p id="source-{{organisation.abbreviation}}">
+              <strong>{{organisation.title}}</strong><br/>
+              {{#if organisation.bibliographicCitation}}
+              {{organisation.bibliographicCitation}}<br/>
+              {{/if}}
+              <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small>
+            </p>
+            {{/each}}
           </div>
-          <aside role="complementary" class="c-article-section__aside">
-            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
-          </aside>
         </div>
       </div>
     </section>
   </article>
+
   {{> partials/gallery/gallery-modal}}
   {{> partials/footer-links}}
 </div>

@@ -24,7 +24,7 @@
 // Component - Family list
 .c-family-list {
 
-  padding: $padding-large-vertical 0 2em;
+  padding: $padding-large-vertical;
 
   @media (min-width: $screen-md-min) {
     width: 50%;
@@ -117,6 +117,24 @@
   }
 }
 
+// Description lists
+#description {
+  dt {
+    @include make-sm-column(2);
+    margin-bottom: 0.5em;
+  }
+
+  dd {
+    @include make-sm-column(10);
+    margin-bottom: 0.5em;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    dt {
+      text-align: right
+    };
+  }
+}
 
 // Component - Lists
 %unstyled-list {
@@ -138,7 +156,16 @@
 
 .c-synonym-list {
   @extend %unstyled-list;
-  column-count: 3;
+}
+
+.c-distribution-list {
+  @extend %unstyled-list;
+}
+
+@media (min-width: $screen-sm-min) {
+  .two-col {
+    column-count: 2;
+  }
 }
 
 
