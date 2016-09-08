@@ -31,13 +31,13 @@ require(['jquery', 'search', 'bootstrap'], function($, search){
         );
     });
 
-    $("input#search").on("focus", function() {
-      $("body").addClass("js-autocomplete js-fade-background");
-    });
+//    $("input#search").on("focus", function() {
+//      $("body").addClass("js-autocomplete js-fade-background");
+//    });
 
-    $("input#search").on("blur", function() {
-      $("body").removeClass("js-autocomplete js-fade-background");
-    });
+//    $("input#search").on("blur", function() {
+//      $("body").removeClass("js-autocomplete js-fade-background");
+//    });
 
     $("input#refine").on("focus", function() {
       $("body").addClass("js-autocomplete");

@@ -1,4 +1,4 @@
-// Page Home 
+// Page Home
 .s-page {
   position: relative;
 }
@@ -10,7 +10,7 @@
   background-size: cover;
   background-attachment: fixed;
   min-height: 100vh;
-  
+
   .s-page-wrapper {
     position: relative;
     min-height: calc(100vh - 30px);
@@ -27,12 +27,12 @@
 
 }
 
-// Section Home 
+// Section Home
 .s-search-home {
   width: 100%;
   @media (min-width: $screen-sm-min) {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 0;
     transform: translateY(-50%);
   }

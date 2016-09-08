@@ -63,7 +63,7 @@ public class ApiController {
 	public ResponseEntity<SuggesterResponse> suggest(
 			@RequestParam(value = "query", required = true) String queryString,
 			@RequestParam(value = "suggester", required = true) List<String> suggesters,
-			@RequestParam(value = "page.size", required = false, defaultValue = "5") Integer pageSize
+			@RequestParam(value = "page_size", required = false, defaultValue = "5") Integer pageSize
 			) throws SolrServerException, IOException {
 		AutoCompleteBuilder autoCompleteBuilder = new AutoCompleteBuilder();
 		autoCompleteBuilder.pageSize(pageSize);

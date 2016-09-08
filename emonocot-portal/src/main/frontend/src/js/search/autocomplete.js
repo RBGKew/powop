@@ -3,7 +3,8 @@ define([
   'libs/pubsub',
   './events',
   'templates/partials/search/autocomplete.js',
-], function($, pubsub, events, autocomplete) {
+  'helpers/autocomplete.js',
+], function($, pubsub, events, autocomplete, helper) {
 
   function ac() {
     return $('.tab-pane.active div.c-autocomplete');
@@ -18,7 +19,7 @@ define([
   }
 
   function handleInput(event) {
-    search($(this).val(), suggester(), $(this));
+    search($(this).val(), getData("suggester"), $(this), getData("showsuggester"), getData("count"));
   }
 
   function handleKeydown(event) {
@@ -32,17 +33,18 @@ define([
     }
   }
 
-  function suggester() {
-    return $('.c-search .tab-pane.active input.refine').data('suggester');
+  function getData(key) {
+    return $('.autocomplete-form .tab-pane.active input.refine').data(key);
   }
 
   $(document).ready(function() {
-    $('.c-search').on({
+
+    $('.autocomplete-form').on({
       keydown: handleKeydown,
       input: handleInput
     }, 'input.refine');
 
-    $('.c-search').on({
+    $('.autocomplete-form').on({
       mouseenter: function(e) {
         makeSelection($(this));
       },
@@ -53,16 +55,18 @@ define([
     }, '.c-autocomplete a');
   });
 
-  var search = function(query, suggesters, $input) {
+  var search = function(query, suggesters, $input, show_suggester, pageSize) {
     if(query.length > 1) {
-      $.getJSON('/api/1/suggest', {query: query, suggester: suggesters}, function(data) {
+      $.getJSON('/api/1/suggest', {query: query, page_size : pageSize, suggester: suggesters }, function(data) {
         hide();
         $input.after(autocomplete({
           suggestions: data.suggestedTerms,
-          theme: 'c-autocomplete--inline'
+          theme: 'c-autocomplete--inline',
+          showSuggester: true
         }));
       });
-    } else {
+    }
+    else {
       hide();
     }
   };
@@ -105,6 +109,7 @@ define([
   };
 
   var currentSelection = function() {
+    console.log(ac().find('a.selected').text());
     return ac().find('a.selected').text();
   };
 

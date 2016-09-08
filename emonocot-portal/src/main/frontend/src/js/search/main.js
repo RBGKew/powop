@@ -12,7 +12,7 @@ define(function(require) {
   var Cookies = require('libs/js.cookie.js');
 
   function active() {
-    return $('.c-search .tab-pane.active');
+    return $('.autocomplete-form .tab-pane.active');
   }
 
   function selectType() {

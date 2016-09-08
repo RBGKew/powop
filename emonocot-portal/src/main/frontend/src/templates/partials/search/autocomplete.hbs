@@ -4,6 +4,9 @@
     {{#each this}}
       <li role="option" class="c-autocomplete__option">
         <a href="#">{{ this }}</a>
+        {{#if showSuggester}}
+            <span class="in_line">{{getSuggester @../key}}</span>
+        {{/if}}
       </li>
     {{/each}}
   {{/each}}

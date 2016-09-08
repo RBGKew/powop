@@ -35,8 +35,6 @@ define([
     }
     var keyvalue = key + ":" + value;
     highlights = highlights.push(keyvalue);
-    console.log(key);
-    console.log($.param(highlights.toObject()));
     if($.isArray(value)) {
       filters = filters.set(key, value);
       $.each(value, function(index, val) { addBreadcrumb(key, val) });
