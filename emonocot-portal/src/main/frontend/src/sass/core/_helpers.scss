@@ -50,6 +50,9 @@
   border: 15px solid #CCCCCC;
 }
 
+@media (max-width: $screen-sm-min) {
+  .s-page { border-width: 5px; }
+}
 .s-border-bottom {
   border-bottom: 1px solid #FFFFFF;
 }
