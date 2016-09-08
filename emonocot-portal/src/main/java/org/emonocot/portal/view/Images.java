@@ -16,7 +16,7 @@ public class Images {
 	}
 
 	public List<Image> getHeaderImages() {
-		return images.subList(0, Math.min(images.size(), 3));
+		return images.subList(0, Math.min(images.size(), 1));
 	}
 	
 	public List<Image> getAll() {

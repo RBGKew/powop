@@ -1,4 +1,4 @@
-require(['jquery', 'search', 'bootstrap'], function($, search){
+require(['jquery', 'search', 'taxon', 'bootstrap'], function($, search){
 
   $(document).ready(function() {
 
@@ -31,21 +31,5 @@ require(['jquery', 'search', 'bootstrap'], function($, search){
         );
     });
 
-    $("input#search").on("focus", function() {
-      $("body").addClass("js-autocomplete js-fade-background");
-    });
-
-    $("input#search").on("blur", function() {
-      $("body").removeClass("js-autocomplete js-fade-background");
-    });
-
-    $("input#refine").on("focus", function() {
-      $("body").addClass("js-autocomplete");
-    });
-
-    $("input#refine").on("blur", function() {
-      $("body").removeClass("js-autocomplete");
-    });
   });
-
 });
