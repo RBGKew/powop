@@ -2,6 +2,7 @@ define(function(require) {
 
   var $ = require('jquery');
   var Handlebars = require('handlebars');
+  var imagesHelper = require('helpers/images-helper');
   var pagination = require('libs/pagination');
   var filters = require('./filters');
 
