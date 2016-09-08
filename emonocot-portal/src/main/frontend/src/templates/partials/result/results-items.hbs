@@ -15,13 +15,13 @@
         </div>
         {{#if images}}
         <div class="c-gallery-thumbs">
-          {{#each images}}
+          {{#firstThree images}}
           <figure class="c-gallery-thumbs__img">
             <div class="c-gallery-thumbs__bg">
               {{thumbnailImage this}}
             </div>
           </figure>
-          {{/each}}
+          {{/firstThree}}
         </div>
         {{/if}}
       </a>
