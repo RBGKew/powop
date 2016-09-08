@@ -168,6 +168,12 @@
           </div>
           <aside role="complementary" class="c-article-section__aside">
             <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
           </aside>
         </div>
       </div>
