@@ -1,4 +1,4 @@
-require(['jquery', 'search', 'taxon', 'bootstrap'], function($, search){
+require(['jquery', 'bootstrap', 'search', 'taxon'], function($){
 
   $(document).ready(function() {
 

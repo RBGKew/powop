@@ -71,18 +71,7 @@ define(function(require) {
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
-  pubsub.subscribe('search.updated', function(_, updateHistory) {
-    results.update(filters.toQuery());
-    if(updateHistory) {
-      History.pushState(null, null, '/search?' + filters.serialize());
-    }
-  });
-
-  pubsub.subscribe('autocomplete.selected', function(_, selected) {
-    active().find('input.refine').val(selected);
-  });
-
-  $(document).ready(function() {
+  var initialize = function() {
     if(window.location.search.length > 1) {
       filters.deserialize(window.location.search);
     }
@@ -111,6 +100,17 @@ define(function(require) {
       .on('click', '.facets', setFacet)
       .on('click', '.sort_options', setSort)
       .on('click', '.search_view', setView);
+  };
+
+  pubsub.subscribe('search.updated', function(_, updateHistory) {
+    results.update(filters.toQuery());
+    if(updateHistory) {
+      History.pushState(null, null, '/search?' + filters.serialize());
+    }
+  });
+
+  pubsub.subscribe('autocomplete.selected', function(_, selected) {
+    active().find('input.refine').val(selected);
   });
 
   pubsub.subscribe('autocomplete.selected', function(_, selected) {
@@ -120,5 +120,6 @@ define(function(require) {
   return {
     add: function(key, value) { filters.add(key, value); },
     remove: function(key, value) { filters.remove(key); },
+    initialize: initialize
   };
 });
