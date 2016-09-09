@@ -26,7 +26,7 @@ public class ImageHelper {
 		}
 
 		if(modal) {
-			imgTag = String.format("<a href=\"%s\" data-toggle=\"lightbox\" data-gallery=\"image-gallery\" data-title=\"%s\" data-footer=\"%s\">%s</a>",
+			imgTag = String.format("<a href=\"%s\" title=\"%s\" data-footer=\"%s\">%s</a>",
 					String.format("%s_fullsize.jpg", image.getAccessUri()), image.getTitle(), image.getCaption(), imgTag);
 		}
 
