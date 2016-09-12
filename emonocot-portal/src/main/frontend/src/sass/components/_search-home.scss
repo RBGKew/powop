@@ -5,7 +5,11 @@
 
   @media (min-width: $screen-md-min) {
     max-width: 90%;
-    padding: 0 20px;
+    padding: 0 0px;
+  }
+
+  .form-group {
+    padding: 0 15px;
   }
 
   &__links {
@@ -21,4 +25,5 @@
     }
 
   }
+
 }

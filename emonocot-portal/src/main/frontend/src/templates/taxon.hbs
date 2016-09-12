@@ -37,9 +37,7 @@
         <div class="c-gallery-header">
           {{#each headerImages}}
           <div class="col">
-            <figure class="c-gallery-header__img">
-              {{thumbnailImage this}}
-            </figure>
+            {{fullsizeImage this figure-class="c-gallery-header__img"}}
           </div>
           {{/each}}
         </div>
@@ -65,6 +63,10 @@
               <li><a href="#description">Description</a></li>
             {{/if}}
 
+            {{#if images}}
+              <li><a href="#image-gallery">Image Gallery</a></li>
+            {{/if}}
+
             {{#if distributions}}
               <li><a href="#distribution-map">Distribution Map</a></li>
             {{/if}}
@@ -79,10 +81,6 @@
 
             {{#if vernacularNames}}
               <li><a href="#vernacular-names">Common Names</a></li>
-            {{/if}}
-
-            {{#if images}}
-              <li><a href="#image-gallery">Image Gallery</a></li>
             {{/if}}
 
             {{#if bibliography}}
@@ -147,6 +145,35 @@
           </div>
           <aside role="complementary" class="c-article-section__aside">
             <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    {{/with}}
+
+    {{#with images}}
+    <section id="image-gallery" class="c-article-section">
+      <a name="image-gallery" class="anchor-target"></a>
+      <div class="container">
+        <div class="row">
+          <h2 class="c-article-section__title">Gallery</h2>
+          <div class="c-article-section__content">
+
+            <div class="c-gallery clearfix">
+            {{#each all}}
+              {{thumbnailImage this figure-class="c-gallery__img"}}
+            {{/each}}
+            </div>
+
+          </div>
+          <aside role="complementary" class="c-article-section__aside">
+            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
           </aside>
         </div>
       </div>
@@ -273,33 +300,6 @@
     </section>
     {{/with}}
 
-    {{#with taxon.images}}
-    <section id="image-gallery" class="c-article-section">
-      <a name="image-gallery" class="anchor-target"></a>
-      <div class="container">
-        <div class="row">
-          <h2 class="c-article-section__title">Gallery</h2>
-          <div class="c-article-section__content">
-
-            <div class="c-gallery clearfix">
-              {{#each images.all}}
-              <div class="col">
-                <figure class="c-gallery__img">
-                  {{thumbnailImage this}}
-                </figure>
-              </div>
-            {{/each}}
-            </div>
-
-          </div>
-          <aside role="complementary" class="c-article-section__aside">
-            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
-          </aside>
-        </div>
-      </div>
-    </section>
-    {{/with}}
-
     <section id="bibliography" class="c-article-section">
       <a name="bibliography" class="anchor-target"></a>
       <div class="container">
@@ -340,7 +340,6 @@
     </section>
   </article>
 
-  {{> partials/gallery/gallery-modal}}
   {{> partials/footer-links}}
 </div>
-{{> partials/footer}}
+{{> partials/footer initialize="taxon"}}

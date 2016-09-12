@@ -5,6 +5,10 @@
 
   transition: box-shadow .1s ease-out;
 
+  @media (max-width: $screen-sm-min) {
+    width: 100%;
+  }
+
   &:hover {
     box-shadow: inset 0px 0px 0px 10px rgba(#66CCCC,0.75);
   }

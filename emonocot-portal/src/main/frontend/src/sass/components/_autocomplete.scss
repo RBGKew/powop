@@ -36,6 +36,7 @@
       color: inherit;
       display: inline-block;
       padding: 10px $grid-gutter-width;
+      width: 100%;
     }
 
     a:hover {
@@ -52,7 +53,6 @@
     .in_line {
       display: inline;
       float: right;
-      padding: 10px;
       font-style: italic;
       color: #999;
       text-align: right;

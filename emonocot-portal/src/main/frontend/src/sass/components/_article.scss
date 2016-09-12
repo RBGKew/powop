@@ -73,6 +73,9 @@
   @media (min-width: $screen-md-min) {
     padding: 2em 0;
   }
+  @media (max-width: $screen-sm-min) {
+    padding: 0 0.5em 0 0;
+  }
 }
 
 .c-article-section__content {

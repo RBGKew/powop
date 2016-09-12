@@ -55,14 +55,14 @@ define([
     }, '.c-autocomplete a');
   });
 
-  var search = function(query, suggesters, $input, show_suggester, pageSize) {
+  var search = function(query, suggesters, $input, showSuggester, pageSize) {
     if(query.length > 1) {
       $.getJSON('/api/1/suggest', {query: query, page_size : pageSize, suggester: suggesters }, function(data) {
         hide();
         $input.after(autocomplete({
           suggestions: data.suggestedTerms,
           theme: 'c-autocomplete--inline',
-          showSuggester: true
+          showSuggester: showSuggester,
         }));
       });
     }
@@ -109,8 +109,8 @@ define([
   };
 
   var currentSelection = function() {
-    console.log(ac().find('a.selected').text());
-    return ac().find('a.selected').text();
+    console.log(ac().find('a.selected').data("suggestion"));
+    return ac().find('a.selected').data("suggestion");
   };
 
   var hasSelection = function() {

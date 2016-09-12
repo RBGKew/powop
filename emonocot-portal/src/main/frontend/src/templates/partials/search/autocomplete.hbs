@@ -3,10 +3,11 @@
   {{#each suggestions}}
     {{#each this}}
       <li role="option" class="c-autocomplete__option">
-        <a href="#">{{ this }}</a>
-        {{#if showSuggester}}
+        <a href="#" data-suggestion={{this}} >{{ this }}
+        {{#if @root.showSuggester}}
             <span class="in_line">{{getSuggester @../key}}</span>
         {{/if}}
+        </a>
       </li>
     {{/each}}
   {{/each}}

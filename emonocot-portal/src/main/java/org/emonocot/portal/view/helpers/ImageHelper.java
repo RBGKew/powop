@@ -16,14 +16,19 @@ public class ImageHelper {
 	}
 
 	private CharSequence link(Image image, String type, Options options) {
-		boolean modal = options.hash("modal", true);
-		String modalOptions = "data-target=\".gallery-modal-fullscreen\" data-toggle=\"modal\"";
-		String imgTag = String.format("<img src=\"%s_%s.jpg\" alt=\"%s: %s\" %s/>",
-				image.getAccessUri(),
-				type,
-				image.getTitle(),
-				image.getCaption(),
-				modal ? modalOptions : "");
+		boolean modal = options.hash("lightbox", true);
+		String figureClass = options.hash("figure-class");
+		String imgUrl = String.format("%s_%s.jpg", image.getAccessUri(), type);
+		String imgTag = String.format("<img src=\"%s\" title=\"%s\"/>", imgUrl, image.getTitle());
+
+		if(figureClass != null) {
+			imgTag = String.format("<figure class=\"%s\">%s</figure>", figureClass, imgTag);
+		}
+
+		if(modal) {
+			imgTag = String.format("<a href=\"%s\" data-toggle=\"lightbox\" data-gallery=\"image-gallery\" data-title=\"%s\" data-footer=\"%s\">%s</a>",
+					String.format("%s_fullsize.jpg", image.getAccessUri()), image.getTitle(), image.getCaption(), imgTag);
+		}
 
 		return new Handlebars.SafeString(imgTag);
 	}

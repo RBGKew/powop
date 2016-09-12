@@ -83,6 +83,7 @@ $border-grey: 1px solid #CCCCCC;
 @import 'vendor/accoutrement-layout/sass/layout';
 
 @import "vendor/bootstrap";
+@import "vendor/lightbox";
 
 @import "core/functions";
 @import "core/helpers";
@@ -110,10 +111,9 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/article";
 
 @import "components/gallery";
-@import "components/gallery-carousel";
+@import "components/gallery-lightbox";
 @import "components/gallery-thumbs";
 @import "components/gallery-header";
-
 
 @import "components/intro";
 @import "components/pagination";

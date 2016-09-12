@@ -13,15 +13,17 @@
           <h2 class="c-card__title">{{name}} <cite>{{author}}</cite></h2>
           <p>{{{snippet}}}</p>
         </div>
-        <div itemscope itemtype="http://schema.org/ImageGallery" class="c-gallery-thumbs">
-          {{#each images}}
+        {{#if images}}
+        <div class="c-gallery-thumbs">
+          {{#firstThree images}}
           <figure class="c-gallery-thumbs__img">
             <div class="c-gallery-thumbs__bg">
-              <img src={{url}} itemprop="thumbnail" alt={{caption}} />
+              {{thumbnailImage this}}
             </div>
           </figure>
-          {{/each}}
+          {{/firstThree}}
         </div>
+        {{/if}}
       </a>
     </article>
     {{/each}}

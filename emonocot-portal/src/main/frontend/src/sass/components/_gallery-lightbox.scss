@@ -1,0 +1,18 @@
+.ekko-lightbox {
+  color: $text-color-invert;
+
+  .modal-header {
+    border-bottom: 0;
+    padding: 0 15px;
+  }
+
+  .modal-footer {
+    border-top: 0;
+    padding: 0 15px;
+  }
+
+  .close {
+    color: $text-color-invert;
+    text-shadow: #000;
+  }
+}

@@ -17,21 +17,21 @@
       <div class="container">
         <div class="c-intro">
           <h1 class="c-intro__title">An online resource for the world's plants</h1>
-          <p>Our aim is to document the world's plants, for public information and research. Browse through our collection of 27,354 plant names, 584 entries with images, research is ongoing.</p>
+          <p>Our aim is to document the world's plants, for public information and research. Browse through our collection of {{facets.all_results}} plant names, {{facets.has_images}} entries with images, research is ongoing.</p>
         </div>
 
         <div class="c-search-home autocomplete-form">
-          <form class="form-add form-inline form-inline--home">
-            <div class="form-group form-inline__input tab-pane active">
+          <div class="form-add form-inline form-inline--home">
+            <div id="any" class="form-group form-inline__input tab-pane active">
               <label for="search" class="sr-only">Search</label>
-              <input class="form-control refine" id="search"
+              <input autocomplete="off" class="form-control refine" id="search"
                data-suggester="scientific-name,location,characteristic"
                data-count=2
                data-showsuggester=true
                placeholder="Search by species, genus or family name, or any words describing the plant">
             </div>
             <button type="submit" class="btn btn-default">Search</button>
-          </form>
+          </div>
           <nav>
             <ul class="c-search-home__links list-inline">
               <li>Or find plants by:</li>
@@ -48,4 +48,4 @@
     {{> partials/footer-links-fluid}}
   </div>
 </div>
-{{> partials/footer}}
+{{> partials/footer initialize="home"}}
