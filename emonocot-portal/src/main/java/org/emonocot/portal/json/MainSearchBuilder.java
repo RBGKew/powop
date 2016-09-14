@@ -17,8 +17,8 @@ public class MainSearchBuilder {
 	private Map<String, Integer>facets = new HashMap<String, Integer>();
 	private List<SearchResultBuilder> results = new ArrayList<SearchResultBuilder>();
 
-	public MainSearchBuilder totalResults(Integer total_results){
-		this.totalResults = total_results;
+	public MainSearchBuilder totalResults(Integer totalResults){
+		this.totalResults = totalResults;
 		return this;
 	}
 
@@ -27,8 +27,8 @@ public class MainSearchBuilder {
 		return this;
 	}
 
-	public MainSearchBuilder per_page(Integer per_page){
-		this.perPage = per_page;
+	public MainSearchBuilder perPage(Integer perPage){
+		this.perPage = perPage;
 		return this;
 	}
 

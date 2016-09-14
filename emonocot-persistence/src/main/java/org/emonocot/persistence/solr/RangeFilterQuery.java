@@ -10,5 +10,4 @@ public class RangeFilterQuery implements QueryOption {
 			query.addFilterQuery(String.format("%s:[%s]", key, value));
 		}
 	}
-
 }

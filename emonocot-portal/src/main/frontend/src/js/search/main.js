@@ -67,7 +67,7 @@ define(function(require) {
   }
 
   function updateSuggester(event) {
-    var suggester = $(this).find(':selected a').text().replace(' ', '-').toLowerCase();
+    var suggester = $(this).find(':selected').text().replace(' ', '-').toLowerCase();
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 

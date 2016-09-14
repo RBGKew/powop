@@ -46,7 +46,7 @@ public class JsonBuilderTest {
 		mainJsonBuilder.addFacet("has_images", 100);
 		mainJsonBuilder.addFacet("accepted", 10);
 		mainJsonBuilder.page(0);
-		mainJsonBuilder.per_page(10);
+		mainJsonBuilder.perPage(10);
 		mainJsonBuilder.totalResults(1000);
 		
 	}

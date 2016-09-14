@@ -13,8 +13,6 @@ define([
 
   var filters = Immutable.Map();
 
-  var highlights = Immutable.List();
-
   var params = Immutable.Map();
 
   function className(key) {
@@ -33,8 +31,6 @@ define([
     if(filters.has(key)) {
       doRemove($('button.' + className(key)));
     }
-    var keyvalue = key + ":" + value;
-    highlights = highlights.push(keyvalue);
     if($.isArray(value)) {
       filters = filters.set(key, value);
       $.each(value, function(index, val) { addBreadcrumb(key, val) });
@@ -55,20 +51,13 @@ define([
         return value != v;
       });
       filters = filters.set(key, updated);
-      removeHighlight(key, updated);
     } else {
       filters = filters.delete(key);
-      removeHighlight(key, value);
     }
 
     params = params.remove('page.number');
     filter.remove();
     return key;
-  }
-
-  function removeHighlight(key, value){
-    var index = highlights.findIndex(function(item) { return item === key + ":" + value; });
-    highlights = highlights.delete(index);
   }
 
   var add = function(key, value) {
@@ -92,7 +81,6 @@ define([
   };
 
   var toQuery = function() {
-    params = params.set("highlight", highlights.last());
     var queryMap = {};
     var flatFilterMap = {};
     var filterMap = filters.toObject();

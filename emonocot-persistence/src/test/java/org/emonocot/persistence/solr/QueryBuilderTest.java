@@ -17,13 +17,10 @@ public class QueryBuilderTest {
 	
 	@Test
 	public void BasicFilterQuery(){
-		QueryBuilder querybuilder = new QueryBuilder();
-		SolrQuery query = querybuilder.addParam("test", "blarg").build();
-		List<String> filterQueries = Arrays.asList(query.getFilterQueries());
-		//check the query contains the filter we just put in
-		assertTrue(filterQueries.contains("test:blarg"));
-		//check the query contains only those facets
-		assertTrue(filterQueries.size() == 2);
+		QueryBuilder queryBuilder = new QueryBuilder().addParam("test", "blarg");
+		assertEquals("test:blarg", queryBuilder.build().getQuery());
+		queryBuilder.addParam("anotherParam", "blarg");
+		assertEquals("test:blarg AND anotherParam:blarg", queryBuilder.build().getQuery());
 	}
 	
 	@Test
@@ -39,9 +36,17 @@ public class QueryBuilderTest {
 	public void MainFilterQuery(){
 		QueryBuilder querybuilder = new QueryBuilder();
 		SolrQuery query = querybuilder.addParam("main.query", "blarg").build();
-		List<String> filterQueries = Arrays.asList(query.getFilterQueries());
-		assertTrue(filterQueries.contains("taxon.scientific_name_t:blarg OR taxon.family_ss:blarg OR taxon.genus_ss:blarg OR taxon.species_ss:blarg OR taxon.vernacular_names_ss:blarg OR "
-										+ "taxon.description_t:blarg OR taxon.distribution_ss:blarg OR taxon.name_published_in_string_s:blarg OR taxon.scientific_name_authorship_s:blarg"));
+		String expectedResult = "(taxon.description_t:blarg OR " +
+				"taxon.distribution_ss:blarg OR " +
+				"taxon.family_ss:blarg OR " +
+				"taxon.genus_ss:blarg OR " +
+				"taxon.name_published_in_string_s:blarg OR " +
+				"taxon.scientific_name_authorship_s:blarg OR " +
+				"taxon.scientific_name_t:blarg OR " +
+				"taxon.species_ss:blarg OR " +
+				"taxon.vernacular_names_ss:blarg)";
+
+		assertEquals(expectedResult, query.getQuery());
 	}
 	
 	@Test

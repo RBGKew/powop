@@ -862,7 +862,7 @@
       <str name="hl">true</str>
       <str name="hl.fl">*</str>
       <str name="hl.requireFieldMatch">true</str>
-      <str name="hl.fragsize">100</str>
+      <str name="hl.fragsize">60</str>
     </lst>
 </requestHandler>
 
