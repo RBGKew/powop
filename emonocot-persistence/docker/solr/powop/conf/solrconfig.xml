@@ -1309,7 +1309,7 @@
       <str name="contextField">taxon.taxon_rank_s</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
-      <str name="buildOnStartup">false</str>
+      <str name="buildOnStartup">true</str>
     </lst>
 
     <lst name="suggester">
@@ -1320,7 +1320,7 @@
       <str name="indexPath">common_name_suggest</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
-      <str name="buildOnStartup">false</str>
+      <str name="buildOnStartup">true</str>
     </lst>
 
     <lst name="suggester">
@@ -1334,7 +1334,7 @@
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
       <str name="separator"> </str>
-      <str name="buildOnStartup">false</str>
+      <str name="buildOnStartup">true</str>
     </lst>
   </searchComponent>
 
