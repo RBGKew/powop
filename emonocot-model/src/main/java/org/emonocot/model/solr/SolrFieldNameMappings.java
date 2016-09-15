@@ -19,7 +19,7 @@ public class SolrFieldNameMappings {
 			.put("leaves", "taxon.description_leaves_t")
 			.put("flowers", "taxon.description_flower_t")
 			.put("seed", "taxon.description_seed_t")
-			.put("vegetative propogation", "taxon.description_vegitativePropogation_t")
+			.put("cloning", "taxon.description_vegitativePropagation_t")
 			.put("location", "taxon.distribution_ss")
 			.put("uses", "taxon.description_uses_t")
 			.put("name", "taxon.scientific_name_t")
