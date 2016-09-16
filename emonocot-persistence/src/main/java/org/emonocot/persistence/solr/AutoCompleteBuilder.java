@@ -1,5 +1,6 @@
 package org.emonocot.persistence.solr;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -12,18 +13,34 @@ public class AutoCompleteBuilder {
 	
 	private Integer pageSize = 5;
 	
+	private Boolean suggesterSet = false; 
+	
 	private static final Set<String> ranks = ImmutableSet.<String>builder()
 			.add("FAMILY")
 			.add("GENUS")
 			.add("SPECIES")
 			.build();
 	
+	private List<String> workingSuggesters;
+	
+	private void addWorkingSuggester(String suggester){
+		if(workingSuggesters != null && workingSuggesters.contains(suggester)){
+			query.add("suggest.dictionary", suggester);
+			suggesterSet = true;
+		}		
+	}
+	
+	public AutoCompleteBuilder setWorkingSuggesters(List<String> suggesters){
+		workingSuggesters = suggesters;
+		return this;	
+	}
+	
 	public AutoCompleteBuilder addSuggester(String suggester){
 		if(ranks.contains(suggester.toUpperCase())){
-			query.add("suggest.dictionary", "scientific-name");
+			addWorkingSuggester("scientific-name");
 			query.add("suggest.cfq", suggester.toUpperCase());
 		}else{
-			query.add("suggest.dictionary", suggester);
+			addWorkingSuggester(suggester);
 		}
 		return this;
 	}
@@ -39,8 +56,11 @@ public class AutoCompleteBuilder {
 	}
 
 	public SolrQuery build (){
-		query.add("suggest.count", pageSize.toString());
-		return query;
+		if(suggesterSet){
+			query.add("suggest.count", pageSize.toString());
+			return query;
+		}
+		return null;
 	}
 }
 

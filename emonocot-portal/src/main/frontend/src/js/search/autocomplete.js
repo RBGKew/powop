@@ -45,11 +45,12 @@ define([
     }, 'input.refine');
 
     $('.autocomplete-form').on({
-      mouseenter: function(e) {
+      mousemove: function(e) {
         makeSelection($(this));
       },
       click: function(e) {
         makeSelection($(this));
+        pubsub.publish('search.updated.filters', true);
         hide();
       },
     }, '.c-autocomplete a');

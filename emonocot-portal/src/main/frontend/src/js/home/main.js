@@ -6,7 +6,7 @@ define([
 
 function handleKeypress(event) {
   if(event.which === events.ENTER) {
-    loadSearchPage()
+    pubsub.publish('search.updated');
     event.preventDefault();
   }
 }
@@ -32,9 +32,9 @@ var initialize = function() {
     .on('keypress', 'input.refine', handleKeypress)
     .on('change', '#search', updateSuggester);
 
-  $.getJSON("/api/1/search?", function(json) {
-
-  });
+    pubsub.subscribe('search.updated', function(){
+      loadSearchPage();
+    });
 };
 
 
