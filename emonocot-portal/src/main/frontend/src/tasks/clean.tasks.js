@@ -13,6 +13,14 @@ module.exports = function (gulp, $) {
 		return $.del(["dist/img/*"], { force: true });
   });
 
+  gulp.task('clean:css', function() {
+		return $.del(["dist/css/*"], { force: true });
+  });
+
+  gulp.task('clean:js', function() {
+		return $.del(["dist/js/*"], { force: true });
+  });
+
   gulp.task('clean:templates', function() {
     return $.del(["src/js/templates/**/*"], { force: true});
   });
@@ -24,7 +32,4 @@ module.exports = function (gulp, $) {
 	gulp.task('clean:dist', function() {
 		return $.del(["dist/**/*"], { force: true });
   });
-
-
-
 };

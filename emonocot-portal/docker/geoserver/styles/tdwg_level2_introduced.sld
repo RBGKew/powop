@@ -21,7 +21,7 @@
           <Abstract>A polygon with green fill</Abstract>
           <PolygonSymbolizer>
             <Fill>
-              <CssParameter name="fill">#9A9261</CssParameter>
+              <CssParameter name="fill">#d09e7c</CssParameter>
             </Fill>
           </PolygonSymbolizer>
         </Rule>

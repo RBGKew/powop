@@ -1,6 +1,4 @@
-define(['jquery', 'libs/magnific-popup'], function($) {
-
-
+define(['jquery', './map', 'libs/magnific-popup'], function($, map) {
   var initialize = function() {
     // initialize popup for header image
     $('.c-gallery-header a').magnificPopup({type: 'image'});
@@ -11,15 +9,17 @@ define(['jquery', 'libs/magnific-popup'], function($) {
       type: 'image',
       gallery: { enabled: true }
     });
-  }
 
-  $('.description_expand').click(function( event ){
-    event.preventDefault();
-    $(this).find("span")
-    .toggleClass('glyphicon-chevron-up')
-    .toggleClass('glyphicon-chevron-down');
-    $(this).parent().next().toggle();
-  });
+    $('.description_expand').click(function( event ){
+      event.preventDefault();
+      $(this).find("span")
+        .toggleClass('glyphicon-chevron-up')
+        .toggleClass('glyphicon-chevron-down');
+      $(this).parent().next().toggle();
+    });
+
+    map.initialize();
+  }
 
   return {
     initialize: initialize,

@@ -44,7 +44,11 @@ services:
       - harvester
       - portal
     volumes:
-      - $SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/:/usr/local/apache2/htdocs
+      - $SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
+      - $SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
+      - $SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
+      - $SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
+      - $SOURCE_DIRECTORY/emonocot/emonocot-static/src/main/tiles/:/usr/local/apache2/htdocs/tiles
     ports:
       - "10080:80"
     mem_limit: 200M

@@ -17,11 +17,11 @@
       <FeatureTypeStyle>
         <Rule>
           <Name>Fill</Name>
-          <Title>Green Fill</Title>
-          <Abstract>A polygon with green fill</Abstract>
+          <Title>Teal Fill</Title>
+          <Abstract>A polygon with teal fill</Abstract>
           <PolygonSymbolizer>
             <Fill>
-              <CssParameter name="fill">#6F9449</CssParameter>
+              <CssParameter name="fill">#339999</CssParameter>
             </Fill>
           </PolygonSymbolizer>
         </Rule>

@@ -15,9 +15,11 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.util.NamedList;
 import org.emonocot.api.SearchableObjectService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.model.Taxon;
 import org.emonocot.persistence.solr.AutoCompleteBuilder;
 import org.emonocot.persistence.solr.QueryBuilder;
 import org.emonocot.portal.json.ResponseBuilder;
+import org.emonocot.portal.json.TaxonResponse;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -95,5 +98,11 @@ public class ApiController {
 
 		return workingSuggesters;
 		
+	}
+
+	@RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
+	public ResponseEntity<TaxonResponse> taxon(@PathVariable String identifier) {
+		Taxon taxon = taxonService.find(identifier);
+		return new ResponseEntity<TaxonResponse>(new TaxonResponse(taxon), HttpStatus.OK);
 	}
 }

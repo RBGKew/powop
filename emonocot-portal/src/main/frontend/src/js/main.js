@@ -21,7 +21,7 @@ require.config({
         "bootstrap" : "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min",
         "handlebars" : "//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.runtime",
         "immutable" : "//cdnjs.cloudflare.com/ajax/libs/immutable/3.8.1/immutable.min",
-        "lightbox" : "//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/4.0.1/ekko-lightbox.min",
+        "lodash": "//cdn.jsdelivr.net/lodash/4.15.0/lodash.min",
     },
 
     packages: ["search", "taxon", "home"]

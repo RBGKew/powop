@@ -44,7 +44,7 @@ gulp.task('browser-sync', function() {
 */
 gulp.task('copy', ['copy:fonts', 'copy:svgs', 'copy:videos', 'copy:js']);
 gulp.task('images', ['images:sprite', 'images:minify', 'copy:svgs']);
-gulp.task('clean', ['clean:dist', 'clean:templates']);
+gulp.task('clean', ['clean:images', 'clean:css', 'clean:js', 'clean:templates']);
 
 /*
 * Watch Task

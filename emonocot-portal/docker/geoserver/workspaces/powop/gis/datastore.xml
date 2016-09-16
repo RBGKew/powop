@@ -1,7 +1,7 @@
 <dataStore>
   <id>DataStoreInfoImpl--387c73be:139779a0325:-7ffb</id>
   <name>gis</name>
-  <description>Store for eMonocot &quot;Place&quot;s</description>
+  <description>Store for PoWOP &quot;Place&quot;s</description>
   <type>MySQL</type>
   <enabled>true</enabled>
   <workspace>
@@ -10,14 +10,14 @@
   <connectionParameters>
     <entry key="Connection timeout">20</entry>
     <entry key="port">3306</entry>
-    <entry key="passwd">gs</entry>
+    <entry key="passwd">plain:gs</entry>
     <entry key="dbtype">mysql</entry>
     <entry key="host">geodb</entry>
     <entry key="validate connections">true</entry>
     <entry key="storage engine">MyISAM</entry>
     <entry key="max connections">10</entry>
     <entry key="database">gis</entry>
-    <entry key="namespace">http://voc.e-monocot.org</entry>
+    <entry key="namespace">http://voc.powop.org</entry>
     <entry key="Expose primary keys">false</entry>
     <entry key="fetch size">1000</entry>
     <entry key="user">geoserver</entry>

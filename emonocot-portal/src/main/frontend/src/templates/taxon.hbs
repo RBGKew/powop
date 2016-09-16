@@ -1,5 +1,5 @@
 {{> partials/header}}
-<div class="s-page">
+<div id="{{taxon.identifier}}" class="s-page">
   <header class="c-header">
     <div class="container">
       {{> partials/header/kew-logo-header}}
@@ -198,17 +198,10 @@
       <a name="distribution-map" class="anchor-target"></a>
       <div class="container">
         <div class="row">
-          <h2 class="c-article-section__title">Distribution map</h2>
+          <h2 class="c-article-section__title">Distribution</h2>
           <div class="c-article-section__content">
-            <h3>Map</h3>
-            <div class="c-map">
+            <div id="c-map">
             </div>
-            <h3>Distribution</h3>
-            <ul class="c-distribution-list two-col">
-            {{#each sorted}}
-              <li>{{locality}}</li>
-            {{/each}}
-            </ul>
           </div>
           <aside role="complementary" class="c-article-section__aside">
             <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>

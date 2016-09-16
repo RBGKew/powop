@@ -10,7 +10,7 @@
   <connectionParameters>
     <entry key="Connection timeout">20</entry>
     <entry key="port">3306</entry>
-    <entry key="passwd">gs</entry>
+    <entry key="passwd">plain:gs</entry>
     <entry key="dbtype">mysql</entry>
     <entry key="host">geodb</entry>
     <entry key="validate connections">true</entry>
