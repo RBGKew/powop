@@ -100,11 +100,24 @@
       <a name="description" class="anchor-target"></a>
       <div class="container">
         <div class="row">
-          <h2 class="c-article-section__title">Description</h2>
+          <h2 class="c-article-section__title">Descriptions</h2>
           <div class="c-article-section__content">
             {{#each bySource}}
-            <h3>According to {{source.title}} <small>{{bracketedSourceLink source}}</small></h3>
-              <dl>
+            <h3>
+              {{#if @first}}
+                <a class="description_expand" href="#">
+                  <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+              {{else}}
+                <a class="description_expand" href="#">
+                  <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              {{/if}}
+              According to {{source.title}} </a><small>{{bracketedSourceLink source}}</small>
+            </h3>
+              {{#if @first}}
+                <dl>
+              {{else}}
+                <dl style="display: none;">
+              {{/if}}
               {{#each byType}}
                 <dt>{{message type}}</dt>
                 <dd>
