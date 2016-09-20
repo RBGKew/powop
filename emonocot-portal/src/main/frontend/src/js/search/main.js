@@ -74,9 +74,9 @@ define(function(require) {
   var initialize = function() {
     if(window.location.search.length > 1) {
       filters.deserialize(window.location.search);
+    } else {
+      results.update(filters.toQuery());
     }
-
-    results.update(filters.toQuery());
 
     // handle location hash with tabs
     if(location.hash.slice(1) != "") {
