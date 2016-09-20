@@ -1,9 +1,8 @@
 {
-    "description": "", 
+    "description": "background layer",
     "center": "0,0,2", 
     "bounds": "-180,-85.0511,180,85.0511", 
     "minzoom": "0", 
     "version": "1.0.0", 
-    "maxzoom": "8", 
-    "name": "eMonocot"
+    "maxzoom": "8"
 }

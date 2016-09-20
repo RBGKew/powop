@@ -15,7 +15,7 @@ define(['jquery', 'lodash', 'libs/openlayers'], function($, _, ol) {
     title: 'Base Layer',
     projection: projection,
     source: new ol.source.XYZ({
-      url: '/tiles/1.0.0/eMonocot/{z}/{x}/{-y}.png'
+      url: '/tiles/{z}/{x}/{-y}.png'
     })
   });
 
