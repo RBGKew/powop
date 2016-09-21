@@ -22,6 +22,8 @@ define(['jquery', 'lodash', 'libs/openlayers'], function($, _, ol) {
   var map = new ol.Map({
     target: 'c-map',
     layers: [ baseLayer ],
+    logo: false,
+    interactions: ol.interaction.defaults({mouseWheelZoom:false}),
     view: new ol.View({
       projection: projection,
       maxResolution: serverResolutions[2],

@@ -9,7 +9,8 @@
    "ol.layer.Tile",
    "ol.geom.MultiPoint",
    "ol.source.TileWMS",
-   "ol.source.XYZ"
+   "ol.source.XYZ",
+   "ol.interaction.defaults"
  ],
  "umd": true,
   "compile": {
