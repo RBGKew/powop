@@ -26,7 +26,10 @@ import java.util.Set;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableObjectService;
+import org.emonocot.api.TaxonService;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.MatchStatus;
 import org.emonocot.api.match.Matcher;
@@ -53,6 +56,9 @@ public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 
 	@Autowired
 	private SearchableObjectService searchableObjectService;
+
+	@Autowired
+	private TaxonService taxonService;
 
 	@Autowired
 	private NameParser nameParser;
@@ -89,49 +95,35 @@ public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 			queryBuilder.addParam("searchable.label_sort", parsed.getGenusOrAbove());
 			
 			if(parsed.getAuthorship() != null) {
-				queryBuilder.addParam("taxon.scientific_name_authorship_s",
-						parsed.getAuthorship());
+				queryBuilder.addParam("taxon.scientific_name_authorship_s", parsed.getAuthorship());
 			}
 		} else {
 			queryBuilder.addParam("taxon.genus_s", parsed.getGenusOrAbove());
 			if (parsed.getSpecificEpithet() != null) {
-				queryBuilder.addParam("taxon.specific_epithet_s",
-						parsed.getSpecificEpithet());
+				queryBuilder.addParam("taxon.specific_epithet_s", parsed.getSpecificEpithet());
 			}
 			if (parsed.getInfraGeneric() != null) {
-				queryBuilder.addParam("taxon.subgenus_s",
-						parsed.getInfraGeneric());
+				queryBuilder.addParam("taxon.subgenus_s", parsed.getInfraGeneric());
 			}
 			if (parsed.getInfraSpecificEpithet() != null) {
-				queryBuilder.addParam("taxon.infraspecific_epithet_s",
-						parsed.getInfraSpecificEpithet());
+				queryBuilder.addParam("taxon.infraspecific_epithet_s", parsed.getInfraSpecificEpithet());
 			} else {
 				queryBuilder.addParam("-taxon.infraspecific_epithet_s", "[* TO *]");
 			}
-			if (parsed.getRank() != null) {
-				if (parsed.getRank().equals(Rank.SPECIES)) {
-					queryBuilder.addParam("taxon.taxon_rank_s", "SPECIES");
-				} else {
-
-				}
-
+			if (parsed.getRank() != null && parsed.getRank().equals(Rank.SPECIES)) {
+				queryBuilder.addParam("taxon.taxon_rank_s", "SPECIES");
 			}
 			if(parsed.getAuthorship() != null) {
-				queryBuilder.addParam("taxon.scientific_name_authorship_s", 
-						parsed.getAuthorship());
+				queryBuilder.addParam("taxon.scientific_name_authorship_s", parsed.getAuthorship());
 			}
 		}
 
 		List<Match<Taxon>> matches = new ArrayList<Match<Taxon>>();
 		SolrQuery query = queryBuilder.addParam("base.class_s", "org.emonocot.model.Taxon").build();
-		Page<SearchableObject> page;
-		try {
-			page = searchableObjectService.search(query, null);
-		} catch (SolrServerException | IOException sse) {
-			throw new RuntimeException("SolrServerException", sse);
-		}
+		QueryResponse result = searchableObjectService.search(query);
 
-		switch (page.getRecords().size()) {
+		Taxon taxon;
+		switch (result.getResults().size()) {
 		case 0:
 			if(parsed.getBracketAuthorship() != null){
 				logger.info("removing bracket authorship " + parsed.getAuthorship());
@@ -147,7 +139,8 @@ public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 			break;
 		case 1:
 			Match<Taxon> single = new Match<Taxon>();
-			single.setInternal((Taxon)page.getRecords().get(0));
+			taxon = taxonService.find((Long) result.getResults().get(0).get("base.id_l"));
+			single.setInternal(taxon);
 			String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
 
 			if (parsed.canonicalName().equals(internalName)) {
@@ -158,14 +151,14 @@ public class DefaultTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 			matches.add(single);
 			break;
 		default:
-			logger.debug(page.getSize() + " records found");
+			logger.debug(result.getResults().size() + " records found");
 			Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
-			for (SearchableObject eTaxon : page.getRecords()) {
-				logger.debug(((Taxon)eTaxon).getScientificName() + " " + eTaxon.getIdentifier());
+			for (SolrDocument doc: result.getResults()) {
+				taxon = taxonService.find((Long) doc.get("base.id_l"));
 				Match<Taxon> m = new Match<Taxon>();
-				m.setInternal((Taxon)eTaxon);
+				m.setInternal(taxon);
 				matches.add(m);
-				String name = (new NameParser().parseToCanonical(((Taxon)eTaxon).getScientificName()));
+				String name = (new NameParser().parseToCanonical(taxon.getScientificName()));
 				logger.debug("Name is " + name);
 				if (parsed.canonicalName().equals(name)) {
 					m.setStatus(MatchStatus.EXACT);

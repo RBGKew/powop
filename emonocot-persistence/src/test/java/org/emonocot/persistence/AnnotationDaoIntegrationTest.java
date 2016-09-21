@@ -19,12 +19,8 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.response.FacetField;
-import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.AnnotationCode;
@@ -33,19 +29,16 @@ import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
-import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.emonocot.persistence.solr.QueryBuilder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.ContextConfiguration;
 
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
@@ -57,13 +50,11 @@ public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
 
 	@Before
 	public final void setUp() throws Exception {
-		logger.info("AnnotationDaoIntegrationTest: Setting Up");
 		super.doSetUp();
 	}
 
 	@After
 	public final void tearDown() throws Exception {
-		logger.info("AnnotationDaoIntegrationTest: Tearing Down");
 		super.doTearDown();
 	}
 
@@ -77,43 +68,36 @@ public class AnnotationDaoIntegrationTest extends AbstractPersistenceTest {
 		Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, null, null,
 				null, null, null, null, wcs,
 				new Location[] {Location.AUSTRALASIA,
-				Location.BRAZIL, Location.CARIBBEAN }, null);
+						Location.BRAZIL, Location.CARIBBEAN }, null);
 		Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
 				null, null, null, null, wcs,
 				new Location[] {Location.NEW_ZEALAND }, null);
 		Taxon taxon4 = createTaxon("Aus deus", "4", null, taxon2, null, null,
 				null, null, null, null, wcs, new Location[] {}, null);
 
-		Annotation annotation1 = createAnnotation(1L, taxon1,
-				AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
+		Annotation annotation1 = createAnnotation(1L, taxon1, AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
 		taxon1.getAnnotations().add(annotation1);
-		Annotation annotation2 = createAnnotation(1L, taxon2,
-				AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
+		Annotation annotation2 = createAnnotation(1L, taxon2, AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
 		taxon2.getAnnotations().add(annotation2);
-		Annotation annotation3 = createAnnotation(1L, taxon3,
-				AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
+		Annotation annotation3 = createAnnotation(1L, taxon3, AnnotationType.Info, RecordType.Taxon, AnnotationCode.Create, wcs);
 		taxon3.getAnnotations().add(annotation3);
-		Annotation annotation4 = createAnnotation(1L, taxon4,
-				AnnotationType.Error, RecordType.Taxon, AnnotationCode.Create, wcs);
+		Annotation annotation4 = createAnnotation(1L, taxon4, AnnotationType.Error, RecordType.Taxon, AnnotationCode.Create, wcs);
 		taxon4.getAnnotations().add(annotation4);
-		Annotation annotation5 = createAnnotation(2L, taxon1,
-				AnnotationType.Error, RecordType.Taxon, AnnotationCode.Update, wcs);
+		Annotation annotation5 = createAnnotation(2L, taxon1, AnnotationType.Error, RecordType.Taxon, AnnotationCode.Update, wcs);
 		taxon1.getAnnotations().add(annotation5);
 	}
 
 	@Test
 	public final void testGetJobExecutions() throws Exception {
 		assertNotNull(annotationDao);
-		
-		SolrQuery query = new QueryBuilder().addParam("base.authority_s", "WCS").addParam("annotation.job_id_l", "1").addParam("base.class_searchable_b", "false").build();
-		Page<Annotation> results = annotationDao.search(query, null);
-		assertFalse(results.getRecords().isEmpty());
-		query = new QueryBuilder().addParam("annotation.job_id_l", "1").addParam("base.class_searchable_b", "false").build();
-		results = annotationDao.search(query, null);
-		logger.error("" + results.getSize());
-		query = new QueryBuilder().addParam("annotation.job_id_l", "1").addParam("annotation.record_type_s", "Taxon").addParam("annotation.type_s", "Create").addParam("base.class_searchable_b", "false").build();
-		results = annotationDao.search(query, null);
-		logger.error("" + results.getSize());
-	}
 
+		SolrQuery query = new QueryBuilder()
+				.addParam("base.authority_s", "WCS")
+				.addParam("annotation.job_id_l", "1")
+				.addParam("base.class_searchable_b", "false")
+				.build();
+
+		QueryResponse results = annotationDao.search(query);
+		assertFalse(results.getResults().isEmpty());
+	}
 }
