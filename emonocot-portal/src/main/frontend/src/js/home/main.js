@@ -1,8 +1,9 @@
 define([
 'jquery',
 'search/autocomplete',
-'search/events'
-], function($, autocomplete, events) {
+'search/events',
+'libs/pubsub'
+], function($, autocomplete, events, pubsub) {
 
 function handleKeypress(event) {
   if(event.which === events.ENTER) {

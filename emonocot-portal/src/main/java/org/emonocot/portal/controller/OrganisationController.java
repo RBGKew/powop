@@ -29,6 +29,7 @@ import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ResourceService;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
+import org.emonocot.persistence.solr.QueryBuilder;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
@@ -69,25 +70,24 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	@RequestMapping(method = RequestMethod.GET, params = {"!form"}, produces = "text/html")
 	public String list(
 			Model model,
-			@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "query", required = false, defaultValue = "*:*") String query,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view) throws SolrServerException, IOException {
 
-		Map<String, String> selectedFacets = new HashMap<String, String>();
+		QueryBuilder queryBuilder = new QueryBuilder();
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
-				selectedFacets.put(facetRequest.getFacet(),
+				queryBuilder.addParam(facetRequest.getFacet(),
 						facetRequest.getSelected());
 			}
 		}
-		selectedFacets.put("base.class_s", "org.emonocot.model.registry.Organisation");
-		selectedFacets.put("base.class_searchable_b", "false");
-		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
-		(query, null, limit, start,
-				new String[] { "organisation.subject_t" }, null, selectedFacets, sort, "source-with-jobs");
+		queryBuilder.addParam("base.class_searchable_b", "false");
+		queryBuilder.addParam("pageSize", "24");
+		queryBuilder.addParam("pageNumber", start.toString());
+		SolrQuery solrQuery = queryBuilder.build().setQuery(query).addFilterQuery("base.class_s:org.emonocot.model.registry.Organisation");
 		Page<Organisation> result = getService().search(solrQuery, "source-with-jobs");
 		model.addAttribute("result", result);
 		result.putParam("query", query);

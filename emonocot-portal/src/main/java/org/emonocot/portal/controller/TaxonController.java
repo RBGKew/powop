@@ -16,9 +16,14 @@
  */
 package org.emonocot.portal.controller;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.WordUtils;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.portal.view.Bibliography;
 import org.emonocot.portal.view.Descriptions;
 import org.emonocot.portal.view.Distributions;
@@ -37,11 +42,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.collect.Sets;
+
 @Controller
 @RequestMapping("/taxon")
 public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
+	
+	private static List<DescriptionType> DescriptionTypes = Arrays.asList(
+			DescriptionType.morphology,
+			DescriptionType.vegetativeMultiplication,
+			DescriptionType.constructionalOrganisation,
+			DescriptionType.sex
+			);
+	
+	private static List<DescriptionType> UseTypes = Arrays.asList(
+			DescriptionType.use
+			);
 
 	public TaxonController() {
 		super("taxon", Taxon.class);
@@ -59,7 +77,14 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute(new Sources(taxon));
 		model.addAttribute(new Bibliography(taxon));
 		if(!taxon.getDescriptions().isEmpty()) {
-			model.addAttribute(new Descriptions(taxon));
+			Descriptions descriptions = new Descriptions(taxon, DescriptionTypes);
+			if(!descriptions.getBySource().isEmpty()){
+				model.addAttribute("descriptions", descriptions);
+			}
+			Descriptions uses = new Descriptions(taxon, UseTypes);
+			if(!uses.getBySource().isEmpty()){
+				model.addAttribute("uses", uses);
+			}	
 		}
 		if(!taxon.getSynonymNameUsages().isEmpty()) {
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));

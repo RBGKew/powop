@@ -2,8 +2,10 @@ package org.emonocot.portal.view;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
@@ -17,6 +19,13 @@ import com.google.common.collect.ImmutableSet;
 
 public class DescriptionTest {
 
+	private static List<DescriptionType> DescriptionTypes = Arrays.asList(
+			DescriptionType.morphology,
+			DescriptionType.vegetativeMultiplication,
+			DescriptionType.constructionalOrganisation,
+			DescriptionType.sex
+			);
+	
 	@Test
 	public void testBySource() {
 		Taxon taxon = new Taxon();
@@ -46,7 +55,7 @@ public class DescriptionTest {
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(d1, d2, d3));
 
-		Descriptions ds = new Descriptions(taxon);
+		Descriptions ds = new Descriptions(taxon, DescriptionTypes);
 		for(DescriptionsBySource dbs : ds.getBySource()) {
 			System.out.print("{" + dbs.source + ": ");
 			for(DescriptionsByType dbt : dbs.byType) {

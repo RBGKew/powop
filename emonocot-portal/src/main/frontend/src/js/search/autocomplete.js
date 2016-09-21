@@ -18,6 +18,13 @@ define([
     }
   }
 
+  function handleClick(event){
+    event.preventDefault();
+    makeSelection($(this));
+    pubsub.publish('search.updated.filters', true);
+    hide();
+  }
+
   function handleInput(event) {
     search($(this).val(), getData("suggester"), $(this), getData("showsuggester"), getData("count"));
   }
@@ -45,14 +52,7 @@ define([
     }, 'input.refine');
 
     $('.autocomplete-form').on({
-      mousemove: function(e) {
-        makeSelection($(this));
-      },
-      click: function(e) {
-        makeSelection($(this));
-        pubsub.publish('search.updated.filters', true);
-        hide();
-      },
+      click: handleClick
     }, '.c-autocomplete a');
   });
 

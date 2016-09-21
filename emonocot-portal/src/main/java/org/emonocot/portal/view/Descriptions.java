@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
@@ -49,11 +51,13 @@ public class Descriptions {
 
 	private Taxon taxon;
 	private List<DescriptionsBySource> descriptionsBySource;
+	private Set<DescriptionType> descriptionTypes;
 
-	public Descriptions(Taxon taxon) {
+	public Descriptions(Taxon taxon, List<DescriptionType> descriptionTypes) {
 		this.taxon = taxon;
+		this.descriptionTypes = subTypes(descriptionTypes);
 	}
-
+	
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
 			Map<Organisation, List<Description>> descriptionsByResource = new HashMap<>();
@@ -69,7 +73,9 @@ public class Descriptions {
 			for(Map.Entry<Organisation, List<Description>> entry : descriptionsByResource.entrySet()) {
 				DescriptionsBySource dbs = new DescriptionsBySource(entry.getKey());
 				dbs.byType = new ArrayList<>(descriptionsByType(entry.getValue()));
-				descriptionsBySource.add(dbs);
+				if(!dbs.byType.isEmpty()){
+					descriptionsBySource.add(dbs);
+				}
 			}
 		}
 		Comparator<DescriptionsBySource> newestSourceFirst = new Comparator<DescriptionsBySource>() {
@@ -82,16 +88,22 @@ public class Descriptions {
 					return 1;
 				}
 				return 0;
-				
 			}	
 		};
 		Collections.sort(descriptionsBySource, newestSourceFirst);
 		return descriptionsBySource;
 	}
 
+	private Set<DescriptionType> subTypes(List<DescriptionType> descriptionTypes){
+		Set<DescriptionType> subTypes = new HashSet<DescriptionType>();
+		for( DescriptionType descriptionType : descriptionTypes){
+			subTypes.addAll(DescriptionType.getSubTypes(descriptionType));
+		}
+		return subTypes;
+	}
+	
 	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {
 		Map<DescriptionType, DescriptionsByType> byType = new EnumMap<>(DescriptionType.class);
-		List<DescriptionType> blacklist = Arrays.asList(DescriptionType.concept);
 		Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {
 			public int compare(Description d1, Description d2) {
 				return d1.getTypes().size() - d2.getTypes().size();
@@ -99,7 +111,7 @@ public class Descriptions {
 		};
 
 		for(Description description : descriptions) {
-			if(!blacklist.contains(description.getType())) {
+			if(descriptionTypes.contains(description.getType())) {
 				if(!byType.containsKey(description.getType())) {
 					byType.put(description.getType(), new DescriptionsByType(description.getType().toString()));
 				}

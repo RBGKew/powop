@@ -63,6 +63,10 @@
               <li><a href="#descriptions">Description</a></li>
             {{/if}}
 
+            {{#if uses}}
+              <li><a href="#uses">Uses</a></li>
+            {{/if}}
+
             {{#if images}}
               <li><a href="#image-gallery">Image Gallery</a></li>
             {{/if}}
@@ -112,6 +116,44 @@
                    aria-expanded="false"><h3>According to {{source.title}}</h3>
                 </a><small>{{bracketedSourceLink source}}</small>
                 <dl id="descriptions-{{source.abbreviation}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
+                    {{#each byType}}
+                      <dt>{{message type}}</dt>
+                      <dd>
+                      {{#each descriptions}}
+                        <span>{{description}}</span>
+                      {{/each}}
+                      </dd>
+                    {{/each}}
+                </dl>
+              </div>
+            {{/each}}
+          </div>
+
+          <aside role="complementary" class="c-article-section__aside">
+            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    {{/with}}
+
+    {{#with uses}}
+    <section id="uses" class="c-article-section">
+      <a name="uses" class="anchor-target"></a>
+      <div class="container">
+        <div class="row">
+          <h2 class="c-article-section__title">Uses</h2>
+          <div class="c-article-section__content">
+            {{#each bySource}}
+              <div class="uses">
+                <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
+                   role="button"
+                   href="#distribution-listing"
+                   data-toggle="collapse"
+                   data-target="#uses-{{source.abbreviation}}"
+                   aria-expanded="false"><h3>According to {{source.title}}</h3>
+                </a><small>{{bracketedSourceLink source}}</small>
+                <dl id="uses-{{source.abbreviation}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
                     {{#each byType}}
                       <dt>{{message type}}</dt>
                       <dd>
