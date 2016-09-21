@@ -45,11 +45,11 @@ define(['jquery', 'lodash', 'libs/openlayers'], function($, _, ol) {
   }
 
   function addLegend(overlays) {
-    var legend = '<div class="legend">'
+    var legend = '<div class="legend"><p>'
     _.forEach(overlays, function(__, layer) {
-      legend += '<p><span class="' + layer + '"></span>' + layer + ' distribution</p>';
+      legend += '<span class="' + layer + '"></span>' + layer;
     });
-    legend += '</div>';
+    legend += '</p></div>';
 
     $('#c-map').after(legend);
   }

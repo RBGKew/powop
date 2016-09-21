@@ -121,21 +121,9 @@
 }
 
 // Description lists
-#description {
-  dt {
-    @include make-sm-column(2);
-    margin-bottom: 0.5em;
-  }
-
-  dd {
-    @include make-sm-column(10);
-    margin-bottom: 0.5em;
-  }
-
-  @media (min-width: $screen-sm-min) {
-    dt {
-      text-align: right
-    };
+#descriptions {
+  h3 {
+    display: inline;
   }
 }
 

@@ -1,6 +1,7 @@
 package org.emonocot.portal.json;
 
 import org.emonocot.model.Distribution;
+import org.emonocot.portal.view.Distributions;
 import org.gbif.ecat.voc.EstablishmentMeans;
 
 public class DistributionResponse {
@@ -29,20 +30,6 @@ public class DistributionResponse {
 	}
 
 	public EstablishmentMeans getEstablishment() {
-		if (distribution.getEstablishmentMeans() == null) {
-			return EstablishmentMeans.Native;
-		} else {
-			switch (distribution.getEstablishmentMeans()) {
-			case Introduced:
-			case Invasive:
-			case Managed:
-			case Naturalised:
-				return EstablishmentMeans.Introduced;
-			case Uncertain:
-			case Native:
-			default:
-				return EstablishmentMeans.Native;
-			}
-		}
+		return Distributions.nativeOrIntroduced(distribution.getEstablishmentMeans());
 	}
 }

@@ -10,14 +10,6 @@ define(['jquery', './map', 'libs/magnific-popup'], function($, map) {
       gallery: { enabled: true }
     });
 
-    $('.description_expand').click(function( event ){
-      event.preventDefault();
-      $(this).find("span")
-        .toggleClass('glyphicon-chevron-up')
-        .toggleClass('glyphicon-chevron-down');
-      $(this).parent().next().toggle();
-    });
-
     map.initialize();
   }
 

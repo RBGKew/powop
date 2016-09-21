@@ -1,0 +1,19 @@
+a.collapser {
+  white-space: inherit;
+  text-align: left;
+
+  &::before {
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.8em;
+    padding-right: 1em;
+    content: "\e114";
+  }
+
+  &.collapsed::before {
+    content: "\e080";
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+}

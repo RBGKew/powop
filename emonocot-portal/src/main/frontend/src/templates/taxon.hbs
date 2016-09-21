@@ -60,7 +60,7 @@
         <div class="container">
           <ul class="nav navbar-nav navbar-nav--article">
             {{#if descriptions}}
-              <li><a href="#description">Description</a></li>
+              <li><a href="#descriptions">Description</a></li>
             {{/if}}
 
             {{#if images}}
@@ -96,37 +96,32 @@
     </nav>
 
     {{#with descriptions}}
-    <section id="description" class="c-article-section">
-      <a name="description" class="anchor-target"></a>
+    <section id="descriptions" class="c-article-section">
+      <a name="descriptions" class="anchor-target"></a>
       <div class="container">
         <div class="row">
           <h2 class="c-article-section__title">Descriptions</h2>
           <div class="c-article-section__content">
             {{#each bySource}}
-            <h3>
-              {{#if @first}}
-                <a class="description_expand" href="#">
-                  <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-              {{else}}
-                <a class="description_expand" href="#">
-                  <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-              {{/if}}
-              According to {{source.title}} </a><small>{{bracketedSourceLink source}}</small>
-            </h3>
-              {{#if @first}}
-                <dl>
-              {{else}}
-                <dl style="display: none;">
-              {{/if}}
-              {{#each byType}}
-                <dt>{{message type}}</dt>
-                <dd>
-                  {{#each descriptions}}
-                  <span>{{description}}</span>
-                  {{/each}}
-                </dd>
-              {{/each}}
-              </dl>
+              <div class="description">
+                <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
+                   role="button"
+                   href="#distribution-listing"
+                   data-toggle="collapse"
+                   data-target="#descriptions-{{source.abbreviation}}"
+                   aria-expanded="false"><h3>According to {{source.title}}</h3>
+                </a><small>{{bracketedSourceLink source}}</small>
+                <dl id="descriptions-{{source.abbreviation}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
+                    {{#each byType}}
+                      <dt>{{message type}}</dt>
+                      <dd>
+                      {{#each descriptions}}
+                        <span>{{description}}</span>
+                      {{/each}}
+                      </dd>
+                    {{/each}}
+                </dl>
+              </div>
             {{/each}}
           </div>
 
@@ -201,6 +196,33 @@
           <h2 class="c-article-section__title">Distribution</h2>
           <div class="c-article-section__content">
             <div id="c-map">
+            </div>
+
+            <a class="btn collapser collapsed"
+               role="button"
+               data-toggle="collapse"
+               data-target="#distribution-listing"
+               aria-expanded="false">
+              Full Distribution Listing
+            </a>
+            <div id="distribution-listing" class="collapse">
+            {{#if native}}
+              <h4>Found In:</h4>
+              <p>
+              {{#each native}}
+                {{locality}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+            {{/if}}
+
+            {{#if introduced}}
+              <h4>Introduced Into:</h4>
+              <p>
+              {{#each introduced}}
+                {{locality}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+            {{/if}}
             </div>
           </div>
           <aside role="complementary" class="c-article-section__aside">
