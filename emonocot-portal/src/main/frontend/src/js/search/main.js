@@ -67,11 +67,12 @@ define(function(require) {
   }
 
   function updateSuggester(event) {
-    var suggester = $(this).find(':selected').val().replace(' ', '-').toLowerCase();
+    var suggester = $(this).find(':selected').data('suggester');
     $(this).parent().parent().find('input').data('suggester', suggester);
   }
 
   var initialize = function() {
+    // populate results based on existing query string
     if(window.location.search.length > 1) {
       filters.deserialize(window.location.search);
     } else {
@@ -102,6 +103,7 @@ define(function(require) {
       .on('click', '.search_view', setView);
   };
 
+  // event listeners for updating search results based on filters
   pubsub.subscribe('search.updated', function(_, updateHistory) {
     results.update(filters.toQuery());
     if(updateHistory) {
