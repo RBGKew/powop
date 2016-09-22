@@ -111,12 +111,13 @@ define(function(require) {
     }
   });
 
-  pubsub.subscribe('autocomplete.selected', function(_, selected) {
-    active().find('input.refine').val(selected);
-  });
-
-  pubsub.subscribe('autocomplete.selected', function(_, selected) {
-    active().find('input.refine').val(selected);
+  pubsub.subscribe('autocomplete.selected', function(_, msg) {
+    if(msg.event === events.CLICK) {
+      filters.add(filterType(), msg.selected);
+      active().find('input.refine').val('');
+    } else {
+      active().find('input.refine').val(msg.selected);
+    }
   });
 
   return {

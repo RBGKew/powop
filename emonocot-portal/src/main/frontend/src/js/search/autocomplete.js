@@ -1,10 +1,9 @@
-define([
-  'jquery',
-  'libs/pubsub',
-  './events',
-  'templates/partials/search/autocomplete.js',
-  'helpers/autocomplete.js',
-], function($, pubsub, events, autocomplete, helper) {
+define(function(require) {
+  var $ = require('jquery'),
+    pubsub = require('libs/pubsub'),
+    events = require('./events'),
+    helper = require('helpers/autocomplete'),
+    autocomplete = require('templates/partials/search/autocomplete.js');
 
   function ac() {
     return $('.tab-pane.active div.c-autocomplete');
@@ -14,14 +13,13 @@ define([
     if(!$element.hasClass('selected')) {
       $element.parent().siblings().children('a').removeClass('selected');
       $element.addClass('selected');
-      pubsub.publish('autocomplete.selected', currentSelection());
     }
   }
 
   function handleClick(event){
     event.preventDefault();
     makeSelection($(this));
-    pubsub.publish('search.updated.filters', true);
+    publishUpdated(events.CLICK);
     hide();
   }
 
@@ -40,19 +38,30 @@ define([
     }
   }
 
+  function handleMouseenter(event) {
+    makeSelection($(this), false);
+  }
+
   function getData(key) {
     return $('.autocomplete-form .tab-pane.active input.refine').data(key);
   }
 
-  $(document).ready(function() {
+  function publishUpdated(event) {
+    pubsub.publish('autocomplete.selected', {
+      selected: currentSelection(),
+      event: event
+    });
+  }
 
+  $(document).ready(function() {
     $('.autocomplete-form').on({
       keydown: handleKeydown,
       input: handleInput
     }, 'input.refine');
 
     $('.autocomplete-form').on({
-      click: handleClick
+      click: handleClick,
+      mouseenter: handleMouseenter
     }, '.c-autocomplete a');
   });
 
@@ -93,6 +102,7 @@ define([
         makeSelection($next);
       }
     }
+    publishUpdated(events.DOWN_ARROW);
   };
 
   var navigateUp = function() {
@@ -107,6 +117,7 @@ define([
       var $prev = $current.parent().prev().children('a');
       makeSelection($prev);
     }
+    publishUpdated(events.UP_ARROW);
   };
 
   var currentSelection = function() {
