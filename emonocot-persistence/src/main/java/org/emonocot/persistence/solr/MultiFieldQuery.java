@@ -1,17 +1,20 @@
 package org.emonocot.persistence.solr;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import org.apache.solr.client.solrj.SolrQuery;
 
 import com.google.common.base.Joiner;
 
 public class MultiFieldQuery implements QueryOption {
 
-	private String[] searchFields;
+	private ArrayList<String> searchFields;
 
-	public MultiFieldQuery(String[] fields) {
-		this.searchFields = fields;
-		for(int i = 0; i < fields.length; i++) {
-			searchFields[i] += ":%1$s";
+	public MultiFieldQuery(Set<String> fields) {
+		this.searchFields = new ArrayList<String>(fields.size());
+		for(String field : fields) {
+			searchFields.add(field + ":%1$s");
 		}
 	}
 

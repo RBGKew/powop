@@ -6,42 +6,38 @@ import org.emonocot.model.solr.SolrFieldNameMappings;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 public class QueryBuilder {
 
 	private SolrQuery query = new SolrQuery().setRequestHandler("/powop_search");
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
-	private static final String[] mainQueryFields = {
-			"taxon.description_t",
-			"taxon.distribution_ss",
-			"taxon.family_ss",
-			"taxon.genus_ss",
-			"taxon.name_published_in_string_s",
-			"taxon.scientific_name_authorship_s",
-			"taxon.scientific_name_t",
-			"taxon.species_ss",
-			"taxon.vernacular_names_ss",
-	};
 
-	private static final String[] allNamesQueryFields = {
+	private static final ImmutableSet<String> allNamesQueryFields = ImmutableSet.<String>of(
 			"taxon.scientific_name_t",
-			"taxon.family_ss",
-			"taxon.genus_ss",
-			"taxon.species_ss",
-			"taxon.vernacular_names_ss",
-	};
+			"taxon.family_t",
+			"taxon.genus_t",
+			"taxon.species_t",
+			"taxon.vernacular_names_t");
 
-	private static final String[] allCharacteristicFields = {
+	private static final ImmutableSet<String> allCharacteristicFields = ImmutableSet.<String>of(
 			"taxon.description_appearance_t",
 			"taxon.description_inflorescence_t",
 			"taxon.description_fruit_t",
 			"taxon.description_leaves_t",
 			"taxon.description_flower_t",
 			"taxon.description_seed_t",
-			"taxon.description_vegitativePropagation_t",
-	};
+			"taxon.description_vegitativePropagation_t");
 
-	private static final Map<String, QueryOption> queryMappings = ImmutableMap.<String, QueryOption>builder()
+	private static final ImmutableSet<String> mainQueryFields = new ImmutableSet.Builder<String>()
+			.addAll(allNamesQueryFields)
+			.addAll(allCharacteristicFields)
+			.add("taxon.distribution_t")
+			.add("taxon.name_published_in_string_s")
+			.add("taxon.scientific_name_authorship_t")
+			.build();
+
+	private static final Map<String, QueryOption> queryMappings = new ImmutableMap.Builder<String, QueryOption>()
 			.put("main.query", new MultiFieldQuery(mainQueryFields))
 			.put("all.names", new MultiFieldQuery(allNamesQueryFields))
 			.put("taxon.description_t", new MultiFieldQuery(allCharacteristicFields))

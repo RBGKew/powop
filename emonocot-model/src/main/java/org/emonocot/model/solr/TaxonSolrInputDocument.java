@@ -66,7 +66,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.name_published_in_string_s", taxon.getNamePublishedInString());
 		addField(sid, "taxon.name_published_in_year_i", taxon.getNamePublishedInYear());
 		addField(sid, "taxon.order_s", taxon.getOrder());
-		addField(sid, "taxon.scientific_name_authorship_s", taxon.getScientificNameAuthorship());
+		addField(sid, "taxon.scientific_name_authorship_t", taxon.getScientificNameAuthorship());
 		addField(sid, "taxon.scientific_name_t", taxon.getScientificName());
 		addField(sid, "taxon.scientific_name_s", taxon.getScientificName());
 		addField(sid, "taxon.specific_epithet_s", taxon.getSpecificEpithet());
@@ -194,10 +194,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		}
 
 		for(String name : locationNames) {
-			sid.addField("taxon.distribution_ss", name);
-		}
-		for(String code : locationCodes) {
-			sid.addField("taxon.distribution_code_ss", code);
+			sid.addField("taxon.distribution_t", name);
 		}
 	}
 
@@ -224,7 +221,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	private void indexRank(Rank rank, String property) {
-		String solrField = propertyToSolrField(property, "ss");
+		String solrField = propertyToSolrField(property, "t");
 		try {
 			if(rank.equals(taxon.getTaxonRank()) && BeanUtils.getProperty(taxon, property) == null) {
 				addField(sid, solrField, taxon.getScientificName());
@@ -251,7 +248,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void indexVernacularNames() {
 		for(VernacularName v : taxon.getVernacularNames()) {
-			sid.addField("taxon.vernacular_names_ss", v.getVernacularName());
+			sid.addField("taxon.vernacular_names_t", v.getVernacularName());
 			if(v.getAuthority() != null) {
 				sources.add(v.getAuthority().getIdentifier());
 			}

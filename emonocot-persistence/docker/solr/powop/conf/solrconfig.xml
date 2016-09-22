@@ -853,7 +853,7 @@
       <str name="spellcheck.collate">true</str>
       <int name="spellcheck.count">1</int>
       <str name="defType">edismax</str>
-      <str name="qf">searchable.label_sort searchable.solrsummary_t</str>
+      <str name="qf">searchable.label_sort</str>
       <str name="fq">base.class_searchable_b:true</str>
       <str name="facet">true</str>
       <str name="facet.query">{!ex=taxon.taxonomic_status_s key=has_images}taxon.images_not_empty_b:true</str>
