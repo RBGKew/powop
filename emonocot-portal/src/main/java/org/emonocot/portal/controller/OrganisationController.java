@@ -140,6 +140,7 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		}
 		Organisation persistedSource = getService().load(organisationId);
 		persistedSource.setTitle(organisation.getTitle());
+		persistedSource.setAbbreviation(organisation.getAbbreviation());
 		persistedSource.setUri(organisation.getUri());
 		persistedSource.setCreator(organisation.getCreator());
 		persistedSource.setCreatorEmail(organisation.getCreatorEmail());

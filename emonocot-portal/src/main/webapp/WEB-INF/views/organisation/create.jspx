@@ -25,6 +25,7 @@
 						<form:create path="/organisation" modelAttribute="organisation">
 							<field:input field="identifier" label="organisation.identifier"	fieldClass="span6" required="true" />
 							<field:input field="title" label="organisation.title" fieldClass="span6" required="true" />
+							<field:input field="abbreviation" label="organisation.abbreviation" fieldClass="span6" required="true" />
 							<field:input field="commentsEmailedTo" label="organisation.commentsEmailedTo" type="email" fieldClass="span6" required="true"/>
 							<field:input field="uri" label="organisation.uri" type="url" fieldClass="span6" />
 							<field:input field="logoUrl" label="organisation.logoUrl" type="url" fieldClass="span6" />
