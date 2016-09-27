@@ -104,7 +104,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 	 */
 	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String list(Model model) {
-		return "redirect:/search?facet=base.class_s%3aorg.emonocot.model.Taxon";
+		return "redirect:/search";
 	}
 
 	private String bodyClass(Taxon taxon) {

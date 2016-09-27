@@ -16,9 +16,8 @@
  */
 package org.emonocot.portal.view;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -42,10 +41,10 @@ public class Bibliography {
 		}
 	}
 
-	private List<BibliographyItem> references;
+	private Set<BibliographyItem> references;
 
 	public Bibliography(Taxon taxon) {
-		references = new ArrayList<>();
+		references = new TreeSet<>();
 		for(Reference reference : taxon.getReferences()) {
 			references.add(new BibliographyItem(reference));
 		}
@@ -60,14 +59,13 @@ public class Bibliography {
 			}
 		}
 
-		Collections.sort(references);
 		int code = 1;
 		for(BibliographyItem item : references) {
 			item.key = code++;
 		}
 	}
 
-	public List<BibliographyItem> getReferences() {
+	public Set<BibliographyItem> getReferences() {
 		return this.references;
 	}
 }
