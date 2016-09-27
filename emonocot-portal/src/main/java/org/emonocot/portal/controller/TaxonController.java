@@ -42,24 +42,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.google.common.collect.Sets;
-
 @Controller
 @RequestMapping("/taxon")
 public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
 	
-	private static List<DescriptionType> DescriptionTypes = Arrays.asList(
-			DescriptionType.morphology,
-			DescriptionType.vegetativeMultiplication,
-			DescriptionType.constructionalOrganisation,
-			DescriptionType.sex
-			);
-	
-	private static List<DescriptionType> UseTypes = Arrays.asList(
-			DescriptionType.use
-			);
+	private static Set<DescriptionType> DescriptionTypes = DescriptionType.getAllExcept(DescriptionType.use);
+	private static Set<DescriptionType> UseTypes = DescriptionType.getAll(DescriptionType.use);
 
 	public TaxonController() {
 		super("taxon", Taxon.class);

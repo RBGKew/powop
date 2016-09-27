@@ -1,7 +1,6 @@
 package org.emonocot.portal.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,9 +52,9 @@ public class Descriptions {
 	private List<DescriptionsBySource> descriptionsBySource;
 	private Set<DescriptionType> descriptionTypes;
 
-	public Descriptions(Taxon taxon, List<DescriptionType> descriptionTypes) {
+	public Descriptions(Taxon taxon, Set<DescriptionType> descriptionTypes) {
 		this.taxon = taxon;
-		this.descriptionTypes = subTypes(descriptionTypes);
+		this.descriptionTypes = descriptionTypes;
 	}
 	
 	public Collection<DescriptionsBySource> getBySource() {
@@ -94,10 +93,10 @@ public class Descriptions {
 		return descriptionsBySource;
 	}
 
-	private Set<DescriptionType> subTypes(List<DescriptionType> descriptionTypes){
+	private Set<DescriptionType> subTypes(List<DescriptionType> descriptionTypes) {
 		Set<DescriptionType> subTypes = new HashSet<DescriptionType>();
-		for( DescriptionType descriptionType : descriptionTypes){
-			subTypes.addAll(DescriptionType.getSubTypes(descriptionType));
+		for(DescriptionType descriptionType : descriptionTypes) {
+			subTypes.addAll(DescriptionType.getAll(descriptionType));
 		}
 		return subTypes;
 	}

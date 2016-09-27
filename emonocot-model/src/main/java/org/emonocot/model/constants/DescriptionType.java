@@ -16,12 +16,16 @@
  */
 package org.emonocot.model.constants;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 /**
  * @see http://rs.gbif.org/vocabulary/gbif/description_type.xml
@@ -77,6 +81,7 @@ public enum DescriptionType {
 	reference("reference"),
 	morphologyGeneral("morphology:general"),
 	morphologyGeneralAreoles("morphology:general:areoles"),
+	morphologyGeneralBark("morphology:general:bark"),
 	morphologyGeneralBuds("morphology:general:buds"),
 	morphologyGeneralColleters("morphology:general:colleters"),
 	morphologyGeneralCystoliths("morphology:general:cystoliths"),
@@ -147,7 +152,7 @@ public enum DescriptionType {
 	constructionalOrganisationGrowth("constructionalOrganisation:growth"),
 	constructionalOrganisation("constructionalOrganisation"),
 	morphologyGeneralScales("morphology:general:scales"),
-	
+
 	useAnimalFood("use:animalFood"),
 	useAnimalFoodBees("use:animalFood:bees"),
 	useAnimalFoodFlowers("use:animalFood:flowers"),
@@ -405,16 +410,33 @@ public enum DescriptionType {
 		return null;
 	}
 
-	public static List<DescriptionType> getSubTypes(final DescriptionType type){
-		List<DescriptionType> types = new ArrayList<DescriptionType>();
+	private static Set<DescriptionType> AllTypes = ImmutableSet.copyOf(values());
+	private static LoadingCache<DescriptionType, Set<DescriptionType>> sublists = CacheBuilder.newBuilder()
+			.maximumSize(1000)
+			.build(
+					new CacheLoader<DescriptionType, Set<DescriptionType>>() {
+						@Override
+						public Set<DescriptionType> load(DescriptionType type) {
+							return new HashSet<DescriptionType>();
+						}
+					});
+	public static Set<DescriptionType> getAll(final DescriptionType type){
 		for(DescriptionType description : DescriptionType.values()){
-			if(description.name().startsWith(type.name())){
-				types.add(description);
+			if(description.term.startsWith(type.name())){
+				sublists.getUnchecked(type).add(description);
 			}
 		}
-		return types;
+		return sublists.getUnchecked(type);
 	}
-	
+
+	public static Set<DescriptionType> getAll(final DescriptionType type, final DescriptionType excluding) {
+		return Sets.difference(getAll(type), getAll(excluding));
+	}
+
+	public static Set<DescriptionType> getAllExcept(final DescriptionType excluding) {
+		return Sets.difference(AllTypes, getAll(excluding));
+	}
+
 	private static DescriptionType lookup(final String string) {
 		for (DescriptionType f : DescriptionType.values()) {
 			if ((f.uri != null && f.uri.equals(string)) || (f.term != null && f.term.equals(string))) {

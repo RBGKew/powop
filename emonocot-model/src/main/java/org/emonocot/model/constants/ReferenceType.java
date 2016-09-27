@@ -16,11 +16,6 @@
  */
 package org.emonocot.model.constants;
 
-/**
- *
- * @author ben
- *
- */
 public enum ReferenceType {
 	publication,
 	original,
@@ -31,5 +26,8 @@ public enum ReferenceType {
 	legal,
 	website,
 	expert,
-	other;
+	other,
+	onlinedatabase,
+	scientificpaper,
+	book;
 }
