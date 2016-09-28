@@ -21,7 +21,7 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
 
         if (target.length) {
           $('html,body').animate({
-            scrollTop: target.offset().top - headerHeight
+            scrollTop: target.offset().top - headerHeight + 5
           }, 'fast', 'swing');
           return false;
         }
