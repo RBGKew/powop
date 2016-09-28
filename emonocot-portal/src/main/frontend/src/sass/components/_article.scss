@@ -2,6 +2,10 @@
 // Article
 // --------------------------------------------------
 
+body {
+  position: relative;
+}
+
 .c-article {
 
 }
@@ -62,6 +66,8 @@
     width: 100%;
     background-color: #FFFFFF;
     z-index: $zindex-navbar;
+    margin-left: -15px;
+    padding: 0 15px;
   }
 }
 
@@ -176,6 +182,11 @@
       float: none;
     }
 
+    > li {
+      flex-grow: 1;
+      text-align: center;
+    }
+
     > li > a {
       font-size: 13px;
       padding: ($navbar-padding-vertical * 2) 0;
@@ -183,14 +194,6 @@
         font-size: 15px;
         padding: ($navbar-padding-vertical * 2) ($navbar-padding-horizontal);
       }
-    }
-
-    > li.active > a {
-      background-color: transparent;
-    }
-    > li.enabled > a {
-      color: #333333;
-      background-color: transparent;
     }
   }
 }
