@@ -14,11 +14,7 @@
       border-bottom: none;
     }
     span {
-      width: 13%;
       display: inline-block;
-      svg {
-        fill: #FFFFFF;
-      }
     }
   }
 
@@ -31,6 +27,10 @@
     right: $grid-gutter-width / 2;
     top: 60px;
     @include box-shadow(0 5px 10px rgba(0,0,0,.2));
+
+    @media (max-width: $screen-sm-min) {
+      top: 45px;
+    }
 
     a {
       color: inherit;

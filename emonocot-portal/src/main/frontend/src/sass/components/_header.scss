@@ -9,6 +9,7 @@ $header-logo-height: 47px;
   height: $header-logo-height;
   line-height: $header-logo-height;
   margin: 30px 0;
+  @media (max-width: $screen-sm-min) { margin: 10px 0; }
 }
 
 .c-header__logo {

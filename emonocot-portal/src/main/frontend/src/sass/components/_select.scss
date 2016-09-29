@@ -15,6 +15,7 @@
     .form-inline--advanced & {
       padding: $input-padding-small;
     }
+    @media (max-width: $screen-sm-min) { padding: .5em 1em; }
   }
 
   select {

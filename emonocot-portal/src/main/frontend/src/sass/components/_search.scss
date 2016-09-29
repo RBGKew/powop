@@ -18,17 +18,12 @@
 
   &__title {
     margin: 0 0 1em;
-    @media (min-width: $screen-md-min) {
-      margin: 1em 0 1.5em;
-    }
+    @media (min-width: $screen-md-min) { margin: 1em 0 1.5em; }
+    @media (max-width: $screen-sm-min) { display: none; }
   }
 
   &__filters {
     border-bottom: $border-translucent;
-  }
-
-  &__refine {
-    padding: $grid-gutter-width 0;
   }
 
   &__advanced {
@@ -37,10 +32,9 @@
       top: 2em;
       right: 10px;
     }
-  }
 
-  &_refine-list {
-    padding: $grid-gutter-width 0;
+    @media (max-width: $screen-sm-min) {
+      display: none;
+    }
   }
-
 }

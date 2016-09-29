@@ -1,14 +1,17 @@
 /*
 * Kew Logo
 */
-.svg--sprite-chevron-dims { width: 16.7px; height: 12.1px; }
 .svg--sprite-kew-science-potwp-dims { width: 219px; height: 51.6px; }
-.svg--sprite-leaf-dims { width: 21.1px; height: 21.1px; }
+@media (max-width: $screen-sm-min) {
+  .svg--sprite-kew-science-potwp-dims { width: 175px; height: 51.6px; }
+}
 
+.svg--sprite-chevron-dims { width: 16.7px; height: 12.1px; }
 
 /*
 * Leaf
 */
+.svg--sprite-leaf-dims { width: 21.1px; height: 21.1px; }
 .leaf {
   position: relative;
   top: 4px;
