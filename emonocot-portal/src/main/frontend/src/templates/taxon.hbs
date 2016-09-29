@@ -368,11 +368,33 @@
             {{#if taxon.namePublishedInString}}
             <h3>First published in {{taxon.namePublishedInString}}</h3>
             {{/if}}
-            <ul class="list-unstyled">
-            {{#each bibliography.references}}
-            <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
-            {{/each}}
-            </ul>
+
+            {{#with bibliography.acceptedIn as |accepted|}}
+              <h3>Accepted in:</h3>
+              <ul class="list-unstyled">
+                {{#each accepted}}
+                  <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
+                {{/each}}
+              </ul>
+            {{/with}}
+
+            {{#with bibliography.synonomizedIn as |synonym|}}
+              <h3>Synonym in:</h3>
+              <ul class="list-unstyled">
+                {{#each synonym}}
+                  <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}} [{{reference.taxonRemarks}}]</li>
+                {{/each}}
+              </ul>
+            {{/with}}
+
+            {{#if bibliography}}
+              <h3>Literature</h3>
+              <ul class="list-unstyled">
+                {{#each bibliography.references}}
+                  <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
+                {{/each}}
+              </ul>
+            {{/if}}
           </div>
         </div>
       </div>

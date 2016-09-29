@@ -25,6 +25,8 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.compare.ReferenceComparator;
 
+import com.google.common.collect.ImmutableSet;
+
 public class Bibliography {
 
 	class BibliographyItem implements Comparable<BibliographyItem> {
@@ -42,6 +44,8 @@ public class Bibliography {
 	}
 
 	private Set<BibliographyItem> references;
+	private Set<BibliographyItem> accepted;
+	private Set<BibliographyItem> synonomized;
 
 	public Bibliography(Taxon taxon) {
 		references = new TreeSet<>();
@@ -63,6 +67,36 @@ public class Bibliography {
 		for(BibliographyItem item : references) {
 			item.key = code++;
 		}
+
+		references.removeAll(getAcceptedIn());
+		references.removeAll(getSynonomizedIn());
+	}
+
+	private Set<BibliographyItem> filterOnSubject(String subject) {
+		Set<BibliographyItem> filtered = new TreeSet<>();
+		for(BibliographyItem item : references) {
+			String rs = item.reference.getSubject();
+			if(rs != null && rs.contains(subject)) {
+				filtered.add(item);
+			}
+		}
+		return filtered;
+	}
+
+	public Set<BibliographyItem> getAcceptedIn() {
+		if(accepted == null) {
+			accepted = filterOnSubject("Accepted");
+		}
+
+		return accepted;
+	}
+
+	public Set<BibliographyItem> getSynonomizedIn() {
+		if(synonomized == null) {
+			synonomized = filterOnSubject("Synonym");
+		}
+
+		return synonomized;
 	}
 
 	public Set<BibliographyItem> getReferences() {
