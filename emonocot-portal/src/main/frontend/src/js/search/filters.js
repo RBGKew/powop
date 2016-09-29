@@ -20,7 +20,12 @@ define([
   }
 
   function addBreadcrumb(key, value) {
-    $('.c-search__filters .btn-group').append(tmpl({
+    var bar = $('.c-search__filters');
+    if(bar.is(":hidden")) {
+      bar.show();
+    }
+
+    $(bar.find('.btn-group')).append(tmpl({
       searchTerm: key,
       searchValue: value,
       className: className(key)
@@ -74,6 +79,10 @@ define([
       });
     } else {
        key = doRemove(removeFilters);
+    }
+
+    if(filters.isEmpty()) {
+      $('.c-search__filters').hide();
     }
 
     console.log('Removed {' + key + '}. Current Filters: ' + filters.toString());

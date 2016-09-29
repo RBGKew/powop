@@ -51,7 +51,7 @@ gulp.task('clean', ['clean:images', 'clean:css', 'clean:js', 'clean:templates'])
 */
 gulp.task('dev', function() {
   gulp.watch('src/sass/**/*.scss',['css']);
-  gulp.watch('src/js/**/*.js',['precompile', 'js']);
+  gulp.watch('src/js/**/*.js',['scripts']);
 });
 
 /*
