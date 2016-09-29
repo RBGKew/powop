@@ -3,7 +3,11 @@
 */
 .c-gallery-thumbs {
   margin-top: 1em;
+
   height: 100px;
+  @media (min-width: $screen-hg-min) {
+    height: 145px;
+  }
 
   &__bg {
     @include fluid-ratio('thumb');
