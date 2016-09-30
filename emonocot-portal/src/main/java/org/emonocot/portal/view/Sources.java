@@ -1,14 +1,10 @@
 package org.emonocot.portal.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import java.util.Set;
+import java.util.TreeMap;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -21,29 +17,50 @@ import org.emonocot.model.VernacularName;
 import org.emonocot.model.registry.Organisation;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
 
 public class Sources {
 
-	public class Source implements Comparable<Source> {
-		public String rights;
+	public class License {
 		public String license;
+		public String rights;
 		public String key;
+
+		public License(String licence, String rights) {
+			this.license = licence;
+			this.rights = rights;
+		}
+
+		public boolean equals(Object o) {
+			if(o instanceof License) {
+				License other = (License)o;
+				return Objects.equals(this.license, other.license)
+						&& Objects.equals(this.rights, other.rights);
+			} else {
+				return false;
+			}
+		}
+
+		public int hashCode() {
+			return Objects.hash(license, rights);
+		}
+	}
+
+	public class Source implements Comparable<Source> {
+		public Set<License> licenses;
 		public Organisation organisation;
 
 		public Source(BaseData data) {
-			this.rights = data.getRights();
-			this.license = data.getLicense();
+			this.licenses = new HashSet<>();
 			this.organisation = data.getAuthority();
+
+			licenses.add(new License(data.getLicense(), data.getRights()));
 		}
 
 		@Override
 		public boolean equals(Object other) {
 			if(other instanceof Source) {
 				Source otherSource = (Source)other;
-				return Objects.equals(organisation.getIdentifier(), otherSource.organisation.getIdentifier())
-						&& Objects.equals(license, otherSource.license)
-						&& Objects.equals(rights, otherSource.rights);
+				return Objects.equals(organisation.getIdentifier(), otherSource.organisation.getIdentifier());
 			} else {
 				return false;
 			}
@@ -51,22 +68,18 @@ public class Sources {
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(organisation.getIdentifier(), license, rights);
+			return Objects.hash(organisation.getIdentifier());
 		}
 
 		@Override
 		public int compareTo(Source other) {
 			return ComparisonChain.start()
 					.compare(organisation.getIdentifier(), other.organisation.getIdentifier())
-					.compare(license, other.license, Ordering.natural().nullsLast())
-					.compare(rights, other.rights, Ordering.natural().nullsLast())
 					.result();
 		}
 	}
 
-	SortedSet<Organisation> organisations = new TreeSet<>();
-	Map<String, SortedSet<Source>> sources = new HashMap<>();
-	List<Source> sortedSources = new ArrayList<>();
+	Map<Source, Source> sources = new TreeMap<>();
 
 	public Sources(Taxon taxon) {
 		addSource(taxon);
@@ -101,38 +114,24 @@ public class Sources {
 			addSource(measurementOrFact);
 		}
 
-		for(Organisation organisation : organisations) {
-			sortedSources.addAll(sources.get(organisation.getIdentifier()));
-		}
-
-		for(Source source : sortedSources) {
-			source.key = new String(Character.toChars(65 + sortedSources.indexOf(source)));
+		int i = 0;
+		for(Source source : sources.values()) {
+			for(License license : source.licenses) {
+				license.key = new String(Character.toChars(65 + i++));
+			}
 		}
 	}
 
 	private void addSource(BaseData data) {
-		if(!sources.keySet().contains(data.getAuthority().getIdentifier())) {
-			organisations.add(data.getAuthority());
-			sources.put(data.getAuthority().getIdentifier(), new TreeSet<Source>());
-		}
-
-		sources.get(data.getAuthority().getIdentifier()).add(new Source(data));
-	}
-
-	public String getKey(BaseData data) {
 		Source source = new Source(data);
-		return new String(Character.toChars(65 + sortedSources.indexOf(source)));
-	}
-
-	public SortedSet<String> getKeys(Collection<BaseData> data){
-		SortedSet<String> keys = new TreeSet<String>();
-		for(BaseData baseData : data) {
-			keys.add(getKey(baseData));
+		if(sources.containsKey(source)) {
+			sources.get(source).licenses.add(new License(data.getLicense(), data.getRights()));
+		} else {
+			sources.put(source, source);
 		}
-		return keys;
 	}
 
-	public List<Source> getSorted() {
-		return sortedSources;
+	public Set<Source> getSorted() {
+		return sources.keySet();
 	}
 }

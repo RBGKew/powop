@@ -411,7 +411,9 @@
               {{#if organisation.bibliographicCitation}}
               {{organisation.bibliographicCitation}}<br/>
               {{/if}}
-              <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small>
+              {{#each licenses}}
+              <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small><br/>
+              {{/each}}
             </p>
             {{/each}}
           </div>
