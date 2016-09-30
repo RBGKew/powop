@@ -2,7 +2,6 @@ define(function(require) {
   var $ = require('jquery');
   var bootstrap = require('bootstrap');
   var pubsub = require('libs/pubsub');
-
   var autocomplete = require('./autocomplete');
   var events = require('./events');
   var filters = require('./filters');
@@ -53,13 +52,28 @@ define(function(require) {
   }
 
   function setView(event) {
+    $(this).parent().parent().find('.selected_background').removeClass('selected_background');
+    $(this).addClass('selected_background');
     Cookies.set('powop', $(this).attr("id"), { expires: 1095 , path: '' });
   }
 
   function setFacet(event) {
-    event.preventDefault();
-    filters.setParam("selectedFacet", $(this).attr("id"));
-  }
+      event.preventDefault();
+      if($(this).attr("id") == 'all_results'){
+          $('.facets').removeClass('selectedFacet');
+          $(this).addClass('selectedFacet');
+      }else{
+        $('#all_results').removeClass('selectedFacet');
+        $(this).addClass('selectedFacet');
+      }
+      if($('.selectedFacet').length > 1){
+        filters.setParam("selectedFacet", "accepted_names_and_has_images");
+      }else{
+        filters.setParam("selectedFacet", $(".selectedFacet").attr("id"));
+      }
+    }
+
+
 
   function setSort(event) {
     event.preventDefault();

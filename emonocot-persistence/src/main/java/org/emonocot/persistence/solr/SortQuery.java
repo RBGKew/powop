@@ -1,6 +1,5 @@
 package org.emonocot.persistence.solr;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
@@ -8,12 +7,14 @@ public class SortQuery implements QueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
-		if(value.endsWith("_desc")){
-			value = StringUtils.removeEnd(value, "_desc");
-			query.setSort(value, ORDER.desc);
-		}else{
-			value = StringUtils.removeEnd(value, "_asc");
-			query.setSort(value, ORDER.asc);
+		switch(value){
+		case "sort_name_desc":
+			query.setSort("taxon.scientific_name_s", ORDER.desc);
+			break;
+		case "sort_name_asc":
+			query.setSort("taxon.scientific_name_s", ORDER.asc);
+			break;
+
 		}
 
 	}

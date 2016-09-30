@@ -1,10 +1,17 @@
 /*
 * Component - Results
 */
-.c-results {
+.c-results-outer {
   padding-top: $navbar-padding-vertical * 2;
 
   article:last-child {
     border-right: $border-grey;
   }
+
+}
+.selectedFacet {
+  color: #000 !important;
+}
+.selected_background{
+    background-color: #e7e7e7 !important;
 }
