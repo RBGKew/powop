@@ -1,4 +1,4 @@
-# ![powop logo](https://github.com/RBGKew/powop/blob/master/emonocot-static/src/main/images/logo.png) Plants of the World Online Portal
+<image src="https://rawgit.com/RBGKew/powop/master/emonocot-portal/src/main/frontend/src/img/svg/sprite-kew-science-potwp.svg" width="350px"/>
 
 [![Build Status](https://travis-ci.org/RBGKew/powop.svg?branch=master)](https://travis-ci.org/RBGKew/powop)
 
