@@ -1,11 +1,12 @@
 package org.emonocot.persistence.solr;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.StringContains.containsString;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -29,48 +30,31 @@ public class QueryBuilderTest {
 		SolrQuery query = querybuilder.addParam("taxon.name_published_in_year_i", "blarg TO blarg").build();
 		List<String> filterQueries = Arrays.asList(query.getFilterQueries());
 		assertTrue(filterQueries.contains("taxon.name_published_in_year_i:[blarg TO blarg]"));
-
 	}
 
 	@Test
 	public void MainFilterQuery(){
 		QueryBuilder querybuilder = new QueryBuilder();
 		SolrQuery query = querybuilder.addParam("main.query", "blarg").build();
-		String expectedResult = "(taxon.description_t:blarg OR " +
-				"taxon.distribution_ss:blarg OR " +
-				"taxon.family_ss:blarg OR " +
-				"taxon.genus_ss:blarg OR " +
-				"taxon.name_published_in_string_s:blarg OR " +
-				"taxon.scientific_name_authorship_s:blarg OR " +
-				"taxon.scientific_name_t:blarg OR " +
-				"taxon.species_ss:blarg OR " +
-				"taxon.vernacular_names_ss:blarg)";
+		String[] expectedTerms = {
+				"taxon.scientific_name_t:blarg",
+				"taxon.family_t:blarg",
+				"taxon.genus_t:blarg",
+				"taxon.species_t:blarg",
+				"taxon.vernacular_names_t:blarg",
+				"taxon.name_published_in_string_s:blarg",
+				"taxon.scientific_name_authorship_t:blarg",
+				"taxon.description_appearance_t:blarg",
+				"taxon.description_inflorescence_t:blarg",
+				"taxon.description_fruit_t:blarg",
+				"taxon.description_leaves_t:blarg",
+				"taxon.description_flower_t:blarg",
+				"taxon.description_seed_t:blarg",
+				"taxon.description_vegitativePropagation_t:blarg",
+				"taxon.distribution_t:blarg"};
 
-		assertEquals(expectedResult, query.getQuery());
+		for(String term : expectedTerms) {
+			assertThat(query.getQuery(), containsString(term));
+		}
 	}
-	
-	@Test
-	public void AutoCompleteQuery(){
-		AutoCompleteBuilder autocomplete = new AutoCompleteBuilder();
-		autocomplete.addSuggester("location");
-		autocomplete.setQuery("bla");
-		autocomplete.pageSize(1);
-		SolrQuery solrQuery = autocomplete.build();
-		Map<String, String[]> params = solrQuery.getMap();
-		assertEquals("location", params.get("suggest.dictionary")[0]);
-		assertEquals("1", params.get("suggest.count")[0]);
-	}
-	
-	@Test
-	public void AutoCompleteRankQuery(){
-		AutoCompleteBuilder autocomplete = new AutoCompleteBuilder();
-		autocomplete.addSuggester("genus");
-		autocomplete.setQuery("bla");
-		autocomplete.pageSize(1);
-		SolrQuery solrQuery = autocomplete.build();
-		Map<String, String[]> params = solrQuery.getMap();
-		assertEquals("scientific-name", params.get("suggest.dictionary")[0]);
-		assertEquals("GENUS", params.get("suggest.cfq")[0]);
-	}
-	
 }

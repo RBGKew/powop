@@ -42,11 +42,11 @@ public class TaxonSolrInputDocumentTest {
 	}
 
 	private TestCase[] higerOrderTestCases = {
-			new TestCase().withRank(Rank.FAMILY).andSolrFieldName("taxon.family_ss"),
-			new TestCase().withRank(Rank.Subfamily).andSolrFieldName("taxon.subfamily_ss"),
-			new TestCase().withRank(Rank.GENUS).andSolrFieldName("taxon.genus_ss"),
-			new TestCase().withRank(Rank.Tribe).andSolrFieldName("taxon.tribe_ss"),
-			new TestCase().withRank(Rank.Subtribe).andSolrFieldName("taxon.subtribe_ss"),
+			new TestCase().withRank(Rank.FAMILY).andSolrFieldName("taxon.family_t"),
+			new TestCase().withRank(Rank.Subfamily).andSolrFieldName("taxon.subfamily_t"),
+			new TestCase().withRank(Rank.GENUS).andSolrFieldName("taxon.genus_t"),
+			new TestCase().withRank(Rank.Tribe).andSolrFieldName("taxon.tribe_t"),
+			new TestCase().withRank(Rank.Subtribe).andSolrFieldName("taxon.subtribe_t"),
 	};
 
 	@Test
@@ -69,7 +69,7 @@ public class TaxonSolrInputDocumentTest {
 				"taxon.infraspecific_epithet_s",
 				"taxon.name_published_in_string_s",
 				"taxon.order_s",
-				"taxon.scientific_name_authorship_s",
+				"taxon.scientific_name_authorship_t",
 				"taxon.scientific_name_t",
 				"taxon.specific_epithet_s",
 				"taxon.subgenus_s",
@@ -164,6 +164,7 @@ public class TaxonSolrInputDocumentTest {
 		assertEquals("Xeric Scrubland", doc.getFieldValue(expected));
 	}
 
+	private String[] expectedDistributionKeys = {"taxon.distribution_t"};
 	@Test
 	public void level0Distribution() {
 		Distribution level0 = new Distribution();
@@ -174,29 +175,12 @@ public class TaxonSolrInputDocumentTest {
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
-		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
-		for(String expectedKey : expectedKeys) {
+		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
 			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
 		}
 
 		// All subregions (level 1, 2, 3) should be indexed
-		Object[] expectedLocationCodes = {
-				"9", "90", "91",
-				"ANT", "ANT-OO",
-				"ASP", "ASP-OO",
-				"BOU", "BOU-OO",
-				"CRZ", "CRZ-OO",
-				"FAL", "FAL-OO",
-				"HMD", "HMD-OO",
-				"KEG", "KEG-OO",
-				"MAQ", "MAQ-OO",
-				"MPE", "MPE-OO",
-				"SGE", "SGE-OO",
-				"SSA", "SSA-OO",
-				"TDC", "TDC-OO"
-		};
-
 		Object[] expectedLocationNames = {
 				"Amsterdam-St.Paul Is.",
 				"Antarctic",
@@ -215,8 +199,7 @@ public class TaxonSolrInputDocumentTest {
 				"Tristan da Cunha"
 		};
 
-		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
-		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
+		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
 	}
 
 	@Test
@@ -229,28 +212,12 @@ public class TaxonSolrInputDocumentTest {
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
-		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
-		for(String expectedKey : expectedKeys) {
+		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
 			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
 		}
 
 		// All subregions (level 2, 3) should be indexed, plus parent regions to level 0
-		Object[] expectedLocationCodes = {
-				"9", "90",
-				"ASP", "ASP-OO",
-				"BOU", "BOU-OO",
-				"CRZ", "CRZ-OO",
-				"FAL", "FAL-OO",
-				"HMD", "HMD-OO",
-				"KEG", "KEG-OO",
-				"MAQ", "MAQ-OO",
-				"MPE", "MPE-OO",
-				"SGE", "SGE-OO",
-				"SSA", "SSA-OO",
-				"TDC", "TDC-OO"
-		};
-
 		Object[] expectedLocationNames = {
 				"Amsterdam-St.Paul Is.",
 				"Antarctic",
@@ -267,8 +234,7 @@ public class TaxonSolrInputDocumentTest {
 				"Tristan da Cunha"
 		};
 
-		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
-		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
+		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
 	}
 
 	@Test
@@ -280,9 +246,8 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level2)));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
 
-		for(String expectedKey : expectedKeys) {
+		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
 		}
 
@@ -296,8 +261,7 @@ public class TaxonSolrInputDocumentTest {
 				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
 		};
 
-		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
-		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
+		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
 	}
 
 	@Test
@@ -309,24 +273,18 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level3)));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String[] expectedKeys = {"taxon.distribution_ss", "taxon.distribution_code_ss"};
 
-		for(String expectedKey : expectedKeys) {
+		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
 			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
 		}
 
 		// All parent regions to level 0 should be indexed
-		Object[] expectedLocationCodes = {
-				"9", "90",
-				"SSA", "SSA-OO",
-		};
 		Object[] expectedLocationNames = {
 				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
 		};
 
-		assertThat(doc.getFieldValues(expectedKeys[0]), contains(expectedLocationNames));
-		assertThat(doc.getFieldValues(expectedKeys[1]), contains(expectedLocationCodes));
+		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
 	}
 
 	private Description buildDescription(String description, DescriptionType... types) {

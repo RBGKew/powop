@@ -48,6 +48,19 @@ public class Descriptions {
 		}
 	}
 
+	private Comparator<DescriptionsBySource> newestSourceFirst = new Comparator<DescriptionsBySource>() {
+		public int compare(DescriptionsBySource dbs1, DescriptionsBySource dbs2) {
+			if(dbs1.source.getCreated() != null && dbs2.source.getCreated() != null) {
+				return dbs2.source.getCreated().compareTo(dbs1.source.getCreated());
+			} else if(dbs1.source.getCreated() != null) {
+				return -1;
+			} else if(dbs2.source.getCreated() != null) {
+				return 1;
+			}
+			return 0;
+		}
+	};
+
 	private Taxon taxon;
 	private List<DescriptionsBySource> descriptionsBySource;
 	private Set<DescriptionType> descriptionTypes;
@@ -76,31 +89,12 @@ public class Descriptions {
 					descriptionsBySource.add(dbs);
 				}
 			}
+
+			Collections.sort(descriptionsBySource, newestSourceFirst);
 		}
-		Comparator<DescriptionsBySource> newestSourceFirst = new Comparator<DescriptionsBySource>() {
-			public int compare(DescriptionsBySource dbs1, DescriptionsBySource dbs2) {
-				if(dbs1.source.getCreated() != null && dbs2.source.getCreated() != null){
-					return dbs2.source.getCreated().compareTo(dbs1.source.getCreated());
-				}else if(dbs1.source.getCreated() != null){
-					return -1;
-				}else if(dbs2.source.getCreated() != null){
-					return 1;
-				}
-				return 0;
-			}	
-		};
-		Collections.sort(descriptionsBySource, newestSourceFirst);
 		return descriptionsBySource;
 	}
 
-	private Set<DescriptionType> subTypes(List<DescriptionType> descriptionTypes) {
-		Set<DescriptionType> subTypes = new HashSet<DescriptionType>();
-		for(DescriptionType descriptionType : descriptionTypes) {
-			subTypes.addAll(DescriptionType.getAll(descriptionType));
-		}
-		return subTypes;
-	}
-	
 	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {
 		Map<DescriptionType, DescriptionsByType> byType = new EnumMap<>(DescriptionType.class);
 		Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {

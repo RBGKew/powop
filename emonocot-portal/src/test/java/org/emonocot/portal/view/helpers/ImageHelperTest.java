@@ -35,14 +35,14 @@ public class ImageHelperTest extends AbstractHelperTest {
 	@Test
 	public void thumbnailWithLightbox() throws IOException {
 		shouldCompileTo("{{thumbnailImage this}}", image,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" data-toggle=\"lightbox\" data-gallery=\"image-gallery\" data-title=\"Cool brah\" data-footer=\"Coolio\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah\" data-footer=\"Coolio\">" +
 				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></a>");
 	}
 
 	@Test
 	public void thumbnailInFigureWithLightbox() throws IOException {
 		shouldCompileTo("{{thumbnailImage this figure-class=\"woo\"}}", image,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" data-toggle=\"lightbox\" data-gallery=\"image-gallery\" data-title=\"Cool brah\" data-footer=\"Coolio\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah\" data-footer=\"Coolio\">" +
 				"<figure class=\"woo\"><img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></figure></a>");
 	}
 }

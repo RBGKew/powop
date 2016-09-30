@@ -64,40 +64,45 @@ public class ApiController {
 			@RequestParam(value = "suggester", required = true) List<String> suggesters,
 			@RequestParam(value = "page_size", required = false, defaultValue = "5") Integer pageSize
 			) throws SolrServerException, IOException {
-		
-		AutoCompleteBuilder autoCompleteBuilder = new AutoCompleteBuilder();
-		autoCompleteBuilder.setWorkingSuggesters(checkSuggesters(suggesters));
-		autoCompleteBuilder.pageSize(pageSize);
-		autoCompleteBuilder.setQuery(queryString);
-		for(String suggester : suggesters){
-			autoCompleteBuilder.addSuggester(suggester);
-		}
-		SolrQuery query = autoCompleteBuilder.build();
-		if(query != null){
-			SuggesterResponse response = searchableObjectService.autocomplete(autoCompleteBuilder.build());
+
+		SolrQuery query = new AutoCompleteBuilder()
+				.setWorkingSuggesters(checkSuggesters(suggesters))
+				.setSuggesters(suggesters)
+				.pageSize(pageSize)
+				.setQuery(queryString)
+				.build();
+
+		if(query != null) {
+			SuggesterResponse response = searchableObjectService.autocomplete(query);
 			return new ResponseEntity<SuggesterResponse>(response, HttpStatus.OK);
 		}
+
 		return null;
 	}
-	
+
+	/* Check which suggesters are currently built and working in solr. 
+	 * Returns a list of working ones to query. This is needed because
+	 * Solr will fail the whole request if you ask for a list of suggesters
+	 * and one throws an exception.
+	 */
+	@SuppressWarnings("unchecked")
 	private List<String> checkSuggesters(List<String> suggesters){
 		List<String> workingSuggesters = new ArrayList<String>();
 		ModifiableSolrParams params = new ModifiableSolrParams()
-			.add("key", "suggest")
-			.add("stats", "true");
+				.add("key", "suggest")
+				.add("stats", "true");
 		SolrQuery query = new SolrQuery().setRequestHandler("/admin/mbeans");
 		query.add(params);
 		SolrResponseBase response = searchableObjectService.search(query);
-		@SuppressWarnings("unchecked")
 		NamedList<Object> responseStats = (NamedList<Object>) response.getResponse().findRecursive("solr-mbeans","OTHER","suggest","stats");
 		for(Entry<String, Object> suggester : responseStats){
-			if(!(((String) suggester.getValue()).contains("sizeInBytes=0"))){
+			if(!suggester.getKey().equals("totalSizeInBytes") 
+					&& !(((String) suggester.getValue()).contains("sizeInBytes=0"))) {
 				workingSuggesters.add(suggester.getKey());
 			}
 		}
 
 		return workingSuggesters;
-		
 	}
 
 	@RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
