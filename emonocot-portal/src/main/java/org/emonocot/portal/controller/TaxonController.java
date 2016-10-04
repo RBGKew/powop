@@ -94,7 +94,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		if(!taxon.getVernacularNames().isEmpty()) {
 			model.addAttribute(new VernacularNames(taxon));
 		}
-		model.addAttribute("theme", bodyClass(taxon));
+		model.addAttribute("color-theme", bodyClass(taxon));
 
 		return "taxon";
 	}
@@ -108,10 +108,10 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 	}
 
 	private String bodyClass(Taxon taxon) {
-		if(taxon.getTaxonomicStatus() != null && taxon.getTaxonomicStatus().equals(TaxonomicStatus.Synonym)) {
-			return "s-theme-Synonym";
-		} else {
+		if(taxon.isAccepted()) {
 			return String.format("s-theme-%s", WordUtils.capitalizeFully(taxon.getTaxonRank().toString()));
+		} else {
+			return "s-theme-Synonym";
 		}
 	}
 }

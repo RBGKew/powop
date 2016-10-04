@@ -6,11 +6,14 @@ define(function(require) {
   var pagination = require('libs/pagination');
   var filters = require('./filters');
   var resultsHeader = require('./resultsHeader');
+  var Cookies = require('libs/js.cookie.js');
+
   var resultsTmpl = require('templates/partials/result/results.js');
   var headerTmpl = require('templates/partials/result/results-header.js');
   var itemsTmpl = require('templates/partials/result/results-items.js');
   var paginationTmpl = require('templates/partials/result/results-pagination.js');
-  var Cookies = require('libs/js.cookie.js');
+
+  var taxonHelper = require('helpers/taxon-helper.js');
 
   Handlebars.registerPartial('results-header', headerTmpl);
   Handlebars.registerPartial('results-items', itemsTmpl);

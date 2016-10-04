@@ -969,6 +969,28 @@ public class Taxon extends SearchableObject {
 		this.identifications = identifications;
 	}
 
+	@Transient
+	public boolean isAccepted() {
+		if (getTaxonomicStatus() == null) {
+			return true;
+		} else {
+			switch (getTaxonomicStatus()) {
+			case Synonym:
+			case Heterotypic_Synonym:
+			case Homotypic_Synonym:
+			case DeterminationSynonym:
+			case IntermediateRankSynonym:
+			case Proparte_Synonym:
+				return false;
+			case Accepted:
+			case Doubtful:
+			case Misapplied:
+			default:
+				return true;
+			}
+		}
+	}
+
 	@Override
 	public SolrInputDocument toSolrInputDocument() {
 		return new TaxonSolrInputDocument(this).build();

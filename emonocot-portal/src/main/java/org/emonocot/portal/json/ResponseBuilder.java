@@ -33,13 +33,13 @@ public class ResponseBuilder {
 
 	private TaxonService taxonService;
 
-	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse, TaxonService taxonService){
+	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse, TaxonService taxonService) {
 		this.taxonService = taxonService;
 		setFacets(queryResponse.getFacetQuery());
 		jsonBuilder.totalResults((int)queryResponse.getResults().getNumFound());
 		highlights = queryResponse.getHighlighting();
-		if(queryResponse.getResults() != null && !queryResponse.getResults().isEmpty()){
-			for(SolrDocument document : queryResponse.getResults()){
+		if(queryResponse.getResults() != null && !queryResponse.getResults().isEmpty()) {
+			for(SolrDocument document : queryResponse.getResults()) {
 				addResult(document);
 			}
 		}
@@ -71,6 +71,7 @@ public class ResponseBuilder {
 		if(taxon != null) {
 			resultBuilder.url("/taxon/" + taxon.getIdentifier());
 			resultBuilder.name(taxon.getScientificName());
+			resultBuilder.accepted(taxon.isAccepted());
 			if(taxon.getScientificNameAuthorship() !=null) {
 				resultBuilder.author(taxon.getScientificNameAuthorship());
 			}
