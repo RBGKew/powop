@@ -1434,6 +1434,20 @@
       <str name="separator"> </str>
       <str name="buildOnStartup">true</str>
     </lst>
+
+    <lst name="suggester">
+      <str name="name">use</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_use_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+      <str name="buildOnStartup">true</str>
+    </lst>
   </searchComponent>
 
   <requestHandler name="/suggest" class="solr.SearchHandler" startup="lazy">

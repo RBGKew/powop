@@ -17,6 +17,7 @@ import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.VernacularName;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;
@@ -162,8 +163,12 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void indexDescriptions() {
 		for(Description d : taxon.getDescriptions()) {
-			if(d.getType() != null && d.getType().hasSearchCategory()) {
-				sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), d.getDescription());
+			if(d.getType() != null) {
+				if(d.getType().hasSearchCategory()) {
+					sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), d.getDescription());
+				} else if(DescriptionType.getAll(DescriptionType.use).contains(d.getType())) {
+					sid.addField("taxon.description_use_t", d.getDescription());
+				}
 			}
 			sid.addField("taxon.description_t", d.getDescription());
 
@@ -232,7 +237,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			// When a taxon is an accepted name, the synonyms should also be indexed
 			if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
 				Set<Taxon> synonymList = taxon.getSynonymNameUsages();
-				for(Taxon taxon : synonymList){
+				for(Taxon taxon : synonymList) {
 					if(rank.equals(taxon.getTaxonRank()) && BeanUtils.getProperty(taxon, property) == null) {
 						addField(sid, solrField, taxon.getScientificName());
 					} else {

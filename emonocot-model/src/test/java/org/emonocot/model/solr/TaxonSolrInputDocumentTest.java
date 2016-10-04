@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -115,7 +116,9 @@ public class TaxonSolrInputDocumentTest {
 	public void descriptions() throws Exception {
 		Description[] descriptions = {
 				buildDescription("Description 1. Blah blah blah", DescriptionType.morphologyGeneralBuds),
-				buildDescription("Description 2. Blah blah blah", DescriptionType.morphologyReproductive, DescriptionType.sexMale)
+				buildDescription("Description 2. Blah blah blah", DescriptionType.morphologyReproductive, DescriptionType.sexMale),
+				buildDescription("Use 1. Blah blah blah", DescriptionType.use),
+				buildDescription("Use 2. Blah blah blah", DescriptionType.useAnimalFoodHerbage)
 		};
 
 		Taxon taxon = new Taxon();
@@ -124,13 +127,16 @@ public class TaxonSolrInputDocumentTest {
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 		String expectedField1 = "taxon.description_appearance_t";
 		String expectedField2 = "taxon.description_flower_t";
+		String expectedUse = "taxon.description_use_t";
 		String combinedDesceription = "taxon.description_t";
 
 		assertTrue("Expected " + expectedField1, doc.containsKey(expectedField1));
 		assertTrue("Expected " + expectedField2, doc.containsKey(expectedField2));
+		assertTrue("Expected " + expectedUse, doc.containsKey(expectedUse));
 		assertTrue("Expected " + combinedDesceription, doc.containsKey(combinedDesceription));
 		assertEquals("Description 1. Blah blah blah", doc.getFieldValue(expectedField1));
 		assertEquals("Description 2. Blah blah blah", doc.getFieldValue(expectedField2));
+		assertThat(doc.getFieldValues(expectedUse), containsInAnyOrder((Object)"Use 1. Blah blah blah", (Object)"Use 2. Blah blah blah"));
 	}
 
 	@Test
@@ -252,11 +258,6 @@ public class TaxonSolrInputDocumentTest {
 		}
 
 		// All subregions (level 3) should be indexed, plus parent regions to level 0
-		Object[] expectedLocationCodes = {
-				"9", "90",
-				"SSA", "SSA-OO",
-		};
-
 		Object[] expectedLocationNames = {
 				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
 		};

@@ -21,7 +21,7 @@ public class SolrFieldNameMappings {
 			.put("seed", "taxon.description_seed_t")
 			.put("cloning", "taxon.description_vegitativePropagation_t")
 			.put("location", "taxon.distribution_t")
-			.put("uses", "taxon.description_uses_t")
+			.put("use", "taxon.description_use_t")
 			.put("name", "taxon.scientific_name_t")
 			.build();
 }
