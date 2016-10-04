@@ -16,6 +16,9 @@
  */
 package org.emonocot.portal.controller;
 
+import org.emonocot.api.ImageService;
+import org.emonocot.api.TaxonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +28,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class IndexController {
 
+	@Autowired
+	TaxonService taxonService;
+
+	@Autowired
+	ImageService imageService;
+
 	@RequestMapping(method = RequestMethod.GET,produces = "text/html")
-	public String index(Model uiModel) {
+	public String index(Model model) {
+		model.addAttribute("names", taxonService.count());
+		model.addAttribute("images", imageService.count());
 		return "index";
 	}
 }

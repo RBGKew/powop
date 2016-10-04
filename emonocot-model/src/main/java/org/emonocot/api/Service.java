@@ -139,6 +139,12 @@ public interface Service<T extends Base> {
 	Page<T> list(Integer page, Integer size, String fetch);
 
 	/**
+	 * 
+	 * @return a count of the type of object this service works on
+	 */
+	long count();
+
+	/**
 	 * @param t
 	 *            the object to merge
 	 * @return the merged object

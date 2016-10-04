@@ -200,4 +200,8 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
 					size, dao.list(page, size, fetch), null);
 		}
 	}
+
+	public long count() {
+		return dao.count();
+	}
 }

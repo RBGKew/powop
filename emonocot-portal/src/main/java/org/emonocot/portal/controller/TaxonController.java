@@ -16,8 +16,6 @@
  */
 package org.emonocot.portal.controller;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.WordUtils;
@@ -31,7 +29,6 @@ import org.emonocot.portal.view.Images;
 import org.emonocot.portal.view.MeasurementOrFacts;
 import org.emonocot.portal.view.Sources;
 import org.emonocot.portal.view.VernacularNames;
-import org.gbif.ecat.voc.TaxonomicStatus;
 import org.emonocot.portal.view.ScientificNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
