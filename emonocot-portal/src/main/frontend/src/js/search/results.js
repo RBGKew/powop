@@ -23,6 +23,7 @@ define(function(require) {
         resultsHeader.showFacetCounts(json.facets);
         paginate(json);
     });
+
     resultsHeader.showSelectedView();
     resultsHeader.showSelectedFacet(filters.getParam('selectedFacet'));
     resultsHeader.showSelectedSort(filters.getParam('sort'));

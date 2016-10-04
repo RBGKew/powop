@@ -58,22 +58,21 @@ define(function(require) {
   }
 
   function setFacet(event) {
-      event.preventDefault();
-      if($(this).attr("id") == 'all_results'){
-          $('.facets').removeClass('selectedFacet');
-          $(this).addClass('selectedFacet');
-      }else{
-        $('#all_results').removeClass('selectedFacet');
-        $(this).addClass('selectedFacet');
-      }
-      if($('.selectedFacet').length > 1){
-        filters.setParam("selectedFacet", "accepted_names_and_has_images");
-      }else{
-        filters.setParam("selectedFacet", $(".selectedFacet").attr("id"));
-      }
+    event.preventDefault();
+    if($(this).attr("id") == 'all_results') {
+      $('.facets').removeClass('selectedFacet');
+      $(this).addClass('selectedFacet');
+    } else {
+      $('#all_results').removeClass('selectedFacet');
+      $(this).toggleClass('selectedFacet');
     }
 
-
+    if($('.selectedFacet').length > 1) {
+      filters.setParam("selectedFacet", "accepted_names_and_has_images");
+    } else {
+      filters.setParam("selectedFacet", $(".selectedFacet").attr("id"));
+    }
+  }
 
   function setSort(event) {
     event.preventDefault();
