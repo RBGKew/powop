@@ -92,6 +92,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 			model.addAttribute(new VernacularNames(taxon));
 		}
 		model.addAttribute("color-theme", bodyClass(taxon));
+		model.addAttribute("title", pageTitle(taxon));
 
 		return "taxon";
 	}
@@ -102,6 +103,10 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String list(Model model) {
 		return "redirect:/search";
+	}
+
+	private String pageTitle(Taxon taxon) {
+		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(), taxon.getScientificNameAuthorship());
 	}
 
 	private String bodyClass(Taxon taxon) {
