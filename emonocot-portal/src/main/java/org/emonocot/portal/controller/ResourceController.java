@@ -265,7 +265,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
 
-		return "redirect:/resource";
+		return "redirect:/resource/" + resource.getId();
 	}
 
 	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = "text/html", params = {"!run", "!form", "!parameters", "!delete"})
