@@ -8,6 +8,23 @@
     border-right: $border-grey;
   }
 
+  .legend {
+    span {
+      display: inline-block;
+      width: 0.75em;
+      height: 0.75em;
+      margin: 0 0.7em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .Family { background-color: #336699; }
+    .Genus { background-color: #339999; }
+    .Species { background-color: #669933; }
+    .Synonym { background-color: #8899AA; }
+  }
 }
 .selectedFacet {
   color: #000 !important;
