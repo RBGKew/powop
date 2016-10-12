@@ -16,8 +16,6 @@
  */
 package org.emonocot.portal.controller;
 
-import java.util.Set;
-
 import org.apache.commons.lang.WordUtils;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
@@ -45,8 +43,6 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
 	
-	private static Set<DescriptionType> DescriptionTypes = DescriptionType.getAllExcept(DescriptionType.use);
-	private static Set<DescriptionType> UseTypes = DescriptionType.getAll(DescriptionType.use);
 
 	public TaxonController() {
 		super("taxon", Taxon.class);
@@ -64,14 +60,15 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute(new Sources(taxon));
 		model.addAttribute(new Bibliography(taxon));
 		if(!taxon.getDescriptions().isEmpty()) {
-			Descriptions descriptions = new Descriptions(taxon, DescriptionTypes);
+			Descriptions descriptions = new Descriptions(taxon, DescriptionType.getAllExcept(DescriptionType.use));
 			if(!descriptions.getBySource().isEmpty()){
 				model.addAttribute("descriptions", descriptions);
 			}
-			Descriptions uses = new Descriptions(taxon, UseTypes);
+
+			Descriptions uses = new Descriptions(taxon, DescriptionType.getAll(DescriptionType.use));
 			if(!uses.getBySource().isEmpty()){
 				model.addAttribute("uses", uses);
-			}	
+			}
 		}
 		if(!taxon.getSynonymNameUsages().isEmpty()) {
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
