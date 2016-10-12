@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,7 +68,7 @@ public class Descriptions {
 		this.taxon = taxon;
 		this.descriptionTypes = descriptionTypes;
 	}
-	
+
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
 			Map<Organisation, List<Description>> descriptionsByResource = new HashMap<>();
@@ -104,11 +103,13 @@ public class Descriptions {
 		};
 
 		for(Description description : descriptions) {
-			if(descriptionTypes.contains(description.getType())) {
-				if(!byType.containsKey(description.getType())) {
-					byType.put(description.getType(), new DescriptionsByType(description.getType().toString()));
+			for(DescriptionType type : description.getTypes()) {
+				if(descriptionTypes.contains(type)) {
+					if(!byType.containsKey(type)) {
+						byType.put(type, new DescriptionsByType(type.toString()));
+					}
+					byType.get(type).descriptions.add(description);
 				}
-				byType.get(description.getType()).descriptions.add(description);
 			}
 		}
 

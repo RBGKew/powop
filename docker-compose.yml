@@ -70,6 +70,7 @@ services:
       - geodb
     ports:
       - "18080:8080"
+    mem_limit: 1G
 
   geodb:
     image: ${DOCKER_REGISTRY}geodb:latest

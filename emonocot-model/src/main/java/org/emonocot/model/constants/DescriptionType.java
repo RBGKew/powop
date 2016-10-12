@@ -421,9 +421,10 @@ public enum DescriptionType {
 							return new HashSet<DescriptionType>();
 						}
 					});
+
 	public static Set<DescriptionType> getAll(final DescriptionType type){
 		for(DescriptionType description : DescriptionType.values()){
-			if(description.term.startsWith(type.name())){
+			if(description.term.startsWith(type.term)){
 				sublists.getUnchecked(type).add(description);
 			}
 		}
@@ -444,7 +445,6 @@ public enum DescriptionType {
 				return f;
 			}
 		}
-		throw new IllegalArgumentException(string
-				+ " is not an acceptable value for DescriptionType");
+		throw new IllegalArgumentException(string + " is not an acceptable value for DescriptionType");
 	}
 }

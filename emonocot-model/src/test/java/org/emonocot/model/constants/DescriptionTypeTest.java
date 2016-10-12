@@ -1,45 +1,46 @@
 package org.emonocot.model.constants;
 
+import static org.emonocot.model.constants.DescriptionType.*;
+import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
-import org.emonocot.model.constants.DescriptionType;
 import org.junit.Test;
 
 public class DescriptionTypeTest {
 
 	@Test
 	public void testFromUriString() {
-		assertEquals(
-				DescriptionType.fromString("http://rs.gbif.org/vocabulary/gbif/descriptionType/habitat"),
-				DescriptionType.habitat);
+		assertEquals(fromString("http://rs.gbif.org/vocabulary/gbif/descriptionType/habitat"), habitat);
 	}
 
 	@Test
 	public void testFromIdentifier() {
-		assertEquals(
-				DescriptionType.fromString("habitat"),
-				DescriptionType.habitat);
+		assertEquals(fromString("habitat"), habitat);
 	}
 
 	@Test
 	public void testFromHierarchicalIdentifier() {
-		assertEquals(
-				DescriptionType.fromString("morphology:reproductive:flowers:perianth"),
-				DescriptionType.morphologyReproductiveFlowersPerianth);
+		assertEquals(fromString("morphology:reproductive:flowers:perianth"), morphologyReproductiveFlowersPerianth);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testUnknownUri() {
-		DescriptionType.fromString("http://totally.not.a.real.url.com/habitat");
+		fromString("http://totally.not.a.real.url.com/habitat");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testUnknownIdentifier() {
-		DescriptionType.fromString("notARealDescription");
+		fromString("notARealDescription");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidHierarchy() {
-		DescriptionType.fromString("morphology:leaf:flowers:corolla");
+		fromString("morphology:leaf:flowers:corolla");
+	}
+
+	@Test
+	public void testGetAll() {
+		assertThat(getAll(use), hasItems(use, useAnimalFoodFlowers, useFoodStarches));
 	}
 }
