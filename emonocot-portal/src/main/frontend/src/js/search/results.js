@@ -7,6 +7,7 @@ define(function(require) {
   var filters = require('./filters');
   var resultsHeader = require('./resultsHeader');
   var Cookies = require('libs/js.cookie.js');
+  var events = require('./events');
 
   var resultsTmpl = require('templates/partials/result/results.js');
   var headerTmpl = require('templates/partials/result/results-header.js');
@@ -19,12 +20,21 @@ define(function(require) {
   Handlebars.registerPartial('results-items', itemsTmpl);
   Handlebars.registerPartial('results-pagination', paginationTmpl);
 
+  $(document).on('keydown', function (event) {
+    var pag = $('.c-pagination');
+    if(event.which === events.LEFT_ARROW) {
+      pag.pagination('prevPage');
+    } else if (event.which === events.RIGHT_ARROW) {
+      pag.pagination('nextPage');
+    }
+  });
+
   var update = function(state) {
     $.getJSON("/api/1/search?" + state, function(json) {
-        $('.c-results').replaceWith(resultsTmpl(json));
-        $('.c-results .container--lines').replaceWith(itemsTmpl(json));
-        resultsHeader.showFacetCounts(json.facets);
-        paginate(json);
+      $('.c-results').replaceWith(resultsTmpl(json));
+      $('.c-results .container--lines').replaceWith(itemsTmpl(json));
+      resultsHeader.showFacetCounts(json.facets);
+      paginate(json);
     });
 
     resultsHeader.showSelectedView();
@@ -34,7 +44,7 @@ define(function(require) {
 
   var updateItems = function(state) {
     $.getJSON("/api/1/search?" + state, function(json) {
-        $('.c-results .container--lines').replaceWith(itemsTmpl(json));
+      $('.c-results .container--lines').replaceWith(itemsTmpl(json));
     });
   }
 
