@@ -195,6 +195,7 @@ public enum DescriptionType {
 	useFoodUnspecifiedFood("use:food:unspecifiedFood"),
 	useFoodUnspecifiedFoodType("use:food:unspecifiedFoodType"),
 	useFoodVegetables("use:food:vegetables"),
+	useTrade("trade"),
 	useFuel("use:fuel"),
 	useFuelCharcoal("use:fuel:charcoal"),
 	useFuelFuelwood("use:fuel:fuelwood"),
