@@ -45,12 +45,12 @@ public enum DescriptionType {
 	lifetime("http://rs.gbif.org/vocabulary/gbif/descriptionType/lifetime", "lifetime"),
 	biology("http://rs.gbif.org/vocabulary/gbif/descriptionType/biology", "biology"),
 	ecology("http://rs.gbif.org/vocabulary/gbif/descriptionType/ecology", "ecology"),
-	
 	reproduction("http://rs.gbif.org/vocabulary/gbif/descriptionType/reproduction", "reproduction"),
 	conservation("http://rs.gbif.org/vocabulary/gbif/descriptionType/conservation", "conservation"),
 	use("http://rs.gbif.org/vocabulary/gbif/descriptionType/use", "use"),
 	dispersal( "http://rs.gbif.org/vocabulary/gbif/descriptionType/dispersal", "dispersal"),
-	
+	propagation("propagation"),
+	yield("yield"),
 	lifecycle("http://rs.gbif.org/vocabulary/gbif/descriptionType/lifecycle", "lifecycle"),
 	migration("http://rs.gbif.org/vocabulary/gbif/descriptionType/migration", "migration"),
 	growth( "http://rs.gbif.org/vocabulary/gbif/descriptionType/growth", "constructionalOrganisation:growth"),
