@@ -4,6 +4,7 @@ import static org.emonocot.model.constants.DescriptionType.*;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -42,5 +43,12 @@ public class DescriptionTypeTest {
 	@Test
 	public void testGetAll() {
 		assertThat(getAll(use), hasItems(use, useAnimalFoodFlowers, useFoodStarches));
+	}
+
+	@Test
+	public void testIsA() {
+		assertTrue(morphologyReproductiveFlowers.isA(morphology));
+		assertTrue(useAnimalFoodGrainsCereals.isA(use));
+		assertTrue(use.isA(use));
 	}
 }

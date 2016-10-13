@@ -401,6 +401,10 @@ public enum DescriptionType {
 		return getSearchCategory() != null;
 	}
 
+	public boolean isA(DescriptionType type) {
+		return getAll(type).contains(this);
+	}
+
 	public String getSearchCategory() {
 		for(String category : searchCategories.keySet()) {
 			if(searchCategories.get(category).contains(this)) {

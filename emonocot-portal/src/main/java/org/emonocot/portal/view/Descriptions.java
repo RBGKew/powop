@@ -20,8 +20,8 @@ import org.emonocot.model.registry.Organisation;
  * source and description type.  E.g,
  * 
  *   FTEA => [
- *   	Habit => Perennial...,
- *   	Leaf  => Basal leaves...,
+ *   	Habit => [Perennial, ...],
+ *   	Leaf  => [Basal leaves, ...],
  *   ],
  *   FWTA => [ ... ]
  */
@@ -37,7 +37,7 @@ public class Descriptions {
 		}
 	}
 
-	public class DescriptionsBySource {
+	public class DescriptionsBySource implements Comparable<DescriptionsBySource> {
 		public Organisation source;
 		public List<DescriptionsByType> byType;
 
@@ -45,33 +45,43 @@ public class Descriptions {
 			this.source = source;
 			this.byType = new ArrayList<>();
 		}
-	}
 
-	private Comparator<DescriptionsBySource> newestSourceFirst = new Comparator<DescriptionsBySource>() {
-		public int compare(DescriptionsBySource dbs1, DescriptionsBySource dbs2) {
-			if(dbs1.source.getCreated() != null && dbs2.source.getCreated() != null) {
-				return dbs2.source.getCreated().compareTo(dbs1.source.getCreated());
-			} else if(dbs1.source.getCreated() != null) {
+		@Override
+		public int compareTo(DescriptionsBySource o) {
+			if(source.getCreated() != null && o.source.getCreated() != null) {
+				return o.source.getCreated().compareTo(source.getCreated());
+			} else if(source.getCreated() != null) {
 				return -1;
-			} else if(dbs2.source.getCreated() != null) {
+			} else if(o.source.getCreated() != null) {
 				return 1;
 			}
 			return 0;
 		}
-	};
+	}
 
 	private Taxon taxon;
+	private boolean isUses;
 	private List<DescriptionsBySource> descriptionsBySource;
 	private Set<DescriptionType> descriptionTypes;
 
-	public Descriptions(Taxon taxon, Set<DescriptionType> descriptionTypes) {
+	public Descriptions(Taxon taxon) {
+		this(taxon, false);
+	}
+
+	public Descriptions(Taxon taxon, boolean isUses) {
 		this.taxon = taxon;
-		this.descriptionTypes = descriptionTypes;
+		this.isUses = isUses;
+		if(isUses) {
+			this.descriptionTypes = DescriptionType.getAll(DescriptionType.use);
+		} else {
+			this.descriptionTypes = DescriptionType.getAllExcept(DescriptionType.use);
+		}
 	}
 
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
 			Map<Organisation, List<Description>> descriptionsByResource = new HashMap<>();
+
 			for(Description description : taxon.getDescriptions()) {
 				if(!descriptionsByResource.containsKey(description.getAuthority())) {
 					descriptionsByResource.put(description.getAuthority(), new ArrayList<Description>());
@@ -89,8 +99,9 @@ public class Descriptions {
 				}
 			}
 
-			Collections.sort(descriptionsBySource, newestSourceFirst);
+			Collections.sort(descriptionsBySource);
 		}
+
 		return descriptionsBySource;
 	}
 
@@ -102,15 +113,17 @@ public class Descriptions {
 			}
 		};
 
-		for(Description description : descriptions) {
-			for(DescriptionType type : description.getTypes()) {
-				if(descriptionTypes.contains(type)) {
-					if(!byType.containsKey(type)) {
-						byType.put(type, new DescriptionsByType(type.toString()));
+		addDescriptions: for(Description description : descriptions) {
+			if(!isUses) {
+				// If any of described types are use types, we don't want to add it to the descriptions section
+				for(DescriptionType type : description.getTypes()) {
+					if(type.isA(DescriptionType.use)) {
+						continue addDescriptions;
 					}
-					byType.get(type).descriptions.add(description);
 				}
 			}
+
+			addDescription(byType, description);
 		}
 
 		for(DescriptionsByType dbt : byType.values()) {
@@ -118,5 +131,16 @@ public class Descriptions {
 		}
 
 		return byType.values();
+	}
+
+	private void addDescription(Map<DescriptionType, DescriptionsByType> byType, Description description) {
+		for(DescriptionType type : description.getTypes()) {
+			if(descriptionTypes.contains(type)) {
+				if(!byType.containsKey(type)) {
+					byType.put(type, new DescriptionsByType(type.toString()));
+				}
+				byType.get(type).descriptions.add(description);
+			}
+		}
 	}
 }

@@ -48,7 +48,7 @@ public class DescriptionsTest {
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(d1, d2, d3));
 
-		Descriptions ds = new Descriptions(taxon, getAllExcept(use));
+		Descriptions ds = new Descriptions(taxon);
 		print(ds);
 
 		Collection<DescriptionsBySource> dbs = ds.getBySource();
@@ -79,7 +79,7 @@ public class DescriptionsTest {
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(u1, u2));
 
-		Descriptions ds = new Descriptions(taxon, getAll(use));
+		Descriptions ds = new Descriptions(taxon, true);
 		print(ds);
 	}
 
@@ -98,19 +98,16 @@ public class DescriptionsTest {
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(u1));
 
-		Descriptions uses = new Descriptions(taxon, getAll(use));
+		Descriptions uses = new Descriptions(taxon, true);
 		for(DescriptionsBySource dbs : uses.getBySource()) {
 			for(DescriptionsByType dbt : dbs.byType) {
 				assertEquals("useAnimalFoodBees", dbt.type);
 			}
 		}
 
-		Descriptions desc = new Descriptions(taxon, getAllExcept(use));
-		for(DescriptionsBySource dbs : desc.getBySource()) {
-			for(DescriptionsByType dbt : dbs.byType) {
-				assertEquals("morphologyReproductiveFlowers", dbt.type);
-			}
-		}
+		// Data tagged with use should not show up in the morphological descriptions
+		Descriptions desc = new Descriptions(taxon);
+		assertEquals(0, desc.getBySource().size());
 	}
 
 	private void print(Descriptions descriptions) {
