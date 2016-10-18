@@ -7,11 +7,11 @@ define(['handlebars'], function(Handlebars) {
     }
   });
 
-  Handlebars.registerHelper('taxon-link', function(taxon) {
+  Handlebars.registerHelper('taxonLink', function(taxon) {
     return new Handlebars.SafeString('<a href="' + taxon.url + '">' + taxon.name + ' <cite>' + taxon.author + '</cite></a>');
   });
 
-  Handlebars.registerHelper('taxon-name', function(taxon) {
+  Handlebars.registerHelper('nameAndAuthor', function(taxon) {
     return new Handlebars.SafeString(taxon.name + ' <cite>' + taxon.author + '</cite>');
   });
 });

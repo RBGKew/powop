@@ -22,6 +22,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.portal.view.Bibliography;
 import org.emonocot.portal.view.Descriptions;
 import org.emonocot.portal.view.Distributions;
+import org.emonocot.portal.view.Identifications;
 import org.emonocot.portal.view.Images;
 import org.emonocot.portal.view.MeasurementOrFacts;
 import org.emonocot.portal.view.Sources;
@@ -86,6 +87,10 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		if(!taxon.getVernacularNames().isEmpty()) {
 			model.addAttribute(new VernacularNames(taxon));
 		}
+		if(!taxon.getIdentifications().isEmpty()) {
+			model.addAttribute(new Identifications(taxon));
+		}
+
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("title", pageTitle(taxon));
 

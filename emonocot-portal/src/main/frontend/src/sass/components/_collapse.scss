@@ -2,6 +2,8 @@ a.collapser {
   white-space: inherit;
   text-align: left;
 
+  h1, h2, h3, h4 { display: inline; }
+
   &::before {
     font-family: 'Glyphicons Halflings';
     font-size: 0.8em;
