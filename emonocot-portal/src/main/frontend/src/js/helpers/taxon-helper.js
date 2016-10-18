@@ -6,4 +6,12 @@ define(['handlebars'], function(Handlebars) {
       return "s-theme-Synonym";
     }
   });
+
+  Handlebars.registerHelper('taxon-link', function(taxon) {
+    return new Handlebars.SafeString('<a href="' + taxon.url + '">' + taxon.name + ' <cite>' + taxon.author + '</cite></a>');
+  });
+
+  Handlebars.registerHelper('taxon-name', function(taxon) {
+    return new Handlebars.SafeString(taxon.name + ' <cite>' + taxon.author + '</cite>');
+  });
 });

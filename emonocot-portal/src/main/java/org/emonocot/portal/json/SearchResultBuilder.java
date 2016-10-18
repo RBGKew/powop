@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+
+@JsonInclude(Include.NON_EMPTY)
 public class SearchResultBuilder {
 
 	private boolean accepted;
@@ -13,6 +17,7 @@ public class SearchResultBuilder {
 	private String name;
 	private String rank;
 	private String snippet;
+	private SearchResultBuilder synonymOf;
 	private String url;
 	private List<Map<String, String>> images = new ArrayList<Map<String, String>>();
 
@@ -46,6 +51,10 @@ public class SearchResultBuilder {
 		return this;
 	}
 
+	public void synonymOf(SearchResultBuilder accepted) {
+		this.synonymOf = accepted;
+	}
+
 	public SearchResultBuilder addImage(String url, String caption) {
 		Map<String, String> image = new HashMap<String, String>();
 		image.put("url", url);
@@ -75,6 +84,10 @@ public class SearchResultBuilder {
 
 	public String getSnippet() {
 		return snippet;
+	}
+
+	public SearchResultBuilder getSynonymOf() {
+		return synonymOf;
 	}
 
 	public List<Map<String, String>> getImages() {

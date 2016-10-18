@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableSet;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Image;
@@ -65,47 +66,55 @@ public class ResponseBuilder {
 	}
 
 	private void addResult(SolrDocument document) {
-		SearchResultBuilder resultBuilder = new SearchResultBuilder();
 		Taxon taxon = taxonService.find((Long) document.get("base.id_l"));
 
 		if(taxon != null) {
-			resultBuilder.url("/taxon/" + taxon.getIdentifier());
-			resultBuilder.name(taxon.getScientificName());
-			resultBuilder.accepted(taxon.isAccepted());
-			if(taxon.getScientificNameAuthorship() !=null) {
-				resultBuilder.author(taxon.getScientificNameAuthorship());
+			SearchResultBuilder result = new SearchResultBuilder()
+					.url("/taxon/" + taxon.getIdentifier())
+					.name(taxon.getScientificName())
+					.accepted(taxon.isAccepted())
+					.author(taxon.getScientificNameAuthorship());
+
+			if(taxon.getAcceptedNameUsage() != null) {
+				SearchResultBuilder synonym = new SearchResultBuilder()
+						.name(taxon.getAcceptedNameUsage().getScientificName())
+						.author(taxon.getAcceptedNameUsage().getScientificNameAuthorship())
+						.url("/taxon/" + taxon.getAcceptedNameUsage().getIdentifier())
+						.accepted(true);
+				result.synonymOf(synonym);
 			}
 
 			if(taxon.getTaxonRank().toString() != null) {
 				String rank =  WordUtils.capitalizeFully(taxon.getTaxonRank().toString());
-				resultBuilder.rank(rank);
+				result.rank(rank);
 			}
 
-			if(highlights.get(document.get("id").toString()) != null) {
-				Map<String, List<String>> highlight = highlights.get(document.get("id"));
-				if(!highlight.isEmpty()) {
-					List<String> snippets = new ArrayList<>();
-					for(Entry<String, List<String>> entry : highlight.entrySet()) {
-						if(!entry.getValue().isEmpty()) {
-							if(fieldNames.containsKey(entry.getKey())) {
-								String key = WordUtils.capitalizeFully(fieldNames.get(entry.getKey()));
-								snippets.add(" <b>" + key + "</b>: " + entry.getValue().get(0));
-							} else {
-								snippets.add(" <b>" + entry.getKey() + "</b>: " + entry.getValue().get(0));
-							}
-						}
-					}
-					resultBuilder.snippet(Joiner.on("<br/>").join(snippets));
-				}
+			for(Image image : taxon.getImages()) {
+				result.addImage(image.getAccessUri(), image.getCaption());
 			}
 
-			if(taxon.getImages() != null) {
-				for(Image image : taxon.getImages()) {
-					resultBuilder.addImage(image.getAccessUri(), image.getCaption());
-				}
-			}
-			jsonBuilder.addResult(resultBuilder);
+			addSnippets(result, document);
+
+			jsonBuilder.addResult(result);
 		}
 	}
 
+	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t");
+	private void addSnippets(SearchResultBuilder result, SolrDocument document) {
+		if(highlights.get(document.get("id").toString()) != null) {
+			Map<String, List<String>> highlight = highlights.get(document.get("id"));
+			if(!highlight.isEmpty()) {
+				List<String> snippets = new ArrayList<>();
+				for(Entry<String, List<String>> entry : highlight.entrySet()) {
+					if(!entry.getValue().isEmpty()) {
+						if(fieldNames.containsKey(entry.getKey()) && !blacklist.contains(entry.getKey())) {
+							String key = WordUtils.capitalizeFully(fieldNames.get(entry.getKey()));
+							snippets.add(" <b>" + key + "</b>: " + entry.getValue().get(0));
+						}
+					}
+				}
+				result.snippet(Joiner.on("<br/>").join(snippets));
+			}
+		}
+	}
 }

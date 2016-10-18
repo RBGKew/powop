@@ -19,7 +19,6 @@ package org.emonocot.portal.controller;
 import org.apache.commons.lang.WordUtils;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.portal.view.Bibliography;
 import org.emonocot.portal.view.Descriptions;
 import org.emonocot.portal.view.Distributions;
@@ -42,7 +41,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
-	
 
 	public TaxonController() {
 		super("taxon", Taxon.class);

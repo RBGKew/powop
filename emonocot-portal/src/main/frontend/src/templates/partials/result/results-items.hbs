@@ -10,8 +10,13 @@
             </svg>
             {{rank}}
           </span>
-          <h2 class="c-card__title">{{name}} <cite>{{author}}</cite></h2>
-          <p>{{{snippet}}}</p>
+          <h2 class="c-card__title">{{taxon-name this}}</h2>
+          <p>
+            {{#if synonymOf}}
+              <b>Synonym of</b>: {{taxon-name synonymOf}}</br>
+            {{/if}}
+            {{{snippet}}}
+          </p>
         </div>
         {{#if images}}
         <div class="c-gallery-thumbs">

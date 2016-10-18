@@ -90,8 +90,8 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
 			Set<Taxon> synonymList = taxon.getSynonymNameUsages();
 			for(Taxon synonym : synonymList){
-				addField(sid, "taxon.scientific_name_t", synonym.getScientificName());
-			}			
+				addField(sid, "taxon.synonyms_t", synonym.getScientificName());
+			}
 		}
 		indexDescriptions();
 		indexDistributions();
