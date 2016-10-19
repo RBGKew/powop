@@ -25,8 +25,6 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.compare.ReferenceComparator;
 
-import com.google.common.collect.ImmutableSet;
-
 public class Bibliography {
 
 	class BibliographyItem implements Comparable<BibliographyItem> {
@@ -49,18 +47,15 @@ public class Bibliography {
 
 	public Bibliography(Taxon taxon) {
 		references = new TreeSet<>();
-		for(Reference reference : taxon.getReferences()) {
-			references.add(new BibliographyItem(reference));
-		}
-		for (Description d : taxon.getDescriptions()) {
-			for(Reference reference : d.getReferences()) {
-				references.add(new BibliographyItem(reference));
+		if(taxon.isAccepted()) {
+			collectReferences(taxon);
+			collectDescriptionReferences(taxon);
+			collectDistributionReferences(taxon);
+			for(Taxon synonym : taxon.getSynonymNameUsages()) {
+				collectDescriptionReferences(synonym);
 			}
-		}
-		for (Distribution d : taxon.getDistribution()) {
-			for(Reference reference : d.getReferences()) {
-				references.add(new BibliographyItem(reference));
-			}
+		} else {
+			collectReferences(taxon);
 		}
 
 		int code = 1;
@@ -70,6 +65,28 @@ public class Bibliography {
 
 		references.removeAll(getAcceptedIn());
 		references.removeAll(getSynonomizedIn());
+	}
+
+	private void collectReferences(Taxon taxon) {
+		for(Reference reference : taxon.getReferences()) {
+			references.add(new BibliographyItem(reference));
+		}
+	}
+
+	private void collectDescriptionReferences(Taxon taxon) {
+		for (Description d : taxon.getDescriptions()) {
+			for(Reference reference : d.getReferences()) {
+				references.add(new BibliographyItem(reference));
+			}
+		}
+	}
+
+	private void collectDistributionReferences(Taxon taxon) {
+		for (Distribution d : taxon.getDistribution()) {
+			for(Reference reference : d.getReferences()) {
+				references.add(new BibliographyItem(reference));
+			}
+		}
 	}
 
 	private Set<BibliographyItem> filterOnSubject(String subject) {

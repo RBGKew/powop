@@ -58,16 +58,13 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute(taxon);
 		model.addAttribute(new Sources(taxon));
 		model.addAttribute(new Bibliography(taxon));
-		if(!taxon.getDescriptions().isEmpty()) {
-			Descriptions descriptions = new Descriptions(taxon);
-			if(!descriptions.getBySource().isEmpty()) {
-				model.addAttribute("descriptions", descriptions);
-			}
-
-			Descriptions uses = new Descriptions(taxon, true);
-			if(!uses.getBySource().isEmpty()) {
-				model.addAttribute("uses", uses);
-			}
+		Descriptions descriptions = new Descriptions(taxon);
+		Descriptions uses = new Descriptions(taxon, true);
+		if(!descriptions.getBySource().isEmpty()) {
+			model.addAttribute("descriptions", descriptions);
+		}
+		if(!uses.getBySource().isEmpty()) {
+			model.addAttribute("uses", uses);
 		}
 		if(!taxon.getSynonymNameUsages().isEmpty()) {
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));

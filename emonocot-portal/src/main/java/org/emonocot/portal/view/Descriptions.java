@@ -15,6 +15,8 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.registry.Organisation;
 
+import com.google.common.collect.ComparisonChain;
+
 /**
  * Transforms list of descriptions into nested structure for display grouped by
  * source and description type.  E.g,
@@ -38,8 +40,10 @@ public class Descriptions {
 	}
 
 	public class DescriptionsBySource implements Comparable<DescriptionsBySource> {
-		public Organisation source;
 		public List<DescriptionsByType> byType;
+		public Organisation source;
+		public Taxon asTaxon;
+		public boolean isFromSynonym;
 
 		public DescriptionsBySource(Organisation source) {
 			this.source = source;
@@ -48,14 +52,9 @@ public class Descriptions {
 
 		@Override
 		public int compareTo(DescriptionsBySource o) {
-			if(source.getCreated() != null && o.source.getCreated() != null) {
-				return o.source.getCreated().compareTo(source.getCreated());
-			} else if(source.getCreated() != null) {
-				return -1;
-			} else if(o.source.getCreated() != null) {
-				return 1;
-			}
-			return 0;
+			return ComparisonChain.start()
+					.compareFalseFirst(isFromSynonym, o.isFromSynonym)
+					.result();
 		}
 	}
 
@@ -80,29 +79,42 @@ public class Descriptions {
 
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
+			descriptionsBySource = new ArrayList<>();
 			Map<Organisation, List<Description>> descriptionsByResource = new HashMap<>();
 
-			for(Description description : taxon.getDescriptions()) {
-				if(!descriptionsByResource.containsKey(description.getAuthority())) {
-					descriptionsByResource.put(description.getAuthority(), new ArrayList<Description>());
+			if(taxon.isAccepted()) {
+				partitionBySource(descriptionsByResource, taxon);
+				for(Taxon synonym : taxon.getSynonymNameUsages()) {
+					partitionBySource(descriptionsByResource, synonym);
 				}
-
-				descriptionsByResource.get(description.getAuthority()).add(description);
+				Collections.sort(descriptionsBySource);
 			}
-
-			descriptionsBySource = new ArrayList<>();
-			for(Map.Entry<Organisation, List<Description>> entry : descriptionsByResource.entrySet()) {
-				DescriptionsBySource dbs = new DescriptionsBySource(entry.getKey());
-				dbs.byType = new ArrayList<>(descriptionsByType(entry.getValue()));
-				if(!dbs.byType.isEmpty()){
-					descriptionsBySource.add(dbs);
-				}
-			}
-
-			Collections.sort(descriptionsBySource);
 		}
 
 		return descriptionsBySource;
+	}
+
+	private void partitionBySource(Map<Organisation, List<Description>> map, Taxon taxon) {
+		for(Description description : taxon.getDescriptions()) {
+			if(!map.containsKey(description.getAuthority())) {
+				map.put(description.getAuthority(), new ArrayList<Description>());
+			}
+			map.get(description.getAuthority()).add(description);
+		}
+
+		for(Map.Entry<Organisation, List<Description>> entry : map.entrySet()) {
+			DescriptionsBySource dbs = new DescriptionsBySource(entry.getKey());
+			dbs.byType = new ArrayList<>(descriptionsByType(entry.getValue()));
+
+			if(!taxon.isAccepted()) {
+				dbs.asTaxon = taxon;
+				dbs.isFromSynonym = true;
+			}
+
+			if(!dbs.byType.isEmpty()){
+				descriptionsBySource.add(dbs);
+			}
+		}
 	}
 
 	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {

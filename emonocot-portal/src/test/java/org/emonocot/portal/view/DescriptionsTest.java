@@ -55,8 +55,8 @@ public class DescriptionsTest {
 		assertEquals(2, dbs.size());
 		Iterator<DescriptionsBySource> iter = dbs.iterator();
 
-		DescriptionsBySource fwta = iter.next();
-		assertEquals("FTEA", fwta.source.getAbbreviation());
+		assertEquals("FTEA", iter.next().source.getAbbreviation());
+		assertEquals("FWTA", iter.next().source.getAbbreviation());
 	}
 
 	@Test
