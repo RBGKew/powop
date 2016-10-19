@@ -1,5 +1,6 @@
 package org.emonocot.portal.view;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,14 @@ public class Images {
 
 	public Images(Taxon taxon) {
 		this.taxon = taxon;
-		this.images = taxon.getImages();
+		if(taxon.isAccepted()) {
+			images = taxon.getImages();
+			for(Taxon synonym : taxon.getSynonymNameUsages()) {
+				images.addAll(synonym.getImages());
+			}
+		} else {
+			images = new ArrayList<>();
+		}
 	}
 
 	public List<Image> getHeaderImages() {

@@ -60,6 +60,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute(new Bibliography(taxon));
 		Descriptions descriptions = new Descriptions(taxon);
 		Descriptions uses = new Descriptions(taxon, true);
+		Images images = new Images(taxon);
 		if(!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}
@@ -78,14 +79,14 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		if(!taxon.getDistribution().isEmpty()) {
 			model.addAttribute(new Distributions(taxon));
 		}
-		if(!taxon.getImages().isEmpty()) {
-			model.addAttribute(new Images(taxon));
-		}
 		if(!taxon.getVernacularNames().isEmpty()) {
 			model.addAttribute(new VernacularNames(taxon));
 		}
 		if(!taxon.getIdentifications().isEmpty()) {
 			model.addAttribute(new Identifications(taxon));
+		}
+		if(!images.getAll().isEmpty()) {
+			model.addAttribute(images);
 		}
 
 		model.addAttribute("color-theme", bodyClass(taxon));
