@@ -1,6 +1,7 @@
 package org.emonocot.model.solr;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -16,6 +17,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
+import org.emonocot.model.Image;
 import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
@@ -24,6 +26,9 @@ import org.emonocot.model.constants.MeasurementUnit;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.Test;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 public class TaxonSolrInputDocumentTest {
 
@@ -122,7 +127,7 @@ public class TaxonSolrInputDocumentTest {
 		};
 
 		Taxon taxon = new Taxon();
-		taxon.setDescriptions(new HashSet<>(Arrays.asList(descriptions)));
+		taxon.setDescriptions(ImmutableSet.<Description>copyOf(descriptions));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 		String expectedField1 = "taxon.description_appearance_t";
@@ -146,7 +151,7 @@ public class TaxonSolrInputDocumentTest {
 		measurement.setMeasurementType(WCSPTerm.Lifeform);
 		measurement.setMeasurementValue("42");
 		Taxon taxon = new Taxon();
-		taxon.setMeasurementsOrFacts(new HashSet<MeasurementOrFact>(Arrays.asList(measurement)));
+		taxon.setMeasurementsOrFacts(ImmutableSet.<MeasurementOrFact>of(measurement));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 		String expected = "taxon.measurement_lifeform_ds";
@@ -161,7 +166,7 @@ public class TaxonSolrInputDocumentTest {
 		measurement.setMeasurementType(WCSPTerm.Habitat);
 		measurement.setMeasurementValue("Xeric Scrubland");
 		Taxon taxon = new Taxon();
-		taxon.setMeasurementsOrFacts(new HashSet<MeasurementOrFact>(Arrays.asList(measurement)));
+		taxon.setMeasurementsOrFacts(ImmutableSet.<MeasurementOrFact>of(measurement));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 		String expected = "taxon.fact_habitat_ss";
@@ -177,7 +182,7 @@ public class TaxonSolrInputDocumentTest {
 		level0.setLocation(Location.ANTARCTICA);
 
 		Taxon taxon = new Taxon();
-		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level0)));
+		taxon.setDistribution(ImmutableSet.<Distribution>of(level0));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
@@ -214,7 +219,7 @@ public class TaxonSolrInputDocumentTest {
 		level1.setLocation(Location.SUBANTARCTIC_ISLANDS);
 
 		Taxon taxon = new Taxon();
-		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level1)));
+		taxon.setDistribution(ImmutableSet.<Distribution>of(level1));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
@@ -249,7 +254,7 @@ public class TaxonSolrInputDocumentTest {
 		level2.setLocation(Location.SSA);
 
 		Taxon taxon = new Taxon();
-		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level2)));
+		taxon.setDistribution(ImmutableSet.<Distribution>of(level2));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
@@ -271,7 +276,7 @@ public class TaxonSolrInputDocumentTest {
 		level3.setLocation(Location.SSA_OO);
 
 		Taxon taxon = new Taxon();
-		taxon.setDistribution(new HashSet<Distribution>(Arrays.asList(level3)));
+		taxon.setDistribution(ImmutableSet.<Distribution>of(level3));
 
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
@@ -286,6 +291,29 @@ public class TaxonSolrInputDocumentTest {
 		};
 
 		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
+	}
+
+	@Test
+	public void testIndexingSynonymDataUnderAcceptedName() {
+		Taxon taxon = new Taxon();
+		Taxon synonym = new Taxon();
+		Description description = buildDescription("Blarg", DescriptionType.general);
+		Image image = new Image();
+
+		synonym.setDescriptions(ImmutableSet.<Description>of(description));
+		synonym.setImages(ImmutableList.<Image>of(image));
+		synonym.setTaxonomicStatus(TaxonomicStatus.Synonym);
+		taxon.setSynonymNameUsages(ImmutableSet.<Taxon>of(synonym));
+
+		SolrInputDocument taxonDoc = new TaxonSolrInputDocument(taxon).build();
+		SolrInputDocument synonymDoc = new TaxonSolrInputDocument(synonym).build();
+		assertTrue("Expected taxon.description_t", taxonDoc.containsKey("taxon.description_t"));
+		assertTrue("Expected taxon.descriptions_not_empty_b to be true", (Boolean)taxonDoc.getFieldValue("taxon.descriptions_not_empty_b"));
+		assertTrue("Expected taxon.images_not_empty_b to be true", (Boolean)taxonDoc.getFieldValue("taxon.images_not_empty_b"));
+
+		assertFalse("Didn't expect taxon.description_t", synonymDoc.containsKey("taxon.description_t"));
+		assertFalse("Expected taxon.descriptions_not_empty_b to be false", (Boolean)synonymDoc.getFieldValue("taxon.descriptions_not_empty_b"));
+		assertFalse("Expected taxon.images_not_empty_b to be false", (Boolean)synonymDoc.getFieldValue("taxon.images_not_empty_b"));
 	}
 
 	private Description buildDescription(String description, DescriptionType... types) {

@@ -54,7 +54,6 @@ public enum FacetName {
 	LAST_HARVESTED("resource.last_harvested_dt", false),
 	COMMENT_SUBJECT("comment.subject_s", false),
 	COMMENT_PAGE_TYPE("comment.comment_page_class_s", false),
-	HAS_DATA("taxon.has_data_b", false),
 	NAME_USED("taxon.name_used_b", false),
 	NAME_USED_AT("taxon.name_used_at_ss", false, NAME_USED);
 

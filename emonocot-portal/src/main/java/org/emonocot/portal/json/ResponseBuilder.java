@@ -12,6 +12,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.util.SimpleOrderedMap;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.emonocot.portal.json.SearchResultBuilder;
+import org.emonocot.portal.view.Images;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Joiner;
@@ -89,7 +90,8 @@ public class ResponseBuilder {
 				result.rank(rank);
 			}
 
-			for(Image image : taxon.getImages()) {
+			Images images = new Images(taxon);
+			for(Image image : images.getAll()) {
 				result.addImage(image.getAccessUri(), image.getCaption());
 			}
 
