@@ -66,7 +66,6 @@ public enum DescriptionType {
 	typelocality("http://rs.gbif.org/vocabulary/gbif/descriptionType/typelocality", "typelocality"),
 	phylogeny("http://rs.gbif.org/vocabulary/gbif/descriptionType/phylogeny", "phylogeny"),
 	hybrids("http://rs.gbif.org/vocabulary/gbif/descriptionType/hybrids", "hybrids"),
-	literature("http://rs.gbif.org/vocabulary/gbif/descriptionType/literature", "literature"),
 	culture("http://rs.gbif.org/vocabulary/gbif/descriptionType/culture", "culture"),
 	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular"),
 
@@ -88,11 +87,11 @@ public enum DescriptionType {
 	morphologyGeneralHabit("morphology:general:habit"),
 	morphologyGeneralIndumentum("morphology:general:indumentum"),
 	morphologyGeneralSpines("morphology:general:spines"),
-	morphologyGeneralTendrils("morphology:general:tendrils"),
 	morphologyGeneralThallus("morphology:general:thallus"),
 	morphologyGeneralTraps("morphology:general:traps"),
 	morphologyStem("morphology:stem"),
 	morphologyStemCladodes("morphology:stem:cladodes"),
+	morphologyGeneralTendrils("morphology:general:tendrils"),
 	morphologyLeaf("morphology:leaf"),
 	morphologyLeafScaleLeaves("morphology:leaf:scaleLeaves"),
 	morphologyLeafLamina("morphology:leaf:lamina"),
@@ -286,6 +285,7 @@ public enum DescriptionType {
 	habitat("http://rs.gbif.org/vocabulary/gbif/descriptionType/habitat", "habitat"),
 	distribution("http://rs.gbif.org/vocabulary/gbif/descriptionType/distribution", "distribution"),
 	threats("http://rs.gbif.org/vocabulary/gbif/descriptionType/threats", "threats"),
+	literature("http://rs.gbif.org/vocabulary/gbif/descriptionType/literature", "literature"),
 	// Second level non-standard types. They are separated so that they sort after everything else
 	sexHermaphrodite("sex:hermaphrodite"),
 	sexFemale("sex:female"),

@@ -32,6 +32,9 @@
           {{#with taxon.acceptedNameUsage }}
           <p>Synonym of {{taxonLink this}}</p>
           {{/with}}
+          {{#with summary}}
+            <p> {{{this}}} </p>
+          {{/with}}
         </div>
         {{#with images}}
         <div class="c-gallery-header">

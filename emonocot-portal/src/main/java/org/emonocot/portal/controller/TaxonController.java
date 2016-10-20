@@ -19,18 +19,19 @@ package org.emonocot.portal.controller;
 import org.apache.commons.lang.WordUtils;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.portal.view.Bibliography;
 import org.emonocot.portal.view.Descriptions;
 import org.emonocot.portal.view.Distributions;
 import org.emonocot.portal.view.Images;
 import org.emonocot.portal.view.MeasurementOrFacts;
 import org.emonocot.portal.view.Sources;
+import org.emonocot.portal.view.SummaryBuilder;
 import org.emonocot.portal.view.VernacularNames;
 import org.emonocot.portal.view.ScientificNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +47,13 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	public TaxonController() {
 		super("taxon", Taxon.class);
+	}
+	
+	private MessageSource messageSource;
+	
+	@Autowired
+	public void setMessageSource(MessageSource messageSource){
+		this.messageSource = messageSource;
 	}
 
 	@Autowired
@@ -90,7 +98,15 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		}
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("title", pageTitle(taxon));
-
+		model.addAttribute("summary", new SummaryBuilder()
+					.messageSource(messageSource)
+					.uses(taxon.getDescriptions())
+					.taxonRemarks(taxon.getTaxonRemarks())
+					.rank(taxon.getTaxonRank().toString())
+					.lifeform(new MeasurementOrFacts(taxon).getLifeform())
+					.habitat(new MeasurementOrFacts(taxon).getHabitat())
+					.build());
+		
 		return "taxon";
 	}
 
