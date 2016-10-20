@@ -83,12 +83,6 @@ public class Sources {
 
 	public Sources(Taxon taxon) {
 		addSource(taxon);
-		for (Image images : taxon.getImages()) {
-			addSource(images);
-		}
-		for (Description description : taxon.getDescriptions()) {
-			addSource(description);
-		}
 		for (Distribution distribution : taxon.getDistribution()) {
 			addSource(distribution);
 		}
@@ -112,6 +106,16 @@ public class Sources {
 		}
 		for (MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
 			addSource(measurementOrFact);
+		}
+
+		// images and descriptions are not shown on synonym pages
+		if(taxon.isAccepted()) {
+			for (Image images : taxon.getImages()) {
+				addSource(images);
+			}
+			for (Description description : taxon.getDescriptions()) {
+				addSource(description);
+			}
 		}
 
 		int i = 0;
