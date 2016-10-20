@@ -28,7 +28,7 @@
       <batch:tasklet ref="getDWCArchiveTasklet" />
       <batch:next on="NOT_MODIFIED" to="cleanupResourcesNotModified" />
       <batch:next on="COMPLETED" to="unpackDWCArchive" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
@@ -67,7 +67,7 @@
       <batch:description>Mark any existing taxa associated with this resource</batch:description>
       <batch:tasklet ref="markTaxonRecordsByResourceTasklet"/>
       <batch:next on="COMPLETED" to="checkTaxonProcessingMode"/>
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
     </batch:step>
 
     <batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
@@ -88,7 +88,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="taxonSkippingProcessor" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -108,7 +108,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentTaxa" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="taxonFieldSetMapper" />
@@ -128,7 +128,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="taxonFieldSetMapper" />
@@ -142,7 +142,7 @@
         <batch:chunk reader="deleteTaxaReader"  writer="taxonDeletingWriter" commit-interval="100"/>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="indexNamesSuggester" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
@@ -152,7 +152,7 @@
       <batch:description>Build the scientific-names suggester index</batch:description>
       <batch:tasklet ref="nameSuggesterIndexingTasklet" />
       <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
     </batch:step>
 
     <!--================= Description processing steps ======================-->
@@ -188,7 +188,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentDescriptions" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="descriptionFieldSetMapper" />
         <batch:listener ref="descriptionProcessor" />
@@ -213,7 +213,7 @@
       <batch:description>Build the characteristic suggester index</batch:description>
       <batch:tasklet ref="descriptionSuggesterIndexingTasklet" />
       <batch:next on="COMPLETED" to="checkTermProcessingMode" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
     </batch:step>
 
     <!--================= Term processing steps ======================-->
@@ -246,7 +246,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentTerms" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="termFieldSetMapper" />
@@ -310,7 +310,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentImages" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="imageFieldSetMapper" />
@@ -374,7 +374,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentReferences" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="referenceFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -429,7 +429,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentIdentifiers" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="identifierFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -488,7 +488,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentIdentifications" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="identificationFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -542,7 +542,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentDistribution" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="distributionFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -597,7 +597,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="measurementOrFactFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -652,7 +652,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentVernacularNames" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="vernacularNameFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -677,7 +677,7 @@
       <batch:description>Build the common-name suggester index</batch:description>
       <batch:tasklet ref="commonNameSuggesterIndexingTasklet" />
       <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
     </batch:step>
 
     <!--==================== TypeAndSpecimen processing steps ====================-->
@@ -713,7 +713,7 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteAbsentTypeAndSpecimens" />
-      <batch:next on="FAILED" to="indexAnnotationsFailed"/>
+      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="typeAndSpecimenFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -761,17 +761,6 @@
       <batch:tasklet>
         <batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexAnnotations" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="indexAnnotations">
-      <batch:description>Index the annotations associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
-      </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteOldAnnotations" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
@@ -792,17 +781,6 @@
     <batch:step id="cleanupResources">
       <batch:description>Cleanup the resources</batch:description>
       <batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="indexAnnotationsFailed">
-      <batch:description>Index the annotations associated with this job, so that we can see the errors</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexAnnotationsReader" writer="indexAnnotationsWriter" commit-interval="10" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteOldAnnotationsFailed" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
@@ -1002,23 +980,6 @@
 
   <bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
     <property name="type" value="org.emonocot.model.Taxon" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
-  </bean>
-
-  <bean id="indexAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select a.id from Annotation a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexAnnotationsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
-    <property name="type" value="org.emonocot.model.Annotation" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingListener" ref="solrIndexingListener" />
   </bean>
