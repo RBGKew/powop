@@ -8,12 +8,15 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.registry.Organisation;
+
+import com.google.common.collect.ComparisonChain;
 
 /**
  * Transforms list of descriptions into nested structure for display grouped by
@@ -38,24 +41,36 @@ public class Descriptions {
 	}
 
 	public class DescriptionsBySource implements Comparable<DescriptionsBySource> {
-		public Organisation source;
 		public List<DescriptionsByType> byType;
+		public final Organisation source;
+		public final Taxon asTaxon;
+		public boolean isFromSynonym;
 
-		public DescriptionsBySource(Organisation source) {
+		public DescriptionsBySource(Organisation source, Taxon asTaxon) {
 			this.source = source;
+			this.asTaxon = asTaxon;
 			this.byType = new ArrayList<>();
 		}
 
 		@Override
-		public int compareTo(DescriptionsBySource o) {
-			if(source.getCreated() != null && o.source.getCreated() != null) {
-				return o.source.getCreated().compareTo(source.getCreated());
-			} else if(source.getCreated() != null) {
-				return -1;
-			} else if(o.source.getCreated() != null) {
-				return 1;
-			}
-			return 0;
+		public int compareTo(DescriptionsBySource other) {
+			return ComparisonChain.start()
+					.compareFalseFirst(isFromSynonym, other.isFromSynonym)
+					.result();
+		}
+
+		@Override
+		public boolean equals(Object other) {
+			if(other == null) return false;
+			if(getClass() != other.getClass()) return false;
+			final DescriptionsBySource dbs = (DescriptionsBySource)other;
+			return Objects.equals(source, dbs.source)
+					&& Objects.equals(asTaxon, dbs.asTaxon);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash( source.getTitle(), asTaxon.getScientificName(), isFromSynonym);
 		}
 	}
 
@@ -80,33 +95,50 @@ public class Descriptions {
 
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
-			Map<Organisation, List<Description>> descriptionsByResource = new HashMap<>();
-
-			for(Description description : taxon.getDescriptions()) {
-				if(!descriptionsByResource.containsKey(description.getAuthority())) {
-					descriptionsByResource.put(description.getAuthority(), new ArrayList<Description>());
-				}
-
-				descriptionsByResource.get(description.getAuthority()).add(description);
-			}
-
 			descriptionsBySource = new ArrayList<>();
-			for(Map.Entry<Organisation, List<Description>> entry : descriptionsByResource.entrySet()) {
-				DescriptionsBySource dbs = new DescriptionsBySource(entry.getKey());
-				dbs.byType = new ArrayList<>(descriptionsByType(entry.getValue()));
-				if(!dbs.byType.isEmpty()){
-					descriptionsBySource.add(dbs);
-				}
-			}
 
-			Collections.sort(descriptionsBySource);
+			if(taxon.isAccepted()) {
+				partitionBySource(taxon);
+				for(Taxon synonym : taxon.getSynonymNameUsages()) {
+					partitionBySource(synonym);
+				}
+				Collections.sort(descriptionsBySource);
+			}
 		}
 
 		return descriptionsBySource;
 	}
 
+	private void partitionBySource(Taxon tx) {
+		Map<DescriptionsBySource, List<Description>> map = new HashMap<>();
+		for(Description description : tx.getDescriptions()) {
+			DescriptionsBySource dbs = new DescriptionsBySource(description.getAuthority(), tx);
+			if(!map.containsKey(dbs)) {
+				map.put(dbs, new ArrayList<Description>());
+			}
+
+			map.get(dbs).add(description);
+		}
+
+		for(Map.Entry<DescriptionsBySource, List<Description>> entry : map.entrySet()) {
+			DescriptionsBySource dbs = entry.getKey();
+			dbs.byType = new ArrayList<>(descriptionsByType(entry.getValue()));
+
+			if(!dbs.asTaxon.isAccepted()) {
+				dbs.isFromSynonym = true;
+			}
+
+			if(!dbs.byType.isEmpty()){
+				descriptionsBySource.add(dbs);
+			}
+		}
+	}
+
 	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {
 		Map<DescriptionType, DescriptionsByType> byType = new EnumMap<>(DescriptionType.class);
+
+		// Descriptions with multiple types (e.g., morphology:general:flower|sex:female) should come
+		// after ones with a single type
 		Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {
 			public int compare(Description d1, Description d2) {
 				return d1.getTypes().size() - d2.getTypes().size();

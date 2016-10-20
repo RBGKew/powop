@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
@@ -28,6 +29,8 @@ import com.google.common.base.CaseFormat;
 
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
+	private static final Pattern fieldPattern = Pattern.compile("taxon.(.*)_\\w{1,2}");
+
 	public static String propertyToSolrField(String propertyName, String type) {
 		return String.format("taxon.%s_%s",
 				CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, propertyName),
@@ -35,8 +38,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	public static String solrFieldToProperty(String field) {
-		Pattern pattern = Pattern.compile("taxon.(.*)_\\w{1,2}");
-		Matcher matcher = pattern.matcher(field);
+		Matcher matcher = fieldPattern.matcher(field);
 		return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, matcher.matches() ? matcher.group(1) : field);
 	}
 
@@ -61,7 +63,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexRank(Rank.GENUS, "genus");
 		indexRank(Rank.Tribe, "tribe");
 		indexRank(Rank.Subtribe, "subtribe");
-		
+
 
 		addField(sid, "taxon.infraspecific_epithet_s", taxon.getInfraspecificEpithet());
 		addField(sid, "taxon.name_published_in_string_s", taxon.getNamePublishedInString());
@@ -78,37 +80,26 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		if(taxon.getTaxonRank() == Rank.SPECIES){
 			addField(sid, "taxon.species_ss", taxon.getScientificName());
 		}
-		sid.addField("taxon.descriptions_not_empty_b", !taxon.getDescriptions().isEmpty());
-		sid.addField("taxon.distribution_not_empty_b", !taxon.getDistribution().isEmpty());
-		sid.addField("taxon.images_not_empty_b", !taxon.getImages().isEmpty());
-		sid.addField("taxon.measurements_or_facts_not_empty_b", !taxon.getMeasurementsOrFacts().isEmpty());
+
 		sid.addField("taxon.references_not_empty_b", !taxon.getReferences().isEmpty());
 		sid.addField("taxon.types_and_specimens_not_empty_b", !taxon.getTypesAndSpecimens().isEmpty());
-		sid.addField("taxon.vernacular_names_not_empty_b", !taxon.getVernacularNames().isEmpty());
 		sid.addField("taxon.name_used_b", !taxon.getIdentifications().isEmpty());
-		sid.addField("taxon.has_data_b", hasUsefulData(sid));
 		if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
 			Set<Taxon> synonymList = taxon.getSynonymNameUsages();
 			for(Taxon synonym : synonymList){
-				addField(sid, "taxon.scientific_name_t", synonym.getScientificName());
-			}			
+				addField(sid, "taxon.synonyms_t", synonym.getScientificName());
+			}
 		}
 		indexDescriptions();
 		indexDistributions();
 		indexVernacularNames();
 		indexMeasurementOrFacts();
-
-		for(Image i : taxon.getImages()) {
-			if(i != null && i.getAuthority() != null) {
-				sources.add(i.getAuthority().getIdentifier());
-			}
-		}
+		indexImages();
 
 		for(Reference r : taxon.getReferences()) {
-			if(r != null && r.getAuthority() != null) {
-				sources.add(r.getAuthority().getIdentifier());
-			}
+			addSource(r);
 		}
+
 		for(String source : sources) {
 			sid.addField("searchable.sources_ss", source);
 		}
@@ -116,7 +107,27 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		return sid;
 	}
 
+	private void indexImages() {
+		boolean hasImages = false;
+		if(taxon.isAccepted()) {
+			hasImages |= !taxon.getImages().isEmpty();
+			for(Image i : taxon.getImages()) {
+				addSource(i);
+			}
+
+			for(Taxon synonym : taxon.getSynonymNameUsages()) {
+				hasImages |= !synonym.getImages().isEmpty();
+				for(Image i : synonym.getImages()) {
+					addSource(i);
+				}
+			}
+		}
+
+		sid.addField("taxon.images_not_empty_b", hasImages);
+	}
+
 	private void indexMeasurementOrFacts() {
+		sid.addField("taxon.measurements_or_facts_not_empty_b", !taxon.getMeasurementsOrFacts().isEmpty());
 		for(MeasurementOrFact m : taxon.getMeasurementsOrFacts()) {
 			String typeName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, m.getMeasurementType().simpleName());
 			// If a unit is specified, assume it is a numeric measurement
@@ -131,38 +142,26 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				sid.addField("taxon.fact_" + typeName + "_ss", m.getMeasurementValue());
 			}
 
-			if(m.getAuthority() != null) {
-				sources.add(m.getAuthority().getIdentifier());
-			}
+			addSource(m);
 		}
-	}
-
-	/*
-	 * Used to determine if a taxon has useful data or if it is just a name
-	 */
-	private boolean hasUsefulData(SolrInputDocument sid) {
-		String[] usefulFields = {
-				"taxon.descriptions_not_empty_b",
-				"taxon.distribution_not_empty_b",
-				"taxon.images_not_empty_b",
-				"taxon.measurements_or_facts_not_empty_b",
-				"taxon.name_used_b",
-				"taxon.references_not_empty_b",
-				"taxon.types_and_specimens_not_empty_b",
-				"taxon.vernacular_names_not_empty_b"
-		};
-
-		for(String field : usefulFields) {
-			if((Boolean)sid.getFieldValue(field)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private void indexDescriptions() {
-		for(Description d : taxon.getDescriptions()) {
+		boolean hasDescriptions = false;
+		if(taxon.isAccepted()) {
+			hasDescriptions |= doIndexDescriptions(taxon);
+			for(Taxon synonym : taxon.getSynonymNameUsages()) {
+				hasDescriptions |= doIndexDescriptions(synonym);
+			}
+		}
+
+		sid.addField("taxon.descriptions_not_empty_b", hasDescriptions);
+	}
+
+	private boolean doIndexDescriptions(Taxon t) {
+		boolean hasDescriptions = false;
+		for(Description d : t.getDescriptions()) {
+			hasDescriptions = true;
 			if(d.getType() != null) {
 				if(d.getType().hasSearchCategory()) {
 					sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), d.getDescription());
@@ -171,31 +170,23 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				}
 			}
 			sid.addField("taxon.description_t", d.getDescription());
-
-			if(d.getAuthority() != null) {
-				sources.add(d.getAuthority().getIdentifier());
-			}
+			addSource(d);
 		}
 
+		return hasDescriptions;
 	}
 
 	private void indexDistributions() {
+		sid.addField("taxon.distribution_not_empty_b", !taxon.getDistribution().isEmpty());
 		TreeSet<String> locationNames = new TreeSet<>();
 		TreeSet<String> locationCodes = new TreeSet<>();
-		//Distributions need splitting into all/native/introduced. Naming convention: 
-		//taxon.distribution_ss
-		//taxon.distribution_native_ss
-		//taxon.distribution_introduced_ss
 		for(Distribution d : taxon.getDistribution()) {
 			locationNames.add(d.getLocation().getName());
 			locationCodes.add(d.getLocation().getCode());
 
 			indexChildLocations(locationNames, locationCodes, d.getLocation().getChildren());
 			indexParentLocations(locationNames, locationCodes, d.getLocation().getParent());
-
-			if(d.getAuthority() != null) {
-				sources.add(d.getAuthority().getIdentifier());
-			}
+			addSource(d);
 		}
 
 		for(String name : locationNames) {
@@ -244,7 +235,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 						addField(sid, solrField, BeanUtils.getProperty(taxon, property));
 					}
 				}
-					
+
 			}
 		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			logger.error("Error getting property {} from taxon. Does get{}() exist?", property, property);
@@ -252,11 +243,16 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	private void indexVernacularNames() {
+		sid.addField("taxon.vernacular_names_not_empty_b", !taxon.getVernacularNames().isEmpty());
 		for(VernacularName v : taxon.getVernacularNames()) {
 			sid.addField("taxon.vernacular_names_t", v.getVernacularName());
-			if(v.getAuthority() != null) {
-				sources.add(v.getAuthority().getIdentifier());
-			}
+			addSource(v);
+		}
+	}
+
+	private void addSource(BaseData d) {
+		if(d.getAuthority() != null) {
+			sources.add(d.getAuthority().getIdentifier());
 		}
 	}
 }

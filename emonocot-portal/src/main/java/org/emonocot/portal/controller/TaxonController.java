@@ -22,6 +22,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.portal.view.Bibliography;
 import org.emonocot.portal.view.Descriptions;
 import org.emonocot.portal.view.Distributions;
+import org.emonocot.portal.view.Identifications;
 import org.emonocot.portal.view.Images;
 import org.emonocot.portal.view.MeasurementOrFacts;
 import org.emonocot.portal.view.Sources;
@@ -43,7 +44,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
-	
 
 	public TaxonController() {
 		super("taxon", Taxon.class);
@@ -67,16 +67,14 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute(taxon);
 		model.addAttribute(new Sources(taxon));
 		model.addAttribute(new Bibliography(taxon));
-		if(!taxon.getDescriptions().isEmpty()) {
-			Descriptions descriptions = new Descriptions(taxon);
-			if(!descriptions.getBySource().isEmpty()) {
-				model.addAttribute("descriptions", descriptions);
-			}
-
-			Descriptions uses = new Descriptions(taxon, true);
-			if(!uses.getBySource().isEmpty()) {
-				model.addAttribute("uses", uses);
-			}
+		Descriptions descriptions = new Descriptions(taxon);
+		Descriptions uses = new Descriptions(taxon, true);
+		Images images = new Images(taxon);
+		if(!descriptions.getBySource().isEmpty()) {
+			model.addAttribute("descriptions", descriptions);
+		}
+		if(!uses.getBySource().isEmpty()) {
+			model.addAttribute("uses", uses);
 		}
 		if(!taxon.getSynonymNameUsages().isEmpty()) {
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
@@ -90,12 +88,16 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		if(!taxon.getDistribution().isEmpty()) {
 			model.addAttribute(new Distributions(taxon));
 		}
-		if(!taxon.getImages().isEmpty()) {
-			model.addAttribute(new Images(taxon));
-		}
 		if(!taxon.getVernacularNames().isEmpty()) {
 			model.addAttribute(new VernacularNames(taxon));
 		}
+		if(!taxon.getIdentifications().isEmpty()) {
+			model.addAttribute(new Identifications(taxon));
+		}
+		if(!images.getAll().isEmpty()) {
+			model.addAttribute(images);
+		}
+
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("title", pageTitle(taxon));
 		model.addAttribute("summary", new SummaryBuilder()

@@ -20,7 +20,7 @@
       <div class="s-border-bottom">
         <div class="container">
           <ol class="breadcrumb">
-              <li>Habitat: {{message measurementValue}}</li>
+            <li>Habitat: {{message measurementValue}}</li>
           </ol>
         </div>
       </div>
@@ -63,40 +63,36 @@
         <div class="container">
           <ul class="nav navbar-nav navbar-nav--article">
             {{#if descriptions}}
-              <li><a href="#descriptions">Description</a></li>
+            <li><a href="#descriptions">Description</a></li>
             {{/if}}
 
             {{#if uses}}
-              <li><a href="#uses">Uses</a></li>
+            <li><a href="#uses">Uses</a></li>
             {{/if}}
 
             {{#if images}}
-              <li><a href="#image-gallery">Image Gallery</a></li>
+            <li><a href="#image-gallery">Image Gallery</a></li>
             {{/if}}
 
             {{#if distributions}}
-              <li><a href="#distribution-map">Distribution Map</a></li>
+            <li><a href="#distribution-map">Distribution Map</a></li>
             {{/if}}
 
             {{#if children}}
-              <li><a href="#children">Included {{childRank taxon}}</a></li>
+            <li><a href="#children">Included {{childRank taxon}}</a></li>
             {{/if}}
 
             {{#if synonyms}}
-              <li><a href="#synonyms">Synonyms</a></li>
+            <li><a href="#synonyms">Synonyms</a></li>
             {{/if}}
 
             {{#if vernacularNames}}
-              <li><a href="#vernacular-names">Common Names</a></li>
+            <li><a href="#vernacular-names">Common Names</a></li>
             {{/if}}
 
-            {{#if bibliography}}
-              <li><a href="#bibliography">Bibliography</a></li>
-            {{/if}}
-
-            {{#if sources}}
-              <li><a href="#sources">Sources</a></li>
-            {{/if}}
+            <li><a href="#other-data">Other Data</a></li>
+            <li><a href="#bibliography">Bibliography</a></li>
+            <li><a href="#sources">Sources</a></li>
           </ul>
         </div>
       </div><!-- /.navbar-collapse -->
@@ -109,24 +105,25 @@
           <h2 class="c-article-section__title">Descriptions</h2>
           <div class="c-article-section__content">
             {{#each bySource}}
-              <div class="description">
-                <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
-                   role="button"
-                   data-toggle="collapse"
-                   data-target="#descriptions-{{source.abbreviation}}"
-                   aria-expanded="false"><h3>According to {{source.title}}</h3>
-                </a><small>{{bracketedSourceLink source}}</small>
-                <dl id="descriptions-{{source.abbreviation}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
-                    {{#each byType}}
-                      <dt>{{message type}}</dt>
-                      <dd>
-                      {{#each descriptions}}
-                        <span>{{description}}</span>
-                      {{/each}}
-                      </dd>
-                    {{/each}}
-                </dl>
-              </div>
+            <div class="description">
+              <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
+                 role="button"
+                 data-toggle="collapse"
+                 data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
+                 aria-expanded="false">
+                <h3>According to {{source.title}}{{#if isFromSynonym}} as {{asTaxon.scientificName}}{{/if}}</h3>
+              </a><small>{{bracketedSourceLink source}}</small>
+              <dl id="descriptions-{{source.abbreviation}}-{{@index}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
+                {{#each byType}}
+                <dt>{{message type}}</dt>
+                <dd>
+                {{#each descriptions}}
+                <span>{{description}}</span>
+                {{/each}}
+                </dd>
+                {{/each}}
+              </dl>
+            </div>
             {{/each}}
           </div>
 
@@ -145,52 +142,28 @@
           <h2 class="c-article-section__title">Uses</h2>
           <div class="c-article-section__content">
             {{#each bySource}}
-              <div class="description">
-                <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
-                   role="button"
-                   data-toggle="collapse"
-                   data-target="#uses-{{source.abbreviation}}"
-                   aria-expanded="false"><h3>According to {{source.title}}</h3>
-                </a><small>{{bracketedSourceLink source}}</small>
-                <dl id="uses-{{source.abbreviation}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
-                    {{#each byType}}
-                      <dt>{{message type}}</dt>
-                      <dd>
-                      {{#each descriptions}}
-                        <span>{{description}}</span>
-                      {{/each}}
-                      </dd>
-                    {{/each}}
-                </dl>
-              </div>
+            <div class="description">
+              <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
+                 role="button"
+                 data-toggle="collapse"
+                 data-target="#uses-{{source.abbreviation}}-{{@index}}"
+                 aria-expanded="false">
+                <h3>According to {{source.title}}{{#if isFromSynonym}} as {{asTaxon.scientificName}}{{/if}}</h3>
+              </a><small>{{bracketedSourceLink source}}</small>
+              <dl id="uses-{{source.abbreviation}}-{{@index}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
+                {{#each byType}}
+                <dt>{{message type}}</dt>
+                <dd>
+                {{#each descriptions}}
+                <span>{{description}}</span>
+                {{/each}}
+                </dd>
+                {{/each}}
+              </dl>
+            </div>
             {{/each}}
           </div>
 
-          <aside role="complementary" class="c-article-section__aside">
-            <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
-          </aside>
-        </div>
-      </div>
-    </section>
-    {{/with}}
-
-    {{#with otherData}}
-    <section="other-data" class="c-article-section offset">
-      <div class="container">
-        <div class="row">
-          <h2 class="c-article-section__title">Other data</h2>
-          <div class="c-article-section__content">
-            <h3>Kew holds these other references to this species</h3>
-            <ul class="c-plain-list">
-              <li>IPNI - The International Plant Names Index</li>
-              <li>IPNI - The International Plant Names Index</li>
-              <li>IPNI - The International Plant Names Index</li>
-              <li>IPNI - The International Plant Names Index</li>
-              <li>IPNI - The International Plant Names Index</li>
-              <li>IPNI - The International Plant Names Index</li>
-              <li>IPNI - The International Plant Names Index</li>
-            </ul>
-          </div>
           <aside role="complementary" class="c-article-section__aside">
             <span class="glyphicon glyphicon-share" aria-hidden="true"></span> <a href="#">Share</a>
           </aside>
@@ -207,9 +180,9 @@
           <div class="c-article-section__content">
 
             <div class="c-gallery clearfix">
-            {{#each all}}
+              {{#each all}}
               {{thumbnailImage this figure-class="c-gallery__img"}}
-            {{/each}}
+              {{/each}}
             </div>
 
           </div>
@@ -244,23 +217,23 @@
               Full Distribution Listing
             </a>
             <div id="distribution-listing" class="collapse">
-            {{#if native}}
+              {{#if native}}
               <h4>Found In:</h4>
               <p>
               {{#each native}}
-                {{locality}}{{#unless @last}}, {{/unless}}
+              {{locality}}{{#unless @last}}, {{/unless}}
               {{/each}}
               </p>
-            {{/if}}
+              {{/if}}
 
-            {{#if introduced}}
+              {{#if introduced}}
               <h4>Introduced Into:</h4>
               <p>
               {{#each introduced}}
-                {{locality}}{{#unless @last}}, {{/unless}}
+              {{locality}}{{#unless @last}}, {{/unless}}
               {{/each}}
               </p>
-            {{/if}}
+              {{/if}}
             </div>
           </div>
           <aside role="complementary" class="c-article-section__aside">
@@ -285,7 +258,7 @@
           <div class="c-article-section__content">
             <ul class="c-synonym-list two-col">
               {{#each sorted}}
-                <li>{{taxonLink this}}</li>
+              <li>{{taxonLink this}}</li>
               {{/each}}
             </ul>
           </div>
@@ -341,9 +314,9 @@
               {{#each sortedByLanguage as |names language|}}
               <dt>{{language}}</dt>
               <dd>
-                {{#each names as |commonName|}}
-                  {{commonName}}{{#unless @last}}, {{/unless}}
-                {{/each}}
+              {{#each names as |commonName|}}
+              {{commonName}}{{#unless @last}}, {{/unless}}
+              {{/each}}
               </dd>
               {{/each}}
             </dl>
@@ -363,6 +336,48 @@
     </section>
     {{/with}}
 
+    <section id="other-data" class="c-article-section offset">
+      <div class="container">
+        <div class="row">
+          <h2 class="c-article-section__title">Other data</h2>
+          <div class="c-article-section__content">
+            <h3>{{nameAndAuthor taxon}} appears in other Kew resources:</h3>
+            <div><h4><a href="{{taxon.uri}}">IPNI - The International Plant Names Index</a></h4></div>
+            {{#with identifications}}
+            <div>
+              <a class="btn collapser collapsed"
+                 role="button"
+                 data-toggle="collapse"
+                 data-target="#determinations"
+                 aria-expanded="false">
+                <h4>Herbarium Catalogue ({{count}} determinations)</h4></a>
+              <div id="determinations" class="table-responsive collapse">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Date Identified</th>
+                      <th>Herbarium Specimen</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each identifications}}
+                    <tr>
+                      <td>{{date}}</td>
+                      <td><a href="{{url}}">{{barcode}}</a></td>
+                      <td>{{notes}}</td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {{/with}}
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="bibliography" class="c-article-section">
       <div class="container">
         <div class="row">
@@ -373,30 +388,30 @@
             {{/if}}
 
             {{#with bibliography.acceptedIn as |accepted|}}
-              <h3>Accepted in:</h3>
-              <ul class="list-unstyled">
-                {{#each accepted}}
-                  <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
-                {{/each}}
-              </ul>
+            <h3>Accepted in:</h3>
+            <ul class="list-unstyled">
+              {{#each accepted}}
+              <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
+              {{/each}}
+            </ul>
             {{/with}}
 
             {{#with bibliography.synonomizedIn as |synonym|}}
-              <h3>Synonym in:</h3>
-              <ul class="list-unstyled">
-                {{#each synonym}}
-                  <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}} [{{reference.taxonRemarks}}]</li>
-                {{/each}}
-              </ul>
+            <h3>Synonym in:</h3>
+            <ul class="list-unstyled">
+              {{#each synonym}}
+              <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}} [{{reference.taxonRemarks}}]</li>
+              {{/each}}
+            </ul>
             {{/with}}
 
             {{#if bibliography.references}}
-              <h3>Literature</h3>
-              <ul class="list-unstyled">
-                {{#each bibliography.references}}
-                  <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
-                {{/each}}
-              </ul>
+            <h3>Literature</h3>
+            <ul class="list-unstyled">
+              {{#each bibliography.references}}
+              <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
+              {{/each}}
+            </ul>
             {{/if}}
           </div>
         </div>
@@ -410,13 +425,13 @@
           <div class="c-article-section__content">
             {{#each sources.sorted}}
             <p id="source-{{organisation.abbreviation}}">
-              <strong>{{organisation.title}}</strong><br/>
-              {{#if organisation.bibliographicCitation}}
-              {{organisation.bibliographicCitation}}<br/>
-              {{/if}}
-              {{#each licenses}}
-              <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small><br/>
-              {{/each}}
+            <strong>{{organisation.title}}</strong><br/>
+            {{#if organisation.bibliographicCitation}}
+            {{organisation.bibliographicCitation}}<br/>
+            {{/if}}
+            {{#each licenses}}
+            <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small><br/>
+            {{/each}}
             </p>
             {{/each}}
           </div>

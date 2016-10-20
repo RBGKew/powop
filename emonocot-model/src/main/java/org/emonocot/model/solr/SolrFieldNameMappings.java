@@ -23,6 +23,7 @@ public class SolrFieldNameMappings {
 			.put("name", "taxon.scientific_name_t")
 			.put("seed", "taxon.description_seed_t")
 			.put("species", "taxon.species_t")
+			.put("synonym of", "taxon.synonyms_t")
 			.put("use", "taxon.description_use_t")
 			.build();
 }
