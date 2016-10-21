@@ -85,11 +85,9 @@ public class SummaryBuilder {
 		Map<DescriptionType, List<DescriptionType>> descriptionsBySuperType = new HashMap<DescriptionType,List<DescriptionType>>();
 		for(Description use : uses){
 			for(DescriptionType type : use.getTypes()) {
-				logger.error("Type is" + type);
 				for(DescriptionType supertype : supertypes){
 					List<DescriptionType> descriptions = new ArrayList<DescriptionType>();
 					if(type.isA(supertype)){
-						logger.error(use.getType() + " is a " + supertype);
 						if(descriptionsBySuperType.containsKey(supertype)){
 							descriptions = descriptionsBySuperType.get(supertype);	
 						}
@@ -132,10 +130,8 @@ public class SummaryBuilder {
 	
 	private String buildUses(String firstPhrase){
 		if(uses != null && !uses.isEmpty()){
-			logger.error("descriptions present");
 			Map<DescriptionType, List<DescriptionType>> descriptionsBySuperType = getUsesBySuperType();
 				if(!descriptionsBySuperType.isEmpty()){
-					logger.error("uses present");
 					List<String> verbHas = new ArrayList<String>();
 					List<String> verbAs = new ArrayList<String>();
 					List<String> verbFor = new ArrayList<String>();

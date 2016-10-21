@@ -11,8 +11,8 @@
 .sprite-chevron {
 	@extend %svg-common;
 
-	//background-position: -21.1px -51.6px;
-	background-position: -24.1px -54.6px;
+	//background-position: -21.1px -103.2px;
+	background-position: -24.1px -106.2px;
 	content : 3;
 	
 
@@ -38,11 +38,26 @@
 	height: 45.6px;
 }
 
-.sprite-leaf {
+.sprite-kew-science-potwp2 {
 	@extend %svg-common;
 
 	//background-position: 0 -51.6px;
 	background-position: -3px -54.6px;
+	content : 3;
+	
+
+}
+
+.sprite-kew-science-potwp2-dims {
+	width: 213px;
+	height: 45.6px;
+}
+
+.sprite-leaf {
+	@extend %svg-common;
+
+	//background-position: 0 -103.2px;
+	background-position: -3px -106.2px;
 	content : 3;
 	
 
