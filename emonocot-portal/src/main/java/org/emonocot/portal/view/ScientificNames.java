@@ -39,4 +39,8 @@ public class ScientificNames {
 	public Set<Organisation> getSources() {
 		return sources;
 	}
+
+	public int getCount() {
+		return taxa.size();
+	}
 }

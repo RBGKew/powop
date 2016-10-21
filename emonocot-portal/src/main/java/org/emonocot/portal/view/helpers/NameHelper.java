@@ -32,12 +32,15 @@ public class NameHelper {
 
 	public CharSequence childRank(Taxon taxon, Options options) {
 		int index = Arrays.asList(Rank.LINNEAN_RANKS).indexOf(taxon.getTaxonRank());
-		if(index == -1)
+		if(taxon.getTaxonRank() == Rank.FAMILY) {
+			return "Genera";
+		} else if(index == -1) {
 			return "Unknown Rank";
-		else if(index == Rank.LINNEAN_RANKS.length - 1)
+		} else if(index == Rank.LINNEAN_RANKS.length - 1) {
 			return "Infraspecifics";
-		else
+		} else {
 			return WordUtils.capitalizeFully(Rank.LINNEAN_RANKS[index+1].toString());
+		}
 	}
 
 	private String classificationLine(List<Taxon> classification, int index, Options options) {
