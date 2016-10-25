@@ -78,7 +78,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.taxonomic_status_s", ObjectUtils.toString(taxon.getTaxonomicStatus(), null));
 		addField(sid, "taxon.verbatim_taxon_rank_s", taxon.getVerbatimTaxonRank()); 
 		if(taxon.getTaxonRank() == Rank.SPECIES){
-			addField(sid, "taxon.species_ss", taxon.getScientificName());
+			addField(sid, "taxon.species_t", taxon.getScientificName());
 		}
 
 		sid.addField("taxon.references_not_empty_b", !taxon.getReferences().isEmpty());

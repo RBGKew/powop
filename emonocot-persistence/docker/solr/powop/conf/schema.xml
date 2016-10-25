@@ -157,14 +157,18 @@
   <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="true">
     <analyzer type="index">
       <tokenizer class="solr.StandardTokenizerFactory"/>
-      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.StopFilterFactory" words="lang/stopwords_en.txt"/>
+      <filter class="solr.EnglishMinimalStemFilterFactory"/>
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.StandardTokenizerFactory"/>
-      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
-      <filter class="solr.SynonymFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.SuggestStopFilterFactory" words="lang/stopwords_en.txt"/>
+      <filter class="solr.SynonymFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.EnglishMinimalStemFilterFactory"/>
     </analyzer>
   </fieldType>
 
