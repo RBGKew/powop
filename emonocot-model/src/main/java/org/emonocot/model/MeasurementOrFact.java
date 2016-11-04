@@ -240,4 +240,12 @@ public class MeasurementOrFact extends OwnedEntity {
 	public String getSource() {
 		return source;
 	}
+	
+	@Transient
+	public boolean isType(Term type){
+		if(this.measurementType == type){
+			return true;
+		}
+		return false;	
+	}
 }

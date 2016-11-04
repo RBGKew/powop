@@ -1,0 +1,132 @@
+,translation,,object
+use:animalFood,Animal Food,used as %s,Animal food
+use:animalFood:bees,Bees,used as %s,food for bees
+use:animalFood:flowers,Flowers,used as %s,Animal food
+use:animalFood:fruits,Fruits,used as %s,Animal food
+use:animalFood:grainsCereals,Grains Cereals,used as %s,Animal food
+use:animalFood:herbage,Herbage,used for %s,Herbage
+use:animalFood:oilsFats,Oils Fats,used as %s,Animal food
+use:animalFood:otherAnimalFoodType,Other Animal Food Type,used as %s,Animal food
+use:animalFood:pulses,Pulses,used as %s,Animal food
+use:animalFood:residuesByProductsFromIndustry,Residues By Products From Industry,used as %s,Animal food
+use:animalFood:roots,Roots,used as %s,Animal food
+use:animalFood:unspecifiedAnimal,Unspecified Animal,used as %s,Animal food
+use:animalFood:unspecifiedAnimalFoodType,Unspecified Animal Food Type,used as %s,Animal food
+use:environmentalUse,Environmental,used has %s,Environmental Uses
+use:environmentalUse:agroforestry,Agroforestry,used for %s,Agroforestry
+use:environmentalUse:boundaryBarrierSupportPlants,Boundary Barrier Support Plants,used as %s,Boundry Barrier Support
+use:environmentalUse:companionPlants,Companion Plants,used as %s,a companion plant
+use:environmentalUse:erosionControl,Erosion Control,used for  %s,Erosion control
+use:environmentalUse:firebreaks,Firebreaks,used as %s,a firebreak
+use:environmentalUse:indicatorPlants,Indicator Plants,used as %s,an indicator plant
+use:environmentalUse:ornamentals,Ornamentals,used as %s,an ornamental plant
+use:environmentalUse:otherEnvironmentalUses,Other Environmental Uses,used has %s,Environmental Uses
+use:environmentalUse:pollutionControl,Pollution Control,used for  %s,Pollution Control
+use:environmentalUse:revegetation,Revegetation,used for %s,Revegetation
+use:environmentalUse:shadeShelter,Shade Shelter,used to %s,provide Shade Shelter 
+use:environmentalUse:soilImprovers,Soil Improvers,used as %s,a soil improver
+use:environmentalUse:unspecifiedEnvironmentalUses,Unspecified Environmental Uses,has %s uses,Environmental Uses
+use:food,Food,used for %s,food
+use:food:cereals,Cereals,used for %s,Cereals
+use:food:foodAdditives,Food Additives,used as %s,a Food Additive
+use:food:fruitsDessertFruits,Fruits Dessert Fruits,used for %s,dessert
+use:food:gumsMucilagesResins,Gums Mucilages Resins,used as %s,a gum or resin
+use:food:nuts,Nuts,used for %s,food
+use:food:oilsFats,Oils Fats,used for %s,food
+use:food:otherFoodType,Other Food Type,used for %s,food
+use:food:pseudocereals,Pseudocereals,used for %s,food
+use:food:pulses,Pulses,used for %s,food
+use:food:starches,Starches,used as a source of %s,starch
+use:food:sugars,Sugars,used as a source of %s,sugar
+use:food:unspecifiedFood,Unspecified Food,used for %s,food
+use:food:unspecifiedFoodType,Unspecified Food Type,used for %s,food
+use:food:vegetables,Vegetables,used as %s,A vegetable
+trade,Trade,used for %s,trade
+use:fuel,Fuel,used for %s,fuel
+use:fuel:charcoal,Charcoal,used for %s,charcoal
+use:fuel:fuelwood,Fuelwood,used for %s,firewood
+use:fuel:nonWoodyFuel,Non Woody Fuel,used for %s,fuel
+use:fuel:petroleumSubstitutesAlcoholsEtc,Petroleum Substitutes Alcohols Etc,used as %s,a petrol substitute
+use:fuel:tinder,Tinder,used for %s,tinder
+use:fuel:unspecifiedFuelType,Unspecified Fuel Type,used for %s,fuel
+use:materials,Materials,used as %s,a material
+use:materials:alcohols,Alcohols,used to %s,make alcohol
+use:materials:caneRattanBambooReedWickerEtc,Cane Rattan Bamboo Reed Wicker Etc,used for %s,"canes, rattan, bamboo, reeds or wicker"
+use:materials:corkCorkSubstitutes,Cork Cork Substitutes,used for %s,cork
+use:materials:essentialOils,Essential Oils,used to %s,make essential oils
+use:materials:fibres,Fibres,used for %s,fibres
+use:materials:gumsResins,Gums Resins,used as %s,a gum or resin
+use:materials:latexRubber,Latex Rubber,used as a source of %s,latex
+use:materials:lipidsFatsAndOils,Lipids Fats And Oils,used for %s,fats or oils
+use:materials:otherChemicals,Other Chemicals,used for %s,chemicals
+use:materials:otherMaterials,Other Materials,used for %s,materials
+use:materials:tanninsDyestuffs,Tannins Dyestuffs,used as %s,a tannin or dye
+use:materials:unspecifiedMaterialsChemicals,Unspecified Materials Chemicals,used as a source of %s,a source for chemicals
+use:materials:waxes,Waxes,used as a source of %s,a source of waxes
+use:materials:wood,Wood,used for %s,wood
+use:medicines,Medicines,used as %s,a medicine
+use:medicines:abnormalities,Abnormalities,used to treat %s,abnormalities
+use:medicines:antifertiliyAgent,Antifertiliy Agent,used as %s,an antifertility agent
+use:medicines:bloodSystemDisorders,Blood System Disorders,used to treat %s,blood system disorders
+use:medicines:circulatorySystemDisorders,Circulatory System Disorders,used to treat %s,Circulatory System Disorders
+use:medicines:digestiveSystemDisorders,Digestive System Disorders,used to treat %s,Digestive System Disorders
+use:medicines:endocrineSystemDisorders,Endocrine System Disorders,used to treat %s,Endocrine System Disorders
+use:medicines:genitourinarySystemDisorders,Genitourinary System Disorders,used to treat %s,Genitourinary System Disorders
+use:medicines:illDefinedSymptoms,Ill-Defined Symptoms,used to treat %s,Ill-Defined Symptoms
+use:medicines:immuneSystemDisorders,Immune System Disorders,used to treat %s,Immune System Disorders
+use:medicines:infectionsInfestations,Infections Infestations,used to treat %s,infection
+use:medicines:inflammation,Inflammation,used to treat %s,inflammation
+use:medicines:injuries,Injuries,used to treat %s,injuries
+use:medicines:localCulturalDisorders,Local Cultural Disorders,used to treat %s,abnormalities
+use:medicines:mentalDisorders,Mental Disorders,used to treat %s,Mental Disorders
+use:medicines:metabolicSystemDisorders,Metabolic System Disorders,used to treat %s,Metabolic System Disorders
+use:medicines:muscularSkeletalSystemDisorders,Muscular-Skeletal System Disorders,used to treat %s,Muscular-Skeletal System Disorders
+use:medicines:neoplasms,Neoplasms,used to treat %s,neoplasms
+use:medicines:nervousSystemDisorders,Nervous System Disorders,used to treat %s,Nervous System Disorders
+use:medicines:nutritionalDisorders,Nutritional Disorders,used to treat %s,Nutritional Disorders
+use:medicines:otherMedicinalDisorders,Other Medicinal Disorders,used to treat %s,Other Medicinal Disorders
+use:medicines:pain,Pain,used to treat %s,Pain
+use:medicines:poisonings,Poisonings,used to treat %s,Poisonings
+use:medicines:pregnancyBirthPuerpueriumDisorders,Pregnancy Birth Puerpuerium Disorders,used to treat %s,"Pregnancy, Birth and Puerpuerium Disorders"
+use:medicines:respiratorySystemDisorders,Respiratory System Disorders,used to treat %s,Respiratory System Disorders
+use:medicines:sensorySystemDisorders,Sensory System Disorders,used to treat %s,Sensory System Disorders
+use:medicines:skinSubcutaneousCellularTissueDisorders,Skin Subcutaneous Cellular Tissue Disorders,used to treat %s,Skin Subcutaneous Cellular Tissue Disorders
+use:medicines:unspecifiedMedicinalDisorders,Unspecified Medicinal Disorders,used to treat %s,Unspecified Medicinal Disorders
+use:poisons,Poisons,used as %s,a poison
+use:poisons:animalDiseaseControl,Animal Disease Control,used to control %s,animal diseases
+use:poisons:animalPestControl,Animal Pest Control,used to control %s,animal pests
+use:poisons:anthelmintic,Anthelmintic,used as an %s agent %s,Anthelmintic
+use:poisons:antibacterial,Antibacterial,used as %s agent,Antibacterial
+use:poisons:antiprotozoal,Antiprotozoal,used as %s agent,Antiprotozoal 
+use:poisons:antiviral,Antiviral,used as %s agent,Antiviral
+use:poisons:fishing,Fishing,used as a poison for %s,fishing
+use:poisons:fishPoison,Fish Poison,used as a poison for %s,fish
+use:poisons:homicide,Homicide,used as a poison for %s,homicide
+use:poisons:hunting,Hunting,used as a poison for %s,hunting
+use:poisons:infanticide,Infanticide,used as a poison %s,a poison
+use:poisons:insecticidal,Insecticidal,used as an %s,insecticide
+use:poisons:mammalianPoison,Mammalian Poison,used as a poison for %s,mammals
+use:poisons:otherPoisonType,Other Poison Type,used as %s,a poison
+use:poisons:otherUsesOfPoisons,Other Uses Of Poisons,used as %s,a poison
+use:poisons:plantDiseaseControl,Plant Disease Control,used to control %s,plant diseases
+use:poisons:plantPestControl,Plant Pest Control,used to control %s,plant pest
+use:poisons:poisonousPropertyNotActivelyUsed,Poisonous Property Not Actively Used,used as %s,a poison
+use:poisons:reptilePoison,Reptile Poison,used to poison %s,reptiles
+use:poisons:suicide,Suicide,used as %s,a poison
+use:poisons:unspecifiedPoisonType,Unspecified Poison Type,used as %s,a poison
+use:socialUse,Social,has  %s uses,Social
+use:socialUse:adulterants,Adulterants,used as  %s,An Adulterant
+use:socialUse:hallucinogens,Hallucinogens,used as  %s,a Hallucinogen
+use:socialUse:masticatories,Masticatories,used as  %s,a Masticatory
+use:socialUse:ornamentals,Ornamentals,has  %s uses,Ornamental
+use:socialUse:otherSocialUses,Other Social Uses,has  %s uses,social
+use:socialUse:sacredSpiritualPlants,Sacred Spiritual Plants,used as  %s,a sacred spiritual plant
+use:socialUse:sedatives,Sedatives,used as  %s,a sedative
+use:socialUse:smokingMaterials,Smoking Materials,used for %s,smoking
+use:socialUse:snuff,Snuff,used as %s,snuff
+use:socialUse:stimulants,Stimulants,used as %s,a stimulant
+use:socialUse:unspecifiedSocialUses,Unspecified Social Uses,has  %s uses,social
+use:weedImpact,Weed Impact,is %s,a weed
+use:weedImpact:agriculturalWeed,Agricultural Weed,is %s,an agricultural weed
+use:weedImpact:rangelAndPastureWeed,Rangel And Pasture Weed,is %s,a pasture and rangel weed
+use:weedImpact:unspecifiedWeed,Unspecified Weed,is %s,a weed

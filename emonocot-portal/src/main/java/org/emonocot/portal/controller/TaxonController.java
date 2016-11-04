@@ -26,7 +26,7 @@ import org.emonocot.portal.view.Identifications;
 import org.emonocot.portal.view.Images;
 import org.emonocot.portal.view.MeasurementOrFacts;
 import org.emonocot.portal.view.Sources;
-import org.emonocot.portal.view.SummaryBuilder;
+import org.emonocot.portal.view.Summary;
 import org.emonocot.portal.view.VernacularNames;
 import org.emonocot.portal.view.ScientificNames;
 import org.slf4j.Logger;
@@ -100,15 +100,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("title", pageTitle(taxon));
-		model.addAttribute("summary", new SummaryBuilder()
-					.messageSource(messageSource)
-					.uses(taxon.getDescriptions())
-					.taxonRemarks(taxon.getTaxonRemarks())
-					.rank(taxon.getTaxonRank().toString())
-					.lifeform(new MeasurementOrFacts(taxon).getLifeform())
-					.habitat(new MeasurementOrFacts(taxon).getHabitat())
-					.build());
-		
+		model.addAttribute("summary", new Summary(taxon, messageSource).build());
 		return "taxon";
 	}
 
