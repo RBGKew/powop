@@ -93,6 +93,21 @@ public class Descriptions {
 		}
 	}
 
+	public List<Taxon> getSynonymsIncluded() {
+		List<Taxon> synonymsIncluded = new ArrayList<>();
+		if(descriptionsBySource == null) {
+			getBySource();
+		}
+		for(DescriptionsBySource desc : descriptionsBySource){
+			if(desc.isFromSynonym){
+				if(!synonymsIncluded.contains(desc.asTaxon)){
+				synonymsIncluded.add(desc.asTaxon);
+				}
+			}
+		}
+		return synonymsIncluded;
+	}
+	
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
 			descriptionsBySource = new ArrayList<>();

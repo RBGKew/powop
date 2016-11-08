@@ -48,7 +48,8 @@ public class NameHelper {
 			return String.format("<ol><li><h1 class=\"c-family-list__heading\">%s</h1></li><ol>",
 					nameAndAuthor(classification.get(index), options));
 		} else {
-			return String.format("<ol><li>%s%s</li></ol>",
+			return String.format("<ol><li>%s: %s%s</li></ol>",
+					WordUtils.capitalize(classification.get(index).getTaxonRank().toString().toLowerCase()),
 					taxonLink(classification.get(index), options),
 					classificationLine(classification, index+1, options));
 		}

@@ -7,13 +7,19 @@ body {
 }
 
 .c-article {
+  a {
+    color: #4949a3;
+    &.collapser {
+      color: #333333;
+    }
+  }
 
 }
 
 // Component - Article Header
 .c-article-header {
-  color: $text-color-invert;
-  border: 1px solid $body-bg;
+  border-top: 2px solid #e7e7e7;
+  border-bottom: 2px solid #e7e7e7;
   overflow: hidden;
 
   .breadcrumb {
@@ -42,7 +48,11 @@ body {
   }
 
   ol ol {
-    margin-left: 1em;
+    margin-left: 1.5em;
+  }
+
+  p {
+    margin-left: 1.5em;
   }
 }
 
@@ -58,7 +68,7 @@ body {
 // Component - Article Navigation
 .c-article-nav {
   background-color: $body-bg;
-  border-bottom: 5px solid #CCCCCC;
+  border-bottom: 2px solid #CCCCCC;
   padding: 0;
 
   &.affix {
@@ -123,6 +133,9 @@ body {
   @include make-lg-column(3);
   .glyphicon {
     margin-right: 0.5em;
+  }
+  .includes_data {
+    width: 75%;
   }
 }
 

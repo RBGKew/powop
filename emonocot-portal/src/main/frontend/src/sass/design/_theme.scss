@@ -31,10 +31,6 @@
       color: $primary;
     }
 
-    .c-article-header {
-      background: $primary;
-    }
-
     [data-toggle="popover"] {
       color: $primary;
     }
@@ -65,7 +61,7 @@ $type-themes: (
   s-theme-Genus: #339999,
   s-theme-Species: #669933,
   s-theme-Common: #993399,
-  s-theme-Synonym: #8899AA,
+  s-theme-Synonym: #e7e7e7,
 ) !default;
 
 $page-themes: (

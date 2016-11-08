@@ -30,10 +30,7 @@ public class CsvResourceLoader {
 		List<String[]> csv = csvImport(fileName);
 		if(csv != null){
 			for(String[] strings : csv){
-				
-				descriptionMap.put(
-						DescriptionType.fromString(strings[0]),
-						Arrays.copyOfRange(strings, 1, strings.length));
+				descriptionMap.put(DescriptionType.fromString(strings[0]),strings);
 			}
 		}
 		return descriptionMap;

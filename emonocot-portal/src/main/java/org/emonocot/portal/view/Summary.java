@@ -79,16 +79,14 @@ public class Summary {
 	
 	private String buildLocationandHabitat(){
 		String distribution = getDistribution();
-		String lifeform = phraseUtils.constructList(getMeasurementByType(WCSPTerm.Lifeform));
-		if(lifeform.isEmpty()){
+		String rank ="";
 			if(taxon.getTaxonRemarks() != null){
-				lifeform = taxon.getTaxonRank().toString().toLowerCase();
+				rank = taxon.getTaxonRank().toString().toLowerCase();
 			}else{
-				lifeform = "plant";
+				rank = "plant";
 			}
-		}
 		if(!distribution.isEmpty()){
-			return String.format("This %s is native to %s.", lifeform, distribution);
+			return String.format("This %s is accepted, and is native to %s.", rank, distribution);
 		}
 		return null;
 	}
@@ -105,12 +103,12 @@ public class Summary {
 				return location;
 			}else if(uses != null && !uses.isEmpty()){
 				if(taxon.getTaxonRank() != null){
-					return String.format("This %s is %s.", taxon.getTaxonRank().toString().toLowerCase(), uses);
+					return String.format("This %s is accepted, and is %s.", taxon.getTaxonRank().toString().toLowerCase(), uses);
 				}else{
 					return String.format("This plant is %s.", uses);
 				}
 			}
 		}
-		return "";
+		return String.format("This %s is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
 	}
 }

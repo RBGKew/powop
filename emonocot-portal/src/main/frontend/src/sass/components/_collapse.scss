@@ -9,6 +9,7 @@ a.collapser {
     font-size: 0.8em;
     padding-right: 1em;
     content: "\e114";
+    color:#333333;
   }
 
   &.collapsed::before {

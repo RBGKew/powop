@@ -10,6 +10,11 @@ $header-logo-height: 47px;
   text-align: right;
   margin: 30px 0;
   @media (max-width: $screen-sm-min) { margin: 10px 0; }
+
+  small {
+    color: grey;
+    font-size: 60%
+  }
 }
 
 .c-header__logo {

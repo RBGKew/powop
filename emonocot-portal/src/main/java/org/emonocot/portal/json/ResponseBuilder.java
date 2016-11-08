@@ -101,7 +101,7 @@ public class ResponseBuilder {
 		}
 	}
 
-	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t");
+	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t", "taxon.genus_t", "taxon.family_t");
 	private void addSnippets(SearchResultBuilder result, SolrDocument document) {
 		if(highlights.get(document.get("id").toString()) != null) {
 			Map<String, List<String>> highlight = highlights.get(document.get("id"));

@@ -67,14 +67,14 @@ public class SummaryUses {
 		for(List<DescriptionType> list : descriptionsBySuperType.values()){
 			for(DescriptionType type : list){
 				String[] fragment = descriptionTranslations.get(type);
-				if(usesByPreposition.containsKey(fragment[1])){
-					Set<String> sentenceObjects = usesByPreposition.get(fragment[1]);
+				if(usesByPreposition.containsKey(fragment[2])){
+					Set<String> sentenceObjects = usesByPreposition.get(fragment[2]);
 					sentenceObjects.add(fragment[3].toLowerCase());
-					usesByPreposition.put(fragment[1], sentenceObjects);
+					usesByPreposition.put(fragment[2], sentenceObjects);
 				}else{
 					Set<String> sentenceObjects = new HashSet<String>();
 					sentenceObjects.add(fragment[3].toLowerCase());
-					usesByPreposition.put(fragment[1], sentenceObjects);
+					usesByPreposition.put(fragment[2], sentenceObjects);
 				}
 			}
 		}
