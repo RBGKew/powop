@@ -39,6 +39,15 @@ body {
   @media (min-width: $screen-md-min) {
     width: 50%;
     float: left;
+
+    ol ol {
+      margin-left: 1.5em;
+    }
+
+    p {
+      margin-left: 1.5em;
+    }
+
   }
 
   ol {
@@ -47,13 +56,7 @@ body {
     list-style: none;
   }
 
-  ol ol {
-    margin-left: 1.5em;
-  }
 
-  p {
-    margin-left: 1.5em;
-  }
 }
 
 .c-family-list__heading {
@@ -96,6 +99,7 @@ body {
 
 .c-article-section__content {
 
+
   @include make-md-column(9);
   @include make-lg-column(9);
 
@@ -125,10 +129,14 @@ body {
 .c-article-section__title {
   @include make-md-column(2);
   @include make-lg-column(3);
-  font-weight: bold;
+
+  h2{
+    font-weight: bold;
+  }
 }
 
 .c-article-section__aside {
+
   @include make-md-column(3);
   @include make-lg-column(3);
   .glyphicon {

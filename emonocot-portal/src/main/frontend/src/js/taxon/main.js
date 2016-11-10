@@ -1,5 +1,12 @@
 define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map) {
   var initialize = function() {
+
+    // collapse all sections if screen size is less than 768px
+    if ($(window).width() < 768) {
+      $(".c-article-section__content").removeClass("in");
+      $(".c-article-section__aside").removeClass("in");
+    }
+
     // initialize popup for header image
     $('.c-gallery-header a').magnificPopup({type: 'image'});
 
