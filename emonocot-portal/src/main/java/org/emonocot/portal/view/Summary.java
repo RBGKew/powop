@@ -24,21 +24,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 public class Summary {
-	
+
 	private Taxon taxon;
-	
+
 	private MessageSource messageSource;
-	
+
 	private PhraseUtilities phraseUtils;
-	
+
 	private static Logger logger = LoggerFactory.getLogger(Summary.class);
-	
+
 	public Summary(Taxon taxon, MessageSource messageSource){
 		this.taxon = taxon;
 		this.messageSource = messageSource;
 		this.phraseUtils = new PhraseUtilities(messageSource);
 	}
-	
+
 	public List<String> getMeasurementByType(Term type){
 		List<String> measurements = new ArrayList<String>();
 		for(MeasurementOrFact item : taxon.getMeasurementsOrFacts()){
@@ -48,9 +48,9 @@ public class Summary {
 		}
 		return measurements;
 	}
-	
 
-	
+
+
 	private String getDistribution(){
 		Map<String, List<String>> distributionsByContinent = new HashMap<String, List<String>>();
 		List<String> distributionList = new ArrayList<String>();
@@ -76,39 +76,44 @@ public class Summary {
 		}
 		return phraseUtils.constructList(distributionList);
 	}
-	
+
 	private String buildLocationandHabitat(){
 		String distribution = getDistribution();
 		String rank ="";
-			if(taxon.getTaxonRemarks() != null){
-				rank = taxon.getTaxonRank().toString().toLowerCase();
-			}else{
-				rank = "plant";
-			}
+		if(taxon.getTaxonRemarks() != null){
+			rank = taxon.getTaxonRank().toString().toLowerCase();
+		}else{
+			rank = "plant";
+		}
 		if(!distribution.isEmpty()){
 			return String.format("This %s is accepted, and is native to %s.", rank, distribution);
 		}
 		return null;
 	}
-	
 
-	
+
+
 	public String build(){
 		if(taxon.isAccepted()){
 			String location =  buildLocationandHabitat();
 			String uses = new SummaryUses().buildUses(taxon, messageSource);
-			if(location != null && uses != null && !uses.isEmpty()){
+
+			if(location != null && uses != null && !uses.isEmpty()) {
 				return String.format("%s It is %s.", location, uses);
-			}else if(location != null){
+			} else if(location != null) {
 				return location;
-			}else if(uses != null && !uses.isEmpty()){
-				if(taxon.getTaxonRank() != null){
+			} else if(uses != null && !uses.isEmpty()) {
+				if(taxon.getTaxonRank() != null) {
 					return String.format("This %s is accepted, and is %s.", taxon.getTaxonRank().toString().toLowerCase(), uses);
-				}else{
+				} else {
 					return String.format("This plant is %s.", uses);
 				}
+			} else {
+				String thing = taxon.getTaxonRank() == null ? "plant" : taxon.getTaxonRank().toString().toLowerCase();
+				return String.format("This %s is accepted.", thing);
 			}
 		}
+
 		return String.format("This %s is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
 	}
 }

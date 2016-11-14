@@ -133,7 +133,7 @@
               <p class="includes_data"><b>Includes data from the following synoyms: </b></p>
               <ul class="c-plain-list includes_data">
                 {{#each synonymsIncluded}}
-                  <li>{{taxonLink this}}</li>
+                  <li>{{taxonLinkWithoutAuthor this}}</li>
                 {{/each}}
               </ul>
             {{/with}}

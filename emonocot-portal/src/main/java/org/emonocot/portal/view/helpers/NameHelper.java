@@ -24,6 +24,13 @@ public class NameHelper {
 		return new Handlebars.SafeString(result);
 	}
 
+	public CharSequence taxonLinkWithoutAuthor(final Taxon taxon, final Options options) {
+		String result = String.format("<a href=\"/taxon/%s\">%s</a>",
+				taxon.getIdentifier(),
+				taxon.getScientificName());
+		return new Handlebars.SafeString(result);
+	}
+
 	public CharSequence classification(Taxon taxon, Options options) {
 		List<Taxon> higherClassification = taxon.getHigherClassification();
 		String classification = classificationLine(higherClassification, 0, options);
