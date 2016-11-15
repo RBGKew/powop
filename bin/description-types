@@ -1,79 +1,211 @@
-figures,Reference
-floralDiagram,Floral Diagram
-glossary,Glossary
-note,Note
-reference,Reference
-morphology:general,General
-morphology:general:areoles,Areoles
-morphology:general:buds,Buds
-morphology:general:colleters,Colleters
-morphology:general:cystoliths,Cystoliths
-morphology:general:exudate,Exudate
-morphology:general:glands,Glands
-morphology:general:habit,Habit
-morphology:general:indumentum,Indumentum
-morphology:general:spines,Spines
-morphology:general:tendrils,Tendrils
-morphology:general:thallus,Thallus
-morphology:general:traps,Traps
-morphology:leaf,Leaf
-morphology:leaf:scaleLeaves,Scale Leaves
-morphology:leaf:lamina,Lamina
-morphology:leaf:lamina:margins,Lamina margin
-morphology:leaf:lamina:venation,Lamina venation
-morphology:leaf:leaf-sheaths,Leaf-sheath
-morphology:leaf:ligule,Ligules
-morphology:leaf:ocrea,Ocrea
-morphology:leaf:petiole,Petiole
-morphology:leaf:stipules,Stipules
-morphology:reproductive,Reproductive morphology
-morphology:reproductive:cones,Cones
-morphology:reproductive:flowers,Flowers
-morphology:reproductive:flowers:androecium,Androecium
-morphology:reproductive:flowers:androgynophore,Androgynophore
-morphology:reproductive:flowers:bracts,Bracts
-morphology:reproductive:flowers:buds,Buds
-morphology:reproductive:flowers:calyx,Calyx
-morphology:reproductive:flowers:column,Column
-morphology:reproductive:flowers:corolla,Corolla
-morphology:reproductive:flowers:corona,Corona
-morphology:reproductive:flowers:epicalyx,Epicalyx
-morphology:reproductive:flowers:gynoecium,Gynoecium
-morphology:reproductive:flowers:gynophore,Gynophore
-morphology:reproductive:flowers:hypanthium,Hypanthium
-morphology:reproductive:flowers:lodicules,Lodicules
-morphology:reproductive:flowers:nectaries,Nectaries
-morphology:reproductive:flowers:pedicel,Pedicel
-morphology:reproductive:flowers:perianth,Perianth
-morphology:reproductive:flowers:receptacle,Receptacle
-morphology:reproductive:flowers:sterileParts,Sterile parts
-morphology:reproductive:fruits,Fruits
-morphology:reproductive:germination,Germination
-morphology:reproductive:inflorescences,Inflorescences
-morphology:reproductive:inflorescences:bracts,Inflorescences
-morphology:reproductive:inflorescences:peduncle,Peduncles
-morphology:reproductive:inflorescences:scape,Scape
-morphology:reproductive:inflorescences:spikelets,Spikelets
-morphology:reproductive:inflorescences:spikelets:pedicelled,Pedicelled spikelets
-morphology:reproductive:inflorescences:spikelets:sessile,Sessile spikelets
-morphology:reproductive:inflorescences:spikelets:subsessile,Subsessile spikelets
-morphology:reproductive:infructescences,Infructescences
-morphology:reproductive:seeds,Seeds
-morphology:root,Roots
-morphology:stem,Stems
-morphology:stem:cladodes,Cladodes
-vegetativeMultiplication:bulbils,Bulbils
-vegetativeMultiplication:bulbs,Bulbs
-vegetativeMultiplication:corms,Corms
-vegetativeMultiplication:pseudobulbs,Pseudobulbs
-vegetativeMultiplication:rhizome,Rhizomes
-vegetativeMultiplication:tubers,Tubers
-sex:hermaphrodite,Hermaphrodite
-sex:female,Female
-sex:male,Male
-morphology:general:wood,Wood
-chemistry,Chemistry
-use,Use
-vegetativeMultiplication,Vegetative Multiplication
-constructionalOrganisation:growth,Growth
-morphology:general:scales,Scales
+chemistry,Chemistry,chemistry
+conservation,Conservation,conservation
+constructionalOrganisation:growth,Growth,Appearance
+cytology,Cytology,cytology
+diagnostic,Diagnostic,Appearance
+distribution,Distribution,distribution
+ecology,Ecology,ecology
+error,Error,N/A
+figure,Figures,figure
+floralDiagram,Floral Diagram,Flower
+glossary,Glossary,glossary
+note,Note,note
+reference,Reference,reference
+use,Use,use
+vernacular,Vernacular,vernacular
+morph:disc,Disc,N/A
+morph:homogamous,Homogamous,N/A
+morph:inferior,Inferior,N/A
+morph:intermediateStyled,Intermediate-styled,N/A
+morph:longStaminate,Long-staminate,N/A
+morph:longStyled,Long-styled,N/A
+morph:pedicelled,Pedicelled,N/A
+morph:ray,Ray,N/A
+morph:sessile,Sessile,N/A
+morph:shortStaminate,Short-staminate,N/A
+morph:shortStyled,Short-styled,N/A
+morph:subsessile,Subsessile,N/A
+morph:superior,Superior,N/A
+sex:female,Female,N/A
+sex:hermaphrodite,Hermaphrodite,N/A
+sex:male,Male,N/A
+status:fertile,Fertile,N/A
+status:sterile,Sterile,N/A
+morphology:general,General,Appearance
+morphology:general:areole,Areoles,Appearance
+morphology:general:bark,Bark,Appearance
+morphology:general:bud,Buds,Appearance
+morphology:general:colleter,Colleters,Appearance
+morphology:general:crown,Crown,Appearance
+morphology:general:cystolith,Cystoliths,Appearance
+morphology:general:domatium,Domatia,Appearance
+morphology:general:exudate,Exudate,Appearance
+morphology:general:float,Floats,Appearance
+morphology:general:gall,Galls,Appearance
+morphology:general:gametophyte,Gametophyte,Appearance
+morphology:general:gland,Glands,Appearance
+morphology:general:habit,Habit,Appearance
+morphology:general:haustorium,Haustorium,Appearance
+morphology:general:height,Height,Appearance
+morphology:general:indumentum,Indumentum,Appearance
+morphology:general:prickle,Prickles,Appearance
+morphology:general:rhizoid,Rhizoids,Appearance
+morphology:general:scale,Scales,Appearance
+morphology:general:shoot,Shoots,Appearance
+morphology:general:spine,Spines,Appearance
+morphology:general:sporophyte,Sporophyte,Appearance
+morphology:general:tendril,Tendrils,Appearance
+morphology:general:thallus,Thallus,Appearance
+morphology:general:thorn,Thorns,Appearance
+morphology:general:trap,Traps,Appearance
+morphology:general:wood,Wood,Appearance
+morphology:leaf,Leaves,Leaf
+morphology:leaf:cataphyll,Cataphylls,Leaf
+morphology:leaf:lamina,Leaf lamina,Leaf
+morphology:leaf:lamina:margin,Leaf margin,Leaf
+morphology:leaf:leaflet,Leaflets,Leaf
+morphology:leaf:ligule,Ligules,Leaf
+morphology:leaf:ocrea,Ocrea,Leaf
+morphology:leaf:petiole,Petiole,Leaf
+morphology:leaf:phyllode,Phyllodes,Leaf
+morphology:leaf:pinna,Pinnae,Leaf
+morphology:leaf:pinnule,Pinnules,Leaf
+morphology:leaf:prophyll,Prophyll,Leaf
+morphology:leaf:rachis,Rachis,Leaf
+morphology:leaf:scaleLeaf,Scale leaves,Leaf
+morphology:leaf:sheath,Leaf sheaths,Leaf
+morphology:leaf:stipe,Stipes,Leaf
+morphology:leaf:stipel,Stipel,Leaf
+morphology:leaf:stipule,Stipules,Leaf
+morphology:leaf:venation,Leaf veins,Leaf
+morphology:reproductive,Reproductive morphology,Appearance
+morphology:reproductive:cone,Cones,Appearance
+morphology:reproductive:flower,Flowers,Flower
+morphology:reproductive:flower:androecium,Androecium,Flower
+morphology:reproductive:flower:androecium:stamen,Stamens,Flower
+morphology:reproductive:flower:androecium:stamen:anther,Anthers,Flower
+morphology:reproductive:flower:androecium:stamen:anther:connective,Connective,Flower
+morphology:reproductive:flower:androecium:stamen:filament,Filaments,Flower
+morphology:reproductive:flower:androecium:staminode,Staminodes,Flower
+morphology:reproductive:flower:androgynophore,Androgynophore,Flower
+morphology:reproductive:flower:androphore,Androphore,Flower
+morphology:reproductive:flower:callus,Callus,Flower
+morphology:reproductive:flower:calyx,Calyx,Flower
+morphology:reproductive:flower:carpophore,Carpophore,Flower
+morphology:reproductive:flower:cleistogene,Cleistogene,Flower
+morphology:reproductive:flower:column,Column,Flower
+morphology:reproductive:flower:corolla,Corolla,Flower
+morphology:reproductive:flower:corona,Corona,Flower
+morphology:reproductive:flower:disc,Disc,Flower
+morphology:reproductive:flower:epicalyx,Epicalyx,Flower
+morphology:reproductive:flower:floret,Florets,Flower
+morphology:reproductive:flower:gynoecium,Gynoecium,Flower
+morphology:reproductive:flower:gynoecium:carpel,Carpels,Flower
+morphology:reproductive:flower:gynoecium:ovary,Ovary,Flower
+morphology:reproductive:flower:gynoecium:ovary:ovule,Ovules,Flower
+morphology:reproductive:flower:gynoecium:ovary:placenta,Placenta,Flower
+morphology:reproductive:flower:gynoecium:pistil,Pistil,Flower
+morphology:reproductive:flower:gynoecium:pistillode,Pistillodes,Flower
+morphology:reproductive:flower:gynoecium:stigma,Stigma,Flower
+morphology:reproductive:flower:gynoecium:style,Style,Flower
+morphology:reproductive:flower:gynoecium:stylopodium,Stylopodium,Flower
+morphology:reproductive:flower:gynophore,Gynophore,Flower
+morphology:reproductive:flower:gynostegium,Gynostegium,Flower
+morphology:reproductive:flower:gynostemium,Gynostemium,Flower
+morphology:reproductive:flower:hypanthium,Hypanthium,Flower
+morphology:reproductive:flower:labellum,Labellum,Flower
+morphology:reproductive:flower:labellum:auricle,Auricle,Flower
+morphology:reproductive:flower:limen,Limen,Flower
+morphology:reproductive:flower:lodicule,Lodicules,Flower
+morphology:reproductive:flower:nectary,Nectaries,Flower
+morphology:reproductive:flower:operculum,Operculum,Flower
+morphology:reproductive:flower:pedicel,Pedicel,Flower
+morphology:reproductive:flower:perianth,Perianth,Flower
+morphology:reproductive:flower:pollen,Pollen,Flower
+morphology:reproductive:flower:pollinarium,Pollinarium,Flower
+morphology:reproductive:flower:pollinium,Pollinia,Flower
+morphology:reproductive:flower:presenter,Pollen presenter,Flower
+morphology:reproductive:flower:receptacle,Receptacle,Flower
+morphology:reproductive:flower:rostellum,Rostellum,Flower
+morphology:reproductive:flower:spur,Spur,Flower
+morphology:reproductive:flower:sterilePart,Sterile Parts,Flower
+morphology:reproductive:flower:tepal,Tepal,Flower
+morphology:reproductive:flower:viscidium,Viscidium,Flower
+morphology:reproductive:inflorescence,Inflorescences,Inflorescence
+morphology:reproductive:inflorescence:bract,Bracts,Inflorescence
+morphology:reproductive:inflorescence:bract:glume,Glume,Inflorescence
+morphology:reproductive:inflorescence:bract:involucre,Involucre,Inflorescence
+morphology:reproductive:inflorescence:bract:lemma,Lemma,Inflorescence
+morphology:reproductive:inflorescence:bract:palea,Palea,Inflorescence
+morphology:reproductive:inflorescence:bract:phyllary,Phyllaries,Inflorescence
+morphology:reproductive:inflorescence:bract:probract,Probract,Inflorescence
+morphology:reproductive:inflorescence:bract:spathe,Spathe,Inflorescence
+morphology:reproductive:inflorescence:bracteole,Bracteoles,Inflorescence
+morphology:reproductive:inflorescence:capitulum,Capitulum,Inflorescence
+morphology:reproductive:inflorescence:cyathium,Cyathia,Inflorescence
+morphology:reproductive:inflorescence:peduncle,Peduncles,Inflorescence
+morphology:reproductive:inflorescence:scape,Scape,Inflorescence
+morphology:reproductive:inflorescence:spadix,Spadix,Inflorescence
+morphology:reproductive:inflorescence:spikelet,Spikelets,Inflorescence
+morphology:reproductive:inflorescence:synflorescence,Synflorescence,Inflorescence
+morphology:reproductive:fruit,Fruits,Fruit
+morphology:reproductive:fruit:calyx,Fruiting calyx,Fruit
+morphology:reproductive:fruit:infructescence,Infructescences,Fruit
+morphology:reproductive:fruit:pyrene,Pyrene,Fruit
+morphology:reproductive:fruit:vitta,Vittae,Fruit
+morphology:reproductive:seed,Seeds,Seed
+morphology:reproductive:seed:aril,Aril,Seed
+morphology:reproductive:seed:cotyledon,Cotyledons,Seed
+morphology:reproductive:seed:embryo,Embryo,Seed
+morphology:reproductive:seed:endosperm,Endosperm,Seed
+morphology:reproductive:seed:germination,Germination,Seed
+morphology:reproductive:seed:germination:vivipary,Vivipary,Seed
+morphology:reproductive:seed:hilum,Hilum,Seed
+morphology:reproductive:seed:hypocotyl,Hypocotyl,Seed
+morphology:reproductive:seed:pappus,Pappus,Seed
+morphology:reproductive:seed:testa,Testa,Seed
+morphology:root,Roots,Appearance
+morphology:stem,Stem,Appearance
+morphology:stem:cladode,Cladodes,Appearance
+morphology:trunk,Trunk,Appearance
+morphology:trunk:buttress,Buttresses,Appearance
+morphology:trunk:slash,Slash,Appearance
+morphology:twig,Twigs,Appearance
+morphology:bole,Bole,Appearance
+morphology:branch,Branches,Appearance
+morphology:culm,Culms,Appearance
+vegetativeMultiplication,Vegetative Multiplication,Cloning
+vegetativeMultiplication:bulb,Bulbs,Cloning
+vegetativeMultiplication:bulbil,Bulbils,Cloning
+vegetativeMultiplication:corm,Corms,Cloning
+vegetativeMultiplication:gemma,Gemmae,Cloning
+vegetativeMultiplication:pseudobulb,Pseudobulbs,Cloning
+vegetativeMultiplication:rhizome,Rhizomes,Cloning
+vegetativeMultiplication:stolon,Stolons,Cloning
+vegetativeMultiplication:tuber,Tubers,Cloning
+morphology:stem:caudex,Caudex,Appearance
+morphology:general:velum,Velum,Appearance
+morphology:reproductive:megaspore,Megaspores,Appearance
+morphology:reproductive:megasporocarp,Megasporocarp,Appearance
+morphology:reproductive:megasporophyll,Megasporophylls,Appearance
+morphology:reproductive:microspore,Microspores,Appearance
+morphology:reproductive:microsporocarp,Microsporocarp,Appearance
+morphology:reproductive:microsporophyll,Microsporophylls,Appearance
+morphology:reproductive:paraphysis,Paraphyses,Appearance
+morphology:reproductive:sorus,Sori,Appearance
+morphology:reproductive:sorus:indusium,Indusium,Appearance
+morphology:reproductive:sporangium,Sporangia,Appearance
+morphology:reproductive:sporangium:annulus,Annulus,Appearance
+morphology:reproductive:spore,Spores,Appearance
+morphology:reproductive:sporocarp,Sporocarp,Appearance
+morphology:reproductive:sporophore,Sporophore,Appearance
+morphology:reproductive:sporophyll,Sporophylls,Appearance
+morphology:reproductive:strobilus,Strobili,Appearance
+morphology:reproductive:synangium,Synangia,Appearance
+morphology:general:rhizoidAndStolon,Rhizoids and Stolons,Appearance
+lifeStage:seedling ,Seedling,Seed
+morphology:reproductive:flower:androecium:stamenAndStyle,Stamen and Style,Flower
+morphology:reproductive:flower:pedicelAndOvary,Pedicel and Ovary,Flower
+morphology:reproductive:flower:pedicelAndPeduncle,Pedicels and Peduncles,Flower
+sex:femaleAndHermaphrodite,Female and Hermaphrodite,N/A
+sex:maleAndHermaphrodite,Male and Hermaphrodite,N/A

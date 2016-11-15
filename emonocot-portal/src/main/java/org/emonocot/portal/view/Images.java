@@ -24,9 +24,9 @@ public class Images {
 	private static final ImmutableList<DescriptionType> descriptionOrder = ImmutableList.<DescriptionType>builder()
 		.add(DescriptionType.general)
 		.add(DescriptionType.habit)
-		.add(DescriptionType.morphologyReproductiveFlowers)
-		.add(DescriptionType.morphologyReproductiveFruits)
-		.add(DescriptionType.morphologyReproductiveInflorescences)
+		.add(DescriptionType.morphologyReproductiveFlower)
+		.add(DescriptionType.morphologyReproductiveFruit)
+		.add(DescriptionType.morphologyReproductiveInflorescence)
 		.build();
 	
 	
