@@ -58,7 +58,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 		super.mapField(object, fieldName, value);
 
 		Term term = getTermFactory().findTerm(fieldName);
-		logger.info("Mapping " + fieldName + " " + " " + value + " to "
+		logger.debug("Mapping " + fieldName + " " + " " + value + " to "
 				+ object);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;

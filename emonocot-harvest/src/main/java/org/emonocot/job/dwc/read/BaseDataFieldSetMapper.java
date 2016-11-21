@@ -46,7 +46,7 @@ public class BaseDataFieldSetMapper<T extends BaseData> extends DarwinCoreFieldS
 	public void mapField(T object, String fieldName, String value)
 			throws BindException {
 		Term term = TermFactory.findTerm(fieldName);
-		logger.info("Mapping " + term.toString() + " " + " " + value + " to " + object);
+		logger.debug("Mapping " + term.toString() + " " + " " + value + " to " + object);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {

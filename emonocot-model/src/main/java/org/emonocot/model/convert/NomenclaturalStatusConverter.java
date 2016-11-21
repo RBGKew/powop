@@ -27,9 +27,9 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 
 	@Override
 	public NomenclaturalStatus convert(String source) {
-		logger.info("Converting " + source);
+		logger.debug("Converting " + source);
 		if(source == null || source.trim().isEmpty()) {
-			logger.info("Returning null");
+			logger.debug("Returning null");
 			return null;
 		} else {
 			switch(source.toLowerCase()) {

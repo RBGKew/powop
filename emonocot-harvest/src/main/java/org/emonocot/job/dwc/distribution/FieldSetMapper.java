@@ -48,8 +48,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
 		super.mapField(object, fieldName, value);
 
 		Term term = getTermFactory().findTerm(fieldName);
-		logger.info("Mapping " + fieldName + " " + " " + value + " to "
-				+ object);
+		logger.debug("Mapping " + fieldName + " " + " " + value + " to " + object);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {

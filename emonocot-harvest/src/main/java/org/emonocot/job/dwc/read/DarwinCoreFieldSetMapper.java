@@ -117,12 +117,12 @@ FieldSetMapper<T> {
 		logger.debug("Mapping object " + t + " with fieldNames " + Arrays.toString(fieldNames) + " and fieldSet " + fieldSet);
 		try {
 			// Default values go first, specific values override
-			logger.info("Mapping default values");
+			logger.trace("Mapping default values");
 			for (String defaultTerm : defaultValues.keySet()) {
 				mapField(t, defaultTerm, defaultValues.get(defaultTerm));
 			}
 
-			logger.info("Mapping fields");
+			logger.trace("Mapping fields");
 			for (int i = 0; i < fieldNames.length; i++) {
 				if(fieldNames[i].indexOf(" ") != -1) {
 					String fieldName = fieldNames[i].substring(0, fieldNames[i].indexOf(" "));
@@ -142,7 +142,7 @@ FieldSetMapper<T> {
 			logger.error(e.getMessage());
 			throw e;
 		}
-		logger.debug("Returning object " + t);
+		logger.trace("Returning object " + t);
 		return t;
 	}
 

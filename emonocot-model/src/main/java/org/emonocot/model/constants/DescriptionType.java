@@ -69,6 +69,7 @@ public enum DescriptionType {
 	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular"),
 
 	// non-standard description types
+	concept("concept"),
 	figure("figure"),
 	floralDiagram("floralDiagram"),
 	glossary("glossary"),

@@ -180,7 +180,7 @@
     <batch:step id="processDescriptionFile">
       <batch:description>Process the extension file containing the descriptions</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="descriptionReader" processor="descriptionProcessor" writer="itemWriter" commit-interval="10" skip-limit="10000">
+        <batch:chunk reader="descriptionReader" processor="descriptionProcessor" writer="itemWriter" commit-interval="10" skip-limit="1000000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -366,7 +366,7 @@
     <batch:step id="processReferenceFile">
       <batch:description>Process the extension file containing the references</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="referenceReader" processor="referenceProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
+        <batch:chunk reader="referenceReader" processor="referenceProcessor" writer="itemWriter" commit-interval="100" skip-limit="1000000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />

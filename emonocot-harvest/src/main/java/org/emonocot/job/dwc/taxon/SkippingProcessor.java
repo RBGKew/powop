@@ -67,7 +67,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	 * @return Taxon a taxon object
 	 */
 	public final Annotation process(final Taxon taxon) throws Exception {
-		logger.info("Processing " + taxon.getIdentifier());
+		logger.debug("Processing " + taxon.getIdentifier());
 		if (taxon.getIdentifier() == null) {
 			throw new NoIdentifierException(taxon);
 		}
@@ -88,7 +88,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 
 			annotation.setType(AnnotationType.Info);
 			annotation.setCode(AnnotationCode.Skipped);
-			logger.info(persistedTaxon.getIdentifier() + " was skipped");
+			logger.debug(persistedTaxon.getIdentifier() + " was skipped");
 		}
 		return annotation;
 	}
@@ -97,7 +97,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 		String key = taxonId + ":" + jobExecutionId;
 		if (boundAnnotations.containsKey(key)) {
 			Annotation annotation = boundAnnotations.get(taxonId + ":" + jobExecutionId);
-			logger.info("Found annotation with identifier " + taxonId + ":" + jobExecutionId + " from cache returning annotation with id " + annotation.getIdentifier());
+			logger.debug("Found annotation with identifier " + taxonId + ":" + jobExecutionId + " from cache returning annotation with id " + annotation.getIdentifier());
 			return annotation;
 		} else {
 			return annotationService.findAnnotation(recordType,taxonId, jobExecutionId);
