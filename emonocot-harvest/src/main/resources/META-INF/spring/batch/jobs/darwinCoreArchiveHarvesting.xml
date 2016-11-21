@@ -684,7 +684,7 @@
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
       <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
       <batch:next on="*" to="markTypeAndSpecimenRecords" />
-      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="calculateDerivedProperties" />
+      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="indexTaxa" />
     </batch:decision>
 
     <batch:step id="markTypeAndSpecimenRecords">
@@ -739,18 +739,7 @@
       <batch:tasklet>
         <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="10" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="calculateDerivedProperties" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="calculateDerivedProperties">
-      <batch:description>Calculate derived properties</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTaxaReader" processor="calculateDerivedPropertiesProcessor" writer="itemWriter" commit-interval="10" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTaxa"/>
+      <batch:next on="COMPLETED" to="indexTaxa" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
@@ -960,10 +949,6 @@
         <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
-  </bean>
-
-  <bean id="calculateDerivedPropertiesProcessor" class="org.emonocot.job.dwc.taxon.CalculateDerivedPropertiesProcessor">
-    <property name="taxonService" ref="taxonServiceImpl"/>
   </bean>
 
   <bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
