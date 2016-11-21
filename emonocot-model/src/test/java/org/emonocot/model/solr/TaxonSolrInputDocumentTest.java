@@ -120,7 +120,7 @@ public class TaxonSolrInputDocumentTest {
 	@Test
 	public void descriptions() throws Exception {
 		Description[] descriptions = {
-				buildDescription("Description 1. Blah blah blah", DescriptionType.morphologyGeneralBuds),
+				buildDescription("Description 1. Blah blah blah", DescriptionType.morphologyGeneralBud),
 				buildDescription("Description 2. Blah blah blah", DescriptionType.morphologyReproductive, DescriptionType.sexMale),
 				buildDescription("Use 1. Blah blah blah", DescriptionType.use),
 				buildDescription("Use 2. Blah blah blah", DescriptionType.useAnimalFoodHerbage)

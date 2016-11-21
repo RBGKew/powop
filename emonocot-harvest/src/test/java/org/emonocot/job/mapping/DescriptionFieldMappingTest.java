@@ -61,7 +61,7 @@ public class DescriptionFieldMappingTest {
 	@Test
 	public void testMultiTypeMapping() throws BindException {
 		String inputString = "morphology:reproductive:fruits|sex:male";
-		SortedSet<DescriptionType> expected = new TreeSet<>(Arrays.asList(DescriptionType.morphologyReproductiveFruits, DescriptionType.sexMale));
+		SortedSet<DescriptionType> expected = new TreeSet<>(Arrays.asList(DescriptionType.morphologyReproductiveFruit, DescriptionType.sexMale));
 		expect(conversionService.convert(inputString,
 				TypeDescriptor.valueOf(String.class),
 				TypeDescriptor.collection(SortedSet.class, TypeDescriptor.valueOf(DescriptionType.class))))

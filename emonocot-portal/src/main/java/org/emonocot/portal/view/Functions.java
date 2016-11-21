@@ -1107,7 +1107,7 @@ public class Functions {
 		return general;
 	}
 
-	public static String concept(Set<Description> descriptions) {
+	/**	public static String concept(Set<Description> descriptions) {
 		for(Description description : descriptions) {
 			if(description.getType() == DescriptionType.concept) {
 				return description.getDescription();

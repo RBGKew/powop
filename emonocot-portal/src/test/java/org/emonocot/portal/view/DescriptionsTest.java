@@ -58,7 +58,7 @@ public class DescriptionsTest {
 		d2.setDescription("Basal leaves");
 		d2.setAuthority(o1);
 
-		d3.setType(DescriptionType.morphologyReproductiveFlowers);
+		d3.setType(DescriptionType.morphologyReproductiveFlower);
 		d3.setDescription("Large");
 		d3.setAuthority(o2);
 
@@ -94,7 +94,7 @@ public class DescriptionsTest {
 
 	@Test
 	public void testMultiTypeDescriptions() {
-		d1.setTypes(ImmutableSortedSet.<DescriptionType>of(useAnimalFoodBees, morphologyReproductiveFlowers));
+		d1.setTypes(ImmutableSortedSet.<DescriptionType>of(useAnimalFoodBees, morphologyReproductiveFlower));
 		d1.setDescription("BEES!!!");
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(d1));

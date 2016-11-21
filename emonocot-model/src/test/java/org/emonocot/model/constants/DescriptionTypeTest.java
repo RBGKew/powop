@@ -22,7 +22,7 @@ public class DescriptionTypeTest {
 
 	@Test
 	public void testFromHierarchicalIdentifier() {
-		assertEquals(fromString("morphology:reproductive:flowers:perianth"), morphologyReproductiveFlowersPerianth);
+		assertEquals(fromString("morphology:reproductive:flower:perianth"), morphologyReproductiveFlowerPerianth);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -47,7 +47,7 @@ public class DescriptionTypeTest {
 
 	@Test
 	public void testIsA() {
-		assertTrue(morphologyReproductiveFlowers.isA(morphology));
+		assertTrue(morphologyReproductiveFlower.isA(morphology));
 		assertTrue(useAnimalFoodGrainsCereals.isA(use));
 		assertTrue(use.isA(use));
 	}
