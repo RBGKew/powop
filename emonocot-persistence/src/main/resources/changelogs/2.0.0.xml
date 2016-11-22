@@ -9,4 +9,11 @@
       <column name="abbreviation" type="varchar(255)"/>
     </addColumn>
   </changeSet>
+
+  <changeSet id="2016-11-22_01" author="ji10kg">
+    <comment>Add index to description_types</comment>
+    <createIndex tableName="description_types" indexName="DescriptionType_description_id_IDX">
+      <column name="description_id" type="bigint(20)"/>
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>
