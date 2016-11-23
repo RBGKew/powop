@@ -20,7 +20,9 @@ public class ImageHelper {
 		boolean modal = options.hash("lightbox", true);
 		String figureClass = options.hash("figure-class");
 		String imgUrl = String.format("%s_%s.jpg", image.getAccessUri(), type);
-		String imgTag = String.format("<img src=\"%s\" title=\"%s\"/>", imgUrl, image.getTitle().toString());
+		String imgTag = String.format("<img src=\"%s\" title=\"%s\"/>",
+				imgUrl,
+				image.getTitle() == null ? "" : image.getTitle());
 
 		StringBuffer caption = new StringBuffer();
 
