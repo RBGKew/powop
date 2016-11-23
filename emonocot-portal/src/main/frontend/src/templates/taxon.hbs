@@ -443,16 +443,26 @@
                   <thead>
                     <tr>
                       <th>Date Identified</th>
+                      <th>Reference</th>
                       <th>Herbarium Specimen</th>
-                      <th>Notes</th>
+                      <th>Type Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {{#each identifications}}
-                    <tr>
+                      <tr
+                        {{#if thumbnail}}
+                        data-toggle="popover"
+                        data-html="true"
+                        data-placement="left"
+                        data-content='<img src="{{thumbnail}}.jpg"/>'
+                        data-trigger="hover"
+                        {{/if}}
+                      >
                       <td>{{date}}</td>
-                      <td><a href="{{url}}">{{barcode}}</a></td>
                       <td>{{notes}}</td>
+                      <td><a href="{{url}}">{{barcode}}</a></td>
+                      <td>{{typeStatus}}</td>
                     </tr>
                     {{/each}}
                   </tbody>

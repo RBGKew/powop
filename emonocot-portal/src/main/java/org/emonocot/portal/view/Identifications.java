@@ -10,10 +10,12 @@ import org.joda.time.format.DateTimeFormat;
 public class Identifications {
 
 	class Identification {
-		public String date;
 		public String barcode;
-		public String url;
+		public String date;
 		public String notes;
+		public String thumbnail;
+		public String typeStatus;
+		public String url;
 	}
 
 	List<Identification> identifications;
@@ -29,8 +31,10 @@ public class Identifications {
 			this.identifications = new ArrayList<>();
 			for(org.emonocot.model.Identification identification : taxon.getIdentifications()) {
 				Identification id = new Identification();
-				id.url = identification.getIdentificationReferences();
-				id.notes = identification.getIdentificationRemarks();
+				id.url = identification.getIdentifiedBy();
+				id.notes = identification.getIdentificationReferences();
+				id.thumbnail = identification.getIdentificationRemarks();
+				id.typeStatus = identification.getTypeStatus();
 
 				if(identification.getDateIdentified() != null) {
 					id.date = identification.getDateIdentified().toString(DateTimeFormat.mediumDate());

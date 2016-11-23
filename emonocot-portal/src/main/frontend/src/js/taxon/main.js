@@ -40,6 +40,9 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
       offset: 75
     });
 
+    // enable popovers
+    $('[data-toggle="popover"]').popover();
+
     map.initialize();
   }
 

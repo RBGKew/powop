@@ -31,10 +31,6 @@
       color: $primary;
     }
 
-    [data-toggle="popover"] {
-      color: $primary;
-    }
-
     .modal-backdrop.in {
       background-color: darken($primary,30);
     }
