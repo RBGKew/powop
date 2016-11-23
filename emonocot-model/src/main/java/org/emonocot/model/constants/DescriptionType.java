@@ -419,7 +419,7 @@ public enum DescriptionType {
 	public static final DescriptionType generalDescriptionType = habit;
 
 	public static final ImmutableMap<String, Set<DescriptionType>> searchCategories = ImmutableMap.<String, Set<DescriptionType>>builder()
-			.put("Appearance", ImmutableSet.<DescriptionType>of(
+			.put("appearance", ImmutableSet.<DescriptionType>of(
 					constructionalOrganisationGrowth,
 					diagnostic,
 					morphologyGeneral,
@@ -482,7 +482,7 @@ public enum DescriptionType {
 					morphologyReproductiveStrobilus,
 					morphologyReproductiveSynangium,
 					morphologyGeneralRhizoidAndStolon))
-			.put("Flower", ImmutableSet.<DescriptionType>of(
+			.put("flower", ImmutableSet.<DescriptionType>of(
 					floralDiagram,
 					morphologyReproductiveFlower,
 					morphologyReproductiveFlowerAndroecium,
@@ -538,7 +538,7 @@ public enum DescriptionType {
 					morphologyReproductiveFlowerAndroeciumStamenAndStyle,
 					morphologyReproductiveFlowerPedicelAndOvary,
 					morphologyReproductiveFlowerPedicelAndPeduncle))
-			.put("Leaf", ImmutableSet.<DescriptionType>of(
+			.put("leaf", ImmutableSet.<DescriptionType>of(
 					morphologyLeaf,
 					morphologyLeafCataphyll,
 					morphologyLeafLamina,
@@ -558,7 +558,7 @@ public enum DescriptionType {
 					morphologyLeafStipel,
 					morphologyLeafStipule,
 					morphologyLeafVenation))
-			.put("Inflorescence", ImmutableSet.<DescriptionType>of(
+			.put("inflorescence", ImmutableSet.<DescriptionType>of(
 					morphologyReproductiveInflorescence,
 					morphologyReproductiveInflorescenceBract,
 					morphologyReproductiveInflorescenceBractGlume,
@@ -576,13 +576,13 @@ public enum DescriptionType {
 					morphologyReproductiveInflorescenceSpadix,
 					morphologyReproductiveInflorescenceSpikelet,
 					morphologyReproductiveInflorescenceSynflorescence))
-			.put("Fruit", ImmutableSet.<DescriptionType>of(
+			.put("fruit", ImmutableSet.<DescriptionType>of(
 					morphologyReproductiveFruit,
 					morphologyReproductiveFruitCalyx,
 					morphologyReproductiveFruitInfructescence,
 					morphologyReproductiveFruitPyrene,
 					morphologyReproductiveFruitVitta))
-			.put("Seed", ImmutableSet.<DescriptionType>of(
+			.put("seed", ImmutableSet.<DescriptionType>of(
 					morphologyReproductiveSeed,
 					morphologyReproductiveSeedAril,
 					morphologyReproductiveSeedCotyledon,
@@ -595,7 +595,7 @@ public enum DescriptionType {
 					morphologyReproductiveSeedPappus,
 					morphologyReproductiveSeedTesta,
 					lifeStageSeedling))
-			.put("Cloning", ImmutableSet.<DescriptionType>of(
+			.put("cloning", ImmutableSet.<DescriptionType>of(
 					vegetativeMultiplication,
 					vegetativeMultiplicationBulb,
 					vegetativeMultiplicationBulbil,
