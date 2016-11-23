@@ -16,4 +16,18 @@
       <column name="description_id" type="bigint(20)"/>
     </createIndex>
   </changeSet>
+
+  <changeSet id="2016-11-22_02" author="ji10kg">
+    <comment>change caption to text type</comment>
+    <modifyDataType tableName="image"
+      columnName="caption"
+      newDataType="text" />
+  </changeSet>
+
+  <changeSet id="2016-11-23_01" author="ji10kg">
+    <comment>Add owner field to Image</comment>
+    <addColumn tableName="image">
+      <column name="owner" type="varchar(255)"/>
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>

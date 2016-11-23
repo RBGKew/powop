@@ -306,7 +306,7 @@
              aria-expanded="true">
               <h2>
                 <b>
-                  Includes {{count}} Accepted {{childRank taxon}}
+                  Accepted {{childRank taxon}}
                 </b>
               </h2>
           </a>
@@ -319,6 +319,7 @@
           </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside children-main collapse">
+            <p>Includes {{count}} Accepted {{childRank taxon}}</p>
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
@@ -343,7 +344,7 @@
              aria-expanded="true">
               <h2>
                 <b>
-                  Has {{count}} Synonyms
+                  Synonyms
                 </b>
               </h2>
           </a>
@@ -356,6 +357,7 @@
           </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside synonyms-main collapse">
+            <p>Has {{count}} Synonyms</p>
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}

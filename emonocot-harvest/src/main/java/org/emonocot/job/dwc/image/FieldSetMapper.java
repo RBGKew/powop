@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import org.emonocot.api.job.ExifTerm;
-import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.Iptc4xmpTerm;
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.api.job.Wgs84Term;
@@ -32,6 +31,7 @@ import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.MediaType;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.XmpRightsTerm;
 import org.gbif.dwc.terms.XmpTerm;
 import org.gbif.dwc.terms.AcTerm;
 import org.slf4j.Logger;
@@ -58,8 +58,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void mapField(final Image object, final String fieldName,
-			final String value) throws BindException {
+	public void mapField(final Image object, final String fieldName, final String value) throws BindException {
 		super.mapField(object, fieldName, value);
 		Term term = TermFactory.findTerm(fieldName);
 		if (term instanceof DcTerm) {
@@ -99,10 +98,9 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				MediaType mediaType = conversionService.convert(value, MediaType.class);
 				object.setType(mediaType);
 				break;
-			default:
-				break;
 			}
 		}
+
 		if (term instanceof AcTerm) {
 			AcTerm AcTerm = (AcTerm)term;
 			switch (AcTerm) {
@@ -145,8 +143,6 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case subjectCategoryVocabulary:
 				object.setSubjectCategoryVocabulary(htmlSanitizer.sanitize(value));
 				break;
-			default:
-				break;
 			}
 		}
 		// WGS84 Terms
@@ -159,20 +155,26 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case longitude:
 				object.setLongitude(conversionService.convert(value, Double.class));
 				break;
-			default:
-				break;
 			}
 		}
+
 		if (term instanceof XmpTerm) {
 			XmpTerm xmpTerm = (XmpTerm)term;
 			switch(xmpTerm) {
 			case Rating:
 				object.setRating(conversionService.convert(value, Double.class));
 				break;
-			default:
+			}
+		}
+
+		if (term instanceof XmpRightsTerm) {
+			XmpRightsTerm xrt = (XmpRightsTerm)term;
+			switch(xrt) {
+			case Owner:
 				break;
 			}
 		}
+
 		if (term instanceof Iptc4xmpTerm) {
 			Iptc4xmpTerm iptc4xmpTerm = (Iptc4xmpTerm)term;
 			switch (iptc4xmpTerm) {
@@ -202,9 +204,6 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case PixelYDimension:
 				object.setPixelYDimension(conversionService.convert(value, Integer.class));
 				break;
-			default:
-
-				break; 
 			}
 		}
 	}

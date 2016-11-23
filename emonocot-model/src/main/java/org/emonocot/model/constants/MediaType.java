@@ -17,68 +17,42 @@
 package org.emonocot.model.constants;
 
 /**
- * @author jk00kg
  * See <a href="http://rs.gbif.org/vocabulary/dcterms/type.xml">http://rs.gbif.org/vocabulary/dcterms/type.xml</a>
  */
 public enum MediaType {
 
-	/**
-	 *
-	 */
 	Collection,
 
-	/**
-	 *
-	 */
 	Dataset,
 
-	/**
-	 *
-	 */
 	Event,
 
-	/**
-	 *
-	 */
 	Image,
 
-	/**
-	 *
-	 */
 	InteractiveResource,
 
-	/**
-	 *
-	 */
 	Service,
 
-	/**
-	 *
-	 */
 	Software,
 
-	/**
-	 *
-	 */
 	Sound,
 
-	/**
-	 *
-	 */
 	Text,
 
-	/**
-	 *
-	 */
 	PhysicalObject,
 
-	/**
-	 *
-	 */
 	StillImage,
 
-	/**
-	 *
-	 */
 	MovingImage;
+
+	public static MediaType fromString(String type) {
+		if(type != null) {
+			for(MediaType mt : values()) {
+				if(type.equalsIgnoreCase(mt.name())) {
+					return mt;
+				}
+			}
+		}
+		return null;
+	}
 }

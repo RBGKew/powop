@@ -46,6 +46,7 @@ import org.emonocot.model.marshall.json.TaxonSerializer;
 import org.emonocot.model.solr.ImageSolrInputDocument;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,6 +114,8 @@ public class Image extends Multimedia {
 	private Double rating;
 
 	private String subjectCategoryVocabulary;
+
+	private String owner;
 
 	@Size(max = 255)
 	public String getSubject() {
@@ -242,6 +245,7 @@ public class Image extends Multimedia {
 		this.associatedSpecimenReference = associatedSpecimenReference;
 	}
 
+	@Type(type="text")
 	public String getCaption() {
 		return caption;
 	}
@@ -383,5 +387,13 @@ public class Image extends Multimedia {
 
 	public void setSubjectCategoryVocabulary(String subjectCategoryVocabulary) {
 		this.subjectCategoryVocabulary = subjectCategoryVocabulary;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 }
