@@ -118,7 +118,7 @@
 								</tr>
 							</thead>
 							<tbody id="resources">
-								<c:forEach var="resource" items="${organisation.resources}" begin="0" end="9">
+								<c:forEach var="resource" items="${organisation.resources}" begin="0" end="50">
 									<tr>
 										<td>
 											<spring:url var="resourceUrl" value="/resource/${resource.id}"/>
@@ -147,13 +147,13 @@
 					              <spring:message code="previous" />
 				                </a>
 				              </li>
-		                      <li class="active"><a href="#">1 - <c:choose><c:when test="${fn:length(organisation.resources) gt 10}">10</c:when><c:otherwise>${fn:length(organisation.resources)}</c:otherwise></c:choose></a></li>
+		                      <li class="active"><a href="#">1 - <c:choose><c:when test="${fn:length(organisation.resources) gt 50}">10</c:when><c:otherwise>${fn:length(organisation.resources)}</c:otherwise></c:choose></a></li>
 		                      <c:choose>
-		                        <c:when test="${fn:length(organisation.resources) gt 10}">				
+		                        <c:when test="${fn:length(organisation.resources) gt 50}">
 				                  <li class="next">
 				                    <c:url value="/resource" var="nextUrl">						  
 							          <c:param name="facet" value="resource.organisation_s:${organisation.identifier}"/>
-							          <c:param name="limit" value="10" />
+							          <c:param name="limit" value="50" />
 						              <c:param name="start" value="1" />
 						              <c:param name="sort" value="resource.last_harvested_dt_desc" />
                                     </c:url>

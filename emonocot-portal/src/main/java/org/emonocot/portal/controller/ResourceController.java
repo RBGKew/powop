@@ -205,7 +205,7 @@ public class ResourceController extends GenericController<Resource, ResourceServ
 	@RequestMapping(produces = "text/html", method = RequestMethod.GET, params = {"!form"})
 	public String list(Model model,
 			@RequestParam(value = "query", required = false) String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "50") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
