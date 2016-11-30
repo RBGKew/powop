@@ -398,7 +398,7 @@
 						</goals>
 						<configuration>
 							<image>${docker.registry}portal</image>
-							<newName>${docker.registry}portal:${project.version}</newName>
+							<newName>${docker.registry}portal:${project.version}-${buildNumber}</newName>
 						</configuration>
 					</execution>
 

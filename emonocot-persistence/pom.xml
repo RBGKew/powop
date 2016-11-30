@@ -172,7 +172,7 @@
             </goals>
             <configuration>
               <image>${docker.registry}solr</image>
-              <newName>${docker.registry}solr:${project.version}</newName>
+              <newName>${docker.registry}solr:${project.version}-${buildNumber}</newName>
             </configuration>
           </execution>
 
@@ -197,7 +197,7 @@
             </goals>
             <configuration>
               <image>${docker.registry}db</image>
-              <newName>${docker.registry}db:${project.version}</newName>
+              <newName>${docker.registry}db:${project.version}-${buildNumber}</newName>
             </configuration>
           </execution>
 
@@ -222,7 +222,7 @@
             </goals>
             <configuration>
               <image>${docker.registry}geodb</image>
-              <newName>${docker.registry}geodb:${project.version}</newName>
+              <newName>${docker.registry}geodb:${project.version}-${buildNumber}</newName>
             </configuration>
           </execution>
         </executions>
