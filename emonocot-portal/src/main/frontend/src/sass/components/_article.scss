@@ -67,6 +67,28 @@ body {
   }
 }
 
+.c-article-desc-table {
+    border-collapse: separate;
+    border-spacing: 0 7px;
+  @media (min-width: $dl-horizontal-breakpoint) {
+    tr {
+      line-height: 20px;
+    }
+    th {
+      float: left;
+      width: ($dl-horizontal-offset - 30);
+      clear: left;
+      text-align: right;
+      vertical-align:top;
+      margin-right:10px;
+    }
+    td {
+      margin-left: $dl-horizontal-offset;
+      vertical-align:top;
+    }
+  }
+}
+
 
 // Component - Article Navigation
 .c-article-nav {

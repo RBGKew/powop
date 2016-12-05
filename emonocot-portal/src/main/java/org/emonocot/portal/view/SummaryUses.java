@@ -81,7 +81,11 @@ public class SummaryUses {
 		for(Entry<String, Set<String>> entrySet : usesByPreposition.entrySet()){
 			phraseList.add(String.format(entrySet.getKey(), phraseUtils.constructList(entrySet.getValue())));
 		}
-		return phraseUtils.constructList(phraseList);
+		String sentence = phraseUtils.constructList(phraseList);
+		if(!sentence.startsWith("has")){
+			sentence = "used " + sentence;
+		}
+		return sentence;
 	}
 	
 }
