@@ -149,10 +149,7 @@ body {
 }
 
 .c-article-section__title {
-  @include make-md-column(2);
-  @include make-lg-column(3);
-
-  h2{
+  h2 {
     font-weight: bold;
   }
 }

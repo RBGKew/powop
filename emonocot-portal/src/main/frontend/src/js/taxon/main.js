@@ -3,8 +3,10 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
 
     // collapse all sections if screen size is less than 768px
     if ($(window).width() < 768) {
-      $(".c-article-section__content").removeClass("in");
-      $(".c-article-section__aside").removeClass("in");
+      $(".c-article-section").map(function(__, section) {
+        $(section).find('.container').removeClass("in");
+        $(section).find('a.collapser').first().addClass('collapsed');
+      });
     }
 
     // initialize popup for header image
@@ -35,9 +37,15 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
       }
     })
 
+    // enable scrollspy on navbar
     $('body').scrollspy({
       target: '.navbar',
       offset: 75
+    });
+
+    // open collapsed sections when navbar link clicked
+    $('.c-article-nav a').click(function() {
+      $($(this).attr('href') + ' .container').collapse('show');
     });
 
     // enable popovers
