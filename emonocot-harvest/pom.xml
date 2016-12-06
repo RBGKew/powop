@@ -370,7 +370,7 @@
             </goals>
             <configuration>
               <image>${docker.registry}harvester</image>
-              <newName>${docker.registry}harvester:${project.version}</newName>
+              <newName>${docker.registry}harvester:${project.version}-${buildNumber}</newName>
             </configuration>
           </execution>
         </executions>
