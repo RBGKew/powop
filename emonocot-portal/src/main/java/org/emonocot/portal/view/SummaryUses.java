@@ -82,7 +82,7 @@ public class SummaryUses {
 			phraseList.add(String.format(entrySet.getKey(), phraseUtils.constructList(entrySet.getValue())));
 		}
 		String sentence = phraseUtils.constructList(phraseList);
-		if(!sentence.startsWith("has")){
+		if(!sentence.isEmpty() && !sentence.startsWith("has")){
 			sentence = "used " + sentence;
 		}
 		return sentence;
