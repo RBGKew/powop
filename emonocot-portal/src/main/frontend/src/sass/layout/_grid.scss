@@ -4,13 +4,18 @@
 .grid {}
 
 .grid--columns {
-  > * {
-    @include make-sm-column(6);
-    @include make-md-column(4);
-    @include make-lg-column(3);
-    @include make-hg-column(3);
+      .grid {
+        > * {
+          @include make-sm-column(6);
+          @include make-md-column(4);
+          @include make-lg-column(3);
+          @include make-hg-column(3);
+        }
+      }
   }
-}
+
+
+
 
 .grid--lines {
   margin: 0 ($grid-gutter-width / 2);
@@ -29,10 +34,10 @@
 }
 
 .container-fluid {
-  
+
   padding-left: $grid-gutter-width / 2;
-  padding-right: $grid-gutter-width / 2; 
-  
+  padding-right: $grid-gutter-width / 2;
+
   @media (min-width: $screen-md-min) {
     padding-left: $grid-gutter-width;
     padding-right: $grid-gutter-width;

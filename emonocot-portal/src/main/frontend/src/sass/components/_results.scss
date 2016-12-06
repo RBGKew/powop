@@ -25,10 +25,21 @@
     .Species { background-color: #669933; }
     .Synonym { background-color: #c7c7c7; }
   }
+
 }
+
 .selectedFacet {
   color: #000 !important;
 }
-.selected_background{
-    background-color: #e7e7e7 !important;
-}
+
+.grid--rows {
+    #grid_view {
+      background-color: #e7e7e7 !important;
+    }
+  }
+
+  .grid--columns {
+    #list_view {
+      background-color: #e7e7e7 !important;
+    }
+  }

@@ -113,7 +113,9 @@ public class Summary {
 				return String.format("This %s is accepted.", thing);
 			}
 		}
-
-		return String.format("This %s is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
+		if(taxon.getTaxonRank() != null) {
+			return String.format("This %s is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
+		}
+		return String.format("This is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
 	}
 }

@@ -5,11 +5,11 @@ require(['jquery', 'bootstrap', 'search', 'taxon', 'home'], function($){
     $('[data-toggle="tooltip"]').tooltip();
 
     $(".c-results-outer").on("click", ".js-show-list", function() {
-      $(".grid").addClass("grid--rows").removeClass("grid--columns");
+      $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
     });
 
     $(".c-results-outer").on("click", ".js-show-grid", function() {
-      $(".grid").addClass("grid--columns").removeClass("grid--rows");
+      $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
     });
 
     if($('#content-navbar').length > 0) {
