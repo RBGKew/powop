@@ -110,16 +110,18 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <dl id="descriptions-{{source.abbreviation}}-{{@index}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
+              <table id="descriptions-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
-                <dt>{{message type}}</dt>
-                <dd>
-                {{#each descriptions}}
-                <span>{{description}}</span>
+                <tr>
+                  <th>{{message type}}</th>
+                  <td>
+                  {{#each descriptions}}
+                  <span>{{description}}</span>
+                  {{/each}}
+                  </td>
+                </tr>
                 {{/each}}
-                </dd>
-                {{/each}}
-              </dl>
+              </table>
             </div>
             {{/each}}
           </div>
@@ -160,16 +162,18 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} as {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <dl id="uses-{{source.abbreviation}}-{{@index}}" class="dl-horizontal collapse{{#if @first}} in{{/if}}">
+              <table id="uses-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
-                <dt>{{message type}}</dt>
-                <dd>
-                {{#each descriptions}}
-                <span>{{description}}</span>
+                <tr>
+                  <th>{{message type}}</th>
+                  <td>
+                  {{#each descriptions}}
+                  <span>{{description}}</span>
+                  {{/each}}
+                  </td>
+                </tr>
                 {{/each}}
-                </dd>
-                {{/each}}
-              </dl>
+              </table>
             </div>
             {{/each}}
           </div>
