@@ -5,6 +5,7 @@ import org.emonocot.model.registry.Organisation;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
+import com.google.common.base.Strings;
 
 public class ImageHelper {
 
@@ -24,37 +25,53 @@ public class ImageHelper {
 				imgUrl,
 				image.getTitle() == null ? "" : image.getTitle());
 
-		StringBuffer caption = new StringBuffer();
-
-		if(image.getTitle() != null) {
-			caption.append(image.getTitle());
-		}
-
-		if(image.getCaption() != null) {
-			if(image.getTitle() != null) {
-				caption.append(" ");
-			}
-			caption.append(image.getCaption());
-		}
-
-		caption.append("<small>");
-		caption.append(" ");
-		if(image.getOwner() != null) {
-			caption.append(image.getOwner());
-		} else if(image.getCreator() != null) {
-			caption.append(image.getCreator());
-		}
-		caption.append("</small>");
-
 		if(figureClass != null) {
 			imgTag = String.format("<figure class=\"%s\">%s</figure>", figureClass, imgTag);
 		}
 
 		if(modal) {
 			imgTag = String.format("<a href=\"%s\" title=\"%s\">%s</a>",
-					String.format("%s_fullsize.jpg", image.getAccessUri()), caption.toString(), imgTag);
+					String.format("%s_fullsize.jpg", image.getAccessUri()), generateCaption(image), imgTag);
 		}
 
 		return new Handlebars.SafeString(imgTag);
+	}
+
+	private String generateCaption(Image image) {
+		StringBuffer caption = new StringBuffer();
+
+		caption.append(Strings.nullToEmpty(image.getTitle()));
+
+		if(Strings.isNullOrEmpty(image.getTitle())) {
+			caption.append(" ");
+		}
+		caption.append(Strings.nullToEmpty(image.getCaption()));
+
+		caption.append("<small>");
+		String owner = image.getOwner();
+		String creator = image.getCreator();
+		String source = image.getSource();
+
+		if(!Strings.isNullOrEmpty(owner) && Strings.isNullOrEmpty(creator)) {
+			caption.append("© ");
+			caption.append(owner);
+		} else if(!Strings.isNullOrEmpty(creator) && Strings.isNullOrEmpty(owner)) {
+			caption.append("© ");
+			caption.append(creator);
+		} else if(!Strings.isNullOrEmpty(creator) && !Strings.isNullOrEmpty(owner)) {
+			if(creator.equals(owner)) {
+				caption.append(" © ");
+				caption.append(owner);
+			} else {
+				caption.append(creator);
+				caption.append(" © ");
+				caption.append(owner);
+			}
+		} else {
+			caption.append(source);
+		}
+		caption.append("</small>");
+
+		return caption.toString();
 	}
 }
