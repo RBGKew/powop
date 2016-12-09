@@ -12,27 +12,23 @@ import com.google.common.collect.Ordering;
 
 public class ScientificNames {
 
-	private Collection<Taxon> taxa;
 	private Set<Organisation> sources;
 	private List<Taxon> sorted;
+	private Ordering<Taxon> sortByName = new Ordering<Taxon>() {
+		public int compare(Taxon t1, Taxon t2) {
+			return t1.getScientificName().compareTo(t2.getScientificName());
+		}
+	};
 
 	public ScientificNames(Collection<Taxon> taxa) {
-		this.taxa = taxa;
 		this.sources = new HashSet<>();
+		this.sorted = sortByName.sortedCopy(taxa);
 		for(Taxon taxon : taxa) {
 			sources.add(taxon.getAuthority());
 		}
 	}
 
 	public List<Taxon> getSorted() {
-		if(sorted == null) {
-			Ordering<Taxon> sortByName = new Ordering<Taxon>() {
-				public int compare(Taxon t1, Taxon t2) {
-					return t1.getScientificName().compareTo(t2.getScientificName());
-				}
-			};
-			sorted = sortByName.sortedCopy(taxa);
-		}
 		return sorted;
 	}
 
@@ -41,6 +37,6 @@ public class ScientificNames {
 	}
 
 	public int getCount() {
-		return taxa.size();
+		return sorted.size();
 	}
 }
