@@ -42,7 +42,7 @@ public class ImageHelper {
 
 		caption.append(Strings.nullToEmpty(image.getTitle()));
 
-		if(Strings.isNullOrEmpty(image.getTitle())) {
+		if(!Strings.isNullOrEmpty(image.getTitle())) {
 			caption.append(" ");
 		}
 		caption.append(Strings.nullToEmpty(image.getCaption()));

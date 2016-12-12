@@ -18,7 +18,7 @@ public class SolrFieldNameMappings {
 			.put("fruit", "taxon.description_fruit_t")
 			.put("genus", "taxon.genus_t")
 			.put("inflorescence", "taxon.description_inflorescence_t")
-			.put("leaves", "taxon.description_leaves_t")
+			.put("leaf", "taxon.description_leaf_t")
 			.put("location", "taxon.distribution_t")
 			.put("name", "taxon.scientific_name_t")
 			.put("seed", "taxon.description_seed_t")

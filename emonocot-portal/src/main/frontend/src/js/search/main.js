@@ -108,7 +108,8 @@ define(function(require) {
 
     $('.c-search')
       .on('keypress', 'input.refine', handleKeypress)
-      .on('change', '#names .c-select', updateSuggester);
+      .on('change', '#names .c-select', updateSuggester)
+      .on('change', '#characteristics .c-select', updateSuggester);
 
     $('.c-results-outer')
       .on('click', '.facets', setFacet)

@@ -1380,12 +1380,12 @@
     </lst>
 
     <lst name="suggester">
-      <str name="name">characteristic-leaves</str>
+      <str name="name">characteristic-leaf</str>
       <str name="lookupImpl">FreeTextLookupFactory</str>
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
       <str name="ngrams">3</str>
-      <str name="field">taxon.description_leaves_t</str>
+      <str name="field">taxon.description_leaf_t</str>
       <str name="indexPath">characteristic_suggest</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>

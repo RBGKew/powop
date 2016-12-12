@@ -3,6 +3,7 @@ package org.emonocot.portal.view.helpers;
 import java.io.IOException;
 
 import org.emonocot.model.Taxon;
+import org.gbif.ecat.voc.Rank;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +26,7 @@ public class NameHelperTest extends AbstractHelperTest {
 		taxon.setIdentifier("urn:lsid:ipni.org:names:1-1");
 		taxon.setScientificName("Aralidiaceae");
 		taxon.setScientificNameAuthorship("Philipson & B.C.Stone");
+		taxon.setTaxonRank(Rank.FAMILY);
 	}
 
 	@Test
@@ -46,8 +48,9 @@ public class NameHelperTest extends AbstractHelperTest {
 		child.setScientificName("aaa");
 		child.setScientificNameAuthorship("L.");
 		child.setParentNameUsage(taxon);
+		child.setTaxonRank(Rank.GENUS);
 
 		shouldCompileTo("{{classification this}}", child,
-				"<ol><li><a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em>Aralidiaceae</em> Philipson & B.C.Stone</a><ol><li><h1 class=\"c-family-list__heading\"><em>aaa</em> L.</h1></li><ol></li></ol>");
+				"<ol><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em>Aralidiaceae</em> Philipson & B.C.Stone</a><ol><li><h1 class=\"c-family-list__heading\"><em>aaa</em> L.</h1></li><ol></li></ol>");
 	}
 }

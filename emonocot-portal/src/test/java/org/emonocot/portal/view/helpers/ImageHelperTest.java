@@ -25,6 +25,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 		image.setAccessUri("http://assets.blah.com/cool-img");
 		image.setTitle("Cool brah");
 		image.setCaption("Coolio");
+		image.setCreator("Some dude");
 	}
 
 	@Test
@@ -35,14 +36,14 @@ public class ImageHelperTest extends AbstractHelperTest {
 	@Test
 	public void thumbnailWithLightbox() throws IOException {
 		shouldCompileTo("{{thumbnailImage this}}", image,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah\" data-footer=\"Coolio\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah Coolio<small>© Some dude</small>\">" +
 				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></a>");
 	}
 
 	@Test
 	public void thumbnailInFigureWithLightbox() throws IOException {
 		shouldCompileTo("{{thumbnailImage this figure-class=\"woo\"}}", image,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah\" data-footer=\"Coolio\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah Coolio<small>© Some dude</small>\">" +
 				"<figure class=\"woo\"><img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></figure></a>");
 	}
 }

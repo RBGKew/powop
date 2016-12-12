@@ -595,7 +595,7 @@ public enum DescriptionType {
 					morphologyReproductiveSeedPappus,
 					morphologyReproductiveSeedTesta,
 					lifeStageSeedling))
-			.put("cloning", ImmutableSet.<DescriptionType>of(
+			.put("vegitativePropagation", ImmutableSet.<DescriptionType>of(
 					vegetativeMultiplication,
 					vegetativeMultiplicationBulb,
 					vegetativeMultiplicationBulbil,

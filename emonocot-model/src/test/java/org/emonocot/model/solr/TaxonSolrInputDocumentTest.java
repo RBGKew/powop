@@ -35,6 +35,7 @@ public class TaxonSolrInputDocumentTest {
 	private class TestCase {
 		public Rank rank;
 		public String solrFieldName;
+		public Description description;
 
 		public TestCase withRank(Rank rank) {
 			this.rank = rank;
@@ -43,6 +44,13 @@ public class TaxonSolrInputDocumentTest {
 
 		public TestCase andSolrFieldName(String fieldName) {
 			this.solrFieldName = fieldName;
+			return this;
+		}
+
+		public TestCase withDescription(String description, DescriptionType... types) {
+			this.description = new Description();
+			this.description.setDescription(description);
+			this.description.setTypes(new TreeSet<>(Arrays.asList(types)));
 			return this;
 		}
 	}
@@ -119,29 +127,25 @@ public class TaxonSolrInputDocumentTest {
 
 	@Test
 	public void descriptions() throws Exception {
-		Description[] descriptions = {
-				buildDescription("Description 1. Blah blah blah", DescriptionType.morphologyGeneralBud),
-				buildDescription("Description 2. Blah blah blah", DescriptionType.morphologyReproductive, DescriptionType.sexMale),
-				buildDescription("Use 1. Blah blah blah", DescriptionType.use),
-				buildDescription("Use 2. Blah blah blah", DescriptionType.useAnimalFoodHerbage)
+		// solr field names need to match those in suggester definitions in solrconfig.xml
+		TestCase[] descriptionTests = {
+				new TestCase().withDescription("Appearance description", DescriptionType.morphologyGeneral).andSolrFieldName("taxon.description_appearance_t"),
+				new TestCase().withDescription("Flower description", DescriptionType.morphologyReproductiveFlower).andSolrFieldName("taxon.description_flower_t"),
+				new TestCase().withDescription("Leaf description", DescriptionType.morphologyLeaf).andSolrFieldName("taxon.description_leaf_t"),
+				new TestCase().withDescription("Inflorescence description", DescriptionType.morphologyReproductiveInflorescence).andSolrFieldName("taxon.description_inflorescence_t"),
+				new TestCase().withDescription("Fruit description", DescriptionType.morphologyReproductiveFruit).andSolrFieldName("taxon.description_fruit_t"),
+				new TestCase().withDescription("Seed description", DescriptionType.morphologyReproductiveSeed).andSolrFieldName("taxon.description_seed_t"),
+				new TestCase().withDescription("Cloning description", DescriptionType.vegetativeMultiplication).andSolrFieldName("taxon.description_vegitativePropagation_t"),
+				new TestCase().withDescription("Use description", DescriptionType.useAnimalFoodHerbage).andSolrFieldName("taxon.description_use_t")
 		};
 
-		Taxon taxon = new Taxon();
-		taxon.setDescriptions(ImmutableSet.<Description>copyOf(descriptions));
-
-		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
-		String expectedField1 = "taxon.description_appearance_t";
-		String expectedField2 = "taxon.description_flower_t";
-		String expectedUse = "taxon.description_use_t";
-		String combinedDesceription = "taxon.description_t";
-
-		assertTrue("Expected " + expectedField1, doc.containsKey(expectedField1));
-		assertTrue("Expected " + expectedField2, doc.containsKey(expectedField2));
-		assertTrue("Expected " + expectedUse, doc.containsKey(expectedUse));
-		assertTrue("Expected " + combinedDesceription, doc.containsKey(combinedDesceription));
-		assertEquals("Description 1. Blah blah blah", doc.getFieldValue(expectedField1));
-		assertEquals("Description 2. Blah blah blah", doc.getFieldValue(expectedField2));
-		assertThat(doc.getFieldValues(expectedUse), containsInAnyOrder((Object)"Use 1. Blah blah blah", (Object)"Use 2. Blah blah blah"));
+		for(TestCase test : descriptionTests) {
+			Taxon taxon = new Taxon();
+			taxon.setDescriptions(ImmutableSet.<Description>of(test.description));
+			SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+			assertTrue("Expected " + test.solrFieldName, doc.containsKey(test.solrFieldName));
+			assertEquals(test.description.getDescription(), doc.getFieldValue(test.solrFieldName));
+		}
 	}
 
 	@Test

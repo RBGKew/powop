@@ -9,6 +9,7 @@ import org.gbif.ecat.voc.Rank;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
+import com.google.common.base.Strings;
 
 public class NameHelper {
 
@@ -55,10 +56,16 @@ public class NameHelper {
 			return String.format("<ol><li><h1 class=\"c-family-list__heading\">%s</h1></li><ol>",
 					nameAndAuthor(classification.get(index), options));
 		} else {
-			return String.format("<ol><li>%s: %s%s</li></ol>",
-					WordUtils.capitalize(classification.get(index).getTaxonRank().toString().toLowerCase()),
-					taxonLink(classification.get(index), options),
-					classificationLine(classification, index+1, options));
+			if(classification.get(index).getTaxonRank() == null) {
+				return String.format("<ol><li>%s%s</li></ol>",
+						taxonLink(classification.get(index), options),
+						classificationLine(classification, index+1, options));
+			} else {
+				return String.format("<ol><li>%s: %s%s</li></ol>",
+						WordUtils.capitalize(classification.get(index).getTaxonRank().toString().toLowerCase()),
+						taxonLink(classification.get(index), options),
+						classificationLine(classification, index+1, options));
+			}
 		}
 	}
 }
