@@ -11,6 +11,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.registry.Organisation;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
@@ -47,19 +48,14 @@ public class Images {
 			}
 		};
 
-	private static final Comparator<Image> byRating = new Comparator<Image>() {
-			@Override
-			public int compare(Image o1, Image o2) {
-				if(o2.getRating() != null && o1.getRating() != null){
-					return Double.compare(o2.getRating(), o1.getRating());
-				}if(o2.getRating() != null){
-					return 1;
-				}if(o2.getRating() != null){
-					return -1;
+	private static final Ordering<Image> byRating = Ordering.natural()
+			.reverse()
+			.nullsLast()
+			.onResultOf(new Function<Image, Double>() {
+				@Override public Double apply(Image image) {
+					return image.getRating();
 				}
-				return 0;
-			}
-		};
+			});
 
 	public Images(Taxon taxon) {
 		this.taxon = taxon;
@@ -74,8 +70,7 @@ public class Images {
 	}
 
 	public List<Image> getHeaderImages() {
-		return Ordering.from(byType)
-				.compound(byRating)
+		return byRating
 				.sortedCopy(images)
 				.subList(0, Math.min(images.size(), 1));
 	}
