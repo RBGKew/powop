@@ -400,7 +400,12 @@
         <div class="row">
           <div class="c-article-section__content">
             <h3>{{nameAndAuthor taxon}} appears in other Kew resources:</h3>
+            {{#if taxon.plantae }}
             <div><h4><a href="{{taxon.uri}}">IPNI - The International Plant Names Index</a></h4></div>
+            {{/if}}
+            {{#if taxon.fungi }}
+            <div><h4><a href="{{taxon.uri}}">IF - Index Fungorum</a></h4></div>
+            {{/if}}
             {{#with identifications}}
             <div>
               <a class="btn collapser collapsed"

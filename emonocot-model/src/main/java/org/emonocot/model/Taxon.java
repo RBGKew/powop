@@ -991,6 +991,16 @@ public class Taxon extends SearchableObject {
 		}
 	}
 
+	@Transient
+	public boolean isPlantae() {
+		return identifier.startsWith("urn:lsid:ipni.org");
+	}
+
+	@Transient
+	public boolean isFungi() {
+		return identifier.startsWith("urn:lsid:indexfungorum.org");
+	}
+
 	@Override
 	public SolrInputDocument toSolrInputDocument() {
 		return new TaxonSolrInputDocument(this).build();
