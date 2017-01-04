@@ -118,7 +118,11 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 
 	private String bodyClass(Taxon taxon) {
 		if(taxon.isAccepted()) {
-			return String.format("s-theme-%s", WordUtils.capitalizeFully(taxon.getTaxonRank().toString()));
+			if(taxon.getTaxonRank().isInfraspecific()) {
+				return "s-theme-Infraspecific";
+			} else {
+				return String.format("s-theme-%s", WordUtils.capitalizeFully(taxon.getTaxonRank().toString()));
+			}
 		} else {
 			return "s-theme-Synonym";
 		}
