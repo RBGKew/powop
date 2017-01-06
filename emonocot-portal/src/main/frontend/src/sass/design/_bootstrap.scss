@@ -5,7 +5,6 @@
   font-size: 15px;
 }
 
-
 /*
 * Navbar - Small layout tweaks.
 */
@@ -78,7 +77,7 @@
 .tab-pane {
   margin: 1em 0;
   @media (min-width: $screen-md-min) {
-    margin: 3em 0 2em;
+    margin: 1.5em 0 0 0;
   }
 }
 
@@ -106,13 +105,10 @@
   padding: 0;
 }
 
-
-
 /*
 * Btn Group - filters
 */
 .btn-group--filters {
-  margin: $padding-large-horizontal 0;
   @media (max-width: $screen-sm-min) { margin: 0; }
   .glyphicon {
     margin-left: 5px;

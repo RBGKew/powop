@@ -16,16 +16,17 @@
     color: #FFFFFF;
   }
 
+  &__refine {
+    padding-bottom: 1rem;
+  }
+
   &__title {
     margin: 0 0 1em;
     @media (min-width: $screen-md-min) { margin: 1em 0 1.5em; }
     @media (max-width: $screen-sm-min) { display: none; }
   }
 
-  &__filters {
-    border-bottom: $border-translucent;
-    display: none;
-  }
+  &__filters { display: none; }
 
   &__advanced {
     @media (min-width: $screen-md-min) {
@@ -38,7 +39,6 @@
       display: none;
     }
   }
-
 }
 
 .results-leaf {
