@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.emonocot.api.job.WCSPTerm;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -91,10 +92,17 @@ public class Summary {
 		return null;
 	}
 
-
-
+	
 	public String build(){
 		if(taxon.isAccepted()){
+			
+			Set<Description> descriptions = taxon.getDescriptions();
+			for(Description description : descriptions){
+				if(description.getTypes().contains(DescriptionType.summary)){
+					return description.getDescription();
+				}
+			}
+			
 			String location =  buildLocationandHabitat();
 			String uses = new SummaryUses().buildUses(taxon, messageSource);
 

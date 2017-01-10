@@ -148,8 +148,7 @@ public class ResponseBuilder {
 			snippets.add(" <b>" + key + "</b>: " + defaultName);
 		}
 		if(defaultDescription != null){
-			String key = WordUtils.capitalizeFully(fieldNames.get("taxon.description_snippet_t"));
-			snippets.add(" <b>" + key + "</b>: " + defaultDescription);
+			snippets.add(" <b>Summary</b>: " + defaultDescription);
 		}
 		return snippets;
 	}
