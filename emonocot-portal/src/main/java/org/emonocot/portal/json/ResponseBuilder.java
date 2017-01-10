@@ -112,7 +112,7 @@ public class ResponseBuilder {
 		}
 	}
 
-	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t", "taxon.genus_t", "taxon.family_t");
+	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t", "taxon.genus_t", "taxon.family_t", "searchable.sources_ss");
 	private void addSnippets(SearchResultBuilder result, SolrDocument document, Taxon taxon) {
 		List<String> snippets = new ArrayList<>();
 		if(highlights.get(document.get("id").toString()) != null) {
