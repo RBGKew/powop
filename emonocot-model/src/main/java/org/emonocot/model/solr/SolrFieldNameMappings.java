@@ -25,5 +25,6 @@ public class SolrFieldNameMappings {
 			.put("species", "taxon.species_t")
 			.put("synonym of", "taxon.synonyms_t")
 			.put("use", "taxon.description_use_t")
+			.put("source", "searchable.sources_ss")
 			.build();
 }
