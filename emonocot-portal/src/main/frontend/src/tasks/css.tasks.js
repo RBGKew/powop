@@ -32,7 +32,7 @@ module.exports = function (gulp, $, browserSync) {
         'autoprefixer': false
       }))
       .pipe(browserSync.stream())
-      .pipe($.rename('style.min.css'))
+      .pipe($.rename({extname: '.min.css'}))
       .pipe(gulp.dest('dist/css'));
     
     });

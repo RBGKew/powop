@@ -1084,6 +1084,11 @@
 				<version>1.0</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.eclipsesource.minimal-json</groupId>
+				<artifactId>minimal-json</artifactId>
+				<version>0.9.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

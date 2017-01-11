@@ -17,27 +17,11 @@ module.exports = function (gulp, $) {
 
   });
 
-	/*
-  * Copy js
-  */ 
-  gulp.task('copy:js', function() {
-		return gulp.src(['src/js/libs/modernizr.custom.js'])
-      .pipe(gulp.dest('dist/js'));
-  });
-
   /*
   * Copy svg
   */ 
   gulp.task('copy:svgs', function() {
 		return gulp.src('src/img/svg/**/*.svg')
       .pipe(gulp.dest('dist/img/svg'));
-  });
-
-  /*
-  * Copy videos
-  */ 
-  gulp.task('copy:videos',  function() {
-		return gulp.src('src/videos/**/*.{mp4, webm, ogg}')
-       .pipe(gulp.dest('dist/videos'));
   });
 };

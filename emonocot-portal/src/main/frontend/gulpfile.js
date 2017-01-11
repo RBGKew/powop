@@ -42,9 +42,9 @@ gulp.task('browser-sync', function() {
 /*
 * Combination tasks
 */
-gulp.task('copy', ['copy:fonts', 'copy:videos', 'copy:js']);
+gulp.task('copy', ['copy:fonts', 'copy:svgs']);
 gulp.task('images', ['images:minify']);
-gulp.task('clean', ['clean:images', 'clean:css', 'clean:js', 'clean:templates']);
+gulp.task('clean', ['clean:css', 'clean:js', 'clean:templates']);
 
 /*
 * Watch Task
@@ -57,18 +57,24 @@ gulp.task('dev', function() {
 /*
 *  Full build
 */
-gulp.task('default', function(cb){
-  $.runSequence('clean', 'images',  [
+gulp.task('default', function(cb) {
+  $.runSequence(
+    'clean',
     'copy',
-    'precompile',
+    'images',
     'js',
     'css',
-  ], cb);
+    'rev',
+    cb);
 });
 
 /*
 *  Aliases
 */
-gulp.task('styles', ['css']);
-gulp.task('scripts', ['precompile', 'js']);
+gulp.task('styles', function(cb) {
+  $.runSequence('css', 'rev', cb)
+});
+gulp.task('scripts', function(cb) {
+  $.runSequence('precompile', 'js', 'rev', cb)
+});
 gulp.task('serve', ['browser-sync']);

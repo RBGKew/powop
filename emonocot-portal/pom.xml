@@ -281,6 +281,10 @@
 			<version>1.10</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.eclipsesource.minimal-json</groupId>
+			<artifactId>minimal-json</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -312,6 +316,9 @@
 						</resource>
 						<resource>
 							<directory>src/main/frontend/src/templates</directory>
+						</resource>
+						<resource>
+							<directory>src/main/resources</directory>
 						</resource>
 					</webResources>
 					<encoding />

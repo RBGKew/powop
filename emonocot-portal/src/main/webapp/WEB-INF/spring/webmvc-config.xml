@@ -136,6 +136,7 @@
 				<bean class="org.emonocot.portal.view.helpers.BibliographyHelper" />
 				<bean class="org.emonocot.portal.view.helpers.ImageHelper" />
 				<bean class="org.emonocot.portal.view.helpers.NameHelper" />
+				<bean class="org.emonocot.portal.view.helpers.AssetHelper" />
 			</list>
 		</property>
 	</bean>

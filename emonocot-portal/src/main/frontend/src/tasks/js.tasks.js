@@ -1,26 +1,22 @@
 /*
  * Available tasks
  * -----------------
- * js - Run requirejs to create a sinle all.min.js file
+ * js - Run requirejs to create a single all.min.js file
  */
 module.exports = function (gulp, $) {
-
-  var defineModule = require('gulp-define-module');
-  var handlebars = require('gulp-handlebars');
-  var rjs = require('gulp-requirejs');
 
   gulp.task('precompile', function() {
     // precompile handlebars templates for use in frontend
     return gulp.src('src/templates/**/*.hbs')
-      .pipe(handlebars({
+      .pipe($.handlebars({
         handlebars: require('handlebars')
       }))
-      .pipe(defineModule('amd'))
+      .pipe($.defineModule('amd'))
       .pipe(gulp.dest('src/js/templates/'));
   });
 
-  gulp.task('js', ['precompile'], function() {
-    return rjs({
+  gulp.task('js', ['precompile'], function(cb) {
+    $.requirejs({
       baseUrl: 'src/js/',
       name: 'main',
       out: 'all.js',
@@ -30,9 +26,12 @@ module.exports = function (gulp, $) {
         // standard require.js shim options
       }
     })
-      .pipe(gulp.dest('dist/js'))
-      .pipe($.uglify())
-      .pipe($.rename('all.min.js'))
-      .pipe(gulp.dest('dist/js'));
+		.pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.uglify())
+    .pipe($.rename({extname: '.min.js'}))
+    .pipe($.sourcemaps.write('maps', {sourceMappingURLPrefix: '/js'}))
+    .pipe(gulp.dest('dist/js'));
+
+    cb();
   });
 };
