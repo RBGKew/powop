@@ -3,16 +3,22 @@ package org.emonocot.portal.json;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.util.SimpleOrderedMap;
+import org.emonocot.portal.controller.ApiController;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.emonocot.portal.json.SearchResultBuilder;
 import org.emonocot.portal.view.Images;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Joiner;
@@ -20,12 +26,17 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableSet;
 
 import org.emonocot.api.TaxonService;
+import org.emonocot.model.Description;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
+import org.emonocot.model.VernacularName;
+import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.solr.SolrFieldNameMappings;
 
 @Component
 public class ResponseBuilder {
+	
+	private static Logger logger = LoggerFactory.getLogger(ResponseBuilder.class);
 
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map.inverse();
 
@@ -94,19 +105,20 @@ public class ResponseBuilder {
 			for(Image image : images.getAll()) {
 				result.addImage(image.getAccessUri(), image.getCaption());
 			}
-
-			addSnippets(result, document);
-
+			
+			addSnippets(result, document, taxon);
+			
 			jsonBuilder.addResult(result);
 		}
 	}
 
-	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t", "taxon.genus_t", "taxon.family_t");
-	private void addSnippets(SearchResultBuilder result, SolrDocument document) {
+	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t", "taxon.genus_t", "taxon.family_t", "searchable.sources_ss");
+	private void addSnippets(SearchResultBuilder result, SolrDocument document, Taxon taxon) {
+		List<String> snippets = new ArrayList<>();
 		if(highlights.get(document.get("id").toString()) != null) {
 			Map<String, List<String>> highlight = highlights.get(document.get("id"));
 			if(!highlight.isEmpty()) {
-				List<String> snippets = new ArrayList<>();
+				
 				for(Entry<String, List<String>> entry : highlight.entrySet()) {
 					if(!entry.getValue().isEmpty()) {
 						if(fieldNames.containsKey(entry.getKey()) && !blacklist.contains(entry.getKey())) {
@@ -115,8 +127,55 @@ public class ResponseBuilder {
 						}
 					}
 				}
-				result.snippet(Joiner.on("<br/>").join(snippets));
+
 			}
 		}
+		if(snippets.isEmpty()){
+			snippets = defaultSnippet(taxon);
+		}
+		if(!snippets.isEmpty()){
+			result.snippet(Joiner.on("<br/>").join(snippets));
+		}
+	}
+	
+	private List<String> defaultSnippet(Taxon taxon){
+		List<String> snippets = new ArrayList<String>();
+		String defaultName = defaultCommonName(taxon);
+		String defaultDescription = defaultDescription(taxon);
+		if(defaultName != null){
+			logger.error("adding default name");
+			String key = WordUtils.capitalizeFully(fieldNames.get("taxon.vernacular_names_t"));
+			snippets.add(" <b>" + key + "</b>: " + defaultName);
+		}
+		if(defaultDescription != null){
+			snippets.add(" <b>Summary</b>: " + defaultDescription);
+		}
+		return snippets;
+	}
+	
+	private String defaultDescription(Taxon taxon){
+		Set<Description> descriptions = taxon.getDescriptions();
+		for(Description description : descriptions){
+			if(description.getTypes().contains(DescriptionType.snippet)){
+				return StringUtils.abbreviate(description.getDescription(), 60);
+			}
+		}
+		return null;
+	}
+	
+	private String defaultCommonName(Taxon taxon){
+		Set<VernacularName> names = taxon.getVernacularNames();
+		for(VernacularName name : names){
+			if(name.getAuthority().getIdentifier().equals("kew_species_profile_prefered_name")){
+				return name.getVernacularName();
+			}
+		}
+		for(VernacularName name : names){
+				if(name.getLanguage().equals(Locale.ENGLISH)){
+					return name.getVernacularName();
+				}
+		}
+		return null;
 	}
 }
+
