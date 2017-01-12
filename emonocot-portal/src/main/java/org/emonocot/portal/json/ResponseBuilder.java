@@ -13,7 +13,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.util.SimpleOrderedMap;
-import org.emonocot.portal.controller.ApiController;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.emonocot.portal.json.SearchResultBuilder;
 import org.emonocot.portal.view.Images;
@@ -35,7 +34,7 @@ import org.emonocot.model.solr.SolrFieldNameMappings;
 
 @Component
 public class ResponseBuilder {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(ResponseBuilder.class);
 
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map.inverse();
@@ -85,14 +84,16 @@ public class ResponseBuilder {
 					.url("/taxon/" + taxon.getIdentifier())
 					.name(taxon.getScientificName())
 					.accepted(taxon.isAccepted())
-					.author(taxon.getScientificNameAuthorship());
+					.author(taxon.getScientificNameAuthorship())
+					.kingdom(taxon.getKingdom());
 
 			if(taxon.getAcceptedNameUsage() != null) {
 				SearchResultBuilder synonym = new SearchResultBuilder()
-						.name(taxon.getAcceptedNameUsage().getScientificName())
-						.author(taxon.getAcceptedNameUsage().getScientificNameAuthorship())
 						.url("/taxon/" + taxon.getAcceptedNameUsage().getIdentifier())
-						.accepted(true);
+						.name(taxon.getAcceptedNameUsage().getScientificName())
+						.accepted(true)
+						.author(taxon.getAcceptedNameUsage().getScientificNameAuthorship())
+						.kingdom(taxon.getKingdom());
 				result.synonymOf(synonym);
 			}
 
@@ -105,20 +106,26 @@ public class ResponseBuilder {
 			for(Image image : images.getAll()) {
 				result.addImage(image.getAccessUri(), image.getCaption());
 			}
-			
+
 			addSnippets(result, document, taxon);
-			
+
 			jsonBuilder.addResult(result);
 		}
 	}
 
-	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of("taxon.scientific_name_t", "taxon.synonyms_t", "taxon.species_t", "taxon.genus_t", "taxon.family_t", "searchable.sources_ss");
+	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of(
+			"searchable.sources_ss",
+			"taxon.family_t",
+			"taxon.genus_t",
+			"taxon.scientific_name_t",
+			"taxon.species_t",
+			"taxon.synonyms_t");
+
 	private void addSnippets(SearchResultBuilder result, SolrDocument document, Taxon taxon) {
 		List<String> snippets = new ArrayList<>();
 		if(highlights.get(document.get("id").toString()) != null) {
 			Map<String, List<String>> highlight = highlights.get(document.get("id"));
 			if(!highlight.isEmpty()) {
-				
 				for(Entry<String, List<String>> entry : highlight.entrySet()) {
 					if(!entry.getValue().isEmpty()) {
 						if(fieldNames.containsKey(entry.getKey()) && !blacklist.contains(entry.getKey())) {
@@ -127,7 +134,6 @@ public class ResponseBuilder {
 						}
 					}
 				}
-
 			}
 		}
 		if(snippets.isEmpty()){
@@ -137,13 +143,13 @@ public class ResponseBuilder {
 			result.snippet(Joiner.on("<br/>").join(snippets));
 		}
 	}
-	
+
 	private List<String> defaultSnippet(Taxon taxon){
 		List<String> snippets = new ArrayList<String>();
 		String defaultName = defaultCommonName(taxon);
 		String defaultDescription = defaultDescription(taxon);
 		if(defaultName != null){
-			logger.error("adding default name");
+			logger.debug("adding default name");
 			String key = WordUtils.capitalizeFully(fieldNames.get("taxon.vernacular_names_t"));
 			snippets.add(" <b>" + key + "</b>: " + defaultName);
 		}
@@ -152,7 +158,7 @@ public class ResponseBuilder {
 		}
 		return snippets;
 	}
-	
+
 	private String defaultDescription(Taxon taxon){
 		Set<Description> descriptions = taxon.getDescriptions();
 		for(Description description : descriptions){
@@ -162,7 +168,7 @@ public class ResponseBuilder {
 		}
 		return null;
 	}
-	
+
 	private String defaultCommonName(Taxon taxon){
 		Set<VernacularName> names = taxon.getVernacularNames();
 		for(VernacularName name : names){
@@ -171,9 +177,9 @@ public class ResponseBuilder {
 			}
 		}
 		for(VernacularName name : names){
-				if(name.getLanguage().equals(Locale.ENGLISH)){
-					return name.getVernacularName();
-				}
+			if(name.getLanguage().equals(Locale.ENGLISH)){
+				return name.getVernacularName();
+			}
 		}
 		return null;
 	}

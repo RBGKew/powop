@@ -14,6 +14,7 @@ public class SearchResultBuilder {
 
 	private boolean accepted;
 	private String author; 
+	private String kingdom;
 	private String name;
 	private String rank;
 	private String snippet;
@@ -51,8 +52,14 @@ public class SearchResultBuilder {
 		return this;
 	}
 
-	public void synonymOf(SearchResultBuilder accepted) {
+	public SearchResultBuilder kingdom(String kingdom) {
+		this.kingdom = kingdom;
+		return this;
+	}
+
+	public SearchResultBuilder synonymOf(SearchResultBuilder accepted) {
 		this.synonymOf = accepted;
+		return this;
 	}
 
 	public SearchResultBuilder addImage(String url, String caption) {
@@ -84,6 +91,10 @@ public class SearchResultBuilder {
 
 	public String getSnippet() {
 		return snippet;
+	}
+
+	public String getKingdom() {
+		return kingdom;
 	}
 
 	public SearchResultBuilder getSynonymOf() {

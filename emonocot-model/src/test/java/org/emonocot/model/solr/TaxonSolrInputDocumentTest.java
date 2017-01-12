@@ -81,6 +81,7 @@ public class TaxonSolrInputDocumentTest {
 	public void simpleStringMappings() throws Exception {
 		String[] fields = {
 				"taxon.infraspecific_epithet_s",
+				"taxon.kingdom_s",
 				"taxon.name_published_in_string_s",
 				"taxon.order_s",
 				"taxon.scientific_name_authorship_t",

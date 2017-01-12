@@ -18,14 +18,15 @@ public class SolrFieldNameMappings {
 			.put("fruit", "taxon.description_fruit_t")
 			.put("genus", "taxon.genus_t")
 			.put("inflorescence", "taxon.description_inflorescence_t")
+			.put("kingdom", "taxon.kingdom_s")
 			.put("leaf", "taxon.description_leaf_t")
 			.put("location", "taxon.distribution_t")
 			.put("name", "taxon.scientific_name_t")
 			.put("seed", "taxon.description_seed_t")
+			.put("source", "searchable.sources_ss")
 			.put("species", "taxon.species_t")
+			.put("summary", "taxon.description_snippet_t")
 			.put("synonym of", "taxon.synonyms_t")
 			.put("use", "taxon.description_use_t")
-			.put("source", "searchable.sources_ss")
-			.put("summary", "taxon.description_snippet_t")
 			.build();
 }
