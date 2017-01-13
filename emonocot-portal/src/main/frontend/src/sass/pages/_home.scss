@@ -27,6 +27,22 @@
     }
   }
 
+  .c-header__actions {
+    float: left;
+    margin-top: 25px;
+  }
+
+  #kew-logo-svg {
+    width: 200px;
+    fill: white;
+    margin: 30px auto 0;
+    display: block;
+
+    @media (min-width: $screen-sm-min) {
+      float: right;
+      margin: 30px 0;
+    }
+  }
 }
 
 // Section Home

@@ -2,13 +2,20 @@ $header-logo-height: 47px;
 
 .c-header {
   overflow: hidden;
+  a:link { text-decoration: none }
+  h1 {
+    float: left;
+    font-weight: 700;
+    font-size: $font-size-h2;
+
+    @media (min-width: $screen-sm-min) {
+      font-size: $font-size-h1;
+    }
+  }
 }
 
 .c-header__logo,
 .c-header__actions {
-  height: $header-logo-height;
-  text-align: right;
-  margin: 30px 0;
   @media (max-width: $screen-sm-min) { margin: 10px 0; }
 
   small {
@@ -17,10 +24,6 @@ $header-logo-height: 47px;
   }
 }
 
-.c-header__logo {
-  width: 213px;
-  float: left;
-}
 
 .c-header__actions {
   float: right;
@@ -28,4 +31,10 @@ $header-logo-height: 47px;
   @media (min-width: $screen-sm-min) {
     display: block;
   }
+
+  #kew-logo-svg {
+    width: 200px;
+    margin: 30px 0;
+  }
 }
+

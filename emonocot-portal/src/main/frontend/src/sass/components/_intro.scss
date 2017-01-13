@@ -13,10 +13,7 @@
 
   &__title {
     font-weight: bold;
-    font-size: $font-size-h3;
-    @media (min-width: $screen-sm-min) {
-      font-size: $font-size-h2;
-    }
+    font-size: $font-size-h2;
     @media (min-width: $screen-md-min) {
       font-size: $font-size-h1;
     }
