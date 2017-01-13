@@ -24,5 +24,4 @@ public class AssetHelperTest extends AbstractHelperTest {
 	public void testCssAsset() throws IOException {
 		shouldCompileTo("{{asset \"css/style.min.css\"}}", this, "css/style-11659a4ba9.min.css");
 	}
-
 }
