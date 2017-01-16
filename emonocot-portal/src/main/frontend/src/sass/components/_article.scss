@@ -65,6 +65,9 @@ body {
   @media (min-width: $screen-lg-min) {
     font-size: $font-size-h1;
   }
+  small {
+    color: #333;
+  }
 }
 
 .c-article-desc-table {

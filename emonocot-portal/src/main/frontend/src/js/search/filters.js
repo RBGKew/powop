@@ -9,7 +9,7 @@ define([
   'libs/pubsub',
   'libs/deparam',
   'templates/partials/search/filter-breadcrumb.js',
-  ], function($, Immutable, pubsub, deparam, tmpl) {
+], function($, Immutable, pubsub, deparam, tmpl) {
 
   var filters = Immutable.Map();
 
@@ -24,12 +24,20 @@ define([
     if(bar.is(":hidden")) {
       bar.show();
     }
-
-    $(bar.find('.btn-group')).append(tmpl({
-      searchTerm: key,
-      searchValue: value,
-      className: className(key)
-    }));
+    if(key == "source" && value == "Kew-Species-Profiles"){
+      $(bar.find('.btn-group')).append(tmpl({
+        searchTitle: "Kew Species Profile",
+        searchTerm: key,
+        searchValue: value,
+        className: className(key)
+      }));
+    }else{
+      $(bar.find('.btn-group')).append(tmpl({
+        searchTerm: key,
+        searchValue: value,
+        className: className(key)
+      }));
+    }
   }
 
   function doAdd(key, value) {

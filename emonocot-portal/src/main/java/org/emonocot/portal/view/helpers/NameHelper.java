@@ -17,6 +17,11 @@ public class NameHelper {
 		String result = String.format("<em>%s</em> %s", taxon.getScientificName(), taxon.getScientificNameAuthorship());
 		return new Handlebars.SafeString(result);
 	}
+	
+	public CharSequence taxonNameAndAuthor(final Taxon taxon, final Options options) {
+		String result = String.format("%s <small>%s</small>", taxon.getScientificName(), taxon.getScientificNameAuthorship());
+		return new Handlebars.SafeString(result);
+	}
 
 	public CharSequence taxonLink(final Taxon taxon, final Options options) {
 		String result = String.format("<a href=\"/taxon/%s\">%s</a>",
@@ -54,7 +59,7 @@ public class NameHelper {
 	private String classificationLine(List<Taxon> classification, int index, Options options) {
 		if(index == classification.size()-1) {
 			return String.format("<ol><li><h1 class=\"c-family-list__heading\">%s</h1></li><ol>",
-					nameAndAuthor(classification.get(index), options));
+					taxonNameAndAuthor(classification.get(index), options));
 		} else {
 			if(classification.get(index).getTaxonRank() == null) {
 				return String.format("<ol><li>%s%s</li></ol>",
