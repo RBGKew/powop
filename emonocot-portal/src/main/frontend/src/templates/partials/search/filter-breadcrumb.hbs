@@ -1,4 +1,8 @@
 <button type="button" class="btn btn-link filter {{className}}" data-term="{{searchTerm}}" data-value="{{searchValue}}">
-  {{ searchTerm }}: {{ searchValue }}
+  {{#if searchTitle}}
+    {{searchTitle}}
+  {{else}}
+    {{ searchTerm }}: {{ searchValue }}
+  {{/if}}
   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 </button>
