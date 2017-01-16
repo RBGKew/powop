@@ -265,3 +265,16 @@ body {
     }
   }
 }
+
+#descriptions {
+  table {
+    h2 {
+      font-size: $font-size-h3;
+      margin-top: 0;
+    }
+    h3 {
+      font-size: $font-size-h5;
+      font-weight: bold;
+    }
+  }
+}
