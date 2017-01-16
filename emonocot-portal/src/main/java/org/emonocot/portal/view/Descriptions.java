@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
@@ -17,6 +18,7 @@ import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.registry.Organisation;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Transforms list of descriptions into nested structure for display grouped by
@@ -30,13 +32,18 @@ import com.google.common.collect.ComparisonChain;
  */
 public class Descriptions {
 
-	public class DescriptionsByType {
+	public class DescriptionsByType implements Comparable<DescriptionsByType> {
 		public String type;
 		public List<Description> descriptions;
 
 		public DescriptionsByType(String type) {
 			this.type = type;
 			this.descriptions = new ArrayList<>();
+		}
+
+		@Override
+		public int compareTo(DescriptionsByType o) {
+			return descriptions.get(0).getId().compareTo(o.descriptions.get(0).getId());
 		}
 	}
 
@@ -149,8 +156,9 @@ public class Descriptions {
 		}
 	}
 
+	private static final ImmutableList<DescriptionType> doNotDisplay = ImmutableList.<DescriptionType>of(DescriptionType.summary, DescriptionType.snippet);
 	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {
-		Map<DescriptionType, DescriptionsByType> byType = new EnumMap<>(DescriptionType.class);
+		SortedMap<DescriptionType, DescriptionsByType> byType = new TreeMap<>();
 
 		// Descriptions with multiple types (e.g., morphology:general:flower|sex:female) should come
 		// after ones with a single type
@@ -161,12 +169,14 @@ public class Descriptions {
 		};
 
 		addDescriptions: for(Description description : descriptions) {
-			if(!isUses) {
+			for(DescriptionType type : description.getTypes()) {
 				// If any of described types are use types, we don't want to add it to the descriptions section
-				for(DescriptionType type : description.getTypes()) {
-					if(type.isA(DescriptionType.use)) {
-						continue addDescriptions;
-					}
+				if(!isUses && type.isA(DescriptionType.use)) {
+					continue addDescriptions;
+				}
+
+				if(doNotDisplay.contains(type)) {
+					continue addDescriptions;
 				}
 			}
 

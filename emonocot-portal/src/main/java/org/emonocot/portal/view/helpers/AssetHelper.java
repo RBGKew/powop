@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -19,6 +20,9 @@ public class AssetHelper {
 	private static final Resource resource = new ClassPathResource("rev-manifest.json");
 	private static Optional<JsonObject> manifest;
 
+	@Value("${development.mode:false}")
+	private boolean developmentMode;
+
 	static {
 		try {
 			manifest = Optional.of(Json.parse(new InputStreamReader(resource.getInputStream())).asObject());
@@ -29,7 +33,7 @@ public class AssetHelper {
 	}
 
 	public CharSequence asset(String name, Options options) {
-		if(manifest.isPresent()) {
+		if(manifest.isPresent() && !developmentMode) {
 			return manifest.get().getString(name, name);
 		}
 
