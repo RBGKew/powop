@@ -52,13 +52,16 @@ public class DescriptionsTest {
 		o2.setTitle("Flora of Tropical East Africa");
 
 		d1.setType(DescriptionType.morphologyGeneralHabit);
+		d1.setId(1L);
 		d1.setDescription("Perenial herb");
 
 		d2.setType(DescriptionType.morphologyLeaf);
+		d2.setId(3L);
 		d2.setDescription("Basal leaves");
 		d2.setAuthority(o1);
 
 		d3.setType(DescriptionType.morphologyReproductiveFlower);
+		d3.setId(2L);
 		d3.setDescription("Large");
 		d3.setAuthority(o2);
 
@@ -137,6 +140,36 @@ public class DescriptionsTest {
 				assertEquals(d1, dbs.byType.get(0).descriptions.get(0));
 			}
 		}
+	}
+
+	@Test
+	public void testOrderingByDescriptionId() {
+		Description d2 = new Description();
+		Description d3 = new Description();
+
+		d1.setType(DescriptionType.morphologyGeneralHabit);
+		d1.setId(1L);
+		d1.setDescription("Perenial herb");
+
+		d2.setType(DescriptionType.morphologyLeaf);
+		d2.setId(3L);
+		d2.setDescription("Basal leaves");
+		d2.setAuthority(o1);
+
+		d3.setType(DescriptionType.morphologyReproductiveFlower);
+		d3.setId(2L);
+		d3.setDescription("Large");
+		d3.setAuthority(o1);
+
+		taxon.setDescriptions(ImmutableSet.<Description>of(d1, d2, d3));
+
+		Descriptions ds = new Descriptions(taxon);
+		print(ds);
+
+		DescriptionsBySource dbs = Iterators.getOnlyElement(ds.getBySource().iterator());
+		assertEquals(d1.getType().toString(), dbs.byType.get(0).type);
+		assertEquals(d3.getType().toString(), dbs.byType.get(1).type);
+		assertEquals(d2.getType().toString(), dbs.byType.get(2).type);
 	}
 
 	private void print(Descriptions descriptions) {
