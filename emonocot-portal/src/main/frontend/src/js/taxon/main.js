@@ -51,7 +51,9 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
     // enable popovers
     $('[data-toggle="popover"]').popover();
 
-    map.initialize();
+    if($('#c-map').length) {
+      map.initialize();
+    }
   }
 
   return {
