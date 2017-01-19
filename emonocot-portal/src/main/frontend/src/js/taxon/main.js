@@ -10,7 +10,10 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
     }
 
     // initialize popup for header image
-    $('.c-gallery-header a').magnificPopup({type: 'image'});
+    $('.c-gallery-header').click(function(e) {
+      $('.c-gallery').magnificPopup('open');
+      e.preventDefault();
+    });
 
     // initialize popups for image gallery
     $('.c-gallery').magnificPopup({

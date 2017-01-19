@@ -4,9 +4,8 @@
 
   <article class="c-article">
     <header class="c-article-header">
-
       <div class="container">
-        <div class="c-family-list">
+        <div class="c-summary">
           {{classification taxon}}
           {{#with summary}}
             <p> {{{this}}}
@@ -16,17 +15,10 @@
             </p>
           {{/with}}
         </div>
-        {{#with images}}
-        <div class="c-gallery-header">
-          {{#each headerImages}}
-          <div class="col">
-            {{fullsizeImage this figure-class="c-gallery-header__img"}}
-          </div>
-          {{/each}}
-        </div>
+        {{#with images.headerImage }}
+        <a href="{{fullsizeUrl this}}" class="c-gallery-header" style="background-image: url('{{fullsizeUrl this}}');"></a>
         {{/with}}
       </div>
-
     </header>
 
     <nav class="navbar navbar-default navbar--article">
@@ -78,6 +70,7 @@
       </div><!-- /.navbar-collapse -->
     </nav>
 
+    <div class="container">
     {{#with descriptions}}
     <section id="descriptions" class="c-article-section">
       <a class="btn collapser c-article-section__title"
@@ -512,6 +505,7 @@
         </div>
       </div>
     </section>
+    </div>
   </article>
 
   {{> partials/footer-links}}

@@ -20,25 +20,23 @@ body {
 .c-article-header {
   border-top: 2px solid #e7e7e7;
   border-bottom: 2px solid #e7e7e7;
-  overflow: hidden;
 
-  .breadcrumb {
-    > .active,
-    a {
-      color: $text-color-invert;
-    }
+  > .container {
+    display: table;
+    width: 100%;
   }
 }
 
 
-// Component - Family list
-.c-family-list {
+// Component - Summary
+.c-summary {
 
   padding: $padding-large-vertical;
+  vertical-align: top;
 
   @media (min-width: $screen-md-min) {
     width: 50%;
-    float: left;
+    display: table-cell;
 
     ol ol {
       margin-left: 1.5em;
@@ -55,11 +53,9 @@ body {
     padding: 0;
     list-style: none;
   }
-
-
 }
 
-.c-family-list__heading {
+.c-summary__heading {
   margin: 0;
   font-size: $font-size-h2;
   @media (min-width: $screen-lg-min) {
@@ -67,6 +63,23 @@ body {
   }
   small {
     color: #333;
+  }
+}
+
+.c-gallery-header {
+  height: 250px;
+  background-size: cover;
+  display: block;
+
+  @media (min-width: $screen-sm-min) {
+    height: 400px;
+  }
+
+  @media (min-width: $screen-md-min) {
+    background-size: cover;
+    background-position-x: center;
+    width: 50%;
+    display: table-cell;
   }
 }
 

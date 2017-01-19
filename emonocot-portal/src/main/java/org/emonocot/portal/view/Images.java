@@ -69,14 +69,14 @@ public class Images {
 		}
 	}
 
-	public List<Image> getHeaderImages() {
+	public Image getHeaderImage() {
 		return byRating
 				.sortedCopy(images)
-				.subList(0, Math.min(images.size(), 1));
+				.get(0);
 	}
 
 	public List<Image> getAll() {
-		return images;
+		return byRating.sortedCopy(images);
 	}
 
 	public Set<Organisation> getSources() {
