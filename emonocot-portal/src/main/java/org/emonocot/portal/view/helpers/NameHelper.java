@@ -19,7 +19,7 @@ public class NameHelper {
 	}
 	
 	public CharSequence taxonNameAndAuthor(final Taxon taxon, final Options options) {
-		String result = String.format("%s <small>%s</small>", taxon.getScientificName(), taxon.getScientificNameAuthorship());
+		String result = String.format("<em>%s</em> <small>%s</small>", taxon.getScientificName(), taxon.getScientificNameAuthorship());
 		return new Handlebars.SafeString(result);
 	}
 

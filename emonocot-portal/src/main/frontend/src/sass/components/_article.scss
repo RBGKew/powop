@@ -35,7 +35,6 @@ body {
   vertical-align: top;
 
   @media (min-width: $screen-md-min) {
-    width: 50%;
     display: table-cell;
 
     ol ol {
@@ -61,14 +60,17 @@ body {
   @media (min-width: $screen-lg-min) {
     font-size: $font-size-h1;
   }
+
   small {
     color: #333;
+    font-size: $font-size-h4;
   }
 }
 
 .c-gallery-header {
   height: 250px;
   background-size: cover;
+  background-position: center;
   display: block;
 
   @media (min-width: $screen-sm-min) {
@@ -76,8 +78,6 @@ body {
   }
 
   @media (min-width: $screen-md-min) {
-    background-size: cover;
-    background-position-x: center;
     width: 50%;
     display: table-cell;
   }
