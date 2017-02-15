@@ -856,9 +856,10 @@
       <str name="qf">searchable.label_sort</str>
       <str name="fq">base.class_searchable_b:true</str>
       <str name="facet">true</str>
-      <str name="facet.query">{!ex=taxon.taxonomic_status_s key=has_images}taxon.images_not_empty_b:true</str>
-      <str name="facet.query">{!ex=taxon.images_not_empty_b key=accepted_names}taxon.taxonomic_status_s:Accepted</str>
-      <str name="facet.query">{!ex=taxon.taxonomic_status_s,taxon.images_not_empty_b key=all_results}base.class_searchable_b:true</str>
+      <str name="facet.query">{!ex=facets key=has_images}taxon.images_not_empty_b:true</str>
+      <str name="facet.query">{!ex=facets key=accepted_names}taxon.taxonomic_status_s:Accepted</str>
+      <str name="facet.query">{!ex=facets key=is_fungi}taxon.kingdom_s:Fungi</str>
+      <str name="facet.query">{!ex=facets key=all_results}base.class_searchable_b:true</str>
       <str name="hl">true</str>
       <str name="hl.fl">*</str>
       <str name="hl.requireFieldMatch">true</str>
