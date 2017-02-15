@@ -1,26 +1,38 @@
 package org.emonocot.persistence.solr;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResultsFilterQuery implements QueryOption {
-
+	private static Logger logger = LoggerFactory.getLogger(ResultsFilterQuery.class);
+	
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
-		
-		switch(value){
-		case "all_results":
-			break;	
-		case "accepted_names":
-			query.addFilterQuery("{!tag=taxon.taxonomic_status_s}taxon.taxonomic_status_s:Accepted");
-			break;
-		case "has_images":
-			query.addFilterQuery("{!tag=taxon.images_not_empty_b}taxon.images_not_empty_b:true");
-			break;
-		case "accepted_names_and_has_images":
-			query.addFilterQuery("{!tag=taxon.taxonomic_status_s}taxon.taxonomic_status_s:Accepted");
-			query.addFilterQuery("{!tag=taxon.images_not_empty_b}taxon.images_not_empty_b:true");
+		String[] facets = value.split(" AND ");
+		List<String> selectedFacets = new ArrayList<String>();
+		for(String facet: facets){
+			switch(facet){
+			case "all_results":
+				break;	
+			case "accepted_names":
+				selectedFacets.add("taxon.taxonomic_status_s:Accepted");
+				break;
+			case "has_images":
+				selectedFacets.add("taxon.images_not_empty_b:true");
+				break;
+			case "is_fungi":
+				selectedFacets.add("taxon.kingdom_s:Fungi");
+			}
+			
 		}
-		
-		
+		if(!selectedFacets.isEmpty()){
+			query.add("fq", "{!tag=facets}" + StringUtils.join(selectedFacets, " AND "));
+		}
 	}
 }
+ 

@@ -19,20 +19,33 @@ define(function(require) {
     }
   }
 
-  function showSelectedFacet(selectedFacet) {
-    switch(selectedFacet) {
+  function pickFacet(facet){
+    switch(facet) {
       case "accepted_names":
         $("#accepted_names").addClass('selectedFacet');
         break;
       case "has_images":
         $("#has_images").addClass('selectedFacet');
         break;
-      case "accepted_names_and_has_images":
-        $("#accepted_names").addClass('selectedFacet');
-        $("#has_images").addClass('selectedFacet');
+      case "is_fungi":
+        $("#is_fungi").addClass('selectedFacet');
         break;
       default:
         $("#all_results").addClass('selectedFacet');
+    }
+  }
+
+  function showSelectedFacet(selectedFacet) {
+    if(selectedFacet){
+      if($.isArray(selectedFacet)){
+        selectedFacet.forEach( function(facet) {
+          pickFacet(facet);
+        });
+      }else{
+        pickFacet(selectedFacet);
+      }
+    }else{
+      $("#all_results").addClass('selectedFacet');
     }
   }
 
