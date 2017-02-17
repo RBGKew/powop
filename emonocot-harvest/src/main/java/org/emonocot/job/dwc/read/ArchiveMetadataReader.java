@@ -26,16 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
-import org.emonocot.api.OrganisationService;
 import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.SkosTerm;
-import org.emonocot.model.registry.Organisation;
-import org.gbif.dwc.terms.AcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
@@ -43,17 +35,14 @@ import org.gbif.dwc.text.Archive;
 import org.gbif.dwc.text.ArchiveField;
 import org.gbif.dwc.text.ArchiveFile;
 import org.gbif.dwc.text.UnsupportedArchiveException;
-import org.gbif.metadata.BasicMetadata;
 import org.gbif.metadata.eml.Eml;
 import org.gbif.metadata.eml.EmlFactory;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
 public class ArchiveMetadataReader implements StepExecutionListener {
@@ -62,20 +51,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 	private StepExecution stepExecution;
 
 	private String sourceName;
-
-	private OrganisationService organisationService;
-
-	private Validator validator;
-
-	@Autowired
-	public final void setSourceService(final OrganisationService sourceService) {
-		this.organisationService = sourceService;
-	}
-
-	@Autowired
-	public final void setValidator(Validator validator) {
-		this.validator = validator;
-	}
 
 	/**
 	 *
@@ -100,15 +75,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
 			ArchiveFile core = archive.getCore();
 
-			if (archive.getMetadataLocation() != null) {
-				String metadataFileName = metaDir.getCanonicalPath() + File.separator  + archive.getMetadataLocation();
-				try {
-					Eml eml = EmlFactory.build(new FileInputStream(metadataFileName));
-					updateSourceMetadata(eml);
-				} catch (SAXException e) {
-					logger.error(e.getMessage(), e);
-				}
-			}
 			getMetadata(core, "core", DwcTerm.taxonID, failOnError);
 
 			if (archive.getExtension(GbifTerm.Description) != null) {
@@ -190,90 +156,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		return null;
 	}
 
-	private void updateSourceMetadata(final BasicMetadata basicMetadata) {
-		boolean update = false;
-		Organisation source = organisationService.find(sourceName);
-		if (!nullSafeEquals(source.getBibliographicCitation(), basicMetadata.getCitationString())) {
-			source.setBibliographicCitation(basicMetadata.getCitationString());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getCreatorEmail(), basicMetadata.getCreatorEmail())) {
-			source.setCreatorEmail(basicMetadata.getCreatorEmail());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getCreator(), basicMetadata.getCreatorName())) {
-			source.setCreator(basicMetadata.getCreatorName());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getDescription(), basicMetadata.getDescription())) {
-			source.setDescription(basicMetadata.getDescription());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getUri(), basicMetadata.getHomepageUrl())) {
-			source.setUri(basicMetadata.getHomepageUrl());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getLogoUrl(), basicMetadata.getLogoUrl())) {
-			source.setLogoUrl(basicMetadata.getLogoUrl());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getPublisherEmail(), basicMetadata.getPublisherEmail())) {
-			source.setPublisherEmail(basicMetadata.getPublisherEmail());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getPublisherName(), basicMetadata.getPublisherName())) {
-			source.setPublisherName(basicMetadata.getPublisherName());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getSubject(), basicMetadata.getSubject())) {
-			source.setSubject(basicMetadata.getSubject());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getTitle(), basicMetadata.getTitle())) {
-			source.setTitle(basicMetadata.getTitle());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getRights(), basicMetadata.getRights())) {
-			source.setRights(basicMetadata.getRights());
-			update = true;
-		}
-		if (basicMetadata.getPublished() != null) {
-			DateTime published = new DateTime(basicMetadata.getPublished());
-			if (source.getCreated() == null) {
-				source.setCreated(published);
-				update = true;
-			} else if (published.isAfter(source.getCreated())) {
-				source.setModified(published);
-				update = true;
-			}
-		}
-
-		if (update) {
-			Set<ConstraintViolation<Organisation>> violations = validator.validate(source);
-			if (violations.isEmpty()) {
-				logger.info("Updating metadata for source " + sourceName);
-						organisationService.saveOrUpdate(source);
-			} else {
-				for (ConstraintViolation<Organisation> violation : violations) {
-					logger.error(violation.getMessage());
-				}
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param string1 Set the first string
-	 * @param string2 Set the second string
-	 * @return true if the strings are equal, false otherwise
-	 */
-	private boolean nullSafeEquals(final String string1, final String string2) {
-		if (string1 == null) {
-			return string1 == string2;
-		} else {
-			return string1.equals(string2);
-		}
-	}
 
 	/**
 	 *

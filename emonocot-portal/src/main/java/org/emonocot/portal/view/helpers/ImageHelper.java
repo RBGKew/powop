@@ -17,12 +17,23 @@ public class ImageHelper {
 		return link(image, "thumbnail", options);
 	}
 
+	public CharSequence fullsizeUrl(Image image) {
+		return imageUrl(image, "fullsize");
+	}
+
+	public CharSequence thumbnailUrl(Image image) {
+		return imageUrl(image, "thumbnail");
+	}
+
+	private String imageUrl(Image image, String type) {
+		return String.format("%s_%s.jpg", image.getAccessUri(), type);
+	}
+
 	private CharSequence link(Image image, String type, Options options) {
 		boolean modal = options.hash("lightbox", true);
 		String figureClass = options.hash("figure-class");
-		String imgUrl = String.format("%s_%s.jpg", image.getAccessUri(), type);
 		String imgTag = String.format("<img src=\"%s\" title=\"%s\"/>",
-				imgUrl,
+				imageUrl(image, type),
 				image.getTitle() == null ? "" : image.getTitle());
 
 		if(figureClass != null) {

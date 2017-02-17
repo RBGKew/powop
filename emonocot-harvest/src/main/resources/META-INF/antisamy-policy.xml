@@ -82,6 +82,10 @@ http://www.w3.org/TR/html401/struct/global.html
 		<!-- CSS related tags -->
 		<tag name="style" action="remove"/>
 		<!-- All reasonable formatting tags -->
+		<tag name="h1" action="validate"/>
+		<tag name="h2" action="validate"/>
+		<tag name="h3" action="validate"/>
+		<tag name="h4" action="validate"/>
 		<tag name="p" action="validate"/>
 		<tag name="i" action="validate"/>
 		<tag name="b" action="validate"/>

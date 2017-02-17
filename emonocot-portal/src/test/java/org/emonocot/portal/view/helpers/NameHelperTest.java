@@ -51,6 +51,8 @@ public class NameHelperTest extends AbstractHelperTest {
 		child.setTaxonRank(Rank.GENUS);
 
 		shouldCompileTo("{{classification this}}", child,
-				"<ol><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em>Aralidiaceae</em> Philipson & B.C.Stone</a><ol><li><h1 class=\"c-family-list__heading\"><em>aaa</em> L.</h1></li><ol></li></ol>");
+				"<ol><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em>Aralidiaceae</em> Philipson & B.C.Stone</a>"
+				+ "<ol><li><h1 class=\"c-summary__heading\"><em>aaa</em> <small>L.</small></h1></li>"
+				+ "<ol></li></ol>");
 	}
 }

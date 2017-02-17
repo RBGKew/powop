@@ -27,6 +27,6 @@ public class ImagesTest {
 
 		Images images = new Images(t);
 
-		assertEquals(i2, images.getHeaderImages().get(0));
+		assertEquals(i2, images.getHeaderImage());
 	}
 }

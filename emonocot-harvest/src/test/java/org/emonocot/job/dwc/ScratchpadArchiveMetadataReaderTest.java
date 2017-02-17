@@ -38,10 +38,6 @@ public class ScratchpadArchiveMetadataReaderTest {
 
 	private ArchiveMetadataReader archiveMetadataReader = new ArchiveMetadataReader();
 
-	private OrganisationService sourceService;
-
-	private Validator validator;
-
 	/**
 	 * @throws Exception if there is a problem accessing the file
 	 */
@@ -51,8 +47,6 @@ public class ScratchpadArchiveMetadataReaderTest {
 
 		JobExecution jobExecution = new JobExecution(0L);
 		jobExecution.setExecutionContext(executionContext);
-		archiveMetadataReader.setSourceService(sourceService);
-		archiveMetadataReader.setValidator(validator);
 
 		archiveMetadataReader.beforeStep(new StepExecution("test", jobExecution));
 		archiveMetadataReader.readMetadata(content.getFile().getAbsolutePath(), "test", "false");

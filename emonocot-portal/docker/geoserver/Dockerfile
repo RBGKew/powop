@@ -17,4 +17,5 @@ RUN rm -rf webapps/* \
 COPY styles/* ${DATA_DIR}/styles/
 COPY workspaces ${DATA_DIR}/workspaces
 COPY lib/* webapps/ROOT/WEB-INF/lib/
+COPY logging.xml ${DATA_DIR}/
 COPY users.properties ${DATA_DIR}/security/

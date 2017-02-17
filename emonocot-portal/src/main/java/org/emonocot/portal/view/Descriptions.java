@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import org.emonocot.model.Description;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
@@ -19,6 +17,8 @@ import org.emonocot.model.registry.Organisation;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Ordering;
+import com.google.common.primitives.Longs;
 
 /**
  * Transforms list of descriptions into nested structure for display grouped by
@@ -32,18 +32,13 @@ import com.google.common.collect.ImmutableList;
  */
 public class Descriptions {
 
-	public class DescriptionsByType implements Comparable<DescriptionsByType> {
+	public class DescriptionsByType {
 		public String type;
 		public List<Description> descriptions;
 
 		public DescriptionsByType(String type) {
 			this.type = type;
 			this.descriptions = new ArrayList<>();
-		}
-
-		@Override
-		public int compareTo(DescriptionsByType o) {
-			return descriptions.get(0).getId().compareTo(o.descriptions.get(0).getId());
 		}
 	}
 
@@ -156,17 +151,25 @@ public class Descriptions {
 		}
 	}
 
+	// Blacklist of description types that should not show up in the taxon display
 	private static final ImmutableList<DescriptionType> doNotDisplay = ImmutableList.<DescriptionType>of(DescriptionType.summary, DescriptionType.snippet);
-	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {
-		SortedMap<DescriptionType, DescriptionsByType> byType = new TreeMap<>();
 
-		// Descriptions with multiple types (e.g., morphology:general:flower|sex:female) should come
-		// after ones with a single type
-		Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {
+	// Descriptions with multiple types (e.g., morphology:general:flower|sex:female) should come
+	// after ones with a single type
+	private static final Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {
 			public int compare(Description d1, Description d2) {
 				return d1.getTypes().size() - d2.getTypes().size();
 			}
 		};
+
+	private static final Ordering<DescriptionsByType> documentOrder = new Ordering<DescriptionsByType>() {
+		public int compare(DescriptionsByType left, DescriptionsByType right) {
+			return Longs.compare(left.descriptions.get(0).getId(), right.descriptions.get(0).getId());
+		}
+	};
+
+	private Collection<DescriptionsByType> descriptionsByType(List<Description> descriptions) {
+		Map<DescriptionType, DescriptionsByType> byType = new EnumMap<>(DescriptionType.class);
 
 		addDescriptions: for(Description description : descriptions) {
 			for(DescriptionType type : description.getTypes()) {
@@ -187,7 +190,7 @@ public class Descriptions {
 			Collections.sort(dbt.descriptions, generalDescriptionsFirst);
 		}
 
-		return byType.values();
+		return documentOrder.sortedCopy(byType.values());
 	}
 
 	private void addDescription(Map<DescriptionType, DescriptionsByType> byType, Description description) {

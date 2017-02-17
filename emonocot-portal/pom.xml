@@ -430,7 +430,7 @@
 						</goals>
 						<configuration>
 							<image>${docker.registry}geoserver</image>
-							<newName>${docker.registry}geoserver:${project.version}</newName>
+							<newName>${docker.registry}geoserver:${project.version}-${buildNumber}</newName>
 						</configuration>
 					</execution>
 				</executions>

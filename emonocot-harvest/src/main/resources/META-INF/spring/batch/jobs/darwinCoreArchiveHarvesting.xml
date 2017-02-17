@@ -324,20 +324,9 @@
       <batch:tasklet>
         <batch:chunk reader="deleteImagesReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexImages" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="indexImages">
-      <batch:description>Index the images associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexImagesReader" writer="indexImagesWriter" commit-interval="10" />
-      </batch:tasklet>
       <batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
       <batch:listeners>
+        <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>

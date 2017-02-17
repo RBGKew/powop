@@ -60,9 +60,7 @@ public class HtmlSanitizer {
 				throw new RuntimeException(pe);
 			} catch (ScanException se) {
 				if (unclean.length() > 36) {
-					logger.error(
-							"Could not sanitize html "
-									+ unclean.substring(0, 36), se);
+					logger.error("Could not sanitize html " + unclean.substring(0, 36), se);
 					return null;
 				} else {
 					logger.error("Could not sanitize html " + unclean, se);
