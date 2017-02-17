@@ -76,7 +76,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.scientific_name_authorship_t", taxon.getScientificNameAuthorship());
 		addField(sid, "taxon.scientific_name_s", taxon.getScientificName());
 		addField(sid, "taxon.scientific_name_t", taxon.getScientificName());
-		addSuggest(taxon.getScientificName(), "Name");
+		addSuggest(taxon.getScientificName(), "Name", "name:" + ObjectUtils.toString(taxon.getTaxonomicStatus()));
 		addField(sid, "taxon.specific_epithet_s", taxon.getSpecificEpithet());
 		addField(sid, "taxon.subgenus_s", taxon.getSubgenus());
 		addField(sid, "taxon.taxon_rank_s", ObjectUtils.toString(taxon.getTaxonRank(), null));
@@ -196,7 +196,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 		for(String name : locationNames) {
 			sid.addField("taxon.distribution_t", name);
-			addSuggest(name, "Location");
+			addSuggest(name, "Location", "location");
 		}
 	}
 
@@ -252,16 +252,17 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		sid.addField("taxon.vernacular_names_not_empty_b", !taxon.getVernacularNames().isEmpty());
 		for(VernacularName v : taxon.getVernacularNames()) {
 			sid.addField("taxon.vernacular_names_t", v.getVernacularName());
-			addSuggest(v.getVernacularName(), "Common Name");
+			addSuggest(v.getVernacularName(), "Common Name", "name:common_name");
 			addSource(v);
 		}
 	}
 	
-	private void addSuggest(String text, String fieldName) {
+	private void addSuggest(String text, String payload, String context) {
 		SolrInputDocument child = new SolrInputDocument();
 		child.addField("id", UUID.randomUUID());
 		child.addField("suggester.text_t", text);
-		child.addField("suggester.payload_s", fieldName);
+		child.addField("suggester.payload_s", payload);
+		child.addField("suggester.context_s", context);
 		sid.addChildDocument(child);
 	}
 	

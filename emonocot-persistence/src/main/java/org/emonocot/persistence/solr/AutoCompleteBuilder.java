@@ -32,12 +32,7 @@ public class AutoCompleteBuilder {
 	}
 
 	public AutoCompleteBuilder addSuggester(String suggester) {
-		if(ranks.contains(suggester.toUpperCase())) {
-			addWorkingSuggester("scientific-name");
-			query.add("suggest.cfq", suggester.toUpperCase());
-		} else {
 			addWorkingSuggester(suggester);
-		}
 		return this;
 	}
 
@@ -53,6 +48,11 @@ public class AutoCompleteBuilder {
 		return this;
 	}
 
+	public AutoCompleteBuilder setContext(String string) {
+		query.add("suggest.cfq", string);
+		return this;
+	}
+	
 	public AutoCompleteBuilder pageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 		return this;

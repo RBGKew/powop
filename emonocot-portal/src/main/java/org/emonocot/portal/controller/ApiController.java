@@ -62,7 +62,8 @@ public class ApiController {
 	public ResponseEntity<SuggesterResponse> suggest(
 			@RequestParam(value = "query", required = true) String queryString,
 			@RequestParam(value = "suggester", required = true) List<String> suggesters,
-			@RequestParam(value = "page_size", required = false, defaultValue = "5") Integer pageSize
+			@RequestParam(value = "page_size", required = false, defaultValue = "5") Integer pageSize,
+			@RequestParam(value = "context", required = false) String context
 			) throws SolrServerException, IOException {
 
 		SolrQuery query = new AutoCompleteBuilder()
@@ -70,6 +71,7 @@ public class ApiController {
 				.setSuggesters(suggesters)
 				.pageSize(pageSize)
 				.setQuery(queryString)
+				.setContext(context)
 				.build();
 
 		if(query != null) {
