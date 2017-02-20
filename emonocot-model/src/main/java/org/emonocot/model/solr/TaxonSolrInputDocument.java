@@ -1,12 +1,9 @@
 package org.emonocot.model.solr;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +28,7 @@ import com.google.common.base.CaseFormat;
 
 
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
-	
+
 	private static final Pattern fieldPattern = Pattern.compile("taxon.(.*)_\\w{1,2}");
 
 	public static String propertyToSolrField(String propertyName, String type) {
@@ -76,7 +73,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.scientific_name_authorship_t", taxon.getScientificNameAuthorship());
 		addField(sid, "taxon.scientific_name_s", taxon.getScientificName());
 		addField(sid, "taxon.scientific_name_t", taxon.getScientificName());
-		addSuggest(taxon.getScientificName(), "Name");
 		addField(sid, "taxon.specific_epithet_s", taxon.getSpecificEpithet());
 		addField(sid, "taxon.subgenus_s", taxon.getSubgenus());
 		addField(sid, "taxon.taxon_rank_s", ObjectUtils.toString(taxon.getTaxonRank(), null));
@@ -196,7 +192,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 		for(String name : locationNames) {
 			sid.addField("taxon.distribution_t", name);
-			addSuggest(name, "Location");
 		}
 	}
 
@@ -252,19 +247,10 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		sid.addField("taxon.vernacular_names_not_empty_b", !taxon.getVernacularNames().isEmpty());
 		for(VernacularName v : taxon.getVernacularNames()) {
 			sid.addField("taxon.vernacular_names_t", v.getVernacularName());
-			addSuggest(v.getVernacularName(), "Common Name");
 			addSource(v);
 		}
 	}
-	
-	private void addSuggest(String text, String fieldName) {
-		SolrInputDocument child = new SolrInputDocument();
-		child.addField("id", UUID.randomUUID());
-		child.addField("suggester.text_t", text);
-		child.addField("suggester.payload_s", fieldName);
-		sid.addChildDocument(child);
-	}
-	
+
 	private void addSource(BaseData d) {
 		if(d.getAuthority() != null) {
 			sources.add(d.getAuthority().getIdentifier());

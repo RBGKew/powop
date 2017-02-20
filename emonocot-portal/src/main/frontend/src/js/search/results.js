@@ -36,9 +36,10 @@ define(function(require) {
       resultsHeader.showFacetCounts(json.facets);
       paginate(json);
     });
+
     resultsHeader.showSelectedView();
-    resultsHeader.showSelectedFacet(filters.get('selectedFacet'));
-    resultsHeader.showSelectedSort(filters.get('sort'));
+    resultsHeader.showSelectedFacet(filters.getParam('selectedFacet'));
+    resultsHeader.showSelectedSort(filters.getParam('sort'));
   };
 
   var updateItems = function(state) {
@@ -54,9 +55,9 @@ define(function(require) {
       pages: results.totalPages,
       listStyle: 'pagination',
       hrefTextPrefix: '',
-      currentPage: filters.get('page.number'),
+      currentPage: filters.getParam('page.number'),
       onPageClick: function(page, e) {
-        filters.set('page.number', page);
+        filters.setParam('page.number', page);
         e.preventDefault();
       }
     });

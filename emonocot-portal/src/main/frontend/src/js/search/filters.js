@@ -13,6 +13,8 @@ define([
 
   var filters = Immutable.Map();
 
+  var params = Immutable.Map();
+
   function className(key) {
     return key.toLowerCase().replace(' ', '-');
   }
@@ -22,9 +24,7 @@ define([
     if(bar.is(":hidden")) {
       bar.show();
     }
-    if(key == "selectedFacet" || key == "sort" || key == "page.number"){
-
-    }else if(key == "source" && value == "Kew-Species-Profiles"){
+    if(key == "source" && value == "Kew-Species-Profiles"){
       $(bar.find('.btn-group')).append(tmpl({
         searchTitle: "Kew Species Profile",
         searchTerm: key,
@@ -52,7 +52,7 @@ define([
       addBreadcrumb(key, value)
     }
 
-    filters = filters.remove('page.number');
+    params = params.remove('page.number');
   }
 
   function doRemove(filter) {
@@ -68,7 +68,7 @@ define([
       filters = filters.delete(key);
     }
 
-    filters = filters.remove('page.number')
+    params = params.remove('page.number');
     filter.remove();
     return key;
   }
@@ -97,24 +97,32 @@ define([
     pubsub.publish('search.updated.filters.' + key, true);
   };
 
-  var get = function(key) {
-    return filters.get(key);
-  }
-
   var toQuery = function() {
     var queryMap = {};
     var flatFilterMap = {};
     var filterMap = filters.toObject();
+    var paramMap = params.toObject();
     for(var key in filterMap){
       queryMap[key] = filterMap[key].join(" AND ");
     }
+    $.extend(queryMap, paramMap)
     console.log($.param(queryMap));
     return($.param(queryMap));
   };
 
+  var setParam = function(key, value) {
+    params = params.set(key, value);
+    pubsub.publish('search.updated.params.' + key, true);
+  };
+
+  var getParam = function(key) {
+    return params.get(key);
+  };
+
   var serialize = function() {
     return $.param({
-      q: filters.toObject(),
+      filters: filters.toObject(),
+      params: params.toObject()
     });
   };
 
@@ -124,17 +132,27 @@ define([
     }
 
     var deserialized = deparam(querystr);
-    for(var key in deserialized.filters) {
+    for(key in deserialized.filters) {
       doAdd(key, deserialized.filters[key]);
     }
-    pubsub.publish('search.updated.filters', false);
-  };
 
+    for(key in deserialized.params) {
+      params = params.set(key, deserialized.params[key]);
+    }
+    pubsub.publish('search.updated', false);
+  }
+  var removeParam = function(key) {
+    params.delete(key);
+    pubsub.publish('search.updated.params.' + key, true);
+
+  }
 
   return {
     add: add,
     set: add,
-    get: get,
+    setParam: setParam,
+    getParam: getParam,
+    removeParam: removeParam,
     remove: remove,
     toQuery: toQuery,
     serialize: serialize,

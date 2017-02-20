@@ -856,10 +856,9 @@
       <str name="qf">searchable.label_sort</str>
       <str name="fq">base.class_searchable_b:true</str>
       <str name="facet">true</str>
-      <str name="facet.query">{!ex=facets key=has_images}taxon.images_not_empty_b:true</str>
-      <str name="facet.query">{!ex=facets key=accepted_names}taxon.taxonomic_status_s:Accepted</str>
-      <str name="facet.query">{!ex=facets key=is_fungi}taxon.kingdom_s:Fungi</str>
-      <str name="facet.query">{!ex=facets key=all_results}base.class_searchable_b:true</str>
+      <str name="facet.query">{!ex=taxon.taxonomic_status_s key=has_images}taxon.images_not_empty_b:true</str>
+      <str name="facet.query">{!ex=taxon.images_not_empty_b key=accepted_names}taxon.taxonomic_status_s:Accepted</str>
+      <str name="facet.query">{!ex=taxon.taxonomic_status_s,taxon.images_not_empty_b key=all_results}base.class_searchable_b:true</str>
       <str name="hl">true</str>
       <str name="hl.fl">*</str>
       <str name="hl.requireFieldMatch">true</str>
@@ -1291,8 +1290,128 @@
 
   <!-- Components for autocomplete Suggestions -->
   <searchComponent name="suggest" class="solr.SuggestComponent">
+    <lst name="suggester">
+      <str name="name">location</str>
+      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="dictionaryImpl">FileDictionaryFactory</str>
+      <str name="sourceLocation">tdwg.txt</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+    </lst>
 
-   <!-- <lst name="suggester">
+    <lst name="suggester">
+      <str name="name">scientific-name</str>
+      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="field">taxon.scientific_name_t</str>
+      <str name="indexPath">scientific_name_suggest</str>
+      <str name="contextField">taxon.taxon_rank_s</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">common-name</str>
+      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="field">taxon.vernacular_names_ss</str>
+      <str name="indexPath">common_name_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic-appearance</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_appearance_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic-inflorescence</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_inflorescence_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic-fruit</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_fruit_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic-leaf</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_leaf_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic-flower</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_flower_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
+      <str name="name">characteristic-seed</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_seed_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
+      <str name="highlight">false</str>
+      <str name="separator"> </str>
+    </lst>
+
+    <lst name="suggester">
       <str name="name">characteristic-cloning</str>
       <str name="lookupImpl">FreeTextLookupFactory</str>
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
@@ -1303,21 +1422,22 @@
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
       <str name="separator"> </str>
-    </lst> -->
+    </lst>
 
     <lst name="suggester">
-      <str name="name">suggester</str>
-      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="name">use</str>
+      <str name="lookupImpl">FreeTextLookupFactory</str>
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
-      <str name="field">suggester.text_t</str>
-      <str name="payloadField">suggester.payload_s</str>
-      <str name="indexPath">suggest</str>
-      <str name="suggestAnalyzerFieldType">text_en</str>
+      <str name="suggestFreeTextAnalyzerFieldType">text_general</str>
+      <str name="ngrams">3</str>
+      <str name="field">taxon.description_use_t</str>
+      <str name="indexPath">characteristic_suggest</str>
+      <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
+      <str name="separator"> </str>
     </lst>
- 
   </searchComponent>
-  
+
   <requestHandler name="/suggest" class="solr.SearchHandler" startup="lazy">
     <lst name="defaults">
       <str name="suggest">true</str>
