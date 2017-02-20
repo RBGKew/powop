@@ -1311,7 +1311,6 @@
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="field">suggester.text_t</str>
       <str name="payloadField">suggester.payload_s</str>
-      <str name="contextField">suggester.context_s</str>
       <str name="indexPath">suggest</str>
       <str name="suggestAnalyzerFieldType">text_en</str>
       <str name="highlight">false</str>
