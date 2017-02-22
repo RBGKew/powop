@@ -3,6 +3,10 @@
 */
 .c-results-outer {
   padding-top: $navbar-padding-vertical * 2;
+  background-color: #fff;
+  a {
+    color: #000;
+  }
 
   article:last-child {
     border-right: $border-grey;
@@ -17,6 +21,7 @@
     }
 
     p {
+      color: #777;
       margin: 0;
     }
 
@@ -25,6 +30,15 @@
     .Species { background-color: #669933; }
     .Infraspecific { background-color: #993399; }
     .Synonym { background-color: #c7c7c7; }
+  }
+
+  .grid--lines {
+    padding: 0;
+    margin: 0;
+  }
+
+  .container--lines {
+    padding: 0 15px;
   }
 
 }

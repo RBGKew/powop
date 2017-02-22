@@ -1,5 +1,6 @@
 package org.emonocot.portal.json;
 
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Joiner;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.math.IntMath;
 
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Description;
@@ -72,8 +74,8 @@ public class ResponseBuilder {
 		Integer start = Integer.parseInt(params.get("start"));
 		Integer rows = Integer.parseInt(params.get("rows"));
 		jsonBuilder.perPage(rows);
-		jsonBuilder.page(start / rows);
-		jsonBuilder.totalPages(jsonBuilder.getTotalResults() / rows);
+		jsonBuilder.page(IntMath.divide(start, rows, RoundingMode.CEILING));
+		jsonBuilder.totalPages(IntMath.divide(jsonBuilder.getTotalResults(), rows, RoundingMode.CEILING));
 	}
 
 	private void addResult(SolrDocument document) {

@@ -15,17 +15,17 @@ import org.slf4j.LoggerFactory;
 public class QueryBuilderTest {
 
 	private static Logger logger = LoggerFactory.getLogger(QueryBuilderTest.class);
-	
+
 	@Test
-	public void BasicFilterQuery(){
+	public void BasicFilterQuery() {
 		QueryBuilder queryBuilder = new QueryBuilder().addParam("test", "blarg");
 		assertEquals("test:blarg", queryBuilder.build().getQuery());
 		queryBuilder.addParam("anotherParam", "blarg");
 		assertEquals("test:blarg AND anotherParam:blarg", queryBuilder.build().getQuery());
 	}
-	
+
 	@Test
-	public void RangeFacet(){
+	public void RangeFacet() {
 		QueryBuilder querybuilder = new QueryBuilder();
 		SolrQuery query = querybuilder.addParam("taxon.name_published_in_year_i", "blarg TO blarg").build();
 		List<String> filterQueries = Arrays.asList(query.getFilterQueries());
@@ -33,9 +33,9 @@ public class QueryBuilderTest {
 	}
 
 	@Test
-	public void MainFilterQuery(){
+	public void MainFilterQuery() {
 		QueryBuilder querybuilder = new QueryBuilder();
-		SolrQuery query = querybuilder.addParam("main.query", "blarg").build();
+		SolrQuery query = querybuilder.addParam("q", "blarg").build();
 		String[] expectedTerms = {
 				"taxon.scientific_name_t:blarg",
 				"taxon.family_t:blarg",
@@ -56,5 +56,13 @@ public class QueryBuilderTest {
 		for(String term : expectedTerms) {
 			assertThat(query.getQuery(), containsString(term));
 		}
+	}
+
+	@Test
+	public void compoundQuery() {
+		SolrQuery q = new QueryBuilder().addParam("q", "leaf:pinnately compound,location:africa,blarg").build();
+		assertThat(q.getQuery(), containsString("taxon.description_leaf_t:pinnately+compound"));
+		assertThat(q.getQuery(), containsString("taxon.distribution_t:africa"));
+		assertThat(q.getQuery(), containsString("taxon.scientific_name_t:blarg"));
 	}
 }

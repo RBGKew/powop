@@ -12,26 +12,29 @@ $header-logo-height: 47px;
       font-size: $font-size-h1;
     }
   }
-}
 
-.c-header__logo,
-.c-header__actions {
-  @media (max-width: $screen-sm-min) { margin: 10px 0; }
+  .container {
+    @media (max-width: $screen-sm-min) { margin: 10px 0; }
 
-  small {
-    color: grey;
-    font-size: 60%
+    small {
+      display: block;
+      color: grey;
+      font-size: 60%
+    }
+  }
+
+  .featured {
+    display: none;
+    margin-top: 15px;
+    float: left;
   }
 }
 
-
-.c-header__actions {
-  float: right;
+#kew-logo {
   display: none;
-  @media (min-width: $screen-sm-min) {
-    display: block;
-  }
+  float: right;
 
+  @media (min-width: $screen-sm-min) { display: block; }
   #kew-logo-svg {
     width: 200px;
     height: 25px;
@@ -39,3 +42,12 @@ $header-logo-height: 47px;
   }
 }
 
+.s-search__fullpage .featured {
+  @media (min-width: $screen-sm-min) {
+    display: block;
+  }
+}
+
+.s-search__fullpage #powo-title {
+  display: none;
+}

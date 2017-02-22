@@ -81,6 +81,9 @@ $border-grey: 1px solid #CCCCCC;
 @import "vendor/magnific-popup";
 @import "vendor/openlayers";
 
+@import "vendor/bootstrap-tokenfield";
+@import "vendor/tokenfield-typeahead";
+
 @import "core/functions";
 @import "core/helpers";
 @import "core/mixins";

@@ -19,8 +19,8 @@ public class OldSearchBuilder {
 		if(pageSize == null){
 			pageSize = 0;
 		}
-		queryBuilder.addParam("pageSize", pageSize.toString());
-		queryBuilder.addParam("pageNumber", pageNumber.toString());
+		queryBuilder.addParam("page.size", pageSize.toString());
+		queryBuilder.addParam("page", pageNumber.toString());
 		if(sort != null && !sort.isEmpty()){
 			queryBuilder.addParam("sort", sort);
 		}
@@ -54,7 +54,7 @@ public class OldSearchBuilder {
 
 	public SolrQuery oldAutocomplete(final String query, final Integer pageSize, Map<String, String> selectedFacets){
 		QueryBuilder queryBuilder = new QueryBuilder();
-		queryBuilder.addParam("pageSize", pageSize.toString());
+		queryBuilder.addParam("page.size", pageSize.toString());
 		if(selectedFacets != null && !selectedFacets.isEmpty()) {
 			for(String facetName : selectedFacets.keySet()) {
 				queryBuilder.addParam(facetName, selectedFacets.get(facetName));

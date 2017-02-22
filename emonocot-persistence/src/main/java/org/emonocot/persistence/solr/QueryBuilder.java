@@ -3,6 +3,8 @@ package org.emonocot.persistence.solr;
 import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.emonocot.model.solr.SolrFieldNameMappings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
@@ -10,6 +12,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class QueryBuilder {
 
+	private static Logger logger = LoggerFactory.getLogger(QueryBuilder.class);
 	private SolrQuery query = new SolrQuery().setRequestHandler("/powop_search");
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
 
@@ -40,31 +43,58 @@ public class QueryBuilder {
 			.build();
 
 	private static final Map<String, QueryOption> queryMappings = new ImmutableMap.Builder<String, QueryOption>()
-			.put("main.query", new MultiFieldQuery(mainQueryFields))
-			.put("all.names", new MultiFieldQuery(allNamesQueryFields))
+			.put("any", new MultiFieldQuery(mainQueryFields))
+			.put("names", new MultiFieldQuery(allNamesQueryFields))
 			.put("taxon.description_t", new MultiFieldQuery(allCharacteristicFields))
 			.put("taxon.name_published_in_year_i", new RangeFilterQuery())
 			.put("sort", new SortQuery())
-			.put("page.number", new pageNumberQuery())
-			.put("pageNumber", new pageNumberQuery())
+			.put("page", new PageNumberQuery())
 			.put("page.size", new pageSizeQuery())
-			.put("pageSize" , new pageSizeQuery())
 			.put("base.class_searchable_b", new searchableFilterQuery())
-			.put("selectedFacet", new ResultsFilterQuery())
+			.put("f", new ResultsFilterQuery())
 			.build();
 
 	private static final QueryOption basicMapper = new SingleFieldFilterQuery();
 
 	public QueryBuilder addParam(String key, String value) {
+		if(key.equals("q")) {
+			parseQuery(value);
+		} else {
+			mapParams(key, value);
+		}
+
+		return this;
+	}
+
+	/* The main query can be a compound query such as q=africa,leaf:compound
+	 * It is a comma delimited list of either a single search term or key:value term
+	 * terms without a key are treated as if they had key = any */
+	private void parseQuery(String q) {
+		for(String term : q.split("\\s*,\\s*")) {
+			String[] terms = term.split("\\s*:\\s*");
+			String key, value;
+			if(terms.length == 2) {
+				key = terms[0];
+				value = terms[1];
+			} else {
+				key = "any";
+				value = terms[0];
+			}
+
+			mapParams(key, value);
+		}
+	}
+
+	private void mapParams(String key, String value) {
 		if(fieldNames.containsKey(key.toLowerCase())){
 			key = fieldNames.get(key.toLowerCase());
 		}
+
 		if(queryMappings.containsKey(key)) {
 			queryMappings.get(key).addQueryOption(key, value, query);
 		} else {
 			basicMapper.addQueryOption(key, value, query);
 		}
-		return this;
 	}
 
 	public QueryBuilder addHighlightField(String field) {
@@ -72,7 +102,7 @@ public class QueryBuilder {
 		return this;
 	}
 
-	public SolrQuery build (){
+	public SolrQuery build () {
 		return query;
 	}
 }

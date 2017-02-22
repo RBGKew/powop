@@ -23,9 +23,8 @@
     color: #000000;
     background-color: #FFFFFF;
     position: absolute;
-    left: $grid-gutter-width / 2;
-    right: $grid-gutter-width / 2;
-    top: 60px;
+    top: 65px;
+    width: 100%;
     @include box-shadow(0 5px 10px rgba(0,0,0,.2));
 
     @media (max-width: $screen-sm-min) {

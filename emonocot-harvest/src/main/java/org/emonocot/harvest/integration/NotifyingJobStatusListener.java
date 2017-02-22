@@ -146,8 +146,8 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 							  .addParam("base.class_s", "org.emonocot.model.Annotation")
 							  .addParam("annotation.job_id_l", jobExecution.getId().toString())
 							  .addParam("base.class_searchable_b", "false")
-							  .addParam("pageNumber", "0")
-							  .addParam("pageSize", "1")
+							  .addParam("page", "0")
+							  .addParam("page.size", "1")
 							  .build();
 			logger.debug(query.toString());
 			query.addFacetQuery("annotation.type_s:Info");

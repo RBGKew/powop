@@ -2,13 +2,6 @@
 * Component - Search
 */
 .c-search {
-  background: url('../img/raster/Anagallis_arvensis_06.jpg') no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-color: black;
-  background-position-y: 100%;
-  background-position-x: 240px;
-
   color: #FFFFFF;
 
   .btn-link,
@@ -22,7 +15,7 @@
 
   &__title {
     margin: 0 0 1em;
-    @media (min-width: $screen-md-min) { margin: 1em 0 1.5em; }
+    @media (min-width: $screen-md-min) { margin: 0.8em; }
     @media (max-width: $screen-sm-min) { display: none; }
   }
 
@@ -39,7 +32,30 @@
       display: none;
     }
   }
+
+  .tokenfield .token {
+    height: auto;
+    margin-bottom: 0;
+
+    .close {
+      color: #000;
+    }
+  }
+
+  .suggestion-category {
+    color: #ccc;
+    float: right;
+  }
 }
+
+.s-search__fullpage .c-search {
+  position: absolute;
+  top: 40%;
+  left: 5%;
+  width: 90%;
+  transform: translateY(-50%);
+}
+
 
 .results-kingdom {
   width: 25px;

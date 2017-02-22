@@ -11,6 +11,7 @@ define(function(require) {
     $('#all_results span').text(facets.all_results);
     $('#accepted_names span').text(facets.accepted_names);
     $('#has_images span').text(facets.has_images);
+    $('#is_fungi span').text(facets.is_fungi);
   }
 
   function showSelectedView() {
@@ -35,16 +36,15 @@ define(function(require) {
     }
   }
 
-  function showSelectedFacet(selectedFacet) {
-    if(selectedFacet){
-      if($.isArray(selectedFacet)){
-        selectedFacet.forEach( function(facet) {
-          pickFacet(facet);
-        });
-      }else{
-        pickFacet(selectedFacet);
+  function showSelectedFacet(facets) {
+    if(facets){
+      if($.isArray(facets)) {
+        facets.forEach(pickFacet)
+      } else {
+        pickFacet(facets);
       }
-    }else{
+    } else {
+      $('.facets').removeClass('selectedFacet');
       $("#all_results").addClass('selectedFacet');
     }
   }
@@ -53,6 +53,6 @@ define(function(require) {
     showSelectedFacet : showSelectedFacet,
     showFacetCounts : showFacetCounts,
     showSelectedSort : showSelectedSort,
-    showSelectedView : showSelectedView
+    showSelectedView : showSelectedView,
   };
 });

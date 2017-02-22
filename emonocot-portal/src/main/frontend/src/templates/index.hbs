@@ -1,52 +1,25 @@
 {{> partials/header title="Plants of the World Online | Kew Science"}}
-<div class="s-page s-page--home s-theme-home">
+<div id="svgs" class="hidden">
+{{> svg/leaf.svg }}
+{{> svg/mushroom.svg }}
+{{> svg/chevron.svg }}
+</div>
+<div class="s-page s-page--home s-search__fullpage s-theme-home invisible">
   <div class="s-page-wrapper">
-    <header class="c-header">
-      <div class="container-fluid">
-        <nav class="c-header__actions">
-          Featured: <i><a href="/taxon/urn:lsid:ipni.org:names:329604-2">Anagallis arvensis</a></i><br>
-          <small>
-            <div>Image from Stuppy &amp; Kesseler</div>
-            <div>©Papadakis Publisher</div>
-          </small>
-        </nav>
-        <a href="http://www.kew.org/science-conservation">{{> svg/kew-science-logo.svg}}</a>
-      </div>
-    </header>
+    {{> partials/page-header }}
 
-    <section class="s-search-home">
+    <section class="c-search autocomplete-form">
       <div class="container">
         <div class="c-intro">
           <h1 class="c-intro__title">Plants of the World Online <small><sub><i>beta</i></sub></small></h1>
           <p>Browse 300,000 global plant names, 1,300 images, and 22,000 detailed descriptions covering tropical Africa</p>
         </div>
 
-        <div class="c-search-home autocomplete-form">
-          <div class="form-add form-inline form-inline--home">
-            <div id="any" class="form-group form-inline__input tab-pane active">
-              <label for="search" class="sr-only">Search</label>
-              <input type="search" autocomplete="off" class="form-control refine" id="search"
-               data-suggester="scientific-name,location,characteristic,common-name"
-               data-count=2
-               data-showsuggester=true
-               placeholder="Search by species, genus or family name, or any words describing the plant">
-            </div>
-            <button type="submit" class="btn btn-default">Search</button>
-          </div>
-          <nav>
-            <ul class="c-search-home__links list-inline">
-              <li>Or find plants by:</li>
-              <li><a href="search#names">Name</a></li>
-              <li><a href="search#characteristics">Characteristic</a></li>
-              <li><a href="search#locations">Location</a></li>
-              <li class="hidden"><a href="search#uses">Usage</a></li>
-            </ul>
-          </nav>
-        </div>
+        {{> partials/search/search-box }}
 
       </div><!-- End Container -->
     </section>
-    {{> partials/footer-links-fluid}}
+    {{> partials/footer-links}}
   </div>
 </div>
-{{> partials/footer initialize="home"}}
+{{> partials/footer initialize="search"}}

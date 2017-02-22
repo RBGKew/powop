@@ -22,42 +22,21 @@
  * Form - Inline form, results page.
  */
 .form-inline--search {
+  margin: 0;
+  position: relative;
+  width: 100%;
+	padding: 15px 0;
 
-  button {
-    display: none;
-  }
+  input {
+    width: 100%;
 
-  .form-group {
-    margin: 0;
-    .c-select,
-    select,
-    input {
-      width: 100%;
+    &.refine {
+      line-height: normal;
     }
   }
 
-  .form-inline__select,
-  .form-inline__input,
-  .form-inline__fullwidth {
-    margin-bottom: 1em;
-    position: relative;
-  }
-
-  .form-inline__select {
-    @include make-sm-column(3);
-    @include make-lg-column(3);
-    @include make-md-column(3);
-  }
-
-  .form-inline__input {
-    @include make-sm-column(9);
-    @include make-md-column(9);
-    @include make-lg-column(9);
-  }
-
-  .form-inline__fullwidth {
-    width: 100%;
-    padding: 0 15px;
+  button {
+    display: none;
   }
 }
 

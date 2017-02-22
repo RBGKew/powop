@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'libs/openlayers'], function($, _, ol) {
+define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
   var projection = 'EPSG:3857';
   var taxonId = $('.s-page').attr('id');
   var serverResolutions = [

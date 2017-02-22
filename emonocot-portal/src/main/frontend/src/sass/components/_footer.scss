@@ -1,6 +1,6 @@
 .c-footer {
   padding: $line-height-computed 0;
-  font-size: 14px;
+  font-size: 11px;
 
   &__terms {
     margin: 0;
@@ -13,9 +13,15 @@
   &__copyright {
     display: inline-block;
     margin-top: 1em;
-    @media (min-width: $screen-md-min) {
+    @media (min-width: $screen-sm-min) {
       margin-top: 0;
       float: right;
     }
   }
 }
+
+.s-search__fullpage .c-footer {
+  position: absolute;
+  bottom: 0px;
+}
+

@@ -3,141 +3,163 @@
  *
  * Publishes events on 'search.filters' channel
  */
-define([
-  'jquery',
-  'immutable',
-  'libs/pubsub',
-  'libs/deparam',
-  'templates/partials/search/filter-breadcrumb.js',
-], function($, Immutable, pubsub, deparam, tmpl) {
+define(function(require) {
 
-  var filters = Immutable.Map();
+  var $ = require('jquery');
+  var _ = require('libs/lodash');
+  var Immutable = require('libs/immutable');
+  var pubsub = require('libs/pubsub');
+  var deparam = require('libs/deparam');
+  var Bloodhound = require('libs/bloodhound');
+  var typeahead = require('libs/typeahead');
+  var Handlebars = require('handlebars');
+  var suggestionTmpl = require('templates/partials/search/suggestion.js');
 
-  function className(key) {
-    return key.toLowerCase().replace(' ', '-');
+  var initialized = false;
+  var tokenfield;
+  var params = Immutable.Map();
+
+  var suggesters = [
+    'common-name',
+    'scientific-name',
+    'location',
+    'characteristic',
+  ];
+
+  function humanize(name) {
+    return name.split('-').join(' ');
   }
 
-  function addBreadcrumb(key, value) {
-    var bar = $('.c-search__filters');
-    if(bar.is(":hidden")) {
-      bar.show();
-    }
-    if(key == "selectedFacet" || key == "sort" || key == "page.number"){
+  function transform(res) {
+    ret = [];
+    _.each(suggesters, function(suggester) {
 
-    }else if(key == "source" && value == "Kew-Species-Profiles"){
-      $(bar.find('.btn-group')).append(tmpl({
-        searchTitle: "Kew Species Profile",
-        searchTerm: key,
-        searchValue: value,
-        className: className(key)
-      }));
-    }else{
-      $(bar.find('.btn-group')).append(tmpl({
-        searchTerm: key,
-        searchValue: value,
-        className: className(key)
-      }));
-    }
+      for(i = 0; i < res.suggestedTerms[suggester].length && i < 2; i++) {
+        ret.push({
+          value: res.suggestedTerms[suggester][i],
+          category: humanize(suggester),
+        });
+      }
+    });
+    return ret;
   }
 
-  function doAdd(key, value) {
-    if(filters.has(key)) {
-      doRemove($('button.' + className(key)));
-    }
-    if($.isArray(value)) {
-      filters = filters.set(key, value);
-      $.each(value, function(index, val) { addBreadcrumb(key, val) });
-    } else {
-      filters = filters.set(key, [value]);
-      addBreadcrumb(key, value)
-    }
+  var initialize = function(initial) {
+    engine = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: {
+        url: '/api/1/suggest?query=%q',
+        wildcard: '%q',
+        transform: transform,
+      }
+    });
+    engine.initialize();
 
-    filters = filters.remove('page.number');
+    tokenfield = $('input.refine').tokenfield({
+      tokens: initial,
+      typeahead: [
+        {
+          hint: false,
+          highlight: true,
+        },
+        {
+          display: 'value',
+          limit: 8,
+          source: engine.ttAdapter(),
+          templates: { suggestion: suggestionTmpl }
+        }
+      ]
+    })
+      .on('tokenfield:createdtoken', createdToken)
+      .on('tokenfield:removedtoken', publishUpdated);
+
+    initialized = true;
   }
 
-  function doRemove(filter) {
-    var key = $(filter).data('term');
-    var value = $(filter).data('value');
-
-    if($.isArray(filters.get(key)) && filters.get(key).length > 1) {
-      var updated = $.grep(filters.get(key), function(v) {
-        return value != v;
-      });
-      filters = filters.set(key, updated);
-    } else {
-      filters = filters.delete(key);
-    }
-
-    filters = filters.remove('page.number')
-    filter.remove();
-    return key;
-  }
-
-  var add = function(key, value) {
-    doAdd(key, value);
-    console.log('Added {' + key + ', ' + value + '}. Current Filters: ' + filters.toString());
-    pubsub.publish('search.updated.filters.' + key, true);
+  function publishUpdated(e) {
+    pubsub.publish('search.updated');
   };
 
-  var remove = function(removeFilters) {
-    var key;
-    if(removeFilters.length > 1) {
-      removeFilters.each(function(_, filter) {
-        key = doRemove(filter);
-      });
-    } else {
-       key = doRemove(removeFilters);
-    }
-
-    if(filters.isEmpty()) {
-      $('.c-search__filters').hide();
-    }
-
-    console.log('Removed {' + key + '}. Current Filters: ' + filters.toString());
-    pubsub.publish('search.updated.filters.' + key, true);
+  function createdToken() {
+    publishUpdated();
   };
 
-  var get = function(key) {
-    return filters.get(key);
+  function setTokens(tokens) {
+    if(initialized) {
+      tokenfield.tokenfield('setTokens', tokens);
+    } else {
+      initialize(tokens);
+      publishUpdated();
+    }
   }
 
-  var toQuery = function() {
-    var queryMap = {};
-    var flatFilterMap = {};
-    var filterMap = filters.toObject();
-    for(var key in filterMap){
-      queryMap[key] = filterMap[key].join(" AND ");
+  var add = function(key, val) {
+    tokenfield.tokenfield('createToken', val ? key + ":" + val : key);
+  }
+
+  var getFilters = function() {
+    return tokenfield.tokenfield('getTokens');
+  }
+
+  var setParam = function(key, value, publish) {
+    params = params.set(key, value);
+    if(_.defaultTo(publish, true)) {
+      pubsub.publish('search.updated.params.' + key);
     }
-    console.log($.param(queryMap));
-    return($.param(queryMap));
   };
+
+  var getParam = function(key) {
+    return params.get(key);
+  };
+
+  var removeParam = function(key, publish) {
+    params = params.delete(key);
+    if(_.defaultTo(publish, true)) {
+      pubsub.publish('search.updated.params.' + key);
+    }
+  }
 
   var serialize = function() {
-    return $.param({
-      q: filters.toObject(),
-    });
-  };
-
-  var deserialize = function(querystr) {
-    if(querystr[0] === '?') {
-      querystr = querystr.slice(1);
+    var q = params.toObject();
+    if(!_.isEmpty(this.filters())) {
+      $.extend(q, {'q': _.map(this.filters(), 'value').join(',')});
     }
 
-    var deserialized = deparam(querystr);
-    for(var key in deserialized.filters) {
-      doAdd(key, deserialized.filters[key]);
-    }
-    pubsub.publish('search.updated.filters', false);
+    return($.param(q));
   };
 
+  var deserialize = function(serialized) {
+    if(serialized[0] == '?') {
+      serialized = serialized.slice(1);
+    }
+
+    var deserialized = deparam(serialized);
+    for(key in deserialized) {
+      if(key === 'q') continue;
+      params = params.set(key, deserialized[key]);
+    }
+
+    if(_.isString(deserialized['q'])) {
+      setTokens(deserialized['q'].split(','));
+    } else {
+      publishUpdated();
+    }
+  }
+
+  var refresh = function() {
+    tokenfield.tokenfield('update');
+  }
 
   return {
     add: add,
-    set: add,
-    get: get,
-    remove: remove,
-    toQuery: toQuery,
+    deserialize: deserialize,
+    filters: getFilters,
+    getParam: getParam,
+    initialize: initialize,
+    refresh: refresh,
+    removeParam: removeParam,
     serialize: serialize,
-    deserialize: deserialize
-  };
+    setParam: setParam,
+  }
 });

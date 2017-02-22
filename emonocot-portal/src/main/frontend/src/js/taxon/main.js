@@ -1,4 +1,4 @@
-define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map) {
+define(['jquery', './map', 'libs/bootstrap', 'libs/magnific-popup'], function($, map) {
   var initialize = function() {
 
     // collapse all sections if screen size is less than 768px
@@ -23,7 +23,7 @@ define(['jquery', './map', 'bootstrap', 'libs/magnific-popup'], function($, map)
     });
 
     // Accomodate fixed header when jumping to anchor links
-    $('a[href*=#]:not([href=#])').click(function() {
+    $('a[href*=\\#]:not([href=\\#])').click(function() {
       if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') || location.hostname == this.hostname) {
 
         var target = $(this.hash);

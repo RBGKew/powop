@@ -32,11 +32,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.collect.ImmutableList;
+
 @Controller
 @RequestMapping("/api/1/")
 public class ApiController {
 
 	private static Logger logger = LoggerFactory.getLogger(ApiController.class);
+
+	private static List<String> suggesters = ImmutableList.<String>of(
+			"location",
+			"common-name",
+			"scientific-name",
+			"characteristic");
+
 	@Autowired
 	private SearchableObjectService searchableObjectService;
 
@@ -44,25 +53,23 @@ public class ApiController {
 	private TaxonService taxonService;
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces={"application/json"})
-	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> allRequestParams) throws SolrServerException, IOException {
+	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
 		QueryBuilder queryBuilder = new QueryBuilder();
-		if(allRequestParams != null && !allRequestParams.isEmpty()){
-			for(String key : allRequestParams.keySet()){
-				queryBuilder.addParam(key, allRequestParams.get(key));
-			}
+		for(Entry<String, String> entry : params.entrySet()){
+			queryBuilder.addParam(entry.getKey(), entry.getValue());
 		}
-		SolrQuery query = queryBuilder.build();
 
+		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
 		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService);	
+
 		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<SuggesterResponse> suggest(
 			@RequestParam(value = "query", required = true) String queryString,
-			@RequestParam(value = "suggester", required = true) List<String> suggesters,
-			@RequestParam(value = "page_size", required = false, defaultValue = "5") Integer pageSize
+			@RequestParam(value = "page.size", required = false, defaultValue = "5") Integer pageSize
 			) throws SolrServerException, IOException {
 
 		SolrQuery query = new AutoCompleteBuilder()

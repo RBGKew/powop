@@ -18,15 +18,6 @@
     min-height: calc(100vh - 30px);
   }
 
-  @media (min-width: $screen-sm-min) {
-    .c-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  }
-
   .c-header__actions {
     float: left;
     margin-top: 25px;
@@ -44,6 +35,23 @@
       margin: 30px 0;
     }
   }
+}
+
+@media (min-width: $screen-sm-min) {
+  .s-search__fullpage .c-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.c-intro {
+  display: none;
+}
+
+.s-search__fullpage .c-intro {
+  display: block;
 }
 
 // Section Home

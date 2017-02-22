@@ -73,8 +73,8 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 			queryBuilder.addParam("sort", sort);
 		}
 
-		queryBuilder.addParam("pageSize", "" + getPageSize());
-		queryBuilder.addParam("pageNumber", "" + getPage());
+		queryBuilder.addParam("page.size", "" + getPageSize());
+		queryBuilder.addParam("page", "" + getPage());
 		SolrQuery query = queryBuilder.build();
 		try {
 			results = service.search(query, "object-page").getRecords();

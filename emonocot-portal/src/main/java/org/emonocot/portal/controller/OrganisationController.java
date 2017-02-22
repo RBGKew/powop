@@ -85,8 +85,8 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			}
 		}
 		queryBuilder.addParam("base.class_searchable_b", "false");
-		queryBuilder.addParam("pageSize", "24");
-		queryBuilder.addParam("pageNumber", start.toString());
+		queryBuilder.addParam("page.size", "24");
+		queryBuilder.addParam("page", start.toString());
 		SolrQuery solrQuery = queryBuilder.build().setQuery(query).addFilterQuery("base.class_s:org.emonocot.model.registry.Organisation");
 		Page<Organisation> result = getService().search(solrQuery, "source-with-jobs");
 		model.addAttribute("result", result);

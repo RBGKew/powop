@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 
 public class ResultsFilterQuery implements QueryOption {
 	private static Logger logger = LoggerFactory.getLogger(ResultsFilterQuery.class);
-	
+
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
-		String[] facets = value.split(" AND ");
+		String[] facets = value.split(",");
 		List<String> selectedFacets = new ArrayList<String>();
 		for(String facet: facets){
 			switch(facet){
 			case "all_results":
-				break;	
+				break;
 			case "accepted_names":
 				selectedFacets.add("taxon.taxonomic_status_s:Accepted");
 				break;
@@ -28,11 +28,10 @@ public class ResultsFilterQuery implements QueryOption {
 			case "is_fungi":
 				selectedFacets.add("taxon.kingdom_s:Fungi");
 			}
-			
+
 		}
 		if(!selectedFacets.isEmpty()){
 			query.add("fq", "{!tag=facets}" + StringUtils.join(selectedFacets, " AND "));
 		}
 	}
 }
- 
