@@ -33,7 +33,6 @@ define(function(require) {
   function transform(res) {
     ret = [];
     _.each(suggesters, function(suggester) {
-
       for(i = 0; i < res.suggestedTerms[suggester].length && i < 2; i++) {
         ret.push({
           value: res.suggestedTerms[suggester][i],
@@ -71,10 +70,18 @@ define(function(require) {
         }
       ]
     })
+      .on('tokenfield:createtoken', customizeTokenLabels)
       .on('tokenfield:createdtoken', createdToken)
       .on('tokenfield:removedtoken', publishUpdated);
 
     initialized = true;
+  }
+
+  var overrides = {'source:Kew-Species-Profiles': 'Kew Species Profiles'};
+  function customizeTokenLabels(e) {
+    if(e.attrs.label in overrides) {
+      e.attrs.label = overrides[e.attrs.label];
+    }
   }
 
   function publishUpdated(e) {
