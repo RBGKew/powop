@@ -6,7 +6,6 @@ define(function(require) {
   var pagination = require('libs/pagination');
   var filters = require('./filters');
   var resultsHeader = require('./resultsHeader');
-  var Cookies = require('libs/js.cookie.js');
   var events = require('./events');
 
   var resultsContainerTmpl = require('templates/partials/result/results-container.js');
@@ -39,6 +38,13 @@ define(function(require) {
     if(_.isEmpty($('.c-results-outer'))) {
       $('.c-search').append(resultsContainerTmpl());
       $('.c-footer').show();
+      $(".c-results-outer").on("click", ".js-show-list", function() {
+        $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
+      });
+
+      $(".c-results-outer").on("click", ".js-show-grid", function() {
+        $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
+      });
     }
   }
 
