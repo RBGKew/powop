@@ -131,30 +131,30 @@
 
   <error-page>
     <error-code>400</error-code>
-    <location>/badRequest</location>
+    <location>/generic_error</location>
   </error-page>
   <error-page>
     <error-code>404</error-code>
-    <location>/resourceNotFound</location>
+    <location>/not_found_error</location>
   </error-page>
   <error-page>
     <error-code>405</error-code>
-    <location>/methodNotAllowed</location>
+    <location>/generic_error</location>
   </error-page>
   <error-page>
     <error-code>406</error-code>
-    <location>/notAcceptable</location>
+    <location>/generic_error</location>
   </error-page>
   <error-page>
     <error-code>415</error-code>
-    <location>/unsupportedMediaType</location>
+    <location>/generic_error</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
-    <location>/internalServerError</location>
+    <location>/generic_error</location>
   </error-page>
   <error-page>
     <error-code>503</error-code>
-    <location>/serviceUnavailable</location>
+    <location>/generic_error</location>
   </error-page>
 </web-app>

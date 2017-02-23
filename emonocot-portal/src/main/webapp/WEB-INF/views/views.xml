@@ -35,38 +35,6 @@
     <put-attribute name="pageTitle" value="loginTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/login.jspx" />
   </definition>
-  <definition name="accessDenied" extends="default">
-    <put-attribute name="pageTitle" value="accessDeniedTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/accessDenied.jspx" />
-  </definition>
-  <definition name="resourceNotFound" extends="default">
-    <put-attribute name="pageTitle" value="resourceNotFoundTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx" />
-  </definition>
-  <definition name="internalServerError" extends="default">
-    <put-attribute name="pageTitle" value="internalServerErrorTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/internalServerError.jspx" />
-  </definition>
-  <definition name="methodNotAllowed" extends="default">
-    <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/methodNotAllowed.jspx" />
-  </definition> 
-   <definition name="notAcceptable" extends="default">
-    <put-attribute name="pageTitle" value="notAcceptableTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/notAcceptable.jspx" />
-  </definition> 
-   <definition name="unsupportedMediaType" extends="default">
-    <put-attribute name="pageTitle" value="unsupportedMediaTypeTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/unsupportedMediaType.jspx" />
-  </definition> 
-  <definition name="badRequest" extends="default">
-    <put-attribute name="pageTitle" value="methodNotAllowedTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/badRequest.jspx" />
-  </definition>
-  <definition name="serviceUnavailable" extends="default">
-    <put-attribute name="pageTitle" value="serviceUnavailableTitle" cascade="true" />
-    <put-attribute name="body" value="/WEB-INF/views/serviceUnavailable.jspx" />
-  </definition>
   <definition name="about" extends="default">
     <put-attribute name="pageTitle" value="aboutTitle" cascade="true" />
     <put-attribute name="body" value="/WEB-INF/views/about.jspx" />
