@@ -33,6 +33,10 @@ define(function(require) {
   function transform(res) {
     ret = [];
     _.each(suggesters, function(suggester) {
+      if(!(suggester in res.suggestedTerms)) {
+        return;
+      }
+
       for(i = 0; i < res.suggestedTerms[suggester].length && i < 2; i++) {
         ret.push({
           value: res.suggestedTerms[suggester][i],
