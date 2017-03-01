@@ -78,6 +78,8 @@ define(function(require) {
       .on('tokenfield:createdtoken', createdToken)
       .on('tokenfield:removedtoken', publishUpdated);
 
+    $(window).on('resize', refresh);
+
     initialized = true;
   }
 
