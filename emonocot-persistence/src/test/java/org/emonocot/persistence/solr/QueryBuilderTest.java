@@ -37,21 +37,21 @@ public class QueryBuilderTest {
 		QueryBuilder querybuilder = new QueryBuilder();
 		SolrQuery query = querybuilder.addParam("q", "blarg").build();
 		String[] expectedTerms = {
-				"taxon.scientific_name_t:blarg",
-				"taxon.family_t:blarg",
-				"taxon.genus_t:blarg",
-				"taxon.species_t:blarg",
-				"taxon.vernacular_names_t:blarg",
-				"taxon.name_published_in_string_s:blarg",
-				"taxon.scientific_name_authorship_t:blarg",
-				"taxon.description_appearance_t:blarg",
-				"taxon.description_inflorescence_t:blarg",
-				"taxon.description_fruit_t:blarg",
-				"taxon.description_leaves_t:blarg",
-				"taxon.description_flower_t:blarg",
-				"taxon.description_seed_t:blarg",
-				"taxon.description_vegitativePropagation_t:blarg",
-				"taxon.distribution_t:blarg"};
+				"taxon.scientific_name_ss_lower:\"blarg\"",
+				"taxon.family_ss_lower:\"blarg\"",
+				"taxon.genus_ss_lower:\"blarg\"",
+				"taxon.species_ss_lower:\"blarg\"",
+				"taxon.vernacular_names_t:\"blarg\"~10",
+				"taxon.name_published_in_string_s:\"blarg\"",
+				"taxon.scientific_name_authorship_t:\"blarg\"~10",
+				"taxon.description_appearance_t:\"blarg\"~10",
+				"taxon.description_inflorescence_t:\"blarg\"~10",
+				"taxon.description_fruit_t:\"blarg\"~10",
+				"taxon.description_leaves_t:\"blarg\"~10",
+				"taxon.description_flower_t:\"blarg\"~10",
+				"taxon.description_seed_t:\"blarg\"~10",
+				"taxon.description_vegitativePropagation_t:\"blarg\"~10",
+				"taxon.distribution_ss_lower:\"blarg\""};
 
 		for(String term : expectedTerms) {
 			assertThat(query.getQuery(), containsString(term));
@@ -61,8 +61,8 @@ public class QueryBuilderTest {
 	@Test
 	public void compoundQuery() {
 		SolrQuery q = new QueryBuilder().addParam("q", "leaf:pinnately compound,location:africa,blarg").build();
-		assertThat(q.getQuery(), containsString("taxon.description_leaf_t:pinnately+compound"));
-		assertThat(q.getQuery(), containsString("taxon.distribution_t:africa"));
-		assertThat(q.getQuery(), containsString("taxon.scientific_name_t:blarg"));
+		assertThat(q.getQuery(), containsString("taxon.description_leaf_t:\"pinnately compound\"~10"));
+		assertThat(q.getQuery(), containsString("taxon.distribution_ss_lower:\"africa\""));
+		assertThat(q.getQuery(), containsString("taxon.scientific_name_ss_lower:\"blarg\""));
 	}
 }

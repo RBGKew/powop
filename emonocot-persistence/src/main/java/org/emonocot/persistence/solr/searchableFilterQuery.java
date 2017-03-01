@@ -2,7 +2,7 @@ package org.emonocot.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class searchableFilterQuery implements QueryOption {
+public class searchableFilterQuery extends QueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {

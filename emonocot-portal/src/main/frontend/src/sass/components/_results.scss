@@ -1,6 +1,6 @@
 /*
-* Component - Results
-*/
+ * Component - Results
+ */
 .c-results-outer {
   padding-top: 10px;
   background-color: #fff;
@@ -30,6 +30,9 @@
     padding: 0 15px;
   }
 
+  .selected_background {
+    background-color: #e7e7e7;
+  }
 }
 
 .selectedFacet {
@@ -37,13 +40,13 @@
 }
 
 .grid--rows {
-    #list_view {
-      background-color: #e7e7e7 !important;
-    }
+  #list_view {
+    background-color: #e7e7e7 !important;
   }
+}
 
-  .grid--columns {
-    #grid_view {
-      background-color: #e7e7e7 !important;
-    }
+.grid--columns {
+  #grid_view {
+    background-color: #e7e7e7 !important;
   }
+}

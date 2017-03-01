@@ -2,7 +2,7 @@ package org.emonocot.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class pageSizeQuery implements QueryOption {
+public class PageSizeQuery extends QueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
@@ -13,6 +13,5 @@ public class pageSizeQuery implements QueryOption {
 			Integer page = query.getStart() / query.getRows();
 			query.setStart(page * pageSize);
 		}
-		
 	}
 }

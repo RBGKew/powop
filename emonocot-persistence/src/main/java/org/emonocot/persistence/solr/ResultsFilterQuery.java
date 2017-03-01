@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.gbif.ecat.voc.Rank;
 
-public class ResultsFilterQuery implements QueryOption {
+public class ResultsFilterQuery extends QueryOption {
 	private static Logger logger = LoggerFactory.getLogger(ResultsFilterQuery.class);
 
 	@Override

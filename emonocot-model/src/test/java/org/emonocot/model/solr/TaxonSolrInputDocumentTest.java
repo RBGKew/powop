@@ -56,11 +56,11 @@ public class TaxonSolrInputDocumentTest {
 	}
 
 	private TestCase[] higerOrderTestCases = {
-			new TestCase().withRank(Rank.FAMILY).andSolrFieldName("taxon.family_t"),
-			new TestCase().withRank(Rank.Subfamily).andSolrFieldName("taxon.subfamily_t"),
-			new TestCase().withRank(Rank.GENUS).andSolrFieldName("taxon.genus_t"),
-			new TestCase().withRank(Rank.Tribe).andSolrFieldName("taxon.tribe_t"),
-			new TestCase().withRank(Rank.Subtribe).andSolrFieldName("taxon.subtribe_t"),
+			new TestCase().withRank(Rank.FAMILY).andSolrFieldName("taxon.family_ss_lower"),
+			new TestCase().withRank(Rank.Subfamily).andSolrFieldName("taxon.subfamily_ss_lower"),
+			new TestCase().withRank(Rank.GENUS).andSolrFieldName("taxon.genus_ss_lower"),
+			new TestCase().withRank(Rank.Tribe).andSolrFieldName("taxon.tribe_ss_lower"),
+			new TestCase().withRank(Rank.Subtribe).andSolrFieldName("taxon.subtribe_ss_lower"),
 	};
 
 	@Test
@@ -180,7 +180,7 @@ public class TaxonSolrInputDocumentTest {
 		assertEquals("Xeric Scrubland", doc.getFieldValue(expected));
 	}
 
-	private String[] expectedDistributionKeys = {"taxon.distribution_t"};
+	private String[] expectedDistributionKeys = {"taxon.distribution_ss_lower"};
 	@Test
 	public void level0Distribution() {
 		Distribution level0 = new Distribution();

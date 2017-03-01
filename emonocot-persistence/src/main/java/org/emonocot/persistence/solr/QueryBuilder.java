@@ -17,11 +17,11 @@ public class QueryBuilder {
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
 
 	private static final ImmutableSet<String> allNamesQueryFields = ImmutableSet.<String>of(
-			"taxon.scientific_name_t",
-			"taxon.synonyms_t",
-			"taxon.family_t",
-			"taxon.genus_t",
-			"taxon.species_t",
+			"taxon.scientific_name_ss_lower",
+			"taxon.synonyms_ss_lower",
+			"taxon.family_ss_lower",
+			"taxon.genus_ss_lower",
+			"taxon.species_ss_lower",
 			"taxon.vernacular_names_t");
 
 	private static final ImmutableSet<String> allCharacteristicFields = ImmutableSet.<String>of(
@@ -36,7 +36,7 @@ public class QueryBuilder {
 	private static final ImmutableSet<String> mainQueryFields = new ImmutableSet.Builder<String>()
 			.addAll(allNamesQueryFields)
 			.addAll(allCharacteristicFields)
-			.add("taxon.distribution_t")
+			.add("taxon.distribution_ss_lower")
 			.add("taxon.name_published_in_string_s")
 			.add("taxon.scientific_name_authorship_t")
 			.add("taxon.description_use_t")
@@ -49,7 +49,7 @@ public class QueryBuilder {
 			.put("taxon.name_published_in_year_i", new RangeFilterQuery())
 			.put("sort", new SortQuery())
 			.put("page", new PageNumberQuery())
-			.put("page.size", new pageSizeQuery())
+			.put("page.size", new PageSizeQuery())
 			.put("base.class_searchable_b", new searchableFilterQuery())
 			.put("f", new ResultsFilterQuery())
 			.build();

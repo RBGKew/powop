@@ -117,11 +117,11 @@ public class ResponseBuilder {
 
 	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of(
 			"searchable.sources_ss",
-			"taxon.family_t",
-			"taxon.genus_t",
-			"taxon.scientific_name_t",
+			"taxon.family_ss_lower",
+			"taxon.genus_ss_lower",
+			"taxon.scientific_name_ss_lower",
 			"taxon.species_t",
-			"taxon.synonyms_t");
+			"taxon.synonyms_ss_lower");
 
 	private void addSnippets(SearchResultBuilder result, SolrDocument document, Taxon taxon) {
 		List<String> snippets = new ArrayList<>();

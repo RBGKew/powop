@@ -54,6 +54,7 @@
   <dynamicField name="*_point" type="point" indexed="true" stored="true"/>
   <dynamicField name="*_s" type="string" indexed="true" stored="true"/>
   <dynamicField name="*_s_lower" type="lowercase" indexed="true" stored="true"/>
+  <dynamicField name="*_ss_lower" type="lowercase" indexed="true" stored="true" multiValued="true"/>
   <dynamicField name="*_sort" type="alphaOnlySort" indexed="true" stored="false"/>
   <dynamicField name="*_srpt" type="location_rpt" indexed="true" stored="true"/>
   <dynamicField name="*_ss" type="strings" indexed="true" stored="true"/>
@@ -191,35 +192,11 @@
   <field name="_root_" type="string" indexed="true" stored="false"/>
   <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
   <field name="_version_" type="long" indexed="true" stored="true"/>
-  <field name="author" type="text_general" indexed="true" stored="true"/>
-  <field name="category" type="text_general" indexed="true" stored="true"/>
-  <field name="comments" type="text_general" indexed="true" stored="true"/>
-  <field name="content" type="text_general" multiValued="true" indexed="false" stored="true"/>
-  <field name="content_type" type="string" multiValued="true" indexed="true" stored="true"/>
-  <field name="description" type="text_general" indexed="true" stored="true"/>
-  <field name="geo" type="location_rpt" multiValued="true" indexed="true" stored="false"/>
   <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
-  <field name="keywords" type="text_general" indexed="true" stored="true"/>
   <field name="last_modified" type="date" indexed="true" stored="true"/>
-  <field name="links" type="string" multiValued="true" indexed="true" stored="true"/>
-  <field name="resourcename" type="text_general" indexed="true" stored="true"/>
-  <field name="searchable.label_sort" type="alphaOnlySort" indexed="true" stored="false"/>
-  <field name="spell" type="textSpell" multiValued="true" indexed="true" stored="false"/>
-  <field name="subject" type="text_general" indexed="true" stored="true"/>
-  <field name="text" type="text_general" multiValued="true" indexed="true" stored="false"/>
-  <field name="title" type="text_general" multiValued="true" indexed="true" stored="true"/>
-  <field name="url" type="text_general" indexed="true" stored="true"/>
+  <field name="sortable" type="alphaOnlySort" indexed="true" stored="false"/>
 
   <!-- Copy fields -->
-  <copyField source="author" dest="text"/>
-  <copyField source="content" dest="text"/>
-  <copyField source="content_type" dest="text"/>
-  <copyField source="description" dest="text"/>
-  <copyField source="keywords" dest="text"/>
-  <copyField source="resourcename" dest="text"/>
-  <copyField source="searchable.label_sort" dest="spell"/>
-  <copyField source="title" dest="text"/>
-  <copyField source="url" dest="text"/>
+  <copyField source="taxon.scientific_name_ss_lower" dest="sortable"/>
   <copyField source="*" dest="_text_"/>
-  <copyField source="author" dest="author_s"/>
 </schema>

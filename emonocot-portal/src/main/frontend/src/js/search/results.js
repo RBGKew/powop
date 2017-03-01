@@ -52,7 +52,7 @@ define(function(require) {
     prepare();
     resultsHeader.showSelectedView();
     resultsHeader.showSelectedFacet(filters.getParam('f'));
-    resultsHeader.showSelectedSort(filters.getParam('sort'));
+    resultsHeader.showSelectedSort(filters.getParam('sort') || 'name_asc');
 
     $.getJSON("/api/1/search?" + state, function(json) {
       $('.c-results').replaceWith(resultsTmpl(json));

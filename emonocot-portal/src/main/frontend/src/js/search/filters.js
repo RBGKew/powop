@@ -135,6 +135,7 @@ define(function(require) {
 
   var serialize = function() {
     var q = params.toObject();
+
     if(!_.isEmpty(this.filters())) {
       $.extend(q, {'q': _.map(this.filters(), 'value').join(',')});
     }

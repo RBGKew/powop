@@ -56,14 +56,11 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	public SolrInputDocument build() {
-		sid.addField("searchable.label_sort", taxon.getScientificName());
-
 		indexRank(Rank.FAMILY, "family");
 		indexRank(Rank.Subfamily, "subfamily");
 		indexRank(Rank.GENUS, "genus");
 		indexRank(Rank.Tribe, "tribe");
 		indexRank(Rank.Subtribe, "subtribe");
-
 
 		addField(sid, "taxon.infraspecific_epithet_s", taxon.getInfraspecificEpithet());
 		addField(sid, "taxon.kingdom_s", taxon.getKingdom());
@@ -71,7 +68,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.name_published_in_year_i", taxon.getNamePublishedInYear());
 		addField(sid, "taxon.order_s", taxon.getOrder());
 		addField(sid, "taxon.scientific_name_authorship_t", taxon.getScientificNameAuthorship());
-		addField(sid, "taxon.scientific_name_s", taxon.getScientificName());
+		addField(sid, "taxon.scientific_name_ss_lower", taxon.getScientificName());
 		addField(sid, "taxon.scientific_name_t", taxon.getScientificName());
 		addField(sid, "taxon.specific_epithet_s", taxon.getSpecificEpithet());
 		addField(sid, "taxon.subgenus_s", taxon.getSubgenus());
@@ -88,7 +85,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
 			Set<Taxon> synonymList = taxon.getSynonymNameUsages();
 			for(Taxon synonym : synonymList){
-				addField(sid, "taxon.synonyms_t", synonym.getScientificName());
+				addField(sid, "taxon.synonyms_ss_lower", synonym.getScientificName());
 			}
 		}
 		indexDescriptions();
@@ -96,6 +93,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexVernacularNames();
 		indexMeasurementOrFacts();
 		indexImages();
+		addSuggestionWeight();
 
 		for(Reference r : taxon.getReferences()) {
 			addSource(r);
@@ -106,6 +104,15 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		}
 
 		return sid;
+	}
+
+	private void addSuggestionWeight() {
+		int value = 0;
+		if(taxon.getTaxonRank() != null) {
+			value = 875 - taxon.getTaxonRank().termID();
+		}
+
+		sid.addField("suggest.weight_i", value);
 	}
 
 	private void indexImages() {
@@ -191,7 +198,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		}
 
 		for(String name : locationNames) {
-			sid.addField("taxon.distribution_t", name);
+			sid.addField("taxon.distribution_ss_lower", name);
 		}
 	}
 
@@ -218,7 +225,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	private void indexRank(Rank rank, String property) {
-		String solrField = propertyToSolrField(property, "t");
+		String solrField = propertyToSolrField(property, "ss_lower");
 		try {
 			if(rank.equals(taxon.getTaxonRank()) && BeanUtils.getProperty(taxon, property) == null) {
 				addField(sid, solrField, taxon.getScientificName());

@@ -2,11 +2,12 @@ package org.emonocot.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class SingleFieldFilterQuery implements QueryOption {
+public class SingleFieldFilterQuery extends QueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
-		value = value.replace(" ", "+");
+		value = prepareValue(key, value);
+
 		if(query.getQuery() == null) {
 			query.setQuery(String.format("%s:%s", key, value));
 		} else {

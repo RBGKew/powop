@@ -2,7 +2,7 @@ package org.emonocot.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class PageNumberQuery implements QueryOption {
+public class PageNumberQuery extends QueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
