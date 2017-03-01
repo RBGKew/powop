@@ -2,7 +2,7 @@
 * Component - Results
 */
 .c-results-outer {
-  padding-top: $navbar-padding-vertical * 2;
+  padding-top: 10px;
   background-color: #fff;
   a {
     color: #000;
@@ -13,23 +13,12 @@
   }
 
   .legend {
-    span {
-      display: inline-block;
-      width: 0.75em;
-      height: 0.75em;
-      margin: 0 0.7em;
-    }
-
-    p {
-      color: #777;
-      margin: 0;
-    }
-
-    .Family { background-color: #336699; }
-    .Genus { background-color: #339999; }
-    .Species { background-color: #669933; }
-    .Infraspecific { background-color: #993399; }
-    .Synonym { background-color: #c7c7c7; }
+    margin-left:60px;
+    .Family { fill: #336699; }
+    .Genus { fill: #339999; }
+    .Species { fill: #669933; }
+    .Infraspecific { fill: #993399; }
+    .Synonym { fill: #c7c7c7; }
   }
 
   .grid--lines {

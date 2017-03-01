@@ -21,25 +21,22 @@ define(function(require) {
   }
 
   function pickFacet(facet){
-    switch(facet) {
-      case "accepted_names":
-        $("#accepted_names").addClass('selectedFacet');
-        break;
-      case "has_images":
-        $("#has_images").addClass('selectedFacet');
-        break;
-      case "is_fungi":
-        $("#is_fungi").addClass('selectedFacet');
-        break;
-      default:
-        $("#all_results").addClass('selectedFacet');
+    var facets = facet.split(",");
+    if($.isArray(facets)) {
+      facets.forEach( function(item) {
+        var id = "#" + item;
+        $(id).addClass('selectedFacet');
+      });
+    } else {
+      var id = "#" + facets;
+      $(id).addClass('selectedFacet');
     }
   }
 
   function showSelectedFacet(facets) {
     if(facets){
       if($.isArray(facets)) {
-        facets.forEach(pickFacet)
+        facet.forEach(pickFacet);
       } else {
         pickFacet(facets);
       }

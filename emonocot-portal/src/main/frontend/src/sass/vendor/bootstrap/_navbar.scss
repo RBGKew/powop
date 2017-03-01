@@ -11,7 +11,7 @@
 .navbar {
   position: relative;
   min-height: $navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
-  margin-bottom: $navbar-margin-bottom;
+  margin-bottom: 0px;
   border: 1px solid transparent;
 
   // Prevent floats from breaking the navbar
@@ -340,7 +340,6 @@
 // Vertically center a button within a navbar (when *not* in a form).
 
 .navbar-btn {
-  @include navbar-vertical-align($input-height-base);
 
   &.btn-sm {
     @include navbar-vertical-align($input-height-small);
