@@ -11,7 +11,6 @@ define(function(require) {
     $('#all_results span').text(facets.all_results);
     $('#accepted_names span').text(facets.accepted_names);
     $('#has_images span').text(facets.has_images);
-    $('#is_fungi span').text(facets.is_fungi);
   }
 
   function showSelectedView() {
@@ -20,25 +19,31 @@ define(function(require) {
     }
   }
 
-  function pickFacet(facet){
+  function splitFacet(facet){
     var facets = facet.split(",");
     if($.isArray(facets)) {
       facets.forEach( function(item) {
-        var id = "#" + item;
-        $(id).addClass('selectedFacet');
+        pickFacet(item);
       });
     } else {
-      var id = "#" + facets;
-      $(id).addClass('selectedFacet');
+      pickFacet(item);
     }
+  }
+
+  function pickFacet(item) {
+    if(item == 'is_fungi'){
+      $('.rank_facets').html('<use xlink:href="#Fungi-svg"></use>');
+    }
+    var id = "#" + item;
+    $(id).addClass('selectedFacet');
   }
 
   function showSelectedFacet(facets) {
     if(facets){
       if($.isArray(facets)) {
-        facet.forEach(pickFacet);
+        facet.forEach(splitFacet);
       } else {
-        pickFacet(facets);
+        splitFacet(facets);
       }
     } else {
       $('.facets').removeClass('selectedFacet');

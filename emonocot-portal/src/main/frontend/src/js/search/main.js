@@ -27,8 +27,16 @@ define(function(require) {
       $('.facets').removeClass('selectedFacet');
       $(this).addClass('selectedFacet');
       filters.setParam('f', 'all_results');
+      $('.rank_facets').html('<use xlink:href="#Plantae-svg"></use>');
     } else {
       $('#all_results').removeClass('selectedFacet');
+      if($(this).attr('id') == 'is_fungi'){
+        if($(this).hasClass('selectedFacet')){
+          $('.rank_facets').html('<use xlink:href="#Plantae-svg"></use>');
+        }else{
+          $('.rank_facets').html('<use xlink:href="#Fungi-svg"></use>');
+        }
+      }
       $(this).toggleClass('selectedFacet');
       var facets = [];
       $('.selectedFacet').each(function() {
