@@ -26,7 +26,7 @@ public class AssetHelper {
 	static {
 		try {
 			manifest = Optional.of(Json.parse(new InputStreamReader(resource.getInputStream())).asObject());
-			log.warn(manifest.get().toString());
+			log.debug(manifest.get().toString());
 		} catch (IOException e) {
 			log.error("Error initializing AssetHelper: could not find {}", resource.getFilename());
 		}

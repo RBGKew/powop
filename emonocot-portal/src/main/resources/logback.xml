@@ -6,19 +6,12 @@
     </encoder>
   </appender>
 
-  <logger name="org.apache" level="warn"/>
-  <logger name="org.hibernate" level="info"/>
-  <logger name="org.springframework.beans" level="info"/>
-  <logger name="org.springframework.jdbc" level="info"/>
-  <logger name="org.springframework.orm" level="info"/>
-  <logger name="org.springframework.security" level="info" />
-  <logger name="org.springframework.scheduling" level="info" />
-  <logger name="org.emonocot.job.dwc.read.BaseDataFieldSetMapper" level="info"/>
-  <logger name="org.emonocot.job.dwc.taxon.FieldSetMapper" level="info"/>
-  <logger name="org.apache.jasper.servlet.TldScanner" level="fine" />
-  <logger name="org.quartz" level="info" />
-
-  <root level="debug">
+  <root level="${SYSTEM_LOG_LEVEL:-WARN}">
     <appender-ref ref="stdout"/>
   </root>
+
+  <logger name="org.emonocot" level="${APP_LOG_LEVEL:-INFO}" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
+
 </configuration>
