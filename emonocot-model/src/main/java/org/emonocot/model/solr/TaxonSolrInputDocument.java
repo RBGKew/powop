@@ -232,19 +232,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			} else {
 				addField(sid, solrField, BeanUtils.getProperty(taxon, property));
 			}
-
-			// When a taxon is an accepted name, the synonyms should also be indexed
-			if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
-				Set<Taxon> synonymList = taxon.getSynonymNameUsages();
-				for(Taxon taxon : synonymList) {
-					if(rank.equals(taxon.getTaxonRank()) && BeanUtils.getProperty(taxon, property) == null) {
-						addField(sid, solrField, taxon.getScientificName());
-					} else {
-						addField(sid, solrField, BeanUtils.getProperty(taxon, property));
-					}
-				}
-
-			}
 		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			logger.error("Error getting property {} from taxon. Does get{}() exist?", property, property);
 		}
