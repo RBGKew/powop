@@ -1,3 +1,28 @@
 .error {
   border: 1px solid white;
 }
+
+.static_text {
+  min-height: 80vh;
+  background-color: white;
+  margin-bottom: 60px;
+
+  a {
+    color: #0645AD;
+    text-decoration: underline;
+  }
+
+  li:first-child {
+    font-weight: bold;
+  }
+
+  h1,h3 {
+    font-weight: bold;
+  }
+
+  ul {
+    list-style-type: none;
+    display:inline-block;
+    vertical-align:top;
+  }
+}

@@ -50,6 +50,20 @@
   display: none;
 }
 
+.cookie-bar {
+  background-color: #222;
+  color: white;
+  border-radius:0px;
+
+  a {
+    margin-left:10px;
+    margin-right:10px;
+    color: white;
+    text-decoration: underline;
+  }
+
+}
+
 .s-search__fullpage .c-intro {
   display: block;
 }

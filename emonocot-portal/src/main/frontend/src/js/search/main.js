@@ -8,9 +8,8 @@ define(function(require) {
   var events = require('./events');
   var filters = require('./filters');
   var results = require('./results');
-
   require('libs/bootstrap-tokenfield.js');
-
+  require('libs/bootstrap-cookie-consent.js');
   function active() {
     return $('.autocomplete-form');
   }
@@ -56,7 +55,6 @@ define(function(require) {
   }
 
   var initialize = function() {
-
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {

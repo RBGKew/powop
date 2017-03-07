@@ -16,4 +16,24 @@ public class StaticController {
 	public String not_found_error(){
 		return "not_found_error";
 	}
+	
+	@RequestMapping(value = "/cookie_policy", method = RequestMethod.GET, produces = {"text/html"})
+	public String cookie_policy(){
+		return "cookie_policy";
+	}
+	
+	@RequestMapping(value = "/terms_and_conditions", method = RequestMethod.GET, produces = {"text/html"})
+	public String terms_and_conditions(){
+		return "terms_and_conditions";
+	}
+	
+	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
+	public String about(){
+		return "about";
+	}
+	
+	@RequestMapping(value = "/search_help", method = RequestMethod.GET, produces = {"text/html"})
+	public String search_help(){
+		return "search_help";
+	}
 }
