@@ -13,7 +13,7 @@ public class StaticController {
 	}
 	
 	@RequestMapping(value = "/not_found_error", method = RequestMethod.GET, produces = {"text/html"})
-	public String not_found_error(){
+	public String notFoundError(){
 		return "not_found_error";
 	}
 	

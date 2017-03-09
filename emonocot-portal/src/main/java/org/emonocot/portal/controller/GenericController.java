@@ -258,7 +258,7 @@ SERVICE extends Service<T>> {
 	@ExceptionHandler(HibernateObjectRetrievalFailureException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ModelAndView handleObjectNotFoundException(HibernateObjectRetrievalFailureException orfe) {
-		ModelAndView modelAndView = new ModelAndView("resourceNotFound");
+		ModelAndView modelAndView = new ModelAndView("not_found_error");
 		modelAndView.addObject("exception", orfe);
 		return modelAndView;
 	}
