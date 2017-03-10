@@ -50,5 +50,9 @@ public class RequestLoggingInterceptor extends HandlerInterceptorAdapter {
 		} catch (Exception ex) {
 			logger.warn(ex.getMessage());
 		}
+
+		if(e != null) {
+			throw e;
+		}
 	}
 }
