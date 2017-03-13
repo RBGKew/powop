@@ -26,6 +26,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.IntMath;
 
+import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Description;
 import org.emonocot.model.Image;
@@ -47,8 +48,12 @@ public class ResponseBuilder {
 
 	private TaxonService taxonService;
 
-	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse, TaxonService taxonService) {
+	private ImageService imageService;
+
+	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse, TaxonService taxonService, ImageService imageService) {
 		this.taxonService = taxonService;
+		this.imageService = imageService;
+
 		setFacets(queryResponse.getFacetQuery());
 		jsonBuilder.totalResults((int)queryResponse.getResults().getNumFound());
 		highlights = queryResponse.getHighlighting();
@@ -104,7 +109,7 @@ public class ResponseBuilder {
 				result.rank(rank);
 			}
 
-			Images images = new Images(taxon);
+			Images images = new Images(taxon, imageService);
 			for(Image image : images.getAll()) {
 				result.addImage(image.getAccessUri(), image.getCaption());
 			}

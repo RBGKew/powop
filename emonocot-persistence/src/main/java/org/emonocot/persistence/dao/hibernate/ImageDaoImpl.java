@@ -16,13 +16,21 @@
  */
 package org.emonocot.persistence.dao.hibernate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.ImageDao;
+import org.gbif.ecat.voc.Rank;
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -49,5 +57,44 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 	@Override
 	protected final Fetch[] getProfile(final String profile) {
 		return ImageDaoImpl.FETCH_PROFILES.get(profile);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Image> getTopImages(Taxon rootTaxon, int n) {
+		String queryTemplate = "select img from Image as img join img.taxon as taxon where %s order by img.rating desc";
+		Query q;
+
+		List<Long> rootImgs = new ArrayList<>();
+		for(Image img : rootTaxon.getImages()) {
+			rootImgs.add(img.getId());
+		}
+
+		if(!rootImgs.isEmpty()) {
+			queryTemplate = String.format(queryTemplate, "img.id not in (:rootImgs) and %s");
+		}
+
+		if(rootTaxon.getTaxonRank().equals(Rank.FAMILY)) {
+			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family"));
+			q.setParameter("family", rootTaxon.getFamily());
+			if(!rootImgs.isEmpty()) q.setParameterList("rootImgs", rootImgs);
+		} else if (rootTaxon.getTaxonRank().equals(Rank.GENUS)) {
+			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family and taxon.genus = :genus"));
+			q.setParameter("family", rootTaxon.getFamily());
+			q.setParameter("genus", rootTaxon.getGenus());
+			if(!rootImgs.isEmpty()) q.setParameterList("rootImgs", rootImgs);
+		} else {
+			// we don't want to add anything to species and below
+			q = getSession().createQuery("from Image where 1=0");
+		}
+
+		q.setMaxResults(n);
+
+		List<Image> ret = (List<Image>)q.list();
+		if(ret != null) {
+			return ret;
+		} else {
+			return new ArrayList<>();
+		}
 	}
 }

@@ -16,13 +16,13 @@
  */
 package org.emonocot.persistence.dao;
 
-import org.emonocot.model.Image;
+import java.util.List;
 
-/**
- *
- * @author ben
- *
- */
+import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
+
 public interface ImageDao extends Dao<Image> {
+
+	List<Image> getTopImages(Taxon t, int n);
 
 }

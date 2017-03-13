@@ -30,4 +30,14 @@
       <column name="owner" type="varchar(255)"/>
     </addColumn>
   </changeSet>
+
+  <changeSet id="2017-03-10_01" author="ji10kg">
+    <comment>Add index to family and genus field of Taxon</comment>
+    <createIndex tableName="taxon" indexName="Taxon_family_IDX">
+      <column name="family" type="varchar(255)"/>
+    </createIndex>
+    <createIndex tableName="taxon" indexName="Taxon_genus_IDX">
+      <column name="genus" type="varchar(255)"/>
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>

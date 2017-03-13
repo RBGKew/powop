@@ -17,6 +17,7 @@
 package org.emonocot.portal.controller;
 
 import org.apache.commons.lang.WordUtils;
+import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;
 import org.emonocot.portal.view.Bibliography;
@@ -49,12 +50,11 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		super("taxon", Taxon.class);
 	}
 	
-	private MessageSource messageSource;
-	
 	@Autowired
-	public void setMessageSource(MessageSource messageSource){
-		this.messageSource = messageSource;
-	}
+	MessageSource messageSource;
+
+	@Autowired
+	ImageService imageService;
 
 	@Autowired
 	public void setTaxonService(TaxonService taxonService) {
@@ -69,7 +69,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		model.addAttribute(new Bibliography(taxon));
 		Descriptions descriptions = new Descriptions(taxon);
 		Descriptions uses = new Descriptions(taxon, true);
-		Images images = new Images(taxon);
+		Images images = new Images(taxon, imageService);
 		if(!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}

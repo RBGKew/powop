@@ -16,27 +16,25 @@
  */
 package org.emonocot.service.impl;
 
+import java.util.List;
+
 import org.emonocot.api.ImageService;
 import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
 import org.emonocot.persistence.dao.ImageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author ben
- *
- */
 @Service
-public class ImageServiceImpl extends ServiceImpl<Image, ImageDao>
-implements ImageService {
+public class ImageServiceImpl extends ServiceImpl<Image, ImageDao> implements ImageService {
 
-	/**
-	 *
-	 * @param newImageDao Set the image dao
-	 */
 	@Autowired
 	public final void setImageDao(final ImageDao newImageDao) {
 		super.dao = newImageDao;
+	}
+
+	@Override
+	public List<Image> getTopImages(Taxon t, int n) {
+		return dao.getTopImages(t, n);
 	}
 }

@@ -1,68 +1,36 @@
 package org.emonocot.portal.view;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.emonocot.api.ImageService;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.registry.Organisation;
-
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Ordering;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Images {
+
+	private static final Logger logger = LoggerFactory.getLogger(Images.class);
 
 	Taxon taxon;
 	List<Image> images;
 	Set<Organisation> sources;
 
-	private static final ImmutableList<DescriptionType> descriptionOrder = ImmutableList.<DescriptionType>builder()
-			.add(DescriptionType.general)
-			.add(DescriptionType.habit)
-			.add(DescriptionType.morphologyReproductiveFlower)
-			.add(DescriptionType.morphologyReproductiveFruit)
-			.add(DescriptionType.morphologyReproductiveInflorescence)
-			.build();
-
-	private static final Comparator<Image> byType = new Comparator<Image>() {
-			@Override
-			public int compare(Image o1, Image o2) {
-				int o1Rank = 0;
-				int o2Rank = 0;
-				for(DescriptionType type : o1.getSubjectPart()){
-					if(descriptionOrder.contains(type) && descriptionOrder.indexOf(o1) < o1Rank ){
-						o1Rank = descriptionOrder.indexOf(type);
-					}
-				}
-				for(DescriptionType type : o2.getSubjectPart()){
-					if(descriptionOrder.contains(type) && descriptionOrder.indexOf(type) < o1Rank ){
-						o2Rank = descriptionOrder.indexOf(type);
-					}
-				}
-				return Integer.compare(o2Rank, o1Rank);
-			}
-		};
-
-	private static final Ordering<Image> byRating = Ordering.natural()
-			.reverse()
-			.nullsLast()
-			.onResultOf(new Function<Image, Double>() {
-				@Override public Double apply(Image image) {
-					return image.getRating();
-				}
-			});
-
-	public Images(Taxon taxon) {
+	public Images(Taxon taxon, ImageService imageService) {
 		this.taxon = taxon;
 		if(taxon.isAccepted()) {
 			images = taxon.getImages();
 			for(Taxon synonym : taxon.getSynonymNameUsages()) {
 				images.addAll(synonym.getImages());
+			}
+
+			if(images.size() < 6) {
+				List<Image> img = imageService.getTopImages(taxon, 6 - images.size());
+				images.addAll(img);
 			}
 		} else {
 			images = new ArrayList<>();
@@ -70,13 +38,11 @@ public class Images {
 	}
 
 	public Image getHeaderImage() {
-		return byRating
-				.sortedCopy(images)
-				.get(0);
+		return images.get(0);
 	}
 
 	public List<Image> getAll() {
-		return byRating.sortedCopy(images);
+		return images;
 	}
 
 	public Set<Organisation> getSources() {

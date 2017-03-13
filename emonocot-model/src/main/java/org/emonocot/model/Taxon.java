@@ -199,6 +199,7 @@ public class Taxon extends SearchableObject {
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
 	@JsonSerialize(contentUsing = ImageSerializer.class)
+	@OrderBy("rating DESC")
 	public List<Image> getImages() {
 		return images;
 	}

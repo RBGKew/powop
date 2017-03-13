@@ -16,13 +16,11 @@
  */
 package org.emonocot.api;
 
+import java.util.List;
+
 import org.emonocot.model.Image;
+import org.emonocot.model.Taxon;
 
-/**
- *
- * @author ben
- *
- */
 public interface ImageService extends Service<Image> {
-
+	List<Image> getTopImages(Taxon t, int n);
 }
