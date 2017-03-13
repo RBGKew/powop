@@ -77,6 +77,9 @@ define(function(require) {
       $('.s-page').removeClass('s-search__fullpage');
       $('.c-footer').hide();
     }
+    if($(window).width() < 992) {
+      $(document).scrollTop( $("#search_box").offset().top);
+    }
   }
 
   function paginate(results) {

@@ -9,31 +9,31 @@ public class StaticController {
 
 	@RequestMapping(value = "/generic_error", method = RequestMethod.GET, produces = {"text/html"})
 	public String error(){
-		return "generic_error";
+		return "static/generic_error";
 	}
 
 	@RequestMapping(value = "/not_found_error", method = RequestMethod.GET, produces = {"text/html"})
 	public String notFoundError(){
-		return "not_found_error";
+		return "static/not_found_error";
 	}
 
 	@RequestMapping(value = "/cookie_policy", method = RequestMethod.GET, produces = {"text/html"})
 	public String cookiePolicy(){
-		return "cookie_policy";
+		return "static/cookies";
 	}
 
 	@RequestMapping(value = "/terms_and_conditions", method = RequestMethod.GET, produces = {"text/html"})
 	public String termsAndConditions(){
-		return "terms_and_conditions";
+		return "static/terms_and_conditions";
 	}
-
+		
 	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
 	public String about(){
-		return "about";
+		return "static/about";
 	}
 
 	@RequestMapping(value = "/search_help", method = RequestMethod.GET, produces = {"text/html"})
 	public String searchHelp(){
-		return "search_help";
+		return "static/search_help";
 	}
 }

@@ -62,7 +62,7 @@ define(function(require) {
       filters.deserialize(window.location.search);
     }
 
-    $('.s-search__fullpage .c-search .token-input').on('keypress', function(e) {
+    $('.s-search__fullpage .c-search .token-input').on('input', function(e) {
       results.initialize();
     });
 
