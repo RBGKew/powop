@@ -101,7 +101,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	public final void testRestrictedSearch() throws Exception {
 		SolrQuery query = new QueryBuilder()
 				.addParam("taxon.distribution_t", Location.AUSTRALASIA.getName())
-				.addParam("taxon.scientific_name_t", "Aus").build();
+				.addParam("taxon.scientific_name", "Aus").build();
 
 		QueryResponse results = getSearchableObjectDao().search(query);
 		assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", 2, results.getResults().size());
@@ -109,7 +109,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 
 	@Test
 	public final void testSearchByHigherName() throws Exception {
-		SolrQuery query = new QueryBuilder().addParam("taxon.family_t", "Aaceae").build();
+		SolrQuery query = new QueryBuilder().addParam("taxon.family", "Aaceae").build();
 		QueryResponse results = searchableObjectDao.search(query);
 
 		assertEquals("There should be 3 results", 3, results.getResults().size());

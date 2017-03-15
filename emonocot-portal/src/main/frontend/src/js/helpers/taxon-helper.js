@@ -1,7 +1,7 @@
-define(['handlebars'], function(Handlebars) {
+define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
   Handlebars.registerHelper('color-theme', function(taxon) {
     if(taxon.accepted) {
-      switch(taxon.rank.toLowerCase()) {
+      switch(_.toLower(taxon.rank)) {
         case 'family':
         case 'genus':
         case 'species':
@@ -14,6 +14,7 @@ define(['handlebars'], function(Handlebars) {
         case 'subvariety':
         case 'form':
         case 'subform':
+        case '':
           return "s-theme-Infraspecific";
       }
     } else {

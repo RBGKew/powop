@@ -1,7 +1,9 @@
 package org.emonocot.model.solr;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -10,6 +12,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
+import org.emonocot.api.ImageService;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -23,13 +26,16 @@ import org.emonocot.model.constants.Location;
 import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import com.google.common.base.CaseFormat;
 
 
+@Configurable
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
-	private static final Pattern fieldPattern = Pattern.compile("taxon.(.*)_\\w{1,2}");
+	private static final Pattern fieldPattern = Pattern.compile("taxon.(.*)_(s|s_lower|ss_lower|t|b|i)");
 
 	public static String propertyToSolrField(String propertyName, String type) {
 		return String.format("taxon.%s_%s",
@@ -48,6 +54,9 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private Taxon taxon;
 
+	@Autowired
+	private ImageService imageService;
+
 	public TaxonSolrInputDocument(Taxon taxon) {
 		super(taxon);
 		super.build();
@@ -62,32 +71,36 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexRank(Rank.Tribe, "tribe");
 		indexRank(Rank.Subtribe, "subtribe");
 
-		addField(sid, "taxon.infraspecific_epithet_s", taxon.getInfraspecificEpithet());
-		addField(sid, "taxon.kingdom_s", taxon.getKingdom());
-		addField(sid, "taxon.name_published_in_string_s", taxon.getNamePublishedInString());
+		addField(sid, "taxon.identifier_s", taxon.getIdentifier());
+		addField(sid, "taxon.infraspecific_epithet_s_lower", taxon.getInfraspecificEpithet());
+		addField(sid, "taxon.kingdom_s_lower", taxon.getKingdom());
+		addField(sid, "taxon.order_s_lower", taxon.getOrder());
 		addField(sid, "taxon.name_published_in_year_i", taxon.getNamePublishedInYear());
-		addField(sid, "taxon.order_s", taxon.getOrder());
-		addField(sid, "taxon.scientific_name_authorship_t", taxon.getScientificNameAuthorship());
-		addField(sid, "taxon.scientific_name_ss_lower", taxon.getScientificName());
-		addField(sid, "taxon.scientific_name_t", taxon.getScientificName());
-		addField(sid, "taxon.specific_epithet_s", taxon.getSpecificEpithet());
-		addField(sid, "taxon.subgenus_s", taxon.getSubgenus());
-		addField(sid, "taxon.taxon_rank_s", ObjectUtils.toString(taxon.getTaxonRank(), null));
-		addField(sid, "taxon.taxonomic_status_s", ObjectUtils.toString(taxon.getTaxonomicStatus(), null));
-		addField(sid, "taxon.verbatim_taxon_rank_s", taxon.getVerbatimTaxonRank()); 
+		addField(sid, "taxon.name_published_in_s_lower", taxon.getNamePublishedInString());
+		addField(sid, "taxon.scientific_name_authorship_s_lower", taxon.getScientificNameAuthorship());
+		addField(sid, "taxon.scientific_name_s_lower", taxon.getScientificName());
+		addField(sid, "taxon.specific_epithet_s_lower", taxon.getSpecificEpithet());
+		addField(sid, "taxon.rank_s_lower", ObjectUtils.toString(taxon.getTaxonRank(), null));
+		addField(sid, "taxon.taxonomic_status_s_lower", ObjectUtils.toString(taxon.getTaxonomicStatus(), null));
+		addField(sid, "taxon.is_accepted_b", taxon.isAccepted());
 		if(taxon.getTaxonRank() == Rank.SPECIES){
-			addField(sid, "taxon.species_t", taxon.getScientificName());
+			addField(sid, "taxon.species_s_lower", taxon.getScientificName());
 		}
 
-		sid.addField("taxon.references_not_empty_b", !taxon.getReferences().isEmpty());
-		sid.addField("taxon.types_and_specimens_not_empty_b", !taxon.getTypesAndSpecimens().isEmpty());
-		sid.addField("taxon.name_used_b", !taxon.getIdentifications().isEmpty());
 		if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
 			Set<Taxon> synonymList = taxon.getSynonymNameUsages();
 			for(Taxon synonym : synonymList){
 				addField(sid, "taxon.synonyms_ss_lower", synonym.getScientificName());
 			}
 		}
+
+		if(taxon.getAcceptedNameUsage() != null) {
+			addField(sid, "taxon.accepted.identifier_s", taxon.getAcceptedNameUsage().getIdentifier());
+			addField(sid, "taxon.accepted.scientific_name_s", taxon.getAcceptedNameUsage().getScientificName());
+			addField(sid, "taxon.accepted.scientific_name_authorship_s", taxon.getAcceptedNameUsage().getScientificNameAuthorship());
+			addField(sid, "taxon.accepted.kingdom_s", taxon.getAcceptedNameUsage().getKingdom());
+		}
+
 		indexDescriptions();
 		indexDistributions();
 		indexVernacularNames();
@@ -116,22 +129,34 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	private void indexImages() {
-		boolean hasImages = false;
+		int numImages = 3;
+		List<Image> images = new ArrayList<>();
+
 		if(taxon.isAccepted()) {
-			hasImages |= !taxon.getImages().isEmpty();
-			for(Image i : taxon.getImages()) {
-				addSource(i);
+			images.addAll(taxon.getImages());
+			for(Taxon synonym : taxon.getSynonymNameUsages()) {
+				images.addAll(synonym.getImages());
 			}
 
-			for(Taxon synonym : taxon.getSynonymNameUsages()) {
-				hasImages |= !synonym.getImages().isEmpty();
-				for(Image i : synonym.getImages()) {
-					addSource(i);
-				}
+			if(images.size() < numImages && imageService != null) {
+				List<Image> img = imageService.getTopImages(taxon, numImages - images.size());
+				images.addAll(img);
 			}
 		}
 
-		sid.addField("taxon.images_not_empty_b", hasImages);
+		int index = 0;
+		for(Image img : images) {
+			if(index++ < numImages) {
+				sid.addField("taxon.image_" + index + "_url_s", img.getAccessUri());
+				sid.addField("taxon.image_" + index + "_caption_s", img.getCaption());
+			}
+		}
+
+		for(Image img : taxon.getImages()) {
+			addSource(img);
+		}
+
+		sid.addField("taxon.images_not_empty_b", !images.isEmpty());
 	}
 
 	private void indexMeasurementOrFacts() {
@@ -175,6 +200,8 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 					sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), d.getDescription());
 				} else if(DescriptionType.getAll(DescriptionType.use).contains(d.getType())) {
 					sid.addField("taxon.description_use_t", d.getDescription());
+				} else if(d.getTypes().contains(DescriptionType.snippet)) {
+					sid.addField("taxon.description_snippet_t", d.getDescription());
 				}
 			}
 			sid.addField("taxon.description_t", d.getDescription());
@@ -225,7 +252,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	private void indexRank(Rank rank, String property) {
-		String solrField = propertyToSolrField(property, "ss_lower");
+		String solrField = propertyToSolrField(property, "s_lower");
 		try {
 			if(rank.equals(taxon.getTaxonRank()) && BeanUtils.getProperty(taxon, property) == null) {
 				addField(sid, solrField, taxon.getScientificName());

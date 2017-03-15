@@ -25,6 +25,8 @@
       location="classpath:META-INF/spring/application.properties"/>
 
   <context:annotation-config />
+  <context:spring-configured />
+  <context:load-time-weaver />
 
   <context:component-scan base-package="org.emonocot">
     <context:exclude-filter type="assignable" expression="org.emonocot.api.JobInstanceService" />

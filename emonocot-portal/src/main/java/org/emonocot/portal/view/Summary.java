@@ -81,7 +81,7 @@ public class Summary {
 	private String buildLocationandHabitat(){
 		String distribution = getDistribution();
 		String rank ="";
-		if(taxon.getTaxonRemarks() != null){
+		if(taxon.getTaxonRank() != null){
 			rank = taxon.getTaxonRank().toString().toLowerCase();
 		}else{
 			rank = "plant";
@@ -124,6 +124,6 @@ public class Summary {
 		if(taxon.getTaxonRank() != null) {
 			return String.format("This %s is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
 		}
-		return String.format("This is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
+		return "This is a synonym of ";
 	}
 }

@@ -74,11 +74,11 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 			queryTemplate = String.format(queryTemplate, "img.id not in (:rootImgs) and %s");
 		}
 
-		if(rootTaxon.getTaxonRank().equals(Rank.FAMILY)) {
+		if(rootTaxon.getTaxonRank() != null && rootTaxon.getTaxonRank().equals(Rank.FAMILY)) {
 			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family"));
 			q.setParameter("family", rootTaxon.getFamily());
 			if(!rootImgs.isEmpty()) q.setParameterList("rootImgs", rootImgs);
-		} else if (rootTaxon.getTaxonRank().equals(Rank.GENUS)) {
+		} else if (rootTaxon.getTaxonRank() != null && rootTaxon.getTaxonRank().equals(Rank.GENUS)) {
 			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family and taxon.genus = :genus"));
 			q.setParameter("family", rootTaxon.getFamily());
 			q.setParameter("genus", rootTaxon.getGenus());

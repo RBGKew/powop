@@ -14,4 +14,8 @@
     <appender-ref ref="stdout"/>
   </logger>
 
+  <!--logger name="org.hibernate.SQL" level="debug">
+    <appender-ref ref="stdout"/>
+  </logger-->
+
 </configuration>

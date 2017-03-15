@@ -4,11 +4,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -16,7 +13,6 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.util.SimpleOrderedMap;
 import org.emonocot.portal.json.MainSearchBuilder;
 import org.emonocot.portal.json.SearchResultBuilder;
-import org.emonocot.portal.view.Images;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,13 +22,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.math.IntMath;
 
-import org.emonocot.api.ImageService;
-import org.emonocot.api.TaxonService;
-import org.emonocot.model.Description;
-import org.emonocot.model.Image;
-import org.emonocot.model.Taxon;
-import org.emonocot.model.VernacularName;
-import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.solr.SolrFieldNameMappings;
 
 @Component
@@ -46,14 +35,9 @@ public class ResponseBuilder {
 
 	Map<String, Map<String, List<String>>> highlights = new HashMap<String, Map<String, List<String>>>();
 
-	private TaxonService taxonService;
 
-	private ImageService imageService;
-
-	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse, TaxonService taxonService, ImageService imageService) {
-		this.taxonService = taxonService;
-		this.imageService = imageService;
-
+	@SuppressWarnings("unchecked")
+	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse) {
 		setFacets(queryResponse.getFacetQuery());
 		jsonBuilder.totalResults((int)queryResponse.getResults().getNumFound());
 		highlights = queryResponse.getHighlighting();
@@ -62,11 +46,9 @@ public class ResponseBuilder {
 				addResult(document);
 			}
 		}
-		@SuppressWarnings("unchecked")
 		SimpleOrderedMap<String> params = (SimpleOrderedMap<String>) queryResponse.getResponseHeader().get("params");
 		setParams(params);
 		return jsonBuilder;
-
 	}
 
 	private void setFacets(Map<String, Integer> facets) {
@@ -84,51 +66,52 @@ public class ResponseBuilder {
 	}
 
 	private void addResult(SolrDocument document) {
-		Taxon taxon = taxonService.find((Long) document.get("base.id_l"));
+		SearchResultBuilder result = new SearchResultBuilder()
+				.url("/taxon/" + getStr(document, "taxon.identifier_s"))
+				.name(getStr(document, "taxon.scientific_name_s_lower"))
+				.accepted(getBool(document, "taxon.is_accepted_b"))
+				.author(getStr(document, "taxon.scientific_name_authorship_s_lower"))
+				.kingdom(getStr(document, "taxon.kingdom_s_lower"));
 
-		if(taxon != null) {
-			SearchResultBuilder result = new SearchResultBuilder()
-					.url("/taxon/" + taxon.getIdentifier())
-					.name(taxon.getScientificName())
-					.accepted(taxon.isAccepted())
-					.author(taxon.getScientificNameAuthorship())
-					.kingdom(taxon.getKingdom());
-
-			if(taxon.getAcceptedNameUsage() != null) {
-				SearchResultBuilder synonym = new SearchResultBuilder()
-						.url("/taxon/" + taxon.getAcceptedNameUsage().getIdentifier())
-						.name(taxon.getAcceptedNameUsage().getScientificName())
-						.accepted(true)
-						.author(taxon.getAcceptedNameUsage().getScientificNameAuthorship())
-						.kingdom(taxon.getKingdom());
-				result.synonymOf(synonym);
-			}
-
-			if(taxon.getTaxonRank().toString() != null) {
-				String rank =  WordUtils.capitalizeFully(taxon.getTaxonRank().toString());
-				result.rank(rank);
-			}
-
-			Images images = new Images(taxon, imageService);
-			for(Image image : images.getAll()) {
-				result.addImage(image.getAccessUri(), image.getCaption());
-			}
-
-			addSnippets(result, document, taxon);
-
-			jsonBuilder.addResult(result);
+		if(!getBool(document, "taxon.is_accepted_b")) {
+			SearchResultBuilder synonym = new SearchResultBuilder()
+					.url("/taxon/" + document.get("taxon.accepted.identifier_s"))
+					.name(getStr(document, "taxon.accepted.scientific_name_s"))
+					.accepted(true)
+					.author(getStr(document, "taxon.accepted.scientific_name_authorship_s"))
+					.kingdom(getStr(document, "taxon.accepted.kingdom_s"));
+			result.synonymOf(synonym);
 		}
+
+		if(document.get("taxon.rank_s_lower") != null) {
+			String rank =  WordUtils.capitalizeFully((String)document.get("taxon.rank_s_lower"));
+			result.rank(rank);
+		}
+
+		for(int i = 1; i <= 3; i++) {
+			if(document.containsKey("taxon.image_" + i + "_url_s")) {
+				result.addImage(
+						getStr(document, "taxon.image_" + i + "_url_s"),
+						getStr(document, "taxon.image_" + i + "_caption_s"));
+			} else {
+				break;
+			}
+		}
+
+		addSnippets(result, document);
+
+		jsonBuilder.addResult(result);
 	}
 
 	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of(
 			"searchable.sources_ss",
-			"taxon.family_ss_lower",
-			"taxon.genus_ss_lower",
-			"taxon.scientific_name_ss_lower",
-			"taxon.species_t",
+			"taxon.family_s_lower",
+			"taxon.genus_s_lower",
+			"taxon.scientific_name_s_lower",
+			"taxon.species_s_lower",
 			"taxon.synonyms_ss_lower");
 
-	private void addSnippets(SearchResultBuilder result, SolrDocument document, Taxon taxon) {
+	private void addSnippets(SearchResultBuilder result, SolrDocument document) {
 		List<String> snippets = new ArrayList<>();
 		if(highlights.get(document.get("id").toString()) != null) {
 			Map<String, List<String>> highlight = highlights.get(document.get("id"));
@@ -144,17 +127,17 @@ public class ResponseBuilder {
 			}
 		}
 		if(snippets.isEmpty()){
-			snippets = defaultSnippet(taxon);
+			snippets = defaultSnippet(document);
 		}
 		if(!snippets.isEmpty()){
 			result.snippet(Joiner.on("<br/>").join(snippets));
 		}
 	}
 
-	private List<String> defaultSnippet(Taxon taxon){
+	private List<String> defaultSnippet(SolrDocument document){
 		List<String> snippets = new ArrayList<String>();
-		String defaultName = defaultCommonName(taxon);
-		String defaultDescription = defaultDescription(taxon);
+		String defaultName = defaultCommonName(document);
+		String defaultDescription = defaultDescription(document);
 		if(defaultName != null){
 			logger.debug("adding default name");
 			String key = WordUtils.capitalizeFully(fieldNames.get("taxon.vernacular_names_t"));
@@ -166,28 +149,40 @@ public class ResponseBuilder {
 		return snippets;
 	}
 
-	private String defaultDescription(Taxon taxon){
-		Set<Description> descriptions = taxon.getDescriptions();
-		for(Description description : descriptions){
-			if(description.getTypes().contains(DescriptionType.snippet)){
-				return StringUtils.abbreviate(description.getDescription(), 60);
-			}
+	private String defaultDescription(SolrDocument document){
+		if(document.containsKey("taxon.description_snippet_t")){
+			return StringUtils.abbreviate(getFirst(document, "taxon.description_snippet_t"), 60);
 		}
+
 		return null;
 	}
 
-	private String defaultCommonName(Taxon taxon){
-		Set<VernacularName> names = taxon.getVernacularNames();
-		for(VernacularName name : names){
-			if(name.getAuthority().getIdentifier().equals("kew_species_profile_prefered_name")){
-				return name.getVernacularName();
-			}
+	private String defaultCommonName(SolrDocument document){
+		if(document.containsKey("taxon.vernacular_names_t")) {
+			return getFirst(document, "taxon.vernacular_names_t");
 		}
-		for(VernacularName name : names){
-			if(name.getLanguage().equals(Locale.ENGLISH)){
-				return name.getVernacularName();
-			}
+
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	private String getFirst(SolrDocument document, String key) {
+		return ((List<String>)document.get(key)).get(0);
+	}
+
+	private Boolean getBool(SolrDocument document, String key) {
+		return (Boolean) safeGet(document, key);
+	}
+
+	private String getStr(SolrDocument document, String key) {
+		return (String) safeGet(document, key);
+	}
+
+	private Object safeGet(SolrDocument document, String key) {
+		if(document != null && document.containsKey(key)) {
+			return document.get(key);
 		}
+
 		return null;
 	}
 }

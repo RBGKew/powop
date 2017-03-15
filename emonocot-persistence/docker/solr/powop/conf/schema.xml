@@ -53,8 +53,8 @@
   <dynamicField name="*_p" type="location" indexed="true" stored="true"/>
   <dynamicField name="*_point" type="point" indexed="true" stored="true"/>
   <dynamicField name="*_s" type="string" indexed="true" stored="true"/>
-  <dynamicField name="*_s_lower" type="lowercase" indexed="true" stored="true"/>
-  <dynamicField name="*_ss_lower" type="lowercase" indexed="true" stored="true" multiValued="true"/>
+  <dynamicField name="*_s_lower" type="lowercase" indexed="true" stored="true" sortMissingLast="true"/>
+  <dynamicField name="*_ss_lower" type="lowercase" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
   <dynamicField name="*_sort" type="alphaOnlySort" indexed="true" stored="false"/>
   <dynamicField name="*_srpt" type="location_rpt" indexed="true" stored="true"/>
   <dynamicField name="*_ss" type="strings" indexed="true" stored="true"/>
@@ -197,6 +197,6 @@
   <field name="sortable" type="alphaOnlySort" indexed="true" stored="false"/>
 
   <!-- Copy fields -->
-  <copyField source="taxon.scientific_name_ss_lower" dest="sortable"/>
+  <copyField source="taxon.scientific_name_s_lower" dest="sortable"/>
   <copyField source="*" dest="_text_"/>
 </schema>

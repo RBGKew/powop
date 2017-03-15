@@ -9,16 +9,16 @@ public class SortQuery extends QueryOption {
 	public void addQueryOption(String key, String value, SolrQuery query) {
 		switch(value){
 		case "name_asc":
-			query.setSort("taxon.taxon_rank_s", ORDER.asc);
+			query.setSort("taxon.rank_s_lower", ORDER.asc);
 			query.addSort("sortable", ORDER.asc);
 			break;
 		case "name_desc":
-			query.setSort("taxon.taxon_rank_s", ORDER.asc);
+			query.setSort("taxon.rank_s_lower", ORDER.asc);
 			query.addSort("sortable", ORDER.desc);
 			break;
 		case "relevance":
 			query.setSort("score", ORDER.desc);
-			query.addSort("taxon.taxon_rank_s", ORDER.asc);
+			query.addSort("taxon.rank_s_lower", ORDER.asc);
 			query.addSort("sortable", ORDER.asc);
 			break;
 		}

@@ -5,7 +5,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 public abstract class QueryOption {
 
 	protected String prepareValue(String field, String value) {
-		if(field.endsWith("_s") || field.endsWith("_ss_lower")) {
+		if(field.endsWith("_s") || field.endsWith("_s_lower") || field.endsWith("_ss_lower")) {
 			// string fields should be quoted to exactly match multi-word values
 			return String.format("\"%s\"", value);
 		} else if (field.endsWith("_t")){

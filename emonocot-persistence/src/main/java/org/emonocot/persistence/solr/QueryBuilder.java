@@ -17,11 +17,11 @@ public class QueryBuilder {
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;
 
 	private static final ImmutableSet<String> allNamesQueryFields = ImmutableSet.<String>of(
-			"taxon.scientific_name_ss_lower",
-			"taxon.synonyms_ss_lower",
-			"taxon.family_ss_lower",
-			"taxon.genus_ss_lower",
-			"taxon.species_ss_lower",
+			"taxon.scientific_name_s_lower",
+			"taxon.synonyms_s_lower",
+			"taxon.family_s_lower",
+			"taxon.genus_s_lower",
+			"taxon.species_s_lower",
 			"taxon.vernacular_names_t");
 
 	private static final ImmutableSet<String> allCharacteristicFields = ImmutableSet.<String>of(
@@ -37,8 +37,8 @@ public class QueryBuilder {
 			.addAll(allNamesQueryFields)
 			.addAll(allCharacteristicFields)
 			.add("taxon.distribution_ss_lower")
-			.add("taxon.name_published_in_string_s")
-			.add("taxon.scientific_name_authorship_t")
+			.add("taxon.name_published_in_s_lower")
+			.add("taxon.scientific_name_authorship_s_lower")
 			.add("taxon.description_use_t")
 			.build();
 

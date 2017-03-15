@@ -27,7 +27,7 @@ public class QueryBuilderTest {
 	@Test
 	public void RangeFacet() {
 		QueryBuilder querybuilder = new QueryBuilder();
-		SolrQuery query = querybuilder.addParam("taxon.name_published_in_year_i", "blarg TO blarg").build();
+		SolrQuery query = querybuilder.addParam("published", "blarg TO blarg").build();
 		List<String> filterQueries = Arrays.asList(query.getFilterQueries());
 		assertTrue(filterQueries.contains("taxon.name_published_in_year_i:[blarg TO blarg]"));
 	}
@@ -37,13 +37,13 @@ public class QueryBuilderTest {
 		QueryBuilder querybuilder = new QueryBuilder();
 		SolrQuery query = querybuilder.addParam("q", "blarg").build();
 		String[] expectedTerms = {
-				"taxon.scientific_name_ss_lower:\"blarg\"",
-				"taxon.family_ss_lower:\"blarg\"",
-				"taxon.genus_ss_lower:\"blarg\"",
-				"taxon.species_ss_lower:\"blarg\"",
+				"taxon.scientific_name_s_lower:\"blarg\"",
+				"taxon.family_s_lower:\"blarg\"",
+				"taxon.genus_s_lower:\"blarg\"",
+				"taxon.species_s_lower:\"blarg\"",
 				"taxon.vernacular_names_t:\"blarg\"~10",
-				"taxon.name_published_in_string_s:\"blarg\"",
-				"taxon.scientific_name_authorship_t:\"blarg\"~10",
+				"taxon.name_published_in_s_lower:\"blarg\"",
+				"taxon.scientific_name_authorship_s_lower:\"blarg\"",
 				"taxon.description_appearance_t:\"blarg\"~10",
 				"taxon.description_inflorescence_t:\"blarg\"~10",
 				"taxon.description_fruit_t:\"blarg\"~10",
@@ -63,6 +63,6 @@ public class QueryBuilderTest {
 		SolrQuery q = new QueryBuilder().addParam("q", "leaf:pinnately compound,location:africa,blarg").build();
 		assertThat(q.getQuery(), containsString("taxon.description_leaf_t:\"pinnately compound\"~10"));
 		assertThat(q.getQuery(), containsString("taxon.distribution_ss_lower:\"africa\""));
-		assertThat(q.getQuery(), containsString("taxon.scientific_name_ss_lower:\"blarg\""));
+		assertThat(q.getQuery(), containsString("taxon.scientific_name_s_lower:\"blarg\""));
 	}
 }

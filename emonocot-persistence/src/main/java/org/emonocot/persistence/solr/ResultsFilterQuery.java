@@ -23,13 +23,13 @@ public class ResultsFilterQuery extends QueryOption {
 			case "all_results":
 				break;
 			case "accepted_names":
-				selectedFacets.add("taxon.taxonomic_status_s:Accepted");
+				selectedFacets.add("taxon.is_accepted_b:true");
 				break;
 			case "has_images":
 				selectedFacets.add("taxon.images_not_empty_b:true");
 				break;
 			case "is_fungi":
-				selectedFacets.add("taxon.kingdom_s:Fungi");
+				selectedFacets.add("taxon.kingdom_s_lower:Fungi");
 				break;
 			case "family_f":
 				selectedRanks.add(Rank.FAMILY);
@@ -50,15 +50,16 @@ public class ResultsFilterQuery extends QueryOption {
 				selectedRanks.add(Rank.Subform);
 				break;
 			}
-
 		}
+
 		if(!selectedRanks.isEmpty()){
 			String string = "";
 			for(Rank rank : selectedRanks){
 				string += ObjectUtils.toString(rank, null) + " ";
 			}
-			selectedFacets.add(String.format("taxon.taxon_rank_s: (%s)", string));
+			selectedFacets.add(String.format("taxon.rank_s_lower: (%s)", string));
 		}
+
 		if(!selectedFacets.isEmpty()){
 			query.add("fq", "{!tag=facets}" + StringUtils.join(selectedFacets, " AND "));
 		}

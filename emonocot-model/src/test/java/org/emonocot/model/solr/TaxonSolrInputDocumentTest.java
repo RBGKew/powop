@@ -26,6 +26,8 @@ import org.emonocot.model.constants.MeasurementUnit;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -56,11 +58,11 @@ public class TaxonSolrInputDocumentTest {
 	}
 
 	private TestCase[] higerOrderTestCases = {
-			new TestCase().withRank(Rank.FAMILY).andSolrFieldName("taxon.family_ss_lower"),
-			new TestCase().withRank(Rank.Subfamily).andSolrFieldName("taxon.subfamily_ss_lower"),
-			new TestCase().withRank(Rank.GENUS).andSolrFieldName("taxon.genus_ss_lower"),
-			new TestCase().withRank(Rank.Tribe).andSolrFieldName("taxon.tribe_ss_lower"),
-			new TestCase().withRank(Rank.Subtribe).andSolrFieldName("taxon.subtribe_ss_lower"),
+			new TestCase().withRank(Rank.FAMILY).andSolrFieldName("taxon.family_s_lower"),
+			new TestCase().withRank(Rank.Subfamily).andSolrFieldName("taxon.subfamily_s_lower"),
+			new TestCase().withRank(Rank.GENUS).andSolrFieldName("taxon.genus_s_lower"),
+			new TestCase().withRank(Rank.Tribe).andSolrFieldName("taxon.tribe_s_lower"),
+			new TestCase().withRank(Rank.Subtribe).andSolrFieldName("taxon.subtribe_s_lower"),
 	};
 
 	@Test
@@ -71,24 +73,14 @@ public class TaxonSolrInputDocumentTest {
 	}
 
 	@Test
-	public void higherOrderSynonyms() throws Exception {
-		for(TestCase test : higerOrderTestCases) {
-			testIndexSynonymRank(test);
-		}
-	}
-
-	@Test
 	public void simpleStringMappings() throws Exception {
 		String[] fields = {
-				"taxon.infraspecific_epithet_s",
-				"taxon.kingdom_s",
-				"taxon.name_published_in_string_s",
-				"taxon.order_s",
-				"taxon.scientific_name_authorship_t",
-				"taxon.scientific_name_t",
-				"taxon.specific_epithet_s",
-				"taxon.subgenus_s",
-				"taxon.verbatim_taxon_rank_s"
+				"taxon.infraspecific_epithet_s_lower",
+				"taxon.kingdom_s_lower",
+				"taxon.order_s_lower",
+				"taxon.scientific_name_authorship_s_lower",
+				"taxon.scientific_name_s_lower",
+				"taxon.specific_epithet_s_lower",
 		};
 
 		for(String field : fields) {
@@ -110,7 +102,7 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setTaxonRank(Rank.KINGDOM);
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
-		String field = "taxon.taxon_rank_s";
+		String field = "taxon.rank_s_lower";
 		assertTrue("Expected " + field, doc.containsKey(field));
 		assertEquals(Rank.KINGDOM.toString(), doc.getFieldValue(field));
 	}
@@ -121,7 +113,7 @@ public class TaxonSolrInputDocumentTest {
 		taxon.setTaxonomicStatus(TaxonomicStatus.Doubtful);
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
-		String field = "taxon.taxonomic_status_s";
+		String field = "taxon.taxonomic_status_s_lower";
 		assertTrue("Expected " + field, doc.containsKey(field));
 		assertEquals(TaxonomicStatus.Doubtful.toString(), doc.getFieldValue(field));
 	}
@@ -338,22 +330,5 @@ public class TaxonSolrInputDocumentTest {
 
 		assertTrue("Expected " + test.solrFieldName, doc.containsKey(test.solrFieldName));
 		assertEquals(test.rank + ": Orchidacae", doc.getFieldValue(test.solrFieldName));
-	}
-
-	private void testIndexSynonymRank(TestCase test) throws Exception {
-		Taxon accepted = new Taxon();
-		Taxon synonym = new Taxon();
-		Set<Taxon> newSynonyms = new HashSet<Taxon>();
-		String acceptedName = test.rank + ": Orchidacae";
-		String synonymName = test.rank + ": Poaceae";
-
-		BeanUtils.setProperty(accepted, test.rank.toString().toLowerCase(), acceptedName);
-		BeanUtils.setProperty(synonym, test.rank.toString().toLowerCase(), synonymName);
-		newSynonyms.add(synonym);
-		synonym.setAcceptedNameUsage(accepted);
-		accepted.setSynonymNameUsages(newSynonyms);
-		SolrInputDocument doc = new TaxonSolrInputDocument(accepted).build();
-		assertTrue("Expected " + test.solrFieldName, doc.containsKey(test.solrFieldName));
-		assertEquals(Arrays.asList(acceptedName, synonymName), doc.getFieldValues(test.solrFieldName));
 	}
 }

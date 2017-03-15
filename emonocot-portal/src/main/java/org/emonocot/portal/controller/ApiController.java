@@ -53,9 +53,6 @@ public class ApiController {
 	@Autowired
 	private TaxonService taxonService;
 
-	@Autowired
-	private ImageService imageService;
-
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
 		QueryBuilder queryBuilder = new QueryBuilder();
@@ -65,7 +62,7 @@ public class ApiController {
 
 		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
-		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse, taxonService, imageService);
+		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse);
 
 		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
 	}
