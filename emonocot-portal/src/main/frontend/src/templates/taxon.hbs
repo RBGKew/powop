@@ -92,18 +92,16 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <table id="descriptions-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
+              <ul id="descriptions-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
-                <tr>
-                  <th>{{message type}}</th>
-                  <td>
+                  <li class="type-heading">{{message type}}</li>
+                  <li>
                   {{#each descriptions}}
                   {{{description}}}
                   {{/each}}
-                  </td>
-                </tr>
+                </li>
                 {{/each}}
-              </table>
+              </ul>
             </div>
             {{/each}}
           </div>
@@ -144,18 +142,16 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} as {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <table id="uses-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
+              <ul id="uses-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
-                <tr>
-                  <th>{{message type}}</th>
-                  <td>
+                  <li class="type-heading">{{message type}}</li>
+                  <li>
                   {{#each descriptions}}
-                  <span>{{{description}}}</span>
+                  {{{description}}}
                   {{/each}}
-                  </td>
-                </tr>
+                </li>
                 {{/each}}
-              </table>
+              </ul>
             </div>
             {{/each}}
           </div>

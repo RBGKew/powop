@@ -44,6 +44,10 @@
   .suggestion-category {
     color: #ccc;
     float: right;
+
+    @media (max-width: $screen-sm-min) {
+      display: none;
+    }
   }
 }
 

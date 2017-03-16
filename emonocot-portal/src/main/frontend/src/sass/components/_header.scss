@@ -31,17 +31,48 @@ $header-logo-height: 47px;
 }
 
 #kew-logo {
-  display: none;
+  display: block;
   float: right;
+  @media(max-width: $screen-sm-min) {
+    float: none;
+  }
 
-  @media (min-width: $screen-sm-min) { display: block; }
+  @media (min-width: $screen-sm-min) {
   #kew-logo-svg {
-    width: 200px;
-    height: 25px;
+    width: 300px;
+    height: 30px;
     margin: 30px 0;
+    }
+  }
+  @media (max-width: $screen-sm-min) {
+    #kew-logo-svg {
+      height: 25px;
+      margin: 10px 0 0 0;
+      width: 100%;
+    }
   }
 }
 
+
+#powo-logo {
+
+  @media (min-width: $screen-sm-min) {
+
+    #powo-logo-svg {
+      height: 40px;
+      margin: 20px 0;
+      width: 400px;
+    }
+  }
+
+  @media (max-width: $screen-sm-min) {
+    #powo-logo-svg {
+      height: 20px;
+      margin: 10px 0;
+      width: 100%;
+    }
+  }
+}
 .s-search__fullpage .featured {
   @media (min-width: $screen-sm-min) {
     display: block;
