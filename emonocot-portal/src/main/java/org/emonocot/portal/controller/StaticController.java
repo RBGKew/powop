@@ -17,11 +17,11 @@ public class StaticController {
 		return "/not_found_error";
 	}
 
-	@RequestMapping(value = "/cookie_policy", method = RequestMethod.GET, produces = {"text/html"})
-	public String cookiePolicy(){
-		return "static/cookies";
+	@RequestMapping(value = "/privacy", method = RequestMethod.GET, produces = {"text/html"})
+	public String privacyPolicy(){
+		return "static/privacy";
 	}
-
+	
 	@RequestMapping(value = "/terms_and_conditions", method = RequestMethod.GET, produces = {"text/html"})
 	public String termsAndConditions(){
 		return "static/terms_and_conditions";

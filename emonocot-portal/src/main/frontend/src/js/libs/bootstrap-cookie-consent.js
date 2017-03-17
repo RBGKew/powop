@@ -19,7 +19,7 @@ C = {
     bannerButton: "OK",
 
     // Link to your cookie policy.
-    bannerLinkURL: "/legal-docs/data-protection.html",
+    bannerLinkURL: "/privacy",
 
     // Link text
     bannerLinkText: "Read more",
