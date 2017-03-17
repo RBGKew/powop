@@ -21,7 +21,10 @@
 }
 
 .s-search__fullpage .c-footer {
-  position: absolute;
-  bottom: 0px;
+  padding-top: 100px;
+  @media (min-width: $screen-sm-max) {
+    position: absolute;
+    bottom: 0px;
+  }
 }
 

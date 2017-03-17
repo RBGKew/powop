@@ -11,7 +11,10 @@
   background-attachment: fixed;
   background-position-x: 25%;
   background-position-y: 10%;
-  min-height: 200vh;
+  min-height: 100vh;
+  @media (max-width: $screen-sm-min) {
+    min-height: 120vh;
+  }
 
   .s-page-wrapper {
     position: relative;
@@ -19,21 +22,17 @@
   }
 
   .c-header__actions {
-    float: left;
     margin-top: 25px;
   }
 
   #kew-logo-svg {
     width: 200px;
-    height: 25px;
+    height: 60px;
     fill: black;
-    margin: 30px auto 0;
-    display: block;
+  }
 
-    @media (min-width: $screen-sm-min) {
-      float: right;
-      margin: 30px 0;
-    }
+  #powo-logo {
+    fill: #000;
   }
 }
 
@@ -48,6 +47,16 @@
 
 .c-intro {
   display: none;
+
+  @media (max-width: $screen-sm-max) {
+    .powo-logo {
+      width: 200px;
+    }
+  }
+}
+
+.s-search__fullpage .c-intro {
+  display: block;
 }
 
 .cookie-bar {
@@ -62,10 +71,6 @@
     text-decoration: underline;
   }
 
-}
-
-.s-search__fullpage .c-intro {
-  display: block;
 }
 
 // Section Home

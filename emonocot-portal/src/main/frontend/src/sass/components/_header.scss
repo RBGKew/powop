@@ -1,10 +1,7 @@
-$header-logo-height: 47px;
-
 .c-header {
   overflow: hidden;
   a:link { text-decoration: none }
   h1 {
-    float: left;
     font-weight: 700;
     font-size: $font-size-h2;
 
@@ -14,7 +11,7 @@ $header-logo-height: 47px;
   }
 
   .container {
-    @media (max-width: $screen-sm-min) { margin: 10px 0; }
+    @media (max-width: $screen-sm-min) { margin: 0; }
 
     small {
       display: block;
@@ -24,61 +21,54 @@ $header-logo-height: 47px;
   }
 
   .featured {
+    text-align: right;
     display: none;
     margin-top: 30px;
-    float: left;
+    float: right;
   }
 }
 
 #kew-logo {
-  display: block;
-  float: right;
-  @media(max-width: $screen-sm-min) {
-    float: none;
-  }
+  display: inline;
 
   @media (min-width: $screen-sm-min) {
   #kew-logo-svg {
-    width: 300px;
-    height: 30px;
-    margin: 30px 0;
+    width: 200px;
+    margin-top: 15px;
+    height: 60px;
     }
   }
   @media (max-width: $screen-sm-min) {
     #kew-logo-svg {
-      height: 25px;
-      margin: 10px 0 0 0;
-      width: 100%;
+      height: 45px;
+      width: 130px;
     }
   }
 }
 
-
-#powo-logo {
-
-  @media (min-width: $screen-sm-min) {
-
-    #powo-logo-svg {
-      height: 40px;
-      margin: 20px 0;
-      width: 400px;
-    }
-  }
-
-  @media (max-width: $screen-sm-min) {
-    #powo-logo-svg {
-      height: 20px;
-      margin: 10px 0;
-      width: 100%;
-    }
-  }
-}
 .s-search__fullpage .featured {
   @media (min-width: $screen-sm-min) {
     display: block;
   }
 }
 
-.s-search__fullpage #powo-title {
+.c-header .powo-logo {
+  height: 60px;
+  margin-top: 15px;
+  width: 160px;
+  border-left: 1px solid #000;
+  padding-left: 15px;
+  margin-left: 15px;
+
+  @media (max-width: $screen-sm-min) {
+    height: 45px;
+    width: 125px;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+}
+
+.s-search__fullpage .c-header .powo-logo {
   display: none;
 }

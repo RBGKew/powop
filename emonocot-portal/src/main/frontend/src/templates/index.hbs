@@ -1,8 +1,9 @@
 {{> partials/header title="Plants of the World Online | Kew Science"}}
-<div id="svgs" class="hidden">
+<div id="svgs" style="display:none">
 {{> svg/leaf.svg }}
 {{> svg/mushroom.svg }}
 {{> svg/chevron.svg }}
+{{> svg/powo-logo.svg }}
 </div>
 <div class="s-page s-page--home s-search__fullpage s-theme-home invisible">
   <div class="s-page-wrapper">
@@ -11,7 +12,9 @@
     <section class="c-search autocomplete-form">
       <div class="container">
         <div class="c-intro">
-          <h1 class="c-intro__title">Plants of the World Online <small><sub><i>beta</i></sub></small></h1>
+          <svg class="powo-logo" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <use xlink:href="#powo-logo-svg"/>
+          </svg>
           <p>Browse {{names}} global plant names, {{descriptions}} detailed descriptions, and {{images}} images covering tropical Africa</p>
         </div>
 

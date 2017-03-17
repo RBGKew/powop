@@ -1,13 +1,17 @@
 <header class="c-header">
   <div class="container">
-    <h1 id="powo-title">
-          <a href="/">Plants of the World Online</a>
-    </h1>
+    <a id="kew-logo" href="http://www.kew.org/science-conservation">{{> svg/kew-science-big-logo.svg}}</a>
+
+    <a href="/">
+      <svg class="powo-logo" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <use xlink:href="#powo-logo-svg"/>
+      </svg>
+    </a>
+
     <p class="featured">
       Featured: <i><a href="/taxon/urn:lsid:ipni.org:names:66177-1">Narcissus pseudonarcissus</a></i>
-      <small>Illustration by Sebastian Schedel (1570-1628).<br/>
+      <small>Illustration by Sebastian Schedel (1570-1628)<br/>
         From the <a href="http://www.kew.org/explore-our-collections/library-art-archives">Kew Archives</a></small>
     </p>
-    <a id="kew-logo" href="http://www.kew.org/science-conservation">{{> svg/kew-science-big-logo.svg}}</a>
   </div>
 </header>

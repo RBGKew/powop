@@ -1,6 +1,6 @@
 /*
-* Component - Search
-*/
+ * Component - Search
+ */
 .c-search {
 
   .btn-link,
@@ -52,11 +52,13 @@
 }
 
 .s-search__fullpage .c-search {
-  position: absolute;
-  top: 40%;
-  left: 5%;
-  width: 90%;
-  transform: translateY(-50%);
+  @media (min-width: $screen-sm-max) {
+    position: absolute;
+    top: 40%;
+    left: 5%;
+    width: 90%;
+    transform: translateY(-50%);
+  }
 }
 
 
