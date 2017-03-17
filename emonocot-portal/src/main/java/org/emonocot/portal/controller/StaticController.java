@@ -9,12 +9,12 @@ public class StaticController {
 
 	@RequestMapping(value = "/generic_error", method = RequestMethod.GET, produces = {"text/html"})
 	public String error(){
-		return "static/generic_error";
+		return "/generic_error";
 	}
 
 	@RequestMapping(value = "/not_found_error", method = RequestMethod.GET, produces = {"text/html"})
 	public String notFoundError(){
-		return "static/not_found_error";
+		return "/not_found_error";
 	}
 
 	@RequestMapping(value = "/cookie_policy", method = RequestMethod.GET, produces = {"text/html"})

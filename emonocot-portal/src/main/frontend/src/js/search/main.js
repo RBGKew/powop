@@ -56,7 +56,7 @@ define(function(require) {
 
   var initialize = function() {
     if ($(window).width() < 992) {
-        $("input[type=search]").removeAttr('placeholder');
+        $("input[type=search]").attr('placeholder', "Search");
     }
     filters.initialize();
     // populate results based on existing query string

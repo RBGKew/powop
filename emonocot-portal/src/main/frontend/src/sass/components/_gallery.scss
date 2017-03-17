@@ -6,10 +6,24 @@
 }
 
 .c-gallery__img {
-  width: 33.333%;
+  width: 400px;
+  height: 400px;
   overflow: hidden;
   float: left;
   border-right: 1px solid #FFFFFF;
+
+  @media (max-width: $screen-sm-min){
+    width: 90px;
+    height: 90px;
+  }
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max){
+    width: 250px;
+    height: 250px;
+  }
+  @media (min-width: $screen-md-max) and (max-width: $screen-hg-min){
+    width: 350px;
+    height: 350px;
+  }
   img {
     width: 100%;
   }
