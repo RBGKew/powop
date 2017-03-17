@@ -31,4 +31,9 @@ ServiceImpl<Description, DescriptionDao> implements DescriptionService {
 		super.dao = descriptionDao;
 	}
 
+	@Override
+	public long countAccounts() {
+		return dao.countAccounts();
+	}
+
 }

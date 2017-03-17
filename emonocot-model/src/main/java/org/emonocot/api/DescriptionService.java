@@ -20,4 +20,7 @@ import org.emonocot.model.Description;
 
 public interface DescriptionService extends Service<Description> {
 
+	/* Counts the number of distinct taxon accounts. */
+	public long countAccounts();
+
 }

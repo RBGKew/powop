@@ -16,6 +16,7 @@
  */
 package org.emonocot.persistence.dao.hibernate;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.emonocot.model.Description;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.DescriptionDao;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -45,5 +47,11 @@ public class DescriptionDaoImpl extends DaoImpl<Description> implements Descript
 	@Override
 	protected Fetch[] getProfile(String profile) {
 		return DescriptionDaoImpl.FETCH_PROFILES.get(profile);
+	}
+
+	@Override
+	public long countAccounts() {
+		Query q = getSession().createSQLQuery("select count(*) from (select count(*) from description group by taxon_id, authority_id) a");
+		return ((BigInteger)q.uniqueResult()).longValue();
 	}
 }

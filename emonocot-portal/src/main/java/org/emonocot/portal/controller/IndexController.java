@@ -16,6 +16,10 @@
  */
 package org.emonocot.portal.controller;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import org.emonocot.api.DescriptionService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +38,18 @@ public class IndexController {
 	@Autowired
 	ImageService imageService;
 
+	@Autowired
+	DescriptionService descriptionService;
+
 	@RequestMapping(method = RequestMethod.GET,produces = "text/html")
 	public String index(Model model) {
-		model.addAttribute("names", taxonService.count());
-		model.addAttribute("images", imageService.count());
+		model.addAttribute("names", format(taxonService.count(), 1000));
+		model.addAttribute("images", format(imageService.count(), 100));
+		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		return "index";
+	}
+
+	private String format(long n, int ceilTo) {
+		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo-1)) / ceilTo) * ceilTo);
 	}
 }
