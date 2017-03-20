@@ -131,30 +131,30 @@
 
   <error-page>
     <error-code>400</error-code>
-    <location>/generic_error</location>
+    <location>/generic-error</location>
   </error-page>
   <error-page>
     <error-code>404</error-code>
-    <location>/not_found_error</location>
+    <location>/not-found-error</location>
   </error-page>
   <error-page>
     <error-code>405</error-code>
-    <location>/generic_error</location>
+    <location>/generic-error</location>
   </error-page>
   <error-page>
     <error-code>406</error-code>
-    <location>/generic_error</location>
+    <location>/generic-error</location>
   </error-page>
   <error-page>
     <error-code>415</error-code>
-    <location>/generic_error</location>
+    <location>/generic-error</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
-    <location>/generic_error</location>
+    <location>/generic-error</location>
   </error-page>
   <error-page>
     <error-code>503</error-code>
-    <location>/generic_error</location>
+    <location>/generic-error</location>
   </error-page>
 </web-app>

@@ -1,7 +1,6 @@
 package org.emonocot.portal.view.helpers;
 
 import org.emonocot.model.Image;
-import org.emonocot.model.registry.Organisation;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
@@ -26,14 +25,18 @@ public class ImageHelper {
 	}
 
 	private String imageUrl(Image image, String type) {
-		if(image.getIdentifier().startsWith("urn:kew.org:dam")){
-			if(type.equals("thumbnail")){
-				return String.format("%s%s", image.getAccessUri(), "?s=400&k=131f04e3b359a15762abfab29c7001d9");
-			}else{
-				return String.format("%s%s", image.getAccessUri(), "?s=400&k=131f04e3b359a15762abfab29c7001d9");
+		String result = null;
+		if(image.getIdentifier().startsWith("urn:kew.org:dam")) {
+			if(type.equals("thumbnail")) {
+				result = String.format("%s%s", image.getAccessUri(), "?s=400&k=131f04e3b359a15762abfab29c7001d9");
+			} else {
+				result = String.format("%s%s", image.getAccessUri(), "?s=1600&k=fe543868fc853b0d4698dcd2abfdbcfb");
 			}
+		} else {
+			result =  String.format("%s_%s.jpg", image.getAccessUri(), type);
 		}
-		return String.format("%s_%s.jpg", image.getAccessUri(), type);
+
+		return result;
 	}
 
 	private CharSequence link(Image image, String type, Options options) {
@@ -49,7 +52,7 @@ public class ImageHelper {
 
 		if(modal) {
 			imgTag = String.format("<a href=\"%s\" title=\"%s\">%s</a>",
-					String.format("%s_fullsize.jpg", imageUrl(image, "fullsize")), generateCaption(image), imgTag);
+					imageUrl(image, "fullsize"), generateCaption(image), imgTag);
 		}
 
 		return new Handlebars.SafeString(imgTag);
@@ -86,7 +89,7 @@ public class ImageHelper {
 				caption.append(owner);
 			}
 		} else {
-			caption.append(source);
+			caption.append(Strings.nullToEmpty(source));
 		}
 		caption.append("</small>");
 

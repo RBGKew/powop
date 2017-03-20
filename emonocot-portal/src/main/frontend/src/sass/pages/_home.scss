@@ -3,7 +3,8 @@
   position: relative;
 }
 
-.s-page--home {
+.s-page--home,
+.s-page--error {
 
   border-color: #FFFFFF;
   background-image: url('/img/raster/Narcissus_pseudonarcissus.jpg');
@@ -37,7 +38,8 @@
 }
 
 @media (min-width: $screen-sm-min) {
-  .s-search__fullpage .c-footer {
+  .s-search__fullpage .c-footer,
+  .s-page--error .c-footer {
     position: absolute;
     bottom: 0;
     left: 0;
