@@ -54,17 +54,26 @@
 .c-header .powo-logo {
   height: 60px;
   margin-top: 15px;
-  width: 160px;
   border-left: 1px solid #fff;
   padding-left: 15px;
   margin-left: 15px;
+  display: inline-block;
+
+  svg {
+    width: 160px;
+    height: 60px;
+  }
 
   @media (max-width: $screen-sm-min) {
     height: 45px;
-    width: 125px;
     padding-left: 10px;
     margin-top: 10px;
     margin-left: 5px;
+
+    svg {
+      width: 125px;
+      height: 45px;
+    }
   }
 }
 
