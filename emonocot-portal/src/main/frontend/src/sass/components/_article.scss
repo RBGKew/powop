@@ -83,16 +83,6 @@ body {
   }
 }
 
-.c-article-desc-table {
-    border-collapse: separate;
-    border-spacing: 0 7px;
-    list-style: none;
-    .type-heading{
-      font-weight:bold;
-      font-size: 18px;
-    }
-}
-
 
 // Component - Article Navigation
 .c-article-nav {
@@ -268,14 +258,19 @@ body {
 }
 
 #descriptions {
-  table {
+  dl {
     h2 {
       font-size: $font-size-h3;
       margin-top: 0;
     }
+
     h3 {
       font-size: $font-size-h5;
       font-weight: bold;
     }
+  }
+
+  dd {
+    padding-bottom: .5em;
   }
 }

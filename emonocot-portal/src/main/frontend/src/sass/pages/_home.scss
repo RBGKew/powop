@@ -7,7 +7,7 @@
 .s-page--error {
 
   border-color: #FFFFFF;
-  background-image: url('/img/raster/Narcissus_pseudonarcissus.jpg');
+  background-image: url('/img/raster/Anagallis_arvensis_06.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-position-x: 25%;
@@ -29,11 +29,11 @@
   #kew-logo-svg {
     width: 200px;
     height: 60px;
-    fill: black;
+    fill: #fff;
   }
 
-  #powo-logo {
-    fill: #000;
+  .powo-logo {
+    fill: #fff;
   }
 }
 
