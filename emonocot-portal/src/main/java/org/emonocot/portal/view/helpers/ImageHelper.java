@@ -26,7 +26,7 @@ public class ImageHelper {
 
 	private String imageUrl(Image image, String type) {
 		String result = null;
-		if(image.getIdentifier().startsWith("urn:kew.org:dam")) {
+		if(image.getAccessUri().startsWith("https://dams.kew.org")) {
 			if(type.equals("thumbnail")) {
 				result = String.format("%s%s", image.getAccessUri(), "?s=400&k=131f04e3b359a15762abfab29c7001d9");
 			} else {
