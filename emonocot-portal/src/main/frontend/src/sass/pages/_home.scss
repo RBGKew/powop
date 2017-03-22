@@ -64,8 +64,15 @@
     padding-left: 30px;
     padding-right: 30px;
   }
+
   .c-intro {
     display: block;
+  }
+
+  .form-inline--search {
+    width: 90%;
+    @media (min-width: $screen-lg) { width: 960px; }
+    margin: 0 auto;
   }
 }
 
