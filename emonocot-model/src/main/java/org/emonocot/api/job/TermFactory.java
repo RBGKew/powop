@@ -31,6 +31,7 @@ import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.dwc.terms.XmpTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
+import org.gbif.dwc.terms.XmpRightsTerm;
 
 public class TermFactory {
 
@@ -104,6 +105,10 @@ public class TermFactory {
 		if (term == null) {
 			term = findTermInEnum(normTermName, Iptc4xmpTerm.values(),
 					new String[] {Iptc4xmpTerm.PREFIX, Iptc4xmpTerm.NS});
+		}
+		if (term == null) {
+			term = findTermInEnum(normTermName, XmpRightsTerm.values(),
+					new String[] {XmpRightsTerm.PREFIX, XmpRightsTerm.NS});
 		}
 		if (term == null) {
 			term = findTermInEnum(normTermName, XmpTerm.values(),

@@ -116,6 +116,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		persisted.setReferences(t.getReferences());
 		persisted.setTaxon(t.getTaxon());
 		persisted.setTitle(t.getTitle());
+		persisted.setOwner(t.getOwner());
 		persisted.setAssociatedObservationReference(t.getAssociatedObservationReference());
 		persisted.setAssociatedSpecimenReference(t.getAssociatedSpecimenReference());
 		persisted.setCaption(t.getCaption());

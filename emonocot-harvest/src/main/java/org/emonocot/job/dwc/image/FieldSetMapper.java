@@ -171,6 +171,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			XmpRightsTerm xrt = (XmpRightsTerm)term;
 			switch(xrt) {
 			case Owner:
+				object.setOwner(value);
 				break;
 			}
 		}
@@ -193,8 +194,9 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			case Sublocation:
 				object.setSublocation(htmlSanitizer.sanitize(value));
 				break;
-			}	
+			}
 		}
+
 		if (term instanceof ExifTerm) {
 			ExifTerm exifTerm = (ExifTerm)term;
 			switch (exifTerm) {
