@@ -7,9 +7,9 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-    <context:property-placeholder
-      ignore-resource-not-found="true"
-      location="classpath*:META-INF/spring/application.properties"/>
+  <context:property-placeholder
+    ignore-resource-not-found="true"
+    location="classpath*:META-INF/spring/application.properties"/>
   <context:annotation-config />
 
   <batch:job id="ReIndex">
@@ -18,8 +18,14 @@
       <batch:tasklet>
         <batch:chunk reader="itemReader" writer="itemIndexer" commit-interval="1000" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="removeMissingDocuments"/>
+      <batch:next on="COMPLETED" to="checkDeleteMissing"/>
     </batch:step>
+
+    <batch:decision decider="deleteMissingeDecider" id="checkDeleteMissing">
+      <batch:next on="true" to="removeMissingDocuments"/>
+      <batch:end on="*" />
+    </batch:decision>
+
     <batch:step id="removeMissingDocuments">
       <batch:description>Remove missing solr documents</batch:description>
       <batch:tasklet>
@@ -28,6 +34,11 @@
       <batch:end on="COMPLETED"/>
     </batch:step>
   </batch:job>
+
+  <bean id="deleteMissingeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+    <property name="processingModeKey" value="delete.missing" />
+    <property name="defaultProcessingMode" value="false" />
+  </bean>
 
   <bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"	scope="step">
     <property name="sessionFactory" ref="sessionFactory" />

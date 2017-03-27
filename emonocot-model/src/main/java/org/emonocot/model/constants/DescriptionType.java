@@ -32,9 +32,6 @@ import com.google.common.collect.Sets;
 public enum DescriptionType {
 
 	// standard gbif-extension types
-	snippet("snippet"),
-	speciesProfile("speciesProfile"),
-	summary("summary"),
 	general("http://rs.gbif.org/vocabulary/gbif/descriptionType/general", "general"),
 	diagnostic("http://rs.gbif.org/vocabulary/gbif/descriptionType/diagnostic", "diagnostic"),
 	morphology("http://rs.gbif.org/vocabulary/gbif/descriptionType/morphology", "morphology"),
@@ -70,14 +67,17 @@ public enum DescriptionType {
 	hybrids("http://rs.gbif.org/vocabulary/gbif/descriptionType/hybrids", "hybrids"),
 	culture("http://rs.gbif.org/vocabulary/gbif/descriptionType/culture", "culture"),
 	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular"),
-	hazard("hazard"),
 	// non-standard description types
 	concept("concept"),
 	figure("figure"),
 	floralDiagram("floralDiagram"),
 	glossary("glossary"),
+	hazard("hazard"),
 	note("note"),
 	reference("reference"),
+	snippet("snippet"),
+	speciesProfile("speciesProfile"),
+	summary("summary"),
 
 	// Morphological
 	constructionalOrganisationGrowth("constructionalOrganisation:growth"),
@@ -422,6 +422,16 @@ public enum DescriptionType {
 	public static final DescriptionType generalDescriptionType = habit;
 
 	public static final ImmutableMap<String, Set<DescriptionType>> searchCategories = ImmutableMap.<String, Set<DescriptionType>>builder()
+			.put("general", ImmutableSet.<DescriptionType>of(
+					conservation,
+					ecology,
+					general,
+					hazard,
+					note,
+					reference,
+					snippet,
+					speciesProfile,
+					summary))
 			.put("appearance", ImmutableSet.<DescriptionType>of(
 					constructionalOrganisationGrowth,
 					diagnostic,

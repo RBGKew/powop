@@ -40,6 +40,7 @@ public class QueryBuilder {
 			.add("taxon.name_published_in_s_lower")
 			.add("taxon.scientific_name_authorship_s_lower")
 			.add("taxon.description_use_t")
+			.add("taxon.description_general_t")
 			.build();
 
 	private static final Map<String, QueryOption> queryMappings = new ImmutableMap.Builder<String, QueryOption>()

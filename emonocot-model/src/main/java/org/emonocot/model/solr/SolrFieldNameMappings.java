@@ -15,6 +15,7 @@ public class SolrFieldNameMappings {
 			.put("family", "taxon.family_s_lower")
 			.put("flower", "taxon.description_flower_t")
 			.put("fruit", "taxon.description_fruit_t")
+			.put("general", "taxon.description_general_t")
 			.put("genus", "taxon.genus_s_lower")
 			.put("inflorescence", "taxon.description_inflorescence_t")
 			.put("kingdom", "taxon.kingdom_s_lower")
