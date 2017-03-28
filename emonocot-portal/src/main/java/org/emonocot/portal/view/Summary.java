@@ -92,17 +92,20 @@ public class Summary {
 		return null;
 	}
 
-	
+
 	public String build(){
+
+		if(taxon.isAccepted()){
+			Set<Description> descriptions = taxon.getDescriptions();
+			for(Description description : descriptions){
+				if(description.getTypes().contains(DescriptionType.summary)){
+					return description.getDescription();
+				}
+			}
+		}
+
 		if(taxon.getTaxonomicStatus() != null) {
 			if(taxon.isAccepted()){
-
-				Set<Description> descriptions = taxon.getDescriptions();
-				for(Description description : descriptions){
-					if(description.getTypes().contains(DescriptionType.summary)){
-						return description.getDescription();
-					}
-				}
 
 				String location =  buildLocationandHabitat();
 				String uses = new SummaryUses().buildUses(taxon, messageSource);
@@ -122,7 +125,6 @@ public class Summary {
 					return String.format("This %s is accepted.", thing);
 				}
 			}
-
 
 			if(taxon.getAcceptedNameUsage() != null) {
 				if(taxon.getTaxonRank() != null) {

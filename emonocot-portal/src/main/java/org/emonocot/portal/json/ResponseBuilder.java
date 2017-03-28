@@ -73,7 +73,7 @@ public class ResponseBuilder {
 				.author(getStr(document, "taxon.scientific_name_authorship_s_lower"))
 				.kingdom(getStr(document, "taxon.kingdom_s_lower"));
 
-		if(!getBool(document, "taxon.is_accepted_b")) {
+		if(!getBool(document, "taxon.is_accepted_b") && document.containsKey("taxon.accepted.identifier_s")) {
 			SearchResultBuilder synonym = new SearchResultBuilder()
 					.url("/taxon/" + document.get("taxon.accepted.identifier_s"))
 					.name(getStr(document, "taxon.accepted.scientific_name_s"))
