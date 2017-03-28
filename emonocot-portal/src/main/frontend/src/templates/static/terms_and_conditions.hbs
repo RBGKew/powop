@@ -1,68 +1,63 @@
 {{> partials/header title="Plants of the World Online | Kew Science"}}
 
 <div id="svgs" style="display:none">
-{{> svg/powo-logo.svg }}
+  {{> svg/powo-logo.svg }}
 </div>
 
 <div class="s-page s-page--home s-theme-home">
   {{> partials/page-header}}
 
-    <section class="c-results">
-      <div class="container static_text">
-        <h1>Terms and conditions – Kew Science Data & Resources </h1>
-      <p>  The data and information available through the Plants of  the World Online (POWO) portal are available under terms described in the licence field of individual dataset records (metadata).
+  <section class="c-results">
+    <div class="container static_text">
+      <h1>Terms and conditions – Kew Science Data & Resources </h1>
+      <p>  The data and information available through the Plants of  the World Online (POWO) portal are available under terms described in the licence field of individual dataset records (metadata).</p>
 
-       Almost all dataset metadata published on plantsoftheworldonline.org and kew.org is licensed under <a href="http://www.opendefinition.org/licenses/cc-by">Creative Commons Attribution CC BY.</a> In POWO users must check under terms described in the licence field of individual dataset records (metadata).
+      <p>Almost all dataset metadata published on plantsoftheworldonline.org and kew.org is licensed under <a href="http://www.opendefinition.org/licenses/cc-by">Creative Commons Attribution CC BY.</a> In POWO users must check under terms described in the licence field of individual dataset records (metadata).</p>
 
-       Multimedia assets including images within datasets are subject to additional licence restrictions - by default this will be <a href="http://www.opendefinition.org/licenses/cc-by">Creative Commons Attribution CC BY.</a>, and © copyright The Trustees of the Royal Botanic Gardens, Kew.</p>
+      <p>Multimedia assets including images within datasets are subject to additional licence restrictions - by default this will be <a href="http://www.opendefinition.org/licenses/cc-by">Creative Commons Attribution CC BY.</a>, and © copyright The Trustees of the Royal Botanic Gardens, Kew.</p>
 
-  <h2>Data usage</h2>
+      <h2>Data usage</h2>
 
-  <p>You may write papers or create software applications, visualisations, etc., that make use of data on this site. If you do use any of the data, please email the Biodiversity Informatics team at <a href="mailto:BI@kew.org">BI@kew.org</a> so that we can provide any appropriate assistance.
+      <p>You may write papers or create software applications, visualisations, etc., that make use of data on this site. If you do use any of the data, please email the Biodiversity Informatics team at <a href="mailto:BI@kew.org">BI@kew.org</a> so that we can provide any appropriate assistance.</p>
 
-  If you extract and re-use any data from this site you should explicitly state that RBG, Kew cannot warrant the quality or accuracy of the data.
+      <p>If you extract and re-use any data from this site you should explicitly state that RBG, Kew cannot warrant the quality or accuracy of the data.</p>
 
-  You must not in any way imply or explicitly state that a third-party use or service created using data from this site has the endorsement, affiliation, support or approval of RBG, Kew.</p>
+      <p>You must not in any way imply or explicitly state that a third-party use or service created using data from this site has the endorsement, affiliation, support or approval of RBG, Kew.</p>
 
-  <h2>Traffic limits</h2>
+      <h2>Traffic limits</h2>
 
-  <p>To maintain a good service for all, API users must not exceed a certain number of requests per second, dependent on the current server load. We reserve the right to suspend API access for users that exceed these limits.
+      <p>To maintain a good service for all, API users must not exceed a certain number of requests per second, dependent on the current server load. We reserve the right to suspend API access for users that exceed these limits.</p>
 
-  Citation and attribution
+      <h2>Citation and attribution</h2>
 
-  If you use our data, we strongly encourage you to cite or reference this work as you would any other scientific research (even if the license does not explicitly require you to).
+      <p>If you use our data, we strongly encourage you to cite or reference this work as you would any other scientific research (even if the license does not explicitly require you to).</p>
 
-  Many of the datasets are the result of a huge amount of time and effort invested by Kew staff and collaborators. Some represent an individual’s work over many decades. Citing this data allows us to measure the impact of the research and encourages others to deposit their data into the portal.
-  </p>
-  <h2>Citing IPNI</h2>
+      <p>Many of the datasets are the result of a huge amount of time and effort invested by Kew staff and collaborators. Some represent an individual’s work over many decades. Citing this data allows us to measure the impact of the research and encourages others to deposit their data into the portal.
+      </p>
 
-  'The International Plant Names Index (2012). Published on the Internet <a href="http://www.ipni.org">http://www.ipni.org</a> [accessed 1 July 2012]*.
+      <h3>Citing IPNI</h3>
 
-  *[Please replace the year and date of accession with the appropriate date for your use of the system]
+      <blockquote>The International Plant Names Index ({{year}}). Published on the Internet <a href="http://www.ipni.org">http://www.ipni.org</a> [accessed {{date}}]</blockquote>
 
-  <h2>Citing WCS</h2>
+      <h3>Citing WCS</h3>
 
-  <p>WCSP (Current Year). 'World Checklist of Selected Plant Families. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved *.'
+      <blockquote>WCSP ({{year}}). 'World Checklist of Selected Plant Families. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved {{date}}'</blockquote>
 
-  If you would like to cite the families individually, please use the following format:
+      <p>If you would like to cite the families individually, please use the following format:</p>
+      <blockquote>Compiler(s), Reviewers(s) ({{year}}). World Checklist of [Add Family]. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved {{date}}</blockquote>
+      <p>The family reviewer and family compiler can be determined from the reviewer and compiler table.</blockquote>
 
-  'Compiler(s), Reviewers(s) (Current Year). World Checklist of [Add Family]. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; http://apps.kew.org/wcsp/ Retrieved *.'
+    <h3>Citing TPL</h3>
+    <p>It may be cited as:</p>
+    <blockquote>The Plant List ({{year}}). Version 1.1. Published on the Internet; http://www.theplantlist.org/ Retrieved {{date}}</blockquote>
 
-  *[Please replace the year and date of accession with the appropriate date for your use of the system] The family reviewer and family compiler can be determined from the reviewer and compiler table.
+    <h3>Citing MPNS</h3>
 
-  Citing TPLIt may be cited as: The Plant List (2013). Version 1.1. Published on the Internet; http://www.theplantlist.org/ Retrieved *.
+    <p>It may be cited as:</p>
+    <blockquote>Medicinal Plant Names Services Portal Version 6; http://www.kew.org/mpns Retrieved {{date}}</blockquote>
 
-  *[Please replace the year and date of accession with the appropriate date for your use of the system]</p>
-
-  <h2>Citing MPNS</h2>
-
-  <p>It may be cited as: Medicinal Plant Names Services Portal Version 6 Retrieved *
-
-  http://www.kew.org/mpns
-
-  *[Please replace the year and date of accession with the appropriate date for your use of the system] </p>
-      </div><!-- End Container -->
-    </section>
-    {{> partials/footer-links}}
-  </div>
+    </div><!-- End Container -->
+  </section>
+  {{> partials/footer-links}}
+</div>
 </div>
