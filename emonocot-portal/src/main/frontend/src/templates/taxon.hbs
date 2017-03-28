@@ -97,16 +97,19 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <dl id="descriptions-{{source.abbreviation}}-{{@index}}" class="c-article-desc-table collapse{{#if @first}} in{{/if}}">
-                {{#each byType}}
-                  <dt>{{message type}}</dt>
-                  <dd>
-                  {{#each descriptions}}
-                    {{{description}}}
+              <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
+                {{#if conceptSource}}<p>{{conceptSource}}</p>{{/if}}
+                <dl class="c-article-desc-table">
+                  {{#each byType}}
+                    <dt>{{message type}}</dt>
+                    <dd>
+                    {{#each descriptions}}
+                      {{{description}}}
+                    {{/each}}
+                  </dd>
                   {{/each}}
-                </dd>
-                {{/each}}
-              </dl>
+                </dl>
+              </div>
             </div>
             {{/each}}
           </div>

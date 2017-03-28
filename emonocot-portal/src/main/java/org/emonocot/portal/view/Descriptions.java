@@ -15,6 +15,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.registry.Organisation;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
@@ -47,6 +48,7 @@ public class Descriptions {
 		public final Organisation source;
 		public final Taxon asTaxon;
 		public boolean isFromSynonym;
+		public String conceptSource;
 
 		public DescriptionsBySource(Organisation source, Taxon asTaxon) {
 			this.source = source;
@@ -146,6 +148,13 @@ public class Descriptions {
 			}
 
 			if(!dbs.byType.isEmpty()){
+				// set concept source unless it looks like a URL. We make the assumption that the source
+				// of every description for a given taxon is the same per organisation
+				String source = dbs.byType.get(0).descriptions.get(0).getSource();
+				if(!Strings.isNullOrEmpty(source) && !(source.startsWith("http://") || source.startsWith("https://") || source.startsWith("www."))) {
+					dbs.conceptSource = source;
+				}
+
 				descriptionsBySource.add(dbs);
 			}
 		}
