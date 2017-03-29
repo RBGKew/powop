@@ -23,6 +23,7 @@ import org.emonocot.api.job.ExifTerm;
 import org.emonocot.api.job.Iptc4xmpTerm;
 import org.emonocot.api.job.TermFactory;
 import org.emonocot.api.job.Wgs84Term;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
 import org.emonocot.model.Taxon;
@@ -41,7 +42,6 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.validation.BindException;
 
 public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
-
 
 	private String imageServer;
 
@@ -65,16 +65,16 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {
 			case audience:
-				object.setAudience(htmlSanitizer.sanitize(value));
+				object.setAudience(HtmlSanitizer.sanitize(value));
 				break;
 			case contributor:
-				object.setContributor(htmlSanitizer.sanitize(value));
+				object.setContributor(HtmlSanitizer.sanitize(value));
 				break;
 			case creator:
-				object.setCreator(htmlSanitizer.sanitize(value));
+				object.setCreator(HtmlSanitizer.sanitize(value));
 				break;
 			case description:
-				object.setDescription(htmlSanitizer.sanitize(value));
+				object.setDescription(HtmlSanitizer.sanitize(value));
 				break;
 			case format:
 				object.setFormat(conversionService.convert(value, MediaFormat.class));
@@ -83,16 +83,16 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setIdentifier(value);
 				break;
 			case publisher:
-				object.setPublisher(htmlSanitizer.sanitize(value));
+				object.setPublisher(HtmlSanitizer.sanitize(value));
 				break;
 			case references:
 				object.setReferences(value);
 				break;
 			case subject:
-				object.setSubject(htmlSanitizer.sanitize(value));
+				object.setSubject(HtmlSanitizer.sanitize(value));
 				break;
 			case title:
-				object.setTitle(htmlSanitizer.sanitize(value));
+				object.setTitle(HtmlSanitizer.sanitize(value));
 				break;
 			case type:
 				MediaType mediaType = conversionService.convert(value, MediaType.class);
@@ -105,16 +105,16 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			AcTerm AcTerm = (AcTerm)term;
 			switch (AcTerm) {
 			case associatedObservationReference:
-				object.setAssociatedObservationReference(htmlSanitizer.sanitize(value));
+				object.setAssociatedObservationReference(HtmlSanitizer.sanitize(value));
 				break;
 			case associatedSpecimenReference:
-				object.setAssociatedObservationReference(htmlSanitizer.sanitize(value));
+				object.setAssociatedObservationReference(HtmlSanitizer.sanitize(value));
 				break;
 			case caption:
-				object.setCaption(htmlSanitizer.sanitize(value));
+				object.setCaption(HtmlSanitizer.sanitize(value));
 				break;
 			case providerManagedID:
-				object.setProviderManagedId(htmlSanitizer.sanitize(value));
+				object.setProviderManagedId(HtmlSanitizer.sanitize(value));
 				break;
 			case subjectPart:
 				object.setSubjectPart((Set<DescriptionType>)conversionService.convert(value,
@@ -138,10 +138,10 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				}
 				break;
 			case subtype:
-				object.setSubType(htmlSanitizer.sanitize(value));
+				object.setSubType(HtmlSanitizer.sanitize(value));
 				break;
 			case subjectCategoryVocabulary:
-				object.setSubjectCategoryVocabulary(htmlSanitizer.sanitize(value));
+				object.setSubjectCategoryVocabulary(HtmlSanitizer.sanitize(value));
 				break;
 			}
 		}
@@ -180,19 +180,19 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 			Iptc4xmpTerm iptc4xmpTerm = (Iptc4xmpTerm)term;
 			switch (iptc4xmpTerm) {
 			case WorldRegion:
-				object.setWorldRegion(htmlSanitizer.sanitize(value));
+				object.setWorldRegion(HtmlSanitizer.sanitize(value));
 				break;
 			case CountryCode:
-				object.setCountryCode(htmlSanitizer.sanitize(value));
+				object.setCountryCode(HtmlSanitizer.sanitize(value));
 				break;
 			case CountryName:
-				object.setCountryName(htmlSanitizer.sanitize(value));
+				object.setCountryName(HtmlSanitizer.sanitize(value));
 				break;
 			case ProvinceState:
-				object.setProvinceState(htmlSanitizer.sanitize(value));
+				object.setProvinceState(HtmlSanitizer.sanitize(value));
 				break;
 			case Sublocation:
-				object.setSublocation(htmlSanitizer.sanitize(value));
+				object.setSublocation(HtmlSanitizer.sanitize(value));
 				break;
 			}
 		}

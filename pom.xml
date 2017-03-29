@@ -1016,11 +1016,6 @@
 				<version>3.2.1</version>
 			</dependency>
 			<dependency>
-				<groupId>org.owasp.antisamy</groupId>
-				<artifactId>antisamy</artifactId>
-				<version>1.4.5</version>
-			</dependency>
-			<dependency>
 				<groupId>net.sourceforge.nekohtml</groupId>
 				<artifactId>nekohtml</artifactId>
 				<version>1.9.18</version>
@@ -1088,6 +1083,11 @@
 				<groupId>com.eclipsesource.minimal-json</groupId>
 				<artifactId>minimal-json</artifactId>
 				<version>0.9.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>1.10.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

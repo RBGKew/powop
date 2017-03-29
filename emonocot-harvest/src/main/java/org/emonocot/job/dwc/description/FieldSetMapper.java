@@ -16,11 +16,11 @@
  */
 package org.emonocot.job.dwc.description;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 
 import org.emonocot.api.job.TermFactory;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Description;
 import org.emonocot.model.Reference;
@@ -61,7 +61,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Description> {
 				object.setContributor(value);
 				break;
 			case description:
-				object.setDescription(htmlSanitizer.sanitize(value));
+				object.setDescription(HtmlSanitizer.sanitize(value));
 				break;
 			case identifier:
 				object.setIdentifier(value);

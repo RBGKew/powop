@@ -17,6 +17,7 @@
 package org.emonocot.job.dwc.multimedia;
 
 import org.emonocot.api.job.TermFactory;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Image;
 import org.emonocot.model.Multimedia;
@@ -57,16 +58,16 @@ NonOwnedFieldSetMapper<Multimedia> {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {
 			case audience:
-				object.setAudience(htmlSanitizer.sanitize(value));
+				object.setAudience(HtmlSanitizer.sanitize(value));
 				break;
 			case contributor:
-				object.setContributor(htmlSanitizer.sanitize(value));
+				object.setContributor(HtmlSanitizer.sanitize(value));
 				break;
 			case creator:
-				object.setCreator(htmlSanitizer.sanitize(value));
+				object.setCreator(HtmlSanitizer.sanitize(value));
 				break;
 			case description:
-				object.setDescription(htmlSanitizer.sanitize(value));
+				object.setDescription(HtmlSanitizer.sanitize(value));
 				break;
 			case format:
 				object.setFormat(conversionService.convert(value, MediaFormat.class));
@@ -75,7 +76,7 @@ NonOwnedFieldSetMapper<Multimedia> {
 				object.setIdentifier(value);
 				break;
 			case publisher:
-				object.setPublisher(htmlSanitizer.sanitize(value));
+				object.setPublisher(HtmlSanitizer.sanitize(value));
 				break;
 			case references:
 				object.setReferences(value);
@@ -84,7 +85,7 @@ NonOwnedFieldSetMapper<Multimedia> {
 				object.setSource(value);
 				break;
 			case title:
-				object.setTitle(htmlSanitizer.sanitize(value));
+				object.setTitle(HtmlSanitizer.sanitize(value));
 				break;
 			case type:
 				MediaType mediaType = conversionService.convert(value, MediaType.class);

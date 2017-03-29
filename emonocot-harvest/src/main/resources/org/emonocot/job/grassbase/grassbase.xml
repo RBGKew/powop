@@ -89,8 +89,6 @@
     
     <bean id="bufferedReaderFactory" class="org.emonocot.harvest.common.BOMIgnoringBufferedReaderFactory"/>
     
-    <bean id="htmlSanitizer" class="org.emonocot.harvest.common.HtmlSanitizer" init-method="afterPropertiesSet"/>
-    
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>

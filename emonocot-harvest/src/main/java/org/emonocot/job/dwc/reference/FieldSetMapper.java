@@ -18,6 +18,7 @@ package org.emonocot.job.dwc.reference;
 
 import java.util.Locale;
 
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Reference;
 import org.emonocot.model.constants.ReferenceType;
@@ -28,25 +29,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 
-/**
- *
- * @author ben
- *
- */
 public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
 
-	/**
-	 *
-	 */
 	public FieldSetMapper() {
 		super(Reference.class);
 	}
 
-	/**
-	 *
-	 */
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
-
 
 	@Override
 	public final void mapField(final Reference object, final String fieldName,
@@ -58,7 +47,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {
 			case bibliographicCitation:
-				object.setBibliographicCitation(htmlSanitizer.sanitize(value));
+				object.setBibliographicCitation(HtmlSanitizer.sanitize(value));
 				break;
 			case creator:
 				object.setCreator(value);
@@ -85,7 +74,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
 				object.setSubject(value);
 				break;
 			case title:
-				object.setTitle(htmlSanitizer.sanitize(value));
+				object.setTitle(HtmlSanitizer.sanitize(value));
 				break;
 			case type:
 				object.setType(conversionService.convert(value, ReferenceType.class));

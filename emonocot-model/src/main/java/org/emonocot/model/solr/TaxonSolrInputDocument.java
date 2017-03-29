@@ -13,6 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.api.ImageService;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
@@ -195,16 +196,17 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		boolean hasDescriptions = false;
 		for(Description d : t.getDescriptions()) {
 			hasDescriptions = true;
+			String htmlStripped = HtmlSanitizer.strip(d.getDescription());
 			if(d.getType() != null) {
 				if(d.getType().hasSearchCategory()) {
-					sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), d.getDescription());
+					sid.addField(String.format("taxon.description_%s_t", d.getType().getSearchCategory()), htmlStripped);
 				} else if(DescriptionType.getAll(DescriptionType.use).contains(d.getType())) {
-					sid.addField("taxon.description_use_t", d.getDescription());
+					sid.addField("taxon.description_use_t", htmlStripped);
 				} else if(d.getTypes().contains(DescriptionType.snippet)) {
-					sid.addField("taxon.description_snippet_t", d.getDescription());
+					sid.addField("taxon.description_snippet_t", htmlStripped);
 				}
 			}
-			sid.addField("taxon.description_t", d.getDescription());
+			sid.addField("taxon.description_t", htmlStripped);
 			addSource(d);
 		}
 

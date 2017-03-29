@@ -12,7 +12,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.emonocot.harvest.common.HtmlSanitizer;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.description.FieldSetMapper;
 import org.emonocot.model.Description;
 import org.emonocot.model.Reference;
@@ -38,15 +38,12 @@ public class DescriptionFieldMappingTest {
 	private final Description description = new Description();
 
 	private final ConversionService conversionService = createMock(ConversionService.class);
-	private final HtmlSanitizer htmlSanitizer = createMock(HtmlSanitizer.class);
 
 	public void mockDependencies() {
-		expect(htmlSanitizer.sanitize("Description")).andReturn("Description");
 		expect(conversionService.convert("en", Locale.class)).andReturn(Locale.ENGLISH);
 
 		mapper.setConversionService(conversionService);
-		mapper.setHtmlSanitizer(htmlSanitizer);
-		replay(conversionService, htmlSanitizer);
+		replay(conversionService);
 	}
 
 	@Test

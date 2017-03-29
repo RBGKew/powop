@@ -21,13 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.api.job.TermFactory;
-import org.emonocot.harvest.common.HtmlSanitizer;
 import org.emonocot.model.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 /**
@@ -35,8 +33,7 @@ import org.springframework.validation.BindException;
  * @author ben
  * @param <T> the type of object which this class maps
  */
-public abstract class DarwinCoreFieldSetMapper<T extends Base> implements
-FieldSetMapper<T> {
+public abstract class DarwinCoreFieldSetMapper<T extends Base> implements FieldSetMapper<T> {
 
 	private Logger logger = LoggerFactory.getLogger(DarwinCoreFieldSetMapper.class);
 
@@ -46,8 +43,6 @@ FieldSetMapper<T> {
 
 	private Class<T> type;
 
-	protected HtmlSanitizer htmlSanitizer;
-
 	/**
 	 *
 	 * @param object the object to map onto
@@ -56,8 +51,7 @@ FieldSetMapper<T> {
 	 * @throws BindException if there is a problem mapping
 	 *         the value to the object
 	 */
-	public abstract void mapField(T object, String fieldName,
-			String value) throws BindException;
+	public abstract void mapField(T object, String fieldName, String value) throws BindException;
 
 	/**
 	 *
@@ -78,11 +72,6 @@ FieldSetMapper<T> {
 	 */
 	public void setDefaultValues(Map<String, String> newDefaultValues) {
 		this.defaultValues = newDefaultValues;
-	}
-
-	@Autowired
-	public void setHtmlSanitizer(HtmlSanitizer htmlSanitizer) {
-		this.htmlSanitizer = htmlSanitizer;
 	}
 
 	/**

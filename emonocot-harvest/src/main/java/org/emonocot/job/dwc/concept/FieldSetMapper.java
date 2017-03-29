@@ -17,6 +17,7 @@
 package org.emonocot.job.dwc.concept;
 
 import org.emonocot.api.job.SkosTerm;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Concept;
 import org.emonocot.model.Image;
@@ -56,7 +57,7 @@ NonOwnedFieldSetMapper<Concept> {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {
 			case creator:
-				object.setCreator(htmlSanitizer.sanitize(value));
+				object.setCreator(HtmlSanitizer.sanitize(value));
 				break;
 			case identifier:
 				object.setIdentifier(value);
@@ -74,13 +75,13 @@ NonOwnedFieldSetMapper<Concept> {
 			SkosTerm skosTerm = (SkosTerm)term;
 			switch (skosTerm) {
 			case altLabel:
-				object.setAltLabel(htmlSanitizer.sanitize(value));
+				object.setAltLabel(HtmlSanitizer.sanitize(value));
 				break;
 			case definition:
-				object.setDefinition(htmlSanitizer.sanitize(value));
+				object.setDefinition(HtmlSanitizer.sanitize(value));
 				break;
 			case prefLabel:
-				object.setPrefLabel(htmlSanitizer.sanitize(value));
+				object.setPrefLabel(HtmlSanitizer.sanitize(value));
 				break;
 			case prefSymbol:
 				addImage(object,value);

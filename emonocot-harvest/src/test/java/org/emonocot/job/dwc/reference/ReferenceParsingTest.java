@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.emonocot.api.TaxonService;
-import org.emonocot.harvest.common.HtmlSanitizer;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.convert.ReferenceTypeConverter;
@@ -39,32 +39,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-/**
- *
- * @author ben
- *
- */
 public class ReferenceParsingTest {
 
-	/**
-	 *
-	 */
-	private Resource content = new ClassPathResource(
-			"/org/emonocot/job/dwc/reference.txt");
+	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/reference.txt");
 
-	/**
-	 *
-	 */
 	private TaxonService taxonService = null;
 
-	/**
-	 *
-	 */
 	private FlatFileItemReader<Reference> flatFileItemReader = new FlatFileItemReader<Reference>();
 
-	/**
-	 * @throws Exception if there is a problem
-	 */
 	@Before
 	public final void setUp() throws Exception {
 
@@ -96,13 +78,9 @@ public class ReferenceParsingTest {
 		factoryBean.afterPropertiesSet();
 		ConversionService conversionService = factoryBean.getObject();
 
-
 		taxonService = EasyMock.createMock(TaxonService.class);
 
 		FieldSetMapper fieldSetMapper = new FieldSetMapper();
-		HtmlSanitizer htmlSanitizer = new HtmlSanitizer();
-		htmlSanitizer.afterPropertiesSet();
-		fieldSetMapper.setHtmlSanitizer(htmlSanitizer);
 		fieldSetMapper.setFieldNames(names);
 		fieldSetMapper.setConversionService(conversionService);
 		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
@@ -124,12 +102,9 @@ public class ReferenceParsingTest {
 	 */
 	@Test
 	public final void testRead() throws Exception {
-
 		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
 		EasyMock.replay(taxonService);
 		flatFileItemReader.open(new ExecutionContext());
 		flatFileItemReader.read();
-
 	}
-
 }

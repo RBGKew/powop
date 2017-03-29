@@ -33,7 +33,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.emonocot.api.CommentService;
 import org.emonocot.api.UserService;
-import org.emonocot.harvest.common.HtmlSanitizer;
+import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.model.Base;
 import org.emonocot.model.BaseData;
 import org.emonocot.model.Comment;
@@ -101,8 +101,6 @@ public class EmailServiceHelper {
 	 */
 	private Map<String, String> templates;
 
-	private HtmlSanitizer htmlSanitizer;
-
 	/**
 	 * @param defaultTemplateName
 	 *            the defaultTemplateName to set
@@ -127,11 +125,6 @@ public class EmailServiceHelper {
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	@Autowired
-	public void setHtmlSanitizer(HtmlSanitizer htmlSanitizer) {
-		this.htmlSanitizer = htmlSanitizer;
 	}
 
 	/**
@@ -168,7 +161,7 @@ public class EmailServiceHelper {
 				logger.debug("Could not find comment with identifier " + identifier + " not creating reply");
 				return null;
 			}
-			comment.setComment(htmlSanitizer.sanitize(getText(email)));
+			comment.setComment(HtmlSanitizer.sanitize(getText(email)));
 			for(Address address : email.getFrom()) {
 				if(address instanceof InternetAddress) {
 					InternetAddress internetAddress = (InternetAddress)address;
