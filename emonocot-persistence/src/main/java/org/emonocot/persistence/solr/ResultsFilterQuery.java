@@ -23,7 +23,7 @@ public class ResultsFilterQuery extends QueryOption {
 			case "all_results":
 				break;
 			case "accepted_names":
-				selectedFacets.add("taxon.is_accepted_b:true");
+				selectedFacets.add("taxon.is_accepted_b:true AND taxon.is_unplaced_b:false");
 				break;
 			case "has_images":
 				selectedFacets.add("taxon.images_not_empty_b:true");

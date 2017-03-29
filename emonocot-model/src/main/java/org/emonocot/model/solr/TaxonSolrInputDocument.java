@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import com.google.common.base.CaseFormat;
 
-
 @Configurable
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
@@ -84,6 +83,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.rank_s_lower", ObjectUtils.toString(taxon.getTaxonRank(), null));
 		addField(sid, "taxon.taxonomic_status_s_lower", ObjectUtils.toString(taxon.getTaxonomicStatus(), null));
 		addField(sid, "taxon.is_accepted_b", taxon.isAccepted());
+		addField(sid, "taxon.is_unplaced_b", taxon.getTaxonomicStatus() == null);
 		if(taxon.getTaxonRank() == Rank.SPECIES){
 			addField(sid, "taxon.species_s_lower", taxon.getScientificName());
 		}
