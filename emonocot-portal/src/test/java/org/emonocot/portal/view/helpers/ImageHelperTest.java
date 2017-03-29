@@ -51,10 +51,9 @@ public class ImageHelperTest extends AbstractHelperTest {
 	@Test
 	public void digifoliaThumbnail() throws IOException {
 		image = new Image();
-		image.setAccessUri("http://assets.blah.com/cool-img.jpg");
-		image.setIdentifier("urn:kew.org:dam:blarg");
+		image.setAccessUri("https://dams.kew.org/cool-img.jpg");
 		shouldCompileTo("{{thumbnailImage this}}", image,
-				"<a href=\"http://assets.blah.com/cool-img.jpg?s=1600&k=fe543868fc853b0d4698dcd2abfdbcfb\" title=\"<small></small>\">" +
-				"<img src=\"http://assets.blah.com/cool-img.jpg?s=400&k=131f04e3b359a15762abfab29c7001d9\" title=\"\"/></a>");
+				"<a href=\"https://dams.kew.org/cool-img.jpg?s=1600&k=fe543868fc853b0d4698dcd2abfdbcfb\" title=\"<small></small>\">" +
+				"<img src=\"https://dams.kew.org/cool-img.jpg?s=400&k=131f04e3b359a15762abfab29c7001d9\" title=\"\"/></a>");
 	}
 }
