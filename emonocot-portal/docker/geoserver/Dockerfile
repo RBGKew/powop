@@ -3,7 +3,8 @@ from tomcat:8.0-jre8-alpine
 ENV VERSION 2.9.1
 ENV DATA_DIR webapps/ROOT/data
 
-RUN wget -q -O /tmp/geoserver.zip http://downloads.sourceforge.net/project/geoserver/GeoServer/$VERSION/geoserver-$VERSION-war.zip
+RUN apk add --no-cache openssl ca-certificates wget \
+  && wget -q -O /tmp/geoserver.zip https://downloads.sourceforge.net/project/geoserver/GeoServer/$VERSION/geoserver-$VERSION-war.zip
 RUN rm -rf webapps/* \
   && mkdir webapps/ROOT \
   && mkdir $DATA_DIR \
