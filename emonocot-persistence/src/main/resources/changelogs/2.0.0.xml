@@ -40,4 +40,11 @@
       <column name="genus" type="varchar(255)"/>
     </createIndex>
   </changeSet>
+
+  <changeSet id="2017-04-03_01" author="ji10kg">
+    <comment>Add index to taxonRank field of Taxon</comment>
+    <createIndex tableName="taxon" indexName="Taxon_taxonRank_IDX">
+      <column name="taxonRank" type="varchar(255)"/>
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>

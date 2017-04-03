@@ -16,4 +16,8 @@
   <logger name="org.emonocot" level="${APP_LOG_LEVEL}" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>
+
+  <logger name="org.hibernate.SQL" level="debug">
+    <appender-ref ref="stdout"/>
+  </logger>
 </configuration>

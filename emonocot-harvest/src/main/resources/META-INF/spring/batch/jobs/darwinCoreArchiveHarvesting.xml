@@ -309,12 +309,22 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentImages" />
+      <batch:next on="COMPLETED" to="markAssociatedTaxaForIndexing" />
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="imageFieldSetMapper" />
         <batch:listener ref="imageProcessor" />
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:step>
+
+    <batch:step id="markAssociatedTaxaForIndexing">
+      <batch:description>Mark the taxa who need to be re-indexed due to image 'bubble-up'</batch:description>
+      <batch:tasklet ref="markAssociatedTaxaForIndexingTasklet" />
+      <batch:next on="COMPLETED" to="deleteAbsentImages" />
+      <batch:listeners>
+        <batch:listener ref="markAssociatedTaxaForIndexingTasklet" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
@@ -1067,6 +1077,12 @@
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="Image"/>
+  </bean>
+
+  <bean id="markAssociatedTaxaForIndexingTasklet" class="org.emonocot.job.dwc.read.AncestorImageAnnotator" scope="step">
+    <property name="dataSource" ref="dataSource" />
+    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
+    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
   </bean>
 
   <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"

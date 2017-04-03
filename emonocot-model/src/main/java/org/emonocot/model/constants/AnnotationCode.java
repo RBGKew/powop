@@ -73,5 +73,9 @@ public enum AnnotationCode {
 	/**
 	 * There was a problem with the data held for a record
 	 */
-	BadData
+	BadData,
+	/**
+	 * Indicates an associated record that should be indexed
+	 */
+	Index
 }
