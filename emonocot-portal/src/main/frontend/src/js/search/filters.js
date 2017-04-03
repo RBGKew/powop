@@ -116,6 +116,10 @@ define(function(require) {
   }
 
   var setParam = function(key, value, publish) {
+    if(params.has('page')) {
+      params = params.delete('page');
+    }
+
     params = params.set(key, value);
     if(_.defaultTo(publish, true)) {
       pubsub.publish('search.updated.params.' + key);
@@ -128,6 +132,11 @@ define(function(require) {
 
   var removeParam = function(key, publish) {
     params = params.delete(key);
+
+    if(params.has('page')) {
+      params = params.delete('page');
+    }
+
     if(_.defaultTo(publish, true)) {
       pubsub.publish('search.updated.params.' + key);
     }
