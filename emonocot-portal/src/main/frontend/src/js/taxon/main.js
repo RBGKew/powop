@@ -1,4 +1,11 @@
-define(['jquery', './map', 'libs/bootstrap', 'libs/magnific-popup'], function($, map) {
+define(function(require) {
+
+  var $ = require('jquery');
+  var map = require('./map');
+  var History = require('libs/native.history');
+  require('libs/bootstrap');
+  require('libs/magnific-popup');
+
   var initialize = function() {
 
     // collapse all sections if screen size is less than 768px
@@ -23,22 +30,16 @@ define(['jquery', './map', 'libs/bootstrap', 'libs/magnific-popup'], function($,
     });
 
     // Accomodate fixed header when jumping to anchor links
-    $('a[href*=\\#]:not([href=\\#])').click(function() {
-      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') || location.hostname == this.hostname) {
+    $('nav a').click(function() {
+      var target = $(this.hash);
+      var headerHeight = $(".c-article-nav").height(); // Get fixed header height
 
-        var target = $(this.hash);
-        var headerHeight = $(".c-article-nav").height(); // Get fixed header height
-
-        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-
-        if (target.length) {
-          $('html,body').animate({
-            scrollTop: target.offset().top - headerHeight + 5
-          }, 'fast', 'swing');
-          return false;
-        }
+      if (target.length) {
+        $('html,body').animate({
+          scrollTop: target.offset().top - headerHeight + 5
+        }, 'fast', 'swing');
       }
-    })
+    });
 
     // enable scrollspy on navbar
     $('body').scrollspy({
@@ -51,8 +52,13 @@ define(['jquery', './map', 'libs/bootstrap', 'libs/magnific-popup'], function($,
       $($(this).attr('href') + ' .container').collapse('show');
     });
 
-    // enable popovers
-    $('[data-toggle="popover"]').popover();
+    // open collapsed section if loading with location hash
+    if(location.hash.length > 0) {
+      $(location.hash + ' .container').addClass('in');
+    }
+
+    // enable tooltips
+    $('.description a[title]').tooltip();
 
     if($('#c-map').length) {
       map.initialize();
