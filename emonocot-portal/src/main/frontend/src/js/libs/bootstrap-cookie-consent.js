@@ -4,7 +4,7 @@
 
 C = {
     // Number of days before the cookie expires, and the banner reappears
-    cookieDuration : 14,
+    cookieDuration : 3650,
 
     // Name of our cookie
     cookieName: 'complianceCookie',
