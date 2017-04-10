@@ -13,12 +13,16 @@ define(function(require) {
   var headerTmpl = require('templates/partials/result/results-header.js');
   var itemsTmpl = require('templates/partials/result/results-items.js');
   var paginationTmpl = require('templates/partials/result/results-pagination.js');
+  var countTmpl = require('templates/partials/result/count.js');
+  var filtersTmpl = require('templates/partials/result/filters.js');
 
   var imagesHelper = require('helpers/images-helper');
   var taxonHelper = require('helpers/taxon-helper.js');
 
   Handlebars.registerPartial('results-container', resultsContainerTmpl);
   Handlebars.registerPartial('results', resultsTmpl);
+  Handlebars.registerPartial('results-count', countTmpl);
+  Handlebars.registerPartial('results-filters', filtersTmpl);
   Handlebars.registerPartial('results-header', headerTmpl);
   Handlebars.registerPartial('results-items', itemsTmpl);
   Handlebars.registerPartial('results-pagination', paginationTmpl);
@@ -37,6 +41,7 @@ define(function(require) {
   var prepare = function() {
     if(_.isEmpty($('.c-results-outer'))) {
       $('.c-search').append(resultsContainerTmpl());
+      $('#search-filters').replaceWith(filtersTmpl());
       $('.c-footer').show();
       $(".c-results-outer").on("click", ".js-show-list", function() {
         $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
@@ -57,7 +62,7 @@ define(function(require) {
     $.getJSON("/api/1/search?" + state, function(json) {
       $('.c-results').replaceWith(resultsTmpl(json));
       $('.c-results .container--lines').replaceWith(itemsTmpl(json));
-      resultsHeader.showFacetCounts(json.facets);
+      $('.results-count').replaceWith(countTmpl(json));
       paginate(json);
       filters.refresh();
     });

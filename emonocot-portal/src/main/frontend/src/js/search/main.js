@@ -1,5 +1,6 @@
 define(function(require) {
   var $ = require('jquery');
+  var _ = require('libs/lodash');
   var bootstrap = require('libs/bootstrap');
   var Cookies = require('libs/js.cookie.js');
   var History = require('libs/native.history');
@@ -10,9 +11,6 @@ define(function(require) {
   var results = require('./results');
   require('libs/bootstrap-tokenfield.js');
   require('libs/bootstrap-cookie-consent.js');
-  function active() {
-    return $('.autocomplete-form');
-  }
 
   function setView(event) {
     $(this).parent().parent().find('.selected_background').removeClass('selected_background');
@@ -22,30 +20,24 @@ define(function(require) {
 
   function setFacet(event) {
     event.preventDefault();
-    if($(this).attr('id') == 'all_results') {
-      $('.facets').removeClass('selectedFacet');
-      $(this).addClass('selectedFacet');
-      filters.setParam('f', 'all_results');
-      $('.rank_facets').html('<use xlink:href="#Plantae-svg"></use>');
+    var facet = $(this).data('facet');
+    $('.facet.' + facet).toggleClass('selected');
+
+    if(facet === 'is_fungi' && $(this).hasClass('selected')) {
+      $('.rank_facets').html('<use xlink:href="#Fungi-svg"></use>');
     } else {
-      $('#all_results').removeClass('selectedFacet');
-      if($(this).attr('id') == 'is_fungi'){
-        if($(this).hasClass('selectedFacet')){
-          $('.rank_facets').html('<use xlink:href="#Plantae-svg"></use>');
-        }else{
-          $('.rank_facets').html('<use xlink:href="#Fungi-svg"></use>');
-        }
-      }
-      $(this).toggleClass('selectedFacet');
-      var facets = [];
-      $('.selectedFacet').each(function() {
-        facets.push(this.id);
-      });
-      if(_.isEmpty(facets)) {
-        filters.removeParam('f');
-      } else {
-        filters.setParam('f', facets.join(','));
-      }
+      $('.rank_facets').html('<use xlink:href="#Plantae-svg"></use>');
+    }
+
+    var facets = [];
+    $('.facet.selected').each(function(i, el) {
+      facets.push($(el).data('facet'));
+    });
+
+    if(_.isEmpty(facets)) {
+      filters.removeParam('f');
+    } else {
+      filters.setParam('f', _.uniq(facets).join(','));
     }
   }
 
@@ -56,7 +48,7 @@ define(function(require) {
 
   var initialize = function() {
     if ($(window).width() < 992) {
-        $("input[type=search]").attr('placeholder', "Search");
+      $("input[type=search]").attr('placeholder', "Search");
     }
     filters.initialize();
     // populate results based on existing query string
@@ -70,7 +62,7 @@ define(function(require) {
     });
 
     $('.c-search')
-      .on('click', '.c-results-outer .facets', setFacet)
+      .on('click', '.facet', setFacet)
       .on('click', '.c-results-outer .sort_options', setSort)
       .on('click', '.c-results-outer .search_view', setView);
 

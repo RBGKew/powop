@@ -3,11 +3,12 @@ package org.emonocot.persistence.solr;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+
 import org.gbif.ecat.voc.Rank;
 
 public class ResultsFilterQuery extends QueryOption {
@@ -20,8 +21,6 @@ public class ResultsFilterQuery extends QueryOption {
 		List<Rank> selectedRanks = new ArrayList<Rank>();
 		for(String facet: facets){
 			switch(facet){
-			case "all_results":
-				break;
 			case "accepted_names":
 				selectedFacets.add("taxon.is_accepted_b:true AND taxon.is_unplaced_b:false");
 				break;
@@ -53,15 +52,11 @@ public class ResultsFilterQuery extends QueryOption {
 		}
 
 		if(!selectedRanks.isEmpty()){
-			String string = "";
-			for(Rank rank : selectedRanks){
-				string += ObjectUtils.toString(rank, null) + " ";
-			}
-			selectedFacets.add(String.format("taxon.rank_s_lower: (%s)", string));
+			selectedFacets.add(String.format("taxon.rank_s_lower: (%s)", Joiner.on(" ").join(selectedRanks)));
 		}
 
 		if(!selectedFacets.isEmpty()){
-			query.add("fq", "{!tag=facets}" + StringUtils.join(selectedFacets, " AND "));
+			query.addFilterQuery(Joiner.on(" AND ").join(selectedFacets));
 		}
 	}
 }

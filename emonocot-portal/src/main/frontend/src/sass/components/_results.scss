@@ -2,22 +2,18 @@
  * Component - Results
  */
 .c-results-outer {
-  padding-top: 10px;
   background-color: #fff;
+  margin-top: 0;
+  @media (max-width: $screen-xs-max) {
+    margin-top: 10px;
+  }
+
   a {
     color: #000;
   }
 
   article:last-child {
     border-right: $border-grey;
-  }
-
-  .legend {
-    .Family { fill: #336699; }
-    .Genus { fill: #339999; }
-    .Species { fill: #669933; }
-    .Infraspecific { fill: #993399; }
-    .Synonym { fill: #c7c7c7; }
   }
 
   .grid--lines {
@@ -32,17 +28,14 @@
   .selected_background {
     background-color: #e7e7e7;
   }
-}
 
-.facets {
-  margin-left: 1px;
-  margin-right: 1px;
-  border-radius: 4px;
-}
+  .navbar {
+    min-height: auto;
+  }
 
-.selectedFacet {
-  color: #000 !important;
-  background-color: #e7e7e7 !important;
+  .navbar-right {
+    margin-right: 0;
+  }
 }
 
 .grid--rows {
@@ -55,10 +48,46 @@
   #grid_view {
     background-color: #e7e7e7 !important;
   }
+}
 
-  .navbar-collapse {
-    padding: 15px;
+.results-count {
+  color: $navbar-default-color;
+  float: left;
+  margin: 7px 20px;
+
+  @media (max-width: $screen-xs-max) {
+    border-right: 0;
+    margin: 12px 0;
+    padding: 0;
   }
+}
 
+.navbar .filters {
+  display: none;
+}
 
+@media(max-width: $screen-xs-max) {
+  .navbar {
+    .layout-toggle {
+      display: none;
+    }
+
+    .navbar-toggle {
+      margin-right: 0;
+    }
+
+    .navbar-nav {
+      margin: 0px;
+    }
+
+    .filters {
+      display: block;
+      padding: 0;
+
+      a {
+        margin: 2px 0;
+        border-radius: 4px;
+      }
+    }
+  }
 }

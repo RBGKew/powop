@@ -25,14 +25,10 @@
   margin: 0;
   position: relative;
   width: 100%;
-	padding: 15px 0;
+	padding: 15px 0 0 0;
 
   input {
     width: 100%;
-
-    &.refine {
-      line-height: normal;
-    }
   }
 
   button {
