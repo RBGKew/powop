@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.proxy.HibernateProxyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

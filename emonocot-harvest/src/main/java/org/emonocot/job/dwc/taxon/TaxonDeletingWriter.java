@@ -28,7 +28,7 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.compare.RankBasedTaxonComparator;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 public class TaxonDeletingWriter extends HibernateDaoSupport implements ItemWriter<Long> {
 

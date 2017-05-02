@@ -75,7 +75,7 @@ public class TaxonParsingTest {
 				"http://purl.org/dc/terms/source"
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-		tokenizer.setDelimiter('\t');
+		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		tokenizer.setNames(names);
 
 		taxonService = EasyMock.createMock(TaxonService.class);

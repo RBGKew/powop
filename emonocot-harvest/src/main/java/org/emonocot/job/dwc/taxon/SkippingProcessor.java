@@ -33,14 +33,10 @@ import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class SkippingProcessor extends AuthorityAware implements ChunkListener, ItemProcessor<Taxon,Annotation> {
 
 	private Logger logger = LoggerFactory.getLogger(SkippingProcessor.class);
@@ -109,12 +105,13 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	}
 
 	@Override
-	public void beforeChunk() {
+	public void beforeChunk(ChunkContext context) {
 		boundAnnotations = new HashMap<String,Annotation>();
 	}
 
 	@Override
-	public void afterChunk() {
+	public void afterChunk(ChunkContext context) { }
 
-	}
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

@@ -21,24 +21,17 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrClient;
 import org.springframework.batch.item.ItemWriter;
 
-/**
- *
- * @author ben
- *
- */
 public class SolrDeletingWriter implements ItemWriter<String> {
 
 	private SolrClient solrClient;
 
-	public void setSolrServer(SolrClient solrServer) {
-		this.solrClient = solrServer;
+	public void setSolrClient(SolrClient solrClient) {
+		this.solrClient = solrClient;
 	}
 
 	public void write(List<? extends String> documentIdentifiers) throws Exception {
 		if (!documentIdentifiers.isEmpty()) {
-
 			try {
-
 				solrClient.deleteById((List) documentIdentifiers);
 				solrClient.commit(true,true);
 			} catch (Exception e) {

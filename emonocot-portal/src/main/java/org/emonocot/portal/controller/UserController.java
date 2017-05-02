@@ -59,34 +59,9 @@ public class UserController extends GenericController<User, UserService> {
 		super("user", User.class);
 	}
 
-	private ConversionService conversionService;
-
-	@Autowired
-	public final void setConversionService(
-			final ConversionService conversionService) {
-		this.conversionService = conversionService;
-	}
-
 	@Autowired
 	public final void setUserService(final UserService userService) {
 		super.setService(userService);
-	}
-
-	@RequestMapping(value = "/{identifier}/permission", params = "!delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public final ResponseEntity<AceDto> addPermission(
-			@PathVariable final String identifier, @RequestBody final AceDto ace) {
-		SecuredObject object = conversionService.convert(ace, SecuredObject.class);
-		getService().addPermission(object, identifier, ace.getPermission(), ace.getClazz());
-		ResponseEntity<AceDto> responseEntity = new ResponseEntity<AceDto>(ace, HttpStatus.CREATED);
-		return responseEntity;
-	}
-
-	@RequestMapping(value = "/{identifier}/permission", params = "delete", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public final ResponseEntity<AceDto> deletePermission(
-			@PathVariable final String identifier, @RequestBody final AceDto ace) {
-		SecuredObject object = conversionService.convert(ace, SecuredObject.class);
-		getService().deletePermission(object, identifier, ace.getPermission(), ace.getClazz());
-		return new ResponseEntity<AceDto>(ace, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html", params = {"!form", "!delete"})
@@ -125,18 +100,6 @@ public class UserController extends GenericController<User, UserService> {
 		persistedUser.setAccountNonLocked(user.isAccountNonLocked());
 		logger.error("accountNonLocked " + user.isAccountNonLocked());
 		logger.error("enabled " + user.isEnabled());
-		try {
-			String img = getService().makeProfileThumbnail(user.getImgFile(),persistedUser.getImg());
-			if(img != null) {
-				persistedUser.setImg(img);
-			}
-		} catch(UnsupportedOperationException uoe) {
-			String[] codes = new String[] {"unsupported.image.mimetype" };
-			Object[] args = new Object[] {uoe.getMessage()};
-			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-			model.addAttribute("error", message);
-			return "user/update";
-		}
 		logger.error("saving");
 		getService().saveOrUpdate(persistedUser);
 		String[] codes = new String[] {"user.updated" };

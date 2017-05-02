@@ -24,7 +24,7 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 public class HibernateDeletingWriter<T extends Base> extends HibernateDaoSupport implements
 ItemWriter<T> {
@@ -46,15 +46,15 @@ ItemWriter<T> {
 				List<Taxon> linkedTaxa = taxonService.searchByExample(example, false, false).getRecords();
 				for (Taxon taxon : linkedTaxa) {
 					taxon.setNamePublishedIn(null);
+					getHibernateTemplate().saveOrUpdate(taxon);
 				}
-				getHibernateTemplate().saveOrUpdateAll(linkedTaxa);
 				example = new Taxon();
 				example.setNameAccordingTo((Reference) t);
 				linkedTaxa = taxonService.searchByExample(example, false, false).getRecords();
 				for (Taxon taxon : linkedTaxa) {
 					taxon.setNameAccordingTo(null);
+					getHibernateTemplate().saveOrUpdate(taxon);
 				}
-				getHibernateTemplate().saveOrUpdateAll(linkedTaxa);
 			}
 		}
 		getHibernateTemplate().deleteAll(items);

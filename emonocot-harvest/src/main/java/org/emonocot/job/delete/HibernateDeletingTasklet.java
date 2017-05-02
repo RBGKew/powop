@@ -30,8 +30,6 @@ public class HibernateDeletingTasklet implements Tasklet{
 
 	private GenericHibernateDeleter<MeasurementOrFact> measurementorFactDeleter = new GenericHibernateDeleter<MeasurementOrFact>();
 
-	private GenericHibernateDeleter<Place> placeDeleter = new GenericHibernateDeleter<Place>();
-
 	private GenericHibernateDeleter<Reference> referenceDeleter = new GenericHibernateDeleter<Reference>();
 
 	private GenericHibernateDeleter<TypeAndSpecimen> typeandspecimenDeleter = new GenericHibernateDeleter<TypeAndSpecimen>();
@@ -44,7 +42,7 @@ public class HibernateDeletingTasklet implements Tasklet{
 	}
 
 	@Autowired
-	public void setSolrServer(SolrClient solrClient) {
+	public void setSolrClient(SolrClient solrClient) {
 		this.solrClient = solrClient;
 	}
 
@@ -52,7 +50,7 @@ public class HibernateDeletingTasklet implements Tasklet{
 	public RepeatStatus execute(StepContribution arg0, ChunkContext chunkcontext) throws Exception {
 
 		String resource_id = (String) chunkcontext.getStepContext().getStepExecution()
-				.getJobExecution().getJobInstance().getJobParameters().getString("resource_id");
+				.getJobExecution().getJobParameters().getString("resource_id");
 
 		taxonDeleter.Delete(sessionFactory, Taxon.class, resource_id, "Taxon", solrClient);
 		descriptionDeleter.Delete(sessionFactory, Description.class, resource_id, "Description", solrClient);
@@ -61,7 +59,6 @@ public class HibernateDeletingTasklet implements Tasklet{
 		identifierDeleter.Delete(sessionFactory, Identifier.class, resource_id, "Identifier", solrClient);
 		imageDeleter.Delete(sessionFactory, Image.class, resource_id, "Image", solrClient);
 		measurementorFactDeleter.Delete(sessionFactory, MeasurementOrFact.class, resource_id, "MeasurementOrFact", solrClient);
-		placeDeleter.Delete(sessionFactory, Place.class, resource_id, "Place", solrClient);
 		referenceDeleter.Delete(sessionFactory, Reference.class, resource_id, "Reference", solrClient);
 		typeandspecimenDeleter.Delete(sessionFactory, TypeAndSpecimen.class, resource_id, "TypeAndSpecimen", solrClient);
 		vernacularnameDeleter.Delete(sessionFactory, VernacularName.class, resource_id, "VernacularName", solrClient);

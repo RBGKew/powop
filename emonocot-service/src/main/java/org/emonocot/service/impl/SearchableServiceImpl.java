@@ -17,7 +17,6 @@
 package org.emonocot.service.impl;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -26,14 +25,13 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableService;
-import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
 import org.emonocot.model.Searchable;
 import org.emonocot.pager.CellSet;
 import org.emonocot.pager.Cube;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,11 +45,11 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class SearchableServiceImpl<T extends Base, DAO extends SearchableDao<T>>
 extends ServiceImpl<T, DAO> implements SearchableService<T> {
 
-	private SolrIndexingListener solrIndexingListener;
+	private SolrIndexingInterceptor solrIndexingInterceptor;
 
 	@Autowired
-	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
-		this.solrIndexingListener = solrIndexingListener;
+	public void setSolrIndexingInterceptor(SolrIndexingInterceptor solrIndexingInterceptor) {
+		this.solrIndexingInterceptor = solrIndexingInterceptor;
 	}
 
 	/**
@@ -107,6 +105,6 @@ extends ServiceImpl<T, DAO> implements SearchableService<T> {
 	@Transactional(readOnly = true)
 	public void index(Long id) {
 		T t = load(id);
-		solrIndexingListener.indexObject((Searchable)t);
+		solrIndexingInterceptor.indexObject((Searchable)t);
 	}
 }

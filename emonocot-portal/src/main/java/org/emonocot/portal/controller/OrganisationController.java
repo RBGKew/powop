@@ -17,21 +17,17 @@
 package org.emonocot.portal.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.OrganisationService;
-import org.emonocot.api.ResourceService;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.solr.QueryBuilder;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
-import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +51,6 @@ public class OrganisationController extends GenericController<Organisation, Orga
 		super("organisation", Organisation.class);
 	}
 
-	private ResourceService resourceService;
-
-	@Autowired
-	public void setResourceService(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
-
 	@Autowired
 	public void setOrganisationService(OrganisationService organisationService) {
 		super.setService(organisationService);
@@ -71,22 +60,22 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	public String list(
 			Model model,
 			@RequestParam(value = "query", required = false, defaultValue = "*:*") String query,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+			@RequestParam(value = "limit", required = false, defaultValue = "24") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
 			@RequestParam(value = "facet", required = false) @FacetRequestFormat List<FacetRequest> facets,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "view", required = false) String view) throws SolrServerException, IOException {
 
 		QueryBuilder queryBuilder = new QueryBuilder();
+		queryBuilder.addParam("base.class_searchable_b", "false");
+		queryBuilder.addParam("page.size", limit.toString());
+		queryBuilder.addParam("page", start.toString());
 		if (facets != null && !facets.isEmpty()) {
 			for (FacetRequest facetRequest : facets) {
 				queryBuilder.addParam(facetRequest.getFacet(),
 						facetRequest.getSelected());
 			}
 		}
-		queryBuilder.addParam("base.class_searchable_b", "false");
-		queryBuilder.addParam("page.size", "24");
-		queryBuilder.addParam("page", start.toString());
 		SolrQuery solrQuery = queryBuilder.build().setQuery(query).addFilterQuery("base.class_s:org.emonocot.model.registry.Organisation");
 		Page<Organisation> result = getService().search(solrQuery, "source-with-jobs");
 		model.addAttribute("result", result);
@@ -95,39 +84,45 @@ public class OrganisationController extends GenericController<Organisation, Orga
 	}
 
 	@RequestMapping(method = RequestMethod.GET, params = "form", produces = "text/html")
-	public String create(Model model) {
+	public String create(Model model, HttpServletRequest request) {
+		populateCsrfToken(request, model);
 		model.addAttribute(new Organisation());
-		return "organisation/create";
+		return "organisation/form";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public String post(@Valid Organisation organisation,
-			BindingResult result, RedirectAttributes redirectAttributes) {
+	public String post(Model model,
+			@Valid Organisation organisation,
+			BindingResult result,
+			RedirectAttributes redirectAttributes,
+			HttpServletRequest request) {
+
 		if (result.hasErrors()) {
-			return "organisation/create";
+			logger.debug("Form has errors...");
+			populateCsrfToken(request, model);
+			model.addAttribute(organisation);
+			model.addAttribute("errors", result.getAllErrors());
+			return "organisation/form";
 		}
 
 		getService().saveOrUpdate(organisation);
 		String[] codes = new String[] { "organisation.was.created" };
 		Object[] args = new Object[] { organisation.getTitle() };
-		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(
-				codes, args);
+		DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
 		redirectAttributes.addFlashAttribute("info", message);
 		return "redirect:/organisation";
 	}
 
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = {"!form", "!delete"}, produces = "text/html")
-	public String show(@PathVariable String organisationId,
-			Model uiModel) {
-		uiModel.addAttribute(getService().find(organisationId,"source-with-jobs"));
+	public String show(@PathVariable String organisationId, Model model) {
+		model.addAttribute(getService().find(organisationId, "source-with-jobs"));
 		return "organisation/show";
 	}
 
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.GET, params = "form", produces = "text/html")
-	public String update(@PathVariable String organisationId,
-			Model model) {
+	public String update(@PathVariable String organisationId, Model model) {
 		model.addAttribute(getService().load(organisationId));
-		return "organisation/update";
+		return "organisation/form";
 	}
 
 	@RequestMapping(value = "/{organisationId}", method = RequestMethod.POST, produces = "text/html")
@@ -136,24 +131,13 @@ public class OrganisationController extends GenericController<Organisation, Orga
 			@Valid Organisation organisation, BindingResult result,
 			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
-			return "organisation/update";
+			return "organisation/form";
 		}
 		Organisation persistedSource = getService().load(organisationId);
 		persistedSource.setTitle(organisation.getTitle());
 		persistedSource.setAbbreviation(organisation.getAbbreviation());
 		persistedSource.setUri(organisation.getUri());
-		persistedSource.setCreator(organisation.getCreator());
-		persistedSource.setCreatorEmail(organisation.getCreatorEmail());
-		persistedSource.setCreated(organisation.getCreated());
-		persistedSource.setDescription(organisation.getDescription());
-		persistedSource.setPublisherName(organisation.getPublisherName());
-		persistedSource.setPublisherEmail(organisation.getPublisherEmail());
-		persistedSource.setCommentsEmailedTo(organisation.getCommentsEmailedTo());
-		persistedSource.setInsertCommentsIntoScratchpad(organisation.getInsertCommentsIntoScratchpad());
-		persistedSource.setSubject(organisation.getSubject());
 		persistedSource.setBibliographicCitation(organisation.getBibliographicCitation());
-		persistedSource.setLogoUrl(organisation.getLogoUrl());
-		persistedSource.setFooterLogoPosition(organisation.getFooterLogoPosition());
 		getService().saveOrUpdate(persistedSource);
 		String[] codes = new String[] { "organisation.updated" };
 		Object[] args = new Object[] { organisation.getTitle() };

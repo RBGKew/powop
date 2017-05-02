@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -45,7 +46,6 @@ import org.gbif.ecat.voc.TypeStatus;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,6 +108,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 
 	private Double decimalLongitude;
 
+	@Column
 	private Point location;
 
 	/**
@@ -143,7 +144,6 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 	/**
 	 * @return the location
 	 */
-	@Type(type = "spatialType")
 	public Point getLocation() {
 		return location;
 	}

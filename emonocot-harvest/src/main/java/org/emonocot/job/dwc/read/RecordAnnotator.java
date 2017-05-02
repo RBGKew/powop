@@ -61,9 +61,9 @@ public class RecordAnnotator implements StepExecutionListener, Tasklet {
 		this.resourceId = resourceId;
 	}
 
-	protected Integer getAuthorityId() {
+	protected Long getAuthorityId() {
 		String authorityQuerySQL = "Select id from Organisation where identifier = :authorityName";
-		return jdbcTemplate.queryForInt(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName));
+		return jdbcTemplate.queryForObject(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName), Long.class);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class RecordAnnotator implements StepExecutionListener, Tasklet {
 				"jobId", stepExecution.getJobExecutionId(),
 				"annotatedObjType", annotatedObjType);
 
-		logger.info("Annotating: {} with params {}", queryString, queryParameters);
+		logger.debug("Annotating: {} with params {}", queryString, queryParameters);
 		jdbcTemplate.update(queryString, queryParameters);
 
 		return RepeatStatus.FINISHED;

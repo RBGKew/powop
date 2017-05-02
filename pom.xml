@@ -35,12 +35,13 @@
 	</modules>
 
 	<properties>
-		<aspectj.version>1.6.12</aspectj.version>
+		<aspectj.version>1.8.9</aspectj.version>
 		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY so it can be picked up by docker-compose -->
 		<geotools.version>2.7.0</geotools.version>
+		<guava.version>20</guava.version>
 		<handlebars.version>4.0.7-SNAPSHOT</handlebars.version>
-		<hibernate.version>3.6.7.Final</hibernate.version>
-		<java.version>1.7</java.version>
+		<hibernate.version>5.2.2.Final</hibernate.version>
+		<java.version>1.8</java.version>
 		<liquibase.version>3.4.2</liquibase.version>
 		<lucene.version>5.5.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
@@ -48,11 +49,10 @@
 		<skip.global.tests>true</skip.global.tests>
 		<skip.global.tests>true</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
-		<spring.batch.admin.version>1.2.0.RELEASE</spring.batch.admin.version>
-		<spring.batch.version>2.1.8.RELEASE</spring.batch.version>
-		<spring.integration.version>2.2.1.RELEASE</spring.integration.version>
-		<spring.security.version>3.1.0.RELEASE</spring.security.version>
-		<spring.version>3.2.1.RELEASE</spring.version>
+		<spring.batch.admin.version>1.3.1.RELEASE</spring.batch.admin.version>
+		<spring.batch.version>4.0.0.M1</spring.batch.version>
+		<spring.security.version>4.2.0.RELEASE</spring.security.version>
+		<spring.version>4.3.4.RELEASE</spring.version>
 	</properties>
 
 	<!--issueManagement>
@@ -196,12 +196,6 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
 				<version>${spring.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -245,11 +239,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-taglibs</artifactId>
-				<version>${spring.security.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-acl</artifactId>
 				<version>${spring.security.version}</version>
 			</dependency>
@@ -276,51 +265,6 @@
 				<version>${spring.batch.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework.batch</groupId>
-				<artifactId>spring-batch-admin-manager</artifactId>
-				<version>${spring.batch.admin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.batch</groupId>
-				<artifactId>spring-batch-admin-resources</artifactId>
-				<version>${spring.batch.admin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-core</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-http</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-file</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-jdbc</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-jms</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-jmx</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.integration</groupId>
-				<artifactId>spring-integration-mail</artifactId>
-				<version>${spring.integration.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate.version}</version>
@@ -343,45 +287,23 @@
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.javax.persistence</groupId>
-				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<artifactId>hibernate-jpa-2.1-api</artifactId>
 				<version>1.0.0.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>4.2.0.Final</version>
+				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.hibernatespatial</groupId>
+				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-spatial</artifactId>
-				<version>1.1</version>
+				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.hibernatespatial</groupId>
-				<artifactId>hibernate-spatial-mysql</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernatespatial</groupId>
-				<artifactId>hibernate-spatial-postgis</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.postgis</groupId>
-				<artifactId>postgis-jdbc</artifactId>
-				<version>1.3.3</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.postgis</groupId>
-						<artifactId>postgis-stubs</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernatespatial</groupId>
-				<artifactId>hibernate-spatial-h2-geodb</artifactId>
-				<version>1.1</version>
-				<scope>test</scope>
+			<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-java8</artifactId>
+				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.aspectj</groupId>
@@ -416,44 +338,22 @@
 			<dependency>
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time</artifactId>
-				<version>1.6</version>
+				<version>2.9.4</version>
 			</dependency>
 			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time-jsptags</artifactId>
-				<version>1.1.1</version>
+				<groupId>org.jadira.usertype</groupId>
+				<artifactId>usertype.core</artifactId>
+				<version>6.0.1.GA</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.5</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.5</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
-				<version>1.7.0</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>commons-digester</groupId>
-				<artifactId>commons-digester</artifactId>
-				<version>2.0</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
+				<version>1.9.3</version>
 			</dependency>
 			<dependency>
 				<groupId>javassist</groupId>
@@ -461,36 +361,19 @@
 				<version>3.12.0.GA</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-dbcp</groupId>
-				<artifactId>commons-dbcp</artifactId>
-				<version>1.3</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-log4j12</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>commons-pool</groupId>
-				<artifactId>commons-pool</artifactId>
-				<version>1.5.4</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-log4j12</artifactId>
-					</exclusion>
-				</exclusions>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-dbcp2</artifactId>
+				<version>2.1.1</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.0.1</version>
+				<version>2.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
 				<artifactId>xstream</artifactId>
-				<version>1.4</version>
+				<version>1.4.7</version>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.woodstox</groupId>
@@ -510,46 +393,18 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.3.6</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
+				<version>4.5.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpmime</artifactId>
-				<version>4.3.6</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>commons-httpclient</groupId>
-				<artifactId>commons-httpclient</artifactId>
-				<version>3.1</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.thus</groupId>
-				<artifactId>pvalsecc</artifactId>
-				<version>0.9.2</version>
+				<version>4.5.2</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.json-lib</groupId>
 				<artifactId>json-lib</artifactId>
 				<classifier>jdk15</classifier>
 				<version>2.3</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -595,30 +450,13 @@
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
-				<version>2.4</version>
+				<version>2.5</version>
 				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet.jsp.jstl</groupId>
-				<artifactId>jstl-api</artifactId>
-				<version>1.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.easymock</groupId>
 				<artifactId>easymock</artifactId>
 				<version>3.0</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.dbunit</groupId>
-				<artifactId>dbunit</artifactId>
-				<version>2.4.8</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -628,26 +466,9 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>1.4.191</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.opengeo</groupId>
-				<artifactId>geodb</artifactId>
-				<version>0.7</version>
-				<exclusions>
-					<exclusion>
-						<groupId>net.sourceforge.hatbox</groupId>
-						<artifactId>hatbox</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>net.sourceforge.hatbox</groupId>
-				<artifactId>hatbox</artifactId>
-				<version>1.0.b7</version>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -656,36 +477,9 @@
 				<version>${mysql-connector.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>postgresql</groupId>
-				<artifactId>postgresql</artifactId>
-				<version>9.1-901.jdbc4</version>
-			</dependency>
-			<dependency>
 				<groupId>xmlunit</groupId>
 				<artifactId>xmlunit</artifactId>
 				<version>1.3</version>
-			</dependency>
-			<dependency>
-				<groupId>xerces</groupId>
-				<artifactId>xercesImpl</artifactId>
-				<version>2.7.1</version>
-			</dependency>
-			<dependency>
-				<groupId>xalan</groupId>
-				<artifactId>xalan</artifactId>
-				<version>2.7.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.groovy</groupId>
-				<artifactId>groovy</artifactId>
-				<version>1.8.5</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.groovy.modules.http-builder</groupId>
-				<artifactId>http-builder</artifactId>
-				<version>0.5.1</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.hamcrest</groupId>
@@ -702,62 +496,7 @@
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache-core</artifactId>
-				<version>2.4.2</version>
-			</dependency>
-			<dependency>
-				<groupId>net.sf.dozer</groupId>
-				<artifactId>dozer</artifactId>
-				<version>5.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activemq-spring</artifactId>
-				<version>5.4.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-context</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-beans</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-test</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>commons-modeler</groupId>
-				<artifactId>commons-modeler</artifactId>
-				<version>2.0</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.xbean</groupId>
-				<artifactId>xbean-spring</artifactId>
-				<version>3.6</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.geronimo.specs</groupId>
-				<artifactId>geronimo-j2ee-management_1.1_spec</artifactId>
-				<version>1.0.1</version>
+				<version>2.6.11</version>
 			</dependency>
 			<dependency>
 				<groupId>org.gbif</groupId>
@@ -765,20 +504,9 @@
 				<version>1.18</version>
 			</dependency>
 			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time-hibernate</artifactId>
-				<version>1.3</version>
-			</dependency>
-			<dependency>
 				<groupId>com.vividsolutions</groupId>
 				<artifactId>jts</artifactId>
 				<version>1.13</version>
-				<exclusions>
-					<exclusion>
-						<groupId>xerces</groupId>
-						<artifactId>xercesImpl</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.geotools</groupId>
@@ -806,80 +534,40 @@
 				<version>${liquibase.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.yahoo.platform.yui</groupId>
-				<artifactId>yuicompressor</artifactId>
-				<version>2.2.5</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.googlecode.lesscss4j</groupId>
 				<artifactId>lesscss4j</artifactId>
 				<version>1.0.0</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>net.sourceforge.htmlunit</groupId>
 				<artifactId>htmlunit</artifactId>
 				<version>2.9</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<!-- Above are required for ANT build / deploy -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
-				<version>2.2.2</version>
+				<version>2.8.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
-				<version>2.2.2</version>
+				<version>2.8.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>2.2.2</version>
+				<version>2.8.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tiles</groupId>
 				<artifactId>tiles-jsp</artifactId>
-				<version>2.2.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activeio-core</artifactId>
-				<version>3.1.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>kahadb</artifactId>
-				<version>5.4.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
+				<version>3.0.5</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
-				<version>2.1</version>
+				<version>2.2</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -935,30 +623,9 @@
 				<version>2.1.2.Final</version>
 			</dependency>
 			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.5</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.velocity</groupId>
-				<artifactId>velocity</artifactId>
-				<version>1.6.1</version>
-			</dependency>
-			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
 				<version>2.1.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.mapfish.print</groupId>
-				<artifactId>print-lib</artifactId>
-				<version>2.0.0</version>
-				<exclusions>
-					<exclusion>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.jyaml</groupId>
@@ -971,54 +638,9 @@
 				<version>20080701</version>
 			</dependency>
 			<dependency>
-				<groupId>javax.media</groupId>
-				<artifactId>jai_core</artifactId>
-				<version>1.1.3</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.media</groupId>
-				<artifactId>jai_imageio</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.media</groupId>
-				<artifactId>jai_codec</artifactId>
-				<version>1.1.3</version>
-			</dependency>
-			<dependency>
 				<groupId>javax.inject</groupId>
 				<artifactId>javax.inject</artifactId>
 				<version>1</version>
-			</dependency>
-			<dependency>
-				<groupId>net.sf.jasperreports</groupId>
-				<artifactId>jasperreports</artifactId>
-				<version>5.6.1</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.apache.lucene</groupId>
-						<artifactId>lucene-analyzers-common</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.lucene</groupId>
-						<artifactId>lucene-queryparser</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>net.sf.jasperreports</groupId>
-				<artifactId>jasperreports-fonts</artifactId>
-				<version>5.6.1</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2.1</version>
-			</dependency>
-			<dependency>
-				<groupId>net.sourceforge.nekohtml</groupId>
-				<artifactId>nekohtml</artifactId>
-				<version>1.9.18</version>
 			</dependency>
 			<dependency>
 				<groupId>org.restdoc</groupId>
@@ -1044,12 +666,6 @@
 				<groupId>com.github.tomakehurst</groupId>
 				<artifactId>wiremock</artifactId>
 				<version>1.57</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.11</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -1080,6 +696,11 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>20.0</version>
+			</dependency>
+			<dependency>
 				<groupId>com.eclipsesource.minimal-json</groupId>
 				<artifactId>minimal-json</artifactId>
 				<version>0.9.4</version>
@@ -1088,6 +709,28 @@
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
 				<version>1.10.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>2.7.22</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.16.16</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.mattbertolini</groupId>
+				<artifactId>liquibase-slf4j</artifactId>
+				<version>2.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.jsonpath</groupId>
+				<artifactId>json-path</artifactId>
+				<version>2.2.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -1132,8 +775,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<fork>true</fork>
 					<meminitial>512m</meminitial>
 					<maxmem>2048m</maxmem>
@@ -1234,30 +877,12 @@
 			<url>http://repository.gbif.org/content/groups/gbif</url>
 		</repository>
 		<repository>
-			<id>opengeo</id>
-			<name>OpenGeo Maven Repository</name>
-			<url>http://repo.boundlessgeo.com/main</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>osgeo</id>
 			<name>Open Source Geospatial Foundation Repository</name>
 			<url>http://download.osgeo.org/webdav/geotools/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>hibernate-spatial-repo</id>
-			<name>Hibernate Spatial Repository</name>
-			<url>http://www.hibernatespatial.org/repository/</url>
-		</repository>
-		<repository>
-			<id>mapfish</id>
-			<name>mapfish.org releases</name>
-			<url>http://dev.mapfish.org/maven/repository/</url>
 		</repository>
 		<repository>
 			<id>kew.external</id>
@@ -1280,6 +905,16 @@
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<!-- Milestones Repo for spring batch 4.0.0 pre-release. Remove when 4.0 is released -->
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/libs-milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>

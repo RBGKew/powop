@@ -18,12 +18,12 @@ package org.emonocot.model.compare;
 
 import java.util.Comparator;
 
-import org.apache.commons.collections.comparators.NullComparator;
 import org.emonocot.model.Reference;
+import org.springframework.util.comparator.NullSafeComparator;
 
 public class ReferenceComparator implements Comparator<Reference> {
 
-	private NullComparator nullSafeStringComparator;
+	private NullSafeComparator<String> nullSafeStringComparator;
 
 	public ReferenceComparator() {
 		Comparator<String> stringComparator = new Comparator<String>() {
@@ -34,7 +34,7 @@ public class ReferenceComparator implements Comparator<Reference> {
 			}
 
 		};
-		nullSafeStringComparator = new NullComparator(stringComparator, false);
+		nullSafeStringComparator = new NullSafeComparator<>(stringComparator, false);
 	}
 
 	@Override

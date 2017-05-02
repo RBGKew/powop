@@ -14,7 +14,6 @@ services:
     env_file:
       - src/main/resources/docker/env/common.env
     links:
-      - activemq
       - db
       - geoserver
       - solr
@@ -27,7 +26,6 @@ services:
     env_file:
       - src/main/resources/docker/env/common.env
     links:
-      - activemq
       - db
       - geoserver
       - solr
@@ -52,9 +50,6 @@ services:
     ports:
       - "10080:80"
     mem_limit: 200M
-
-  activemq:
-    image: rmohr/activemq:5.12.0
 
   solr:
     image: ${DOCKER_REGISTRY}solr:latest

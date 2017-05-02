@@ -17,27 +17,19 @@
 package org.emonocot.model.marshall.json;
 
 import org.emonocot.api.ConceptService;
-import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.api.UserService;
-import org.emonocot.model.marshall.json.hibernate.HibernateModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- *
- */
 public class CustomObjectMapper extends ObjectMapper {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 7839832006798715918L;
 
 	Logger logger = LoggerFactory.getLogger(CustomObjectMapper.class);
@@ -50,8 +42,6 @@ public class CustomObjectMapper extends ObjectMapper {
 
 	private UserService userService;
 
-	private GroupService groupService;
-
 	private OrganisationService organisationService;
 
 	private JobInstanceService jobInstanceService;
@@ -60,10 +50,6 @@ public class CustomObjectMapper extends ObjectMapper {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	public void setGroupService(GroupService groupService) {
-		this.groupService = groupService;
 	}
 
 	public void setReferenceService(ReferenceService referenceService) {
@@ -99,13 +85,9 @@ public class CustomObjectMapper extends ObjectMapper {
 		handlerInstantiator.setReferenceService(referenceService);
 		handlerInstantiator.setTaxonService(taxonService);
 		handlerInstantiator.setImageService(imageService);
-		handlerInstantiator.setGroupService(groupService);
 		handlerInstantiator.setUserService(userService);
 		handlerInstantiator.setOrganisationService(organisationService);
 		handlerInstantiator.setConceptService(conceptService);
 		setHandlerInstantiator(handlerInstantiator);
-		CustomModule module = new CustomModule(jobInstanceService);
-		registerModule(module);
-		registerModule(new HibernateModule());
 	 }
 }

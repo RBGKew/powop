@@ -28,6 +28,10 @@
       <artifactId>hibernate-entitymanager</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-spatial</artifactId>
+    </dependency>
+    <dependency>
       <artifactId>cglib-nodep</artifactId>
       <groupId>cglib</groupId>
     </dependency>
@@ -38,10 +42,6 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-analyzers-common</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernatespatial</groupId>
-      <artifactId>hibernate-spatial-mysql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -80,8 +80,8 @@
       <artifactId>hamcrest-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
@@ -100,10 +100,6 @@
       <artifactId>spring-security-acl</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.opengeo</groupId>
-      <artifactId>geodb</artifactId>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
     </dependency>
@@ -115,6 +111,20 @@
       <groupId>org.gbif</groupId>
       <artifactId>ecat-common</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.mattbertolini</groupId>
+      <artifactId>liquibase-slf4j</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -125,24 +135,6 @@
         <version>2.8</version>
         <configuration>
           <configLocation>../src/main/resources/emonocot-checkstyle.xml</configLocation>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        <executions>
-          <execution>
-            <id>dump-db-schema</id>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <executable>/usr/bin/mysqldump</executable>
-          <commandlineArgs>--no-data --compact --add-drop-table --host=127.0.0.1 --port=13306 --user=emonocot --password=emonocot --all-databases --result-file=src/main/resources/testdb_sql.sql</commandlineArgs>
         </configuration>
       </plugin>
 
@@ -242,26 +234,6 @@
             <configuration>
               <skip>false</skip>
             </configuration>
-          </plugin>
-
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>sql-maven-plugin</artifactId>
-            <version>1.5</version>
-            <executions>
-              <execution>
-                <id>populate-db</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <srcFiles>
-                    <srcFile>src/main/resources/testdb_sql.sql</srcFile>
-                  </srcFiles>
-                </configuration>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>

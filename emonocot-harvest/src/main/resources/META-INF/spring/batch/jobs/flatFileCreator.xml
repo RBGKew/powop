@@ -23,24 +23,13 @@
     </batch:tasklet>
   </batch:step>
 
-  <batch:step id="producePdf" parent="produceCoreFile">
-    <batch:tasklet>
-      <batch:chunk writer="pdfWriter" />
-    </batch:tasklet>
-  </batch:step>
-
   <batch:job id="FlatFileCreation">
-    <batch:description>Create a flat file. Either a DwC/A core 'Taxon' file or a PDF checklist</batch:description>
+    <batch:description>Create a DwC/A core 'Taxon' file</batch:description>
     <batch:decision id="formatDecider" decider="downloadFormatDecider">
       <batch:next on="taxon" to="createCoreFile" />
-      <batch:next on="alphabeticalChecklist" to="createPdf" />
-      <batch:next on="hierarchicalChecklist" to="createPdf" />
     </batch:decision>
     <batch:step id="createCoreFile" parent="produceCoreFile">
       <batch:description>Create the Taxon (core) file</batch:description>
-      <batch:end on="COMPLETED"/>
-    </batch:step>
-    <batch:step id="createPdf" parent="producePdf">
       <batch:end on="COMPLETED"/>
     </batch:step>
     <batch:listeners>
@@ -74,20 +63,6 @@
     <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
   </bean>
 
-  <bean id="pdfWriter" class="net.sf.jasperreports.engine.fill.JRVerticalReportWriter" scope="step">
-    <constructor-arg ref="jasperReport" />
-    <property name="defaultOutputDir" value="${harvester.output.directory}" />
-    <property name="outputResouce" ref="downloadFile" />
-    <property name="parameterValues">
-      <map>
-        <entry key="searchDefinition" value="#{jobParameters['download.searchDefinition']}" />
-        <entry key="username" value="#{jobParameters['download.user.displayName']}" />
-        <entry key="nameListReport" value-ref="nameList" />
-        <entry key="license" value="#{jobParameters['download.license'] ?: 'http://creativecommons.org/licenses/by-nc-sa/3.0'}" />
-      </map>
-    </property>
-  </bean>
-
   <bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
     <constructor-arg type="java.io.File">
       <bean class="java.io.File" scope="step">
@@ -112,16 +87,5 @@
   <bean id="downloadFormatDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="download.format"/>
     <!-- Fail on unknown download format-->
-  </bean>
-
-  <!-- Jasper Reports classes -->
-  <bean id="jasperReport" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath" scope="prototype">
-    <constructor-arg ref="reportFilePath" />
-  </bean>
-  <bean id="reportFilePath" class="java.lang.String" scope="step">
-    <constructor-arg value="#{jobParameters['download.template.filepath']}" />
-  </bean>
-  <bean id="nameList" class="org.emonocot.job.reports.JasperReportsFactory" factory-method="compileReportFromFilePath">
-    <constructor-arg value="org/emonocot/job/download/reports/nameList.jrxml" />
   </bean>
 </beans>

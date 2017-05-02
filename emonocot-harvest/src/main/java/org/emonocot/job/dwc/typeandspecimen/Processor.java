@@ -22,13 +22,9 @@ import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecimenService> {
 
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
@@ -103,12 +99,19 @@ public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecime
 	}
 
 	@Override
-	protected void doValidate(TypeAndSpecimen t) throws Exception {
-
-	}
+	protected void doValidate(TypeAndSpecimen t) throws Exception { }
 
 	@Override
 	protected boolean doFilter(TypeAndSpecimen t) {
 		return false;
 	}
+
+	@Override
+	public void beforeChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunk(ChunkContext context) { } 
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

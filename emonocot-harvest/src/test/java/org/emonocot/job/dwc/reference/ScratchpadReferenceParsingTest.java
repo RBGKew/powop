@@ -72,7 +72,7 @@ public class ScratchpadReferenceParsingTest {
 				"http://purl.org/dc/terms/modified"
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-		tokenizer.setDelimiter(',');
+		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_COMMA);
 		tokenizer.setQuoteCharacter('"');
 		tokenizer.setNames(names);
 

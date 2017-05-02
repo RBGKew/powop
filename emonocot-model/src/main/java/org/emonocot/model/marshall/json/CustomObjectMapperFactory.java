@@ -17,7 +17,6 @@
 package org.emonocot.model.marshall.json;
 
 import org.emonocot.api.ConceptService;
-import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.OrganisationService;
@@ -41,8 +40,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 
 	private UserService userService;
 
-	private GroupService groupService;
-
 	private OrganisationService organisationService;
 
 	private CustomObjectMapper objectMapper;
@@ -53,10 +50,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	public void setGroupService(GroupService groupService) {
-		this.groupService = groupService;
 	}
 
 	public void setReferenceService(ReferenceService referenceService) {
@@ -95,7 +88,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 			objectMapper.setReferenceService(referenceService);
 			objectMapper.setImageService(imageService);
 			objectMapper.setUserService(userService);
-			objectMapper.setGroupService(groupService);
 			objectMapper.setOrganisationService(organisationService);
 			objectMapper.setJobInstanceService(jobInstanceService);
 			objectMapper.setConceptService(conceptService);

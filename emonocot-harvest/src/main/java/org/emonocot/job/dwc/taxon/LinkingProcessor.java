@@ -27,6 +27,7 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
@@ -91,4 +92,13 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 
 		return taxon;
 	}
+
+	@Override
+	public void beforeChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

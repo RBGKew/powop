@@ -170,7 +170,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 	 */
 	private void getMetadata(final ArchiveFile archiveFile,
 			final String prefix, final Term identifierTerm, boolean failOnError) throws IOException {
-		logger.info("Processing " + archiveFile.getRowType());
+		logger.debug("Processing " + archiveFile.getRowType());
 
 		ExecutionContext executionContext = this.stepExecution.getJobExecution().getExecutionContext();
 
@@ -294,7 +294,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		}
 
 		for (ArchiveField field : fields) {
-			logger.info("Archive contains field " + field.getTerm().qualifiedName());
+			logger.debug("Archive contains field " + field.getTerm().qualifiedName());
 			if(field.getIndex() != null) {
 				if(field.getDefaultValue() != null) {
 					names.set(field.getIndex(), field.getTerm().qualifiedName() + " " + field.getDefaultValue());

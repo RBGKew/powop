@@ -67,7 +67,7 @@ public class ReferenceParsingTest {
 				"http://purl.org/dc/terms/creator"
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-		tokenizer.setDelimiter('\t');
+		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		tokenizer.setNames(names);
 		Set<Converter> converters = new HashSet<Converter>();
 		converters.add(new ReferenceTypeConverter());

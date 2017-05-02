@@ -21,23 +21,11 @@ import org.emonocot.api.job.JobStatusNotifier;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 
-/**
- *
- * @author ben
- *
- */
 public class JobStatusListener extends JobExecutionListenerSupport {
 
 	private JobStatusNotifier jobStatusNotifier;
 
-	private String baseUrl;
-
-	public void setBaseUrl(String newBaseUrl) {
-		this.baseUrl = newBaseUrl;
-	}
-
-	public void setJobStatusNotifier(
-			JobStatusNotifier newJobStatusNotifier) {
+	public void setJobStatusNotifier(JobStatusNotifier newJobStatusNotifier) {
 		this.jobStatusNotifier = newJobStatusNotifier;
 	}
 
@@ -52,10 +40,9 @@ public class JobStatusListener extends JobExecutionListenerSupport {
 	}
 
 	private void notify(JobExecution jobExecution) {
-		if (jobExecution.getJobInstance().getJobParameters().getString("resource.identifier") != null) {
-			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution, baseUrl);
+		if (jobExecution.getJobParameters().getString("resource.identifier") != null) {
+			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution);
 			jobStatusNotifier.notify(jobExecutionInfo);
 		}
 	}
-
 }

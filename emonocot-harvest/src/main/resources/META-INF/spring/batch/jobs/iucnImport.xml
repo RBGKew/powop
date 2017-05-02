@@ -302,7 +302,7 @@
   <bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
     <property name="type" value="org.emonocot.model.Taxon" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="indexAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
@@ -319,7 +319,7 @@
   <bean id="indexAnnotationsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
     <property name="type" value="org.emonocot.model.Annotation" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"

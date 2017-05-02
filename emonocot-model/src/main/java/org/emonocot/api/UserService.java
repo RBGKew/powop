@@ -31,34 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author ben
  *
  */
-public interface UserService extends SearchableService<User>, UserDetailsManager,
-GroupManager {
-
-	/**
-	 *
-	 * @param object the object to add the permission to
-	 * @param recipient the recipient recieving the permission
-	 * @param permission the permission itself
-	 * @param clazz the class of object
-	 */
-	void addPermission(SecuredObject object, String recipient,
-			Permission permission, Class<? extends SecuredObject> clazz);
-	/**
-	 *
-	 * @param object the object to remove the permission from
-	 * @param recipient the recipient with the permission
-	 * @param permission the permission itself
-	 * @param clazz the class of object
-	 */
-	void deletePermission(SecuredObject object, String recipient,
-			Permission permission, Class<? extends SecuredObject> clazz);
-
-	/**
-	 *
-	 * @param recipient the recipent of the permissions
-	 * @return a list of Access Control Entries
-	 */
-	List<Object[]> listAces(String recipient);
+public interface UserService extends SearchableService<User>, UserDetailsManager {
 
 	/**
 	 * Create a cryptographic nonce which is associated with a particular user account.
@@ -82,8 +55,6 @@ GroupManager {
 	 * @param password
 	 */
 	void changePasswordForUser(String username, String password);
-
-	String makeProfileThumbnail(MultipartFile file, String oldProfileImage) throws Exception;
 
 	UserDetails getUserByApiKey(String apiKey);
 }

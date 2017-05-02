@@ -18,7 +18,7 @@ public class QueryBuilder {
 
 	private static final ImmutableSet<String> allNamesQueryFields = ImmutableSet.<String>of(
 			"taxon.scientific_name_s_lower",
-			"taxon.synonyms_s_lower",
+			"taxon.synonyms_ss_lower",
 			"taxon.family_s_lower",
 			"taxon.genus_s_lower",
 			"taxon.species_s_lower",

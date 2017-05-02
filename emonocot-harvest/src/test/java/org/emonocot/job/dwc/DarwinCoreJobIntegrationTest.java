@@ -16,148 +16,128 @@
  */
 package org.emonocot.job.dwc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import org.emonocot.api.ImageService;
+import org.emonocot.api.job.JobExecutionException;
+import org.emonocot.api.job.JobLaunchRequest;
+import org.emonocot.api.job.JobLauncher;
+import org.emonocot.factories.JobConfigurationFactory;
+import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
+import org.emonocot.persistence.AbstractPersistenceTest;
 import org.joda.time.DateTime;
-import org.joda.time.base.BaseDateTime;
+import org.joda.time.Period;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.configuration.JobLocator;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.launch.NoSuchJobException;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.google.common.base.Strings;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({
-	"/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml",
-	"/META-INF/spring/applicationContext-integration.xml",
-"/META-INF/spring/applicationContext-test.xml" })
+@ContextConfiguration({"/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class DarwinCoreJobIntegrationTest {
-
-	private final int mockHttpPort = 8088;
-	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
-
-	@Rule
-	public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
+public class DarwinCoreJobIntegrationTest extends AbstractPersistenceTest {
 
 	private Logger logger = LoggerFactory.getLogger(DarwinCoreJobIntegrationTest.class);
 
-	@Autowired
-	private JobLocator jobLocator;
+	private final int mockHttpPort = 8088;
+	private final String mockHttpUrl = "http://localhost:" + mockHttpPort;
+	@Rule public WireMockRule wireMockRule = new WireMockRule(mockHttpPort);
 
 	@Autowired
-	@Qualifier("readWriteJobLauncher")
 	private JobLauncher jobLauncher;
 
-	@Autowired
-	private ImageService imageService;
+	private Organisation backbone;
+	private Organisation imgOrg;
+	private Organisation descOrg;
 
-	private Properties properties;
+	private Resource names;
+	private Resource taxa;
+	private Resource images;
+	private Resource descriptions;
 
-	/**
-	 * 1288569600 in unix time.
-	 */
-	private static final BaseDateTime PAST_DATETIME = new DateTime(2010, 11, 1, 9, 0, 0, 0);
+	private static final String[] sampleArchives = {
+			"/sample-descriptions.zip",
+			"/sample-images.zip",
+			"/sample-names.zip",
+			"/sample-taxonomy.zip"};
 
-	/**
-	 * @throws IOException
-	 *
-	 */
 	@Before
-	public final void setUp() throws IOException {
-		File spoolDirectory = new File("./target/spool");
+	public void setUp() throws Exception {
+		File spoolDirectory = new File("target/spool");
 		spoolDirectory.mkdirs();
 		spoolDirectory.deleteOnExit();
-		Resource propertiesFile = new ClassPathResource("META-INF/spring/application.properties");
-		properties = new Properties();
-		properties.load(propertiesFile.getInputStream());
 
-		stubFor(get(urlEqualTo("/dwc.zip"))
-				.willReturn(aResponse()
-						.withStatus(200)
-						.withBodyFile("/dwc.zip")));
+		for(String archive : sampleArchives) {
+			stubFor(get(urlEqualTo(archive))
+					.willReturn(aResponse()
+							.withStatus(200)
+							.withBodyFile(archive)));
+		}
 
-		stubFor(get(urlEqualTo("/1_1326150157_Strelitziaceae_Cron.nexorg"))
-				.willReturn(aResponse()
-						.withStatus(200)
-						.withBodyFile("/1_1326150157_Strelitziaceae_Cron.nexorg")));
+		backbone = createSource("test", "http://test.org", "test", null);
+		imgOrg = createSource("img", "http://test.org", "img", null);
+		descOrg = createSource("desc", "http://test.org", "desc", null);
 
-		stubFor(get(urlEqualTo("/European_Pontederiaceae.xml"))
-				.willReturn(aResponse()
-						.withStatus(200)
-						.withBodyFile("/European_Pontederiaceae.xml")));
+		names = createResource(backbone, "names", mockHttpUrl + "/sample-names.zip");
+		taxa = createResource(backbone, "taxa", mockHttpUrl + "/sample-taxonomy.zip");
+		images = createResource(imgOrg, "images", mockHttpUrl + "/sample-images.zip");
+		descriptions = createResource(descOrg, "descriptions", mockHttpUrl + "/sample-descriptions.zip");
+
+		doSetUp();
 	}
 
-	/**
-	 *
-	 * @throws IOException
-	 *             if a temporary file cannot be created.
-	 * @throws NoSuchJobException
-	 *             if SpeciesPageHarvestingJob cannot be located
-	 * @throws JobParametersInvalidException
-	 *             if the job parameters are invalid
-	 * @throws JobInstanceAlreadyCompleteException
-	 *             if the job has already completed
-	 * @throws JobRestartException
-	 *             if the job cannot be restarted
-	 * @throws JobExecutionAlreadyRunningException
-	 *             if the job is already running
-	 */
-	@Test
-	public final void testNotModifiedResponse() throws IOException,
-	NoSuchJobException, JobExecutionAlreadyRunningException,
-	JobRestartException, JobInstanceAlreadyCompleteException,
-	JobParametersInvalidException {
-		Map<String, JobParameter> parameters = new HashMap<String, JobParameter>();
-		parameters.put("authority.name", new JobParameter("test"));
-		parameters.put("family", new JobParameter("Arecaceae"));
-		parameters.put("authority.uri", new JobParameter(mockHttpUrl + "/dwc.zip"));
-		parameters.put("authority.last.harvested", new JobParameter(Long.toString((DarwinCoreJobIntegrationTest.PAST_DATETIME.getMillis()))));
-		parameters.put("resource.id", new JobParameter("134"));
-		JobParameters jobParameters = new JobParameters(parameters);
+	@After
+	public void tearDown() throws Exception {
+		doTearDown();
+	}
 
-		Job darwinCoreArchiveHarvestingJob = jobLocator.getJob("DarwinCoreArchiveHarvesting");
-		assertNotNull("DarwinCoreArchiveHarvesting must not be null", darwinCoreArchiveHarvestingJob);
-		JobExecution jobExecution = jobLauncher.run(darwinCoreArchiveHarvestingJob, jobParameters);
-		assertEquals("The job should complete successfully", "COMPLETED", jobExecution.getExitStatus().getExitCode());
-		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-			logger.info(stepExecution.getStepName() + " "
-					+ stepExecution.getReadCount() + " "
-					+ stepExecution.getFilterCount() + " "
-					+ stepExecution.getWriteCount() + " " + stepExecution.getCommitCount());
+	@Test
+	public final void testHarvesting() throws JobExecutionException, Exception {
+		// Harvest names first
+		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvestNames(names)));
+		assertTrue("Names didn't harvest successfully", harvestSuccessful(names));
+
+		// ... then taxonomy. It has to be done in order
+		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvestTaxonomy(taxa)));
+		assertTrue("Taxa didn't harvest successfully", harvestSuccessful(taxa));
+
+		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvestImages(images, "")));
+		assertTrue("Images didn't harvest successfully", harvestSuccessful(images));
+
+		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvest(descriptions)));
+		assertTrue("Descriptions didn't harvest successfully", harvestSuccessful(descriptions));
+	}
+
+	private boolean harvestSuccessful(Resource resource) {
+		DateTime start = DateTime.now();
+
+		while(new Period(start, DateTime.now()).getSeconds() < 20) {
+			resource = resourceDao.find(resource.getId());
+			if(Strings.nullToEmpty(resource.getExitCode()).equals("COMPLETED")) {
+				logger.info("Succesfully completed harvest of {}", resource.getTitle());
+				return true;
+			}
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		logger.info(jobExecution.getExitStatus().getExitCode() + " | " + jobExecution.getExitStatus().getExitDescription());
+
+		return false;
 	}
 }

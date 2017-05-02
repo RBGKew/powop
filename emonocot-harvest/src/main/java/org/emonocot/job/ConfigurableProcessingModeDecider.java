@@ -23,11 +23,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.job.flow.FlowExecutionStatus;
 import org.springframework.batch.core.job.flow.JobExecutionDecider;
 
-/**
- *
- * @author ben
- *
- */
 public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
 
 	Logger logger = LoggerFactory.getLogger(ConfigurableProcessingModeDecider.class);
@@ -55,19 +50,18 @@ public class ConfigurableProcessingModeDecider implements JobExecutionDecider {
 	 * @param stepExecution set the step execution
 	 * @return FlowExecutionStatus a status
 	 */
-	public final FlowExecutionStatus decide(final JobExecution jobExecution,
-			final StepExecution stepExecution) {
+	public final FlowExecutionStatus decide(final JobExecution jobExecution, final StepExecution stepExecution) {
 		if(processingModeKey == null && defaultProcessingMode == null) {
 			logger.error("No processing mode was found.  Unable to continue", new IllegalArgumentException("A processing mode must exist if specified"));
 			return FlowExecutionStatus.FAILED;
 		}
+
 		if (jobExecution.getExecutionContext().containsKey(processingModeKey)) {
 			return new FlowExecutionStatus(jobExecution.getExecutionContext().getString(processingModeKey));
-		} else if(jobExecution.getJobInstance().getJobParameters().getParameters().containsKey(processingModeKey)) {
-			return new FlowExecutionStatus(jobExecution.getJobInstance().getJobParameters().getString(processingModeKey));
-		}else {
+		} else if(jobExecution.getJobParameters().getParameters().containsKey(processingModeKey)) {
+			return new FlowExecutionStatus(jobExecution.getJobParameters().getString(processingModeKey));
+		} else {
 			return new FlowExecutionStatus(defaultProcessingMode);
 		}
 	}
-
 }

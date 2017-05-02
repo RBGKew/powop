@@ -20,21 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.emonocot.model.Searchable;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
-/**
- *
- * @author ben
- *
- */
-public class SolrIndexingWriter
-extends HibernateDaoSupport implements ItemWriter<Long> {
+public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWriter<Long> {
 
 	private Class type;
 
-	private SolrIndexingListener solrIndexingListener;
+	private SolrIndexingInterceptor solrIndexingInterceptor;
 
 	/**
 	 * @param type the type to set
@@ -44,23 +38,23 @@ extends HibernateDaoSupport implements ItemWriter<Long> {
 	}
 
 	/**
-	 * @param solrIndexingListener the solrIndexingListener to set
+	 * @param solrIndexingInterceptor the solrIndexingInterceptor to set
 	 */
-	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
-		this.solrIndexingListener = solrIndexingListener;
+	public void setSolrIndexingInterceptor(SolrIndexingInterceptor solrIndexingInterceptor) {
+		this.solrIndexingInterceptor = solrIndexingInterceptor;
 	}
 
 	public void index(Long identifier, Class type) {
-		Searchable searchable = (Searchable)getSession().load(type, identifier);
-		solrIndexingListener.indexObject(searchable);
+		Searchable searchable = (Searchable)currentSession().load(type, identifier);
+		solrIndexingInterceptor.indexObject(searchable);
 	}
 
 	public void write(List<? extends Long> identifiers) throws Exception {
 		List<Searchable> searchables = new ArrayList<Searchable>();
 		for (Long l : identifiers) {
-			searchables.add((Searchable)getSession().load(type, l));
+			searchables.add((Searchable)currentSession().load(type, l));
 
 		}
-		solrIndexingListener.indexObjects(searchables);
+		solrIndexingInterceptor.indexObjects(searchables);
 	}
 }

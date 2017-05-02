@@ -1,4 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hibernate-spatial>
-  <default_dialect>org.hibernatespatial.mysql.MySQLSpatialDialect</default_dialect>
 </hibernate-spatial>

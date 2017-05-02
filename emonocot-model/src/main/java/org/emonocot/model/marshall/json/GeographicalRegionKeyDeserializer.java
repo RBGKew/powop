@@ -22,22 +22,12 @@ import org.emonocot.model.convert.StringToLocationConverter;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdKeyDeserializer;
 
-/**
- *
- * @author ben
- *
- */
 public class GeographicalRegionKeyDeserializer extends StdKeyDeserializer {
-	/**
-	 *
-	 */
+
 	private StringToLocationConverter converter = new StringToLocationConverter();
 
-	/**
-	 *
-	 */
 	public GeographicalRegionKeyDeserializer() {
-		super(Location.class);
+		super(-1, Location.class);
 	}
 
 	/**
@@ -47,10 +37,7 @@ public class GeographicalRegionKeyDeserializer extends StdKeyDeserializer {
 	 * @throws Exception if there is an issue
 	 */
 	@Override
-	protected final Object _parse(final String key,
-			final DeserializationContext deserializationContext)
-					throws Exception {
+	protected final Object _parse(final String key, final DeserializationContext deserializationContext) throws Exception {
 		return converter.convert(key);
-
 	}
 }

@@ -36,7 +36,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.Taxon;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
@@ -78,7 +78,6 @@ public class DwcaCreationIntegrationTest {
 	private JobLocator jobLocator;
 
 	@Autowired
-	@Qualifier("jobLauncher")
 	private JobLauncher jobLauncher;
 
 	@Autowired
@@ -86,7 +85,7 @@ public class DwcaCreationIntegrationTest {
 
 	@Autowired SolrClient solrServer;
 
-	@Autowired SolrIndexingListener solrIndexingListener;
+	@Autowired SolrIndexingInterceptor solrIndexingInterceptor;
 
 	@Before
 	public void setUp() throws Exception {
@@ -111,7 +110,7 @@ public class DwcaCreationIntegrationTest {
 		Transaction tx = session.beginTransaction();
 
 		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-		solrIndexingListener.indexObjects(taxa);
+		solrIndexingInterceptor.indexObjects(taxa);
 		logger.info("Indexing " + taxa.size());
 		tx.commit();
 	}

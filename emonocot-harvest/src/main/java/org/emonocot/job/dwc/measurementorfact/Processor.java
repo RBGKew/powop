@@ -23,23 +23,16 @@ import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class Processor extends OwnedEntityProcessor<MeasurementOrFact, MeasurementOrFactService> {
-
 
 	@Autowired
 	public void setMeasurementOrFactService(MeasurementOrFactService service) {
 		super.service = service;
 	}
-	/**
-	 *
-	 */
+
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Override
@@ -47,8 +40,6 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
 		if (t.getMeasurementType() == null) {
 			throw new RequiredFieldException(t + " has no measurement type set", RecordType.MeasurementOrFact, getStepExecution().getReadCount());
 		}
-
-
 	}
 
 	@Override
@@ -71,7 +62,14 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
 	}
 
 	@Override
-	protected void doCreate(MeasurementOrFact t) {
+	protected void doCreate(MeasurementOrFact t) { }
 
-	}
+	@Override
+	public void beforeChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

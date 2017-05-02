@@ -23,15 +23,10 @@ import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNameService> {
-
 
 	@Autowired
 	public void setVernacularNameService(VernacularNameService service) {
@@ -72,5 +67,20 @@ public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNa
 	@Override
 	protected void doCreate(VernacularName t) {
 
+	}
+
+	@Override
+	public void beforeChunk(ChunkContext context) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void afterChunk(ChunkContext context) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void afterChunkError(ChunkContext context) {
+		// TODO Auto-generated method stub
 	}
 }

@@ -62,7 +62,7 @@ public class DescriptionParsingTest {
 				"http://purl.org/dc/terms/source"
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-		tokenizer.setDelimiter('\t');
+		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		tokenizer.setNames(names);
 
 		taxonService = createMock(TaxonService.class);

@@ -17,11 +17,11 @@
 package org.emonocot.harvest.common;
 
 import org.emonocot.api.ResourceService;
+
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
 import org.emonocot.model.registry.Resource;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.slf4j.Logger;
@@ -30,11 +30,6 @@ import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author ben
- *
- */
 @Service
 public class JobStatusNotifierImpl implements JobStatusNotifier {
 
@@ -42,25 +37,17 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 
 	private ResourceService service;
 
-	private SolrIndexingListener solrIndexingListener;
-
 	@Autowired
 	public final void setResourceService(final ResourceService resourceService) {
 		this.service = resourceService;
 	}
 
-	@Autowired
-	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
-		this.solrIndexingListener = solrIndexingListener;
-	}
-
 	public final void notify(final JobExecutionInfo jobExecutionInfo) {
-		logger.debug("In notify " + jobExecutionInfo.getId());
-		logger.debug("Notifying of job" + jobExecutionInfo.getBaseUrl() + " with status " + jobExecutionInfo.getExitCode());
+		logger.debug("In notify: job {}, resourceIdentifier: {}", jobExecutionInfo.getId(), jobExecutionInfo.getResourceIdentifier());
 
 		Resource resource = service.find(jobExecutionInfo.getResourceIdentifier(),"job-with-source");
 		if (resource != null) {
-
+			logger.debug("updating resource: " + resource.getId());
 			resource.setDuration(new Duration(new DateTime(0), jobExecutionInfo.getDuration()));
 			resource.setExitCode(jobExecutionInfo.getExitCode());
 			resource.setExitDescription(jobExecutionInfo.getExitDescription());
@@ -68,7 +55,6 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 				resource.setJobInstance(jobExecutionInfo.getJobInstance());
 			}
 			resource.setJobId(jobExecutionInfo.getId());
-			resource.setBaseUrl(jobExecutionInfo.getBaseUrl());
 			resource.setResource(jobExecutionInfo.getResource());
 			resource.setStartTime(jobExecutionInfo.getStartTime());
 			resource.setStatus(jobExecutionInfo.getStatus());
@@ -105,8 +91,9 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			case STOPPED:
 			default:
 			}
+			
+			logger.debug("Resource after job: {}", resource.toString());
 			service.saveOrUpdate(resource);
-			solrIndexingListener.indexObject(resource);
 		}
 	}
 
@@ -127,10 +114,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 			resource.setReadSkip(0);
 			resource.setWriteSkip(0);
 			resource.setWritten(0);
-
 			service.saveOrUpdate(resource);
-			solrIndexingListener.indexObject(resource);
 		}
-
 	}
 }

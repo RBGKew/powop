@@ -282,7 +282,7 @@
   <bean id="indexTypesAndSpecimensWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="org.emonocot.model.TypeAndSpecimen" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="gbifMoreRecordsTasklet"
@@ -334,7 +334,7 @@
   <bean id="indexAnnotationsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
     <property name="type" value="org.emonocot.model.Annotation" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"

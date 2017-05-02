@@ -33,7 +33,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.emonocot.api.job.DarwinCorePropertyMap;
 import org.emonocot.model.Taxon;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
 import org.hibernate.Session;
@@ -41,6 +41,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.ExitStatus;
@@ -59,15 +60,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import au.org.ala.delta.Logger;
 
-/**
- * @author jk00kg
- *
- */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/META-INF/spring/batch/jobs/flatFileCreator.xml",
 	"/META-INF/spring/applicationContext-integration.xml",
-"/META-INF/spring/applicationContext-test.xml" })
+	"/META-INF/spring/applicationContext-batch.xml",
+	"/META-INF/spring/applicationContext.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class FlatFileCreatorIntegrationTest {
 
@@ -75,7 +74,6 @@ public class FlatFileCreatorIntegrationTest {
 	private JobLocator jobLocator;
 
 	@Autowired
-	@Qualifier("jobLauncher")
 	private JobLauncher jobLauncher;
 
 	@Autowired
@@ -83,7 +81,7 @@ public class FlatFileCreatorIntegrationTest {
 
 	@Autowired SolrClient solrServer;
 
-	@Autowired SolrIndexingListener solrIndexingListener;
+	@Autowired SolrIndexingInterceptor solrIndexingInterceptor;
 
 	/**
 	 * @throws java.lang.Exception
@@ -111,7 +109,7 @@ public class FlatFileCreatorIntegrationTest {
 		Transaction tx = session.beginTransaction();
 
 		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-		solrIndexingListener.indexObjects(taxa);
+		solrIndexingInterceptor.indexObjects(taxa);
 		tx.commit();
 	}
 

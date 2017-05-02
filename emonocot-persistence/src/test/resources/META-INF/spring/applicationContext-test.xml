@@ -10,26 +10,27 @@
   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
   <context:component-scan base-package="org.emonocot" />
+  <context:property-placeholder location="classpath*:test.properties" order="1" ignore-unresolvable="true" />
 
   <tx:annotation-driven />
   <context:annotation-config />
 
   <bean name="dataSource"
-    class="org.apache.commons.dbcp.BasicDataSource">
-    <property name="url" value="jdbc:mysql://127.0.0.1:13306/emonocot" />
-    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-    <property name="username" value="emonocot" />
-    <property name="password" value="emonocot" />
+    class="org.apache.commons.dbcp2.BasicDataSource" depends-on="springLiquibase">
+    <property name="driverClassName" value="${jdbc.driver.classname}" />
+    <property name="url" value="${jdbc.driver.url}" />
+    <property name="username" value="${jdbc.driver.username}" />
+    <property name="password" value="${jdbc.driver.password}" />
   </bean>
 
-  <!--  Expected by JdbcJobInstanceDao. Replace with core JdbcTemplate when spring is upgraded -->
-  <bean name="simpleJdbcTemplate"
-    class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
-    <constructor-arg ref="dataSource" />
+  <bean id="springLiquibase"
+    class="liquibase.integration.spring.SpringLiquibase">
+    <property name="dataSource" ref="dataSource" />
+    <property name="changeLog" value="classpath:${liquibase.changelog}" />
+    <property name="dropFirst" value="${liquibase.drop.database.first}"/>
   </bean>
 
-  <bean name="jdbcTemplate"
-    class="org.springframework.jdbc.core.JdbcTemplate">
+  <bean name="simpleJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
     <constructor-arg ref="dataSource" />
   </bean>
 
@@ -60,56 +61,53 @@
   </bean>
 
   <bean id="sessionFactory"
-    class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
     <property name="dataSource" ref="dataSource" />
     <property name="hibernateProperties">
       <value>
-        hibernate.dialect=org.hibernatespatial.mysql.MySQLSpatialDialect
         hibernate.hbm2ddl.auto=validate
+        hibernate.dialect=org.hibernate.spatial.dialect.mysql.MySQL5InnoDBSpatialDialect
         hibernate.validator.autoregister_listeners=false
+        hibernate.default_schema=${liquibase.default.schema.name}
       </value>
     </property>
     <property name="annotatedClasses">
       <list>
-        <value>org.emonocot.model.Identifier</value>
-        <value>org.emonocot.model.Identification</value>
         <value>org.emonocot.model.Annotation</value>
-        <value>org.emonocot.model.Distribution</value>
+        <value>org.emonocot.model.Comment</value>
+        <value>org.emonocot.model.Concept</value>
         <value>org.emonocot.model.Description</value>
+        <value>org.emonocot.model.Distribution</value>
+        <value>org.emonocot.model.Identification</value>
+        <value>org.emonocot.model.Identifier</value>
         <value>org.emonocot.model.Image</value>
+        <value>org.emonocot.model.JobConfiguration</value>
+        <value>org.emonocot.model.JobList</value>
         <value>org.emonocot.model.MeasurementOrFact</value>
+        <value>org.emonocot.model.Place</value>
         <value>org.emonocot.model.Reference</value>
         <value>org.emonocot.model.Taxon</value>
         <value>org.emonocot.model.TypeAndSpecimen</value>
         <value>org.emonocot.model.VernacularName</value>
-        <value>org.emonocot.model.auth.User</value>
         <value>org.emonocot.model.auth.Group</value>
-        <value>org.emonocot.model.registry.Resource</value>
+        <value>org.emonocot.model.auth.User</value>
         <value>org.emonocot.model.registry.Organisation</value>
-        <value>org.emonocot.model.Comment</value>
-        <value>org.emonocot.model.Concept</value>
+        <value>org.emonocot.model.registry.Resource</value>
       </list>
     </property>
-    <property name="eventListeners">
-      <map>
-        <entry key="post-insert" value-ref="solrIndexingListener" />
-        <entry key="post-update" value-ref="solrIndexingListener" />
-        <entry key="post-delete" value-ref="solrIndexingListener" />
-      </map>
-    </property>
     <property name="annotatedPackages" value="org.emonocot.model" />
+    <property name="entityInterceptor" ref="solrIndexingInterceptor"/>
   </bean>
 
-  <bean id="solrIndexingListener" class="org.emonocot.persistence.hibernate.SolrIndexingListener">
-    <property name="solrServer" ref="solrServer"/>
+  <bean id="solrIndexingInterceptor" class="org.emonocot.persistence.hibernate.SolrIndexingInterceptor">
+    <property name="solrClient" ref="solrClient"/>
   </bean>
 
-  <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+  <bean id="solrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
     <constructor-arg value="http://127.0.0.1:18983/solr/powop"/>
   </bean>
 
-  <bean id="transactionManager"
-    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 </beans>

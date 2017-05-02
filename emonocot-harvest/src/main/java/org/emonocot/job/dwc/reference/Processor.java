@@ -23,13 +23,9 @@ import org.emonocot.model.Reference;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
 
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
@@ -55,9 +51,7 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
 	}
 
 	@Override
-	protected void doPersist(Reference t) {
-
-	}
+	protected void doPersist(Reference t) { }
 
 	@Override
 	protected RecordType getRecordType() {
@@ -105,4 +99,13 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
 	protected boolean doFilter(Reference t) {
 		return false;
 	}
+
+	@Override
+	public void beforeChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

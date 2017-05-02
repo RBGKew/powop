@@ -25,29 +25,16 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-/**
- *
- * @author ben
- *
- */
-public class GeographicalRegionDeserializer extends
-StdDeserializer<Location> {
-	/**
-	 *
-	 */
+public class GeographicalRegionDeserializer extends StdDeserializer<Location> {
+
 	private StringToLocationConverter converter = new StringToLocationConverter();
 
-	/**
-	 *
-	 */
 	public GeographicalRegionDeserializer() {
 		super(Location.class);
 	}
 
 	@Override
-	public final Location deserialize(final JsonParser jsonParser,
-			final DeserializationContext deserializationContext)
-					throws IOException {
+	public final Location deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException {
 		return converter.convert(jsonParser.getText());
 	}
 }

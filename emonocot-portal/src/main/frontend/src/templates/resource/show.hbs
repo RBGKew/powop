@@ -1,0 +1,36 @@
+{{> partials/header}}
+<div class="s-page">
+  <header class="c-header">
+    <div class="container">
+      {{> partials/header/kew-logo-header}}
+    </div>
+  </header>
+
+  <article class="c-article">
+    <header class="c-article-header">
+      <h1>{{resource.title}}</h1>
+      <div class="btn-group">
+        <a class="btn btn-outline-primary" href="/resource/{{resource.id}}?form=true">Edit</a>
+        <a class="btn btn-outline-primary" href="/resource/{{resource.id}}?run=true">Harvest</a>
+      </div>
+    </header>
+
+    <section class="c-article-section">
+      {{#with info}}<div class="alert alert-info" role="alert">{{info}}</div>{{/with}}
+      {{#with error}}<div class="alert alert-danger" role="alert">{{info}}</div>{{/with}}
+      <dl>
+        <dt>URL</dt>
+        <dd>{{resource.uri}}</dd>
+        <dt>Resource Type</dt>
+        <dd>{{resource.resourceType}}</dd>
+        <dt>Status</dt>
+        <dd>{{resource.status}}</dd>
+        <dt>Exit Code</dt>
+        <dd>{{resource.exitCode}}</dd>
+      </dl>
+    </section>
+  </article>
+
+  {{> partials/admin-footer}}
+</div>
+{{> partials/footer}}

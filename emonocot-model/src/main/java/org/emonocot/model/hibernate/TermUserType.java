@@ -25,8 +25,10 @@ import java.sql.Types;
 import org.apache.commons.lang3.ObjectUtils;
 import org.emonocot.api.job.TermFactory;
 import org.gbif.dwc.terms.Term;
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.type.StringType;
 import org.hibernate.usertype.UserType;
 
 public class TermUserType implements UserType {
@@ -72,18 +74,17 @@ public class TermUserType implements UserType {
 	}
 
 	@Override
-	public Object nullSafeGet(ResultSet resultSet, String[] names, Object owner)
+	public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor session, Object owner)
 			throws HibernateException, SQLException {
-		String value = (String) Hibernate.STRING.nullSafeGet(resultSet, names[0]);
-		return ((value != null) ? TermUserType.TERM_FACTORY.findTerm(value) : null);
+		String value = (String) StringType.INSTANCE.nullSafeGet(resultSet, names[0], session);
+		return ((value != null) ? TermFactory.findTerm(value) : null);
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index)
+	public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index,SharedSessionContractImplementor session)
 			throws HibernateException, SQLException {
 		Term term = (Term)value;
-		Hibernate.STRING.nullSafeSet(preparedStatement,
-				(value != null) ? term.qualifiedName() : null, index);
+		StringType.INSTANCE.nullSafeSet(preparedStatement, (value != null) ? term.qualifiedName() : null, index, session);
 	}
 
 	@Override
@@ -95,5 +96,4 @@ public class TermUserType implements UserType {
 	public int[] sqlTypes() {
 		return new int[] { Types.VARCHAR };
 	}
-
 }

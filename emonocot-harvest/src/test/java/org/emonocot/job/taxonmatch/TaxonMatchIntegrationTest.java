@@ -28,12 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.emonocot.model.Taxon;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -57,11 +58,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- *
- * @author ben
- *
- */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/META-INF/spring/batch/jobs/taxonMatch.xml",
@@ -76,14 +73,13 @@ public class TaxonMatchIntegrationTest {
 	private JobLocator jobLocator;
 
 	@Autowired
-	@Qualifier("jobLauncher")
 	private JobLauncher jobLauncher;
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Autowired
-	private SolrIndexingListener solrIndexingListener;
+	private SolrIndexingInterceptor solrIndexingInterceptor;
 
 	/**
 	 * 1288569600 in unix time.
@@ -115,7 +111,7 @@ public class TaxonMatchIntegrationTest {
 		Transaction tx = session.beginTransaction();
 
 		List<Taxon> taxa = session.createQuery("from Taxon as taxon").list();
-		solrIndexingListener.indexObjects(taxa);
+		solrIndexingInterceptor.indexObjects(taxa);
 		tx.commit();
 
 		ClassPathResource input = new ClassPathResource("/org/emonocot/job/taxonmatch/input.csv");

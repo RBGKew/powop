@@ -53,7 +53,7 @@ public abstract class SearchableDaoImpl<T extends Base> extends DaoImpl<T> imple
 	private SolrClient solrClient = null;
 
 	@Autowired
-	public void setSolrServer(SolrClient solrClient) {
+	public void setSolrClient(SolrClient solrClient) {
 		this.solrClient = solrClient;
 	}
 

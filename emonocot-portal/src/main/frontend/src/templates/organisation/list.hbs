@@ -1,0 +1,36 @@
+{{> partials/header}}
+<div class="s-page">
+  <header class="c-header">
+    <div class="container">
+      {{> partials/header/kew-logo-header}}
+    </div>
+  </header>
+
+  <article class="c-article">
+    <header class="c-article-header">
+      <h1>Organisations</h1>
+      <a class="btn btn-outline-primary" href="/organisation?form=true">New Organisation</a>
+    </header>
+
+    <section class="c-article-section">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th># Resources</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each result.records}}
+          <tr>
+            <td><a href="/organisation/{{identifier}}">{{title}}</a></td>
+            <td></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+  </article>
+  {{> partials/admin-footer}}
+</div>
+{{> partials/footer}}

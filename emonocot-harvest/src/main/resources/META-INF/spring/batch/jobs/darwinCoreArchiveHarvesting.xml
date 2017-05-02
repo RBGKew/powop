@@ -769,6 +769,7 @@
     <batch:step id="cleanupResources">
       <batch:description>Cleanup the resources</batch:description>
       <batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
+      <batch:end on="COMPLETED" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
@@ -793,6 +794,7 @@
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
     <batch:listeners>
       <batch:listener ref="compositeJobListener" />
     </batch:listeners>
@@ -965,7 +967,7 @@
   <bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
     <property name="type" value="org.emonocot.model.Taxon" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
@@ -980,7 +982,7 @@
   </bean>
 
   <bean id="nameSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrServer" />
+    <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="scientific-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
@@ -1057,7 +1059,7 @@
   </bean>
 
   <bean id="descriptionSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrServer" />
+    <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="characteristic" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
@@ -1173,7 +1175,7 @@
   <bean id="indexImagesWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="org.emonocot.model.Image" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Terms -->
@@ -1279,7 +1281,7 @@
   <bean id="indexTermsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="org.emonocot.model.Concept" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- References -->
@@ -1724,7 +1726,7 @@
   </bean>
 
   <bean id="commonNameSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrServer" />
+    <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="common-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
@@ -1831,7 +1833,7 @@
   <bean id="indexTypesAndSpecimensWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="org.emonocot.model.TypeAndSpecimen" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Identification -->
@@ -1923,5 +1925,4 @@
   <bean id="taxonDeletingWriter" class="org.emonocot.job.dwc.taxon.TaxonDeletingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
-
 </beans>

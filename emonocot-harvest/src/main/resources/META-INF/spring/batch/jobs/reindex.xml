@@ -33,6 +33,10 @@
       </batch:tasklet>
       <batch:end on="COMPLETED"/>
     </batch:step>
+
+    <batch:listeners>
+      <batch:listener ref="jobSequenceListener" />
+    </batch:listeners>
   </batch:job>
 
   <bean id="deleteMissingeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
@@ -40,7 +44,7 @@
     <property name="defaultProcessingMode" value="false" />
   </bean>
 
-  <bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"	scope="step">
+  <bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="queryString" value="#{jobParameters['query.string']}" />
   </bean>
@@ -48,7 +52,7 @@
   <bean id="itemIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="#{jobParameters['query.type']}" />
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingListener" ref="solrIndexingListener" />
+    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="solrDocumentItemReader" class="org.emonocot.harvest.common.SolrDocumentItemReader" scope="step">
@@ -63,7 +67,6 @@
   </bean>
 
   <bean id="solrDeletingWriter"  class="org.emonocot.harvest.common.SolrDeletingWriter">
-    <property name="solrServer" ref="solrServer" />
+    <property name="solrClient" ref="solrClient" />
   </bean>
-
 </beans>

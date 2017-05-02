@@ -19,7 +19,7 @@ package org.emonocot.portal.view.geojson;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.emonocot.model.TypeAndSpecimen;
 
 public class Feature {

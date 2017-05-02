@@ -16,97 +16,48 @@
  */
 package org.emonocot.job.common;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.emonocot.api.job.JobExecutionException;
+import org.emonocot.api.job.JobLaunchRequest;
+import org.emonocot.api.job.JobLauncher;
+import org.emonocot.factories.JobConfigurationFactory;
+import org.emonocot.model.constants.Location;
+import org.emonocot.model.registry.Organisation;
+import org.emonocot.persistence.AbstractPersistenceTest;
+import org.gbif.ecat.voc.Rank;
+import org.gbif.ecat.voc.TaxonomicStatus;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.configuration.JobLocator;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.launch.NoSuchJobException;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- *
- * @author ben
- *
- */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({
-	"/META-INF/spring/batch/jobs/reindex.xml",
-	"/META-INF/spring/applicationContext-integration.xml",
-"/META-INF/spring/applicationContext-test.xml" })
+@ContextConfiguration({"/META-INF/spring/batch/jobs/reindex.xml"})
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class ReIndexingJobIntegrationTest {
-
-	private Logger logger = LoggerFactory.getLogger(ReIndexingJobIntegrationTest.class);
+public class ReIndexingJobIntegrationTest extends AbstractPersistenceTest {
 
 	@Autowired
-	private JobLocator jobLocator;
-
-	@Autowired
-	@Qualifier("readWriteJobLauncher")
 	private JobLauncher jobLauncher;
 
-	/**
-	 *
-	 * @throws IOException
-	 *             if a temporary file cannot be created.
-	 * @throws NoSuchJobException
-	 *             if SpeciesPageHarvestingJob cannot be located
-	 * @throws JobParametersInvalidException
-	 *             if the job parameters are invalid
-	 * @throws JobInstanceAlreadyCompleteException
-	 *             if the job has already completed
-	 * @throws JobRestartException
-	 *             if the job cannot be restarted
-	 * @throws JobExecutionAlreadyRunningException
-	 *             if the job is already running
-	 */
+	@Before
+	public void setUp() throws Exception {
+		Organisation source = createSource("test", "http://test.org", "test", null);
+		createTaxon("Quercus", "1", null, null, "Fagaceae", "Quercus", null, null, Rank.GENUS, TaxonomicStatus.Accepted, source, new Location[] {}, null);
+		createTaxon("Quercus alba", "2", null, null, "Fagaceae", "Quercus", null, null, Rank.GENUS, TaxonomicStatus.Accepted, source, new Location[] {}, null);
+		doSetUp();
+	}
+
+	@After
+	public void tearDown() {
+		doTearDown();
+	}
+
 	@Test
-	public final void testNotModifiedResponse() throws IOException,
-	NoSuchJobException, JobExecutionAlreadyRunningException,
-	JobRestartException, JobInstanceAlreadyCompleteException,
-	JobParametersInvalidException {
-		Map<String, JobParameter> parameters =
-				new HashMap<String, JobParameter>();
-		parameters.put("query.string", new JobParameter("select t.id from Taxon t"));
-		parameters.put("query.type", new JobParameter("org.emonocot.model.Taxon"));
-		parameters.put("solr.selected.facets", new JobParameter("base.class_s=org.emonocot.model.Taxon"));
-		JobParameters jobParameters = new JobParameters(parameters);
-		Job job = jobLocator
-				.getJob("ReIndex");
-
-		assertNotNull("ReIndex must not be null",
-				job);
-		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		assertEquals("The job should complete successfully",jobExecution.getExitStatus().getExitCode(),"COMPLETED");
-
-		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
-			logger.info(stepExecution.getStepName() + " "
-					+ stepExecution.getReadCount() + " "
-					+ stepExecution.getFilterCount() + " "
-					+ stepExecution.getWriteCount());
-		}
+	public final void testNotModifiedResponse() throws Exception, JobExecutionException {
+		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.reIndexTaxa()));
 	}
 }

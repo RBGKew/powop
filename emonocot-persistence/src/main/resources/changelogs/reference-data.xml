@@ -243,92 +243,92 @@
 
 	<!-- Initialize hi-lo table values -->
   <changeSet id="2015-09-25_34" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Comment" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_35" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Description" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_36" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Distribution" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_37" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="IdentificationKey" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_38" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Image" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_39" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Resource" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_40" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="MeasurementOrFact" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_41" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Place" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_42" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Principal" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_43" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Reference" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_44" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Organisation" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_45" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Taxon" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_46" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="TypeAndSpecimen" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_47" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="VernacularName" />
     </insert>
   </changeSet>
   <changeSet id="2015-09-25_48" author="ji10kg">
-    <insert tableName="hibernate_sequences">
-      <column name="sequence_next_hi_value" valueNumeric="1" />
+    <insert tableName="hibernate_sequence">
+      <column name="next_val" valueNumeric="1" />
       <column name="sequence_name" value="Identifier" />
     </insert>
   </changeSet>

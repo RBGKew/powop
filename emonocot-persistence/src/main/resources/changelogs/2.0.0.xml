@@ -10,6 +10,25 @@
     </addColumn>
   </changeSet>
 
+  <changeSet id="2016-11-01_01" author="ji10kg">
+    <comment>Delete batch_job_params table. It is no longer necessary in v3.0.7</comment>
+    <dropTable tableName="batch_job_params" />
+  </changeSet>
+
+  <changeSet id="2016-11-02_02" author="ji10kg">
+    <comment>Change hibernate sequence column to new default "next_val"</comment>
+    <renameColumn tableName="hibernate_sequences" oldColumnName="sequence_next_hi_value" newColumnName="next_val" columnDataType="bigint(20)"/>
+  </changeSet>
+  
+  <changeSet id="2016-11-02_04" author="ji10kg">
+    <comment>Change hibernate sequence table to new default "hibernate_sequence"</comment>
+    <createTable tableName="hibernate_sequence">
+      <column name="sequence_name" type="varchar(255)" />
+      <column name="next_val" type="bigint(20)" />
+    </createTable>
+    <addNotNullConstraint tableName="hibernate_sequence" columnName="sequence_name" columnDataType="varchar(255)"/>
+  </changeSet>
+  
   <changeSet id="2016-11-22_01" author="ji10kg">
     <comment>Add index to description_types</comment>
     <createIndex tableName="description_types" indexName="DescriptionType_description_id_IDX">
@@ -30,6 +49,12 @@
       <column name="owner" type="varchar(255)"/>
     </addColumn>
   </changeSet>
+  
+  <changeSet id="2016-12-19_01" author="ji10kg">
+    <addColumn tableName="batch_job_execution">
+      <column name="job_configuration_location" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
 
   <changeSet id="2017-03-10_01" author="ji10kg">
     <comment>Add index to family and genus field of Taxon</comment>
@@ -47,4 +72,67 @@
       <column name="taxonRank" type="varchar(255)"/>
     </createIndex>
   </changeSet>
+
+  <changeSet id="2017-04-12_01" author="ji10kg">
+    <comment>Add JobConfiguration table. This is for pulling job configuration information out of resource</comment>
+    <createTable tableName="jobconfiguration">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="jobName" type="varchar(255)"/>
+      <column name="jobStatus" type="varchar(255)"/>
+      <column name="description" type="varchar(255)"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="2017-04-12_02" author="ji10kg">
+    <comment>Add JobConfiguration parameters table</comment>
+    <createTable tableName="jobconfiguration_parameters">
+      <column name="jobconfiguration_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="parameters_key" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="parameters" type="varchar(255)"/>
+    </createTable>
+    <addPrimaryKey tableName="jobconfiguration_parameters" columnNames="jobconfiguration_id, parameters_key" constraintName="PRIMARY"/>
+  </changeSet>
+
+  <changeSet id="2017-04-24_1" author="ji10kg">
+    <comment>Add JobList table. Allows for creating and scheduling an ordered list of jobs to run in sequence</comment>
+    <createTable tableName="joblist">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="description" type="varchar(255)"/>
+      <column name="currentJob" type="int"/>
+      <column name="previouslyRun" type="int"/>
+      <column name="lastAttempt" type="datetime"/>
+      <column name="lastCompletion" type="datetime"/>
+      <column name="status" type="varchar(255)"/>
+      <column name="schedulingPeriod" type="varchar(255)"/>
+      <column name="nextRun" type="datetime"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="2017-04-24_02" author="ji10kg">
+    <comment>Add join table from JobList to JobConfigurations</comment>
+    <createTable tableName="joblist_jobconfiguration">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" />
+      </column>
+      <column name="joblist_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="jobconfigurations_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <createIndex tableName="joblist_jobconfiguration" indexName="joblist_jobconfigurations_IDX">
+      <column name="joblist_id"/>
+      <column name="jobconfigurations_id" />
+    </createIndex>
+  </changeSet>
+
 </databaseChangeLog>

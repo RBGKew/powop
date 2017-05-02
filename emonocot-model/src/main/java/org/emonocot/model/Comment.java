@@ -33,7 +33,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.auth.User;
 import org.emonocot.model.marshall.json.AnnotatableObjectDeserializer;

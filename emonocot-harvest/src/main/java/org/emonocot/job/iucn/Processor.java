@@ -19,7 +19,7 @@ package org.emonocot.job.iucn;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.emonocot.api.match.Match;
 import org.emonocot.api.match.taxon.TaxonMatcher;
 import org.emonocot.harvest.common.AbstractRecordAnnotator;

@@ -3,7 +3,7 @@ package org.emonocot.portal.view.helpers;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.emonocot.model.Taxon;
 import org.gbif.ecat.voc.Rank;
 

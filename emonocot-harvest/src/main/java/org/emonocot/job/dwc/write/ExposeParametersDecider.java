@@ -46,9 +46,9 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 
 	@Override
 	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
-		if (jobExecution.getJobInstance().getJobParameters().getString(jobParameterName) != null) {
+		if (jobExecution.getJobParameters().getString(jobParameterName) != null) {
 			ExecutionContext executionContext = jobExecution.getExecutionContext();
-			JobParameters jobParameters = jobExecution.getJobInstance().getJobParameters();
+			JobParameters jobParameters = jobExecution.getJobParameters();
 			if(jobParameterName.equals("download.taxon")) {
 				setExecutionContext(executionContext,jobParameters,"taxon.txt","org.emonocot.model.Taxon", "http://rs.tdwg.org/dwc/terms/Taxon");
 			} else if(jobParameterName.equals("download.description")) {

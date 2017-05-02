@@ -1,4 +1,4 @@
-FROM tomcat:8.0-jre7-alpine
+FROM tomcat:8.0-jre8-alpine
 
 COPY conf/setenv.sh bin/
 

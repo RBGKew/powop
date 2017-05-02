@@ -84,7 +84,7 @@ AnnotationDao {
 		try {
 			Object[] args = new Object[] {id, "Taxon", jobId};
 			int[] argTypes = new int[] {Types.BIGINT, Types.VARCHAR, Types.BIGINT};
-			Long annotationId = jdbcTemplate.queryForLong("Select a.id from Annotation a where a.annotatedObjId = ? and a.annotatedObjType = ? and a.jobId = ?", args, argTypes);
+			Long annotationId = jdbcTemplate.queryForObject("Select a.id from Annotation a where a.annotatedObjId = ? and a.annotatedObjType = ? and a.jobId = ?", args, argTypes, Long.class);
 			return (Annotation) getSession().load(Annotation.class, annotationId);
 		} catch(IncorrectResultSizeDataAccessException irsdae) {
 			if(irsdae.getActualSize() == 0) {

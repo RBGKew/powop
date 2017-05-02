@@ -17,7 +17,6 @@
 package org.emonocot.model.marshall.json;
 
 import org.emonocot.api.ConceptService;
-import org.emonocot.api.GroupService;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ReferenceService;
@@ -50,18 +49,12 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 
 	private UserService userService;
 
-	private GroupService groupService;
-
 	private OrganisationService organisationService;
 
 	private ConceptService conceptService;
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	public void setGroupService(GroupService groupService) {
-		this.groupService = groupService;
 	}
 
 	public void setReferenceService(ReferenceService referenceService) {
@@ -122,7 +115,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 					.equals(GroupDeserializer.class)) {
 				GroupDeserializer groupDeserializer
 				= GroupDeserializer.class.newInstance();
-				groupDeserializer.setService(groupService);
 				return groupDeserializer;
 			} else if (jsonDeserializerClass
 					.equals(OrganisationDeserialiser.class)) {
@@ -141,7 +133,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 				PrincipalDeserializer principalDeserializer
 				= PrincipalDeserializer.class.newInstance();
 				principalDeserializer.setUserService(userService);
-				principalDeserializer.setGroupService(groupService);
 				return principalDeserializer;
 			} else if (jsonDeserializerClass
 					.equals(AnnotatableObjectDeserializer.class)) {

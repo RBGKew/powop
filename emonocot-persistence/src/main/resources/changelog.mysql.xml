@@ -5,10 +5,11 @@
   <!-- These are flattened changelogs generated from the database state at the 1.0.6 release -->
   <!-- The old changelog file is saved as changelogs/archived.xml for reference -->
   <include file="changelogs/reference-schema.xml" relativeToChangelogFile="true" />
-  <include file="changelogs/reference-data.xml" relativeToChangelogFile="true" />
 
   <!-- From 1.0.6 onward, use one changelog file per release -->
   <include file="changelogs/1.1.0.xml" relativeToChangelogFile="true" />
   <include file="changelogs/1.1.3.xml" relativeToChangelogFile="true" />
   <include file="changelogs/2.0.0.xml" relativeToChangelogFile="true" />
+
+  <include file="changelogs/reference-data.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

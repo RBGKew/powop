@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.api.ImageService;
 import org.emonocot.common.HtmlSanitizer;

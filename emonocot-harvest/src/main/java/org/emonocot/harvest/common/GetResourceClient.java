@@ -47,12 +47,12 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.retry.RetryCallback;
-import org.springframework.batch.retry.RetryContext;
-import org.springframework.batch.retry.RetryListener;
-import org.springframework.batch.retry.backoff.FixedBackOffPolicy;
-import org.springframework.batch.retry.policy.SimpleRetryPolicy;
-import org.springframework.batch.retry.support.RetryTemplate;
+import org.springframework.retry.RetryCallback;
+import org.springframework.retry.RetryContext;
+import org.springframework.retry.RetryListener;
+import org.springframework.retry.backoff.FixedBackOffPolicy;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 
 public class GetResourceClient {
 
@@ -139,7 +139,7 @@ public class GetResourceClient {
 	 */
 	public final ExitStatus getResource(final String resource, final String ifModifiedSince, final String temporaryFileName) {
 		prepareHttpClient();
-		return getWithRetry(new RetryCallback<ExitStatus> () {
+		return getWithRetry(new RetryCallback<ExitStatus, Exception> () {
 
 			@Override
 			public ExitStatus doWithRetry(RetryContext context) throws Exception {
@@ -259,7 +259,7 @@ public class GetResourceClient {
 	 */
 	public final ExitStatus getBinaryResource(final String resource, final String ifModifiedSince, final String temporaryFileName) {
 		prepareHttpClient();
-		return getWithRetry(new RetryCallback<ExitStatus> () {
+		return getWithRetry(new RetryCallback<ExitStatus, Exception> () {
 
 			@Override
 			public ExitStatus doWithRetry(RetryContext context) throws Exception {
@@ -358,7 +358,7 @@ public class GetResourceClient {
 
 	public ExitStatus postBody(final String authorityURI, final Map<String,String> params, final StringBuffer response, final Map<String,String> responseHeaders) {
 		prepareHttpClient();
-		return getWithRetry(new RetryCallback<ExitStatus> () {
+		return getWithRetry(new RetryCallback<ExitStatus, Exception> () {
 
 			@Override
 			public ExitStatus doWithRetry(RetryContext context) throws Exception {
@@ -455,17 +455,15 @@ public class GetResourceClient {
 		httpClient = builder.build();
 	}
 
-	public ExitStatus getWithRetry(RetryCallback<ExitStatus> callback) {
+	public ExitStatus getWithRetry(RetryCallback<ExitStatus, Exception> callback) {
 		RetryTemplate retryTemplate = new RetryTemplate();
 		FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
-		SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
 		Map<Class<? extends Throwable>,Boolean> retryableExceptions = new HashMap<Class<? extends Throwable>,Boolean>();
-
-		retryPolicy.setMaxAttempts(retryAttempts);
-		backOffPolicy.setBackOffPeriod(backoffPeriod);
 		retryableExceptions.put(ClientProtocolException.class, Boolean.TRUE);
 		retryableExceptions.put(IOException.class, Boolean.TRUE);
-		retryPolicy.setRetryableExceptions(retryableExceptions);
+
+		SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(retryAttempts, retryableExceptions);
+		backOffPolicy.setBackOffPeriod(backoffPeriod);
 
 		retryTemplate.setListeners(retryListeners);
 		retryTemplate.setBackOffPolicy(backOffPolicy);

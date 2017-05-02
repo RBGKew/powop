@@ -9,13 +9,13 @@
 
 
 container=emonocot_portal_1
-template_dir=$SOURCE_DIRECTORY/emonocot/emonocot-portal/src/main/frontend/dist/templates
+template_dir=emonocot-portal/src/main/frontend/src/templates/
 remote_prefix=/usr/local/tomcat/webapps/ROOT/
 
-for changed in `ls $template_dir`
+for changed in `git diff --name-only $template_dir`
 do
   target=${changed#$template_dir}
-  cp_cmd="docker cp $template_dir/$changed $container:$remote_prefix$target"
+  cp_cmd="docker cp $changed $container:$remote_prefix$target"
 
   echo "running $cp_cmd"
   $cp_cmd

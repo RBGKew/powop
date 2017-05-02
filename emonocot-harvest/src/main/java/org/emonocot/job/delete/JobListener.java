@@ -1,12 +1,7 @@
 package org.emonocot.job.delete;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import org.emonocot.api.ResourceService;
-import org.emonocot.api.job.JobExecutionInfo;
-import org.emonocot.api.job.JobStatusNotifier;
 import org.emonocot.model.registry.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,20 +12,19 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
 
 public class JobListener implements JobExecutionListener {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(JobListener.class);
 
 	ResourceService resourceService;
-	
-	
+
 	public void setResourceService(ResourceService resourceService){
 		this.resourceService = resourceService;
 	}
-	
+
 	@Override
 	public void afterJob(JobExecution jobExecution) {
 		logger.debug(jobExecution.getStatus().toString());
-		String resource_id = (String) jobExecution.getJobInstance().getJobParameters().getString("resource_id");
+		String resource_id = (String) jobExecution.getJobParameters().getString("resource_id");
 		Resource resource = resourceService.load(Long.parseLong(resource_id));
 		if(jobExecution.getStatus().equals(BatchStatus.COMPLETED)){
 			resource.setExitCode("RECORDS DELETED");
@@ -38,7 +32,7 @@ public class JobListener implements JobExecutionListener {
 			resource.setWritten(0);
 			resource.setExitDescription("All associated records deleted. Press delete again to completely remove the resource, or harvest to reharvest all records.");
 			resourceService.saveOrUpdate(resource);
-			
+
 		}else{
 			Collection<StepExecution> stepExecutions = jobExecution.getStepExecutions();
 			if(stepExecutions != null && !stepExecutions.isEmpty()){
@@ -50,18 +44,10 @@ public class JobListener implements JobExecutionListener {
 						resourceService.save(resource);
 					}
 				}
-			
 			}
-			
 		}
 	}
-	
-
 
 	@Override
-	public void beforeJob(JobExecution arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void beforeJob(JobExecution arg0) { }
 }

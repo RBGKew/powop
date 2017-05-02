@@ -37,32 +37,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-/**
- *
- * @author ben
- *
- */
 public class ScratchpadExportTaxonParsingTest {
 
-	/**
-	 *
-	 */
-	private Resource content = new ClassPathResource(
-			"/org/emonocot/zingiberaceae/zingiberaceae/classification.txt");
+	private Resource content = new ClassPathResource( "/org/emonocot/zingiberaceae/zingiberaceae/classification.txt");
 
-	/**
-	 *
-	 */
 	private TaxonService taxonService = null;
 
-	/**
-	 *
-	 */
 	private FlatFileItemReader<Taxon> flatFileItemReader = new FlatFileItemReader<Taxon>();
 
-	/**
-	 *
-	 */
 	@Before
 	public final void setUp() throws Exception {
 		String[] names = new String[] {
@@ -76,7 +58,7 @@ public class ScratchpadExportTaxonParsingTest {
 				"http://rs.tdwg.org/dwc/terms/parentNameUsageID"
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-		tokenizer.setDelimiter(',');
+		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_COMMA);
 		tokenizer.setQuoteCharacter('\"');
 		tokenizer.setNames(names);
 		Set<Converter> converters = new HashSet<Converter>();

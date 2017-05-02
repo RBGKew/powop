@@ -20,8 +20,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -39,9 +39,7 @@ import org.springframework.util.Assert;
  */
 public class MultiResourceDeletingTasklet implements Tasklet {
 
-	/** Commons-logging Logger. */
-	private static final Log logger = LogFactory
-			.getLog(MultiResourceDeletingTasklet.class);
+	private static final Logger logger = LoggerFactory.getLogger(MultiResourceDeletingTasklet.class);
 
 	/**
 	 * Répertoires ou fichiers à supprimer.

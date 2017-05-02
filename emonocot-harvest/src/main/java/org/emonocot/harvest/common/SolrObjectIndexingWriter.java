@@ -19,7 +19,7 @@ package org.emonocot.harvest.common;
 import java.util.List;
 
 import org.emonocot.model.Searchable;
-import org.emonocot.persistence.hibernate.SolrIndexingListener;
+import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
 import org.springframework.batch.item.ItemWriter;
 
 /**
@@ -29,16 +29,16 @@ import org.springframework.batch.item.ItemWriter;
  */
 public class SolrObjectIndexingWriter implements ItemWriter<Searchable> {
 
-	private SolrIndexingListener solrIndexingListener;
+	private SolrIndexingInterceptor solrIndexingInterceptor;
 
 	/**
-	 * @param solrIndexingListener the solrIndexingListener to set
+	 * @param solrIndexingInterceptor the solrIndexingInterceptor to set
 	 */
-	public void setSolrIndexingListener(SolrIndexingListener solrIndexingListener) {
-		this.solrIndexingListener = solrIndexingListener;
+	public void setSolrIndexingInterceptor(SolrIndexingInterceptor solrIndexingInterceptor) {
+		this.solrIndexingInterceptor = solrIndexingInterceptor;
 	}
 
 	public void write(List<? extends Searchable> searchables) throws Exception {
-		solrIndexingListener.indexObjects(searchables);
+		solrIndexingInterceptor.indexObjects(searchables);
 	}
 }

@@ -18,11 +18,11 @@ package org.emonocot.pager;
 
 import java.util.Comparator;
 
-import org.apache.commons.collections.comparators.NullComparator;
+import org.springframework.util.comparator.NullSafeComparator;
 
 public class Member implements Comparable<Member> {
 
-	private static NullComparator nullSafeStringComparator;
+	private static NullSafeComparator<String> nullSafeStringComparator;
 	static {
 		Comparator<String> stringComparator = new Comparator<String>() {
 
@@ -32,7 +32,7 @@ public class Member implements Comparable<Member> {
 			}
 
 		};
-		nullSafeStringComparator = new NullComparator(stringComparator, false);
+		nullSafeStringComparator = new NullSafeComparator<>(stringComparator, false);
 	}
 
 	private int ordinal;

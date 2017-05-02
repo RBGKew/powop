@@ -19,6 +19,7 @@ package org.emonocot.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,6 @@ import org.emonocot.model.marshall.json.ShapeDeserializer;
 import org.emonocot.model.marshall.json.ShapeSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,12 +72,14 @@ public class Place extends SearchableObject {
 	 * A JTS Polygon for this place
 	 * @see com.vividsolutions.jts.geom.Polygon
 	 */
+	@Column
 	private Geometry shape;
 
 	/**
 	 * Used for a single point reference of a place.
 	 * Usually in place of a shape, but possibly
 	 */
+	@Column
 	private Point point;
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
@@ -143,7 +145,6 @@ public class Place extends SearchableObject {
 	/**
 	 * @return the shape
 	 */
-	@Type(type="spatialType")
 	@JsonSerialize(using=ShapeSerializer.class)
 	public Geometry getShape() {
 		return shape;
@@ -161,7 +162,6 @@ public class Place extends SearchableObject {
 	/**
 	 * @return the point
 	 */
-	@Type(type="spatialType")
 	public Point getPoint() {
 		return point;
 	}

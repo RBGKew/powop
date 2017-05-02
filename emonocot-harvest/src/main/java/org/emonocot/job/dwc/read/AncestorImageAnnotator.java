@@ -18,11 +18,8 @@ package org.emonocot.job.dwc.read;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.sql.DataSource;
 
-import org.emonocot.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -34,7 +31,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 
 public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
@@ -63,7 +59,7 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
 	protected Long getAuthorityId() {
 		String authorityQuerySQL = "SELECT id FROM Organisation WHERE identifier = :authorityName";
-		return jdbcTemplate.queryForLong(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName));
+		return jdbcTemplate.queryForObject(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName), Long.class);
 	}
 
 	private List<Long> getAssociatedFamilyIds(Long resourceId) {

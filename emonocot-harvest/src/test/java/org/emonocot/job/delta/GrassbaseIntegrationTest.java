@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -47,6 +48,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/org/emonocot/job/grassbase/grassbase.xml",
@@ -75,7 +77,6 @@ public class GrassbaseIntegrationTest {
 	private JobLocator jobLocator;
 
 	@Autowired
-	@Qualifier("readWriteJobLauncher")
 	private JobLauncher jobLauncher;
 
 	@Test

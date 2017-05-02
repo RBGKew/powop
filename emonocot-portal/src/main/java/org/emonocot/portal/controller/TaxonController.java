@@ -16,7 +16,7 @@
  */
 package org.emonocot.portal.controller;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.model.Taxon;

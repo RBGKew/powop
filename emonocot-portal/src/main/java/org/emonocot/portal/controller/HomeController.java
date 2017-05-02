@@ -78,18 +78,6 @@ public class HomeController {
 		authorizedUser.setOrganization(user.getOrganization());
 		authorizedUser.setTopicInterest(user.getTopicInterest());
 		authorizedUser.setNotifyByEmail(user.isNotifyByEmail());
-		try {
-			String img = userService.makeProfileThumbnail(user.getImgFile(),authorizedUser.getImg());
-			if(img != null) {
-				authorizedUser.setImg(img);
-			}
-		} catch(UnsupportedOperationException uoe) {
-			String[] codes = new String[] {"unsupported.image.mimetype" };
-			Object[] args = new Object[] {uoe.getMessage()};
-			DefaultMessageSourceResolvable message = new DefaultMessageSourceResolvable(codes, args);
-			model.addAttribute("error", message);
-			return "home/update";
-		}
 
 		userService.saveOrUpdate(authorizedUser);
 		String[] codes = new String[] {"profile.updated" };

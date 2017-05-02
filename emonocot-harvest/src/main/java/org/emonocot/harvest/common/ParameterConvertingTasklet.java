@@ -20,70 +20,40 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
-/**
- *
- * @author Adrian Gonzalez
- */
 public class ParameterConvertingTasklet implements Tasklet {
 
-	private final Log logger = LogFactory
-			.getLog(ParameterConvertingTasklet.class);
+	private final Logger logger = LoggerFactory.getLogger(ParameterConvertingTasklet.class);
 
-	/**
-	 *
-	 */
 	private String fieldNames;
 
-	/**
-	 *
-	 */
 	public final void setFieldNames(final String fieldNames) {
 		this.fieldNames = fieldNames;
 	}
 
-	/**
-	 *
-	 */
 	private String defaultValues;
 
-	/**
-	 *
-	 */
 	private String fieldNamesKey;
 
-	/**
-	 *
-	 */
 	private String defaultValuesKey;
 
-	/**
-	 *
-	 */
 	public final void setFieldNamesKey(String fieldNamesKey) {
 		this.fieldNamesKey = fieldNamesKey;
 	}
 
-	/**
-	 *
-	 */
 	public final void setDefaultValuesKey(String defaultValuesKey) {
 		this.defaultValuesKey = defaultValuesKey;
 	}
 
-	/**
-	 *
-	 */
 	public final void setDefaultValues(final String defaultValues) {
 		this.defaultValues = defaultValues;
 	}
-
 
 	public final RepeatStatus execute(final StepContribution contribution,
 			final ChunkContext chunkContext) throws Exception {

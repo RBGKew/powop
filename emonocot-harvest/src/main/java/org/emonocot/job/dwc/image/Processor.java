@@ -30,6 +30,7 @@ import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -70,7 +71,7 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 	 * @param images the list of images to write
 	 */
 	public final void beforeWrite(final List<? extends Image> images) {
-		logger.info("Before Write");
+		logger.debug("Before Write");
 
 		Comparator<Taxon> comparator = new RankBasedTaxonComparator();
 		for (Image image : images) {
@@ -182,5 +183,14 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 			return false;
 		}
 	}
+
+	@Override
+	public void beforeChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 
 }

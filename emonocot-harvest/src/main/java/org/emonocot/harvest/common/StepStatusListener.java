@@ -27,14 +27,8 @@ public class StepStatusListener implements StepExecutionListener {
 
 	private JobStatusNotifier jobStatusNotifier;
 
-	private String baseUrl;
-
 	public void setJobStatusNotifier(JobStatusNotifier jobStatusNotifier) {
 		this.jobStatusNotifier = jobStatusNotifier;
-	}
-
-	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
 	}
 
 	@Override
@@ -45,11 +39,10 @@ public class StepStatusListener implements StepExecutionListener {
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
 		JobExecution jobExecution = stepExecution.getJobExecution();
-		if (jobExecution.getJobInstance().getJobParameters().getString("resource.identifier") != null) {
-			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution, baseUrl);
+		if (jobExecution.getJobParameters().getString("resource.identifier") != null) {
+			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution);
 			jobStatusNotifier.notify(jobExecutionInfo);
 		}
 		return null;
 	}
-
 }

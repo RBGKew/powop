@@ -45,8 +45,8 @@ public class SolrOptimizingTasklet implements Tasklet {
 		this.maxSegments = maxSegments;
 	}
 
-	public void setSolrServer(SolrClient solrServer) {
-		this.solrClient = solrServer;
+	public void setSolrClient(SolrClient solrClient) {
+		this.solrClient = solrClient;
 	}
 
 	@SuppressWarnings("unchecked")

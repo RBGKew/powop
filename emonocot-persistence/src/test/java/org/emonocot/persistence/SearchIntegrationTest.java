@@ -19,14 +19,9 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
-import org.emonocot.model.SearchableObject;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
@@ -55,71 +50,44 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 
 	@Override
 	public final void setUpTestData() {
-		Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null,
-				null, null, null, null, new Location[] {}, null);
-		createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
-		Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null,
-				null, null, null, null, null,
-				new Location[] {Location.AUSTRALASIA,
-						Location.BRAZIL, Location.CARIBBEAN }, null);
-		Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, null, null,
-				null, null, null, null, null,
-				new Location[] {Location.NEW_ZEALAND }, null);
-		createTaxon("Aus deus", "4", null, taxon2, "Aaceae", null, null, null,
-				null, null, null, new Location[] {}, null);
-		createTaxon("Aus eus", "5", null, taxon3, null, null, null, null, null,
-				null, null, new Location[] {}, null);
-		createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null,
-				null, null, new Location[] {Location.NSW}, null);
-		createTaxon(null, "6", null, null, null, null, null, null, null,
-				null, null, new Location[] {}, null);
+		Taxon taxon1 = createTaxon("Aus", "1", null, null, "Aaceae", null, null, null, null, null, null, new Location[] {}, null); createDescription(taxon1, DescriptionType.habitat, "Lorem ipsum", null);
+		Taxon taxon2 = createTaxon("Aus bus", "2", taxon1, null, "Aaceae", null, null, null, null, null, null, new Location[] {Location.AUSTRALASIA, Location.BRAZIL, Location.CARIBBEAN }, null);
+		Taxon taxon3 = createTaxon("Aus ceus", "3", taxon1, null, "Aaceae", null, null, null, null, null, null, new Location[] {Location.NEW_ZEALAND }, null);
+		createTaxon("Aus deus", "4", null, taxon2, "Aaceae", null, null, null, null, null, null, new Location[] {}, null);
+		createTaxon("Aus eus", "5", null, taxon3, null, null, null, null, null, null, null, new Location[] {}, null);
+		createTaxon("Alania", "urn:kew.org:wcs:taxon:294463", null, null, null, null, null, null, null, null, null, new Location[] {Location.NSW}, null);
+		createTaxon(null, "6", null, null, null, null, null, null, null, null, null, new Location[] {}, null);
 	}
 
 	@Test
 	public final void testSearch() throws Exception {
-		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();
+		SolrQuery query = new QueryBuilder().addParam("any", "Aus").build();
 		QueryResponse results = getSearchableObjectDao().search(query);
-		assertEquals("There should be 5 taxa matching Aus", 5, results.getResults().size());
-	}
-
-	@Test
-	public final void testNomenclaturalStatus() {
-		Taxon taxon = getTaxonDao().find("1");
-		assertEquals("The nomenclaturalStatus must be null", null, taxon.getNomenclaturalStatus());
-	}
-
-	@Test
-	public final void testFacetsReturned() throws SolrServerException, IOException {
-		SolrQuery query = new QueryBuilder().addParam("main.query", "Aus").build();
-		QueryResponse results = getSearchableObjectDao().search(query);
-		Map<String, Integer> facets = results.getFacetQuery();
-		assertEquals("The Facet Count for accepted names should be 2", new Integer(2), facets.get("accepted_names"));
-		assertEquals("The Facet Count for images should be 0", new Integer(0), facets.get("has_images"));
+		assertEquals("There should be 1 taxa matching Aus", 1, results.getResults().size());
 	}
 
 	@Test
 	public final void testRestrictedSearch() throws Exception {
 		SolrQuery query = new QueryBuilder()
-				.addParam("taxon.distribution_t", Location.AUSTRALASIA.getName())
-				.addParam("taxon.scientific_name", "Aus").build();
+				.addParam("location", Location.AUSTRALASIA.getName())
+				.addParam("family", "Aaceae").build();
 
 		QueryResponse results = getSearchableObjectDao().search(query);
-		assertEquals("There should be 2 taxa matching Aus found in AUSTRALASIA", 2, results.getResults().size());
+		assertEquals("There should be 2 taxa matching Aaceae found in AUSTRALASIA", 2, results.getResults().size());
 	}
 
 	@Test
 	public final void testSearchByHigherName() throws Exception {
-		SolrQuery query = new QueryBuilder().addParam("taxon.family", "Aaceae").build();
+		SolrQuery query = new QueryBuilder().addParam("family", "Aaceae").build();
 		QueryResponse results = searchableObjectDao.search(query);
 
-		assertEquals("There should be 3 results", 3, results.getResults().size());
+		assertEquals("There should be 4 results", 4, results.getResults().size());
 	}
 
 	@Test
 	public final void testSearchBySynonym() throws Exception {
-		SolrQuery query = new QueryBuilder().addParam("main.query", "deus").build();
+		SolrQuery query = new QueryBuilder().addParam("any", "Aus deus").build();
 		QueryResponse results = searchableObjectDao.search(query);
-		//assertEquals("The first result ID should be 2", "2", results.getResponse().get(0).getIdentifier());	
 		assertEquals("There should be 2 results, the synonym and accepted name", 2, results.getResults().size());
 	}
 
@@ -131,8 +99,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 		Taxon example = new Taxon();
 		example.setFamily("Aaceae");
 		Page<Taxon> results = getTaxonDao().searchByExample(example, false, false);
-		assertEquals("There should be 3 results", new Integer(3), results.getSize());
-
+		assertEquals("There should be 4 results", new Integer(4), results.getSize());
 	}
 
 	/**
@@ -141,7 +108,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	 */
 	@Test
 	public final void testSearchWithNulls() throws Exception {
-		SolrQuery query = new QueryBuilder().addParam("main.query", "").build();
+		SolrQuery query = new QueryBuilder().addParam("any", "").build();
 		QueryResponse results = searchableObjectDao.search(query);
 
 		assertEquals("There should be 7 results", 7, results.getResults().size());
@@ -155,7 +122,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	@Test
 	public final void testLeadingWhitespace() {
 		boolean exceptionThrown = false;
-		SolrQuery query = new QueryBuilder().addParam("main.query", "              Aus bus").build();
+		SolrQuery query = new QueryBuilder().addParam("any", "              Aus bus").build();
 		try {
 			getSearchableObjectDao().search(query);
 		} catch(Exception e) {

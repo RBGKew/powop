@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -50,6 +51,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author ben
  *
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"/META-INF/spring/batch/jobs/calculateDerived.xml",

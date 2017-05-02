@@ -25,7 +25,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -33,11 +33,6 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
 
-/**
- *
- * @author ben
- *
- */
 public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implements StepExecutionListener {
 
 	private TransactionTemplate transactionTemplate = null;
@@ -52,13 +47,10 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implem
 		this.sourceName = newSourceName;
 	}
 
-	public final void setTransactionManager(
-			final PlatformTransactionManager transactionManager) {
-		Assert.notNull(transactionManager,
-				"The 'transactionManager' argument must not be null.");
+	public final void setTransactionManager(final PlatformTransactionManager transactionManager) {
+		Assert.notNull(transactionManager, "The 'transactionManager' argument must not be null.");
 		this.transactionTemplate = new TransactionTemplate(transactionManager);
-		this.transactionTemplate
-		.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+		this.transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 	}
 
 	/**
@@ -67,8 +59,7 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implem
 	 */
 	protected Organisation getSource() {
 		if (source == null) {
-			Criteria criteria = getSession().createCriteria(Organisation.class).add(
-					Restrictions.eq("identifier", sourceName));
+			Criteria criteria = currentSession().createCriteria(Organisation.class).add(Restrictions.eq("identifier", sourceName));
 
 			source = (Organisation) criteria.uniqueResult();
 		}
@@ -84,7 +75,7 @@ public abstract class AbstractRecordAnnotator extends HibernateDaoSupport implem
 			transactionTemplate.execute(new TransactionCallback() {
 				public Serializable doInTransaction(
 						final TransactionStatus status) {
-					return getSession().save(annotation);
+					return currentSession().save(annotation);
 				}
 			});
 		} catch (Throwable t) {

@@ -46,6 +46,8 @@ import org.hibernate.validator.constraints.URL;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
+
 /**
  * Class that represents the authority an object is harvested from.
  *
@@ -59,12 +61,16 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 
 	private Long id;
 
+	@Email
 	private String creatorEmail;
 
+	@Length(max = 1431655761)
 	private String description;
 
+	@NotEmpty
 	private String abbreviation;
 
+	@URL
 	private String logoUrl;
 
 	private Integer footerLogoPosition;
@@ -75,6 +81,7 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 
 	private String subject;
 
+	@NotEmpty
 	private String title;
 
 	private String bibliographicCitation;
@@ -120,7 +127,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 	/**
 	 * @param newCreatorEmail the creatorEmail to set
 	 */
-	@Email
 	public void setCreatorEmail(String newCreatorEmail) {
 		this.creatorEmail = newCreatorEmail;
 	}
@@ -129,7 +135,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 	 * @return the description
 	 */
 	@Lob
-	@Length(max = 1431655761)
 	public String getDescription() {
 		return description;
 	}
@@ -144,7 +149,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 	/**
 	 * @return the logoUrl
 	 */
-	@URL
 	public String getLogoUrl() {
 		return logoUrl;
 	}
@@ -215,7 +219,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 	/**
 	 * @return the title
 	 */
-	@NotEmpty
 	public String getTitle() {
 		return title;
 	}
@@ -301,7 +304,6 @@ public class Organisation extends BaseData implements Comparable<Organisation>, 
 	/**
 	 * @param commentsEmailedTo the commentsEmailedTo to set
 	 */
-	@NotBlank
 	public void setCommentsEmailedTo(String commentsEmailedTo) {
 		this.commentsEmailedTo = commentsEmailedTo;
 	}

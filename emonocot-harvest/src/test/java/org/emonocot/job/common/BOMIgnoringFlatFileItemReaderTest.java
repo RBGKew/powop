@@ -37,7 +37,7 @@ public class BOMIgnoringFlatFileItemReaderTest {
 	@Before
 	public void setUp() throws Exception {
 		DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-		lineTokenizer.setDelimiter('\t');
+		lineTokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		lineTokenizer.setNames(new String[] {"foo","bar"});
 		lineTokenizer.setStrict(false);
 

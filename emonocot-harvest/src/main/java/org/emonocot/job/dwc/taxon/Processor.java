@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -67,7 +68,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	 * @return Taxon a taxon object
 	 */
 	public Taxon doProcess(Taxon t) throws Exception {
-		logger.info("Processing " + t.getIdentifier());
+		logger.debug("Processing " + t.getIdentifier());
 
 		if (t.getIdentifier() == null) {
 			throw new NoIdentifierException(t);
@@ -88,7 +89,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			Annotation annotation = createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
 			t.getAnnotations().add(annotation);
 			t.setAuthority(getSource());
-			logger.info("Adding taxon " + t);
+			logger.debug("Adding taxon " + t);
 			return t;
 		} else if(boundTaxa.containsKey(t.getIdentifier())) {
 			logger.error(t.getIdentifier() + " was found earlier in this archive");
@@ -141,7 +142,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 			}
-			logger.info("Overwriting taxon " + persisted);
+			logger.debug("Overwriting taxon " + persisted);
 			return persisted;
 
 		}
@@ -180,7 +181,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 	private Taxon resolveTaxon(String identifier, String scientificName) {
 		if (boundTaxa.containsKey(identifier)) {
-			logger.info("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
+			logger.debug("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
 			return boundTaxa.get(identifier);
 		} else {
 			Taxon taxon = getTaxonService().find(identifier);
@@ -192,10 +193,10 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				taxon.setAuthority(getSource());
 				taxon.setIdentifier(identifier);
 				taxon.setScientificName(scientificName);
-				logger.info("Didn't find taxon " + scientificName + " with identifier " + identifier + " from service returning new taxon");
+				logger.debug("Didn't find taxon " + scientificName + " with identifier " + identifier + " from service returning new taxon");
 				bindTaxon(taxon);
 			} else {
-				logger.info("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
+				logger.debug("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
 				bindTaxon(taxon);
 			}
 			return taxon;
@@ -240,7 +241,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 	@Override
 	public void beforeWrite(List<? extends Taxon> items) {
-		logger.info("Before Write");
+		logger.debug("Before Write");
 		for (TaxonRelationship taxonRelationship : taxonRelationships) {
 			Taxon to = resolveTaxon(taxonRelationship.getToIdentifier(), taxonRelationship.getToScientificName());
 			Taxon from = taxonRelationship.getFrom();
@@ -259,12 +260,17 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	}
 
 	@Override
-	public void afterWrite(List<? extends Taxon> items) {
-
-	}
+	public void afterWrite(List<? extends Taxon> items) { }
 
 	@Override
-	public void onWriteError(Exception exception, List<? extends Taxon> items) {
+	public void onWriteError(Exception exception, List<? extends Taxon> items) { }
 
-	}
+	@Override
+	public void beforeChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunk(ChunkContext context) { }
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

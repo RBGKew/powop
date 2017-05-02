@@ -39,9 +39,12 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.constants.RecordType;
+import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
+import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -57,12 +60,12 @@ public abstract class DataManagementSupport {
 	/**
 	 * A list of objects in the order they were created.
 	 */
-	private List<Object> setUp = new ArrayList<Object>();
+	protected List<Object> setUp = new ArrayList<Object>();
 
 	/**
 	 * A stack of objects.
 	 */
-	private Stack<Object> tearDown = new Stack<Object>();
+	protected Stack<Object> tearDown = new Stack<Object>();
 
 
 	/**
@@ -244,7 +247,7 @@ public abstract class DataManagementSupport {
 
 		if (accepted != null) {
 			taxon.setAcceptedNameUsage(accepted);
-			taxon.setTaxonomicStatus(TaxonomicStatus.Accepted);
+			taxon.setTaxonomicStatus(TaxonomicStatus.Synonym);
 			accepted.getSynonymNameUsages().add(taxon);
 		}
 
@@ -328,9 +331,8 @@ public abstract class DataManagementSupport {
 	 *            Set the job instance
 	 * @return a job execution
 	 */
-	public JobExecution createJobExecution(
-			JobInstance jobInstance) {
-		JobExecution jobExecution = new JobExecution(jobInstance);
+	public JobExecution createJobExecution(JobInstance jobInstance, Map<String, JobParameter> jobParameters) {
+		JobExecution jobExecution = new JobExecution(jobInstance, new JobParameters(jobParameters));
 		setUp.add(jobExecution);
 		tearDown.push(jobExecution);
 		return jobExecution;
@@ -346,11 +348,8 @@ public abstract class DataManagementSupport {
 	 *            set the job name
 	 * @return a job instance
 	 */
-	public JobInstance createJobInstance(Long id,
-			Map<String, JobParameter> jobParameters,
-			String jobName) {
-		JobInstance jobInstance = new JobInstance(id, new JobParameters(
-				jobParameters), jobName);
+	public JobInstance createJobInstance(Long id, String jobName) {
+		JobInstance jobInstance = new JobInstance(id, jobName);
 		setUp.add(jobInstance);
 		tearDown.push(jobInstance);
 		return jobInstance;
@@ -365,6 +364,7 @@ public abstract class DataManagementSupport {
 	public Organisation createSource(String identifier, String uri, String title, String commentsEmailedTo) {
 		Organisation source = new Organisation();
 		source.setIdentifier(identifier);
+		source.setAbbreviation(identifier);
 		source.setTitle(title);
 		source.setCommentsEmailedTo(commentsEmailedTo);
 		source.setUri(uri);
@@ -372,7 +372,6 @@ public abstract class DataManagementSupport {
 		tearDown.push(source);
 		return source;
 	}
-
 
 	/**
 	 * @param identifier
@@ -392,4 +391,17 @@ public abstract class DataManagementSupport {
 
 	}
 
+	public Resource createResource(Organisation org, String identifier, String url) {
+		Resource resource = new Resource();
+		resource.setOrganisation(org);
+		resource.setBaseUrl(url);
+		resource.setIdentifier(identifier);
+		resource.setTitle(identifier);
+		resource.setResourceType(ResourceType.DwC_Archive);
+		resource.setLastHarvested(new DateTime(2010, 11, 1, 9, 0, 0, 0));
+		setUp.add(resource);
+		tearDown.push(resource);
+
+		return resource;
+	}
 }
