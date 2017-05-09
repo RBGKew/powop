@@ -79,8 +79,6 @@ public class Image extends Multimedia {
 
 	private Set<Taxon> taxa = new HashSet<Taxon>();
 
-	private List<Comment> comments = new ArrayList<>();
-
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
 	private String associatedObservationReference;
@@ -206,27 +204,6 @@ public class Image extends Multimedia {
 	@Override
 	public void setAnnotations(Set<Annotation> annotations) {
 		this.annotations = annotations;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.emonocot.model.Multimedia#getComments()
-	 */
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "commentPage_id")
-	@OrderBy("created DESC")
-	@Where(clause = "commentPage_type = 'Image'")
-	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	/**
-	 * @param comments - Comments made about this image
-	 */
-	@JsonIgnore
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public String getAssociatedObservationReference() {

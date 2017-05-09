@@ -829,8 +829,8 @@
     <property name="arguments">
       <list>
         <value>#{jobParameters['authority.uri']}</value>
-        <value>#{jobParameters['authority.last.harvested']}</value>
         <value>#{jobExecutionContext['temporary.file.name']}</value>
+        <value>#{jobParameters['authority.last.harvested']}</value>
       </list>
     </property>
   </bean>

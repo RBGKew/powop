@@ -99,7 +99,7 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 		Taxon example = new Taxon();
 		example.setFamily("Aaceae");
 		Page<Taxon> results = getTaxonDao().searchByExample(example, false, false);
-		assertEquals("There should be 4 results", new Integer(4), results.getSize());
+		assertEquals("There should be 4 results", new Integer(4), results.getTotalResults());
 	}
 
 	/**

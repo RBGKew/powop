@@ -41,7 +41,7 @@ public class IndexController {
 	@Autowired
 	DescriptionService descriptionService;
 
-	@RequestMapping(method = RequestMethod.GET,produces = "text/html")
+	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String index(Model model) {
 		model.addAttribute("names", format(taxonService.count(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));

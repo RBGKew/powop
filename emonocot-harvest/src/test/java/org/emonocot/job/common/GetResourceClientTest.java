@@ -95,8 +95,8 @@ public class GetResourceClientTest {
 
 		ExitStatus exitStatus = getResourceClient
 				.getResource(testzip,
-						Long.toString(new Date().getTime()),
-						tempFile.getAbsolutePath());
+						tempFile.getAbsolutePath(),
+						Long.toString(new Date().getTime()));
 
 		EasyMock.verify(httpClient);
 
@@ -124,8 +124,8 @@ public class GetResourceClientTest {
 
 		ExitStatus exitStatus = getResourceClient
 				.getResource(testzip,
-						Long.toString(new Date().getTime()),
-						tempFile.getAbsolutePath());
+						tempFile.getAbsolutePath(),
+						Long.toString(new Date().getTime()));
 
 		EasyMock.verify(httpClient);
 
@@ -153,8 +153,8 @@ public class GetResourceClientTest {
 
 		ExitStatus exitStatus = getResourceClient
 				.getResource(testzip,
-						Long.toString(new Date().getTime()),
-						tempFile.getAbsolutePath());
+						tempFile.getAbsolutePath(),
+						Long.toString(new Date().getTime()));
 
 		EasyMock.verify(httpClient);
 

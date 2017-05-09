@@ -32,7 +32,6 @@ public class OrganisationDaoImpl extends SearchableDaoImpl<Organisation> impleme
 	static {
 		FETCH_PROFILES = new HashMap<String, Fetch[]>();
 		FETCH_PROFILES.put("source-with-jobs", new Fetch[] {
-				new Fetch("jobs", FetchMode.SELECT),
 				new Fetch("resources", FetchMode.SELECT)});
 	}
 

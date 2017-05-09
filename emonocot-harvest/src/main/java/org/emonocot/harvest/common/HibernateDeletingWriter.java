@@ -43,14 +43,14 @@ ItemWriter<T> {
 				//Check all taxa?!?
 				Taxon example = new Taxon();
 				example.setNamePublishedIn((Reference) t);
-				List<Taxon> linkedTaxa = taxonService.searchByExample(example, false, false).getRecords();
+				List<Taxon> linkedTaxa = taxonService.searchByExample(example, false, false).getResults();
 				for (Taxon taxon : linkedTaxa) {
 					taxon.setNamePublishedIn(null);
 					getHibernateTemplate().saveOrUpdate(taxon);
 				}
 				example = new Taxon();
 				example.setNameAccordingTo((Reference) t);
-				linkedTaxa = taxonService.searchByExample(example, false, false).getRecords();
+				linkedTaxa = taxonService.searchByExample(example, false, false).getResults();
 				for (Taxon taxon : linkedTaxa) {
 					taxon.setNameAccordingTo(null);
 					getHibernateTemplate().saveOrUpdate(taxon);

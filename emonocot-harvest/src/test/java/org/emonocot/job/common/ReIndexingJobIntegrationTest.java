@@ -20,9 +20,11 @@ import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.factories.JobConfigurationFactory;
+import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.AbstractPersistenceTest;
+import org.emonocot.service.impl.JobConfigurationService;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;
@@ -43,6 +45,8 @@ public class ReIndexingJobIntegrationTest extends AbstractPersistenceTest {
 	@Autowired
 	private JobLauncher jobLauncher;
 
+	@Autowired
+	private JobConfigurationService service;
 	@Before
 	public void setUp() throws Exception {
 		Organisation source = createSource("test", "http://test.org", "test", null);
@@ -58,6 +62,8 @@ public class ReIndexingJobIntegrationTest extends AbstractPersistenceTest {
 
 	@Test
 	public final void testNotModifiedResponse() throws Exception, JobExecutionException {
-		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.reIndexTaxa()));
+		JobConfiguration conf = JobConfigurationFactory.reIndexTaxa();
+		service.save(conf);
+		jobLauncher.launch(new JobLaunchRequest(conf));
 	}
 }

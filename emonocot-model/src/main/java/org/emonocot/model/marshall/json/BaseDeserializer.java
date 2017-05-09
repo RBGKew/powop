@@ -22,54 +22,29 @@ import org.emonocot.api.Service;
 import org.emonocot.model.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-/**
- *
- * @author ben
- *
- * @param <T>
- */
-public abstract class BaseDeserializer<T extends Base> extends
-JsonDeserializer<T> {
+public abstract class BaseDeserializer<T extends Base> extends JsonDeserializer<T> {
 
 	private static Logger logger = LoggerFactory.getLogger(BaseDeserializer.class);
 
-	/**
-	 *
-	 */
 	protected Service<T> service;
 
-	/**
-	 *
-	 */
 	protected Class<T> type;
 
-	/**
-	 *
-	 * @param newType Set the type
-	 */
 	public BaseDeserializer(final Class<T> newType) {
 		type = newType;
 	}
 
-	/**
-	 *
-	 * @param newService
-	 *            Set the service
-	 */
 	public final void setService(final Service<T> newService) {
 		this.service = newService;
 	}
 
 	@Override
-	public T deserialize(final JsonParser jsonParser,
-			final DeserializationContext deserializationContext)
-					throws IOException {
+	public T deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException {
 		String identifier = jsonParser.getText();
 		/**
 		 * Hack for now should allow client side to
@@ -85,11 +60,9 @@ JsonDeserializer<T> {
 				t.setIdentifier(identifier);
 				return t;
 			} catch (InstantiationException ie) {
-				throw new JsonParseException(ie.getMessage(),
-						jsonParser.getCurrentLocation());
+				throw new JsonParseException(jsonParser, ie.getMessage(), jsonParser.getCurrentLocation());
 			} catch (IllegalAccessException iae) {
-				throw new JsonParseException(iae.getMessage(),
-						jsonParser.getCurrentLocation());
+				throw new JsonParseException(jsonParser, iae.getMessage(), jsonParser.getCurrentLocation());
 			}
 		}
 	}

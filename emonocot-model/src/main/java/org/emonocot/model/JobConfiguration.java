@@ -31,6 +31,8 @@ public class JobConfiguration {
 
 	private String jobName;
 
+	private Long lastJobExecution;
+
 	private String description;
 
 	@Singular

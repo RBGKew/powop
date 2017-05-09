@@ -16,14 +16,11 @@
  */
 package org.emonocot.harvest.common;
 
-import org.emonocot.api.ResourceService;
-
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
-import org.emonocot.model.registry.Resource;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.emonocot.model.JobConfiguration;
+import org.emonocot.service.impl.JobConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -35,86 +32,27 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 
 	private static Logger logger = LoggerFactory.getLogger(JobStatusNotifierImpl.class);
 
-	private ResourceService service;
-
 	@Autowired
-	public final void setResourceService(final ResourceService resourceService) {
-		this.service = resourceService;
-	}
+	private JobConfigurationService service;
 
 	public final void notify(final JobExecutionInfo jobExecutionInfo) {
-		logger.debug("In notify: job {}, resourceIdentifier: {}", jobExecutionInfo.getId(), jobExecutionInfo.getResourceIdentifier());
+		logger.debug("In notify: job {}, jobconfiguration id: {}", jobExecutionInfo.getId(), jobExecutionInfo.getJobConfigurationId());
 
-		Resource resource = service.find(jobExecutionInfo.getResourceIdentifier(),"job-with-source");
-		if (resource != null) {
-			logger.debug("updating resource: " + resource.getId());
-			resource.setDuration(new Duration(new DateTime(0), jobExecutionInfo.getDuration()));
-			resource.setExitCode(jobExecutionInfo.getExitCode());
-			resource.setExitDescription(jobExecutionInfo.getExitDescription());
-			if (jobExecutionInfo.getJobInstance() != null) {
-				resource.setJobInstance(jobExecutionInfo.getJobInstance());
-			}
-			resource.setJobId(jobExecutionInfo.getId());
-			resource.setResource(jobExecutionInfo.getResource());
-			resource.setStartTime(jobExecutionInfo.getStartTime());
-			resource.setStatus(jobExecutionInfo.getStatus());
-			resource.setProcessSkip(jobExecutionInfo.getProcessSkip());
-			resource.setRecordsRead(jobExecutionInfo.getRecordsRead());
-			resource.setReadSkip(jobExecutionInfo.getReadSkip());
-			resource.setWriteSkip(jobExecutionInfo.getWriteSkip());
-			resource.setWritten(jobExecutionInfo.getWritten());
-			switch(resource.getStatus()) {
-			case COMPLETED:
-				if(resource.getExitCode().equals("COMPLETED")) {
-					resource.setLastHarvestedJobId(jobExecutionInfo.getId());
-					resource.setLastHarvested(jobExecutionInfo.getStartTime());
-					resource.updateNextAvailableDate();
-				} else if(resource.getExitCode().equals("NOT_MODIFIED")) {
-					// it is NOT_MODIFIED, so leave the job id as it is, because
-					// we don't have any new annotations
-					resource.setLastHarvested(jobExecutionInfo.getStartTime());
-					resource.updateNextAvailableDate();
-				} else if(resource.getExitCode().equals("FAILED")) {
-					// The Job failed in a (slightly) controlled manner, but it still failed
-					resource.setNextAvailableDate(null);
-					resource.setLastHarvestedJobId(jobExecutionInfo.getId());
-				}
-
-				break;
-			case FAILED:
-				// It completed on its own, but some part failed
-			case ABANDONED:
-				// It has been stopped and abandoned manually, and will not be restarted
-				resource.setNextAvailableDate(null);
-				resource.setJobId(jobExecutionInfo.getId());
-				break;
-			case STOPPED:
-			default:
-			}
-			
-			logger.debug("Resource after job: {}", resource.toString());
-			service.saveOrUpdate(resource);
+		JobConfiguration job = service.get(Long.parseLong(jobExecutionInfo.getJobConfigurationId()));
+		if (job != null) {
+			logger.debug("updating jobconfiguration: " + job.getId());
+			job.setJobStatus(jobExecutionInfo.getStatus());
+			job.setLastJobExecution(jobExecutionInfo.getId());
+			service.saveOrUpdate(job);
 		}
 	}
 
 	@Override
-	public void notify(JobExecutionException jobExecutionException, String resourceIdentifier) {
-		if(resourceIdentifier != null) {
-			Resource resource = service.find(resourceIdentifier,"job-with-source");
-			resource.setJobId(null);
-			resource.setDuration(null);
-			resource.setExitCode("FAILED");
-			resource.setExitDescription(jobExecutionException.getLocalizedMessage());
-			resource.setJobInstance(null);
-			resource.setResource(null);
-			resource.setStartTime(null);
-			resource.setStatus(BatchStatus.FAILED);
-			resource.setProcessSkip(0);
-			resource.setRecordsRead(0);
-			resource.setReadSkip(0);
-			resource.setWriteSkip(0);
-			resource.setWritten(0);
-			service.saveOrUpdate(resource);
+	public void notify(JobExecutionException jobExecutionException, String jobConfigurationId) {
+		if(jobConfigurationId != null) {
+			JobConfiguration job = service.get(Long.parseLong(jobConfigurationId));
+			job.setJobStatus(BatchStatus.FAILED);
+			service.saveOrUpdate(job);
 		}
 	}
 }

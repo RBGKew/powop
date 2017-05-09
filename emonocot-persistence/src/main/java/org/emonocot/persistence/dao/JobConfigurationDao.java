@@ -26,7 +26,15 @@ public class JobConfigurationDao {
 		session().save(conf);
 	}
 
-	public JobConfiguration load(long id) {
-		return session().load(JobConfiguration.class, id);
+	public void saveOrUpdate(JobConfiguration conf) {
+		session().saveOrUpdate(conf);
+	}
+
+	public JobConfiguration get(long id) {
+		return session().get(JobConfiguration.class, id);
+	}
+
+	public void refresh(JobConfiguration conf) {
+		session().refresh(conf);
 	}
 }

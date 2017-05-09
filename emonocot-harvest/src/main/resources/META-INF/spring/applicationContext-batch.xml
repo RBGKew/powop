@@ -58,9 +58,7 @@
 
   <bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
 
-  <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener">
-    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-  </bean>
+  <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener"/>
 
   <bean id="compositeJobListener" class="org.emonocot.harvest.common.CompositeJobStatusListener">
     <property name="jobListeners">
@@ -75,7 +73,5 @@
     <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
   </bean>
 
-  <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
-    <property name="resourceService" ref="resourceServiceImpl"/>
-  </bean>
+  <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl"/>
 </beans>

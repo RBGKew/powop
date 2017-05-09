@@ -76,7 +76,7 @@ public class JobLauncherImpl implements JobLauncher {
 				| JobRestartException
 				| JobInstanceAlreadyCompleteException
 				| JobParametersInvalidException exception) {
-				jobStatusNotifier.notify(new JobExecutionException(exception.getLocalizedMessage()), request.getParameters().get("resource.identifier"));
+				jobStatusNotifier.notify(new JobExecutionException(exception.getLocalizedMessage()), request.getParameters().get("job.configuration.id"));
 		}
 	}
 }

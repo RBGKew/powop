@@ -16,20 +16,15 @@
  */
 package org.emonocot.model.marshall.json;
 
+import org.emonocot.api.OrganisationService;
 import org.emonocot.model.registry.Organisation;
+import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class OrganisationDeserialiser extends BaseDeserializer<Organisation> {
 
-	/**
-	 *
-	 */
-	public OrganisationDeserialiser() {
+	public OrganisationDeserialiser(@Autowired OrganisationService service) {
 		super(Organisation.class);
+		setService(service);
 	}
 
 }

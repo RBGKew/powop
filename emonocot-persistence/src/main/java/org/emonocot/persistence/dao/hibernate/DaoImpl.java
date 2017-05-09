@@ -102,6 +102,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 			for (Fetch f : fetchDefs) {
 				if (f.getMode().equals(FetchMode.SELECT)) {
 					String association = f.getAssociation();
+					logger.warn("Setting fetch mode to SELECT for {}", association);
 					if (association.indexOf(".") == -1) {
 						initializeProperty(t, f.getAssociation());
 					} else {
@@ -159,9 +160,9 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		if (object == null) {
 			return null;
 		} else if (object instanceof HibernateProxy) {
+			logger.warn("Initializing {}.{}", object.getClass().getName(), association);
 			((HibernateProxy) object).getHibernateLazyInitializer().initialize();
-			LazyInitializer lazyInitializer = ((HibernateProxy) object)
-					.getHibernateLazyInitializer();
+			LazyInitializer lazyInitializer = ((HibernateProxy) object).getHibernateLazyInitializer();
 			return lazyInitializer.getImplementation();
 		} else if (object instanceof PersistentCollection) {
 			((PersistentCollection) object).forceInitialization();

@@ -54,6 +54,8 @@ import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
+import com.google.common.base.Strings;
+
 public class GetResourceClient {
 
 	static final int BUFFER = 2048;
@@ -124,20 +126,20 @@ public class GetResourceClient {
 	 * If the resource has been modified, the client will save the response in a
 	 * document specified in temporaryFileName and will an ExitStatus with an
 	 * exit code 'COMPLETE'.
-	 *
-	 * @param authorityName
-	 *            The name of the Source being harvested.
 	 * @param resource
 	 *            The endpoint (uri) being harvested.
-	 * @param ifModifiedSince
-	 *            The dateTime when this Source was last harvested.
 	 * @param temporaryFileName
 	 *            The name of the temporary file to store the response in
+	 * @param ifModifiedSince
+	 *            The dateTime when this Source was last harvested.
+	 * @param authorityName
+	 *            The name of the Source being harvested.
+	 *
 	 * @return An exit status indicating that the step was completed, failed, or
 	 *         if the Source responded with a 304 NOT MODIFIED response
 	 *         indicating that no records have been modified
 	 */
-	public final ExitStatus getResource(final String resource, final String ifModifiedSince, final String temporaryFileName) {
+	public final ExitStatus getResource(final String resource, final String temporaryFileName, final String ifModifiedSince) {
 		prepareHttpClient();
 		return getWithRetry(new RetryCallback<ExitStatus, Exception> () {
 
@@ -147,8 +149,10 @@ public class GetResourceClient {
 				OutputStreamWriter outputStreamWriter = null;
 
 				HttpGet httpGet = new HttpGet(resource);
-				httpGet.setHeader("If-Modified-Since", DateUtils
-						.formatDate(new Date(Long.parseLong(ifModifiedSince))));
+				if(!Strings.isNullOrEmpty(ifModifiedSince)) {
+					httpGet.setHeader("If-Modified-Since", DateUtils.formatDate(new Date(Long.parseLong(ifModifiedSince))));
+				}
+
 				try {
 					HttpResponse httpResponse = httpClient.execute(httpGet);
 
@@ -245,19 +249,17 @@ public class GetResourceClient {
 	 * document specified in temporaryFileName and will an ExitStatus with an
 	 * exit code 'COMPLETE'.
 	 *
-	 * @param authorityName
-	 *            The name of the Source being harvested.
 	 * @param resource
 	 *            The endpoint (uri) being harvested.
-	 * @param ifModifiedSince
-	 *            The dateTime when this Source was last harvested.
 	 * @param temporaryFileName
 	 *            The name of the temporary file to store the response in
+	 * @param ifModifiedSince
+	 *            The dateTime when this Source was last harvested.
 	 * @return An exit status indicating that the step was completed, failed, or
 	 *         if the Source responded with a 304 NOT MODIFIED response
 	 *         indicating that no records have been modified
 	 */
-	public final ExitStatus getBinaryResource(final String resource, final String ifModifiedSince, final String temporaryFileName) {
+	public final ExitStatus getBinaryResource(final String resource, final String temporaryFileName, final String ifModifiedSince) {
 		prepareHttpClient();
 		return getWithRetry(new RetryCallback<ExitStatus, Exception> () {
 
@@ -267,7 +269,10 @@ public class GetResourceClient {
 				BufferedOutputStream bufferedOutputStream = null;
 
 				HttpGet httpGet = new HttpGet(resource.replace(" ", "%20"));
-				httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils .formatDate(new Date(Long.parseLong(ifModifiedSince)))));
+				if(!Strings.isNullOrEmpty(ifModifiedSince)) {
+					httpGet.addHeader(new BasicHeader("If-Modified-Since", DateUtils.formatDate(new Date(Long.parseLong(ifModifiedSince)))));
+				}
+
 				try {
 					HttpResponse httpResponse = httpClient.execute(httpGet);
 
@@ -469,7 +474,7 @@ public class GetResourceClient {
 		retryTemplate.setBackOffPolicy(backOffPolicy);
 		retryTemplate.setRetryPolicy(retryPolicy);
 
-		try { 
+		try {
 			return retryTemplate.execute(callback);
 		} catch (Exception e) {
 			logger.error("Retry processing failed " + e.getMessage());

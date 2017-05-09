@@ -1,4 +1,4 @@
-package org.emonocot.portal.auth;
+package org.emonocot.harvest.auth;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

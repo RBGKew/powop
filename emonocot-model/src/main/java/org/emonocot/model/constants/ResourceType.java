@@ -16,11 +16,6 @@
  */
 package org.emonocot.model.constants;
 
-/**
- *
- * @author ben
- *
- */
 public enum ResourceType {
 	DwC_Archive("DarwinCoreArchiveHarvesting"),
 	IDENTIFICATION_KEY("IdentificationKeyHarvesting"),

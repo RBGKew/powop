@@ -80,6 +80,7 @@
         <constraints primaryKey="true"/>
       </column>
       <column name="jobName" type="varchar(255)"/>
+      <column name="lastJobExecution" type="bigint"/>
       <column name="jobStatus" type="varchar(255)"/>
       <column name="description" type="varchar(255)"/>
     </createTable>

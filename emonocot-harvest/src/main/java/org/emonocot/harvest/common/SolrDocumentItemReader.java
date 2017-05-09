@@ -77,7 +77,7 @@ public class SolrDocumentItemReader extends AbstractPagingItemReader<SolrDocumen
 		SolrQuery query = queryBuilder.build();
 		logger.debug(query.toString());
 		try {
-			results = searchableObjectService.searchForDocuments(query).getRecords();
+			results = searchableObjectService.searchForDocuments(query).getResults();
 			logger.debug(results.size());
 		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);

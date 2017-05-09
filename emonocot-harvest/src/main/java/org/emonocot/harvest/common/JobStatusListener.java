@@ -40,7 +40,7 @@ public class JobStatusListener extends JobExecutionListenerSupport {
 	}
 
 	private void notify(JobExecution jobExecution) {
-		if (jobExecution.getJobParameters().getString("resource.identifier") != null) {
+		if (jobExecution.getJobParameters().getString("job.configuration.id") != null) {
 			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution);
 			jobStatusNotifier.notify(jobExecutionInfo);
 		}

@@ -20,11 +20,9 @@
   <tx:annotation-driven />
   <task:annotation-driven />
 
-  <bean id="resourceServiceImpl" class="org.emonocot.service.impl.ResourceServiceImpl">
-    <property name="jobDao" ref="resourceDaoImpl"/>
-  </bean>
-
   <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
+  <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
 
   <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
     <property name="converters">
@@ -84,7 +82,6 @@
     <property name="annotatedClasses">
       <list>
         <value>org.emonocot.model.Annotation</value>
-        <value>org.emonocot.model.Comment</value>
         <value>org.emonocot.model.Concept</value>
         <value>org.emonocot.model.Description</value>
         <value>org.emonocot.model.Distribution</value>
@@ -141,14 +138,9 @@
 
   <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 
-  <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.common.NotifyingJobStatusListener">
-    <property name="resourceService" ref="resourceServiceImpl"/>
-    <property name="jobRepository" ref="jobRepository"/>
-  </bean>
+  <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.common.NotifyingJobStatusListener"/>
 
-  <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener">
-    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
-  </bean>
+  <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener" />
 
   <bean id="compositeJobListener" class="org.emonocot.harvest.common.CompositeJobStatusListener">
     <property name="jobListeners">
@@ -166,12 +158,5 @@
     <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
   </bean>
 
-  <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl">
-    <property name="resourceService" ref="resourceServiceImpl"/>
-  </bean>
-
-  <beans profile="default">
-    <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
-    <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
-  </beans>
+  <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl"/>
 </beans>

@@ -74,7 +74,6 @@
     <property name="annotatedClasses">
       <list>
         <value>org.emonocot.model.Annotation</value>
-        <value>org.emonocot.model.Comment</value>
         <value>org.emonocot.model.Concept</value>
         <value>org.emonocot.model.Description</value>
         <value>org.emonocot.model.Distribution</value>

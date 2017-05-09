@@ -16,11 +16,8 @@
  */
 package org.emonocot.model.registry;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -28,493 +25,61 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.emonocot.model.Base;
 import org.emonocot.model.constants.ResourceType;
-import org.emonocot.model.constants.SchedulingPeriod;
+import org.emonocot.model.marshall.json.OrganisationDeserialiser;
+import org.emonocot.model.marshall.json.OrganisationSerializer;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.springframework.batch.core.BatchStatus;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@ToString
+@Getter
+@Setter
+@ToString(exclude="organisation")
 public class Resource extends Base {
 
 	private static final long serialVersionUID = 5676965857186600965L;
 
+	@Id
+	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
 	private Long id;
 
+	@NotNull
+	@Enumerated(value = EnumType.STRING)
 	private ResourceType resourceType;
 
+	@NotEmpty(groups = ReadResource.class)
+	@URL
 	private String uri;
 
-	private DateTime lastHarvested;
+	@JsonSerialize(using = OrganisationSerializer.class)
+	@JsonDeserialize(using = OrganisationDeserialiser.class)
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Organisation organisation;
 
-	private DateTime lastAttempt;
-
-	private String resource;
+	@NotEmpty
+	private String title;
 
 	private Long jobId;
 
-	private BatchStatus status;
-
-	private DateTime startTime;
-
-	private String exitCode;
-
-	private Duration duration;
-
-	private String exitDescription;
-
-	private String jobInstance;
-
-	private Organisation organisation;
-
-	private String title;
-
-	private Boolean scheduled = Boolean.FALSE;
-
-	private SchedulingPeriod schedulingPeriod;
-
-	private DateTime nextAvailableDate;
-
-	private Integer recordsRead = 0;
-
-	private Integer readSkip = 0;
-
-	private Integer processSkip = 0;
-
-	private Integer writeSkip = 0;
-
-	private Integer written = 0;
-
-	private Map<String,String> parameters = new HashMap<String,String>();
-
-	private String baseUrl;
-
-	private Long lastHarvestedJobId;
+	@NaturalId
+	@NotEmpty
+	protected String identifier;
 
 	public Resource() {
 		setIdentifier(UUID.randomUUID().toString());
 	}
 
-	@NotEmpty
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @return the readSkip
-	 */
-	public Integer getReadSkip() {
-		return readSkip;
-	}
-
-	/**
-	 * @param readSkip
-	 *            the readSkip to set
-	 */
-	public void setReadSkip(Integer readSkip) {
-		this.readSkip = readSkip;
-	}
-
-	/**
-	 * @return the writeSkip
-	 */
-	public Integer getWriteSkip() {
-		return writeSkip;
-	}
-
-	/**
-	 * @param writeSkip
-	 *            the writeSkip to set
-	 */
-	public void setWriteSkip(Integer writeSkip) {
-		this.writeSkip = writeSkip;
-	}
-
-	/**
-	 *
-	 * @return The unique identifier of the object
-	 */
-	@NaturalId
-	@NotEmpty
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	/**
-	 *
-	 * @param identifier
-	 *            Set the unique identifier of the object
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	/**
-	 * @return the Id
-	 */
-	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @return the jobType
-	 */
-	@NotNull
-	@Enumerated(value = EnumType.STRING)
-	public ResourceType getResourceType() {
-		return resourceType;
-	}
-
-	/**
-	 * @param newJobType
-	 *            Set the job type
-	 */
-	public void setResourceType(ResourceType newJobType) {
-		this.resourceType = newJobType;
-	}
-
-	/**
-	 * @return the uri
-	 */
-	@NotEmpty(groups = ReadResource.class)
-	@URL
-	public String getUri() {
-		return uri;
-	}
-
-	/**
-	 * @param newUri
-	 *            Set the uri
-	 */
-	public void setUri(String newUri) {
-		this.uri = newUri;
-	}
-
-	/**
-	 * @return the last date the resource was last harvested
-	 */
-	@Type(type = "dateTimeUserType")
-	public DateTime getLastHarvested() {
-		return lastHarvested;
-	}
-
-	/**
-	 * @param newLastHarvested
-	 *            Set the date the resource was last harvested
-	 */
-	public void setLastHarvested(DateTime newLastHarvested) {
-		this.lastHarvested = newLastHarvested;
-	}
-
-	/**
-	 * @return the resource
-	 */
-	@URL
-	public String getResource() {
-		return resource;
-	}
-
-	/**
-	 * @param newResource
-	 *            Set the resource
-	 */
-	public void setResource(String newResource) {
-		this.resource = newResource;
-	}
-
-	/**
-	 * @return the jobId
-	 */
-	public Long getJobId() {
-		return jobId;
-	}
-
-	/**
-	 * @param newJobId
-	 *            the jobId to set
-	 */
-	public void setJobId(Long newJobId) {
-		this.jobId = newJobId;
-	}
-
-	/**
-	 * @return the status
-	 */
-	@Enumerated(value = EnumType.STRING)
-	public BatchStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param newStatus
-	 *            the status to set
-	 */
-	public void setStatus(BatchStatus newStatus) {
-		this.status = newStatus;
-	}
-
-	/**
-	 * @return the startTime
-	 */
-	@Type(type = "dateTimeUserType")
-	public DateTime getStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * @param newStartTime
-	 *            Set the start time
-	 */
-	public void setStartTime(DateTime newStartTime) {
-		this.startTime = newStartTime;
-	}
-
-	/**
-	 * @return the exit code
-	 */
-	public String getExitCode() {
-		return exitCode;
-	}
-
-	/**
-	 * @param newExitCode
-	 *            Set the exit status
-	 */
-	public void setExitCode(String newExitCode) {
-		this.exitCode = newExitCode;
-	}
-
-	/**
-	 * @return the duration
-	 */
-	@Type(type = "durationUserType")
-	public Duration getDuration() {
-		return duration;
-	}
-
-	/**
-	 * @param newDuration
-	 *            Set the duration
-	 */
-	public void setDuration(Duration newDuration) {
-		this.duration = newDuration;
-	}
-
-	/**
-	 * @return the exitDescription
-	 */
-	@Lob
-	@Length(max = 1431655761)
-	public String getExitDescription() {
-		return exitDescription;
-	}
-
-	/**
-	 * @param newExitDescription
-	 *            Set the exit description
-	 */
-	public void setExitDescription(String newExitDescription) {
-		this.exitDescription = newExitDescription;
-	}
-
-	/**
-	 * @return the jobInstance
-	 */
-	public String getJobInstance() {
-		return jobInstance;
-	}
-
-	/**
-	 * @param newJobInstance
-	 *            Set the job instance
-	 */
-	public void setJobInstance(String newJobInstance) {
-		this.jobInstance = newJobInstance;
-	}
-
-	/**
-	 * @return the source
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Organisation getOrganisation() {
-		return organisation;
-	}
-
-	/**
-	 * @param organisation
-	 *            the source to set
-	 */
-	public void setOrganisation(Organisation organisation) {
-		this.organisation = organisation;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the read
-	 */
-	public Integer getRecordsRead() {
-		return recordsRead;
-	}
-
-	/**
-	 * @param read
-	 *            the read to set
-	 */
-	public void setRecordsRead(Integer read) {
-		this.recordsRead = read;
-	}
-
-	/**
-	 * @return the processed
-	 */
-	public Integer getProcessSkip() {
-		return processSkip;
-	}
-
-	/**
-	 * @param processed
-	 *            the processed to set
-	 */
-	public void setProcessSkip(Integer processed) {
-		this.processSkip = processed;
-	}
-
-	/**
-	 * @return the written
-	 */
-	public Integer getWritten() {
-		return written;
-	}
-
-	/**
-	 * @param written
-	 *            the written to set
-	 */
-	public void setWritten(Integer written) {
-		this.written = written;
-	}
-
-	/**
-	 * @return the parameters
-	 */
-	@ElementCollection
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
-
-	/**
-	 * @param parameters the parameters to set
-	 */
-	public void setParameters(Map<String, String> parameters) {
-		this.parameters = parameters;
-	}
-
-	/**
-	 * @return the scheduled
-	 */
-	public Boolean getScheduled() {
-		return scheduled;
-	}
-
-	/**
-	 * @param scheduled the scheduled to set
-	 */
-	public void setScheduled(Boolean scheduled) {
-		this.scheduled = scheduled;
-	}
-
-	@Type(type = "dateTimeUserType")
-	public DateTime getNextAvailableDate() {
-		return nextAvailableDate;
-	}
-
-	public void setNextAvailableDate(DateTime nextAvailableDate) {
-		this.nextAvailableDate = nextAvailableDate;
-	}
-
-	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
-	}
-
-	public String getBaseUrl() {
-		return baseUrl;
-	}
-
-	@Enumerated(value = EnumType.STRING)
-	public SchedulingPeriod getSchedulingPeriod() {
-		return schedulingPeriod;
-	}
-
-	public void setSchedulingPeriod(SchedulingPeriod schedulingPeriod) {
-		this.schedulingPeriod = schedulingPeriod;
-	}
-
-	public void updateNextAvailableDate() {
-		if(getScheduled()) {
-			DateTime nextAvailableDate = new DateTime();
-			switch (getSchedulingPeriod()) {
-			case YEARLY:
-				nextAvailableDate = nextAvailableDate.plusYears(1);
-				break;
-			case MONTHLY:
-				nextAvailableDate = nextAvailableDate.plusMonths(1);
-				break;
-			case WEEKLY:
-				nextAvailableDate = nextAvailableDate.plusWeeks(1);
-				break;
-			case DAILY:
-				nextAvailableDate = nextAvailableDate.plusDays(1);
-				break;
-			default:
-				nextAvailableDate = null;
-			}
-
-			setNextAvailableDate(nextAvailableDate);
-		}
-	}
-
-	public void setLastHarvestedJobId(Long lastHarvestedJobId) {
-		this.lastHarvestedJobId = lastHarvestedJobId;
-	}
-
-	public Long getLastHarvestedJobId() {
-		return lastHarvestedJobId;
-	}
-
 	public interface ReadResource { }
-
-	@Type(type = "dateTimeUserType")
-	public DateTime getLastAttempt() {
-		return lastAttempt;
-	}
-
-	public void setLastAttempt(DateTime lastAttempt) {
-		this.lastAttempt = lastAttempt;
-	}
 }

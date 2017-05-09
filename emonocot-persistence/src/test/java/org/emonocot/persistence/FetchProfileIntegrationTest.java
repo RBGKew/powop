@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.emonocot.model.Comment;
 import org.emonocot.model.Description;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
@@ -33,7 +32,6 @@ import org.hibernate.Hibernate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
 
 public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 
@@ -71,7 +69,6 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 				null, new Location[] {}, null);
 		Image image = createImage("Aus aus", "image1", null, taxon1, null);
 		User user = createUser("test@emonocot.org", "test", "user");
-		createComment("testComment1", "This is a comment", taxon1, user);
 	}
 
 	@Test
@@ -96,20 +93,5 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 		Image image = (Image) getSearchableObjectDao().load("image1", "taxon-with-image");
 		assertTrue("Taxon should be initialized", Hibernate.isInitialized(image.getTaxon()));
 		Taxon taxon = (Taxon) getSearchableObjectDao().load("urn:lsid:example.com:taxon:5", "taxon-with-image");
-	}
-
-	@Test
-	public final void testNestedAssociation() {
-		Comment c = commentDao.load("testComment1", "aboutData");
-		assertTrue("The 'aboutData' hibernate proxy should have been initialized ", Hibernate.isInitialized(c.getAboutData()));
-		Object authority = null;
-		Object organisation = null;
-		try {
-			authority = BeanUtils.getProperty(c.getAboutData(), "authority");
-			organisation = BeanUtils.getProperty(c.getAboutData(), "organisation");
-		} catch (Exception e) {}
-			assertTrue("Their should be an Organisation that is initialized", 
-					(authority != null && Hibernate.isInitialized(authority))
-					|| (organisation != null && Hibernate.isInitialized(organisation)));
 	}
 }

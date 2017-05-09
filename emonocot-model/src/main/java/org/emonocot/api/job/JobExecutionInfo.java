@@ -18,7 +18,6 @@ package org.emonocot.api.job;
 
 import java.io.Serializable;
 
-import org.emonocot.model.marshall.json.DateTimeDeserializer;
 import org.emonocot.model.marshall.json.DateTimeSerializer;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.BatchStatus;
@@ -26,9 +25,11 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import lombok.Data;
+
+@Data
 @Component
 public class JobExecutionInfo implements Serializable {
 
@@ -40,10 +41,12 @@ public class JobExecutionInfo implements Serializable {
 
 	private BatchStatus status;
 
+	@JsonSerialize(using = DateTimeSerializer.class)
 	private DateTime startTime;
 
 	private String exitCode;
 
+	@JsonSerialize(using = DateTimeSerializer.class)
 	private DateTime duration;
 
 	private String exitDescription;
@@ -60,7 +63,7 @@ public class JobExecutionInfo implements Serializable {
 
 	private Integer written = 0;
 
-	private String resourceIdentifier;
+	private String jobConfigurationId;
 
 	private Integer progress;
 
@@ -75,7 +78,7 @@ public class JobExecutionInfo implements Serializable {
 		exitCode = jobExecution.getExitStatus().getExitCode();
 		id = jobExecution.getId();
 		status = jobExecution.getStatus();
-		resourceIdentifier = jobExecution.getJobParameters().getString("resource.identifier");
+		jobConfigurationId = jobExecution.getJobParameters().getString("job.configuration.id");
 
 		Integer writeSkip = 0;
 		for (StepExecution stepExecution : jobExecution.getStepExecutions()) {
@@ -85,214 +88,5 @@ public class JobExecutionInfo implements Serializable {
 			written += stepExecution.getWriteCount();
 			writeSkip += stepExecution.getWriteSkipCount();
 		}
-	}
-
-	/**
-	 * @return the resource
-	 */
-	public String getResource() {
-		return resource;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @return the status
-	 */
-	public BatchStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @return the startTime
-	 */
-	@JsonSerialize(using = DateTimeSerializer.class)
-	public DateTime getStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * @return the exitCode
-	 */
-	public String getExitCode() {
-		return exitCode;
-	}
-
-	/**
-	 * @return the duration
-	 */
-	@JsonSerialize(using = DateTimeSerializer.class)
-	public DateTime getDuration() {
-		return duration;
-	}
-
-	/**
-	 * @return the exitDescription
-	 */
-	public String getExitDescription() {
-		return exitDescription;
-	}
-
-	/**
-	 * @return the jobInstance
-	 */
-	public String getJobInstance() {
-		return jobInstance;
-	}
-
-	/**
-	 * @return the read
-	 */
-	public Integer getRecordsRead() {
-		return recordsRead;
-	}
-
-	/**
-	 * @param read the read to set
-	 */
-	public void setRecordsRead(Integer read) {
-		this.recordsRead = read;
-	}
-
-	/**
-	 * @return the processed
-	 */
-	public Integer getProcessSkip() {
-		return processSkip;
-	}
-
-	/**
-	 * @param processed the processed to set
-	 */
-	public void setProcessSkip(Integer processSkip) {
-		this.processSkip = processSkip;
-	}
-
-	/**
-	 * @return the written
-	 */
-	public Integer getWritten() {
-		return written;
-	}
-
-	/**
-	 * @param written the written to set
-	 */
-	public void setWritten(Integer written) {
-		this.written = written;
-	}
-
-	/**
-	 * @return the readSkip
-	 */
-	public Integer getReadSkip() {
-		return readSkip;
-	}
-
-	/**
-	 * @param readSkip the readSkip to set
-	 */
-	public void setReadSkip(Integer readSkip) {
-		this.readSkip = readSkip;
-	}
-
-	/**
-	 * @return the writeSkip
-	 */
-	public Integer getWriteSkip() {
-		return writeSkip;
-	}
-
-	/**
-	 * @param writeSkip the writeSkip to set
-	 */
-	public void setWriteSkip(Integer writeSkip) {
-		this.writeSkip = writeSkip;
-	}
-
-	public String getResourceIdentifier() {
-		return resourceIdentifier;
-	}
-
-	public void setProgress(Integer progress) {
-		this.progress = progress;
-	}
-
-	public Integer getProgress() {
-		return progress;
-	}
-
-	public void setResourceIdentifier(String resourceIdentifier) {
-		this.resourceIdentifier = resourceIdentifier;
-	}
-
-	/*
-	* @param newResource Set the resource
-	*/
-	public void setResource(String newResource) {
-		this.resource = newResource;
-	}
-
-	/**
-	 *
-	 * @param newId Set the id;
-	 */
-	public void setId(Long newId) {
-		this.id = newId;
-	}
-
-	/**
-	 *
-	 * @param newStatus Set the status
-	 */
-	public void setStatus(BatchStatus newStatus) {
-		this.status = newStatus;
-	}
-
-	/**
-	 *
-	 * @param newStartTime Set the start time
-	 */
-	@JsonDeserialize(using = DateTimeDeserializer.class)
-	public void setStartTime(DateTime newStartTime) {
-		this.startTime = newStartTime;
-	}
-
-	/**
-	 *
-	 * @param newExitCode Set the exit code
-	 */
-	public void setExitCode(String newExitCode) {
-		this.exitCode = newExitCode;
-	}
-
-	/**
-	 *
-	 * @param newDuration Set the duration
-	 */
-	@JsonDeserialize(using = DateTimeDeserializer.class)
-	public void setDuration(DateTime newDuration) {
-		this.duration = newDuration;
-	}
-
-	/**
-	 *
-	 * @param newExitDescription Set the exit description
-	 */
-	public void setExitDescription(String newExitDescription) {
-		this.exitDescription = newExitDescription;
-	}
-
-	/**
-	 *
-	 * @param newJobInstance Set the job instance
-	 */
-	public void setJobInstance(String newJobInstance) {
-		this.jobInstance = newJobInstance;
 	}
 }

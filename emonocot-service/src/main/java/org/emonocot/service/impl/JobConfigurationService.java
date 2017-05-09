@@ -18,7 +18,17 @@ public class JobConfigurationService {
 	}
 
 	@Transactional(readOnly = true)
-	public JobConfiguration load(Long id) {
-		return dao.load(id);
+	public JobConfiguration get(Long id) {
+		return dao.get(id);
+	}
+
+	@Transactional(readOnly = true)
+	public void refresh(JobConfiguration conf) {
+		dao.refresh(conf);
+	}
+
+	@Transactional
+	public void saveOrUpdate(JobConfiguration job) {
+		dao.saveOrUpdate(job);
 	}
 }

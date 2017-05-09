@@ -91,8 +91,7 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 				new Fetch("trees.authority", FetchMode.SELECT),
 				new Fetch("uri", FetchMode.SELECT),
 				new Fetch("typesAndSpecimens", FetchMode.SELECT),
-				new Fetch("typesAndSpecimens.authority", FetchMode.SELECT),
-				new Fetch("comments", FetchMode.SELECT)});
+				new Fetch("typesAndSpecimens.authority", FetchMode.SELECT)});
 		/* */
 		FETCH_PROFILES.put("object-page", FETCH_PROFILES.get("taxon-page"));
 		/* */
@@ -195,10 +194,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 		return results;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.emonocot.persistence.dao.SearchableDao#searchByExample(org.emonocot.model.Base, boolean, boolean)
-	 */
-	@Override
 	public Page<Taxon> searchByExample(Taxon example, boolean ignoreCase, boolean useLike) {
 		Example criterion = Example.create(example);
 		if(ignoreCase) {
@@ -210,7 +205,9 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 		Criteria criteria = getSession().createCriteria(Taxon.class);
 		criteria.add(criterion);
 		List<Taxon> results = (List<Taxon>) criteria.list();
-		Page<Taxon> page = new DefaultPageImpl<Taxon>(results.size(), null, null, results, null);
+		Page<Taxon> page = new DefaultPageImpl<Taxon>(results, 0, results.size());
 		return page;
 	}
+
+
 }

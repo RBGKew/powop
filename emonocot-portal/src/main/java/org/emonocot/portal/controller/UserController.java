@@ -26,24 +26,18 @@ import javax.validation.Valid;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.api.UserService;
-import org.emonocot.model.SecuredObject;
 import org.emonocot.model.auth.User;
 import org.emonocot.pager.Page;
-import org.emonocot.portal.controller.form.AceDto;
 import org.emonocot.portal.format.annotation.FacetRequestFormat;
 import org.emonocot.portal.legacy.OldSearchBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -128,7 +122,6 @@ public class UserController extends GenericController<User, UserService> {
 		SolrQuery solrQuery = new OldSearchBuilder().oldSearchBuilder
 		(query, null, limit, start, null, null, selectedFacets, sort, null);
 		Page<User> result = getService().search(solrQuery, null);
-		result.putParam("query", query);
 		model.addAttribute("result", result);
 		return "user/list";
 	}

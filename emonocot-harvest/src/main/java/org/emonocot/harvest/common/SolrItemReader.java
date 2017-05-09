@@ -77,7 +77,7 @@ public class SolrItemReader<T extends SearchableObject> extends AbstractPagingIt
 		queryBuilder.addParam("page", "" + getPage());
 		SolrQuery query = queryBuilder.build();
 		try {
-			results = service.search(query, "object-page").getRecords();
+			results = service.search(query, "object-page").getResults();
 
 		} catch (SolrServerException | IOException sse) {
 			throw new RuntimeException("SolrServerException", sse);

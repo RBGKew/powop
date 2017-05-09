@@ -17,18 +17,14 @@
 package org.emonocot.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.MappedSuperclass;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.proxy.HibernateProxyHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @MappedSuperclass
 public abstract class Base implements Serializable, Identifiable, SecuredObject {
-
-	private Logger logger = LoggerFactory.getLogger(Base.class);
 
 	private static final long serialVersionUID = 4778611345983453363L;
 
@@ -50,23 +46,21 @@ public abstract class Base implements Serializable, Identifiable, SecuredObject 
 			if (this.getIdentifier() == null && base.getIdentifier() == null) {
 
 				if (this.getId() != null && base.getId() != null) {
-					return ObjectUtils.equals(this.getId(), base.getId());
+					return Objects.equals(this.getId(), base.getId());
 				} else {
 					return false;
 				}
 			} else {
-				return ObjectUtils.equals(this.identifier, base.identifier);
+				return Objects.equals(this.identifier, base.identifier);
 			}
-		} else if (HibernateProxyHelper.getClassWithoutInitializingProxy(other)
-				.equals(this.getClass())) {
+		} else if (HibernateProxyHelper.getClassWithoutInitializingProxy(other).equals(this.getClass())) {
 			// Case to check when proxies are involved
 			Identifiable base = (Identifiable) other;
 
 			if (this.getIdentifier() == null && base.getIdentifier() == null) {
 				return false;
 			} else {
-				return ObjectUtils
-						.equals(this.identifier, base.getIdentifier());
+				return Objects.equals(this.identifier, base.getIdentifier());
 			}
 		} else {
 			return false;
@@ -75,7 +69,7 @@ public abstract class Base implements Serializable, Identifiable, SecuredObject 
 
 	@Override
 	public int hashCode() {
-		return ObjectUtils.hashCode(this.identifier);
+		return Objects.hashCode(this.identifier);
 	}
 
 }

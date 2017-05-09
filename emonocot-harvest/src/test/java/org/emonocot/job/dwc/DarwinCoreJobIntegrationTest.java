@@ -20,13 +20,16 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+
 import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobLaunchRequest;
 import org.emonocot.api.job.JobLauncher;
 import org.emonocot.factories.JobConfigurationFactory;
+import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.AbstractPersistenceTest;
+import org.emonocot.service.impl.JobConfigurationService;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.junit.After;
@@ -36,6 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -43,7 +47,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.google.common.base.Strings;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml"})
@@ -58,6 +61,9 @@ public class DarwinCoreJobIntegrationTest extends AbstractPersistenceTest {
 
 	@Autowired
 	private JobLauncher jobLauncher;
+
+	@Autowired
+	private JobConfigurationService jobConfigurationService;
 
 	private Organisation backbone;
 	private Organisation imgOrg;
@@ -106,28 +112,38 @@ public class DarwinCoreJobIntegrationTest extends AbstractPersistenceTest {
 
 	@Test
 	public final void testHarvesting() throws JobExecutionException, Exception {
+		JobConfiguration namesConf = JobConfigurationFactory.harvestNames(names);
+		JobConfiguration taxaConf = JobConfigurationFactory.harvestTaxonomy(taxa);
+		JobConfiguration imagesConf = JobConfigurationFactory.harvestImages(images, "");
+		JobConfiguration descriptionsConf = JobConfigurationFactory.harvest(descriptions);
+
+		jobConfigurationService.save(namesConf);
+		jobConfigurationService.save(taxaConf);
+		jobConfigurationService.save(imagesConf);
+		jobConfigurationService.save(descriptionsConf);
+
 		// Harvest names first
-		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvestNames(names)));
-		assertTrue("Names didn't harvest successfully", harvestSuccessful(names));
+		jobLauncher.launch(new JobLaunchRequest(namesConf));
+		assertTrue("Names didn't harvest successfully", harvestSuccessful(namesConf));
 
 		// ... then taxonomy. It has to be done in order
-		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvestTaxonomy(taxa)));
-		assertTrue("Taxa didn't harvest successfully", harvestSuccessful(taxa));
+		jobLauncher.launch(new JobLaunchRequest(taxaConf));
+		assertTrue("Taxa didn't harvest successfully", harvestSuccessful(taxaConf));
 
-		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvestImages(images, "")));
-		assertTrue("Images didn't harvest successfully", harvestSuccessful(images));
+		jobLauncher.launch(new JobLaunchRequest(imagesConf));
+		assertTrue("Images didn't harvest successfully", harvestSuccessful(imagesConf));
 
-		jobLauncher.launch(new JobLaunchRequest(JobConfigurationFactory.harvest(descriptions)));
-		assertTrue("Descriptions didn't harvest successfully", harvestSuccessful(descriptions));
+		jobLauncher.launch(new JobLaunchRequest(descriptionsConf));
+		assertTrue("Descriptions didn't harvest successfully", harvestSuccessful(descriptionsConf));
 	}
 
-	private boolean harvestSuccessful(Resource resource) {
+	private boolean harvestSuccessful(JobConfiguration job) {
 		DateTime start = DateTime.now();
 
 		while(new Period(start, DateTime.now()).getSeconds() < 20) {
-			resource = resourceDao.find(resource.getId());
-			if(Strings.nullToEmpty(resource.getExitCode()).equals("COMPLETED")) {
-				logger.info("Succesfully completed harvest of {}", resource.getTitle());
+			jobConfigurationService.refresh(job);
+			if(BatchStatus.COMPLETED.equals(job.getJobStatus())) {
+				logger.info("Succesfully completed {}", job.getDescription());
 				return true;
 			}
 

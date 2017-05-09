@@ -80,7 +80,7 @@ public class ExampleTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 
 		Page<Taxon> page = taxonService.searchByExample(emonocotTaxon, true, true);
 
-		switch (page.getRecords().size()) {
+		switch (page.getResults().size()) {
 		case 0:
 			if(parsed.getBracketAuthorship() != null){
 				parsed.setBracketAuthorship(null);
@@ -95,7 +95,7 @@ public class ExampleTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 			break;
 		case 1:
 			Match<Taxon> single = new Match<Taxon>();
-			single.setInternal(page.getRecords().get(0));
+			single.setInternal(page.getResults().get(0));
 			String internalName = (new NameParser().parseToCanonical(single.getInternal().getScientificName()));
 			if (emonocotTaxon.getScientificName().equals(internalName)) {
 				single.setStatus(MatchStatus.EXACT);
@@ -106,7 +106,7 @@ public class ExampleTaxonMatcher implements TaxonMatcher, Matcher<String, Taxon>
 			break;
 		default:
 			Set<Match<Taxon>> exactMatches = new HashSet<Match<Taxon>>();
-			for (Taxon taxon : page.getRecords()) {
+			for (Taxon taxon : page.getResults()) {
 				logger.debug(taxon.getScientificName() + " " + taxon.getIdentifier());
 				Match<Taxon> m = new Match<Taxon>();
 				m.setInternal(taxon);

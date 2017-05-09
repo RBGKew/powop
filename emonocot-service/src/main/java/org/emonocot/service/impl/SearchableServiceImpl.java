@@ -17,8 +17,6 @@
 package org.emonocot.service.impl;
 
 import java.io.IOException;
-import java.util.Map;
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -27,8 +25,6 @@ import org.apache.solr.common.SolrDocument;
 import org.emonocot.api.SearchableService;
 import org.emonocot.model.Base;
 import org.emonocot.model.Searchable;
-import org.emonocot.pager.CellSet;
-import org.emonocot.pager.Cube;
 import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.SearchableDao;
 import org.emonocot.persistence.hibernate.SolrIndexingInterceptor;
@@ -72,7 +68,7 @@ extends ServiceImpl<T, DAO> implements SearchableService<T> {
 	 */
 	@Transactional(readOnly = true)
 	public final Page<T> search(final SolrQuery query, final String fetch)  throws SolrServerException, IOException {
-		return dao.search(query, fetch );
+		return dao.search(query, fetch);
 	}
 	
 	@Transactional(readOnly = true)
@@ -94,11 +90,6 @@ extends ServiceImpl<T, DAO> implements SearchableService<T> {
 	@Transactional(readOnly = true)
 	public T loadObjectForDocument(SolrDocument solrDocument) {
 		return dao.loadObjectForDocument(solrDocument);
-	}
-
-	@Transactional(readOnly = true)
-	public CellSet analyse(String rows, String cols, Integer firstCol, Integer maxCols, Integer firstRow, Integer maxRows,	Map<String, String> selectedFacets, String[] array, Cube cube)  throws SolrServerException, IOException {
-		return dao.analyse(rows, cols, firstCol, maxCols, firstRow, maxRows,selectedFacets, array, cube);
 	}
 
 	@Override

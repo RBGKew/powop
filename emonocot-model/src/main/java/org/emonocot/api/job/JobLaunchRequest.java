@@ -38,7 +38,9 @@ public class JobLaunchRequest {
 
 	public JobLaunchRequest(JobConfiguration conf) {
 		this.job = conf.getJobName();
-		this.parameters = conf.getParameters();
+		this.parameters = new HashMap<>();
+		this.parameters.putAll(conf.getParameters());
+		this.parameters.put("job.configuration.id", Long.toString(conf.getId()));
 	}
 
 	public void addParameter(String key, String value) {

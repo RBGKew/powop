@@ -60,7 +60,7 @@ public class DownloadService  {
 		Map<String, String> jobParametersMap = new HashMap<String, String>();
 		jobParametersMap.put("resource.identifier", resource.getIdentifier());
 		jobParametersMap.put("timestamp", Long.toString(System.currentTimeMillis()));
-		String resourceFileName = resource.getParameters().get("download.file");
+		String resourceFileName = "download.file";
 		String batchFileName;
 		if(resourceFileName.endsWith(".zip")){//It's an archive created from a directory
 			batchFileName = resourceFileName.substring(0, resourceFileName.length() - 4);

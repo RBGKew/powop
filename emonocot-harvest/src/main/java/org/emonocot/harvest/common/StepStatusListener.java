@@ -22,14 +22,12 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class StepStatusListener implements StepExecutionListener {
 
+	@Autowired
 	private JobStatusNotifier jobStatusNotifier;
-
-	public void setJobStatusNotifier(JobStatusNotifier jobStatusNotifier) {
-		this.jobStatusNotifier = jobStatusNotifier;
-	}
 
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
@@ -39,7 +37,7 @@ public class StepStatusListener implements StepExecutionListener {
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
 		JobExecution jobExecution = stepExecution.getJobExecution();
-		if (jobExecution.getJobParameters().getString("resource.identifier") != null) {
+		if (jobExecution.getJobParameters().getString("job.configuration.id") != null) {
 			JobExecutionInfo jobExecutionInfo = new JobExecutionInfo(jobExecution);
 			jobStatusNotifier.notify(jobExecutionInfo);
 		}

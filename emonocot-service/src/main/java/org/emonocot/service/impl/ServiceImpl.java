@@ -193,11 +193,9 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
 	public final Page<T> list(final Integer page, final Integer size, final String fetch) {
 		Long numberOfResults = dao.count();
 		if (numberOfResults == 0) {
-			return new DefaultPageImpl<T>(numberOfResults.intValue(), page,
-					size, new ArrayList<T>(), null);
+			return new DefaultPageImpl<T>(new ArrayList<T>(), 0, 0);
 		} else {
-			return new DefaultPageImpl<T>(numberOfResults.intValue(), page,
-					size, dao.list(page, size, fetch), null);
+			return new DefaultPageImpl<T>(dao.list(page, size, fetch), page, size);
 		}
 	}
 

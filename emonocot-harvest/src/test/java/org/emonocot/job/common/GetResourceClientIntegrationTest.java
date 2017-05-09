@@ -85,8 +85,8 @@ public class GetResourceClientIntegrationTest {
 		tempFile.deleteOnExit();
 
 		ExitStatus exitStatus = getResourceClient.getResource(mockHttpUrl + "/dwc.zip",
-				Long.toString(PAST_DATETIME.getMillis()),
-				tempFile.getAbsolutePath());
+				tempFile.getAbsolutePath(),
+				Long.toString(PAST_DATETIME.getMillis()));
 
 		assertNotNull("ExitStatus should not be null", exitStatus);
 		assertEquals("ExitStatus should be COMPLETED", ExitStatus.COMPLETED, exitStatus);
@@ -105,8 +105,8 @@ public class GetResourceClientIntegrationTest {
 		tempFile.deleteOnExit();
 
 		ExitStatus exitStatus = getResourceClient.getResource(mockHttpUrl + "/dwc.zip",
-				Long.toString(new Date().getTime() - 60000L),
-				tempFile.getAbsolutePath());
+				tempFile.getAbsolutePath(),
+				Long.toString(new Date().getTime() - 60000L));
 
 		assertNotNull("ExitStatus should not be null", exitStatus);
 		assertEquals("ExitStatus should be NOT_MODIFIED", "NOT_MODIFIED", exitStatus.getExitCode());
@@ -127,8 +127,8 @@ public class GetResourceClientIntegrationTest {
 		getResourceClient.setRetryListeners(new RetryListener[] { retryListener });
 
 		ExitStatus exitStatus = getResourceClient.getResource("http://not.a.domain.invalid/test.zip",
-						Long.toString(new Date().getTime()),
-						tempFile.getAbsolutePath());
+						tempFile.getAbsolutePath(),
+						Long.toString(new Date().getTime()));
 
 		assertNotNull("ExitStatus should not be null.", exitStatus);
 		assertEquals("ExitStatus should be FAILED.", ExitStatus.FAILED, exitStatus);

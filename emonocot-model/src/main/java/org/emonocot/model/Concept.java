@@ -82,8 +82,6 @@ public class Concept extends SearchableObject implements NonOwned {
 
 	private String creator;
 
-	private List<Comment> comments = new ArrayList<Comment>();
-
 	@Size(max = 255)
 	public String getCreator() {
 		return creator;
@@ -185,27 +183,6 @@ public class Concept extends SearchableObject implements NonOwned {
 	 */
 	public void setAnnotations(Set<Annotation> annotations) {
 		this.annotations = annotations;
-	}
-
-	/**
-	 * @return the comments
-	 */
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "commentPage_id")
-	@OrderBy("created DESC")
-	@Where(clause = "commentPage_type = 'Concept'")
-	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	/**
-	 * @param comments the comments to set
-	 */
-	@JsonIgnore
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	@Override

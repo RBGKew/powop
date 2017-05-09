@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.emonocot.model.Annotation;
-import org.emonocot.model.Comment;
 import org.emonocot.model.Image;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.Reference;
@@ -35,7 +34,6 @@ import org.emonocot.model.auth.User;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.dao.AnnotationDao;
-import org.emonocot.persistence.dao.CommentDao;
 import org.emonocot.persistence.dao.ImageDao;
 import org.emonocot.persistence.dao.JobConfigurationDao;
 import org.emonocot.persistence.dao.JobListDao;
@@ -98,9 +96,6 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 	protected SearchableObjectDao searchableObjectDao;
 
 	@Autowired
-	protected CommentDao commentDao;
-
-	@Autowired
 	protected UserDao userDao;
 
 	@Autowired
@@ -148,8 +143,6 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 						sourceDao.saveOrUpdate((Organisation) obj);
 					} else if (obj.getClass().equals(Reference.class)) {
 						referenceDao.saveOrUpdate((Reference) obj);
-					} else if (obj.getClass().equals(Comment.class)) {
-						commentDao.save(((Comment) obj));
 					} else if (obj.getClass().equals(User.class)) {
 						userDao.save(((User) obj));
 					} else if (obj.getClass().equals(Resource.class)) {

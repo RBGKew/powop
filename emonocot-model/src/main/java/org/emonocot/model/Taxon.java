@@ -175,8 +175,6 @@ public class Taxon extends SearchableObject {
 		this.concepts = concepts;
 	}
 
-	private List<Comment> comments = new ArrayList<Comment>();
-
 	/**
 	 * @param newId
 	 *            Set the identifier of this object.
@@ -937,27 +935,6 @@ public class Taxon extends SearchableObject {
 	public void setMeasurementsOrFacts(
 			Set<MeasurementOrFact> newMeasurementsOrFacts) {
 		this.measurementsOrFacts = newMeasurementsOrFacts;
-	}
-
-	/**
-	 * @return the comments
-	 */
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "commentPage_id")
-	@OrderBy("created DESC")
-	@Where(clause = "commentPage_type = 'Taxon'")
-	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	/**
-	 * @param comments the comments to set
-	 */
-	@JsonIgnore
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon")

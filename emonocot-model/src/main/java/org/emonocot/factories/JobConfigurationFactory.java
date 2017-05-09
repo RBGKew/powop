@@ -11,10 +11,9 @@ public class JobConfigurationFactory {
 				.jobName(ResourceType.DwC_Archive.getJobName())
 				.description("Harvest " + resource.getTitle())
 				.parameter("authority.name", resource.getOrganisation().getIdentifier())
-				.parameter("authority.uri", resource.getBaseUrl())
+				.parameter("authority.uri", resource.getUri())
 				.parameter("resource.id", resource.getId().toString())
-				.parameter("resource.identifier", resource.getIdentifier())
-				.parameter("authority.last.harvested", Long.toString(resource.getLastHarvested().getMillis()));
+				.parameter("resource.identifier", resource.getIdentifier());
 	}
 
 	public static JobConfiguration harvest(Resource resource) {

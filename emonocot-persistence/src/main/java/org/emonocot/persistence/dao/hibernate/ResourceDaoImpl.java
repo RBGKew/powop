@@ -33,17 +33,9 @@ import org.joda.time.DateTime;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author ben
- *
- */
 @Repository
 public class ResourceDaoImpl extends SearchableDaoImpl<Resource> implements ResourceDao {
 
-	/**
-	 *
-	 */
 	private static Map<String, Fetch[]> FETCH_PROFILES;
 
 	static {
@@ -55,9 +47,6 @@ public class ResourceDaoImpl extends SearchableDaoImpl<Resource> implements Reso
 		});
 	}
 
-	/**
-	 *
-	 */
 	public ResourceDaoImpl() {
 		super(Resource.class);
 	}

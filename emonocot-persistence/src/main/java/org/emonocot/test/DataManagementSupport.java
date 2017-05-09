@@ -24,8 +24,6 @@ import java.util.UUID;
 
 import org.emonocot.model.Annotation;
 import org.emonocot.model.Base;
-import org.emonocot.model.Comment;
-import org.emonocot.model.Comment.Status;
 import org.emonocot.model.Description;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Image;
@@ -44,7 +42,6 @@ import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
-import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameter;
@@ -366,39 +363,18 @@ public abstract class DataManagementSupport {
 		source.setIdentifier(identifier);
 		source.setAbbreviation(identifier);
 		source.setTitle(title);
-		source.setCommentsEmailedTo(commentsEmailedTo);
-		source.setUri(uri);
 		setUp.add(source);
 		tearDown.push(source);
 		return source;
 	}
 
-	/**
-	 * @param identifier
-	 * @param commentText
-	 * @param aboutData
-	 * @param user
-	 */
-	public Comment createComment(String identifier, String commentText, Base aboutData, User user) {
-		Comment comment = new Comment();
-		comment.setIdentifier(identifier);
-		comment.setAboutData(aboutData);
-		comment.setStatus(Status.PENDING);
-		comment.setUser(user);
-		setUp.add(comment);
-		tearDown.push(comment);
-		return comment;
-
-	}
-
 	public Resource createResource(Organisation org, String identifier, String url) {
 		Resource resource = new Resource();
 		resource.setOrganisation(org);
-		resource.setBaseUrl(url);
+		resource.setUri(url);
 		resource.setIdentifier(identifier);
 		resource.setTitle(identifier);
 		resource.setResourceType(ResourceType.DwC_Archive);
-		resource.setLastHarvested(new DateTime(2010, 11, 1, 9, 0, 0, 0));
 		setUp.add(resource);
 		tearDown.push(resource);
 
