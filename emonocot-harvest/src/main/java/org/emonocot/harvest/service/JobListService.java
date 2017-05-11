@@ -8,6 +8,8 @@ import org.emonocot.api.job.JobLauncher;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.JobList;
 import org.emonocot.model.constants.JobListStatus;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.JobListDao;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,8 @@ public class JobListService {
 	}
 
 	@Transactional(readOnly = true)
-	public JobList load(Long id) {
-		return dao.load(id);
+	public JobList get(Long id) {
+		return dao.get(id);
 	}
 
 	@Transactional(readOnly = true)
@@ -64,6 +66,11 @@ public class JobListService {
 			jl.setStatus(JobListStatus.Scheduled);
 			saveOrUpdate(jl);
 		}
+	}
+
+	@Transactional
+	public Page<JobList> list(int page, int size) {
+		return new DefaultPageImpl<>(dao.list(page, size), page, size);
 	}
 
 	public void runAvailable() {

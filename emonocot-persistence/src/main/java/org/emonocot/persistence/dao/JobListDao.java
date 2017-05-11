@@ -33,7 +33,7 @@ public class JobListDao {
 		session().saveOrUpdate(list);
 	}
 
-	public JobList load(long id) {
+	public JobList get(long id) {
 		return session().get(JobList.class, id);
 	}
 
@@ -47,6 +47,17 @@ public class JobListDao {
 	 */
 	public List<JobList> list() {
 		return session().createQuery("SELECT j FROM JobList j", JobList.class)
+				.getResultList();
+	}
+
+	/**
+	 * Full list of JobLists
+	 * @return List of all JobLists
+	 */
+	public List<JobList> list(final Integer page, final Integer size) {
+		return session().createQuery("SELECT j FROM JobList j", JobList.class)
+				.setFirstResult(page * size)
+				.setMaxResults(size)
 				.getResultList();
 	}
 

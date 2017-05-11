@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.emonocot.model.JobConfiguration;
+import org.joda.time.DateTime;
 
 import lombok.Data;
 
@@ -41,6 +42,7 @@ public class JobLaunchRequest {
 		this.parameters = new HashMap<>();
 		this.parameters.putAll(conf.getParameters());
 		this.parameters.put("job.configuration.id", Long.toString(conf.getId()));
+		this.parameters.put("attempt", DateTime.now().toString());
 	}
 
 	public void addParameter(String key, String value) {

@@ -1,6 +1,8 @@
 package org.emonocot.service.impl;
 
 import org.emonocot.model.JobConfiguration;
+import org.emonocot.pager.DefaultPageImpl;
+import org.emonocot.pager.Page;
 import org.emonocot.persistence.dao.JobConfigurationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,10 @@ public class JobConfigurationService {
 	@Transactional
 	public void saveOrUpdate(JobConfiguration job) {
 		dao.saveOrUpdate(job);
+	}
+
+	@Transactional
+	public Page<JobConfiguration> list(int page, int size) {
+		return new DefaultPageImpl<>(dao.list(page, size), page, size);
 	}
 }

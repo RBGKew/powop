@@ -1,5 +1,7 @@
 package org.emonocot.persistence.dao;
 
+import java.util.List;
+
 import org.emonocot.model.JobConfiguration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,5 +38,12 @@ public class JobConfigurationDao {
 
 	public void refresh(JobConfiguration conf) {
 		session().refresh(conf);
+	}
+
+	public List<JobConfiguration> list(final Integer page, final Integer size) {
+		return session().createQuery("SELECT c FROM JobConfiguration c", JobConfiguration.class)
+				.setFirstResult(page * size)
+				.setMaxResults(size)
+				.getResultList();
 	}
 }

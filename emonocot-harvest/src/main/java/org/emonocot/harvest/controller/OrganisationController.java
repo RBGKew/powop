@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +59,7 @@ public class OrganisationController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Organisation> create(Model model,
+	public ResponseEntity<Organisation> create(
 			@Valid @RequestBody Organisation organisation,
 			BindingResult result) {
 
@@ -74,7 +73,7 @@ public class OrganisationController {
 	}
 
 	@PostMapping(value = "/{identifier}")
-	public ResponseEntity<Organisation> update(Model model,
+	public ResponseEntity<Organisation> update(
 			@Valid @RequestBody Organisation organisation,
 			BindingResult result) {
 

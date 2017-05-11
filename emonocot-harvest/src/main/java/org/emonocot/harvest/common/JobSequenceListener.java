@@ -20,7 +20,7 @@ public class JobSequenceListener extends JobExecutionListenerSupport {
 		String jobListId = jobExecution.getJobParameters().getString("job.list.id");
 
 		if(jobListId != null) {
-			JobList list = jobListService.load(Long.parseLong(jobListId));
+			JobList list = jobListService.get(Long.parseLong(jobListId));
 			logger.debug("Scheduling next job for jobList - {}", list.getDescription());
 			if(list.hasNextJob()) {
 				jobListService.scheduleNextJob(list);

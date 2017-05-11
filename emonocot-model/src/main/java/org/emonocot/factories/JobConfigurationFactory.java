@@ -1,12 +1,19 @@
 package org.emonocot.factories;
 
+import org.emonocot.api.job.JobConfigurationException;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.constants.ResourceType;
+import org.emonocot.model.marshall.json.ResourceWithJob;
 import org.emonocot.model.registry.Resource;
 
 public class JobConfigurationFactory {
 
 	private static JobConfiguration.JobConfigurationBuilder baseHarvestConfiguration(Resource resource) {
+
+		if(resource.getId() == null) {
+			throw new JobConfigurationException("Resource must be saved before creating job configuration");
+		}
+
 		return JobConfiguration.builder()
 				.jobName(ResourceType.DwC_Archive.getJobName())
 				.description("Harvest " + resource.getTitle())
@@ -14,6 +21,21 @@ public class JobConfigurationFactory {
 				.parameter("authority.uri", resource.getUri())
 				.parameter("resource.id", resource.getId().toString())
 				.parameter("resource.identifier", resource.getIdentifier());
+	}
+
+	public static JobConfiguration resourceJob(ResourceWithJob resourceWithJob) {
+		switch(resourceWithJob.getJobType()) {
+		case Harvest:
+			return JobConfigurationFactory.harvest(resourceWithJob.getResource());
+		case HarvestNames:
+			return JobConfigurationFactory.harvestNames(resourceWithJob.getResource());
+		case HarvestTaxonomy:
+			return JobConfigurationFactory.harvestTaxonomy(resourceWithJob.getResource());
+		case HarvestImages:
+			return JobConfigurationFactory.harvestImages(resourceWithJob.getResource(), resourceWithJob.getParams().get("image.server"));
+		default:
+			throw new JobConfigurationException("Not a job type associated with a resource");
+		}
 	}
 
 	public static JobConfiguration harvest(Resource resource) {

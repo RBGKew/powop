@@ -50,6 +50,8 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 	@Override
 	public void notify(JobExecutionException jobExecutionException, String jobConfigurationId) {
 		if(jobConfigurationId != null) {
+			logger.error(jobExecutionException.getMessage());
+			jobExecutionException.printStackTrace();
 			JobConfiguration job = service.get(Long.parseLong(jobConfigurationId));
 			job.setJobStatus(BatchStatus.FAILED);
 			service.saveOrUpdate(job);

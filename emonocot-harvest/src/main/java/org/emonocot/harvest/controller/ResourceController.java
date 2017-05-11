@@ -18,8 +18,12 @@ package org.emonocot.harvest.controller;
 
 import javax.validation.Valid;
 import org.emonocot.api.ResourceService;
+import org.emonocot.api.job.JobConfigurationException;
+import org.emonocot.factories.JobConfigurationFactory;
+import org.emonocot.model.marshall.json.ResourceWithJob;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
+import org.emonocot.service.impl.JobConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,9 @@ public class ResourceController {
 	@Autowired
 	private ResourceService resourceService;
 
+	@Autowired
+	private JobConfigurationService jobConfigurationService;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<Resource>> list(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
@@ -61,10 +68,21 @@ public class ResourceController {
 			@Valid @RequestBody Resource resource,
 			BindingResult result) {
 
-		logger.debug("Creating " + resource);
+		logger.debug("Creating {}", resource);
 		resourceService.save(resource);
-
 		return new ResponseEntity<>(resource, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/withJob")
+	public ResponseEntity<ResourceWithJob> createWithJob(
+			@Valid @RequestBody ResourceWithJob resourceWithJob,
+			BindingResult result) throws JobConfigurationException {
+
+		resourceService.save(resourceWithJob.getResource());
+		resourceWithJob.setJobConfiguration(JobConfigurationFactory.resourceJob(resourceWithJob));
+		jobConfigurationService.save(resourceWithJob.getJobConfiguration());
+
+		return new ResponseEntity<>(resourceWithJob, HttpStatus.CREATED);
 	}
 
 	@PostMapping("/{resourceId}")
