@@ -18,10 +18,7 @@ package org.emonocot.api;
 
 import java.util.List;
 
-import org.emonocot.api.job.CouldNotLaunchJobException;
-import org.emonocot.api.job.ResourceAlreadyBeingHarvestedException;
 import org.emonocot.model.registry.Resource;
-import org.joda.time.DateTime;
 
 /**
  *

@@ -26,9 +26,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.emonocot.model.Base;
+import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.constants.ResourceType;
 import org.emonocot.model.marshall.json.OrganisationDeserialiser;
 import org.emonocot.model.marshall.json.OrganisationSerializer;
@@ -36,6 +38,8 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -46,6 +50,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
+@JsonInclude(Include.NON_NULL)
 @ToString(exclude="organisation")
 public class Resource extends Base {
 
@@ -59,7 +64,6 @@ public class Resource extends Base {
 	@Enumerated(value = EnumType.STRING)
 	private ResourceType resourceType;
 
-	@NotEmpty(groups = ReadResource.class)
 	@URL
 	private String uri;
 
@@ -73,6 +77,9 @@ public class Resource extends Base {
 
 	private Long jobId;
 
+	@OneToOne
+	private JobConfiguration jobConfiguration;
+
 	@NaturalId
 	@NotEmpty
 	protected String identifier;
@@ -80,6 +87,4 @@ public class Resource extends Base {
 	public Resource() {
 		setIdentifier(UUID.randomUUID().toString());
 	}
-
-	public interface ReadResource { }
 }

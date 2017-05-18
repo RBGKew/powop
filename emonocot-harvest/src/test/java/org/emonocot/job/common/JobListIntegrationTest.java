@@ -9,8 +9,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.List;
 
+import org.emonocot.api.JobListService;
 import org.emonocot.factories.JobConfigurationFactory;
-import org.emonocot.harvest.service.JobListService;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.JobList;
 import org.emonocot.model.constants.JobListStatus;
@@ -18,6 +18,7 @@ import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.AbstractPersistenceTest;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
 import org.junit.After;
 import org.junit.Before;
@@ -50,6 +51,7 @@ public class JobListIntegrationTest extends AbstractPersistenceTest {
 	@Before
 	public void setUp() throws Exception {
 		File spoolDirectory = new File("target/spool");
+		DateTimeZone.setDefault(DateTimeZone.UTC);
 
 		spoolDirectory.mkdirs();
 		spoolDirectory.deleteOnExit();
@@ -83,11 +85,18 @@ public class JobListIntegrationTest extends AbstractPersistenceTest {
 		jobConfigurationDao.save(j1);
 		jobConfigurationDao.save(j2);
 
+		names.setJobConfiguration(j1);
+		taxa.setJobConfiguration(j2);
+
+		resourceDao.save(names);
+		resourceDao.save(taxa);
+
 		JobList toRun = JobList.builder()
 				.jobConfiguration(j1)
 				.jobConfiguration(j2)
 				.description("Test job list")
 				.nextRun(DateTime.now())
+				.status(JobListStatus.Completed)
 				.build();
 
 		JobList scheduledLater = JobList.builder()
@@ -131,8 +140,8 @@ public class JobListIntegrationTest extends AbstractPersistenceTest {
 		JobConfiguration j2 = JobConfigurationFactory.harvestTaxonomy(taxa);
 		JobConfiguration j3 = JobConfigurationFactory.reIndexTaxa();
 
-		jobConfigurationDao.save(j1);
 		jobConfigurationDao.save(j2);
+		jobConfigurationDao.save(j1);
 		jobConfigurationDao.save(j3);
 
 		JobList toRun = JobList.builder()

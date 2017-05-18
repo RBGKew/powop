@@ -20,7 +20,7 @@ import org.emonocot.api.job.JobExecutionException;
 import org.emonocot.api.job.JobExecutionInfo;
 import org.emonocot.api.job.JobStatusNotifier;
 import org.emonocot.model.JobConfiguration;
-import org.emonocot.service.impl.JobConfigurationService;
+import org.emonocot.api.JobConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;

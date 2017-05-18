@@ -24,7 +24,7 @@ import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.persistence.AbstractPersistenceTest;
-import org.emonocot.service.impl.JobConfigurationService;
+import org.emonocot.api.JobConfigurationService;
 import org.gbif.ecat.voc.Rank;
 import org.gbif.ecat.voc.TaxonomicStatus;
 import org.junit.After;

@@ -21,6 +21,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
+
 import javax.sql.DataSource;
 
 import org.apache.solr.client.solrj.SolrClient;
@@ -61,6 +63,8 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import com.google.common.collect.ImmutableSet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:META-INF/spring/applicationContext*.xml" })
@@ -184,6 +188,7 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 		return searchableObjectDao;
 	}
 
+	private static final Set<String> blacklist = ImmutableSet.<String>of("databasechangelog", "databasechangeloglock", "hibernate_sequences");
 	private String[] tableNames()  {
 		if(tableNames == null) {
 			final ArrayList<String> tables = new ArrayList<>();
@@ -193,7 +198,10 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 					public Object processMetaData(DatabaseMetaData dbmd) throws SQLException, MetaDataAccessException {
 						ResultSet rs = dbmd.getTables(null, null, null, new String[]{"TABLE"});
 						while (rs.next()) {
-							tables.add((String)rs.getString(3));
+							String tableName = rs.getString(3);
+							if(!blacklist.contains(tableName)) {
+								tables.add(tableName);
+							}
 						}
 						return null;
 					}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} | %-5p | %t | %logger{1} | %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="${SYSTEM_LOG_LEVEL:-WARN}">
+    <appender-ref ref="stdout"/>
+  </root>
+
+  <logger name="org.emonocot" level="${APP_LOG_LEVEL:-DEBUG}" additivity="false">
+    <appender-ref ref="stdout"/>
+  </logger>
+
+  <logger name="org.hibernate.SQL" level="INFO" />
+
+  <logger name="liquibase" level="ERROR" />
+
+</configuration>

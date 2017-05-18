@@ -28,12 +28,10 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 public class DateTimeDeserializer extends JsonDeserializer<DateTime> {
 
-	private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
+	private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
 	@Override
-	public final DateTime deserialize(final JsonParser jsonParser,
-			final DeserializationContext deserializationContext)
-					throws IOException {
+	public final DateTime deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException {
 		String value = jsonParser.getText();
 		return dateTimeFormatter.parseDateTime(value);
 	}

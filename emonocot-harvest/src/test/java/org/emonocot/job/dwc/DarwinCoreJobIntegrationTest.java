@@ -29,7 +29,7 @@ import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.AbstractPersistenceTest;
-import org.emonocot.service.impl.JobConfigurationService;
+import org.emonocot.api.JobConfigurationService;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.junit.After;

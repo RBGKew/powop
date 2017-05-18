@@ -3,6 +3,7 @@ package org.emonocot.persistence.dao;
 import java.util.List;
 
 import org.emonocot.model.JobConfiguration;
+import org.emonocot.persistence.exception.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,13 @@ public class JobConfigurationDao {
 	}
 
 	public JobConfiguration get(long id) {
-		return session().get(JobConfiguration.class, id);
+		JobConfiguration jobConfiguration = session().get(JobConfiguration.class, id);
+
+		if(jobConfiguration == null) {
+			throw new NotFoundException(JobConfiguration.class, id);
+		}
+
+		return jobConfiguration;
 	}
 
 	public void refresh(JobConfiguration conf) {

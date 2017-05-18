@@ -18,19 +18,18 @@ package org.emonocot.harvest.controller;
 
 import javax.validation.Valid;
 import org.emonocot.api.ResourceService;
+import org.emonocot.api.ResourceWithJobService;
 import org.emonocot.api.job.JobConfigurationException;
-import org.emonocot.factories.JobConfigurationFactory;
 import org.emonocot.model.marshall.json.ResourceWithJob;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.pager.Page;
-import org.emonocot.service.impl.JobConfigurationService;
+import org.emonocot.persistence.exception.InvalidEntityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,13 +42,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api/1/resource", produces = "application/json")
 public class ResourceController {
+
 	private static Logger logger = LoggerFactory.getLogger(ResourceController.class);
 
 	@Autowired
 	private ResourceService resourceService;
 
 	@Autowired
-	private JobConfigurationService jobConfigurationService;
+	private ResourceWithJobService resourceWithJobService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<Resource>> list(
@@ -65,42 +65,32 @@ public class ResourceController {
 
 	@PostMapping
 	public ResponseEntity<Resource> create(
-			@Valid @RequestBody Resource resource,
-			BindingResult result) {
-
-		logger.debug("Creating {}", resource);
-		resourceService.save(resource);
-		return new ResponseEntity<>(resource, HttpStatus.CREATED);
-	}
-
-	@PostMapping("/withJob")
-	public ResponseEntity<ResourceWithJob> createWithJob(
 			@Valid @RequestBody ResourceWithJob resourceWithJob,
 			BindingResult result) throws JobConfigurationException {
 
-		resourceService.save(resourceWithJob.getResource());
-		resourceWithJob.setJobConfiguration(JobConfigurationFactory.resourceJob(resourceWithJob));
-		jobConfigurationService.save(resourceWithJob.getJobConfiguration());
+		if (result.hasErrors()) {
+			throw new InvalidEntityException(ResourceWithJob.class, result);
+		}
 
-		return new ResponseEntity<>(resourceWithJob, HttpStatus.CREATED);
+		logger.debug("Creating " + resourceWithJob);
+		resourceWithJobService.save(resourceWithJob);
+
+		return new ResponseEntity<>(resourceWithJob.getResource(), HttpStatus.CREATED);
 	}
 
 	@PostMapping("/{resourceId}")
 	public ResponseEntity<Resource> update(
 			@PathVariable Long resourceId,
-			@Valid @RequestBody Resource resource,
+			@Valid @RequestBody ResourceWithJob resourceWithJob,
 			BindingResult result) {
 
-		Resource persistedResource = resourceService.load(resourceId);
-
 		if (result.hasErrors()) {
-			for(ObjectError objectError : result.getAllErrors()) {
-				logger.error(objectError.getDefaultMessage());
-			}
+			throw new InvalidEntityException(ResourceWithJob.class, result);
 		}
 
-		logger.debug("Updating " + resource);
-		resourceService.saveOrUpdate(persistedResource);
-		return new ResponseEntity<>(persistedResource, HttpStatus.OK);
+		resourceWithJob.getResource().setId(resourceId);
+		logger.debug("Updating " + resourceWithJob);
+		resourceWithJobService.saveOrUpdate(resourceWithJob);
+		return new ResponseEntity<>(resourceWithJob.getResource(), HttpStatus.OK);
 	}
 }

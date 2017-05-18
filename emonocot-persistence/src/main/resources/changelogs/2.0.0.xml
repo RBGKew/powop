@@ -20,15 +20,6 @@
     <renameColumn tableName="hibernate_sequences" oldColumnName="sequence_next_hi_value" newColumnName="next_val" columnDataType="bigint(20)"/>
   </changeSet>
   
-  <changeSet id="2016-11-02_04" author="ji10kg">
-    <comment>Change hibernate sequence table to new default "hibernate_sequence"</comment>
-    <createTable tableName="hibernate_sequence">
-      <column name="sequence_name" type="varchar(255)" />
-      <column name="next_val" type="bigint(20)" />
-    </createTable>
-    <addNotNullConstraint tableName="hibernate_sequence" columnName="sequence_name" columnDataType="varchar(255)"/>
-  </changeSet>
-  
   <changeSet id="2016-11-22_01" author="ji10kg">
     <comment>Add index to description_types</comment>
     <createIndex tableName="description_types" indexName="DescriptionType_description_id_IDX">
@@ -129,6 +120,7 @@
       <column name="jobconfigurations_id" type="bigint">
         <constraints nullable="false"/>
       </column>
+      <column name="jobconfigurations_order" type="int"/>
     </createTable>
     <createIndex tableName="joblist_jobconfiguration" indexName="joblist_jobconfigurations_IDX">
       <column name="joblist_id"/>
@@ -136,4 +128,25 @@
     </createIndex>
   </changeSet>
 
+  <changeSet id="2017-05-15_01" author="ji10kg">
+    <comment>Remove all the unused columns from resource and add a Job Configuration referene</comment>
+    <dropColumn tableName="resource" columnName="duration"/>
+    <dropColumn tableName="resource" columnName="exitDescription"/>
+    <dropColumn tableName="resource" columnName="exitCode"/>
+    <dropColumn tableName="resource" columnName="jobInstance"/>
+    <dropColumn tableName="resource" columnName="lastHarvested"/>
+    <dropColumn tableName="resource" columnName="startTime"/>
+    <dropColumn tableName="resource" columnName="status"/>
+    <dropColumn tableName="resource" columnName="recordsRead"/>
+    <dropColumn tableName="resource" columnName="processSkip"/>
+    <dropColumn tableName="resource" columnName="baseUrl"/>
+    <dropColumn tableName="resource" columnName="scheduled"/>
+    <dropColumn tableName="resource" columnName="schedulingPeriod"/>
+    <dropColumn tableName="resource" columnName="nextAvailableDate"/>
+    <dropColumn tableName="resource" columnName="lastAttempt"/>
+    <dropColumn tableName="resource" columnName="lastHarvestedJobId"/>
+    <addColumn tableName="resource">
+      <column name="jobConfiguration_id" type="bigint"/>
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>

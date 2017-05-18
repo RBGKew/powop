@@ -1,14 +1,15 @@
 package org.emonocot.harvest.common;
 
-import org.emonocot.harvest.service.JobListService;
+import org.emonocot.api.JobListService;
 import org.emonocot.model.JobList;
+import org.emonocot.model.constants.JobListStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.listener.JobExecutionListenerSupport;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class JobSequenceListener extends JobExecutionListenerSupport {
+public class JobSequenceListener implements JobExecutionListener {
 
 	Logger logger = LoggerFactory.getLogger(JobSequenceListener.class);
 
@@ -16,16 +17,37 @@ public class JobSequenceListener extends JobExecutionListenerSupport {
 	JobListService jobListService;
 
 	@Override
+	public void beforeJob(JobExecution jobExecution) {
+		String jobListId = jobExecution.getJobParameters().getString("job.list.id");
+
+		if(jobListId != null) {
+			Long id = Long.parseLong(jobListId);
+			JobList list = jobListService.get(id);
+			if(list != null) {
+				list.setStatus(JobListStatus.Running);
+				jobListService.saveOrUpdate(list);
+			} else {
+				logger.warn("Unknown job list with id: {}", id);
+			}
+		}
+	}
+
+	@Override
 	public void afterJob(JobExecution jobExecution) {
 		String jobListId = jobExecution.getJobParameters().getString("job.list.id");
 
 		if(jobListId != null) {
-			JobList list = jobListService.get(Long.parseLong(jobListId));
-			logger.debug("Scheduling next job for jobList - {}", list.getDescription());
-			if(list.hasNextJob()) {
-				jobListService.scheduleNextJob(list);
+			Long id = Long.parseLong(jobListId);
+			JobList list = jobListService.get(id);
+			if(list != null) {
+				logger.debug("Scheduling next job for jobList - {}", list.getDescription());
+				if(list.hasNextJob()) {
+					jobListService.scheduleNextJob(list);
+				} else {
+					jobListService.updateNextAvailableDate(list);
+				}
 			} else {
-				jobListService.updateNextAvailableDate(list);
+				logger.warn("Unknown job list with id: {}", id);
 			}
 		}
 	}

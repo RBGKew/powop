@@ -76,6 +76,7 @@
         hibernate.dialect=org.hibernate.spatial.dialect.mysql.MySQL5InnoDBSpatialDialect
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
+        hibernate.jdbc.time_zone=UTC
       </value>
     </property>
     <property name="annotatedPackages" value="org.emonocot.model" />
@@ -147,7 +148,6 @@
       <list>
         <ref bean="notifyingJobStatusListener"/>
         <ref bean="jobStatusListener"/>
-        <ref bean="jobSequenceListener"/>
       </list>
     </property>
   </bean>

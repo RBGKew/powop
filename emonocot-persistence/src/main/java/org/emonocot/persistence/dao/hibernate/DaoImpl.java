@@ -26,11 +26,11 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.model.Base;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
+import org.emonocot.persistence.exception.NotFoundException;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.UnresolvableObjectException;
 import org.hibernate.collection.spi.PersistentCollection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -39,7 +39,6 @@ import org.hibernate.proxy.LazyInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateObjectRetrievalFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -252,10 +251,9 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		T t = (T) criteria.uniqueResult();
 
 		if (t == null) {
-			throw new HibernateObjectRetrievalFailureException(
-					new UnresolvableObjectException(id,
-							"Object could not be resolved"));
+			throw new NotFoundException(type, id);
 		}
+
 		enableProfilePostQuery(t, fetch);
 		return t;
 	}
@@ -277,9 +275,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		T t = (T) criteria.uniqueResult();
 
 		if (t == null) {
-			throw new HibernateObjectRetrievalFailureException(
-					new UnresolvableObjectException(identifier,
-							"Object could not be resolved"));
+			throw new NotFoundException(type, identifier);
 		}
 		enableProfilePostQuery(t, fetch);
 		return t;

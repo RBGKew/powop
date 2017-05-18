@@ -100,12 +100,13 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 			values.append(String.format("(%s, 'Taxon', :jobId, now(), :authorityId, :resourceId, 'Info', 'Index', 'Taxon'),", id));
 		}
 
-		values.setCharAt(values.length()-1, ';');
-		queryString += values.toString();
+		if(values.length() > 0) {
+			values.setCharAt(values.length()-1, ';');
+			queryString += values.toString();
 
-		logger.info("Annotating: {} with params {}", queryString, queryParameters);
-		jdbcTemplate.update(queryString, queryParameters);
-
+			logger.info("Annotating: {} with params {}", queryString, queryParameters);
+			jdbcTemplate.update(queryString, queryParameters);
+		}
 
 		return RepeatStatus.FINISHED;
 	}

@@ -3,6 +3,7 @@ package org.emonocot.persistence.dao;
 import java.util.List;
 
 import org.emonocot.model.JobList;
+import org.emonocot.persistence.exception.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
@@ -34,7 +35,13 @@ public class JobListDao {
 	}
 
 	public JobList get(long id) {
-		return session().get(JobList.class, id);
+		JobList jobList = session().get(JobList.class, id);
+
+		if(jobList == null) {
+			throw new NotFoundException(JobList.class, id);
+		}
+
+		return jobList;
 	}
 
 	public void refresh(JobList list) {
@@ -51,7 +58,7 @@ public class JobListDao {
 	}
 
 	/**
-	 * Full list of JobLists
+	 * Paged list of JobLists
 	 * @return List of all JobLists
 	 */
 	public List<JobList> list(final Integer page, final Integer size) {
@@ -77,7 +84,7 @@ public class JobListDao {
 	public List<JobList> schedulable() {
 		return session().createQuery("SELECT j FROM JobList j "
 				+ "WHERE nextRun <= :currentTime "
-				+ "  AND (status is null OR status != 'Running')", JobList.class)
+				+ "AND (status is null OR status != 'Running')", JobList.class)
 				.setParameter("currentTime", DateTime.now())
 				.getResultList();
 	}

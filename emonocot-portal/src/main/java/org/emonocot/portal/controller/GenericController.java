@@ -21,13 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
+import org.emonocot.persistence.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.orm.hibernate5.HibernateObjectRetrievalFailureException;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,8 +49,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
  * @param <T> the type of object served by this controller
  * @param <SERVICE> the service supplying this object
  */
-public abstract class GenericController<T extends Base,
-SERVICE extends Service<T>> {
+public abstract class GenericController<T extends Base, SERVICE extends Service<T>> {
 
 	private static Logger logger = LoggerFactory.getLogger(GenericController.class);
 
@@ -140,11 +139,11 @@ SERVICE extends Service<T>> {
 		return service;
 	}
 
-	@ExceptionHandler(HibernateObjectRetrievalFailureException.class)
+	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public ModelAndView handleObjectNotFoundException(HibernateObjectRetrievalFailureException orfe) {
+	public ModelAndView handleObjectNotFoundException(NotFoundException e) {
 		ModelAndView modelAndView = new ModelAndView("not_found_error");
-		modelAndView.addObject("exception", orfe);
+		modelAndView.addObject("exception", e);
 		return modelAndView;
 	}
 

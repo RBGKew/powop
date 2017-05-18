@@ -1,5 +1,6 @@
 package org.emonocot.service.impl;
 
+import org.emonocot.api.JobConfigurationService;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.pager.DefaultPageImpl;
 import org.emonocot.pager.Page;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class JobConfigurationService {
+public class JobConfigurationServiceImpl implements JobConfigurationService {
 
 	@Autowired
 	private JobConfigurationDao dao;

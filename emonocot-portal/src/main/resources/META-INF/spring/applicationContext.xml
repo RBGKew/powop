@@ -14,6 +14,9 @@
   <context:annotation-config />
   <context:component-scan base-package="org.emonocot">
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobListService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobConfigurationService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceWithJobService" />
   </context:component-scan>
 
   <tx:annotation-driven />
@@ -55,6 +58,8 @@
           <value>org.emonocot.model.Distribution</value>
           <value>org.emonocot.model.Description</value>
           <value>org.emonocot.model.Image</value>
+          <value>org.emonocot.model.JobConfiguration</value>
+          <value>org.emonocot.model.JobList</value>
           <value>org.emonocot.model.MeasurementOrFact</value>
           <value>org.emonocot.model.Reference</value>
           <value>org.emonocot.model.Taxon</value>

@@ -40,6 +40,9 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.google.common.collect.Ordering;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -55,7 +58,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = {"resources", "annotations"})
-public class Organisation extends Base  {
+@JsonInclude(Include.NON_NULL)
+public class Organisation extends Base implements Comparable<Organisation> {
 
 	private static final long serialVersionUID = -2463044801110563816L;
 
@@ -101,5 +105,10 @@ public class Organisation extends Base  {
 	@JsonIgnore
 	public String getClassName() {
 		return "Organisation";
+	}
+
+	@Override
+	public int compareTo(Organisation o) {
+		return Ordering.natural().nullsLast().compare(getTitle(), o.getTitle());
 	}
 }

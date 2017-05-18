@@ -17,10 +17,9 @@
 package org.emonocot.harvest.common;
 
 import org.emonocot.model.JobConfiguration;
-import org.emonocot.service.impl.JobConfigurationService;
+import org.emonocot.api.JobConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.batch.core.repository.JobRepository;
@@ -48,14 +47,7 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 			exitDescription.append("Harvested " + jobConfiguration.getDescription() + " " + jobExecution.getExitStatus().getExitCode());
 			exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed.");
 			jobExecution.setExitStatus(jobExecution.getExitStatus().addExitDescription(exitDescription.toString()));
-
-			jobRepository.update(jobExecution);
-
-			logger.info(jobExecution.getExitStatus().getExitCode() + " " + jobExecution.getExitStatus().getExitDescription());
-		} else {
-			exitDescription.append(jobExecution.getJobInstance().getJobName()  + " " + jobExecution.getExitStatus().getExitCode());
-			exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed.");
-			jobExecution.setExitStatus(new ExitStatus(jobExecution.getExitStatus().getExitCode(),exitDescription.toString()));
+			jobConfiguration.setJobStatus(jobExecution.getStatus());
 			jobRepository.update(jobExecution);
 
 			logger.info(jobExecution.getExitStatus().getExitCode() + " " + jobExecution.getExitStatus().getExitDescription());

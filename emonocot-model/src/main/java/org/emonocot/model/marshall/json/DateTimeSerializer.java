@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class DateTimeSerializer extends JsonSerializer<DateTime> {
 
-	private DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
+	private static final DateTimeFormatter dateTimeFormatter = ISODateTimeFormat.dateTime();
 
 	@Override
 	public final void serialize(final DateTime dateTime,
