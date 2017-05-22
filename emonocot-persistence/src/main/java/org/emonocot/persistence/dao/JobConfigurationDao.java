@@ -3,7 +3,7 @@ package org.emonocot.persistence.dao;
 import java.util.List;
 
 import org.emonocot.model.JobConfiguration;
-import org.emonocot.persistence.exception.NotFoundException;
+import org.emonocot.model.exception.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

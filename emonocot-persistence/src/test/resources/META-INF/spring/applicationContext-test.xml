@@ -9,11 +9,20 @@
   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-  <context:component-scan base-package="org.emonocot" />
+  <context:component-scan base-package="org.emonocot">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobListService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobConfigurationService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceWithJobService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.model.validators.JobListValidator" />
+  </context:component-scan>
+
   <context:property-placeholder location="classpath*:test.properties" order="1" ignore-unresolvable="true" />
 
   <tx:annotation-driven />
   <context:annotation-config />
+
+  <bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
   <bean name="dataSource"
     class="org.apache.commons.dbcp2.BasicDataSource" depends-on="springLiquibase">

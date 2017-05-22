@@ -14,7 +14,7 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 @Builder
 public class ApiErrorResponse {
-	private String type;
+	private String error;
 	private String message;
 	private Map<String, String> validationErrors;
 }

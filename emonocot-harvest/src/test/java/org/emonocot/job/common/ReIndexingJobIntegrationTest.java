@@ -49,7 +49,7 @@ public class ReIndexingJobIntegrationTest extends AbstractPersistenceTest {
 	private JobConfigurationService service;
 	@Before
 	public void setUp() throws Exception {
-		Organisation source = createSource("test", "http://test.org", "test", null);
+		Organisation source = createSource("test", "http://test.org", "test");
 		createTaxon("Quercus", "1", null, null, "Fagaceae", "Quercus", null, null, Rank.GENUS, TaxonomicStatus.Accepted, source, new Location[] {}, null);
 		createTaxon("Quercus alba", "2", null, null, "Fagaceae", "Quercus", null, null, Rank.GENUS, TaxonomicStatus.Accepted, source, new Location[] {}, null);
 		doSetUp();

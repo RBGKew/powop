@@ -1,4 +1,4 @@
-package org.emonocot.persistence.exception;
+package org.emonocot.model.exception;
 
 import lombok.extern.slf4j.Slf4j;
 

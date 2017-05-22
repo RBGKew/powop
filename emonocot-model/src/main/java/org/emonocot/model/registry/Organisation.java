@@ -44,7 +44,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Ordering;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -59,6 +62,9 @@ import lombok.ToString;
 @Setter
 @ToString(exclude = {"resources", "annotations"})
 @JsonInclude(Include.NON_NULL)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Organisation extends Base implements Comparable<Organisation> {
 
 	private static final long serialVersionUID = -2463044801110563816L;

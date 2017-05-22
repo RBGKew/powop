@@ -14,7 +14,7 @@ public class JobConfigurationIntegrationTest extends AbstractPersistenceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Organisation org = createSource("test", "http://test.org", "test", null);
+		Organisation org = createSource("test", "http://test.org", "test");
 		testResource = createResource(org, "names", "http://localhost/sample-names.zip");
 		doSetUp();
 	}

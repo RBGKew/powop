@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emonocot.model.JobConfiguration;
 import org.emonocot.api.JobConfigurationService;
+import org.emonocot.model.JobConfiguration;
+import org.emonocot.model.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -30,7 +31,9 @@ public class JobConfigurationsDeserializer extends StdDeserializer<List<JobConfi
 	}
 
 	@Override
-	public List<JobConfiguration> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public List<JobConfiguration> deserialize(JsonParser p, DeserializationContext ctxt)
+			throws IOException, JsonProcessingException {
+
 		List<JobConfiguration> jobs = new ArrayList<>();
 		JsonToken t = p.getCurrentToken();
 
@@ -38,7 +41,11 @@ public class JobConfigurationsDeserializer extends StdDeserializer<List<JobConfi
 			t = p.nextToken();
 			while(t != JsonToken.END_ARRAY) {
 				Long id = _parseLong(p, ctxt);
-				jobs.add(jobConfigurationService.get(id));
+				try {
+					jobs.add(jobConfigurationService.get(id));
+				} catch(NotFoundException e) {
+					jobs.add(JobConfiguration.builder().id(id).build());
+				}
 				t = p.nextToken();
 			}
 		}

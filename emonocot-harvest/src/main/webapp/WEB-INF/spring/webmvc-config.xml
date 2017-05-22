@@ -17,7 +17,7 @@
     <property name="webBindingInitializer">
       <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
         <property name="conversionService" ref="conversionService" />
-        <property name="validator" ref="validator" />
+        <property name="validator" ref="globalValidator" />
       </bean>
     </property>
     <property name="messageConverters">
@@ -43,7 +43,6 @@
     </property>
   </bean>
 
-  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
   <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
   <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
 

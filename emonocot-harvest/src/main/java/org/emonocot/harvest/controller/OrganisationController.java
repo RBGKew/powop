@@ -19,9 +19,9 @@ package org.emonocot.harvest.controller;
 import javax.validation.Valid;
 
 import org.emonocot.api.OrganisationService;
+import org.emonocot.model.exception.InvalidEntityException;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.pager.Page;
-import org.emonocot.persistence.exception.InvalidEntityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,7 @@ public class OrganisationController {
 
 		logger.debug("Creating " + organisation);
 		organisationService.saveOrUpdate(organisation);
-		return new ResponseEntity<>(organisation, HttpStatus.OK);
+		return new ResponseEntity<>(organisation, HttpStatus.CREATED);
 	}
 
 	@PostMapping(value = "/{identifier}")

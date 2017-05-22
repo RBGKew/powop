@@ -24,9 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.emonocot.model.Base;
+import org.emonocot.model.exception.NotFoundException;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.Dao;
-import org.emonocot.persistence.exception.NotFoundException;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;

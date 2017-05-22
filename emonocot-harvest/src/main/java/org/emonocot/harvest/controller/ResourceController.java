@@ -19,17 +19,18 @@ package org.emonocot.harvest.controller;
 import javax.validation.Valid;
 import org.emonocot.api.ResourceService;
 import org.emonocot.api.ResourceWithJobService;
-import org.emonocot.api.job.JobConfigurationException;
+import org.emonocot.model.exception.InvalidEntityException;
 import org.emonocot.model.marshall.json.ResourceWithJob;
 import org.emonocot.model.registry.Resource;
+import org.emonocot.model.validators.ResourceWithJobValidator;
 import org.emonocot.pager.Page;
-import org.emonocot.persistence.exception.InvalidEntityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,9 @@ public class ResourceController {
 	@Autowired
 	private ResourceWithJobService resourceWithJobService;
 
+	@Autowired
+	private ResourceWithJobValidator validator;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<Resource>> list(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
@@ -66,7 +70,9 @@ public class ResourceController {
 	@PostMapping
 	public ResponseEntity<Resource> create(
 			@Valid @RequestBody ResourceWithJob resourceWithJob,
-			BindingResult result) throws JobConfigurationException {
+			BindingResult result) {
+
+		ValidationUtils.invokeValidator(validator, resourceWithJob, result);
 
 		if (result.hasErrors()) {
 			throw new InvalidEntityException(ResourceWithJob.class, result);
@@ -83,6 +89,8 @@ public class ResourceController {
 			@PathVariable Long resourceId,
 			@Valid @RequestBody ResourceWithJob resourceWithJob,
 			BindingResult result) {
+
+		ValidationUtils.invokeValidator(validator, resourceWithJob, result);
 
 		if (result.hasErrors()) {
 			throw new InvalidEntityException(ResourceWithJob.class, result);

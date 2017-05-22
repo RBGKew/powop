@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
+import org.emonocot.model.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -51,19 +52,25 @@ public abstract class BaseDeserializer<T extends Base> extends JsonDeserializer<
 		 * set "return lazy initialized proxy objs"
 		 */
 		if (service != null) {
-			logger.debug("service is not null, returning object");
-			return service.load(identifier);
-		} else {
+			logger.debug("service is not null, trying to return object");
 			try {
-				logger.debug("service is null, returning new object");
-				T t = type.newInstance();
-				t.setIdentifier(identifier);
-				return t;
-			} catch (InstantiationException ie) {
-				throw new JsonParseException(jsonParser, ie.getMessage(), jsonParser.getCurrentLocation());
-			} catch (IllegalAccessException iae) {
-				throw new JsonParseException(jsonParser, iae.getMessage(), jsonParser.getCurrentLocation());
+				return service.load(identifier);
+			} catch (NotFoundException e) {
+				logger.warn(e.getMessage());
 			}
+		} else {
+			logger.debug("service is null");
+		}
+
+		try {
+			logger.debug("returning new object");
+			T t = type.newInstance();
+			t.setIdentifier(identifier);
+			return t;
+		} catch (InstantiationException ie) {
+			throw new JsonParseException(jsonParser, ie.getMessage(), jsonParser.getCurrentLocation());
+		} catch (IllegalAccessException iae) {
+			throw new JsonParseException(jsonParser, iae.getMessage(), jsonParser.getCurrentLocation());
 		}
 	}
 }

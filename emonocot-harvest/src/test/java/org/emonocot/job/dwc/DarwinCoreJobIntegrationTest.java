@@ -93,9 +93,9 @@ public class DarwinCoreJobIntegrationTest extends AbstractPersistenceTest {
 							.withBodyFile(archive)));
 		}
 
-		backbone = createSource("test", "http://test.org", "test", null);
-		imgOrg = createSource("img", "http://test.org", "img", null);
-		descOrg = createSource("desc", "http://test.org", "desc", null);
+		backbone = createSource("test", "http://test.org", "test");
+		imgOrg = createSource("img", "http://test.org", "img");
+		descOrg = createSource("desc", "http://test.org", "desc");
 
 		names = createResource(backbone, "names", mockHttpUrl + "/sample-names.zip");
 		taxa = createResource(backbone, "taxa", mockHttpUrl + "/sample-taxonomy.zip");

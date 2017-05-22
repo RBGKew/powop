@@ -27,8 +27,8 @@
 
 	<modules>
 		<module>emonocot-model</module>
-		<module>emonocot-persistence</module>
 		<module>emonocot-service</module>
+		<module>emonocot-persistence</module>
 		<module>emonocot-harvest</module>
 		<module>emonocot-portal</module>
 		<module>emonocot-static</module>

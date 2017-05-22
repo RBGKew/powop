@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
+import org.emonocot.model.exception.NotFoundException;
 import org.emonocot.pager.Page;
-import org.emonocot.persistence.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

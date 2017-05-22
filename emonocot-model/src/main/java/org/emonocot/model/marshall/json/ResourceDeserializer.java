@@ -18,16 +18,8 @@ package org.emonocot.model.marshall.json;
 
 import org.emonocot.model.registry.Resource;
 
-/**
- *
- * @author ben
- *
- */
 public class ResourceDeserializer extends BaseDeserializer<Resource> {
 
-	/**
-	 *
-	 */
 	public ResourceDeserializer() {
 		super(Resource.class);
 	}

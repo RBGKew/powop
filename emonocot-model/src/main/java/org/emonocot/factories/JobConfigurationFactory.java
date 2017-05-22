@@ -45,12 +45,14 @@ public class JobConfigurationFactory {
 	public static JobConfiguration harvestNames(Resource resource) {
 		return baseHarvestConfiguration(resource)
 				.parameter("taxon.processing.mode", "IMPORT_NAMES")
+				.description("Harvest " + resource.getTitle() + " names")
 				.build();
 	}
 
 	public static JobConfiguration harvestTaxonomy(Resource resource) {
 		return baseHarvestConfiguration(resource)
 				.parameter("taxon.processing.mode", "IMPORT_TAXONOMY")
+				.description("Harvest " + resource.getTitle() + " taxonomy")
 				.build();
 	}
 

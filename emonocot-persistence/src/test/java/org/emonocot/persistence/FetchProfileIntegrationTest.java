@@ -47,7 +47,7 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 
 	@Override
 	public final void setUpTestData() {
-		Organisation organisation = createSource("testOrg1", "http://example.org", "Test Organisation", "test@example.com");
+		Organisation organisation = createSource("testOrg1", "http://example.org", "Test Organisation");
 		Reference reference = createReference("urn:lsid:example.com:reference:1", "Test title", "Test author");
 
 		Taxon taxon1 = createTaxon("Aus", "urn:lsid:example.com:taxon:1", null,

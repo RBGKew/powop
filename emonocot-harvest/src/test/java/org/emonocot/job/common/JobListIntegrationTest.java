@@ -66,7 +66,7 @@ public class JobListIntegrationTest extends AbstractPersistenceTest {
 						.withStatus(200)
 						.withBodyFile("/sample-taxonomy.zip")));
 
-		Organisation backbone = createSource("test", "http://test.org", "test", null);
+		Organisation backbone = createSource("test", "http://test.org", "test");
 		names = createResource(backbone, "names", mockHttpUrl + "/sample-names.zip");
 		taxa = createResource(backbone, "taxa", mockHttpUrl + "/sample-taxonomy.zip");
 

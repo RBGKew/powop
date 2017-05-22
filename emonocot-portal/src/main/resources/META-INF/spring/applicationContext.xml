@@ -17,6 +17,8 @@
     <context:exclude-filter type="assignable" expression="org.emonocot.api.JobListService" />
     <context:exclude-filter type="assignable" expression="org.emonocot.api.JobConfigurationService" />
     <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceWithJobService" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.model.validators.JobListValidator" />
+    <context:exclude-filter type="assignable" expression="org.emonocot.model.validators.ResourceWithJobValidator" />
   </context:component-scan>
 
   <tx:annotation-driven />
