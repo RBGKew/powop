@@ -76,10 +76,6 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>janino</groupId>
-			<artifactId>janino</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
@@ -138,14 +134,6 @@
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.restdoc</groupId>
-			<artifactId>restdoc-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.java.truevfs</groupId>
-			<artifactId>truevfs-profile-default</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.spotify</groupId>

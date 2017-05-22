@@ -53,6 +53,7 @@
 		<spring.batch.version>4.0.0.M1</spring.batch.version>
 		<spring.security.version>4.2.0.RELEASE</spring.security.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
+		<logback.version>1.2.2</logback.version>
 	</properties>
 
 	<!--issueManagement>
@@ -429,23 +430,18 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.0.9</version>
+				<version>${logback.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-core</artifactId>
-				<version>1.0.9</version>
+				<version>${logback.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.16</version>
 				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>janino</groupId>
-				<artifactId>janino</artifactId>
-				<version>2.5.10</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -534,17 +530,6 @@
 				<version>${liquibase.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.googlecode.lesscss4j</groupId>
-				<artifactId>lesscss4j</artifactId>
-				<version>1.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>net.sourceforge.htmlunit</groupId>
-				<artifactId>htmlunit</artifactId>
-				<version>2.9</version>
-			</dependency>
-			<!-- Above are required for ANT build / deploy -->
-			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
 				<version>2.8.4</version>
@@ -560,30 +545,10 @@
 				<version>2.8.4</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.tiles</groupId>
-				<artifactId>tiles-jsp</artifactId>
-				<version>3.0.5</version>
-			</dependency>
-			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
 				<version>2.2</version>
 				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-				<version>1.1.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.sanselan</groupId>
-				<artifactId>sanselan</artifactId>
-				<version>0.97-incubator</version>
-			</dependency>
-			<dependency>
-				<groupId>org.im4java</groupId>
-				<artifactId>im4java</artifactId>
-				<version>1.2.0-emonocot</version>
 			</dependency>
 			<dependency>
 				<groupId>au.org.ala.delta</groupId>
@@ -628,34 +593,9 @@
 				<version>2.1.6</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jyaml</groupId>
-				<artifactId>jyaml</artifactId>
-				<version>1.3</version>
-			</dependency>
-			<dependency>
-				<groupId>org.json</groupId>
-				<artifactId>json</artifactId>
-				<version>20080701</version>
-			</dependency>
-			<dependency>
 				<groupId>javax.inject</groupId>
 				<artifactId>javax.inject</artifactId>
 				<version>1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.restdoc</groupId>
-				<artifactId>restdoc-api</artifactId>
-				<version>1.2.0</version>
-			</dependency>
-			<dependency>
-				<groupId>net.java.truevfs</groupId>
-				<artifactId>truevfs-profile</artifactId>
-				<version>0.11.0</version>
-			</dependency>
-			<dependency>
-				<groupId>net.java.truevfs</groupId>
-				<artifactId>truevfs-profile-default</artifactId>
-				<version>0.11.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.gbif</groupId>
@@ -890,10 +830,6 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>kew.internal</id>
-			<url>http://kptman01.ad.kew.org/repository/</url>
 		</repository>
 
 		<!-- Snapshot repo added for handlebars.java v 4.0.7-SNAPSHOT. Remove when real release happens -->
