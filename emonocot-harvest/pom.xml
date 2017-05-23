@@ -154,10 +154,6 @@
       <artifactId>spring-jms</artifactId>
     </dependency>
     <dependency>
-      <groupId>au.org.ala.delta</groupId>
-      <artifactId>delta-common</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-parsers</artifactId>
     </dependency>
