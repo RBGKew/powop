@@ -104,8 +104,12 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@JoinColumn(name = "annotatedObjId")
 	@Where(clause = "annotatedObjType = 'Organisation'")
 	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
 	private Set<Annotation> annotations;
+
+	@JsonIgnore
+	public Set<Annotation> getAnnotations() {
+		return annotations;
+	}
 
 	@Transient
 	@JsonIgnore
