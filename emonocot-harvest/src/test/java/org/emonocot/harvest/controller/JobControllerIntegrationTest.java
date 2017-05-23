@@ -148,7 +148,6 @@ public class JobControllerIntegrationTest extends AbstractControllerTest {
 				.schedulingPeriod(SchedulingPeriod.MONTHLY)
 				.build();
 
-		System.out.print(objectToJsonString(schedule));
 		mvc.perform(post("/api/1/job/list/" + list.getId() + "/schedule")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectToJsonString(schedule)))

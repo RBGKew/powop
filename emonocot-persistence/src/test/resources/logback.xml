@@ -15,6 +15,7 @@
   </logger>
 
   <logger name="org.hibernate.SQL" level="INFO" />
+  <logger name="org.hibernate.orm.deprecation" level="ERROR" />
 
   <logger name="liquibase" level="ERROR" />
 

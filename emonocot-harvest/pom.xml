@@ -113,6 +113,10 @@
       <artifactId>logback-classic</artifactId>
     </dependency>
     <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-access</artifactId>
+    </dependency>
+    <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
     </dependency>
@@ -234,6 +238,16 @@
               <targetPath>/</targetPath>
               <directory>${project.build.directory}</directory>
               <include>${project.build.finalName}.war</include>
+            </resource>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
+              <include>logback-access-${logback.version}.jar</include>
+            </resource>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
+              <include>logback-core-${logback.version}.jar</include>
             </resource>
           </resources>
         </configuration>
