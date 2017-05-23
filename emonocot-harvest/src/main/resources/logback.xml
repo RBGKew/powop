@@ -6,11 +6,11 @@
     </encoder>
   </appender>
 
-  <root level="${SYSTEM_LOG_LEVEL:-INFO}">
+  <root level="${SYSTEM_LOG_LEVEL:-WARN}">
     <appender-ref ref="stdout"/>
   </root>
 
-  <logger name="org.emonocot" level="${APP_LOG_LEVEL:-DEBUG}" additivity="false">
+  <logger name="org.emonocot" level="${APP_LOG_LEVEL:-INFO}" additivity="false">
     <appender-ref ref="stdout"/>
   </logger>
 

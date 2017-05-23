@@ -16,6 +16,7 @@
  */
 package org.emonocot.persistence.dao.hibernate;
 
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,6 @@ import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.hibernate.Fetch;
 import org.emonocot.persistence.dao.AnnotationDao;
 import org.hibernate.FetchMode;
-import org.hsqldb.Types;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

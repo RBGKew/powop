@@ -185,7 +185,6 @@ public class TaxonSolrInputDocumentTest {
 
 		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
-			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
 		}
 
 		// All subregions (level 1, 2, 3) should be indexed
@@ -222,7 +221,6 @@ public class TaxonSolrInputDocumentTest {
 
 		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
-			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
 		}
 
 		// All subregions (level 2, 3) should be indexed, plus parent regions to level 0
@@ -279,7 +277,6 @@ public class TaxonSolrInputDocumentTest {
 
 		for(String expectedKey : expectedDistributionKeys) {
 			assertTrue("Expected " + expectedKey, doc.containsKey(expectedKey));
-			System.out.println(Arrays.toString(doc.getFieldValues(expectedKey).toArray()));
 		}
 
 		// All parent regions to level 0 should be indexed

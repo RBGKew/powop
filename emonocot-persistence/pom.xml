@@ -25,15 +25,7 @@
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
       <artifactId>hibernate-spatial</artifactId>
-    </dependency>
-    <dependency>
-      <artifactId>cglib-nodep</artifactId>
-      <groupId>cglib</groupId>
     </dependency>
     <dependency>
       <groupId>org.apache.solr</groupId>
@@ -102,10 +94,6 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
