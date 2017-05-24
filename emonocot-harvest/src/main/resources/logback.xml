@@ -13,5 +13,6 @@
   <logger name="org.emonocot" level="${APP_LOG_LEVEL:-INFO}" additivity="false"/>
   <logger name="org.hibernate.SQL" level="INFO" />
   <logger name="org.hibernate.orm.deprecation" level="ERROR" />
+  <logger name="org.springframework.batch.core.job" level="INFO" />
   <logger name="liquibase" level="ERROR"/>
 </configuration>

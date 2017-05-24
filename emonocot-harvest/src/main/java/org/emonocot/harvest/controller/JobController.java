@@ -76,6 +76,7 @@ public class JobController {
 	public ResponseEntity<JobConfiguration> runJobConfiguration(@PathVariable Long id) throws JobExecutionException {
 		JobConfiguration jobConfiguration = jobConfigurationService.get(id);
 		jobLauncher.launch(new JobLaunchRequest(jobConfiguration));
+		logger.info("Running {}", jobConfiguration);
 		jobConfiguration.setJobStatus(BatchStatus.STARTING);
 
 		return new ResponseEntity<>(jobConfiguration, HttpStatus.OK);

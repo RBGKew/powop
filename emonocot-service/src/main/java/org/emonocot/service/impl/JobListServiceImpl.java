@@ -105,6 +105,7 @@ public class JobListServiceImpl implements JobListService {
 			launchRequest.addParameter("job.list.id", jobs.getId().toString());
 
 			try {
+				log.info("Running {} as part of JobList[{}] run", job, jobs.getDescription());
 				jobLauncher.launch(launchRequest);
 			} catch (JobExecutionException e) {
 				e.printStackTrace();
