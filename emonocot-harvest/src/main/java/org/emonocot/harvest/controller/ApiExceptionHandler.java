@@ -40,19 +40,4 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<ApiErrorResponse>(response, HttpStatus.BAD_REQUEST);
 	}
-
-	@ExceptionHandler(value = Exception.class)
-	protected ResponseEntity<ApiErrorResponse> handleGeneralException(Exception e, WebRequest request) throws Exception {
-		if(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
-			throw e;
-		}
-
-		log.error(e.toString());
-		ApiErrorResponse response = ApiErrorResponse.builder()
-				.error("Error")
-				.message(e.getMessage())
-				.build();
-
-		return new ResponseEntity<ApiErrorResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 }

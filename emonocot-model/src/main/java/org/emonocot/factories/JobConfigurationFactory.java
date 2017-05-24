@@ -1,5 +1,8 @@
 package org.emonocot.factories;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.emonocot.api.job.JobConfigurationException;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.constants.ResourceType;
@@ -24,18 +27,31 @@ public class JobConfigurationFactory {
 	}
 
 	public static JobConfiguration resourceJob(ResourceWithJob resourceWithJob) {
+		JobConfiguration job;
 		switch(resourceWithJob.getJobType()) {
 		case Harvest:
-			return JobConfigurationFactory.harvest(resourceWithJob.getResource());
+			job = JobConfigurationFactory.harvest(resourceWithJob.getResource());
+			break;
 		case HarvestNames:
-			return JobConfigurationFactory.harvestNames(resourceWithJob.getResource());
+			job = JobConfigurationFactory.harvestNames(resourceWithJob.getResource());
+			break;
 		case HarvestTaxonomy:
-			return JobConfigurationFactory.harvestTaxonomy(resourceWithJob.getResource());
+			job = JobConfigurationFactory.harvestTaxonomy(resourceWithJob.getResource());
+			break;
 		case HarvestImages:
-			return JobConfigurationFactory.harvestImages(resourceWithJob.getResource(), resourceWithJob.getParams().get("image.server"));
+			job = JobConfigurationFactory.harvestImages(resourceWithJob.getResource(), resourceWithJob.getParams().remove("image.server"));
+			break;
 		default:
 			throw new JobConfigurationException("Not a job type associated with a resource");
 		}
+
+		if(!resourceWithJob.getParams().isEmpty()) {
+			Map<String, String> params = new HashMap<>(job.getParameters());
+			params.putAll(resourceWithJob.getParams());
+			job.setParameters(params);
+		}
+
+		return job;
 	}
 
 	public static JobConfiguration harvest(Resource resource) {
