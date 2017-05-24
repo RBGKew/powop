@@ -1,19 +1,6 @@
-{{> partials/header}}
-<div class="s-page">
-  <header class="c-header">
-    <div class="container">
-      {{> partials/header/kew-logo-header}}
-    </div>
-  </header>
-
-  <article class="c-article">
-    <h1>{{title}}</h1>
-
-    {{#each errors}}
-    <div class="alert alert-danger">
-      {{this}}
-    </div>
-    {{/each}}
+<article class="c-article">
+  <h1>{{title}}</h1>
+  <h2>Organisation</h2>
 
     <form action id="organisation" action="/organisation" method="post" enctype="application/x-www-form-urlencoded">
       <div class="form-group">
@@ -36,11 +23,17 @@
         <label for="_bibliographicCitation_id">Bibliographic Citation</label>
         <textarea id="_bibliographicCitation_id" name="bibliographicCitation" class="form-control"/>{{bibliographicCitation}}</textarea>
       </div>
-      <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}" />
-
-      <input value="Submit" type="submit" class="btn"/>
     </form>
-  </article>
-  {{> partials/admin-footer}}
-</div>
-{{> partials/footer}}
+    <div class="add-organisation">
+      <button class="add btn btn-default">Save</button>
+    </div>
+  <h2>Resource</h2>
+    <div class= "resource-form">
+
+      <input type="text" name="organisation" value={{identifier}}>
+    </div>
+
+  <div class="add-resource">
+    <button class="add btn btn-default">Add Resource</button>
+  </div>
+</article>

@@ -1,0 +1,21 @@
+.resource-form{
+  margin: 20px 20px 20px 20px;
+  border: 1px #e7e7e7 solid;
+  min-height: 300px;
+  width: 85%;
+  align-self:center;
+
+    .row{
+      padding-top: 15px;
+    }
+    .resource-row {
+      border-bottom: 1px #e7e7e7 solid;
+    }
+    .form-control{
+      padding: 0em;
+    }
+    .form-dropdown{
+      background-color:  #e7e7e7;
+    }
+
+}

@@ -40,4 +40,5 @@ public class StaticController {
 	public String searchHelp() {
 		return "static/search_help";
 	}
+
 }
