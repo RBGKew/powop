@@ -157,6 +157,17 @@
 			<!-- Spring libraries -->
 			<dependency>
 				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
 				<artifactId>spring-web</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
@@ -193,11 +204,6 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context-support</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -339,6 +345,16 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>${logback.version}</version>
@@ -404,6 +420,12 @@
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.9.3</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>javassist</groupId>
@@ -516,6 +538,12 @@
 				<groupId>org.gbif</groupId>
 				<artifactId>dwca-reader</artifactId>
 				<version>1.18</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.vividsolutions</groupId>
@@ -559,21 +587,6 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.tika</groupId>
-				<artifactId>tika-parsers</artifactId>
-				<version>1.13</version>
-				<exclusions>
-					<exclusion>
-						<groupId>de.l3s.boilerpipe</groupId>
-						<artifactId>boilerpipe</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
 				<groupId>org.gbif</groupId>
 				<artifactId>ecat-common</artifactId>
 				<version>1.6</version>
@@ -581,6 +594,10 @@
 					<exclusion>
 						<artifactId>lucene-analyzers</artifactId>
 						<groupId>org.apache.lucene</groupId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>

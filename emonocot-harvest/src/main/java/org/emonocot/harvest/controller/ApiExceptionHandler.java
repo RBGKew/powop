@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.emonocot.model.exception.InvalidEntityException;
 import org.emonocot.model.exception.NotFoundException;
 import org.emonocot.model.marshall.json.ApiErrorResponse;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -37,5 +39,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.build();
 
 		return new ResponseEntity<ApiErrorResponse>(response, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(value = Exception.class)
+	protected ResponseEntity<ApiErrorResponse> handleGeneralException(Exception e, WebRequest request) throws Exception {
+		if(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
+			throw e;
+		}
+
+		log.error(e.toString());
+		ApiErrorResponse response = ApiErrorResponse.builder()
+				.error("Error")
+				.message(e.getMessage())
+				.build();
+
+		return new ResponseEntity<ApiErrorResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
