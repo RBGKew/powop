@@ -45,7 +45,7 @@ public class JobConfigurationFactory {
 			throw new JobConfigurationException("Not a job type associated with a resource");
 		}
 
-		if(!resourceWithJob.getParams().isEmpty()) {
+		if(resourceWithJob.getParams() != null && !resourceWithJob.getParams().isEmpty()) {
 			Map<String, String> params = new HashMap<>(job.getParameters());
 			params.putAll(resourceWithJob.getParams());
 			job.setParameters(params);
@@ -61,14 +61,14 @@ public class JobConfigurationFactory {
 	public static JobConfiguration harvestNames(Resource resource) {
 		return baseHarvestConfiguration(resource)
 				.parameter("taxon.processing.mode", "IMPORT_NAMES")
-				.description("Harvest " + resource.getTitle() + " names")
+				.description("Harvest names from " + resource.getTitle())
 				.build();
 	}
 
 	public static JobConfiguration harvestTaxonomy(Resource resource) {
 		return baseHarvestConfiguration(resource)
 				.parameter("taxon.processing.mode", "IMPORT_TAXONOMY")
-				.description("Harvest " + resource.getTitle() + " taxonomy")
+				.description("Harvest taxonomy from " + resource.getTitle())
 				.build();
 	}
 

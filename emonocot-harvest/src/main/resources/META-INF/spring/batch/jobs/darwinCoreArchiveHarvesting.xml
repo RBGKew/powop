@@ -683,7 +683,7 @@
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
       <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
       <batch:next on="*" to="markTypeAndSpecimenRecords" />
-      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="indexTaxa" />
+      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="indexTaxaDecision" />
     </batch:decision>
 
     <batch:step id="markTypeAndSpecimenRecords">
@@ -738,11 +738,17 @@
       <batch:tasklet>
         <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="10" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTaxa" />
+      <batch:next on="COMPLETED" to="indexTaxaDecision" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexTaxaDecider" id="indexTaxaDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexTaxa" />
+      <batch:next on="true" to="deleteOldAnnotations" />
+    </batch:decision>
 
     <batch:step id="indexTaxa">
       <batch:description>Index the taxa associated with this job</batch:description>
@@ -1925,5 +1931,10 @@
 
   <bean id="taxonDeletingWriter" class="org.emonocot.job.dwc.taxon.TaxonDeletingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="skipIndexTaxaDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+    <property name="processingModeKey" value="skip.indexing" />
+    <property name="defaultProcessingMode" value="false" />
   </bean>
 </beans>
