@@ -57,9 +57,6 @@ public class MeasurementOrFact extends OwnedEntity {
 
 	private static final long serialVersionUID = -1400551717852313792L;
 
-	/**
-	 *
-	 */
 	private Long id;
 
 	private Term measurementType;
@@ -87,7 +84,7 @@ public class MeasurementOrFact extends OwnedEntity {
 	private String source;
 
 	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}

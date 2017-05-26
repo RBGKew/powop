@@ -70,7 +70,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	private static final long serialVersionUID = -2463044801110563816L;
 
 	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Lob

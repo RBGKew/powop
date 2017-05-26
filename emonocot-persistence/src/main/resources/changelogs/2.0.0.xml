@@ -149,4 +149,28 @@
       <column name="jobConfiguration_id" type="bigint"/>
     </addColumn>
   </changeSet>
+
+  <changeSet id="2017-05-26_01" author="ji10kg">
+    <comment>Make all id columns autoincrement</comment>
+    <addAutoIncrement tableName="concept" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="description" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="distribution" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="identification" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="identifier" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="image" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="measurementorfact" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="organisation" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="place" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="principal" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="reference" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="resource" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="taxon" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="typeandspecimen" columnName="id" columnDataType="bigint" />
+    <addAutoIncrement tableName="vernacularname" columnName="id" columnDataType="bigint" />
+  </changeSet>
+
+  <changeSet id="2017-05-26_02" author="ji10kg">
+    <comment>Remove hibernate_sequences table, we are using autoinc instead of table based identity generation</comment>
+    <delete tableName="hibernate_sequences" />
+  </changeSet>
 </databaseChangeLog>

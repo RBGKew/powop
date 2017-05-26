@@ -61,7 +61,7 @@ public class Resource extends Base {
 	private static final long serialVersionUID = 5676965857186600965L;
 
 	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull

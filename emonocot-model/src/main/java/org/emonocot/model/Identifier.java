@@ -105,7 +105,7 @@ public class Identifier extends OwnedEntity {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}

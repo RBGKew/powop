@@ -14,10 +14,6 @@
  * The complete text of the GNU Affero General Public License is in the source repository as the file
  * ‘COPYING’.  It is also available from <http://www.gnu.org/licenses/>.
  */
-@org.hibernate.annotations.GenericGenerators({
-	@org.hibernate.annotations.GenericGenerator(name="table-hilo", strategy="org.hibernate.id.enhanced.TableGenerator", parameters={
-			@org.hibernate.annotations.Parameter(name="optimizer", value="hilo")})})
-
 @org.hibernate.annotations.TypeDefs({
 	@org.hibernate.annotations.TypeDef(name = "dateTimeUserType", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDateTime.class),
 	@org.hibernate.annotations.TypeDef(name = "durationUserType", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDurationAsString.class),

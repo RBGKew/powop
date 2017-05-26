@@ -187,7 +187,7 @@ public class Taxon extends SearchableObject {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}

@@ -117,7 +117,7 @@ public class VernacularName extends OwnedEntity {
 
 	@Override
 	@Id
-	@GeneratedValue(generator = "table-hilo", strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
