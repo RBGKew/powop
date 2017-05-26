@@ -44,7 +44,6 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 
 	@Override
 	public Taxon doProcess(Taxon taxon) throws Exception {
-		logger.info("Processing " + taxon.getIdentifier());
 		if (taxon.getIdentifier() == null || taxon.getIdentifier().isEmpty()) {
 			throw new NoIdentifierException(taxon);
 		}
@@ -54,7 +53,6 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
 		} else {
 			linkRecords(taxon);
-			logger.debug("found taxon with id " + persistedTaxon.getId());
 			persistedTaxon.setCreated(taxon.getCreated());
 			persistedTaxon.setModified(taxon.getModified());
 			persistedTaxon.setTaxonomicStatus(taxon.getTaxonomicStatus());
@@ -70,23 +68,26 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 
 	private Taxon linkRecords(Taxon taxon) throws Exception {
 		if (taxon.getParentNameUsage() != null) {
-			logger.debug("setting " + taxon.getIdentifier() + "as a child of " + taxon.getParentNameUsage().getIdentifier());
+			logger.debug("setting {} as a child of {}",  taxon.getIdentifier(), taxon.getParentNameUsage().getIdentifier());
 			persistedTaxon.setParentNameUsage(taxonService.find(taxon.getParentNameUsage().getIdentifier()));
 		} else {
+			logger.debug("clearing parent name usage of {} ", persistedTaxon.getIdentifications());
 			persistedTaxon.setParentNameUsage(null);
 		}
 
 		if (taxon.getAcceptedNameUsage() != null) {
-			logger.debug("setting" + taxon.getIdentifier() + "as a synonym of " + taxon.getAcceptedNameUsage().getIdentifier());
+			logger.debug("setting {} as a synonym of {}", taxon.getIdentifier(), taxon.getAcceptedNameUsage().getIdentifier());
 			persistedTaxon.setAcceptedNameUsage(taxonService.find(taxon.getAcceptedNameUsage().getIdentifier()));
 		} else {
-			taxon.setParentNameUsage(null);
+			logger.debug("clearing accepted name usage of {} ", persistedTaxon.getIdentifications());
+			persistedTaxon.setAcceptedNameUsage(null);
 		}
 
 		if (taxon.getOriginalNameUsage() != null) {
-			logger.debug("setting" + taxon.getIdentifier() + "as an orginal name of " + taxon.getOriginalNameUsage().getIdentifier());
+			logger.debug("setting {} as an orginal name of {}", taxon.getIdentifier(), taxon.getOriginalNameUsage().getIdentifier());
 			persistedTaxon.setOriginalNameUsage(taxonService.find(taxon.getOriginalNameUsage().getIdentifier()));
 		} else {
+			logger.debug("clearing original name usage of {} ", persistedTaxon.getIdentifications());
 			persistedTaxon.setOriginalNameUsage(null);
 		}
 
