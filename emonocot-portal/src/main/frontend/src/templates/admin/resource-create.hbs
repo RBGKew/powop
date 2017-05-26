@@ -1,0 +1,44 @@
+<form class="new-resource form-horizontal">
+  <div class="form-group">
+    <div class ="row">
+      <div class ="col col-md-3">
+        <label for="resource[identifier]">Identifier:</label>
+        <input type="text" class="form-control" name="resource[identifier]">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-md-3">
+        <label for="resource[title]">Tile:</label>
+        <input type="text" class="form-control" name="resource[title]">
+      </div>
+      <div class="col col-md-6">
+        <label for="resource[uri]">Url:</label>
+        <input type="url" class="form-control long-form" name="resource[uri]">
+      </div>
+    </div>
+    <div class ="row">
+      <div class="col col-md-3">
+        <label for="jobType">Data Type: </label>
+        <select class="form-control" name="jobType">
+          <option value="Harvest">Standard</option>
+          <option value="HarvestNames">Harvest Names</option>
+          <option value="HarvestTaxonomy">Harvest Taxonomy</option>
+        </select>
+      </div>
+      <div class="col col-md-6">
+        <label for="params[][image.server]">Prefix:</label>
+        <input type="url" class="form-control long-form" name="params[][image.server]" >
+      </div>
+    </div>
+    <div class="row">
+    </div>
+  </div>
+  <div class ="row">
+    <div class="col col-md-3">
+      <button class="btn btn-default save-new-resource" type="submit">Save</button>
+      <button class="btn btn-default cancel-new-resource" type="button">Cancel</button>
+    </div>
+  </div>
+  <input type="hidden" name="resource[resourceType]" value="DwC_Archive">
+  <input type="hidden" name="resource[organisation]" value="{{organisation}}">
+</form>

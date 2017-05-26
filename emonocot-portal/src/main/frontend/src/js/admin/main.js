@@ -1,91 +1,137 @@
-  define(function(require) {
+define(function(require) {
 
-    var $ = require('jquery');
-    var Handlebars = require('handlebars');
-    require('libs/bootstrap');
-    var resourceRowsTmpl = require('templates/partials/harvester/resource-row.js')
-    var resourceCreateTmpl = require('templates/partials/harvester/resource-create.js')
-    Handlebars.registerPartial('resource-row', resourceRowsTmpl);
-    Handlebars.registerPartial('resource-create', resourceCreateTmpl);
+  var $ = require('jquery');
+  var _ = require('libs/lodash');
+  var Handlebars = require('handlebars');
+  require('libs/jquery.serialize-object');
 
+  var loginTmpl = require('templates/admin/login.js')
 
-    function loadResources(state) {
-      $.getJSON("/harvester/api/1/resource" + state, function(json) {
-        $(".resource-form").html(resourceRowsTmpl(json));
-      });
+  var organisationsTmpl = require('templates/admin/organisations.js')
+  var organisationFormTmpl = require('templates/admin/organisation/form.js')
+
+  var resourceRowsTmpl = require('templates/admin/resource-row.js')
+  var resourceCreateTmpl = require('templates/admin/resource-create.js')
+
+  Handlebars.registerPartial('resource-row', resourceRowsTmpl);
+  Handlebars.registerPartial('resource-create', resourceCreateTmpl);
+
+  /* Utility functions */
+
+  function formToJson(form) {
+    return JSON.stringify($(form).serializeObject());
+  }
+
+  function loginIfUnauthorized(xhr, status, error) {
+    if(error === "Unauthorized") {
+      showLogin();
     }
+  }
 
-    function loadOrganisations()
+  function post(method, data, success, error){
+    $.ajax({
+      url: '/harvester/api/1/' + method,
+      type: 'POST',
+      contentType: 'application/json; charset=utf-8',
+      dataType: "json",
+      data: data,
+      success: success,
+      error: _.defaultTo(error, loginIfUnauthorized)
+    })
+  }
 
-    function addResource(event) {
-      var organisations = $.getJSON("/harvester/api/1/organisation")
-      $(".resource-form").prepend(resourceCreateTmpl(organisations));
-    }
+  /* Organisation interactions */
 
-    function post(type, jsonObject){
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        url: "/harvester/api/1/" + type,
-        dataType: "json",
-        data: JSON.stringify(jsonObject),
-      })
-    }
+  function listOrganisations() {
+    $.ajax({
+      url: "/harvester/api/1/organisation",
 
-    function login(event){
-      var request = {}
-      request["username"] = $("[name='username']").val();
-      request["password"] = $("[name='password']").val();
-      $.ajax({
-        type: 'POST',
-        url: "/harvester/login",
-        data: request
-      });
-    }
+      success: function(organisations) {
+        $(".s-page").html(organisationsTmpl(organisations));
+      },
 
-    function updateOrganisation(event){
-      var organisation = {};
-      $(this).parent().parent().find('select, textarea, input').each( function() {
-        var name = $(this).attr("name");
-        var value =  $(this).val();
-        organisation[name] = value;
-      });
-      var request = {};
-      request["organisation"] = organisation;
-      post("organisation", organisation);
-    }
+      error: loginIfUnauthorized
+    });
+  }
 
-    function updateResource(event){
-      var resource = {};
-      $(this).closest(".resource-row").find('select, textarea, input').each( function() {
-        var name = $(this).attr("name");
-        var value =  $(this).val();
-        resource[name] = value;
-      });
-      var request = {};
-      request["resource"] =  resource;
-      post("resource", request);
-      alert(JSON.stringify(request));
-      loadResources("")
-    }
+  function showAddOrganisation() {
+    $(this)
+      .hide()
+      .after(organisationFormTmpl());
+  }
 
+  function hideAddOrganisation() {
+    $('#new-organisation').remove();
+    $('#add-organisation').show()
+  }
 
-    var initialize = function() {
+  function addOrganisation(e) {
+    e.preventDefault();
+    post(
+      'organisation',
+      formToJson('#new-organisation'),
+      listOrganisations
+    );
+  }
 
-      loadResources("");
+  /* Resource interactions */
+  function showAddResource() {
+    var org = $(this).parents('.panel').data('org');
+    $(this)
+      .hide()
+      .after(resourceCreateTmpl({ organisation: org }));
+  }
 
-      $(".resource-form").on("click", ".dropdown", function(event) {
-        $(this).parent().parent().parent().find(".form-dropdown").toggleClass("hidden");
-      });
-      $(".resource-form").on("click", ".save", updateResource);
-      $(".add-resource").on("click", ".add", addResource);
-      $(".add-organisation").on("click", ".add", updateOrganisation);
-      $(".password").on("click", login);
-    };
+  function hideAddResource() {
+    $(this).closest('.panel-body').find('.add-resource').show()
+    $('.new-resource:visible').remove();
+  }
 
+  function addResource(e) {
+    e.preventDefault();
+    post(
+      'resource',
+      formToJson('.new-resource:visible'),
+      listOrganisations
+    );
+  }
 
+  function harvestResource(e) {
+    e.preventDefault();
+    var jobId = $(this).data('job');
+    post('job/configuration/' + jobId + '/run');
+  }
+
+  /* Login */
+
+  function showLogin() {
+    $('.s-page').html(loginTmpl());
+    $('.login').submit(function(e) {
+      e.preventDefault();
+      login();
+    })
+  }
+
+  function login(event){
+    var request = $('.login').serialize();
+    $.post("/harvester/login", request, listOrganisations);
+  }
+
+  var initialize = function() {
+
+    listOrganisations();
+
+    $('.s-page')
+      .on('click', '#add-organisation', showAddOrganisation)
+      .on('click', '#save-new-organisation', addOrganisation)
+      .on('click', '#cancel-new-organisation', hideAddOrganisation)
+      .on('click', '.add-resource', showAddResource)
+      .on('click', '.save-new-resource', addResource)
+      .on('click', '.cancel-new-resource', hideAddResource)
+      .on('click', '.btn.harvest', harvestResource);
+  };
 
   return {
     initialize: initialize
   };
-  });
+});

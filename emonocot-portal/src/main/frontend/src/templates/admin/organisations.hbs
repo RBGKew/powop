@@ -1,0 +1,67 @@
+<article class="c-article">
+  <header class="c-article-header">
+    <h1>Organisations</h1>
+  </header>
+
+  <section class="c-article-section">
+    <div class="panel-group" id="organisations" role="tablist" aria-multiselectable="true">
+      {{#each results}}
+      <div class="panel panel-default" data-org="{{identifier}}">
+        <div class=panel-heading" role="tab">
+          <h2>
+            <a role="button" data-toggle="collapse" data-parent="#organisations" href="#org-{{identifier}}">{{title}}</a>
+          </h2>
+        </div>
+
+        <div id="org-{{identifier}}" class="panel-collapse collapse" role="tabpanel">
+          <div class="panel-body">
+            <dl class="dl-horizontal">
+              <dt>Identifier</dt>
+              <dd>{{identifier}}</dd>
+              <dt>Description</dt>
+              <dd>{{description}}</dd>
+              <dt>Abbreviation</dt>
+              <dd>{{abbreviation}}</dd>
+              <dt>bibliographicCitation</dt>
+              <dd>{{bibliographicCitation}}</dd>
+              <dt>subject</dt>
+              <dd>{{subject}}</dd>
+            </dl>
+
+            <h3>Resources</h3>
+            {{#with resources}}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>URI</th>
+                  <th>Status</th>
+                  <th>Action!</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each this}}
+                <tr>
+                  <td>{{title}}</td>
+                  <td>{{uri}}</td>
+                  <td>{{jobConfiguration.jobStatus}}</td>
+                  <td>
+                    <a class="btn btn-default harvest" href="#harvest-{{id}}" data-job="{{jobConfiguration.id}}">Harvest</a>
+                    <a class="btn btn-default edit" href="{{id}}">Edit</a>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+            {{/with}}
+
+            <button class="btn btn-default add-resource" type="button">Add resource</button>
+
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <button class="btn btn-default" type="button" id="add-organisation">Add organisation</button>
+  </section>
+</article>

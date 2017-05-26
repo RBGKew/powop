@@ -1,0 +1,24 @@
+<form id="new-organisation">
+  <div class="form-group">
+    <label for="_title_id">Title</label>
+    <input type="text" id="_title_id" name="title" value="{{title}}" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <label for="_identifier_id">Identifier</label>
+    <input type="text" id="_identifier_id" name="identifier" value="{{identifier}}" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <label for="_abbreviation_id">Abbreviation</label>
+    <input type="text" id="_abbreviation_id" name="abbreviation" value="{{abbreviation}}" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <label for="_uri_id">Url</label>
+    <input type="text" id="_uri_id" name="uri" value="{{uri}}" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <label for="_bibliographicCitation_id">Bibliographic Citation</label>
+    <textarea id="_bibliographicCitation_id" name="bibliographicCitation" class="form-control"/>{{bibliographicCitation}}</textarea>
+  </div>
+  <button class="btn btn-normal" id="save-new-organisation" type="submit">Save</button>
+  <button class="btn btn-normal" id="cancel-new-organisation" type="button">Cancel</button>
+</form>
