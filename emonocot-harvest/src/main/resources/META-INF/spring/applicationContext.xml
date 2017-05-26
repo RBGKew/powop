@@ -103,7 +103,6 @@
         <value>org.emonocot.model.registry.Resource</value>
       </list>
     </property>
-    <property name="entityInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">
