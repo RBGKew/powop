@@ -19,7 +19,6 @@ services:
       - solr
     volumes:
       - $SOURCE_DIRECTORY/emonocot/emonocot-portal/target/emonocot-portal.war:/usr/local/tomcat/webapps/ROOT.war
-    mem_limit: 500M
 
   harvester:
     image: ${DOCKER_REGISTRY}harvester:latest
@@ -31,7 +30,6 @@ services:
       - solr
     volumes:
       - $SOURCE_DIRECTORY/emonocot/emonocot-harvest/target/emonocot-harvest.war:/usr/local/tomcat/webapps/harvester.war
-    mem_limit: 500M
 
   apache:
     image: ${DOCKER_REGISTRY}apache:latest
