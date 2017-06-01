@@ -1,5 +1,7 @@
 package org.emonocot.service.impl;
 
+import java.util.List;
+
 import org.emonocot.api.JobConfigurationService;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.pager.DefaultPageImpl;
@@ -38,5 +40,10 @@ public class JobConfigurationServiceImpl implements JobConfigurationService {
 	@Transactional
 	public Page<JobConfiguration> list(int page, int size) {
 		return new DefaultPageImpl<>(dao.list(page, size), page, size);
+	}
+
+	@Override
+	public List<JobConfiguration> listByName(String jobName) {
+		return dao.listByName(jobName);
 	}
 }

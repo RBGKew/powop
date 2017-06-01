@@ -16,6 +16,8 @@
  */
 package org.emonocot.api;
 
+import java.util.List;
+
 import org.emonocot.model.Base;
 import org.emonocot.pager.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,6 +139,8 @@ public interface Service<T extends Base> {
 	 * @return A page of results
 	 */
 	Page<T> list(Integer page, Integer size, String fetch);
+
+	List<T> list(String fetch);
 
 	/**
 	 * 

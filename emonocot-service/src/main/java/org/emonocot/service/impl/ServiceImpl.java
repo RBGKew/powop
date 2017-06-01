@@ -17,6 +17,7 @@
 package org.emonocot.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.emonocot.api.Service;
 import org.emonocot.model.Base;
@@ -197,6 +198,11 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
 		} else {
 			return new DefaultPageImpl<T>(dao.list(page, size, fetch), page, size);
 		}
+	}
+
+	@Transactional
+	public final List<T> list(String fetch) {
+		return dao.list(null, null, fetch);
 	}
 
 	public long count() {

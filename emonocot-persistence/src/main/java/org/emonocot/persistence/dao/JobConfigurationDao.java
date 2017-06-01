@@ -53,4 +53,10 @@ public class JobConfigurationDao {
 				.setMaxResults(size)
 				.getResultList();
 	}
+
+	public List<JobConfiguration> listByName(String jobName) {
+		return session().createQuery("SELECT c FROM JobConfiguration c where jobName = :jobName", JobConfiguration.class)
+				.setParameter("jobName", jobName)
+				.getResultList();
+	}
 }

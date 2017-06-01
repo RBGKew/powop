@@ -6,6 +6,7 @@ import java.util.Map;
 import org.emonocot.api.job.JobConfigurationException;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.constants.ResourceType;
+import org.emonocot.model.marshall.json.JobWithParams;
 import org.emonocot.model.marshall.json.ResourceWithJob;
 import org.emonocot.model.registry.Resource;
 
@@ -49,6 +50,29 @@ public class JobConfigurationFactory {
 			Map<String, String> params = new HashMap<>(job.getParameters());
 			params.putAll(resourceWithJob.getParams());
 			job.setParameters(params);
+		}
+
+		return job;
+	}
+
+	public static JobConfiguration buildJob(JobWithParams jobWithParams) {
+		JobConfiguration job;
+		switch(jobWithParams.getJobType()) {
+		case ReIndex:
+			job = JobConfigurationFactory.reIndexTaxa();
+			break;
+		default:
+			throw new JobConfigurationException("Not a job type associated with a resource");
+		}
+
+		if(jobWithParams.getParams() != null && !jobWithParams.getParams().isEmpty()) {
+			Map<String, String> params = new HashMap<>(job.getParameters());
+			params.putAll(jobWithParams.getParams());
+			job.setParameters(params);
+		}
+
+		if(jobWithParams.getDescription() != null) {
+			job.setDescription(jobWithParams.getDescription());
 		}
 
 		return job;
