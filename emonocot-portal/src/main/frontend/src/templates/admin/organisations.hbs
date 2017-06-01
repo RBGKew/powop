@@ -7,7 +7,7 @@
     <div class="panel-group" id="organisations" role="tablist" aria-multiselectable="true">
       {{#each results}}
       <div class="panel panel-default" data-org="{{identifier}}">
-        <div class=panel-heading" role="tab">
+        <div class="panel-heading" role="tab">
           <h2>
             <a role="button" data-toggle="collapse" data-parent="#organisations" href="#org-{{identifier}}">{{title}}</a>
           </h2>
@@ -41,16 +41,22 @@
               </thead>
               <tbody>
                 {{#each this}}
-                <tr>
-                  <td>{{title}}</td>
-                  <td>{{uri}}</td>
-                  <td>{{jobConfiguration.jobStatus}}</td>
+                <tr id="{{id}}">
+                  <td><a class="editable" href="#" data-field="title" data-type="text">{{title}}</a></td>
+                  <td><a class="editable" href="#" data-field="uri" data-type="text">{{uri}}</a></td>
+                  <td><a class="editable" href="#" data-field="jobConfiguration.jobStatus" data-type="text">{{jobConfiguration.jobStatus}}</a></td>
                   <td>
                     <a class="btn btn-default harvest" href="#harvest-{{id}}" data-job="{{jobConfiguration.id}}">Harvest</a>
-                    <a class="btn btn-default edit" href="{{id}}">Edit</a>
+                    <a role="button" data-toggle="collapse" href="#collapse-{{id}}" data-target="#collapse-{{id}}">Edit</a>
+                  </td>
+                </tr>
+                <tr id="collapse-{{id}}" class="collapse out">
+                  <td colspan="4" class="extra-information">
+                    Resource Type:  <a class="editable editable-click">"{{resourceType}}"</a>
                   </td>
                 </tr>
                 {{/each}}
+              </div>
               </tbody>
             </table>
             {{/with}}

@@ -2,8 +2,10 @@ define(function(require) {
 
   var $ = require('jquery');
   var _ = require('libs/lodash');
+  require('libs/bootstrap');
   var Handlebars = require('handlebars');
   require('libs/jquery.serialize-object');
+  require('libs/editable');
 
   var loginTmpl = require('templates/admin/login.js')
 
@@ -112,6 +114,27 @@ define(function(require) {
     })
   }
 
+  function modifyResourceField(id){
+    $.ajax({
+      url: "/harvester/api/1/resource" + id,
+
+      success: function(resource) {
+
+      },
+
+      error: loginIfUnauthorized
+    });
+  }
+
+  function initializeEditable(){
+    $('.editable').each(function(){
+      $(this).editable();
+      $(this).on('update', function(e, editable) {
+        var id = $(this).closest("tr").attr("id");
+      })
+    })
+  }
+
   function login(event){
     var request = $('.login').serialize();
     $.post("/harvester/login", request, listOrganisations);
@@ -128,7 +151,8 @@ define(function(require) {
       .on('click', '.add-resource', showAddResource)
       .on('click', '.save-new-resource', addResource)
       .on('click', '.cancel-new-resource', hideAddResource)
-      .on('click', '.btn.harvest', harvestResource);
+      .on('click', '.btn.harvest', harvestResource)
+
   };
 
   return {
