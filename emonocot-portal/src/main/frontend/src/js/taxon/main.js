@@ -29,6 +29,13 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
+    if($('#content-navbar').length > 0) {
+      $('#content-navbar').affix({
+          offset: { top: $('#content-navbar').offset().top }
+      });
+    }
+
+
     // Accomodate fixed header when jumping to anchor links
     $('nav a').click(function() {
       var target = $(this.hash);

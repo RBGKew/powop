@@ -21,15 +21,12 @@ module.exports = function (gulp, $) {
       name: 'main',
       out: 'all.js',
       include: ['libs/require', 'main'],
-      mainConfigFile: 'src/js/' + 'main.js',
-      shim: {
-        // standard require.js shim options
-      }
+      mainConfigFile: 'src/js/main.js',
     })
-		//.pipe($.sourcemaps.init({loadMaps: true}))
-    //.pipe($.uglify())
+    .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.uglify())
     .pipe($.rename({extname: '.min.js'}))
-    //.pipe($.sourcemaps.write('maps', {sourceMappingURLPrefix: '/js'}))
+    .pipe($.sourcemaps.write('maps', {sourceMappingURLPrefix: '/js'}))
     .pipe(gulp.dest('dist/js'));
 
     cb();
