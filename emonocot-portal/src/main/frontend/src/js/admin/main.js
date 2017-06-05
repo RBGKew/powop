@@ -2,12 +2,17 @@ define(function(require) {
 
   var $ = require('jquery');
   var _ = require('libs/lodash');
-  require('libs/bootstrap');
   var Handlebars = require('handlebars');
+  require('libs/bootstrap');
   require('libs/jquery.serialize-object');
-  require('libs/editable');
+  require('libs/html.sortable');
+  require('libs/select2');
+  require('libs/select2.sortable');
+  require('libs/bootstrap-datetimepicker');
 
   var loginTmpl = require('templates/admin/login.js')
+
+  var adminTmpl = require('templates/admin/main.js')
 
   var organisationsTmpl = require('templates/admin/organisations.js')
   var organisationFormTmpl = require('templates/admin/organisation/form.js')
@@ -15,13 +20,18 @@ define(function(require) {
   var resourceRowsTmpl = require('templates/admin/resource-row.js')
   var resourceCreateTmpl = require('templates/admin/resource-create.js')
 
-  Handlebars.registerPartial('resource-row', resourceRowsTmpl);
-  Handlebars.registerPartial('resource-create', resourceCreateTmpl);
+  var jobListsTmpl = require('templates/admin/job/lists.js')
+  var jobListsCreateTmpl = require('templates/admin/job/create.js')
+
+  Handlebars.registerPartial('admin/organisations', organisationsTmpl);
+  Handlebars.registerPartial('admin/job/lists', jobListsTmpl);
 
   /* Utility functions */
 
   function formToJson(form) {
-    return JSON.stringify($(form).serializeObject());
+    return JSON.stringify(
+      _.omitBy($(form).serializeObject(), _.isEmpty)
+    );
   }
 
   function loginIfUnauthorized(xhr, status, error) {
@@ -44,12 +54,15 @@ define(function(require) {
 
   /* Organisation interactions */
 
-  function listOrganisations() {
+  function listOrganisations(show) {
     $.ajax({
       url: "/harvester/api/1/organisation",
 
       success: function(organisations) {
-        $(".s-page").html(organisationsTmpl(organisations));
+        $("#organisations").html(organisationsTmpl(organisations));
+        if(!_.isEmpty(show)) {
+          $('#' + show + ' > .panel-collapse').addClass('in');
+        }
       },
 
       error: loginIfUnauthorized
@@ -57,14 +70,14 @@ define(function(require) {
   }
 
   function showAddOrganisation() {
-    $(this)
-      .hide()
-      .after(organisationFormTmpl());
+    var section = $(this).parents('section');
+    section.children().hide();
+    section.after(organisationFormTmpl());
   }
 
   function hideAddOrganisation() {
     $('#new-organisation').remove();
-    $('#add-organisation').show()
+    $('section').children().show()
   }
 
   function addOrganisation(e) {
@@ -72,21 +85,24 @@ define(function(require) {
     post(
       'organisation',
       formToJson('#new-organisation'),
-      listOrganisations
+      function(data) {
+        hideAddOrganisation();
+        listOrganisations(data['identifier']);
+      }
     );
   }
 
   /* Resource interactions */
   function showAddResource() {
-    var org = $(this).parents('.panel').data('org');
-    $(this)
-      .hide()
-      .after(resourceCreateTmpl({ organisation: org }));
+    var org = $(this).parents('.panel').attr('id');
+    var section = $(this).parents('section');
+    section.children().hide();
+    section.after(resourceCreateTmpl({ organisation: org }));
   }
 
   function hideAddResource() {
-    $(this).closest('.panel-body').find('.add-resource').show()
     $('.new-resource:visible').remove();
+    $('section').children().show()
   }
 
   function addResource(e) {
@@ -94,7 +110,10 @@ define(function(require) {
     post(
       'resource',
       formToJson('.new-resource:visible'),
-      listOrganisations
+      function(resource) {
+        hideAddResource();
+        listOrganisations(resource['organisation']);
+      }
     );
   }
 
@@ -102,6 +121,63 @@ define(function(require) {
     e.preventDefault();
     var jobId = $(this).data('job');
     post('job/configuration/' + jobId + '/run');
+  }
+
+  /* Job Lists */
+  function listJobLists() {
+    $.ajax({
+      url: "/harvester/api/1/job/list",
+
+      success: function(joblists) {
+        $("#jobs").html(jobListsTmpl(joblists));
+      },
+
+      error: loginIfUnauthorized
+    });
+  }
+
+  function showAddJobList() {
+    var section = $(this).parents('section');
+
+    $.getJSON('/harvester/api/1/job/configuration', function(jobs) {
+      section.children().hide();
+      section.after(jobListsCreateTmpl(jobs));
+      $('.all-jobs-list').select2Sortable();
+      $('#next-run').datetimepicker({
+        format: 'yyyy-mm-ddThh:ii',
+        minuteStep: 15
+      });
+    });
+
+  }
+
+  function hideAddJobList() {
+    $('#new-job-list').remove();
+    $('section').children().show()
+  }
+
+  function addJobList(e) {
+    e.preventDefault();
+    post(
+      'job/list',
+      formToJson('#new-job-list form'),
+      showInterface
+    );
+  }
+
+  function deleteJobList() {
+    var id = $(this).data('id');
+    var panel = $(this).closest('.panel');
+
+    if(confirm('Are you sure you want to delete this job list?') == true) {
+      $.ajax({
+        url: '/harvester/api/1/job/list/' + id,
+        type: 'DELETE',
+        success: function(result) {
+          panel.remove();
+        }
+      });
+    }
   }
 
   /* Login */
@@ -137,12 +213,20 @@ define(function(require) {
 
   function login(event){
     var request = $('.login').serialize();
-    $.post("/harvester/login", request, listOrganisations);
+    $.post("/harvester/login", request, showInterface);
+  }
+
+  /* Overall interface */
+
+  function showInterface() {
+    $('.s-page').html(adminTmpl());
+    listOrganisations();
+    listJobLists();
   }
 
   var initialize = function() {
 
-    listOrganisations();
+    showInterface();
 
     $('.s-page')
       .on('click', '#add-organisation', showAddOrganisation)
@@ -152,8 +236,11 @@ define(function(require) {
       .on('click', '.save-new-resource', addResource)
       .on('click', '.cancel-new-resource', hideAddResource)
       .on('click', '.btn.harvest', harvestResource)
-
-  };
+      .on('click', '#add-job-list', showAddJobList)
+      .on('click', '#save-new-job-list', addJobList)
+      .on('click', '#cancel-new-job-list', hideAddJobList)
+      .on('click', '.delete-job-list', deleteJobList);
+  }
 
   return {
     initialize: initialize

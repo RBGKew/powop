@@ -1,53 +1,49 @@
-<article class="c-article">
-  <header class="c-article-header">
-    <h1>Organisations</h1>
-  </header>
+<h2>Organisations</h2>
 
-  <section class="c-article-section">
-    <div class="panel-group" id="organisations" role="tablist" aria-multiselectable="true">
-      {{#each results}}
-      <div class="panel panel-default" data-org="{{identifier}}">
-        <div class="panel-heading" role="tab">
-          <h2>
-            <a role="button" data-toggle="collapse" data-parent="#organisations" href="#org-{{identifier}}">{{title}}</a>
-          </h2>
-        </div>
+<div class="panel-group" id="organisations" role="tablist" aria-multiselectable="true">
+  {{#each results}}
+  <div class="panel panel-default" id="{{identifier}}">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#organisations" href="#org-{{identifier}}">{{title}}</a>
+      </h3>
+    </div>
 
-        <div id="org-{{identifier}}" class="panel-collapse collapse" role="tabpanel">
-          <div class="panel-body">
-            <dl class="dl-horizontal">
-              <dt>Identifier</dt>
-              <dd>{{identifier}}</dd>
-              <dt>Description</dt>
-              <dd>{{description}}</dd>
-              <dt>Abbreviation</dt>
-              <dd>{{abbreviation}}</dd>
-              <dt>bibliographicCitation</dt>
-              <dd>{{bibliographicCitation}}</dd>
-              <dt>subject</dt>
-              <dd>{{subject}}</dd>
-            </dl>
+    <div id="org-{{identifier}}" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Identifier</dt>
+          <dd>{{identifier}}</dd>
+          <dt>Description</dt>
+          <dd>{{description}}</dd>
+          <dt>Abbreviation</dt>
+          <dd>{{abbreviation}}</dd>
+          <dt>bibliographicCitation</dt>
+          <dd>{{bibliographicCitation}}</dd>
+          <dt>subject</dt>
+          <dd>{{subject}}</dd>
+        </dl>
 
-            <h3>Resources</h3>
-            {{#with resources}}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>URI</th>
-                  <th>Status</th>
-                  <th>Action!</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each this}}
+        <h3>Resources</h3>
+        {{#with resources}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>URI</th>
+              <th>Status</th>
+              <th>Action!</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this}}
                 <tr id="{{id}}">
                   <td><a class="editable" href="#" data-field="title" data-type="text">{{title}}</a></td>
                   <td><a class="editable" href="#" data-field="uri" data-type="text">{{uri}}</a></td>
                   <td><a class="editable" href="#" data-field="jobConfiguration.jobStatus" data-type="text">{{jobConfiguration.jobStatus}}</a></td>
                   <td>
-                    <a class="btn btn-default harvest" href="#harvest-{{id}}" data-job="{{jobConfiguration.id}}">Harvest</a>
-                    <a role="button" data-toggle="collapse" href="#collapse-{{id}}" data-target="#collapse-{{id}}">Edit</a>
+                    <button class="btn btn-sm btn-success harvest" type="button" data-target="#harvest-{{id}}" data-job="{{jobConfiguration.id}}">Harvest</button>
+                    <button class="btn btn-sm btn-warning" type="button" data-toggle="collapse" data-target="#collapse-{{id}}">Edit</button>
                   </td>
                 </tr>
                 <tr id="collapse-{{id}}" class="collapse out">
@@ -55,19 +51,16 @@
                     Resource Type:  <a class="editable editable-click">"{{resourceType}}"</a>
                   </td>
                 </tr>
-                {{/each}}
-              </div>
-              </tbody>
-            </table>
-            {{/with}}
+            {{/each}}
+          </tbody>
+        </table>
+        {{/with}}
 
-            <button class="btn btn-default add-resource" type="button">Add resource</button>
+        <button class="btn btn-success btn-sm add-resource" type="button">New resource</button>
 
-          </div>
-        </div>
       </div>
-      {{/each}}
     </div>
-    <button class="btn btn-default" type="button" id="add-organisation">Add organisation</button>
-  </section>
-</article>
+  </div>
+  {{/each}}
+</div>
+<button class="btn btn-success" type="button" id="add-organisation">New organisation</button>

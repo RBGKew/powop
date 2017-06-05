@@ -88,4 +88,8 @@ public class JobListDao {
 				.setParameter("currentTime", DateTime.now())
 				.getResultList();
 	}
+
+	public void delete(Long id) {
+		session().delete(get(id));
+	}
 }

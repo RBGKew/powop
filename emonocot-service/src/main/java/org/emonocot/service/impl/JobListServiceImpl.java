@@ -41,6 +41,11 @@ public class JobListServiceImpl implements JobListService {
 		dao.saveOrUpdate(list);
 	}
 
+	@Transactional
+	public void delete(Long id) {
+		dao.delete(id);
+	}
+
 	@Transactional(readOnly = true)
 	public JobList get(Long id) {
 		return dao.get(id);

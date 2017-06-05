@@ -12,6 +12,8 @@ public interface JobListService {
 
 	public void saveOrUpdate(JobList list);
 
+	public void delete(Long id);
+
 	public JobList get(Long id);
 
 	public List<JobList> list();

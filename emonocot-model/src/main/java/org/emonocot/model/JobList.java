@@ -1,7 +1,6 @@
 package org.emonocot.model;
 
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -78,7 +77,7 @@ public class JobList {
 	private JobListStatus status;
 
 	@Singular
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@OrderColumn
 	@JsonDeserialize(using = JobConfigurationsDeserializer.class)
