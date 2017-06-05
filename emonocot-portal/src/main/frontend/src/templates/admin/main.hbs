@@ -1,11 +1,15 @@
 <article class="c-article">
   <h1 class="c-article-header">Data Management</h1>
   <section class="c-article-section">
-    <div id="organisations">
+    <div id="organisations-container">
       {{> admin/organisations }}
     </div>
 
-    <div id="jobs">
+    <div id="jobs-container">
+      {{> admin/job/configurations }}
+    </div>
+
+    <div id="job-lists-container">
       {{> admin/job/lists }}
     </div>
   </section>

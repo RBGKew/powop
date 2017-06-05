@@ -3,6 +3,7 @@ define(function(require) {
   var $ = require('jquery');
   var _ = require('libs/lodash');
   var Handlebars = require('handlebars');
+  require('helpers/admin-helpers.js');
   require('libs/bootstrap');
   require('libs/jquery.serialize-object');
   require('libs/html.sortable');
@@ -23,7 +24,11 @@ define(function(require) {
   var jobListsTmpl = require('templates/admin/job/lists.js')
   var jobListsCreateTmpl = require('templates/admin/job/create.js')
 
+  var jobConfigurationsTmpl = require('templates/admin/job/configurations.js')
+  var jobExecutionTmpl = require('templates/admin/job/execution.js')
+
   Handlebars.registerPartial('admin/organisations', organisationsTmpl);
+  Handlebars.registerPartial('admin/job/configurations', jobConfigurationsTmpl);
   Handlebars.registerPartial('admin/job/lists', jobListsTmpl);
 
   /* Utility functions */
@@ -59,7 +64,7 @@ define(function(require) {
       url: "/harvester/api/1/organisation",
 
       success: function(organisations) {
-        $("#organisations").html(organisationsTmpl(organisations));
+        $("#organisations-container").html(organisationsTmpl(organisations));
         if(!_.isEmpty(show)) {
           $('#' + show + ' > .panel-collapse').addClass('in');
         }
@@ -129,7 +134,7 @@ define(function(require) {
       url: "/harvester/api/1/job/list",
 
       success: function(joblists) {
-        $("#jobs").html(jobListsTmpl(joblists));
+        $("#job-lists-container").html(jobListsTmpl(joblists));
       },
 
       error: loginIfUnauthorized
@@ -180,6 +185,39 @@ define(function(require) {
     }
   }
 
+  /* Jobs */
+
+  function listJobs() {
+    $.ajax({
+      url: "/harvester/api/1/job/configuration",
+
+      success: function(jobs) {
+        $('#jobs-container').html(jobConfigurationsTmpl(jobs));
+        $('#jobs .collapse').on('show.bs.collapse', function() {
+          loadJobExecution($(this));
+        })
+      },
+
+      error: loginIfUnauthorized
+    });
+  }
+
+  function loadJobExecution(jobPanel) {
+    // lazy load the job
+    if(jobPanel.find('.job-execution-steps').size() ===  0) {
+      var id = jobPanel.closest('.panel').data('job-configuration-id');
+      $.getJSON('/harvester/api/1/job/configuration/' + id + '/execution', function(execution) {
+        $(jobPanel.find('.panel-body')).append(jobExecutionTmpl(execution));
+      });
+    }
+  }
+
+  function runJob() {
+    var jobPanel = $(this);
+    var jobId = jobPanel.closest('.panel').data('job-configuration-id');
+    post('job/configuration/' + jobId + '/run', listJobs);
+  }
+
   /* Login */
 
   function showLogin() {
@@ -221,6 +259,7 @@ define(function(require) {
   function showInterface() {
     $('.s-page').html(adminTmpl());
     listOrganisations();
+    listJobs();
     listJobLists();
   }
 
@@ -239,7 +278,8 @@ define(function(require) {
       .on('click', '#add-job-list', showAddJobList)
       .on('click', '#save-new-job-list', addJobList)
       .on('click', '#cancel-new-job-list', hideAddJobList)
-      .on('click', '.delete-job-list', deleteJobList);
+      .on('click', '.delete-job-list', deleteJobList)
+      .on('click', '.run-job', runJob);
   }
 
   return {
