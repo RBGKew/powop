@@ -42,6 +42,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 		if (job != null) {
 			logger.debug("updating jobconfiguration: " + job.getId());
 			job.setJobStatus(jobExecutionInfo.getStatus());
+			job.setJobExitCode(jobExecutionInfo.getExitCode());
 			job.setLastJobExecution(jobExecutionInfo.getId());
 			service.saveOrUpdate(job);
 		}

@@ -50,4 +50,6 @@ public class JobConfiguration {
 
 	@Enumerated(value = EnumType.STRING)
 	private BatchStatus jobStatus;
+
+	private String jobExitCode;
 }

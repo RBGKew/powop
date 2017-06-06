@@ -173,4 +173,11 @@
     <comment>Remove hibernate_sequences table, we are using autoinc instead of table based identity generation</comment>
     <delete tableName="hibernate_sequences" />
   </changeSet>
+
+  <changeSet id="2017-06-06_01" author="ji10kg">
+    <comment>Add exit status to jobconfiguration</comment>
+    <addColumn tableName="jobconfiguration">
+      <column name="jobExitCode" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>

@@ -1,20 +1,39 @@
 define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
-  Handlebars.registerHelper('panel-status', function(status) {
+
+  function statusClass(status) {
     switch(_.toLower(status)) {
       case 'completed':
-        return 'panel-success';
+        return 'success';
       case 'starting':
       case 'started':
       case 'stopping':
       case 'stopped':
-        return 'panel-info';
+        return 'info';
       case 'failed':
       case 'abandoned':
       case 'unknown':
-        return 'panel-danger';
+        return 'danger';
     }
 
-    return 'panel-default';
+    return 'default';
+  }
+
+  Handlebars.registerHelper('panel-status', function(status) {
+    return 'panel-' + statusClass(status);
+  });
+
+  Handlebars.registerHelper('table-status', function(status) {
+    switch(_.toLower(status)) {
+      case 'starting':
+      case 'started':
+      case 'stopping':
+      case 'stopped':
+        return 'info';
+      case 'failed':
+      case 'abandoned':
+      case 'unknown':
+        return 'danger';
+    }
   });
 
   Handlebars.registerHelper('datetime', function(datetime) {

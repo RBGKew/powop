@@ -1,6 +1,6 @@
 {{#if stepExecutions}}
 <table class="table job-execution-steps">
-  <caption>Job Steps</caption>
+  <caption>{{exitStatus.exitDescription}}</caption>
   <thead>
     <tr>
       <th>Name</th>
@@ -8,18 +8,16 @@
       <th>Exit Status</th>
       <th>Started</th>
       <th>Finished</th>
-      <th>Skip Count</th>
     </tr>
   </thead>
   <tbody>
     {{#each stepExecutions}}
-      <tr>
+      <tr class="{{table-status exitStatus.exitCode}}">
         <td>{{stepName}}</td>
         <td>{{status}}</td>
         <td>{{exitStatus.exitCode}}</td>
         <td>{{datetime startTime}}</td>
         <td>{{datetime endTime}}</td>
-        <td>{{skipCount}}</td>
       </tr>
     {{/each}}
   </tbody>
