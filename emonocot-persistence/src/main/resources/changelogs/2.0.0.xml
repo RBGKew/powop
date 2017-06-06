@@ -180,4 +180,19 @@
       <column name="jobExitCode" type="varchar(255)" />
     </addColumn>
   </changeSet>
+
+  <changeSet id="2017-06-06_02" author="ji10kg">
+    <comment>remove all the quartz related tables</comment>
+    <dropTable tableName="qrtz_blob_triggers"/>
+    <dropTable tableName="qrtz_calendars"/>
+    <dropTable tableName="qrtz_cron_triggers"/>
+    <dropTable tableName="qrtz_fired_triggers"/>
+    <dropTable tableName="qrtz_job_details"/>
+    <dropTable tableName="qrtz_locks"/>
+    <dropTable tableName="qrtz_paused_trigger_grps"/>
+    <dropTable tableName="qrtz_scheduler_state"/>
+    <dropTable tableName="qrtz_simple_triggers"/>
+    <dropTable tableName="qrtz_simprop_triggers"/>
+    <dropTable tableName="qrtz_triggers"/>
+  </changeSet>
 </databaseChangeLog>
