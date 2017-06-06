@@ -1,12 +1,12 @@
 <h2 class="page-header">Jobs</h2>
 <div id="jobs" class="panel-group" role="tablist" aria-multiselectable="true">
   {{#each results}}
-  <div class="panel {{panel-status jobExitCode}}" data-job-configuration-id="{{id}}">
+  <div class="panel {{panel-status jobStatus jobExitCode}}" data-job-configuration-id="{{id}}">
     <div class="panel-heading">
       <h3 class="panel-title">
         <a role="button" class="collapsed" data-toggle="collapse" data-parent="#job-lists" href="#job-configuration-{{id}}">{{description}}</a>
         <div class="pull-right">
-          <span class="badge">{{jobExitCode}}</span>
+          <span class="badge">{{job-status jobStatus jobExitCode}}</span>
           <button class="btn btn-xs btn-success run-job">Run</button>
         </div>
       </h3>
