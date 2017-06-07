@@ -1,1 +1,1 @@
-export JAVA_OPTS="-Djava.awt.headless=true -Xmx2g"
+export JAVA_OPTS="-Djava.awt.headless=true -Xmx4g"
