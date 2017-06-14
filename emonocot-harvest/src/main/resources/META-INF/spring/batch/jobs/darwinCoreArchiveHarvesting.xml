@@ -80,7 +80,7 @@
     <batch:step id="skipCoreFile">
       <batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="taxonReader" processor="taxonSkippingProcessor" writer="itemWriter" commit-interval="10" skip-limit="10000">
+        <batch:chunk reader="taxonReader" processor="taxonSkippingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -100,7 +100,7 @@
     <batch:step id="importCoreFile">
       <batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="10" skip-limit="10000">
+        <batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -120,7 +120,7 @@
     <batch:step id="importLinksOnly">
       <batch:description>Process the core file containing the taxa, creating taxonomic links only</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="itemWriter" commit-interval="1" skip-limit="10000">
+        <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -180,7 +180,7 @@
     <batch:step id="processDescriptionFile">
       <batch:description>Process the extension file containing the descriptions</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="descriptionReader" processor="descriptionProcessor" writer="itemWriter" commit-interval="10" skip-limit="1000000">
+        <batch:chunk reader="descriptionReader" processor="descriptionProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -268,7 +268,7 @@
     <batch:step id="indexTerms">
       <batch:description>Index the terms associated with this job</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="indexTermsReader" writer="indexTermsWriter" commit-interval="10" />
+        <batch:chunk reader="indexTermsReader" writer="indexTermsWriter" commit-interval="100" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="checkImageProcessingMode" />
       <batch:listeners>
@@ -365,7 +365,7 @@
     <batch:step id="processReferenceFile">
       <batch:description>Process the extension file containing the references</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="referenceReader" processor="referenceProcessor" writer="itemWriter" commit-interval="100" skip-limit="1000000">
+        <batch:chunk reader="referenceReader" processor="referenceProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
@@ -736,7 +736,7 @@
     <batch:step id="indexTypesAndSpecimens">
       <batch:description>Index the types and specimens associated with this job</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="10" />
+        <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="100" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="indexTaxaDecision" />
       <batch:listeners>
@@ -753,7 +753,7 @@
     <batch:step id="indexTaxa">
       <batch:description>Index the taxa associated with this job</batch:description>
       <batch:tasklet>
-        <batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="10" />
+        <batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="100" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteOldAnnotations" />
       <batch:listeners>
