@@ -18,6 +18,7 @@ package org.emonocot.job.dwc.reference;
 
 import java.util.Locale;
 
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.common.HtmlSanitizer;
 import org.emonocot.job.dwc.read.NonOwnedFieldSetMapper;
 import org.emonocot.model.Reference;
@@ -35,6 +36,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
 		super(Reference.class);
 	}
 
+	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
 
 	@Override
@@ -42,7 +44,7 @@ public class FieldSetMapper extends  NonOwnedFieldSetMapper<Reference> {
 			final String value) throws BindException {
 		super.mapField(object, fieldName, value);
 
-		Term term = getTermFactory().findTerm(fieldName);
+		Term term = TermFactory.findTerm(fieldName);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;
 			switch (dcTerm) {

@@ -22,7 +22,6 @@ import org.emonocot.model.Identifier;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Processor extends OwnedEntityProcessor<Identifier, IdentifierService> {
@@ -32,6 +31,7 @@ public class Processor extends OwnedEntityProcessor<Identifier, IdentifierServic
 		super.service = service;
 	}
 
+	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Override
@@ -53,13 +53,4 @@ public class Processor extends OwnedEntityProcessor<Identifier, IdentifierServic
 
 	@Override
 	protected void doCreate(Identifier t) { }
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }

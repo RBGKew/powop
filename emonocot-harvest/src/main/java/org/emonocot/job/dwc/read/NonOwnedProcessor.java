@@ -18,7 +18,6 @@ package org.emonocot.job.dwc.read;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.emonocot.api.Service;
 import org.emonocot.model.Annotation;
@@ -31,27 +30,13 @@ import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
 
-/**
- *
- * @author ben
- *
- */
-public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements
-ChunkListener {
-	/**
-	 *
-	 */
+public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
 	private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
 
-	/**
-	 *
-	 */
 	protected Map<String, T> boundObjects = new HashMap<String, T>();
 
-	/**
-	 *
-	 */
 	protected SERVICE service;
 
 	/**
@@ -146,7 +131,6 @@ ChunkListener {
 					// do nothing
 				} else {
 					// Add the taxon to the list of taxa
-
 					((NonOwned)bound).getTaxa().add(taxon);
 				}
 			}
@@ -172,14 +156,19 @@ ChunkListener {
 
 	protected abstract void doValidate(T t) throws Exception;
 
-	public void afterChunk() {
-		super.afterChunk();
+	@Override
+	public void afterChunk(ChunkContext context) {
+		super.afterChunk(context);
 		logger.info("After Chunk");
 	}
 
-	public void beforeChunk() {
-		super.beforeChunk();
+	@Override
+	public void beforeChunk(ChunkContext context) { 
+		super.beforeChunk(context);
 		logger.info("Before Chunk");
-		boundObjects = new HashMap<String, T>();
+		boundObjects.clear();
 	}
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 }

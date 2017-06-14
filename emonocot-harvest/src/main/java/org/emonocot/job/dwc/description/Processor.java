@@ -98,8 +98,15 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 	}
 
 	@Override
-	public void afterChunk() {
-		super.afterChunk();
+	public void beforeChunk(ChunkContext context) {
+		super.beforeChunk(context);
+		logger.debug("Before Chunk");
+		boundReferences.clear();
+	}
+
+	@Override
+	public void afterChunk(ChunkContext context) {
+		super.afterChunk(context);
 		logger.debug("After Chunk");
 	}
 
@@ -133,20 +140,4 @@ public class Processor extends OwnedEntityProcessor<Description, DescriptionServ
 			}
 		}
 	}
-
-	@Override
-	public void beforeChunk() {
-		super.beforeChunk();
-		logger.debug("Before Chunk");
-		boundReferences = new HashMap<String, Reference>();
-	}
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }

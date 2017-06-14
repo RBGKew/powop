@@ -23,7 +23,6 @@ import org.emonocot.model.MeasurementOrFact;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Processor extends OwnedEntityProcessor<MeasurementOrFact, MeasurementOrFactService> {
@@ -33,6 +32,7 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
 		super.service = service;
 	}
 
+	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Override
@@ -63,13 +63,4 @@ public class Processor extends OwnedEntityProcessor<MeasurementOrFact, Measureme
 
 	@Override
 	protected void doCreate(MeasurementOrFact t) { }
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }

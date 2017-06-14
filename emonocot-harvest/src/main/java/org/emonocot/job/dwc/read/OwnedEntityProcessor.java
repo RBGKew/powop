@@ -17,7 +17,6 @@
 package org.emonocot.job.dwc.read;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.emonocot.api.Service;
 import org.emonocot.model.Annotation;
@@ -28,6 +27,7 @@ import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.scope.context.ChunkContext;
 
 public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
 
@@ -111,16 +111,19 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	}
 
 	@Override
-	public void afterChunk() {
-		super.afterChunk();
+	public void afterChunk(ChunkContext context) {
+		super.afterChunk(context);
 		logger.info("After Chunk");
 	}
 
 	@Override
-	public void beforeChunk() {
-		super.beforeChunk();
+	public void beforeChunk(ChunkContext context) {
+		super.beforeChunk(context);
 		logger.info("Before Chunk");
 		boundObjects  = new HashMap<String, T>();
 	}
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 
 }

@@ -32,11 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.ConversionException;
 import org.springframework.validation.BindException;
 
-/**
- *
- * @author ben
- *
- */
 public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);

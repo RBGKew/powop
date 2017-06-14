@@ -38,11 +38,6 @@ import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author ben
- *
- */
 public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListener, ItemWriteListener<Taxon> {
 
 	private Set<TaxonRelationship> taxonRelationships = new HashSet<TaxonRelationship>();
@@ -142,6 +137,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 			}
+
 			logger.debug("Overwriting taxon " + persisted);
 			return persisted;
 
@@ -170,14 +166,11 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	}
 
 	@Override
-	public void beforeChunk() {
-		boundTaxa = new HashMap<String,Taxon>();
-		taxonRelationships = new HashSet<TaxonRelationship>();
-		boundReferences = new HashMap<String, Reference>();
+	public void beforeChunk(ChunkContext context) {
+		boundTaxa.clear();
+		taxonRelationships.clear();
+		boundReferences.clear();
 	}
-
-	@Override
-	public void afterChunk() {}
 
 	private Taxon resolveTaxon(String identifier, String scientificName) {
 		if (boundTaxa.containsKey(identifier)) {
@@ -203,13 +196,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		}
 	}
 
-	/**
-	 *
-	 * @param object
-	 *            Set the text content object
-	 * @param value
-	 *            the source of the reference to resolve
-	 */
 	private Reference resolveReference(Reference reference) {
 		if (reference == null) {
 			return null;
@@ -264,12 +250,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 	@Override
 	public void onWriteError(Exception exception, List<? extends Taxon> items) { }
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }

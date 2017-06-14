@@ -16,6 +16,7 @@
  */
 package org.emonocot.job.dwc.distribution;
 
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.emonocot.model.Distribution;
 import org.emonocot.model.Reference;
@@ -29,11 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 
-/**
- *
- * @author ben
- *
- */
 public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
 
 	private Logger logger = LoggerFactory.getLogger(FieldSetMapper.class);
@@ -47,7 +43,7 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
 			final String fieldName, final String value) throws BindException {
 		super.mapField(object, fieldName, value);
 
-		Term term = getTermFactory().findTerm(fieldName);
+		Term term = TermFactory.findTerm(fieldName);
 		logger.debug("Mapping " + fieldName + " " + " " + value + " to " + object);
 		if (term instanceof DcTerm) {
 			DcTerm dcTerm = (DcTerm) term;

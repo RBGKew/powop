@@ -30,7 +30,6 @@ import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -139,8 +138,6 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 		persisted.setRating(t.getRating());
 		persisted.setSubjectCategoryVocabulary(t.getSubjectCategoryVocabulary());
 		persisted.setSource(t.getSource());
-		
-		
 	}
 
 	@Override
@@ -183,14 +180,5 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 			return false;
 		}
 	}
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 
 }

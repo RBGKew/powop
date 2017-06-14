@@ -36,24 +36,6 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * This is slightly different from the description validator because we believe
- * (or at least, I believe) that descriptive content is somehow "owned" or
- * "contained in" the taxon i.e. that if the taxon does not exist, the
- * descriptive content doesn't either. There is a one-to-many relationship
- * between taxa and descriptive content because there can be many facts about
- * each taxon, but each fact is only about one taxon.
- *
- * Images, on the other hand, have an inherently many-to-many relationship with
- * taxa as one image can appear on several different taxon pages (especially the
- * family page, type genus page, type species page etc). Equally a taxon page
- * can have many images on it. So Images don't belong to any one taxon page
- * especially. If we delete the taxon, the image can hang around - it might have
- * value on its own.
- *
- * @author ben
- *
- */
 public class Processor extends NonOwnedProcessor<Concept, ConceptService> implements ChunkListener {
 
 	private Map<String, Reference> boundReferences = new HashMap<String, Reference>();
@@ -193,19 +175,10 @@ public class Processor extends NonOwnedProcessor<Concept, ConceptService> implem
 	}
 
 	@Override
-	public void beforeChunk() {
-		super.beforeChunk();
+	public void beforeChunk(ChunkContext context) {
+		super.beforeChunk(context);
 		logger.info("Before Chunk");
 		boundReferences = new HashMap<String, Reference>();
 		boundImages = new HashMap<String, Image>();
 	}
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }

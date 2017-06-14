@@ -123,24 +123,15 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
 	}
 
 	@Override
-	public void afterChunk() {
-		super.afterChunk();
+	public void afterChunk(ChunkContext context) {
+		super.afterChunk(context);
 		logger.debug("After Chunk");
 	}
 
 	@Override
-	public void beforeChunk() {
-		super.beforeChunk();
+	public void beforeChunk(ChunkContext context) {
+		super.beforeChunk(context);
 		logger.debug("Before Chunk");
-		boundReferences = new HashMap<String, Reference>();
+		boundReferences.clear();
 	}
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }

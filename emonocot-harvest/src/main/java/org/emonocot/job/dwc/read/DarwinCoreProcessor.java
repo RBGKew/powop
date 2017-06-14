@@ -22,7 +22,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.emonocot.api.ResourceService;
 import org.emonocot.api.TaxonService;
 import org.emonocot.harvest.common.AuthorityAware;
 import org.emonocot.job.dwc.DwCProcessingExceptionProcessListener;
@@ -41,11 +40,11 @@ import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.RecordType;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
-import org.emonocot.service.impl.ResourceServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -158,15 +157,16 @@ ItemProcessor<T, T>, ChunkListener {
 		}
 	}
 
-	public void afterChunk() {
+	@Override
+	public void afterChunk(ChunkContext context) {
 		logger.info("After Chunk");
 	}
 
-	public void beforeChunk() {
+	@Override
+	public void beforeChunk(ChunkContext context) {
 		logger.info("Before Chunk");
 		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
 	}
-
 
 	protected int getLineNumber() {
 		return itemsRead;
@@ -287,7 +287,7 @@ ItemProcessor<T, T>, ChunkListener {
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
 	}
-	
+
 	/**
 	 *
 	 * @return the taxon service set

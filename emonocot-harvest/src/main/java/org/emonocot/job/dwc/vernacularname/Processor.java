@@ -23,7 +23,6 @@ import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNameService> {
@@ -33,6 +32,7 @@ public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNa
 		super.service = service;
 	}
 
+	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Override
@@ -40,7 +40,6 @@ public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNa
 		if (t.getVernacularName() == null) {
 			throw new RequiredFieldException(t + " has no vernacular name set", RecordType.VernacularName, getStepExecution().getReadCount());
 		}
-
 	}
 
 	@Override
@@ -65,22 +64,5 @@ public class Processor extends OwnedEntityProcessor<VernacularName, VernacularNa
 	}
 
 	@Override
-	protected void doCreate(VernacularName t) {
-
-	}
-
-	@Override
-	public void beforeChunk(ChunkContext context) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void afterChunk(ChunkContext context) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void afterChunkError(ChunkContext context) {
-		// TODO Auto-generated method stub
-	}
+	protected void doCreate(VernacularName t) { }
 }

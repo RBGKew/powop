@@ -95,11 +95,5 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 	}
 
 	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { }
-
-	@Override
 	public void afterChunkError(ChunkContext context) { }
 }

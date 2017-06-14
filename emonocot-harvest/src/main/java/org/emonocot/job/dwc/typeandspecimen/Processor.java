@@ -22,11 +22,11 @@ import org.emonocot.model.TypeAndSpecimen;
 import org.emonocot.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecimenService> {
 
+	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Autowired
@@ -55,13 +55,10 @@ public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecime
 		persisted.setVerbatimLabel(t.getVerbatimLabel());
 		persisted.setVerbatimLatitude(t.getVerbatimLatitude());
 		persisted.setVerbatimLongitude(t.getVerbatimLongitude());
-
 	}
 
 	@Override
-	protected void doPersist(TypeAndSpecimen t) {
-
-	}
+	protected void doPersist(TypeAndSpecimen t) { }
 
 	@Override
 	protected RecordType getRecordType() {
@@ -105,13 +102,4 @@ public class Processor extends NonOwnedProcessor<TypeAndSpecimen, TypeAndSpecime
 	protected boolean doFilter(TypeAndSpecimen t) {
 		return false;
 	}
-
-	@Override
-	public void beforeChunk(ChunkContext context) { }
-
-	@Override
-	public void afterChunk(ChunkContext context) { } 
-
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }
