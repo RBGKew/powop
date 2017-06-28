@@ -40,7 +40,7 @@ public class JobConfigurationFactory {
 			job = JobConfigurationFactory.harvestTaxonomy(resourceWithJob.getResource());
 			break;
 		case HarvestImages:
-			job = JobConfigurationFactory.harvestImages(resourceWithJob.getResource(), resourceWithJob.getParams().remove("image.server"));
+			job = JobConfigurationFactory.harvestImages(resourceWithJob.getResource(), resourceWithJob.getParams().remove("prefix"));
 			break;
 		default:
 			throw new JobConfigurationException("Not a job type associated with a resource");
@@ -98,7 +98,7 @@ public class JobConfigurationFactory {
 
 	public static JobConfiguration harvestImages(Resource resource, String prefix) {
 		return baseHarvestConfiguration(resource)
-				.parameter("image.server", prefix)
+				.parameter("prefix", prefix)
 				.build();
 	}
 

@@ -35,7 +35,6 @@ import org.emonocot.api.OrganisationService;
 import org.emonocot.api.job.ExtendedAcTerm;
 import org.emonocot.api.job.SkosTerm;
 import org.emonocot.model.registry.Organisation;
-import org.gbif.dwc.terms.AcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
@@ -46,7 +45,6 @@ import org.gbif.dwc.text.UnsupportedArchiveException;
 import org.gbif.metadata.BasicMetadata;
 import org.gbif.metadata.eml.Eml;
 import org.gbif.metadata.eml.EmlFactory;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -197,24 +195,12 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 			source.setBibliographicCitation(basicMetadata.getCitationString());
 			update = true;
 		}
-		if (!nullSafeEquals(source.getCreatorEmail(), basicMetadata.getCreatorEmail())) {
-			source.setCreatorEmail(basicMetadata.getCreatorEmail());
-			update = true;
-		}
 		if (!nullSafeEquals(source.getCreator(), basicMetadata.getCreatorName())) {
 			source.setCreator(basicMetadata.getCreatorName());
 			update = true;
 		}
 		if (!nullSafeEquals(source.getDescription(), basicMetadata.getDescription())) {
 			source.setDescription(basicMetadata.getDescription());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getUri(), basicMetadata.getHomepageUrl())) {
-			source.setUri(basicMetadata.getHomepageUrl());
-			update = true;
-		}
-		if (!nullSafeEquals(source.getLogoUrl(), basicMetadata.getLogoUrl())) {
-			source.setLogoUrl(basicMetadata.getLogoUrl());
 			update = true;
 		}
 		if (!nullSafeEquals(source.getPublisherEmail(), basicMetadata.getPublisherEmail())) {
@@ -232,20 +218,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		if (!nullSafeEquals(source.getTitle(), basicMetadata.getTitle())) {
 			source.setTitle(basicMetadata.getTitle());
 			update = true;
-		}
-		if (!nullSafeEquals(source.getRights(), basicMetadata.getRights())) {
-			source.setRights(basicMetadata.getRights());
-			update = true;
-		}
-		if (basicMetadata.getPublished() != null) {
-			DateTime published = new DateTime(basicMetadata.getPublished());
-			if (source.getCreated() == null) {
-				source.setCreated(published);
-				update = true;
-			} else if (published.isAfter(source.getCreated())) {
-				source.setModified(published);
-				update = true;
-			}
 		}
 
 		if (update) {
@@ -356,6 +328,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		}
 
 		if((maxIndex + 1) > totalColumns) {
+			lineNumberReader.close();
 			if(failOnError) {
 				throw new RuntimeException("Metadata for " + archiveFile.getRowType()
 						+ " indicates that there should be at least "+ (maxIndex + 1)
@@ -374,6 +347,7 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 		executionContext.put("dwca." + prefix + ".totalRecords", lineNumberReader.getLineNumber() - headerLinesToSkip);
 		executionContext.put("dwca." + prefix + ".fieldNames", toFieldNames(fields, totalColumns));
 		executionContext.put("dwca." + prefix + ".defaultValues",  getDefaultValues(fields));
+		lineNumberReader.close();
 	}
 
 	/**

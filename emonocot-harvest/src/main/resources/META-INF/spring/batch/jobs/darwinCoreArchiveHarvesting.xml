@@ -1149,7 +1149,7 @@
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.image.fieldNames']}" />
     <property name="imageServer"
-      value="#{jobParameters['image.server']}" />
+      value="#{jobParameters['prefix']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.image.defaultValues']}" />
     <property name="taxonService" ref="taxonServiceImpl" />
