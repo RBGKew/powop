@@ -63,8 +63,8 @@ public class ImageHelper {
 
 		caption.append(Strings.nullToEmpty(image.getTitle()));
 
-		if(!Strings.isNullOrEmpty(image.getTitle())) {
-			caption.append(" ");
+		if(!Strings.isNullOrEmpty(image.getCaption())) {
+			caption.append(" - ");
 		}
 		caption.append(Strings.nullToEmpty(image.getCaption()));
 
@@ -74,20 +74,11 @@ public class ImageHelper {
 		String source = image.getSource();
 
 		if(!Strings.isNullOrEmpty(owner) && Strings.isNullOrEmpty(creator)) {
-			caption.append("© ");
 			caption.append(owner);
 		} else if(!Strings.isNullOrEmpty(creator) && Strings.isNullOrEmpty(owner)) {
-			caption.append("© ");
 			caption.append(creator);
 		} else if(!Strings.isNullOrEmpty(creator) && !Strings.isNullOrEmpty(owner)) {
-			if(creator.equals(owner)) {
-				caption.append(" © ");
-				caption.append(owner);
-			} else {
-				caption.append(creator);
-				caption.append(" © ");
-				caption.append(owner);
-			}
+			caption.append(creator);
 		} else {
 			caption.append(Strings.nullToEmpty(source));
 		}
