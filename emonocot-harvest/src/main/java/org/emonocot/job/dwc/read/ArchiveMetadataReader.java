@@ -215,10 +215,6 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 			source.setSubject(basicMetadata.getSubject());
 			update = true;
 		}
-		if (!nullSafeEquals(source.getTitle(), basicMetadata.getTitle())) {
-			source.setTitle(basicMetadata.getTitle());
-			update = true;
-		}
 
 		if (update) {
 			Set<ConstraintViolation<Organisation>> violations = validator.validate(source);
