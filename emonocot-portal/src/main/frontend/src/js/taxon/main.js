@@ -59,6 +59,9 @@ define(function(require) {
       $($(this).attr('href') + ' .container').collapse('show');
     });
 
+    // enable popovers
+    $('[data-toggle="popover"]').popover();
+
     // open collapsed section if loading with location hash
     if(location.hash.length > 0) {
       $(location.hash + ' .container').addClass('in');
