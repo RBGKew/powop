@@ -1,12 +1,27 @@
 package org.emonocot.portal.view.helpers;
 
 import org.emonocot.model.Image;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.DigestUtils;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 import com.google.common.base.Strings;
 
 public class ImageHelper {
+
+	@Value("${portal.cdn.key}")
+	private String CDNKey;
+
+	@Value("${portal.cdn.prefix}")
+	private String CDNPrefix;
+
+	public ImageHelper() {}
+
+	public ImageHelper(String cdnKey, String cdnPrefix) {
+		this.CDNKey = cdnKey;
+		this.CDNPrefix = cdnPrefix;
+	}
 
 	public CharSequence fullsizeImage(Image image, Options options) {
 		return link(image, "fullsize", options);
@@ -26,17 +41,27 @@ public class ImageHelper {
 
 	private String imageUrl(Image image, String type) {
 		String result = null;
-		if(image.getAccessUri().startsWith("https://dams.kew.org")) {
+		if(image.getIdentifier().startsWith("urn:kew.org:dam:")) {
 			if(type.equals("thumbnail")) {
-				result = String.format("%s%s", image.getAccessUri(), "?s=400&k=131f04e3b359a15762abfab29c7001d9");
+				result = cdnAsset(image, 400);
 			} else {
-				result = String.format("%s%s", image.getAccessUri(), "?s=1600&k=fe543868fc853b0d4698dcd2abfdbcfb");
+				result = cdnAsset(image, 1600);
 			}
 		} else {
 			result =  String.format("%s_%s.jpg", image.getAccessUri(), type);
 		}
 
 		return result;
+	}
+
+	private String cdnAsset(Image image, int size) {
+		int id = Integer.parseInt(image.getIdentifier().substring(
+				image.getIdentifier().lastIndexOf(':') + 1,
+				image.getIdentifier().length()));
+
+		return String.format("%s/%s.jpg",
+				CDNPrefix,
+				DigestUtils.md5DigestAsHex((id + "-" + size + "-" + CDNKey).getBytes()));
 	}
 
 	private CharSequence link(Image image, String type, Options options) {

@@ -15,7 +15,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 	@Override
 	protected Handlebars newHandlebars() {
 		Handlebars handlebars = super.newHandlebars();
-		handlebars.registerHelpers(new ImageHelper());
+		handlebars.registerHelpers(new ImageHelper("test", "https://cdn.com"));
 		return handlebars;
 	}
 
@@ -37,23 +37,23 @@ public class ImageHelperTest extends AbstractHelperTest {
 	@Test
 	public void thumbnailWithLightbox() throws IOException {
 		shouldCompileTo("{{thumbnailImage this}}", image,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah Coolio<small>© Some dude</small>\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small>Some dude</small>\">" +
 				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></a>");
 	}
 
 	@Test
 	public void thumbnailInFigureWithLightbox() throws IOException {
 		shouldCompileTo("{{thumbnailImage this figure-class=\"woo\"}}", image,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah Coolio<small>© Some dude</small>\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small>Some dude</small>\">" +
 				"<figure class=\"woo\"><img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></figure></a>");
 	}
 
 	@Test
 	public void digifoliaThumbnail() throws IOException {
 		image = new Image();
-		image.setAccessUri("https://dams.kew.org/cool-img.jpg");
+		image.setIdentifier("urn:kew.org:dam:654");
 		shouldCompileTo("{{thumbnailImage this}}", image,
-				"<a href=\"https://dams.kew.org/cool-img.jpg?s=1600&k=fe543868fc853b0d4698dcd2abfdbcfb\" title=\"<small></small>\">" +
-				"<img src=\"https://dams.kew.org/cool-img.jpg?s=400&k=131f04e3b359a15762abfab29c7001d9\" title=\"\"/></a>");
+				"<a href=\"https://cdn.com/13a994141177e43d57feb31d29f1e9b7.jpg\" title=\"<small></small>\">" +
+				"<img src=\"https://cdn.com/936cd5acff71ed403b5b6e1b0fa0b127.jpg\" title=\"\"/></a>");
 	}
 }
