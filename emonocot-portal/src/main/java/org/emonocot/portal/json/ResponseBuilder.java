@@ -89,9 +89,10 @@ public class ResponseBuilder {
 		}
 
 		for(int i = 1; i <= 3; i++) {
-			if(document.containsKey("taxon.image_" + i + "_url_s")) {
+			if(document.containsKey("taxon.image_" + i + "_thumbnail_s")) {
 				result.addImage(
-						getStr(document, "taxon.image_" + i + "_url_s"),
+						getStr(document, "taxon.image_" + i + "_thumbnail_s"),
+						getStr(document, "taxon.image_" + i + "_fullsize_s"),
 						getStr(document, "taxon.image_" + i + "_caption_s"));
 			} else {
 				break;

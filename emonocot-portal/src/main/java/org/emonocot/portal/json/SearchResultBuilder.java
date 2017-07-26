@@ -62,9 +62,10 @@ public class SearchResultBuilder {
 		return this;
 	}
 
-	public SearchResultBuilder addImage(String url, String caption) {
+	public SearchResultBuilder addImage(String thumb, String fullsize, String caption) {
 		Map<String, String> image = new HashMap<String, String>();
-		image.put("url", url);
+		image.put("thumbnail", thumb);
+		image.put("fullsize", fullsize);
 		image.put("caption", caption);
 		images.add(image);
 		return this;

@@ -17,10 +17,11 @@
 package org.emonocot.model;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.context.ApplicationContext;
 
 public interface Searchable extends SecuredObject {
 
 	public String getDocumentId();
 
-	public SolrInputDocument toSolrInputDocument();
+	public SolrInputDocument toSolrInputDocument(ApplicationContext ctx);
 }

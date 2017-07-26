@@ -31,6 +31,8 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 public class SolrIndexingInterceptor extends EmptyInterceptor {
 
@@ -40,6 +42,9 @@ public class SolrIndexingInterceptor extends EmptyInterceptor {
 
 	private SolrClient solrClient;
 
+	@Autowired
+	private ApplicationContext ctx;
+
 	public void setSolrClient(SolrClient solrClient) {
 		this.solrClient = solrClient;
 	}
@@ -47,7 +52,7 @@ public class SolrIndexingInterceptor extends EmptyInterceptor {
 	public void indexObjects(Collection<? extends Searchable> searchableObjects) {
 		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
 		for (Searchable searchable : searchableObjects) {
-			documents.add(searchable.toSolrInputDocument());
+			documents.add(searchable.toSolrInputDocument(ctx));
 		}
 		try {
 			UpdateResponse updateResponse = solrClient.add(documents);

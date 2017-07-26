@@ -47,6 +47,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -186,7 +187,7 @@ public class Concept extends SearchableObject implements NonOwned {
 	}
 
 	@Override
-	public SolrInputDocument toSolrInputDocument() {
+	public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
 		SolrInputDocument sid = super.toSolrInputDocument();
 		sid.addField("searchable.label_sort", getPrefLabel());
 

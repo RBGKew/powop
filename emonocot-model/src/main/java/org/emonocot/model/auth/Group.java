@@ -31,6 +31,7 @@ import org.emonocot.model.marshall.json.UserDeserializer;
 import org.emonocot.model.marshall.json.UserSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -158,7 +159,7 @@ public class Group extends Principal {
 	}
 
 	@Override
-	public SolrInputDocument toSolrInputDocument() {
+	public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getClassName() + "_" + getId());
 		sid.addField("base.id_l", getId());

@@ -1,26 +1,22 @@
 package org.emonocot.portal.view.helpers;
 
 import org.emonocot.model.Image;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.DigestUtils;
+import org.emonocot.model.helpers.CDNImageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 import com.google.common.base.Strings;
 
+@Component
 public class ImageHelper {
 
-	@Value("${portal.cdn.key}")
-	private String CDNKey;
+	private CDNImageHelper cdn;
 
-	@Value("${portal.cdn.prefix}")
-	private String CDNPrefix;
-
-	public ImageHelper() {}
-
-	public ImageHelper(String cdnKey, String cdnPrefix) {
-		this.CDNKey = cdnKey;
-		this.CDNPrefix = cdnPrefix;
+	@Autowired
+	public ImageHelper(CDNImageHelper cdn) {
+		this.cdn = cdn;
 	}
 
 	public CharSequence fullsizeImage(Image image, Options options) {
@@ -32,36 +28,19 @@ public class ImageHelper {
 	}
 
 	public CharSequence fullsizeUrl(Image image) {
-		return imageUrl(image, "fullsize");
+		return cdn.getFullsizeUrl(image);
 	}
 
 	public CharSequence thumbnailUrl(Image image) {
-		return imageUrl(image, "thumbnail");
+		return cdn.getThumbnailUrl(image);
 	}
 
-	private String imageUrl(Image image, String type) {
-		String result = null;
-		if(image.getIdentifier().startsWith("urn:kew.org:dam:")) {
-			if(type.equals("thumbnail")) {
-				result = cdnAsset(image, 400);
-			} else {
-				result = cdnAsset(image, 1600);
-			}
+	public String imageUrl(Image image, String type) {
+		if(type.equals("thumbnail")) {
+			return cdn.getThumbnailUrl(image);
 		} else {
-			result =  String.format("%s_%s.jpg", image.getAccessUri(), type);
+			return cdn.getFullsizeUrl(image);
 		}
-
-		return result;
-	}
-
-	private String cdnAsset(Image image, int size) {
-		int id = Integer.parseInt(image.getIdentifier().substring(
-				image.getIdentifier().lastIndexOf(':') + 1,
-				image.getIdentifier().length()));
-
-		return String.format("%s/%s.jpg",
-				CDNPrefix,
-				DigestUtils.md5DigestAsHex((id + "-" + size + "-" + CDNKey).getBytes()));
 	}
 
 	private CharSequence link(Image image, String type, Options options) {

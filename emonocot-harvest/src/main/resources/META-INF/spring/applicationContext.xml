@@ -14,7 +14,6 @@
   <context:property-placeholder location="classpath*:META-INF/spring/application.properties" order="2" />
 
   <context:annotation-config />
-  <context:spring-configured />
 
   <context:component-scan base-package="org.emonocot" />
   <tx:annotation-driven />

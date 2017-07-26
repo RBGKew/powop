@@ -47,6 +47,7 @@ import org.emonocot.model.registry.Resource;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -197,7 +198,7 @@ public class Annotation extends Base implements Searchable {
 	}
 
 	@Override
-	public SolrInputDocument toSolrInputDocument() {
+	public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
 		SolrInputDocument sid = new SolrInputDocument();
 		sid.addField("id", getClassName() + "_" + getId());
 		sid.addField("base.id_l", getId());

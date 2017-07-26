@@ -3,6 +3,7 @@ package org.emonocot.portal.view.helpers;
 import java.io.IOException;
 
 import org.emonocot.model.Image;
+import org.emonocot.model.helpers.CDNImageHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +15,9 @@ public class ImageHelperTest extends AbstractHelperTest {
 
 	@Override
 	protected Handlebars newHandlebars() {
+		CDNImageHelper cdn = new CDNImageHelper("test", "https://cdn.com");
 		Handlebars handlebars = super.newHandlebars();
-		handlebars.registerHelpers(new ImageHelper("test", "https://cdn.com"));
+		handlebars.registerHelpers(new ImageHelper(cdn));
 		return handlebars;
 	}
 

@@ -24,15 +24,14 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.VernacularName;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
+import org.emonocot.model.helpers.CDNImageHelper;
 import org.gbif.ecat.voc.Rank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.ApplicationContext;
 
 import com.google.common.base.CaseFormat;
 
-@Configurable
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private static final Pattern fieldPattern = Pattern.compile("taxon.(.*)_(s|s_lower|ss_lower|t|b|i)");
@@ -54,14 +53,23 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private Taxon taxon;
 
-	@Autowired
 	private ImageService imageService;
 
+	private CDNImageHelper cdn;
+
 	public TaxonSolrInputDocument(Taxon taxon) {
+		this(taxon, null);
+	}
+
+	public TaxonSolrInputDocument(Taxon taxon, ApplicationContext ctx) {
 		super(taxon);
 		super.build();
 		this.taxon = taxon;
 		this.sources = new HashSet<>();
+		if(ctx != null) {
+			this.imageService = ctx.getBean(ImageService.class);
+			this.cdn = ctx.getBean(CDNImageHelper.class);
+		}
 	}
 
 	public SolrInputDocument build() {
@@ -139,17 +147,26 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				images.addAll(synonym.getImages());
 			}
 
-			if(images.size() < numImages && imageService != null) {
-				List<Image> img = imageService.getTopImages(taxon, numImages - images.size());
-				images.addAll(img);
+			if(imageService == null) {
+				logger.warn("ImageService is null, not adding images from subordinate taxa");
+			} else {
+				if(images.size() < numImages) {
+					List<Image> img = imageService.getTopImages(taxon, numImages - images.size());
+					images.addAll(img);
+				}
 			}
 		}
 
 		int index = 0;
 		for(Image img : images) {
 			if(index++ < numImages) {
-				sid.addField("taxon.image_" + index + "_url_s", img.getAccessUri());
-				sid.addField("taxon.image_" + index + "_caption_s", img.getCaption());
+				if(cdn == null) {
+					logger.warn("CNDImageAdaptor is null, not adding image urls to index");
+				} else {
+					sid.addField("taxon.image_" + index + "_thumbnail_s", cdn.getThumbnailUrl(img));
+					sid.addField("taxon.image_" + index + "_fullsize_s", cdn.getFullsizeUrl(img));
+					sid.addField("taxon.image_" + index + "_caption_s", img.getCaption());
+				}
 			}
 		}
 

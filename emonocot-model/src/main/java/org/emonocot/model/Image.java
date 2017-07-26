@@ -16,9 +16,7 @@
  */
 package org.emonocot.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -36,7 +34,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
@@ -50,7 +47,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -61,6 +57,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Entity
 public class Image extends Multimedia {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(Image.class);
 
 	private static final long serialVersionUID = 3341900807619517602L;

@@ -30,6 +30,7 @@ import javax.validation.constraints.Size;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.MediaFormat;
 import org.emonocot.model.constants.MediaType;
+import org.springframework.context.ApplicationContext;
 
 /**
  * @see http://rs.gbif.org/extension/gbif/1.0/multimedia.xml
@@ -225,7 +226,7 @@ public class Multimedia extends SearchableObject implements NonOwned, Media {
 	 }
 
 	 @Override
-	 public SolrInputDocument toSolrInputDocument() {
+	 public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
 		 SolrInputDocument sid = super.toSolrInputDocument();
 		 sid.addField("searchable.label_sort", getTitle());
 

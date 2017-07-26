@@ -37,6 +37,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
@@ -425,7 +426,7 @@ public class User extends Principal implements UserDetails {
 	 }
 
 	 @Override
-	 public SolrInputDocument toSolrInputDocument() {
+	 public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
 		 SolrInputDocument sid = new SolrInputDocument();
 		 sid.addField("id", getClassName() + "_" + getId());
 		 sid.addField("base.id_l", getId());

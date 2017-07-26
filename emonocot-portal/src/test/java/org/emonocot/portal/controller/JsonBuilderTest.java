@@ -27,7 +27,7 @@ public class JsonBuilderTest {
 		resultBuilder.author("Blaaaarg");
 		resultBuilder.rank("Species");
 		resultBuilder.name("Blaaaarga blaaarg");
-		resultBuilder.addImage("http://fakeurl.org/image/1000", "bear eating plant");
+		resultBuilder.addImage("http://fakeurl.org/image/1000_thumb.jpg", "http://fakeurl.org/image/1000_fullsize.jpg", "bear eating plant");
 		
 	}
 	
@@ -38,7 +38,7 @@ public class JsonBuilderTest {
 		resultBuilder.author("Blaaaarg");
 		resultBuilder.rank("Species");
 		resultBuilder.name("Blaaaarga blaaarg");
-		resultBuilder.addImage("http://fakeurl.org/image/1000", "bear eating plant");
+		resultBuilder.addImage("http://fakeurl.org/image/1000_thumb.jpg", "http://fakeurl.org/image/1000_fullsize.jpg", "bear eating plant");
 		MainSearchBuilder mainJsonBuilder = new MainSearchBuilder();
 		mainJsonBuilder.addResult(resultBuilder);
 		mainJsonBuilder.sort("relevance_asc");

@@ -56,6 +56,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -980,8 +981,8 @@ public class Taxon extends SearchableObject {
 	}
 
 	@Override
-	public SolrInputDocument toSolrInputDocument() {
-		return new TaxonSolrInputDocument(this).build();
+	public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
+		return new TaxonSolrInputDocument(this, ctx).build();
 	}
 
 	@Override
