@@ -4,13 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.api.ImageService;
 import org.emonocot.common.HtmlSanitizer;
@@ -80,8 +80,8 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.scientific_name_authorship_s_lower", taxon.getScientificNameAuthorship());
 		addField(sid, "taxon.scientific_name_s_lower", taxon.getScientificName());
 		addField(sid, "taxon.specific_epithet_s_lower", taxon.getSpecificEpithet());
-		addField(sid, "taxon.rank_s_lower", ObjectUtils.toString(taxon.getTaxonRank(), null));
-		addField(sid, "taxon.taxonomic_status_s_lower", ObjectUtils.toString(taxon.getTaxonomicStatus(), null));
+		addField(sid, "taxon.rank_s_lower", Objects.toString(taxon.getTaxonRank(), null));
+		addField(sid, "taxon.taxonomic_status_s_lower", Objects.toString(taxon.getTaxonomicStatus(), null));
 		addField(sid, "taxon.is_accepted_b", taxon.isAccepted());
 		addField(sid, "taxon.is_unplaced_b", taxon.getTaxonomicStatus() == null);
 		if(taxon.getTaxonRank() == Rank.SPECIES){

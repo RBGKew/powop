@@ -16,6 +16,7 @@
  */
 package org.emonocot.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -31,7 +32,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
@@ -204,9 +204,9 @@ public class Annotation extends Base implements Searchable {
 		sid.addField("base.class_searchable_b", false);
 		sid.addField("base.class_s", getClass().getName());
 		sid.addField("annotation.job_id_l",getJobId());
-		sid.addField("annotation.type_s", ObjectUtils.toString(getType(), null));
-		sid.addField("annotation.record_type_s", ObjectUtils.toString(getRecordType(), null));
-		sid.addField("annotation.code_s", ObjectUtils.toString(getCode(), null));
+		sid.addField("annotation.type_s", Objects.toString(getType(), null));
+		sid.addField("annotation.record_type_s", Objects.toString(getRecordType(), null));
+		sid.addField("annotation.code_s", Objects.toString(getCode(), null));
 		StringBuilder summary = new StringBuilder().append(getType()).append(" ")
 				.append(getRecordType()).append(" ").append(getCode()).append(" ").append(getText());
 
