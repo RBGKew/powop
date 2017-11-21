@@ -69,15 +69,18 @@ public enum DescriptionType {
 	vernacular("http://rs.gbif.org/vocabulary/gbif/descriptionType/vernacular", "vernacular"),
 	// non-standard description types
 	concept("concept"),
+	diagnosis("diagnosis"),
 	figure("figure"),
 	floralDiagram("floralDiagram"),
 	glossary("glossary"),
 	hazard("hazard"),
 	note("note"),
+	phenology("phenology"),
 	reference("reference"),
 	snippet("snippet"),
 	speciesProfile("speciesProfile"),
 	summary("summary"),
+	type("type"),
 
 	// Morphological
 	constructionalOrganisationGrowth("constructionalOrganisation:growth"),
@@ -104,6 +107,7 @@ public enum DescriptionType {
 	morphologyGeneralShoot("morphology:general:shoot"),
 	morphologyGeneralSpine("morphology:general:spine"),
 	morphologyGeneralSporophyte("morphology:general:sporophyte"),
+	morphologyGeneralSquamule("morphology:general:squamule"),
 	morphologyGeneralTendril("morphology:general:tendril"),
 	morphologyGeneralThallus("morphology:general:thallus"),
 	morphologyGeneralThorn("morphology:general:thorn"),
@@ -434,6 +438,7 @@ public enum DescriptionType {
 					summary))
 			.put("appearance", ImmutableSet.<DescriptionType>of(
 					constructionalOrganisationGrowth,
+					diagnosis,
 					diagnostic,
 					morphologyGeneral,
 					morphologyGeneralAreole,
@@ -458,6 +463,7 @@ public enum DescriptionType {
 					morphologyGeneralShoot,
 					morphologyGeneralSpine,
 					morphologyGeneralSporophyte,
+					morphologyGeneralSquamule,
 					morphologyGeneralTendril,
 					morphologyGeneralThallus,
 					morphologyGeneralThorn,
@@ -550,7 +556,8 @@ public enum DescriptionType {
 					morphologyReproductiveFlowerViscidium,
 					morphologyReproductiveFlowerAndroeciumStamenAndStyle,
 					morphologyReproductiveFlowerPedicelAndOvary,
-					morphologyReproductiveFlowerPedicelAndPeduncle))
+					morphologyReproductiveFlowerPedicelAndPeduncle,
+					phenology))
 			.put("leaf", ImmutableSet.<DescriptionType>of(
 					morphologyLeaf,
 					morphologyLeafCataphyll,
