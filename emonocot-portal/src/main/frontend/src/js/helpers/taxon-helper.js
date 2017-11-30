@@ -23,10 +23,20 @@ define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
   });
 
   Handlebars.registerHelper('taxonLink', function(taxon) {
-    return new Handlebars.SafeString('<a href="' + taxon.url + '">' + taxon.name + ' <cite>' + taxon.author + '</cite></a>');
+    var str = '<a href="' + taxon.url + '">' + taxon.name;
+    if(taxon.author) {
+      str += ' <cite>' + taxon.author + '</cite></a>';
+    }
+
+    return new Handlebars.SafeString(str);
   });
 
   Handlebars.registerHelper('nameAndAuthor', function(taxon) {
-    return new Handlebars.SafeString(taxon.name + ' <cite>' + taxon.author + '</cite>');
+    var str = taxon.name;
+    if(taxon.author) {
+      str += ' <cite>' + taxon.author + '</cite>';
+    }
+
+    return new Handlebars.SafeString(str);
   });
 });
