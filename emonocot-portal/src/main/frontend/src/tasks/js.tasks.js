@@ -8,7 +8,7 @@ module.exports = function (gulp, $) {
   gulp.task('precompile', function() {
     // precompile handlebars templates for use in frontend
     return gulp.src('src/templates/**/*.hbs')
-      .pipe($.handlebars({
+      .pipe($.ghb({
         handlebars: require('handlebars')
       }))
       .pipe($.defineModule('amd'))
