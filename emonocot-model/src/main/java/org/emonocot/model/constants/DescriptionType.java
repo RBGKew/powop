@@ -428,6 +428,7 @@ public enum DescriptionType {
 	public static final ImmutableMap<String, Set<DescriptionType>> searchCategories = ImmutableMap.<String, Set<DescriptionType>>builder()
 			.put("general", ImmutableSet.<DescriptionType>of(
 					conservation,
+					distribution,
 					ecology,
 					general,
 					hazard,
