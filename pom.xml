@@ -53,6 +53,7 @@
 		<spring.security.version>4.2.0.RELEASE</spring.security.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
 		<logback.version>1.2.2</logback.version>
+		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
 	</properties>
 
 	<!--issueManagement>

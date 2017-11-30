@@ -47,7 +47,7 @@ public class Bibliography {
 
 	public Bibliography(Taxon taxon) {
 		references = new TreeSet<>();
-		if(taxon.isAccepted()) {
+		if(taxon.looksAccepted()) {
 			collectReferences(taxon);
 			collectDescriptionReferences(taxon);
 			collectDistributionReferences(taxon);

@@ -116,7 +116,7 @@ public class Descriptions {
 		if(descriptionsBySource == null) {
 			descriptionsBySource = new ArrayList<>();
 
-			if(taxon.isAccepted()) {
+			if(taxon.looksAccepted()) {
 				partitionBySource(taxon);
 				for(Taxon synonym : taxon.getSynonymNameUsages()) {
 					partitionBySource(synonym);
@@ -143,7 +143,7 @@ public class Descriptions {
 			DescriptionsBySource dbs = entry.getKey();
 			dbs.byType = new ArrayList<>(descriptionsByType(entry.getValue()));
 
-			if(!dbs.asTaxon.isAccepted()) {
+			if(!dbs.asTaxon.looksAccepted()) {
 				dbs.isFromSynonym = true;
 			}
 

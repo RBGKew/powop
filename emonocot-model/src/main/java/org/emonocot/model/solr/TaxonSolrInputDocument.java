@@ -91,6 +91,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.rank_s_lower", Objects.toString(taxon.getTaxonRank(), null));
 		addField(sid, "taxon.taxonomic_status_s_lower", Objects.toString(taxon.getTaxonomicStatus(), null));
 		addField(sid, "taxon.is_accepted_b", taxon.isAccepted());
+		addField(sid, "taxon.looks_accepted_b", taxon.looksAccepted());
 		addField(sid, "taxon.is_unplaced_b", taxon.getTaxonomicStatus() == null);
 		if(taxon.getTaxonRank() == Rank.SPECIES){
 			addField(sid, "taxon.species_s_lower", taxon.getScientificName());
@@ -141,7 +142,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		int numImages = 3;
 		List<Image> images = new ArrayList<>();
 
-		if(taxon.isAccepted()) {
+		if(taxon.looksAccepted()) {
 			images.addAll(taxon.getImages());
 			for(Taxon synonym : taxon.getSynonymNameUsages()) {
 				images.addAll(synonym.getImages());
@@ -199,7 +200,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void indexDescriptions() {
 		boolean hasDescriptions = false;
-		if(taxon.isAccepted()) {
+		if(taxon.looksAccepted()) {
 			hasDescriptions |= doIndexDescriptions(taxon);
 			for(Taxon synonym : taxon.getSynonymNameUsages()) {
 				hasDescriptions |= doIndexDescriptions(synonym);

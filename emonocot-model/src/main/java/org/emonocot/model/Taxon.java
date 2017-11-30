@@ -949,7 +949,9 @@ public class Taxon extends SearchableObject {
 	}
 
 	@Transient
-	public boolean isAccepted() {
+	public boolean looksAccepted() {
+		//we want doubtful names to look like an accepted name, 
+		//but not show up in an accepted names search, or say that the name is accepted.
 		if (getTaxonomicStatus() == null) {
 			return true;
 		} else {
@@ -960,12 +962,60 @@ public class Taxon extends SearchableObject {
 			case DeterminationSynonym:
 			case IntermediateRankSynonym:
 			case Proparte_Synonym:
+			case Misapplied:
 				return false;
+			case Accepted:
+			case Doubtful:
+			default:
+				return true;
+			}
+		}
+	}
+	
+	@Transient
+	public boolean isAccepted() {
+		//we want doubtful names to look like an accepted name, 
+		//but not show up in an accepted names search, or say that the name is accepted.
+		if (getTaxonomicStatus() == null) {
+			return false;
+		} else {
+			switch (getTaxonomicStatus()) {
+			case Accepted:
+				return true;
+			case Synonym:
+			case Heterotypic_Synonym:
+			case Homotypic_Synonym:
+			case DeterminationSynonym:
+			case IntermediateRankSynonym:
+			case Proparte_Synonym:
+			case Doubtful:
+			case Misapplied:
+			default:
+				return false;
+			}
+		}
+	}
+
+	@Transient
+	public boolean isSynonym() {
+		//we want doubtful names to look like an accepted name, 
+		//but not show up in an accepted names search, or say that the name is accepted.
+		if (getTaxonomicStatus() == null) {
+			return false;
+		} else {
+			switch (getTaxonomicStatus()) {
+			case Synonym:
+			case Heterotypic_Synonym:
+			case Homotypic_Synonym:
+			case DeterminationSynonym:
+			case IntermediateRankSynonym:
+			case Proparte_Synonym:
+				return true;
 			case Accepted:
 			case Doubtful:
 			case Misapplied:
 			default:
-				return true;
+				return false;
 			}
 		}
 	}

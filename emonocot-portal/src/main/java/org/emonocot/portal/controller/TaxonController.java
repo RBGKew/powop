@@ -117,7 +117,7 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 	}
 
 	private String bodyClass(Taxon taxon) {
-		if(taxon.isAccepted()) {
+		if(taxon.looksAccepted()) {
 			if(taxon.getTaxonRank() == null || taxon.getTaxonRank().isInfraspecific()) {
 				return "s-theme-Infraspecific";
 			} else {

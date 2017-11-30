@@ -109,7 +109,7 @@ public class Sources {
 		}
 
 		// images and descriptions are not shown on synonym pages
-		if(taxon.isAccepted()) {
+		if(taxon.looksAccepted()) {
 			for (Image images : taxon.getImages()) {
 				addSource(images);
 			}

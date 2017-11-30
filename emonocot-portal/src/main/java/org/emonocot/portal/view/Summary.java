@@ -17,12 +17,15 @@ import org.emonocot.model.Taxon;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.portal.naturalLanguage.PhraseUtilities;
 import org.gbif.dwc.terms.Term;
+import org.gbif.ecat.voc.TaxonomicStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.i18n.LocaleContextHolder;
+
+import com.google.common.collect.ImmutableSet;
 
 public class Summary {
 
@@ -91,52 +94,64 @@ public class Summary {
 		}
 		return null;
 	}
-
-
-	public String build(){
-
-		if(taxon.isAccepted()){
-			Set<Description> descriptions = taxon.getDescriptions();
-			for(Description description : descriptions){
-				if(description.getTypes().contains(DescriptionType.summary)){
-					return description.getDescription();
-				}
+	
+	private String createAcceptedNameSummary(){
+		for(Description description : taxon.getDescriptions()){
+			if(description.getTypes().contains(DescriptionType.summary)){
+				return description.getDescription();
 			}
 		}
+		String location =  buildLocationandHabitat();
+		String uses = new SummaryUses().buildUses(taxon, messageSource);
 
-		if(taxon.getTaxonomicStatus() != null) {
-			if(taxon.isAccepted()){
-
-				String location =  buildLocationandHabitat();
-				String uses = new SummaryUses().buildUses(taxon, messageSource);
-
-				if(location != null && uses != null && !uses.isEmpty()) {
-					return String.format("%s It is %s.", location, uses);
-				} else if(location != null) {
-					return location;
-				} else if(uses != null && !uses.isEmpty()) {
-					if(taxon.getTaxonRank() != null) {
-						return String.format("This %s is accepted, and is %s.", taxon.getTaxonRank().toString().toLowerCase(), uses);
-					} else {
-						return String.format("This plant is %s.", uses);
-					}
-				} else {
-					String thing = taxon.getTaxonRank() == null ? "plant" : taxon.getTaxonRank().toString().toLowerCase();
-					return String.format("This %s is accepted.", thing);
-				}
-			}
-
-			if(taxon.getAcceptedNameUsage() != null) {
-				if(taxon.getTaxonRank() != null) {
-					return String.format("This %s is a synonym of ", taxon.getTaxonRank().toString().toLowerCase());
-				} else {
-					return "This is a synonym of ";
-				}
+		if(location != null && uses != null && !uses.isEmpty()) {
+			return String.format("%s It is %s.", location, uses);
+		} else if(location != null) {
+			return location;
+		} else if(uses != null && !uses.isEmpty()) {
+			if(taxon.getTaxonRank() != null) {
+				return String.format("This %s is accepted, and is %s.", taxon.getTaxonRank().toString().toLowerCase(), uses);
 			} else {
-				return "This is a synonym";
+				return String.format("This plant is %s.", uses);
 			}
+		} else {
+			String thing = taxon.getTaxonRank() == null ? "plant" : taxon.getTaxonRank().toString().toLowerCase();
+			return String.format("This %s is accepted.", thing);
 		}
+	}
 
+	private String createSynonymNameSummary(){
+		String string = "";
+		if(taxon.getTaxonRank() != null) {
+			string = String.format("This %s is a synonym", taxon.getTaxonRank().toString().toLowerCase());
+		}else{
+			string = "This is a synonym";
+		}
+		if(taxon.getAcceptedNameUsage() != null) {
+			string += " of ";
+		}
+		return string;
+	}
+	
+	private String createMisappliedNameSummary(){
+		String string = "This is a misapplied name";
+		if(taxon.getAcceptedNameUsage() != null) {
+			string += " of ";
+		}
+		return string;
+	}
+	
+	public String build(){
+		if(taxon.isAccepted()){
+			return createAcceptedNameSummary();
+		}
+		if(taxon.isSynonym()){
+			return createSynonymNameSummary(); 
+		}
+		if(taxon.getTaxonomicStatus() == TaxonomicStatus.Misapplied){
+			return createMisappliedNameSummary();
+		}
 		return "";
+		
 	}
 }

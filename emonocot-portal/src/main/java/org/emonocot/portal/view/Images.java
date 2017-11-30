@@ -22,7 +22,7 @@ public class Images {
 
 	public Images(Taxon taxon, ImageService imageService) {
 		this.taxon = taxon;
-		if(taxon.isAccepted()) {
+		if(taxon.looksAccepted()) {
 			images = taxon.getImages();
 			for(Taxon synonym : taxon.getSynonymNameUsages()) {
 				images.addAll(synonym.getImages());
