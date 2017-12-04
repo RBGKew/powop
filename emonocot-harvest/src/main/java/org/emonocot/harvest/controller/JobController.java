@@ -67,7 +67,7 @@ public class JobController {
 	@GetMapping(path = "/configuration")
 	public ResponseEntity<Page<JobConfiguration>> listJobConfigurations(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "perPage", required = false, defaultValue = "30") Integer perPage) {
+			@RequestParam(value = "perPage", required = false, defaultValue = "300") Integer perPage) {
 		return new ResponseEntity<>(jobConfigurationService.list(page, perPage), HttpStatus.OK);
 	}
 
