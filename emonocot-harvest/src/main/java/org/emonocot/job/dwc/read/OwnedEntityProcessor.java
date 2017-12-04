@@ -113,13 +113,13 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	@Override
 	public void afterChunk(ChunkContext context) {
 		super.afterChunk(context);
-		logger.info("After Chunk");
+		logger.debug("After Chunk");
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		super.beforeChunk(context);
-		logger.info("Before Chunk");
+		logger.debug("Before Chunk");
 		boundObjects  = new HashMap<String, T>();
 	}
 

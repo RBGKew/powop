@@ -159,13 +159,13 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	@Override
 	public void afterChunk(ChunkContext context) {
 		super.afterChunk(context);
-		logger.info("After Chunk");
+		logger.debug("After Chunk");
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) { 
 		super.beforeChunk(context);
-		logger.info("Before Chunk");
+		logger.debug("Before Chunk");
 		boundObjects.clear();
 	}
 
