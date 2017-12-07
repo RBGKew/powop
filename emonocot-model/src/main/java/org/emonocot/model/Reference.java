@@ -44,10 +44,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import lombok.ToString;
+
 /**
  * Schema definition: http://rs.gbif.org/extension/gbif/1.0/references.xml
  */
 @Entity
+@ToString(of = {"bibliographicCitation", "subject", "date"})
 public class Reference extends BaseData implements NonOwned {
 
 	private static final long serialVersionUID = -5928234699377084008L;
@@ -306,10 +309,5 @@ public class Reference extends BaseData implements NonOwned {
 	 */
 	public void setTaxonRemarks(String taxonRemarks) {
 		this.taxonRemarks = taxonRemarks;
-	}
-
-	@Override
-	public String toString() {
-		return bibliographicCitation;
 	}
 }

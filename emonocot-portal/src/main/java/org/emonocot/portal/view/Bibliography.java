@@ -16,107 +16,105 @@
  */
 package org.emonocot.portal.view;
 
-import java.util.Set;
-import java.util.TreeSet;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toCollection;
 
-import org.emonocot.model.Description;
-import org.emonocot.model.Distribution;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Stream;
+
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.compare.ReferenceComparator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.Streams;
 
 public class Bibliography {
 
-	class BibliographyItem implements Comparable<BibliographyItem> {
-		public Reference reference;
-		public int key;
+	private Map<String, SortedSet<Reference>> liturature;
+	private SortedSet<Reference> accepted;
+	private SortedSet<Reference> notAccepted;
+	private Stream<Reference> referenceStream;
 
-		public BibliographyItem(Reference reference) {
-			this.reference = reference;
-		}
-
-		@Override
-		public int compareTo(BibliographyItem other) {
-			return new ReferenceComparator().compare(reference, other.reference);
-		}
-	}
-
-	private Set<BibliographyItem> references;
-	private Set<BibliographyItem> accepted;
-	private Set<BibliographyItem> synonomized;
+	private static Logger logger = LoggerFactory.getLogger(Bibliography.class);
 
 	public Bibliography(Taxon taxon) {
-		references = new TreeSet<>();
 		if(taxon.looksAccepted()) {
-			collectReferences(taxon);
-			collectDescriptionReferences(taxon);
-			collectDistributionReferences(taxon);
-			for(Taxon synonym : taxon.getSynonymNameUsages()) {
-				collectDescriptionReferences(synonym);
-			}
+			referenceStream = Streams.concat(
+					taxon.getReferences().stream(),
+					taxon.getDescriptions().stream().flatMap(d -> d.getReferences().stream()),
+					taxon.getDistribution().stream().flatMap(d -> d.getReferences().stream()));
 		} else {
-			collectReferences(taxon);
+			referenceStream = taxon.getReferences().stream();
 		}
 
-		int code = 1;
-		for(BibliographyItem item : references) {
-			item.key = code++;
+		liturature = referenceStream.collect(groupingBy(r -> classify(r),
+				toCollection(() -> new TreeSet<>(new ReferenceComparator()))));
+
+		accepted = liturature.remove("Accepted");
+		notAccepted = liturature.remove("Not accepted");
+		if(liturature.isEmpty()) {
+			liturature = null;
 		}
 
-		references.removeAll(getAcceptedIn());
-		references.removeAll(getSynonomizedIn());
+		logger.debug("Constructed Bibliography:{}", this.toString());
 	}
 
-	private void collectReferences(Taxon taxon) {
-		for(Reference reference : taxon.getReferences()) {
-			references.add(new BibliographyItem(reference));
-		}
-	}
+	private String classify(Reference reference) {
+		String subject = Strings.nullToEmpty(reference.getSubject());
+		String classification;
 
-	private void collectDescriptionReferences(Taxon taxon) {
-		for (Description d : taxon.getDescriptions()) {
-			for(Reference reference : d.getReferences()) {
-				references.add(new BibliographyItem(reference));
+		if(!Strings.isNullOrEmpty(subject)) {
+			if(subject.contains("Accepted") || subject.contains("Artificial Hybrid")) {
+				classification = "Accepted";
+			} else {
+				classification = "Not accepted";
 			}
+		} else if (reference.getAuthority() != null && reference.getAuthority().getTitle() != null){
+			classification = reference.getAuthority().getTitle();
+		} else {
+			classification = "Literature";
 		}
+
+		logger.debug("Classifying: {} as [{}]", reference, classification);
+		return classification;
 	}
 
-	private void collectDistributionReferences(Taxon taxon) {
-		for (Distribution d : taxon.getDistribution()) {
-			for(Reference reference : d.getReferences()) {
-				references.add(new BibliographyItem(reference));
-			}
-		}
+	public Map<String, SortedSet<Reference>> getLiturature() {
+		return liturature;
 	}
 
-	private Set<BibliographyItem> filterOnSubject(String subject) {
-		Set<BibliographyItem> filtered = new TreeSet<>();
-		for(BibliographyItem item : references) {
-			String rs = item.reference.getSubject();
-			if(rs != null && rs.contains(subject)) {
-				filtered.add(item);
-			}
-		}
-		return filtered;
-	}
-
-	public Set<BibliographyItem> getAcceptedIn() {
-		if(accepted == null) {
-			accepted = filterOnSubject("Accepted");
-		}
-
+	public Set<Reference> getAccepted() {
 		return accepted;
 	}
 
-	public Set<BibliographyItem> getSynonomizedIn() {
-		if(synonomized == null) {
-			synonomized = filterOnSubject("Synonym");
-		}
-
-		return synonomized;
+	public Set<Reference> getNotAccepted() {
+		return notAccepted;
 	}
 
-	public Set<BibliographyItem> getReferences() {
-		return this.references;
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if(accepted != null) {
+			sb.append("\nAccepted: ");
+			sb.append(accepted.toString());
+		}
+
+		if(notAccepted != null) {
+			sb.append("\nSynonomized: ");
+			sb.append(notAccepted.toString());
+		}
+
+		if(liturature != null) {
+			sb.append("\nOthers: ");
+			sb.append(Joiner.on(", ").withKeyValueSeparator("=").join(liturature));
+		}
+
+		return sb.toString();
 	}
 }

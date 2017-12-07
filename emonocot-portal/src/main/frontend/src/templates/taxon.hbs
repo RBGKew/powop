@@ -452,32 +452,35 @@
             <h3>First published in {{taxon.namePublishedInString}}</h3>
             {{/if}}
 
-            {{#with bibliography.acceptedIn as |accepted|}}
-            <h3>Accepted in:</h3>
-            <ul class="list-unstyled">
-              {{#each accepted}}
-              <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}}</li>
+            {{#with bibliography.accepted}}
+            <h3>Accepted by</h3>
+            <ul>
+              {{#each this}}
+              <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
               {{/each}}
             </ul>
             {{/with}}
 
-            {{#with bibliography.synonomizedIn as |synonym|}}
-            <h3>Synonym in:</h3>
-            <ul class="list-unstyled">
-              {{#each synonym}}
-              <li id="reference-{{key}}" class="offset">[{{key}}] {{reference.bibliographicCitation}} [{{reference.taxonRemarks}}]</li>
+            {{#with bibliography.notAccepted}}
+            <h3>Not accepted by</h3>
+            <ul>
+              {{#each this}}
+              <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}{{#if taxonRemarks}} [{{taxonRemarks}}]{{/if}}</li>
               {{/each}}
             </ul>
             {{/with}}
 
-            {{#if bibliography.references}}
+            {{#with bibliography.liturature}}
             <h3>Literature</h3>
-            <ul class="list-unstyled">
-              {{#each bibliography.references}}
-              <li id="reference-{{key}}" class="offset">[{{key}}] {{{reference.bibliographicCitation}}}</li>
+              {{#each this}}
+              <h5>{{@key}}</h5>
+              <ul>
+                {{#each this}}
+                <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
+                {{/each}}
+              </ul>
               {{/each}}
-            </ul>
-            {{/if}}
+            {{/with}}
           </div>
         </div>
       </div>

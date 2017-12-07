@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/taxon")
 public class TaxonController extends GenericController<Taxon, TaxonService> {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
 
 	public TaxonController() {
