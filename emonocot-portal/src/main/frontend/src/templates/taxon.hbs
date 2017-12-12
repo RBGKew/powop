@@ -446,42 +446,34 @@
         <h2>Bibliography</h2>
       </a>
       <div id="bibliography-main" class="container collapse">
+        <script type="text/javascript">
+          var bibliography = {
+            accepted: {{{bibliography.acceptedJSON}}},
+            notAccepted: {{{bibliography.notAcceptedJSON}}},
+            liturature: {{{bibliography.lituratureJSON}}}
+          }
+        </script>
         <div class="row">
           <div class="c-article-section__content">
             {{#if taxon.namePublishedInString}}
-            <h3>First published in {{taxon.namePublishedInString}}</h3>
+              <h3>First published in {{taxon.namePublishedInString}}</h3>
             {{/if}}
-
-            {{#with bibliography.accepted}}
-            <h3>Accepted by</h3>
-            <ul>
-              {{#each this}}
-              <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
-              {{/each}}
-            </ul>
-            {{/with}}
-
-            {{#with bibliography.notAccepted}}
-            <h3>Not accepted by</h3>
-            <ul>
-              {{#each this}}
-              <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}{{#if taxonRemarks}} [{{taxonRemarks}}]{{/if}}</li>
-              {{/each}}
-            </ul>
-            {{/with}}
-
-            {{#with bibliography.liturature}}
-            <h3>Literature</h3>
-              {{#each this}}
-              <h5>{{@key}}</h5>
-              <ul>
-                {{#each this}}
-                <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
-                {{/each}}
-              </ul>
-              {{/each}}
-            {{/with}}
+            {{> partials/taxon/bibliography }}
           </div>
+
+          <aside role="complementary" class="c-article-section__aside">
+            <div class="bibliography-dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="sort-bibliography" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Sort
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="sort-bibliography">
+                <li><a id="sort-bibliography-by-newest-first" class="selected_background" href="#">Newest first</a></li>
+                <li><a id="sort-bibliography-by-oldest-first" href="#">Oldest first</a></li>
+                <li><a id="sort-bibliography-by-citation" href="#">Alphabetically</a></li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

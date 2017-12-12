@@ -25,10 +25,6 @@
     padding: 0 15px;
   }
 
-  .selected_background {
-    background-color: #e7e7e7;
-  }
-
   .navbar {
     min-height: auto;
   }
@@ -48,6 +44,10 @@
   #grid_view {
     background-color: #e7e7e7 !important;
   }
+}
+
+.selected_background {
+  background-color: #e7e7e7;
 }
 
 .results-count {

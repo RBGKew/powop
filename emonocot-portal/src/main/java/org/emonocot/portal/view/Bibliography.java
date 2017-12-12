@@ -28,9 +28,17 @@ import java.util.stream.Stream;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.emonocot.model.compare.ReferenceComparator;
+import org.emonocot.model.registry.Organisation;
+import org.emonocot.model.registry.Resource;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Streams;
@@ -41,10 +49,20 @@ public class Bibliography {
 	private SortedSet<Reference> accepted;
 	private SortedSet<Reference> notAccepted;
 	private Stream<Reference> referenceStream;
+	private ObjectMapper mapper;
 
 	private static Logger logger = LoggerFactory.getLogger(Bibliography.class);
 
 	public Bibliography(Taxon taxon) {
+		mapper = new ObjectMapper();
+		mapper.disable(
+				MapperFeature.AUTO_DETECT_CREATORS,
+				MapperFeature.AUTO_DETECT_FIELDS,
+				MapperFeature.AUTO_DETECT_GETTERS,
+				MapperFeature.AUTO_DETECT_IS_GETTERS,
+				MapperFeature.AUTO_DETECT_SETTERS);
+		mapper.addMixIn(Reference.class, ReferenceSerializer.class);
+
 		if(taxon.looksAccepted()) {
 			referenceStream = Streams.concat(
 					taxon.getReferences().stream(),
@@ -90,12 +108,24 @@ public class Bibliography {
 		return liturature;
 	}
 
+	public String getLituratureJSON() {
+		return serializeToJSON(liturature);
+	}
+
 	public Set<Reference> getAccepted() {
 		return accepted;
 	}
 
+	public String getAcceptedJSON() {
+		return serializeToJSON(accepted);
+	}
+
 	public Set<Reference> getNotAccepted() {
 		return notAccepted;
+	}
+
+	public String getNotAcceptedJSON() {
+		return serializeToJSON(notAccepted);
 	}
 
 	public String toString() {
@@ -116,5 +146,24 @@ public class Bibliography {
 		}
 
 		return sb.toString();
+	}
+
+	public String serializeToJSON(Object obj) {
+		try {
+			return mapper.writer().writeValueAsString(obj);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "{}";
+		}
+	}
+
+	abstract class ReferenceSerializer {
+		@JsonProperty private String bibliographicCitation;
+		@JsonProperty private String date;
+		@JsonIgnore abstract DateTime getCreated();
+		@JsonIgnore abstract DateTime getModified();
+		@JsonIgnore abstract Organisation getAuthority();
+		@JsonIgnore abstract Resource getResource();
+		@JsonIgnore abstract Set<Taxon> getTaxa();
 	}
 }

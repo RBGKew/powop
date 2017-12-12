@@ -6,6 +6,8 @@ define(function(require) {
   require('libs/bootstrap');
   require('libs/magnific-popup');
 
+  var bibliographyTmpl = require('templates/partials/taxon/bibliography.js');
+
   var initialize = function() {
 
     // collapse all sections if screen size is less than 768px
@@ -70,9 +72,39 @@ define(function(require) {
     // enable tooltips
     $('.description a[title]').tooltip();
 
+    // bibliography sorting
+    $('#sort-bibliography-by-citation').click(function(e) {
+      sortBibliography(e, ['bibliographicCitation'], ['asc']);
+      $(this).addClass('selected_background');
+    });
+    $('#sort-bibliography-by-newest-first').click(function(e) {
+      sortBibliography(e, ['date', 'bibliographicCitation'], ['desc', 'asc']);
+      $(this).addClass('selected_background');
+    });
+    $('#sort-bibliography-by-oldest-first').click(function(e) {
+      sortBibliography(e, ['date', 'bibliographicCitation'], ['asc', 'asc']);
+      $(this).addClass('selected_background');
+    });
+
     if($('#c-map').length) {
       map.initialize();
     }
+  }
+
+  function sortBibliography(e, fields, order) {
+    e.preventDefault();
+    var sorted = {
+      accepted: _.orderBy(bibliography.accepted, fields, order),
+      notAccepted: _.orderBy(bibliography.notAccepted, fields, order),
+      liturature: _.mapValues(bibliography.liturature, function(obj) {
+        return _.orderBy(obj, fields, order);
+      })
+    };
+
+    $('.bibliography-dropdown a').removeClass('selected_background');
+    $('#bibliography-citations').html(bibliographyTmpl({
+      bibliography: sorted
+    }));
   }
 
   return {

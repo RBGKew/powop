@@ -1,0 +1,31 @@
+<div id="bibliography-citations">
+  {{#with bibliography.accepted}}
+  <h3>Accepted by</h3>
+  <ul>
+    {{#each this}}
+    <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
+    {{/each}}
+  </ul>
+  {{/with}}
+
+  {{#with bibliography.notAccepted}}
+  <h3>Not accepted by</h3>
+  <ul>
+    {{#each this}}
+    <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}{{#if taxonRemarks}} [{{taxonRemarks}}]{{/if}}</li>
+    {{/each}}
+  </ul>
+  {{/with}}
+
+  {{#with bibliography.liturature}}
+  <h3>Literature</h3>
+  {{#each this}}
+  <h5>{{@key}}</h5>
+  <ul>
+    {{#each this}}
+    <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
+    {{/each}}
+  </ul>
+  {{/each}}
+  {{/with}}
+</div>
