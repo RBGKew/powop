@@ -19,6 +19,7 @@ package org.emonocot.portal.controller;
 import org.apache.commons.lang3.text.WordUtils;
 import org.emonocot.api.ImageService;
 import org.emonocot.api.TaxonService;
+import org.emonocot.common.IdUtil;
 import org.emonocot.model.Taxon;
 import org.emonocot.portal.view.Bibliography;
 import org.emonocot.portal.view.Descriptions;
@@ -62,9 +63,9 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		super.setService(taxonService);
 	}
 
-	@RequestMapping(value = "/{identifier}", method = RequestMethod.GET, produces = {"text/html", "*/*"})
+	@RequestMapping(path = {"/urn:lsid:ipni.org:names:{identifier}", "/{identifier}"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String show(@PathVariable String identifier, Model model) {
-		Taxon taxon = getService().load(identifier, "object-page");
+		Taxon taxon = getService().load(IdUtil.fqName(identifier), "object-page");
 		model.addAttribute(taxon);
 		model.addAttribute(new Sources(taxon));
 		model.addAttribute(new Bibliography(taxon));
