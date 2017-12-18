@@ -68,12 +68,15 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		Taxon taxon = getService().load(IdUtil.fqName(identifier), "object-page");
 		model.addAttribute(taxon);
 		model.addAttribute(new Sources(taxon));
-		model.addAttribute(new Bibliography(taxon));
+		Bibliography bibliography = new Bibliography(taxon);
 		Descriptions descriptions = new Descriptions(taxon);
 		Descriptions uses = new Descriptions(taxon, true);
 		Images images = new Images(taxon, imageService);
 		if(!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
+		}
+		if(!bibliography.isEmpty()) {
+			model.addAttribute(bibliography);
 		}
 		if(!uses.getBySource().isEmpty()) {
 			model.addAttribute("uses", uses);

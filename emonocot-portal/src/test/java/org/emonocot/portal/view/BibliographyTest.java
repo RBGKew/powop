@@ -44,8 +44,8 @@ public class BibliographyTest {
 		taxon.setReferences(ImmutableSet.<Reference>of(acceptedIn));
 
 		Bibliography bib = new Bibliography(taxon);
-		assertEquals(1, bib.getAcceptedIn().size());
-		assertEquals(0, bib.getReferences().size());
+		assertEquals(1, bib.getAccepted().size());
+		assertEquals(null, bib.getLiturature());
 	}
 
 	@Test
@@ -55,8 +55,8 @@ public class BibliographyTest {
 		taxon.setReferences(ImmutableSet.<Reference>of(acceptedIn));
 
 		Bibliography bib = new Bibliography(taxon);
-		assertEquals(1, bib.getSynonomizedIn().size());
-		assertEquals(0, bib.getReferences().size());
+		assertEquals(1, bib.getNotAccepted().size());
+		assertEquals(null, bib.getLiturature());
 	}
 
 	@Test
@@ -73,8 +73,8 @@ public class BibliographyTest {
 		taxon.setSynonymNameUsages(ImmutableSet.<Taxon>of(synonym));
 
 		Bibliography bib = new Bibliography(taxon);
-		assertEquals("accepted name should have description reference from synonym", 1, bib.getReferences().size());
-		assertEquals(descriptionReference, Iterators.getOnlyElement(bib.getReferences().iterator()).reference);
+		assertEquals("accepted name should have description reference from synonym", 1, bib.getLiturature().size());
+		assertEquals(descriptionReference, Iterators.getOnlyElement(bib.getLiturature().get("Literature").iterator()));
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class BibliographyTest {
 		taxon.setDescriptions(ImmutableSet.<Description>of(description));
 
 		Bibliography bib = new Bibliography(taxon);
-		assertEquals("synonym should have reference attached to name", 1, bib.getReferences().size());
-		assertEquals(nameReference, Iterators.getOnlyElement(bib.getReferences().iterator()).reference);
+		assertEquals("synonym should have reference attached to name", 1, bib.getLiturature().size());
+		assertEquals(nameReference, Iterators.getOnlyElement(bib.getLiturature().get("Literature").iterator()));
 	}
 }

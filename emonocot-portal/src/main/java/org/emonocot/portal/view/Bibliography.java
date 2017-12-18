@@ -50,10 +50,12 @@ public class Bibliography {
 	private SortedSet<Reference> notAccepted;
 	private Stream<Reference> referenceStream;
 	private ObjectMapper mapper;
+	private Taxon taxon;
 
 	private static Logger logger = LoggerFactory.getLogger(Bibliography.class);
 
 	public Bibliography(Taxon taxon) {
+		this.taxon = taxon;
 		mapper = new ObjectMapper();
 		mapper.disable(
 				MapperFeature.AUTO_DETECT_CREATORS,
@@ -67,7 +69,10 @@ public class Bibliography {
 			referenceStream = Streams.concat(
 					taxon.getReferences().stream(),
 					taxon.getDescriptions().stream().flatMap(d -> d.getReferences().stream()),
-					taxon.getDistribution().stream().flatMap(d -> d.getReferences().stream()));
+					taxon.getDistribution().stream().flatMap(d -> d.getReferences().stream()),
+					taxon.getSynonymNameUsages().stream().flatMap(
+							synonym -> synonym.getDescriptions().stream().flatMap(
+									description -> description.getReferences().stream())));
 		} else {
 			referenceStream = taxon.getReferences().stream();
 		}
@@ -155,6 +160,17 @@ public class Bibliography {
 			e.printStackTrace();
 			return "{}";
 		}
+	}
+
+	public boolean isEmpty() {
+		return (taxon == null || Strings.isNullOrEmpty(taxon.getNamePublishedInString())) &&
+				!hasReferences();
+	}
+
+	public boolean hasReferences() {
+		return !((getAccepted() == null || getAccepted().isEmpty()) &&
+				(getNotAccepted() == null || getNotAccepted().isEmpty()) &&
+				(getLiturature() == null || getLiturature().isEmpty()));
 	}
 
 	abstract class ReferenceSerializer {

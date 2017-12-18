@@ -68,7 +68,11 @@
             {{/if}}
 
             <li><a href="#other-data">Other Data</a></li>
+
+            {{#if bibliography}}
             <li><a href="#bibliography">Bibliography</a></li>
+            {{/if}}
+
             <li><a href="#sources">Sources</a></li>
           </ul>
         </div>
@@ -437,6 +441,7 @@
       </div>
     </section>
 
+    {{#if bibliography}}
     <section id="bibliography" class="c-article-section">
       <a class="btn c-article-section__title collapser collapsed"
          role="button"
@@ -461,6 +466,7 @@
             {{> partials/taxon/bibliography }}
           </div>
 
+          {{#if bibliography.hasReferences}}
           <aside role="complementary" class="c-article-section__aside">
             <div class="bibliography-dropdown">
               <button class="btn btn-default dropdown-toggle" type="button" id="sort-bibliography" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -474,9 +480,11 @@
               </ul>
             </div>
           </aside>
+          {{/if}}
         </div>
       </div>
     </section>
+    {{/if}}
 
     <section id="sources" class="c-article-section">
       <a class="btn c-article-section__title collapser"

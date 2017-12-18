@@ -1,6 +1,6 @@
 package org.emonocot.job.mapping;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class TestCase {
 	public String fieldName;
@@ -24,7 +24,7 @@ public class TestCase {
 	}
 
 	public String toString() {
-		return Objects.toStringHelper(this)
+		return MoreObjects.toStringHelper(this)
 				.add("fieldName", fieldName)
 				.add("value", value)
 				.add("expected", expected)
