@@ -117,6 +117,7 @@
 				<util:constant static-field="com.github.jknack.handlebars.context.JavaBeanValueResolver.INSTANCE" />
 				<util:constant static-field="com.github.jknack.handlebars.context.MapValueResolver.INSTANCE" />
 				<util:constant static-field="com.github.jknack.handlebars.context.FieldValueResolver.INSTANCE" />
+				<util:constant static-field="com.github.jknack.handlebars.context.MethodValueResolver.INSTANCE" />
 			</list>
 		</property>
 		<property name="helperSources">

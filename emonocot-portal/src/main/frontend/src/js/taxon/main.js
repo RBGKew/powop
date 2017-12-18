@@ -93,13 +93,20 @@ define(function(require) {
 
   function sortBibliography(e, fields, order) {
     e.preventDefault();
-    var sorted = {
-      accepted: _.orderBy(bibliography.accepted, fields, order),
-      notAccepted: _.orderBy(bibliography.notAccepted, fields, order),
-      liturature: _.mapValues(bibliography.liturature, function(obj) {
+    var sorted = {}
+    if(bibliography.accepted) {
+      sorted['accepted'] = _.orderBy(bibliography.accepted, fields, order);
+    }
+
+    if(bibliography.notAccepted) {
+      sorted['notAccepted'] = _.orderBy(bibliography.notAccepted, fields, order);
+    }
+
+    if(bibliography.liturature) {
+      sorted['liturature'] = _.mapValues(bibliography.liturature, function(obj) {
         return _.orderBy(obj, fields, order);
       })
-    };
+    }
 
     $('.bibliography-dropdown a').removeClass('selected_background');
     $('#bibliography-citations').html(bibliographyTmpl({

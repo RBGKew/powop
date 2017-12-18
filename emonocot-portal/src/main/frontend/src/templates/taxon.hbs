@@ -453,9 +453,9 @@
       <div id="bibliography-main" class="container collapse">
         <script type="text/javascript">
           var bibliography = {
-            accepted: {{{bibliography.acceptedJSON}}},
-            notAccepted: {{{bibliography.notAcceptedJSON}}},
-            liturature: {{{bibliography.lituratureJSON}}}
+            {{#if bibliography.accepted}}accepted: {{{bibliography.acceptedJSON}}},{{/if}}
+            {{#if bibliography.notAccepted}}notAccepted: {{{bibliography.notAcceptedJSON}}},{{/if}}
+            {{#if bibliography.liturature}}liturature: {{{bibliography.lituratureJSON}}},{{/if}}
           }
         </script>
         <div class="row">
