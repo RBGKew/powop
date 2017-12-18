@@ -46,6 +46,7 @@ gulp.task('browser-sync', function() {
 * Combination tasks
 */
 gulp.task('copy', ['copy:fonts', 'copy:svgs']);
+gulp.task('images', ['images:minify']);
 gulp.task('clean', ['clean:css', 'clean:js', 'clean:templates']);
 
 /*
@@ -63,6 +64,7 @@ gulp.task('default', function(cb) {
   $.runSequence(
     'clean',
     'copy',
+    'images',
     'js',
     'css',
     'rev',
