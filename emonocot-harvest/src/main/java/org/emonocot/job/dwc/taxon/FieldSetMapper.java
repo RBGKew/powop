@@ -17,8 +17,8 @@
 package org.emonocot.job.dwc.taxon;
 
 import org.emonocot.api.job.EmonocotTerm;
+import org.emonocot.api.job.TermFactory;
 import org.emonocot.job.dwc.read.BaseDataFieldSetMapper;
-import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
@@ -52,7 +52,7 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 	public final void mapField(final Taxon object, final String fieldName, final String value) throws BindException {
 		super.mapField(object, fieldName, value);
 
-		Term term = getTermFactory().findTerm(fieldName);
+		Term term = TermFactory.findTerm(fieldName);
 		logger.debug("Mapping " + fieldName + " " + " " + value + " to "
 				+ object);
 		if (term instanceof DcTerm) {
@@ -110,10 +110,10 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 				object.setKingdom(value);
 				break;
 			case nameAccordingToID:
-				object.setNameAccordingTo(handleReference(value));
+				// not mapped
 				break;
 			case namePublishedInID:
-				object.setNamePublishedIn(handleReference(value));
+				// not mapped
 				break;
 			case namePublishedIn:
 				object.setNamePublishedInString(value);
@@ -228,16 +228,6 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 			default:
 				break;
 			}
-		}
-	}
-
-	private Reference handleReference(String value) {
-		if (value != null && value.trim().length() > 0) {
-			Reference reference = new Reference();
-			reference.setIdentifier(value);
-			return reference;
-		} else {
-			return null;
 		}
 	}
 }
