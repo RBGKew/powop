@@ -17,18 +17,12 @@
 package org.emonocot.persistence.dao;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.SolrDocument;
-import org.emonocot.api.autocomplete.Match;
 import org.emonocot.model.Base;
-import org.emonocot.pager.CellSet;
-import org.emonocot.pager.Cube;
 import org.emonocot.pager.Page;
 
 /**

@@ -130,11 +130,6 @@
 
   <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
 
-  <bean id="taxonMatcher" class="org.emonocot.job.taxonmatch.DefaultTaxonMatcher" scope="step">
-    <property name="nameParser" ref="nameParser"/>
-    <property name="assumeAcceptedMatches" value="#{jobParameters['assume.accepted.matches']}"/>
-  </bean>
-
   <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
 
   <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.common.NotifyingJobStatusListener"/>
