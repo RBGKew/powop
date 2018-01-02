@@ -16,12 +16,7 @@
  */
 package org.emonocot.job.dwc.taxon;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.emonocot.job.dwc.exception.NoIdentifierException;
 import org.emonocot.job.dwc.read.DarwinCoreProcessor;
 import org.emonocot.model.Annotation;
@@ -37,10 +32,6 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 
 public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListener, ItemWriteListener<Taxon> {
 
-	private Set<TaxonRelationship> taxonRelationships = new HashSet<TaxonRelationship>();
-
-	private Map<String, Taxon> boundTaxa = new HashMap<String,Taxon>();
-
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	public Taxon doProcess(Taxon t) throws Exception {
@@ -54,26 +45,19 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 		if (persisted == null) {
 			// Taxon is new
-			bindRelationships(t,t);
 			validate(t);
 			Annotation annotation = createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
 			t.getAnnotations().add(annotation);
 			t.setAuthority(getSource());
 			logger.debug("Adding taxon " + t);
 			return t;
-		} else if(boundTaxa.containsKey(t.getIdentifier())) {
-			logger.error(t.getIdentifier() + " was found earlier in this archive");
-			createAnnotation(boundTaxa.get(t.getIdentifier()), RecordType.Taxon, AnnotationCode.AlreadyProcessed, AnnotationType.Warn);
-			return null;
 		} else {
 			checkAuthority(RecordType.Taxon, t, persisted.getAuthority());
 			if (skipUnmodified
 					&& ((persisted.getModified() != null && t.getModified() != null) && !persisted
 							.getModified().isBefore(t.getModified()))) {
-				bindTaxon(persisted);
 				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 			} else {
-				bindRelationships(t, persisted);
 				persisted.setAccessRights(t.getAccessRights());
 				persisted.setCreated(t.getCreated());
 				persisted.setLicense(t.getLicense());
@@ -117,76 +101,8 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		}
 	}
 
-	private void bindTaxon(Taxon persisted) {
-		boundTaxa.put(persisted.getIdentifier(), persisted);
-	}
-
-	private void bindRelationships(Taxon t, Taxon u) {
-		bindTaxon(u);
-		if(t.getParentNameUsage() != null) {
-			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.parent, t.getParentNameUsage().getIdentifier(), t.getParentNameUsage().getScientificName()));
-		}
-		if(t.getAcceptedNameUsage() != null) {
-			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.accepted, t.getAcceptedNameUsage().getIdentifier(), t.getAcceptedNameUsage().getScientificName()));
-		}
-		if(t.getOriginalNameUsage() != null) {
-			this.taxonRelationships.add(new TaxonRelationship(u, TaxonRelationshipType.original, t.getOriginalNameUsage().getIdentifier(), t.getOriginalNameUsage().getScientificName()));
-		}
-
-		u.setParentNameUsage(null);
-		u.setAcceptedNameUsage(null);
-		u.setOriginalNameUsage(null);
-	}
-
 	@Override
-	public void beforeChunk(ChunkContext context) {
-		boundTaxa.clear();
-		taxonRelationships.clear();
-	}
-
-	private Taxon resolveTaxon(String identifier, String scientificName) {
-		if (boundTaxa.containsKey(identifier)) {
-			logger.debug("Found taxon " + scientificName + " with identifier " + identifier + " from cache returning taxon with id " + boundTaxa.get(identifier).getId());
-			return boundTaxa.get(identifier);
-		} else {
-			Taxon taxon = getTaxonService().find(identifier);
-
-			if (taxon == null) {
-				taxon = new Taxon();
-				Annotation annotation = createAnnotation(taxon, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
-				taxon.getAnnotations().add(annotation);
-				taxon.setAuthority(getSource());
-				taxon.setIdentifier(identifier);
-				taxon.setScientificName(scientificName);
-				logger.debug("Didn't find taxon " + scientificName + " with identifier " + identifier + " from service returning new taxon");
-				bindTaxon(taxon);
-			} else {
-				logger.debug("Found taxon " + scientificName + "with identifier " + identifier + " from service returning taxon with id " + taxon.getId());
-				bindTaxon(taxon);
-			}
-			return taxon;
-		}
-	}
-
-	@Override
-	public void beforeWrite(List<? extends Taxon> items) {
-		logger.debug("Before Write");
-		for (TaxonRelationship taxonRelationship : taxonRelationships) {
-			Taxon to = resolveTaxon(taxonRelationship.getToIdentifier(), taxonRelationship.getToScientificName());
-			Taxon from = taxonRelationship.getFrom();
-			switch(taxonRelationship.getTerm()) {
-			case original:
-				from.setOriginalNameUsage(to);
-				break;
-			case accepted:
-				from.setAcceptedNameUsage(to);
-				break;
-			case parent:
-				from.setParentNameUsage(to);
-				break;
-			}
-		}
-	}
+	public void beforeWrite(List<? extends Taxon> items) { }
 
 	@Override
 	public void afterWrite(List<? extends Taxon> items) { }

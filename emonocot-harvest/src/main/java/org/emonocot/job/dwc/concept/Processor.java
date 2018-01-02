@@ -177,7 +177,7 @@ public class Processor extends NonOwnedProcessor<Concept, ConceptService> implem
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		super.beforeChunk(context);
-		logger.info("Before Chunk");
+		logger.debug("Before Chunk");
 		boundReferences = new HashMap<String, Reference>();
 		boundImages = new HashMap<String, Image>();
 	}

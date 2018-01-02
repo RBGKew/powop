@@ -159,12 +159,12 @@ ItemProcessor<T, T>, ChunkListener {
 
 	@Override
 	public void afterChunk(ChunkContext context) {
-		logger.info("After Chunk");
+		logger.debug("After Chunk");
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
-		logger.info("Before Chunk");
+		logger.debug("Before Chunk");
 		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
 	}
 
