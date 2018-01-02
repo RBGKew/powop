@@ -1,7 +1,7 @@
 version: '2'
 services:
   db:
-    image: ${DOCKER_REGISTRY}db:latest
+    image: eu.gcr.io/powop-1349/db:latest
     env_file:
       - src/main/resources/docker/env/common.env
       - src/main/resources/docker/env/portal.env
@@ -10,7 +10,7 @@ services:
     ports:
       - "13306:3306"
   portal:
-    image: ${DOCKER_REGISTRY}portal:latest
+    image: eu.gcr.io/powop-1349/portal:latest
     env_file:
       - src/main/resources/docker/env/common.env
     links:
@@ -21,7 +21,7 @@ services:
       - ./emonocot-portal/target/emonocot-portal.war:/usr/local/tomcat/webapps/ROOT.war
 
   harvester:
-    image: ${DOCKER_REGISTRY}harvester:latest
+    image: eu.gcr.io/powop-1349/harvester:latest
     env_file:
       - src/main/resources/docker/env/common.env
     links:
@@ -32,7 +32,7 @@ services:
       - ./emonocot-harvest/target/emonocot-harvest.war:/usr/local/tomcat/webapps/harvester.war
 
   apache:
-    image: ${DOCKER_REGISTRY}apache:latest
+    image: eu.gcr.io/powop-1349/apache:latest
     env_file:
       - src/main/resources/docker/env/common.env
     links:
@@ -50,14 +50,14 @@ services:
     mem_limit: 200M
 
   solr:
-    image: ${DOCKER_REGISTRY}solr:latest
+    image: eu.gcr.io/powop-1349/solr:latest
     ports:
       - "18983:8983"
     volumes:
       - solr_data:/opt/solr/server/solr/powop/data
 
   geoserver:
-    image: ${DOCKER_REGISTRY}geoserver:latest
+    image: eu.gcr.io/powop-1349/geoserver:latest
     env_file: src/main/resources/docker/env/common.env
     links:
       - geodb
@@ -66,7 +66,7 @@ services:
     mem_limit: 1G
 
   geodb:
-    image: ${DOCKER_REGISTRY}geodb:latest
+    image: eu.gcr.io/powop-1349/geodb:latest
     env_file:
       - src/main/resources/docker/env/common.env
       - src/main/resources/docker/env/geoserver.env
