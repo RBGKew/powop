@@ -21,7 +21,6 @@ import org.emonocot.api.ImageService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +35,6 @@ import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
 
-
 public class CustomHandlerInstantiator extends HandlerInstantiator {
 
 	Logger logger = LoggerFactory.getLogger(CustomHandlerInstantiator.class);
@@ -47,15 +45,9 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 
 	private ImageService imageService;
 
-	private UserService userService;
-
 	private OrganisationService organisationService;
 
 	private ConceptService conceptService;
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	public void setReferenceService(ReferenceService referenceService) {
 		this.referenceService = referenceService;
@@ -106,17 +98,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 				imageDeserializer.setService(imageService);
 				return imageDeserializer;
 			} else if (jsonDeserializerClass
-					.equals(UserDeserializer.class)) {
-				UserDeserializer userDeserializer
-				= UserDeserializer.class.newInstance();
-				userDeserializer.setService(userService);
-				return userDeserializer;
-			} else if (jsonDeserializerClass
-					.equals(GroupDeserializer.class)) {
-				GroupDeserializer groupDeserializer
-				= GroupDeserializer.class.newInstance();
-				return groupDeserializer;
-			} else if (jsonDeserializerClass
 					.equals(OrganisationDeserialiser.class)) {
 				OrganisationDeserialiser sourceDeserializer
 				= OrganisationDeserialiser.class.newInstance();
@@ -128,12 +109,6 @@ public class CustomHandlerInstantiator extends HandlerInstantiator {
 				= ConceptDeserializer.class.newInstance();
 				conceptDeserializer.setService(conceptService);
 				return conceptDeserializer;
-			} else if (jsonDeserializerClass
-					.equals(PrincipalDeserializer.class)) {
-				PrincipalDeserializer principalDeserializer
-				= PrincipalDeserializer.class.newInstance();
-				principalDeserializer.setUserService(userService);
-				return principalDeserializer;
 			} else if (jsonDeserializerClass
 					.equals(AnnotatableObjectDeserializer.class)) {
 				AnnotatableObjectDeserializer annotatableObjectDeserializer

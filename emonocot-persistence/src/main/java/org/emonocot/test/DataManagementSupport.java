@@ -30,8 +30,6 @@ import org.emonocot.model.Image;
 import org.emonocot.model.Place;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.auth.Group;
-import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.AnnotationCode;
 import org.emonocot.model.constants.AnnotationType;
 import org.emonocot.model.constants.DescriptionType;
@@ -106,40 +104,6 @@ public abstract class DataManagementSupport {
 		setUp.add(place);
 		tearDown.push(place);
 		return place;
-	}
-
-	/**
-	 *
-	 * @param groupName Set the group name
-	 * @return a Group
-	 */
-	public Group createGroup(String groupName) {
-		Group group = new Group();
-		group.setIdentifier(groupName);
-		setUp.add(group);
-		tearDown.push(group);
-		return group;
-	}
-
-	/**
-	 *
-	 * @param username Set the username
-	 * @param password Set the password
-	 * @param accountName TODO
-	 * @return a User
-	 */
-	public User createUser(String username, String password, String accountName) {
-		User user = new User();
-		user.setUsername(username);
-		user.setAccountName(accountName);
-		user.setPassword(password);
-		user.setAccountNonExpired(true);
-		user.setAccountNonLocked(true);
-		user.setEnabled(true);
-		user.setCredentialsNonExpired(true);
-		setUp.add(user);
-		tearDown.push(user);
-		return user;
 	}
 
 	/**

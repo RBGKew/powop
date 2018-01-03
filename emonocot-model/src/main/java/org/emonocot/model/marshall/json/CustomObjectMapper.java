@@ -22,7 +22,6 @@ import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,17 +39,11 @@ public class CustomObjectMapper extends ObjectMapper {
 
 	private ImageService imageService;
 
-	private UserService userService;
-
 	private OrganisationService organisationService;
 
 	private JobInstanceService jobInstanceService;
 
 	private ConceptService conceptService;
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	public void setReferenceService(ReferenceService referenceService) {
 		this.referenceService = referenceService;
@@ -85,7 +78,6 @@ public class CustomObjectMapper extends ObjectMapper {
 		handlerInstantiator.setReferenceService(referenceService);
 		handlerInstantiator.setTaxonService(taxonService);
 		handlerInstantiator.setImageService(imageService);
-		handlerInstantiator.setUserService(userService);
 		handlerInstantiator.setOrganisationService(organisationService);
 		handlerInstantiator.setConceptService(conceptService);
 		setHandlerInstantiator(handlerInstantiator);

@@ -22,7 +22,6 @@ import org.emonocot.api.JobInstanceService;
 import org.emonocot.api.OrganisationService;
 import org.emonocot.api.ReferenceService;
 import org.emonocot.api.TaxonService;
-import org.emonocot.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
@@ -38,8 +37,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 
 	private ImageService imageService;
 
-	private UserService userService;
-
 	private OrganisationService organisationService;
 
 	private CustomObjectMapper objectMapper;
@@ -47,10 +44,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 	private JobInstanceService jobInstanceService;
 
 	private ConceptService conceptService;
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	public void setReferenceService(ReferenceService referenceService) {
 		this.referenceService = referenceService;
@@ -87,7 +80,6 @@ public class CustomObjectMapperFactory implements FactoryBean<ObjectMapper> {
 			objectMapper.setTaxonService(taxonService);
 			objectMapper.setReferenceService(referenceService);
 			objectMapper.setImageService(imageService);
-			objectMapper.setUserService(userService);
 			objectMapper.setOrganisationService(organisationService);
 			objectMapper.setJobInstanceService(jobInstanceService);
 			objectMapper.setConceptService(conceptService);

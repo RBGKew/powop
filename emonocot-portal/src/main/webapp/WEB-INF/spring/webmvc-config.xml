@@ -80,7 +80,6 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
-				<bean class="org.emonocot.portal.convert.AceDtoConverter" />
 				<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
 				<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
@@ -91,18 +90,6 @@
 				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
 				<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
 				<bean class="org.emonocot.model.convert.StringToOrganisationConverter" />
-				<bean class="org.emonocot.model.convert.PrincipalToUserConverter">
-					<property name="service" ref="userServiceImpl" />
-				</bean>
-				<bean class="org.emonocot.model.convert.SpringAuthToUserConverter">
-					<property name="service" ref="userServiceImpl" />
-				</bean>
-			</set>
-		</property>
-		<property name="formatterRegistrars">
-			<set>
-				<bean class="org.emonocot.portal.format.FacetRequestFormatterRegistrar" />
-				<bean class="org.emonocot.portal.format.PermissionFormatterRegistrar" />
 			</set>
 		</property>
 	</bean>

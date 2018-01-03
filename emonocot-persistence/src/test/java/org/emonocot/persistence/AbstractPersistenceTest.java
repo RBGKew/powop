@@ -32,7 +32,6 @@ import org.emonocot.model.Image;
 import org.emonocot.model.JobConfiguration;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.auth.User;
 import org.emonocot.model.registry.Organisation;
 import org.emonocot.model.registry.Resource;
 import org.emonocot.persistence.dao.AnnotationDao;
@@ -44,7 +43,6 @@ import org.emonocot.persistence.dao.ReferenceDao;
 import org.emonocot.persistence.dao.ResourceDao;
 import org.emonocot.persistence.dao.SearchableObjectDao;
 import org.emonocot.persistence.dao.TaxonDao;
-import org.emonocot.persistence.dao.UserDao;
 import org.emonocot.test.DataManagementSupport;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -100,9 +98,6 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 	protected SearchableObjectDao searchableObjectDao;
 
 	@Autowired
-	protected UserDao userDao;
-
-	@Autowired
 	protected JobConfigurationDao jobConfigurationDao;
 
 	@Autowired
@@ -147,8 +142,6 @@ public abstract class AbstractPersistenceTest extends DataManagementSupport {
 						sourceDao.saveOrUpdate((Organisation) obj);
 					} else if (obj.getClass().equals(Reference.class)) {
 						referenceDao.saveOrUpdate((Reference) obj);
-					} else if (obj.getClass().equals(User.class)) {
-						userDao.save(((User) obj));
 					} else if (obj.getClass().equals(Resource.class)) {
 						resourceDao.save(((Resource) obj));
 					} else if (obj.getClass().equals(JobConfiguration.class)) {

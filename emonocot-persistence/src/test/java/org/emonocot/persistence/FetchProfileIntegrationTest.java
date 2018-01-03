@@ -19,12 +19,10 @@ package org.emonocot.persistence;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.emonocot.model.Description;
 import org.emonocot.model.Image;
 import org.emonocot.model.Reference;
 import org.emonocot.model.Taxon;
-import org.emonocot.model.auth.User;
 import org.emonocot.model.constants.DescriptionType;
 import org.emonocot.model.constants.Location;
 import org.emonocot.model.registry.Organisation;
@@ -68,7 +66,6 @@ public class FetchProfileIntegrationTest extends AbstractPersistenceTest {
 				null, taxon3, null, null, null, null, null, null,
 				null, new Location[] {}, null);
 		Image image = createImage("Aus aus", "image1", null, taxon1, null);
-		User user = createUser("test@emonocot.org", "test", "user");
 	}
 
 	@Test

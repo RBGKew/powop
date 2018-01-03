@@ -27,7 +27,6 @@
     <property name="referenceService" ref="referenceServiceImpl" />
     <property name="taxonService" ref="taxonServiceImpl" />
     <property name="imageService" ref="imageServiceImpl" />
-    <property name="userService" ref="userServiceImpl" />
     <property name="organisationService" ref="organisationServiceImpl" />
   </bean>
 
@@ -69,8 +68,6 @@
           <value>org.emonocot.model.VernacularName</value>
           <value>org.emonocot.model.registry.Resource</value>
           <value>org.emonocot.model.registry.Organisation</value>
-          <value>org.emonocot.model.auth.User</value>
-          <value>org.emonocot.model.auth.Group</value>
           <value>org.emonocot.model.Place</value>
           <value>org.emonocot.model.Concept</value>
         </list>
