@@ -97,6 +97,7 @@ define(function(require) {
       currentPage: Number(filters.getParam('page'))+1,
       onPageClick: function(page, e) {
         filters.setParam('page', page-1);
+        $('html, body').animate({scrollTop: '0px'}, 100);
         if(e) e.preventDefault();
       }
     });
