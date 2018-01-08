@@ -2,10 +2,10 @@ define(function(require) {
 
   var $ = require('jquery');
   var _ = require('libs/lodash');
+  var Cookies = require('libs/js.cookie.js');
   var Handlebars = require('handlebars');
   var pagination = require('libs/pagination');
   var filters = require('./filters');
-  var resultsHeader = require('./resultsHeader');
   var events = require('./events');
 
   var resultsContainerTmpl = require('templates/partials/result/results-container.js');
@@ -16,11 +16,12 @@ define(function(require) {
   var countTmpl = require('templates/partials/result/count.js');
   var filtersTmpl = require('templates/partials/result/filters.js');
 
-  var imagesHelper = require('helpers/images-helper');
-  var taxonHelper = require('helpers/taxon-helper.js');
+  require('helpers/images-helper');
+  require('helpers/taxon-helper.js');
+  require('helpers/search-helper.js');
 
-  Handlebars.registerPartial('results-container', resultsContainerTmpl);
   Handlebars.registerPartial('results', resultsTmpl);
+  Handlebars.registerPartial('results-container', resultsContainerTmpl);
   Handlebars.registerPartial('results-count', countTmpl);
   Handlebars.registerPartial('results-filters', filtersTmpl);
   Handlebars.registerPartial('results-header', headerTmpl);
@@ -41,7 +42,6 @@ define(function(require) {
   var prepare = function() {
     if(_.isEmpty($('.c-results-outer'))) {
       $('.c-search').append(resultsContainerTmpl());
-      $('#search-filters').replaceWith(filtersTmpl());
       $('.c-footer').show();
       $(".c-results-outer").on("click", ".js-show-list", function() {
         $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
@@ -55,27 +55,18 @@ define(function(require) {
 
   var update = function(state) {
     prepare();
-    resultsHeader.showSelectedView();
-    resultsHeader.showSelectedFacet(filters.getParam('f'));
-    resultsHeader.showSelectedSort(filters.getParam('sort') || 'relevance');
-
     $.getJSON("/api/1/search?" + state, function(json) {
+      json['f'] = filters.getParam('f'),
+      json['sort'] = filters.getParam('sort') || 'relevance',
+      json['layout'] = Cookies.get('powop')
       $('.c-results').replaceWith(resultsTmpl(json));
       $('.c-results .container--lines').replaceWith(itemsTmpl(json));
+      $('#search-filters').html(filtersTmpl(json));
       $('.results-count').replaceWith(countTmpl(json));
       paginate(json);
       filters.refresh();
     });
   };
-
-  var updateItems = function(state) {
-    $.getJSON("/api/1/search?" + state, function(json) {
-      prepare();
-
-      $('.c-results .container--lines').replaceWith(itemsTmpl(json));
-      filters.refresh();
-    });
-  }
 
   var initialize = function(initialToken) {
     if($('.s-page').hasClass('s-search__fullpage')) {
@@ -96,7 +87,7 @@ define(function(require) {
       hrefTextPrefix: '',
       currentPage: Number(filters.getParam('page'))+1,
       onPageClick: function(page, e) {
-        filters.setParam('page', page-1);
+        filters.setPage(page-1);
         $('html, body').animate({scrollTop: '0px'}, 100);
         if(e) e.preventDefault();
       }
@@ -106,6 +97,5 @@ define(function(require) {
   return {
     initialize: initialize,
     update : update,
-    updateItems: updateItems
   };
 });

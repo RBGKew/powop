@@ -15,7 +15,6 @@ define(function(require) {
   var Handlebars = require('handlebars');
   var suggestionTmpl = require('templates/partials/search/suggestion.js');
 
-  var initialized = false;
   var tokenfield;
   var params = Immutable.Map();
 
@@ -47,7 +46,7 @@ define(function(require) {
     return ret;
   }
 
-  var initialize = function(initial) {
+  var initialize = function() {
     engine = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.whitespace,
       queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -60,7 +59,6 @@ define(function(require) {
     engine.initialize();
 
     tokenfield = $('input.refine').tokenfield({
-      tokens: initial,
       typeahead: [
         {
           hint: false,
@@ -75,12 +73,10 @@ define(function(require) {
       ]
     })
       .on('tokenfield:createtoken', customizeTokenLabels)
-      .on('tokenfield:createdtoken', createdToken)
-      .on('tokenfield:removedtoken', publishUpdated);
+      .on('tokenfield:createdtoken', tokenChanged)
+      .on('tokenfield:removedtoken', tokenChanged);
 
     $(window).on('resize', refresh);
-
-    initialized = true;
   }
 
   var overrides = {'source:Kew-Species-Profiles': 'Kew Species Profiles'};
@@ -94,18 +90,10 @@ define(function(require) {
     pubsub.publish('search.updated');
   };
 
-  function createdToken() {
+  function tokenChanged() {
+    params = params.clear();
     publishUpdated();
   };
-
-  function setTokens(tokens) {
-    if(initialized) {
-      tokenfield.tokenfield('setTokens', tokens);
-    } else {
-      initialize(tokens);
-      publishUpdated();
-    }
-  }
 
   var add = function(key, val) {
     tokenfield.tokenfield('createToken', val ? key + ":" + val : key);
@@ -115,31 +103,32 @@ define(function(require) {
     return tokenfield.tokenfield('getTokens');
   }
 
-  var setParam = function(key, value, publish) {
-    if(params.has('page')) {
-      params = params.delete('page');
-    }
-
-    params = params.set(key, value);
-    if(_.defaultTo(publish, true)) {
-      pubsub.publish('search.updated.params.' + key);
-    }
-  };
-
   var getParam = function(key) {
     return params.get(key);
   };
 
-  var removeParam = function(key, publish) {
-    params = params.delete(key);
-
-    if(params.has('page')) {
-      params = params.delete('page');
+  var toggleFacet = function(facet) {
+    var facets = params.get('f');
+    facets = _.isUndefined(facets) ? [] : _.split(facets, ',');
+    if(_.includes(facets, facet)) {
+      _.remove(facets, function(f) { return f === facet });
+    } else {
+      facets.push(facet);
     }
 
-    if(_.defaultTo(publish, true)) {
-      pubsub.publish('search.updated.params.' + key);
-    }
+    params = params.delete('page');
+    params = params.set('f', _.join(facets, ','));
+    publishUpdated();
+  }
+
+  var setSort = function(sort) {
+    params = params.set('sort', sort);
+    publishUpdated();
+  }
+
+  var setPage = function(page) {
+    params = params.set('page', page);
+    publishUpdated();
   }
 
   var serialize = function() {
@@ -152,20 +141,23 @@ define(function(require) {
     return($.param(q));
   };
 
-  var deserialize = function(serialized) {
+  var deserialize = function(serialized, publish) {
     if(serialized[0] == '?') {
       serialized = serialized.slice(1);
+    } else {
+      return;
     }
 
     var deserialized = deparam(serialized);
     for(key in deserialized) {
-      if(key === 'q') continue;
-      params = params.set(key, deserialized[key]);
+      if(key === 'q') {
+        tokenfield.tokenfield('setTokens', deserialized['q'].split(','), false, publish);
+      } else {
+        params = params.set(key, deserialized[key]);
+      }
     }
 
-    if(_.isString(deserialized['q'])) {
-      setTokens(deserialized['q'].split(','));
-    } else {
+    if(_.defaultTo(publish, true)) {
       publishUpdated();
     }
   }
@@ -181,8 +173,9 @@ define(function(require) {
     getParam: getParam,
     initialize: initialize,
     refresh: refresh,
-    removeParam: removeParam,
     serialize: serialize,
-    setParam: setParam,
+    toggleFacet: toggleFacet,
+    setSort: setSort,
+    setPage: setPage
   }
 });

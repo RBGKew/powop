@@ -18,32 +18,14 @@ define(function(require) {
     Cookies.set('powop', $(this).attr("id"), { expires: 1095 , path: '' });
   }
 
-  function setFacet(event) {
+  function toggleFacet(event) {
     event.preventDefault();
-    var facet = $(this).data('facet');
-    $('.facet.' + facet).toggleClass('selected');
-
-    if(facet === 'is_fungi' && $(this).hasClass('selected')) {
-      $('.rank_facets').html('<use xlink:href="#Fungi-svg"></use>');
-    } else {
-      $('.rank_facets').html('<use xlink:href="#Plantae-svg"></use>');
-    }
-
-    var facets = [];
-    $('.facet.selected').each(function(i, el) {
-      facets.push($(el).data('facet'));
-    });
-
-    if(_.isEmpty(facets)) {
-      filters.removeParam('f');
-    } else {
-      filters.setParam('f', _.uniq(facets).join(','));
-    }
+    filters.toggleFacet($(this).data('facet'));
   }
 
   function setSort(event) {
     event.preventDefault();
-    filters.setParam('sort', $(this).attr("id"));
+    filters.setSort($(this).attr("id"));
   }
 
   var initialize = function() {
@@ -53,8 +35,9 @@ define(function(require) {
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {
+      filters.deserialize(window.location.search, false);
       results.initialize();
-      filters.deserialize(window.location.search);
+      results.update(filters.serialize());
     }
 
     $('.s-search__fullpage .c-search .token-input').on('input', function(e) {
@@ -62,7 +45,7 @@ define(function(require) {
     });
 
     $('.c-search')
-      .on('click', '.facet', setFacet)
+      .on('click', '.facet', toggleFacet)
       .on('click', '.c-results-outer .sort_options', setSort)
       .on('click', '.c-results-outer .search_view', setView);
 
@@ -71,7 +54,6 @@ define(function(require) {
 
   // event listeners for updating search results based on filters
   pubsub.subscribe('search.updated', function() {
-    console.log(filters.serialize());
     results.update(filters.serialize());
     this.History.pushState(null, null, '?' + filters.serialize());
   });

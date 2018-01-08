@@ -17,17 +17,17 @@
         <li class="dropdown sort-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by <span class="caret"></span></a>
           <ul id="sort_dropdown" class="dropdown-menu">
-            <li><a id="relevance" class="sort_options" href="#">Sort by relevance</a></li>
-            <li><a id="name_asc" class="sort_options" href="#">Sort A-Z</a></li>
-            <li><a id="name_desc"  class="sort_options" href="#">Sort Z-A</a></li>
+            <li><a id="relevance" class="sort_options {{selected sort "relevance"}}" href="#">Sort by relevance</a></li>
+            <li><a id="name_asc" class="sort_options {{selected sort "name_asc"}}" href="#">Sort A-Z</a></li>
+            <li><a id="name_desc"  class="sort_options {{selected sort "name_desc"}}" href="#">Sort Z-A</a></li>
           </ul>
         </li>
         <li class="layout-toggle">
           <div class="btn-group" role="group" aria-label="...">
-            <button type="button" id="grid_view" class="btn btn-default navbar-btn js-show-grid search_view">
+            <button type="button" id="grid_view" class="btn btn-default navbar-btn js-show-grid search_view {{selected layout "grid"}}">
               <span class="glyphicon glyphicon-th" aria-hidden="true">
             </button>
-            <button type="button" id="list_view" class="btn btn-default navbar-btn js-show-list search_view">
+            <button type="button" id="list_view" class="btn btn-default navbar-btn js-show-list search_view {{selected layout "list"}}">
               <span class="glyphicon glyphicon-th-list" aria-hidden="true">
             </button>
           </div>

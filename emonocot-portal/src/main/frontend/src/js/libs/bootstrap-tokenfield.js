@@ -268,15 +268,15 @@
             $closeButton
                 .on('click', $.proxy(this.remove, this));
 
-            // Trigger createdtoken event on the original field
-            // indicating that the token is now in the DOM
-            this.$element.trigger($.Event('tokenfield:createdtoken', {
-                attrs: attrs,
-                relatedTarget: $token.get(0)
-            }));
-
             // Trigger change event on the original field
             if (triggerChange) {
+              // Trigger createdtoken event on the original field
+              // indicating that the token is now in the DOM
+              this.$element.trigger($.Event('tokenfield:createdtoken', {
+                attrs: attrs,
+                relatedTarget: $token.get(0)
+              }));
+
                 this.$element.val(this.getTokensList()).trigger($.Event('change', { initiator: 'tokenfield' }));
             }
 
