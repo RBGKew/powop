@@ -18,7 +18,7 @@
     "gulp-extname": "^0.2.2",
     "gulp-filter": "^4.0.0",
     "gulp-flatten": "^0.2.0",
-    "gulp-handlebars": "^4.0.0",
+    "gulp-handlebars": "^5.0.0",
     "gulp-htmlmin": "^1.3.0",
     "gulp-imagemin": "^2.3.0",
     "gulp-load-plugins": "^1.2.0",
