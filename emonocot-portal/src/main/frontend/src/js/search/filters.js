@@ -59,6 +59,7 @@ define(function(require) {
     engine.initialize();
 
     tokenfield = $('input.refine').tokenfield({
+      allowPasting: false,
       typeahead: [
         {
           hint: false,
