@@ -131,6 +131,11 @@ define(function(require) {
     publishUpdated();
   }
 
+  var setPageSize = function(pageSize) {
+    params = params.set('page.size', pageSize);
+    publishUpdated();
+  }
+
   var serialize = function() {
     var q = params.toObject();
 
@@ -176,6 +181,7 @@ define(function(require) {
     serialize: serialize,
     toggleFacet: toggleFacet,
     setSort: setSort,
-    setPage: setPage
+    setPage: setPage,
+    setPageSize: setPageSize,
   }
 });
