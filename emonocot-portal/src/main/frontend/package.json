@@ -31,7 +31,7 @@
     "gulp-sass-lint": "^1.2.0",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-svg-sprite": "^1.2.11",
-    "gulp-uglify": "^1.4.1",
+    "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.6",
     "handlebars": "^4.0.11",
     "imagemin-pngquant": "^4.2.0",
