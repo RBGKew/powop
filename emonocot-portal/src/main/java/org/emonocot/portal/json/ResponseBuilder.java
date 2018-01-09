@@ -35,10 +35,8 @@ public class ResponseBuilder {
 
 	Map<String, Map<String, List<String>>> highlights = new HashMap<String, Map<String, List<String>>>();
 
-
 	@SuppressWarnings("unchecked")
 	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse) {
-		setFacets(queryResponse.getFacetQuery());
 		jsonBuilder.totalResults((int)queryResponse.getResults().getNumFound());
 		highlights = queryResponse.getHighlighting();
 		if(queryResponse.getResults() != null && !queryResponse.getResults().isEmpty()) {
@@ -49,12 +47,6 @@ public class ResponseBuilder {
 		SimpleOrderedMap<String> params = (SimpleOrderedMap<String>) queryResponse.getResponseHeader().get("params");
 		setParams(params);
 		return jsonBuilder;
-	}
-
-	private void setFacets(Map<String, Integer> facets) {
-		for(Entry<String, Integer> facet : facets.entrySet()) {
-			jsonBuilder.addFacet(facet.getKey(), facet.getValue());
-		}
 	}
 
 	private void setParams(SimpleOrderedMap<String> params) {

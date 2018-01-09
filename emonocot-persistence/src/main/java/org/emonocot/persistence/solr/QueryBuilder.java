@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class QueryBuilder {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(QueryBuilder.class);
 	private SolrQuery query = new SolrQuery().setRequestHandler("/powop_search");
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map;

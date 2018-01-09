@@ -38,6 +38,7 @@ import com.google.common.collect.ImmutableList;
 @RequestMapping("/api/1/")
 public class ApiController {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(ApiController.class);
 
 	private static List<String> suggesters = ImmutableList.<String>of(

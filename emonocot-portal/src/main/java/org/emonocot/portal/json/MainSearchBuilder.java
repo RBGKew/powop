@@ -1,10 +1,7 @@
 package org.emonocot.portal.json;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 public class MainSearchBuilder {
 
@@ -13,8 +10,6 @@ public class MainSearchBuilder {
 	private Integer totalPages;
 	private Integer perPage;
 	private String sort;
-	private String selectedFacet;
-	private Map<String, Integer>facets = new HashMap<String, Integer>();
 	private List<SearchResultBuilder> results = new ArrayList<SearchResultBuilder>();
 
 	public MainSearchBuilder totalResults(Integer totalResults){
@@ -36,20 +31,9 @@ public class MainSearchBuilder {
 		this.totalPages = totalPages;
 		return this;
 	}
-	
+
 	public MainSearchBuilder sort(String sort){
 		this.sort = sort;
-		return this;
-	}
-
-	public MainSearchBuilder selectedFacet(String selectedFacet){
-		this.selectedFacet = selectedFacet;
-		return this;
-	}
-	
-	
-	public MainSearchBuilder addFacet(String facet, Integer count){
-		facets.put(facet, count);
 		return this;
 	}
 
@@ -65,7 +49,7 @@ public class MainSearchBuilder {
 	public Integer getTotalPages(){
 		return totalPages;
 	}
-	
+
 	public Integer getPage(){
 		return page;
 	}
@@ -78,17 +62,9 @@ public class MainSearchBuilder {
 		return sort;
 	}
 
-	public String getSelectedFacet(){
-		return selectedFacet;
-	}
-	
-	public Map<String, Integer>getFacets(){
-		return facets;
-	}
-
 	public List<SearchResultBuilder>getResults(){
 		return results;
 	}
-	
+
 
 }
