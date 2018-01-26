@@ -42,9 +42,6 @@ public class JsonBuilderTest {
 		MainSearchBuilder mainJsonBuilder = new MainSearchBuilder();
 		mainJsonBuilder.addResult(resultBuilder);
 		mainJsonBuilder.sort("relevance_asc");
-		mainJsonBuilder.addFacet("base_searchable", 1000);
-		mainJsonBuilder.addFacet("has_images", 100);
-		mainJsonBuilder.addFacet("accepted", 10);
 		mainJsonBuilder.page(0);
 		mainJsonBuilder.perPage(10);
 		mainJsonBuilder.totalResults(1000);
