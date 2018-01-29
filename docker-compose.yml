@@ -18,7 +18,7 @@ services:
       - geoserver
       - solr
     volumes:
-      - ./emonocot-portal/target/emonocot-portal.war:/usr/local/tomcat/webapps/ROOT.war
+      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
 
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
@@ -29,7 +29,7 @@ services:
       - geoserver
       - solr
     volumes:
-      - ./emonocot-harvest/target/emonocot-harvest.war:/usr/local/tomcat/webapps/harvester.war
+      - ./powo-harvest/target/powo-harvest.war:/usr/local/tomcat/webapps/harvester.war
 
   apache:
     image: eu.gcr.io/powop-1349/apache:latest
@@ -40,11 +40,11 @@ services:
       - harvester
       - portal
     volumes:
-      - ./emonocot-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
-      - ./emonocot-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
-      - ./emonocot-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
-      - ./emonocot-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
-      - ./emonocot-static/src/main/tiles/:/usr/local/apache2/htdocs/tiles
+      - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
+      - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
+      - ./powo-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
+      - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
+      - ./powo-static/src/main/tiles/:/usr/local/apache2/htdocs/tiles
     ports:
       - "10080:80"
     mem_limit: 200M

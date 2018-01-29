@@ -1,21 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.emonocot</groupId>
-	<artifactId>emonocot</artifactId>
+	<groupId>org.powo</groupId>
+	<artifactId>powo</artifactId>
 	<version>1.1.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>eMonocot</name>
-	<url>http://e-monocot.org</url>
+	<name>POWO</name>
+	<url>http://powo.science.kew.org</url>
 	<organization>
-		<name>eMonocot</name>
-		<url>http://e-monocot.org</url>
+		<name>RBG, Kew</name>
+		<url>http://science.kew.org</url>
 	</organization>
 	<description>
-		eMonocot is a global online resource for monocot plants. It
-		provides a focus for taxonomists working on monocots and helps people discover
-		information about monocots by providing tools for identification, up-to-date checklists,
-		descriptions and links to other resources.
+		POWO draws together Kew’s extensive data resources including its regional Floras and
+		monographs, alongside images from the digitisation of the collections. The portal
+		has been designed to maximise accessibility and enables the dissemination of plant
+		information to its users via a mobile, tablet or desktop computer.
 	</description>
 
 	<licenses>
@@ -26,16 +27,17 @@
 	</licenses>
 
 	<modules>
-		<module>emonocot-model</module>
-		<module>emonocot-service</module>
-		<module>emonocot-persistence</module>
-		<module>emonocot-harvest</module>
-		<module>emonocot-portal</module>
-		<module>emonocot-static</module>
+		<module>powo-model</module>
+		<module>powo-service</module>
+		<module>powo-persistence</module>
+		<module>powo-harvest</module>
+		<module>powo-portal</module>
+		<module>powo-static</module>
 	</modules>
 
 	<properties>
-		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY so it can be picked up by docker-compose -->
+		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY 
+			so it can be picked up by docker-compose -->
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
 		<handlebars.version>4.0.7-SNAPSHOT</handlebars.version>
@@ -56,16 +58,6 @@
 		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
 	</properties>
 
-	<!--issueManagement>
-		<system>Bugzilla</system>
-		<url>http://build.e-monocot.org/bugzilla/</url>
-	</issueManagement-->
-
-	<!--ciManagement>
-		<system>jenkins</system>
-		<url>http://build.e-monocot.org/ci</url>
-	</ciManagement-->
-
 	<inceptionYear>2010</inceptionYear>
 
 	<developers>
@@ -76,7 +68,9 @@
 			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
 			<organizationUrl>http://www.kew.org/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2015–</role></roles>
+			<roles>
+				<role>Developer 2015–</role>
+			</roles>
 		</developer>
 		<developer>
 			<name>James Crowe</name>
@@ -84,7 +78,9 @@
 			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
 			<organizationUrl>http://www.kew.org/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2015–</role></roles>
+			<roles>
+				<role>Developer 2015–</role>
+			</roles>
 		</developer>
 	</developers>
 
@@ -96,7 +92,9 @@
 			<organization>Biodiversity Informatics, Royal Botanic Gardens, Kew</organization>
 			<organizationUrl>http://www.kew.org/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2014–2015</role></roles>
+			<roles>
+				<role>Developer 2014–2015</role>
+			</roles>
 		</contributor>
 		<contributor>
 			<name>Ben Clark</name>
@@ -104,14 +102,18 @@
 			<organization>Department of Zoology, University of Oxford</organization>
 			<organizationUrl>http://www.zoo.ox.ac.uk/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2011–2013</role></roles>
+			<roles>
+				<role>Developer 2011–2013</role>
+			</roles>
 		</contributor>
 		<contributor>
 			<name>Joseph Kelly</name>
 			<organization>Science Applications, IT Department, Royal Botanic Gardens, Kew</organization>
 			<organizationUrl>http://www.kew.org/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2011–2014</role></roles>
+			<roles>
+				<role>Developer 2011–2014</role>
+			</roles>
 		</contributor>
 		<contributor>
 			<name>Annapaola Santarsiero</name>
@@ -119,7 +121,9 @@
 			<organization>Department of Zoology, University of Oxford</organization>
 			<organizationUrl>http://www.zoo.ox.ac.uk/</organizationUrl>
 			<timezone>Europe/London</timezone>
-			<roles><role>Developer 2011–2013</role></roles>
+			<roles>
+				<role>Developer 2011–2013</role>
+			</roles>
 		</contributor>
 	</contributors>
 
@@ -132,23 +136,23 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-model</artifactId>
+				<groupId>org.powo</groupId>
+				<artifactId>powo-model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-persistence</artifactId>
+				<groupId>org.powo</groupId>
+				<artifactId>powo-persistence</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-service</artifactId>
+				<groupId>org.powo</groupId>
+				<artifactId>powo-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.emonocot</groupId>
-				<artifactId>emonocot-service</artifactId>
+				<groupId>org.powo</groupId>
+				<artifactId>powo-service</artifactId>
 				<version>${project.version}</version>
 				<classifier>tests</classifier>
 				<scope>test</scope>
@@ -313,7 +317,7 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-			<groupId>org.hibernate</groupId>
+				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-java8</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
@@ -679,9 +683,9 @@
 					</dependencies>
 					<configuration>
 						<driver>com.mysql.jdbc.Driver</driver>
-						<url>jdbc:mysql://127.0.0.1:13306/emonocot</url>
-						<username>emonocot</username>
-						<password>emonocot</password>
+						<url>jdbc:mysql://127.0.0.1:13306/powo</url>
+						<username>powo</username>
+						<password>powo</password>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -810,7 +814,8 @@
 			</snapshots>
 		</repository>
 
-		<!-- Snapshot repo added for handlebars.java v 4.0.7-SNAPSHOT. Remove when real release happens -->
+		<!-- Snapshot repo added for handlebars.java v 4.0.7-SNAPSHOT. Remove when 
+			real release happens -->
 		<repository>
 			<id>snapshots-repo</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -822,7 +827,8 @@
 			</snapshots>
 		</repository>
 
-		<!-- Milestones Repo for spring batch 4.0.0 pre-release. Remove when 4.0 is released -->
+		<!-- Milestones Repo for spring batch 4.0.0 pre-release. Remove when 4.0 
+			is released -->
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
@@ -832,14 +838,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-	<distributionManagement>
-		<downloadUrl>http://kptman01.ad.kew.org/repository/</downloadUrl>
-		<repository>
-			<id>kew.server</id>
-			<url>file:/var/lib/jenkins/repository</url>
-		</repository>
-	</distributionManagement>
 
 	<profiles>
 		<profile>
@@ -888,13 +886,13 @@
 			<id>integration</id>
 			<properties>
 				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
-				<jdbc.driver.username>emonocot</jdbc.driver.username>
-				<jdbc.driver.password>emonocot</jdbc.driver.password>
-				<jdbc.driver.url>jdbc:mysql://localhost:23306/emonocot</jdbc.driver.url>
+				<jdbc.driver.username>powo</jdbc.driver.username>
+				<jdbc.driver.password>powo</jdbc.driver.password>
+				<jdbc.driver.url>jdbc:mysql://localhost:23306/powo</jdbc.driver.url>
 				<skip.global.tests>true</skip.global.tests>
 				<test.container>powop-unit-test-db</test.container>
 				<test.db.port>23306</test.db.port>
-				<test.db>emonocot</test.db>
+				<test.db>powo</test.db>
 				<test.db.conf>${project.parent.basedir}/src/test/resources/mysql</test.db.conf>
 			</properties>
 			<build>

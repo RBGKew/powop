@@ -10,4 +10,4 @@ activemq-data
 node_modules
 dist
 **/js/templates
-emonocot-portal/src/main/resources/rev-manifest.json
+powo-portal/src/main/resources/rev-manifest.json
