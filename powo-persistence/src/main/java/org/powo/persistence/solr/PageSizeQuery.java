@@ -2,7 +2,7 @@ package org.powo.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class PageSizeQuery extends QueryOption {
+public class PageSizeQuery extends BaseQueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {

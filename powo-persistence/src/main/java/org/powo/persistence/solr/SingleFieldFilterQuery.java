@@ -2,7 +2,7 @@ package org.powo.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class SingleFieldFilterQuery extends QueryOption {
+public class SingleFieldFilterQuery extends BaseQueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {

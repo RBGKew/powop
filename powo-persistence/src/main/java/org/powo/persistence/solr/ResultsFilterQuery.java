@@ -11,7 +11,7 @@ import com.google.common.base.Joiner;
 
 import org.gbif.ecat.voc.Rank;
 
-public class ResultsFilterQuery extends QueryOption {
+public class ResultsFilterQuery extends BaseQueryOption {
 	private static Logger logger = LoggerFactory.getLogger(ResultsFilterQuery.class);
 
 	@Override

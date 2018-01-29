@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
-public class MultiFieldQuery extends QueryOption {
+public class MultiFieldQuery extends BaseQueryOption {
 
 	private static final Logger logger = LoggerFactory.getLogger(MultiFieldQuery.class);
 	private ArrayList<String> searchFields;

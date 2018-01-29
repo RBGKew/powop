@@ -3,7 +3,7 @@ package org.powo.persistence.solr;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
-public class SortQuery extends QueryOption {
+public class SortQuery extends BaseQueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {

@@ -2,6 +2,7 @@ package org.powo.persistence.solr;
 
 import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.powo.model.solr.QueryOption;
 import org.powo.model.solr.SolrFieldNameMappings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

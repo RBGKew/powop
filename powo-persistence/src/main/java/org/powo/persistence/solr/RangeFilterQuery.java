@@ -2,7 +2,7 @@ package org.powo.persistence.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class RangeFilterQuery extends QueryOption {
+public class RangeFilterQuery extends BaseQueryOption {
 
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
