@@ -46,7 +46,7 @@
     </batch:listeners>
   </batch:job>
 
-  <bean id="deleteMissingeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="deleteMissingeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="delete.missing" />
     <property name="defaultProcessingMode" value="false" />
   </bean>
@@ -56,24 +56,24 @@
     <property name="queryString" value="#{jobParameters['query.string']}" />
   </bean>
 
-  <bean id="itemIndexer" class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
+  <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="#{jobParameters['query.type']}" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
-  <bean id="solrDocumentItemReader" class="org.emonocot.harvest.common.SolrDocumentItemReader" scope="step">
+  <bean id="solrDocumentItemReader" class="org.powo.harvest.common.SolrDocumentItemReader" scope="step">
     <property name="searchableObjectService" ref="searchableObjectServiceImpl" />
     <property name="queryString" value="#{jobParameters['solr.query.string']}" />
     <property name="sort" value="#{jobParameters['solr.sort']}" />
     <property name="selectedFacets" value="#{jobParameters['solr.selectedFacets']}" />
   </bean>
 
-  <bean id="solrMissingObjectProcessor" class="org.emonocot.harvest.common.SolrMissingObjectProcessor">
+  <bean id="solrMissingObjectProcessor" class="org.powo.harvest.common.SolrMissingObjectProcessor">
     <property name="searchableObjectService" ref="searchableObjectServiceImpl" />
   </bean>
 
-  <bean id="solrDeletingWriter"  class="org.emonocot.harvest.common.SolrDeletingWriter">
+  <bean id="solrDeletingWriter"  class="org.powo.harvest.common.SolrDeletingWriter">
     <property name="solrClient" ref="solrClient" />
   </bean>
 </beans>

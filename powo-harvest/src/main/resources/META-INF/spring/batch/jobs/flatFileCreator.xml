@@ -37,7 +37,7 @@
     </batch:listeners>
   </batch:job>
 
-  <bean id="downloadItemsReader" class="org.emonocot.harvest.common.SolrItemReader" scope="step">
+  <bean id="downloadItemsReader" class="org.powo.harvest.common.SolrItemReader" scope="step">
     <property name="service" ref="searchableObjectServiceImpl" />
     <property name="pageSize" value="10"/>
     <property name="maxItemCount" value="#{jobParameters['download.limit']}"/>
@@ -50,7 +50,7 @@
     <constructor-arg value="#{(jobExecutionContext['taxa.hierarchy.ordered'])}"/>
   </bean>
 
-  <bean id="nullLicenseTaxonFilter" class="org.emonocot.job.dwc.write.NullLicenseTaxonFilter"/>
+  <bean id="nullLicenseTaxonFilter" class="org.powo.job.dwc.write.NullLicenseTaxonFilter"/>
 
   <bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
     <property name="resource" ref="downloadFile"/>
@@ -58,7 +58,7 @@
     <property name="headerCallback" ref="dwcHeaderWriter"/>
   </bean>
 
-  <bean id="dwcHeaderWriter" class="org.emonocot.job.dwc.write.DwcHeaderWriter" scope="step">
+  <bean id="dwcHeaderWriter" class="org.powo.job.dwc.write.DwcHeaderWriter" scope="step">
     <property name="header" value="#{jobParameters['download.taxon']}"/>
     <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
   </bean>
@@ -75,7 +75,7 @@
   <bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
     <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
     <property name="fieldExtractor">
-      <bean class="org.emonocot.job.dwc.write.DwcFieldExtractor" scope="step">
+      <bean class="org.powo.job.dwc.write.DwcFieldExtractor" scope="step">
         <property name="names" value="#{jobParameters['download.taxon']}"/>
         <property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
         <property name="extension" value="Taxon"/>
@@ -84,7 +84,7 @@
     </property>
   </bean>
 
-  <bean id="downloadFormatDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="downloadFormatDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="download.format"/>
     <!-- Fail on unknown download format-->
   </bean>

@@ -82,7 +82,7 @@
       <batch:tasklet>
         <batch:chunk reader="taxonReader" processor="taxonSkippingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -102,7 +102,7 @@
       <batch:tasklet>
         <batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -122,7 +122,7 @@
       <batch:tasklet>
         <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -182,7 +182,7 @@
       <batch:tasklet>
         <batch:chunk reader="descriptionReader" processor="descriptionProcessor" writer="itemWriter" commit-interval="100" skip-limit="50000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -240,7 +240,7 @@
       <batch:tasklet>
         <batch:chunk reader="termReader" processor="termProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include  class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include  class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -304,7 +304,7 @@
       <batch:tasklet>
         <batch:chunk reader="imageReader" processor="imageProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include  class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include  class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -367,7 +367,7 @@
       <batch:tasklet>
         <batch:chunk reader="referenceReader" processor="referenceProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -422,7 +422,7 @@
       <batch:tasklet>
         <batch:chunk reader="identifierReader" processor="identifierProcessor"  writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -481,7 +481,7 @@
             commit-interval="100"
             skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -535,7 +535,7 @@
       <batch:tasklet>
         <batch:chunk reader="distributionReader" processor="distributionProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -590,7 +590,7 @@
       <batch:tasklet>
         <batch:chunk reader="measurementOrFactReader" processor="measurementOrFactProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -645,7 +645,7 @@
       <batch:tasklet>
         <batch:chunk reader="vernacularNameReader" processor="vernacularNameProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -706,7 +706,7 @@
       <batch:tasklet>
         <batch:chunk reader="typeAndSpecimenReader" processor="typeAndSpecimenProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
-            <batch:include class="org.emonocot.job.dwc.exception.DarwinCoreProcessingException" />
+            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -809,12 +809,12 @@
 <!-- End batch definitions -->
 
 <!-- Bean definitions -->
-  <bean id="setTemporaryFilenamesTasklet" class="org.emonocot.job.dwc.SetTemporaryFilenamesTasklet">
+  <bean id="setTemporaryFilenamesTasklet" class="org.powo.job.dwc.SetTemporaryFilenamesTasklet">
     <property name="harvesterSpoolDirectory" value="${harvester.spool.directory}" />
   </bean>
 
   <bean id="dwcArchiveResourceDeletingTasklet"
-    class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+    class="org.powo.harvest.common.MultiResourceDeletingTasklet"
     scope="step">
     <property name="resources">
       <list>
@@ -855,7 +855,7 @@
     </property>
   </bean>
 
-  <bean id="dwcArchiveUnpacker" class="org.emonocot.job.dwc.read.ArchiveUnpacker" />
+  <bean id="dwcArchiveUnpacker" class="org.powo.job.dwc.read.ArchiveUnpacker" />
 
   <bean id="readDWCArchiveMetadataTasklet"
     class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
@@ -871,16 +871,16 @@
     </property>
   </bean>
 
-  <bean id="dwcArchiveMetadataReader" class="org.emonocot.job.dwc.read.ArchiveMetadataReader"/>
+  <bean id="dwcArchiveMetadataReader" class="org.powo.job.dwc.read.ArchiveMetadataReader"/>
 
   <!-- Taxa -->
 
-  <bean id="taxonProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="taxonProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="taxon.processing.mode" />
     <property name="defaultProcessingMode" value="SKIP_TAXA" />
   </bean>
 
-  <bean id="markTaxonRecordsByResourceTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markTaxonRecordsByResourceTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
@@ -903,16 +903,16 @@
     <property name="lineMapper" ref="taxonLineMapper" />
   </bean>
 
-  <bean id="taxonImportingProcessor" class="org.emonocot.job.dwc.taxon.Processor" scope="step">
+  <bean id="taxonImportingProcessor" class="org.powo.job.dwc.taxon.Processor" scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
   </bean>
   
-  <bean id="taxonLinkingProcessor" class="org.emonocot.job.dwc.taxon.LinkingProcessor" scope="step">
+  <bean id="taxonLinkingProcessor" class="org.powo.job.dwc.taxon.LinkingProcessor" scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
   </bean>
 
-  <bean id="taxonSkippingProcessor" class="org.emonocot.job.dwc.taxon.SkippingProcessor" scope="step">
+  <bean id="taxonSkippingProcessor" class="org.powo.job.dwc.taxon.SkippingProcessor" scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
   </bean>
 
@@ -940,7 +940,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="taxonFieldSetMapper" class="org.emonocot.job.dwc.taxon.FieldSetMapper" scope="step">
+  <bean id="taxonFieldSetMapper" class="org.powo.job.dwc.taxon.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.core.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
   </bean>
@@ -954,7 +954,7 @@
     <property name="parameterValues">
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
@@ -971,8 +971,8 @@
     </property>
   </bean>
 
-  <bean id="indexTaxaWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter">
-    <property name="type" value="org.emonocot.model.Taxon" />
+  <bean id="indexTaxaWriter"  class="org.powo.harvest.common.SolrIndexingWriter">
+    <property name="type" value="org.powo.model.Taxon" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
@@ -988,23 +988,23 @@
     </property>
   </bean>
 
-  <bean id="nameSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
+  <bean id="nameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
     <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="scientific-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- Descriptions -->
 
-  <bean id="descriptionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="descriptionProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="description.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_DESCRIPTIONS" />
   </bean>
 
-  <bean id="processDescriptionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processDescriptionDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.description.file" />
   </bean>
 
-  <bean id="markDescriptionRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markDescriptionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
@@ -1024,7 +1024,7 @@
     <property name="lineMapper" ref="descriptionLineMapper" />
   </bean>
 
-  <bean id="descriptionProcessor" class="org.emonocot.job.dwc.description.Processor" scope="step">
+  <bean id="descriptionProcessor" class="org.powo.job.dwc.description.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
     <property name="descriptionService" ref="descriptionServiceImpl" />
@@ -1047,7 +1047,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="descriptionFieldSetMapper" class="org.emonocot.job.dwc.description.FieldSetMapper" scope="step">
+  <bean id="descriptionFieldSetMapper" class="org.powo.job.dwc.description.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.description.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.description.defaultValues']}" />
     <property name="taxonService" ref="taxonServiceImpl" />
@@ -1060,35 +1060,35 @@
     <property name="parameterValues">
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
-  <bean id="descriptionSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
+  <bean id="descriptionSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
     <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="characteristic" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- Images -->
 
-  <bean id="imageProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="imageProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="image.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_IMAGES" />
   </bean>
 
-  <bean id="processImageDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processImageDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.image.file" />
   </bean>
 
-  <bean id="markImageRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markImageRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="Image"/>
   </bean>
 
-  <bean id="markAssociatedTaxaForIndexingTasklet" class="org.emonocot.job.dwc.read.AncestorImageAnnotator" scope="step">
+  <bean id="markAssociatedTaxaForIndexingTasklet" class="org.powo.job.dwc.read.AncestorImageAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
@@ -1111,7 +1111,7 @@
     <property name="lineMapper" ref="imageLineMapper" />
   </bean>
 
-  <bean id="imageProcessor" class="org.emonocot.job.dwc.image.Processor" scope="step">
+  <bean id="imageProcessor" class="org.powo.job.dwc.image.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
     <property name="family" value="#{jobParameters['family']}" />
@@ -1144,7 +1144,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="imageFieldSetMapper" class="org.emonocot.job.dwc.image.FieldSetMapper"
+  <bean id="imageFieldSetMapper" class="org.powo.job.dwc.image.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.image.fieldNames']}" />
@@ -1162,7 +1162,7 @@
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
         <entry key="code"
-          value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
@@ -1179,24 +1179,24 @@
     </property>
   </bean>
 
-  <bean id="indexImagesWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.emonocot.model.Image" />
+  <bean id="indexImagesWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
+    <property name="type" value="org.powo.model.Image" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Terms -->
 
-  <bean id="termProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="termProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="term.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_TERMS" />
   </bean>
 
-  <bean id="processTermsDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processTermsDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.term.file" />
   </bean>
 
-  <bean id="markTermRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markTermRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
@@ -1220,7 +1220,7 @@
     <property name="lineMapper" ref="termLineMapper" />
   </bean>
 
-  <bean id="termProcessor" class="org.emonocot.job.dwc.concept.Processor" scope="step">
+  <bean id="termProcessor" class="org.powo.job.dwc.concept.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
   </bean>
@@ -1249,7 +1249,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="termFieldSetMapper" class="org.emonocot.job.dwc.concept.FieldSetMapper"
+  <bean id="termFieldSetMapper" class="org.powo.job.dwc.concept.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.term.fieldNames']}" />
@@ -1268,7 +1268,7 @@
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
         <entry key="code"
-          value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
@@ -1285,27 +1285,27 @@
     </property>
   </bean>
 
-  <bean id="indexTermsWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.emonocot.model.Concept" />
+  <bean id="indexTermsWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
+    <property name="type" value="org.powo.model.Concept" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- References -->
 
-  <bean id="markReferenceRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markReferenceRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="Reference"/>
   </bean>
 
-  <bean id="referenceProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="referenceProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="reference.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_REFERENCES" />
   </bean>
 
-  <bean id="processReferenceDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processReferenceDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.reference.file" />
   </bean>
 
@@ -1326,7 +1326,7 @@
     <property name="lineMapper" ref="referenceLineMapper" />
   </bean>
 
-  <bean id="referenceProcessor" class="org.emonocot.job.dwc.reference.Processor"
+  <bean id="referenceProcessor" class="org.powo.job.dwc.reference.Processor"
     scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -1356,7 +1356,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="referenceFieldSetMapper" class="org.emonocot.job.dwc.reference.FieldSetMapper"
+  <bean id="referenceFieldSetMapper" class="org.powo.job.dwc.reference.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.reference.fieldNames']}" />
@@ -1375,26 +1375,26 @@
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
         <entry key="code"
-          value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
   <!-- Identifiers -->
 
-  <bean id="markIdentifierRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markIdentifierRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="Identifier" />
   </bean>
 
-  <bean id="identifierProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="identifierProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="identifier.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_IDENTIFIERS" />
   </bean>
 
-  <bean id="processIdentifierDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processIdentifierDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.identifier.file" />
   </bean>
 
@@ -1415,7 +1415,7 @@
     <property name="lineMapper" ref="identifierLineMapper" />
   </bean>
 
-  <bean id="identifierProcessor" class="org.emonocot.job.dwc.identifier.Processor"
+  <bean id="identifierProcessor" class="org.powo.job.dwc.identifier.Processor"
     scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="identifierService" ref="identifierServiceImpl" />
@@ -1446,7 +1446,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="identifierFieldSetMapper" class="org.emonocot.job.dwc.identifier.FieldSetMapper"
+  <bean id="identifierFieldSetMapper" class="org.powo.job.dwc.identifier.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.identifier.fieldNames']}" />
@@ -1464,26 +1464,26 @@
     <property name="parameterValues">
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
   <!-- Distribution -->
 
-  <bean id="markDistributionRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markDistributionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="Distribution" />
   </bean>
 
-  <bean id="distributionProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="distributionProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="distribution.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_DISTRIBUTION" />
   </bean>
 
-  <bean id="processDistributionDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processDistributionDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.distribution.file" />
   </bean>
 
@@ -1501,7 +1501,7 @@
     <property name="lineMapper" ref="distributionLineMapper" />
   </bean>
 
-  <bean id="distributionProcessor" class="org.emonocot.job.dwc.distribution.Processor"
+  <bean id="distributionProcessor" class="org.powo.job.dwc.distribution.Processor"
     scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="distributionService" ref="distributionServiceImpl" />
@@ -1533,7 +1533,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="distributionFieldSetMapper" class="org.emonocot.job.dwc.distribution.FieldSetMapper"
+  <bean id="distributionFieldSetMapper" class="org.powo.job.dwc.distribution.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.distribution.fieldNames']}" />
@@ -1550,26 +1550,26 @@
     <property name="parameterValues">
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
   <!-- MeasurementOrFact -->
 
-  <bean id="markMeasurementOrFactRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markMeasurementOrFactRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="MeasurementOrFact" />
   </bean>
 
-  <bean id="measurementOrFactProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="measurementOrFactProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="measurementOrFact.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_MEASUREMENT_OR_FACT" />
   </bean>
 
-  <bean id="processMeasurementOrFactDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processMeasurementOrFactDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.measurementOrFact.file" />
   </bean>
 
@@ -1590,7 +1590,7 @@
     <property name="lineMapper" ref="measurementOrFactLineMapper" />
   </bean>
 
-  <bean id="measurementOrFactProcessor" class="org.emonocot.job.dwc.measurementorfact.Processor" scope="step">
+  <bean id="measurementOrFactProcessor" class="org.powo.job.dwc.measurementorfact.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="measurementOrFactService" ref="measurementOrFactServiceImpl" />
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -1620,7 +1620,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="measurementOrFactFieldSetMapper" class="org.emonocot.job.dwc.measurementorfact.FieldSetMapper"
+  <bean id="measurementOrFactFieldSetMapper" class="org.powo.job.dwc.measurementorfact.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.measurementOrFact.fieldNames']}" />
@@ -1639,25 +1639,25 @@
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
         <entry key="code"
-          value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
   <!-- VernacularName -->
-  <bean id="markVernacularNameRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markVernacularNameRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="VernacularName" />
   </bean>
 
-  <bean id="vernacularNameProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="vernacularNameProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="vernacularName.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_VERNACULAR_NAME" />
   </bean>
 
-  <bean id="processVernacularNameDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processVernacularNameDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.vernacularName.file" />
   </bean>
 
@@ -1678,7 +1678,7 @@
     <property name="lineMapper" ref="vernacularNameLineMapper" />
   </bean>
 
-  <bean id="vernacularNameProcessor" class="org.emonocot.job.dwc.vernacularname.Processor" scope="step">
+  <bean id="vernacularNameProcessor" class="org.powo.job.dwc.vernacularname.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="vernacularNameService" ref="vernacularNameServiceImpl" />
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -1708,7 +1708,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="vernacularNameFieldSetMapper" class="org.emonocot.job.dwc.vernacularname.FieldSetMapper"
+  <bean id="vernacularNameFieldSetMapper" class="org.powo.job.dwc.vernacularname.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.vernacularName.fieldNames']}" />
@@ -1727,31 +1727,31 @@
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
         <entry key="code"
-          value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
-  <bean id="commonNameSuggesterIndexingTasklet" class="org.emonocot.harvest.common.SolrSuggesterIndexingTasklet">
+  <bean id="commonNameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
     <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="common-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- TypeAndSpecimen -->
 
-  <bean id="markTypeAndSpecimenRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markTypeAndSpecimenRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="TypeAndSpecimen"/>
   </bean>
 
-  <bean id="typeAndSpecimenProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="typeAndSpecimenProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="typeAndSpecimen.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_TYPE_AND_SPECIMEN" />
   </bean>
 
-  <bean id="processTypeAndSpecimenDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processTypeAndSpecimenDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.typeAndSpecimen.file" />
   </bean>
 
@@ -1772,7 +1772,7 @@
     <property name="lineMapper" ref="typeAndSpecimenLineMapper" />
   </bean>
 
-  <bean id="typeAndSpecimenProcessor" class="org.emonocot.job.dwc.typeandspecimen.Processor" scope="step">
+  <bean id="typeAndSpecimenProcessor" class="org.powo.job.dwc.typeandspecimen.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
   </bean>
@@ -1801,7 +1801,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="typeAndSpecimenFieldSetMapper" class="org.emonocot.job.dwc.typeandspecimen.FieldSetMapper"
+  <bean id="typeAndSpecimenFieldSetMapper" class="org.powo.job.dwc.typeandspecimen.FieldSetMapper"
     scope="step">
     <property name="fieldNames"
       value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldNames']}" />
@@ -1820,7 +1820,7 @@
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
         <entry key="code"
-          value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
@@ -1837,26 +1837,26 @@
     </property>
   </bean>
 
-  <bean id="indexTypesAndSpecimensWriter"  class="org.emonocot.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.emonocot.model.TypeAndSpecimen" />
+  <bean id="indexTypesAndSpecimensWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
+    <property name="type" value="org.powo.model.TypeAndSpecimen" />
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Identification -->
-  <bean id="markIdentificationRecordsTasklet" class="org.emonocot.job.dwc.read.RecordAnnotator" scope="step">
+  <bean id="markIdentificationRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceId" value="#{jobParameters['resource.id']}"/>
     <property name="annotatedObjectType" value="Identification" />
   </bean>
 
-  <bean id="identificationProcessingModeDecider" class="org.emonocot.job.ConfigurableProcessingModeDecider">
+  <bean id="identificationProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="identification.processing.mode" />
     <property name="defaultProcessingMode" value="IMPORT_IDENTIFICATION" />
   </bean>
 
-  <bean id="processIdentificationDecider" class="org.emonocot.job.dwc.ExtensionProcessingDecider">
+  <bean id="processIdentificationDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.identification.file" />
   </bean>
 
@@ -1873,7 +1873,7 @@
     <property name="lineMapper" ref="identificationLineMapper" />
   </bean>
 
-  <bean id="identificationProcessor" class="org.emonocot.job.dwc.identification.Processor" scope="step">
+  <bean id="identificationProcessor" class="org.powo.job.dwc.identification.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="identificationService" ref="identificationServiceImpl" />
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
@@ -1895,7 +1895,7 @@
     <property name="strict" value="false" />
   </bean>
 
-  <bean id="identificationFieldSetMapper" class="org.emonocot.job.dwc.identification.FieldSetMapper" scope="step">
+  <bean id="identificationFieldSetMapper" class="org.powo.job.dwc.identification.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.identification.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.identification.defaultValues']}" />
     <property name="taxonService" ref="taxonServiceImpl" />
@@ -1907,14 +1907,14 @@
     <property name="parameterValues">
       <map>
         <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.emonocot.model.constants.AnnotationCode).Absent}" />
+        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
   </bean>
 
   <!-- Writing -->
   <bean id="processingExceptionProcessListener"
-    class="org.emonocot.job.dwc.DwCProcessingExceptionProcessListener"
+    class="org.powo.job.dwc.DwCProcessingExceptionProcessListener"
     scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
     <property name="sessionFactory" ref="sessionFactory" />
@@ -1925,15 +1925,15 @@
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
-  <bean id="deletingWriter" class="org.emonocot.harvest.common.HibernateDeletingWriter">
+  <bean id="deletingWriter" class="org.powo.harvest.common.HibernateDeletingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
-  <bean id="taxonDeletingWriter" class="org.emonocot.job.dwc.taxon.TaxonDeletingWriter">
+  <bean id="taxonDeletingWriter" class="org.powo.job.dwc.taxon.TaxonDeletingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
-  <bean id="skipIndexTaxaDecider" class="org.emonocot.job.dwc.ConfigurableProcessingModeDecider">
+  <bean id="skipIndexTaxaDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="skip.indexing" />
     <property name="defaultProcessingMode" value="false" />
   </bean>

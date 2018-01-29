@@ -19,7 +19,7 @@
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
-				<value>classpath:META-INF/spring/emonocot-portal-messages</value><!-- External configuration. -->
+				<value>classpath:META-INF/spring/powo-portal-messages</value><!-- External configuration. -->
 				<value>WEB-INF/i18n/${portal:default}/messages</value>
 				<value>WEB-INF/i18n/${portal:default}/application</value>
 				<value>WEB-INF/i18n/messages</value>
@@ -29,7 +29,7 @@
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
 
-	<context:component-scan base-package="org.emonocot" use-default-filters="false">
+	<context:component-scan base-package="org.powo" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
@@ -80,16 +80,16 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
-				<bean class="org.emonocot.model.convert.StringToPermissionConverter" />
-				<bean class="org.emonocot.model.convert.PermissionToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
-				<bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToDurationConverter" />
-				<bean class="org.emonocot.model.convert.DurationToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToClassConverter" />
-				<bean class="org.emonocot.model.convert.ClassToStringConverter" />
-				<bean class="org.emonocot.model.convert.OrganisationToStringConverter" />
-				<bean class="org.emonocot.model.convert.StringToOrganisationConverter" />
+				<bean class="org.powo.model.convert.StringToPermissionConverter" />
+				<bean class="org.powo.model.convert.PermissionToStringConverter" />
+				<bean class="org.powo.model.convert.StringToIsoDateTimeConverter" />
+				<bean class="org.powo.model.convert.IsoDateTimeToStringConverter" />
+				<bean class="org.powo.model.convert.StringToDurationConverter" />
+				<bean class="org.powo.model.convert.DurationToStringConverter" />
+				<bean class="org.powo.model.convert.StringToClassConverter" />
+				<bean class="org.powo.model.convert.ClassToStringConverter" />
+				<bean class="org.powo.model.convert.OrganisationToStringConverter" />
+				<bean class="org.powo.model.convert.StringToOrganisationConverter" />
 			</set>
 		</property>
 	</bean>
@@ -109,12 +109,12 @@
 		</property>
 		<property name="helperSources">
 			<list>
-				<bean class="org.emonocot.portal.view.helpers.BibliographyHelper" />
-				<bean class="org.emonocot.portal.view.helpers.ImageHelper" />
-				<bean class="org.emonocot.portal.view.helpers.NameHelper" />
-				<bean class="org.emonocot.portal.view.helpers.FormHelper" />
-				<bean class="org.emonocot.portal.view.helpers.AssetHelper" />
-				<bean class="org.emonocot.portal.view.helpers.AnalyticsHelper" />
+				<bean class="org.powo.portal.view.helpers.BibliographyHelper" />
+				<bean class="org.powo.portal.view.helpers.ImageHelper" />
+				<bean class="org.powo.portal.view.helpers.NameHelper" />
+				<bean class="org.powo.portal.view.helpers.FormHelper" />
+				<bean class="org.powo.portal.view.helpers.AssetHelper" />
+				<bean class="org.powo.portal.view.helpers.AnalyticsHelper" />
 			</list>
 		</property>
 	</bean>
@@ -123,7 +123,7 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/ping"/>
-			<bean class="org.emonocot.portal.RequestLoggingInterceptor" />
+			<bean class="org.powo.portal.RequestLoggingInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

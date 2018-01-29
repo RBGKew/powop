@@ -107,32 +107,32 @@
 		</batch:step>
 	</batch:job>
 
-    <bean id="updatePalmWebNameLsidsTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+    <bean id="updatePalmWebNameLsidsTasklet" class="org.powo.harvest.common.JdbcQueryExecutingTasklet">
       <property name="jdbcTemplate" ref="jdbcTemplate"/>
       <property name="query" value="update taxonbase as taxon join taxonnamebase as name on (taxon.name_id = name.id) left join originalsourcebase as source on (name.id = source.sourcedObj_id AND source.sourcedObj_type = 'eu.etaxonomy.cdm.model.name.BotanicalName') set taxon.lsid_lsid = if(source.idinsource IS NULL, NULL, concat('urn:kew.org:wcs:taxon:',substr(source.idinsource,9)))"/>
     </bean>
     
-    <bean id="updatePalmWebConceptLsidsTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+    <bean id="updatePalmWebConceptLsidsTasklet" class="org.powo.harvest.common.JdbcQueryExecutingTasklet">
       <property name="jdbcTemplate" ref="jdbcTemplate"/>
       <property name="query" value="update taxonbase as taxon join originalsourcebase as source on (taxon.id = source.sourcedObj_id AND source.sourcedObj_type = 'eu.etaxonomy.cdm.model.taxon.Taxon') set taxon.lsid_lsid = if(source.idinsource IS NULL, NULL, concat('urn:kew.org:wcs:taxon:',substr(source.idinsource,9))) where taxon.lsid_lsid is NULL"/>
     </bean>
     
-    <bean id="dropDescriptionTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+    <bean id="dropDescriptionTableTasklet" class="org.powo.harvest.common.JdbcQueryExecutingTasklet">
       <property name="jdbcTemplate" ref="jdbcTemplate"/>
       <property name="query" value="drop table if exists description"/>
     </bean>
     
-    <bean id="createDescriptionTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+    <bean id="createDescriptionTableTasklet" class="org.powo.harvest.common.JdbcQueryExecutingTasklet">
       <property name="jdbcTemplate" ref="jdbcTemplate"/>
       <property name="query" value="create table description select element.id as id, IFNULL(taxon.lsid_lsid,'') AS taxonID, CASE feature_id WHEN 937 THEN 'morphology' WHEN 936 THEN 'biology' WHEN 924 THEN 'vernacular' WHEN 945 THEN 'conservation' WHEN 934 THEN 'general' WHEN 929 THEN 'diagnostic' WHEN  940 THEN 'distribution' WHEN 2075 THEN 'habitat' WHEN 925 THEN 'use' END as type, concat('http://www.palmweb.org/?q=cdm_dataportal/descriptionelement/',element.uuid) AS identifier, concat('http://www.palmweb.org/?q=cdm_dataportal/taxon/',taxon.uuid) AS reference, IF(element.updated is NULL, DATE_FORMAT(element.created,'%Y-%m-%dT%TZ'),DATE_FORMAT(element.updated,'%Y-%m-%dT%TZ')) as modified, DATE_FORMAT(element.created,'%Y-%m-%dT%TZ') as created, IFNULL(user.username,'') as creator, REPLACE(REPLACE(IFNULL(string.text,''),'\r\n','\n'),'\n',' ') as description, IFNULL(IF(reference.uuid IS NULL,NULL,concat('http://www.palmweb.org/?q=cdm_dataportal/reference/',reference.uuid)),'') as citation from descriptionelementbase as element join descriptionbase as description on (element.indescription_id = description.id) join taxonbase as taxon on (description.taxon_id = taxon.id) left join useraccount as user on (user.id = element.createdBy_id) join descriptionelementbase_languagestring as deb_ls on (element.id = deb_ls.DescriptionElementBase_id) join languagestring as string on (deb_ls.multilanguagetext_id = string.id) left join originalsourcebase as source on (element.id = source.sourcedObj_id AND source.sourcedObj_type = 'eu.etaxonomy.cdm.model.description.TextData') left join Reference as reference on (source.citation_id = reference.id) where feature_id in (937,924,936,945,934,929,940,2075,925);"/>
     </bean>
     
-    <bean id="dropImageTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+    <bean id="dropImageTableTasklet" class="org.powo.harvest.common.JdbcQueryExecutingTasklet">
       <property name="jdbcTemplate" ref="jdbcTemplate"/>
       <property name="query" value="drop table if exists species"/>
     </bean>
     
-    <bean id="createImageTableTasklet" class="org.emonocot.harvest.common.JdbcQueryExecutingTasklet">
+    <bean id="createImageTableTasklet" class="org.powo.harvest.common.JdbcQueryExecutingTasklet">
       <property name="jdbcTemplate" ref="jdbcTemplate"/>
       <property name="query" value="create table species select taxon.id as parent, child.taxon_id as child from TaxonBase as taxon join TaxonNameBase as name on (taxon.name_id = name.id) join TaxonNode parent on (taxon.id = parent.taxon_id) join TaxonNode as child on (parent.id = child.parent_id) where name.rank_id = 775 and taxon.DTYPE = 'Taxon';"/>
     </bean>
@@ -143,7 +143,7 @@
       <property name="rowMapper" ref="rowToMapRowMapper"/>
     </bean>
     
-    <bean id="rowToMapRowMapper" class="org.emonocot.harvest.common.RowToMapRowMapper"/>
+    <bean id="rowToMapRowMapper" class="org.powo.harvest.common.RowToMapRowMapper"/>
     
     <bean id="taxonWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 	  <property name="resource" ref="taxonFile"/>
@@ -162,7 +162,7 @@
 	<bean name="taxonLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
 	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
-	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	   <bean class="org.powo.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,scientificName,scientificNameAuthorship,taxonRank,taxonomicStatus,acceptedNameUsageID,genus,subgenus,specificEpithet,infraspecificEpithet,source,modified,created,parentNameUsageID,namePublishedIn,namePublishedInID,nomenclaturalStatus"/>
 	   </bean>
@@ -192,7 +192,7 @@
 	<bean name="descriptionLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
 	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
-	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	   <bean class="org.powo.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
 	   </bean>
@@ -222,7 +222,7 @@
 	<bean name="imageLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
 	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
-	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	   <bean class="org.powo.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,identifier,title,creator,modified,created"/>
 	   </bean>
@@ -252,7 +252,7 @@
 	<bean name="referenceLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
 	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
-	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	   <bean class="org.powo.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,modified,created,identifier,bibliographicCitation,title,description,date,source,creator"/>
 	   </bean>
@@ -282,14 +282,14 @@
 	<bean name="identifierLineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
 	 <property name="delimiter" value="${fields.terminated.by}"/>
 	 <property name="fieldExtractor">
-	   <bean class="org.emonocot.harvest.common.MapFieldExtractor" scope="step">
+	   <bean class="org.powo.harvest.common.MapFieldExtractor" scope="step">
          <property name="quoteCharacter" value="${fields.enclosed.by}"/>
 	     <property name="names" value="taxonID,modified,created,identifier,title,format"/>
 	   </bean>
 	 </property>
 	</bean>
 	
-	<bean id="writeMetadataTasklet" class="org.emonocot.job.dwc.write.ArchiveMetadataWriter" scope="step">
+	<bean id="writeMetadataTasklet" class="org.powo.job.dwc.write.ArchiveMetadataWriter" scope="step">
 		<property name="archiveFile" value="${harvester.output.directory}"/>		
 		<property name="taxonFields" value="${taxon.file.field.names}"/>
 		<property name="taxonDefaultValues" value="${taxon.default.values}"/>
@@ -318,7 +318,7 @@
 		<property name="title" value="${meta.title}"/>
 	</bean>
 	
-	<bean id="packageArchiveTasklet" class="org.emonocot.job.dwc.write.ArchivePackager" scope="step">
+	<bean id="packageArchiveTasklet" class="org.powo.job.dwc.write.ArchivePackager" scope="step">
 		<property name="archiveFile" value="${harvester.output.directory}"/>
 		<property name="outputDirectory" value="./"/>
 		<property name="descriptionFields" value="taxonID,type,identifier,modified,created,creator,description,reference,source"/>
@@ -328,7 +328,7 @@
 	</bean>
 	
 	<bean id="workingDirectoryResourceDeletingTasklet"
-		class="org.emonocot.harvest.common.MultiResourceDeletingTasklet"
+		class="org.powo.harvest.common.MultiResourceDeletingTasklet"
 		scope="step">
 		<property name="resources">
 			<list>

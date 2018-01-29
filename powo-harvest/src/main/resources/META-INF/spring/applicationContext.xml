@@ -15,44 +15,44 @@
 
   <context:annotation-config />
 
-  <context:component-scan base-package="org.emonocot" />
+  <context:component-scan base-package="org.powo" />
   <tx:annotation-driven />
   <task:annotation-driven />
 
   <bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-  <bean id="getResourceClient" class="org.emonocot.harvest.common.GetResourceClient"/>
+  <bean id="getResourceClient" class="org.powo.harvest.common.GetResourceClient"/>
   <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
 
   <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
     <property name="converters">
       <list>
-        <bean class="org.emonocot.model.convert.StringToIsoDateTimeConverter" />
-        <bean class="org.emonocot.model.convert.IsoDateTimeToStringConverter" />
-        <bean class="org.emonocot.model.convert.RankConverter" />
-        <bean class="org.emonocot.model.convert.RankToStringConverter" />
-        <bean class="org.emonocot.model.convert.EstablishmentMeansConverter" />
-        <bean class="org.emonocot.model.convert.OccurrenceStatusConverter" />
-        <bean class="org.emonocot.model.convert.NomenclaturalCodeConverter" />
-        <bean class="org.emonocot.model.convert.NomenclaturalCodeToStringConverter" />
-        <bean class="org.emonocot.model.convert.NomenclaturalStatusConverter" />
-        <bean class="org.emonocot.model.convert.NomenclaturalStatusToStringConverter" />
-        <bean class="org.emonocot.model.convert.ReferenceTypeConverter" />
-        <bean class="org.emonocot.model.convert.TaxonomicStatusConverter" />
-        <bean class="org.emonocot.model.convert.TaxonomicStatusToStringConverter" />
-        <bean class="org.emonocot.model.convert.StringToLocationConverter" />
-        <bean class="org.emonocot.model.convert.LocationToStringConverter" />
-        <bean class="org.emonocot.model.convert.StringToLocationConverter" />
-        <bean class="org.emonocot.model.convert.DescriptionTypeConverter" />
-        <bean class="org.emonocot.model.convert.DescriptionTypeSetConverter" />
-        <bean class="org.emonocot.model.convert.MediaFormatConverter" />
-        <bean class="org.emonocot.model.convert.TypeStatusConverter" />
-        <bean class="org.emonocot.model.convert.StringToConceptTermConverter" />
-        <bean class="org.emonocot.model.convert.ReferenceToStringConverter" />
-        <bean class="org.emonocot.model.convert.MultimediaToImageConverter" />
-        <bean class="org.emonocot.model.convert.StringToMediaTypeConverter" />
+        <bean class="org.powo.model.convert.StringToIsoDateTimeConverter" />
+        <bean class="org.powo.model.convert.IsoDateTimeToStringConverter" />
+        <bean class="org.powo.model.convert.RankConverter" />
+        <bean class="org.powo.model.convert.RankToStringConverter" />
+        <bean class="org.powo.model.convert.EstablishmentMeansConverter" />
+        <bean class="org.powo.model.convert.OccurrenceStatusConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalCodeConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalCodeToStringConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalStatusConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalStatusToStringConverter" />
+        <bean class="org.powo.model.convert.ReferenceTypeConverter" />
+        <bean class="org.powo.model.convert.TaxonomicStatusConverter" />
+        <bean class="org.powo.model.convert.TaxonomicStatusToStringConverter" />
+        <bean class="org.powo.model.convert.StringToLocationConverter" />
+        <bean class="org.powo.model.convert.LocationToStringConverter" />
+        <bean class="org.powo.model.convert.StringToLocationConverter" />
+        <bean class="org.powo.model.convert.DescriptionTypeConverter" />
+        <bean class="org.powo.model.convert.DescriptionTypeSetConverter" />
+        <bean class="org.powo.model.convert.MediaFormatConverter" />
+        <bean class="org.powo.model.convert.TypeStatusConverter" />
+        <bean class="org.powo.model.convert.StringToConceptTermConverter" />
+        <bean class="org.powo.model.convert.ReferenceToStringConverter" />
+        <bean class="org.powo.model.convert.MultimediaToImageConverter" />
+        <bean class="org.powo.model.convert.StringToMediaTypeConverter" />
         <!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource
           resolution -->
-        <bean class="org.emonocot.model.convert.FileConverter" />
+        <bean class="org.powo.model.convert.FileConverter" />
       </list>
     </property>
   </bean>
@@ -62,7 +62,7 @@
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
   
-  <bean name="solrIndexingInterceptor" class="org.emonocot.persistence.hibernate.SolrIndexingInterceptor">
+  <bean name="solrIndexingInterceptor" class="org.powo.persistence.hibernate.SolrIndexingInterceptor">
     <property name="solrClient" ref="solrClient" />
   </bean>
 
@@ -78,31 +78,31 @@
         hibernate.jdbc.time_zone=UTC
       </value>
     </property>
-    <property name="annotatedPackages" value="org.emonocot.model" />
+    <property name="annotatedPackages" value="org.powo.model" />
     <property name="annotatedClasses">
       <list>
-        <value>org.emonocot.model.Annotation</value>
-        <value>org.emonocot.model.Concept</value>
-        <value>org.emonocot.model.Description</value>
-        <value>org.emonocot.model.Distribution</value>
-        <value>org.emonocot.model.Identification</value>
-        <value>org.emonocot.model.Identifier</value>
-        <value>org.emonocot.model.Image</value>
-        <value>org.emonocot.model.JobConfiguration</value>
-        <value>org.emonocot.model.JobList</value>
-        <value>org.emonocot.model.MeasurementOrFact</value>
-        <value>org.emonocot.model.Place</value>
-        <value>org.emonocot.model.Reference</value>
-        <value>org.emonocot.model.Taxon</value>
-        <value>org.emonocot.model.TypeAndSpecimen</value>
-        <value>org.emonocot.model.VernacularName</value>
-        <value>org.emonocot.model.registry.Organisation</value>
-        <value>org.emonocot.model.registry.Resource</value>
+        <value>org.powo.model.Annotation</value>
+        <value>org.powo.model.Concept</value>
+        <value>org.powo.model.Description</value>
+        <value>org.powo.model.Distribution</value>
+        <value>org.powo.model.Identification</value>
+        <value>org.powo.model.Identifier</value>
+        <value>org.powo.model.Image</value>
+        <value>org.powo.model.JobConfiguration</value>
+        <value>org.powo.model.JobList</value>
+        <value>org.powo.model.MeasurementOrFact</value>
+        <value>org.powo.model.Place</value>
+        <value>org.powo.model.Reference</value>
+        <value>org.powo.model.Taxon</value>
+        <value>org.powo.model.TypeAndSpecimen</value>
+        <value>org.powo.model.VernacularName</value>
+        <value>org.powo.model.registry.Organisation</value>
+        <value>org.powo.model.registry.Resource</value>
       </list>
     </property>
   </bean>
 
-  <bean id="solrOptimizingTasklet" class="org.emonocot.harvest.common.SolrOptimizingTasklet">
+  <bean id="solrOptimizingTasklet" class="org.powo.harvest.common.SolrOptimizingTasklet">
     <property name="core" value="${solr.core}"/>
     <property name="maxSegments" value="${solr.max.segments}"/>
     <property name="solrClient" ref="solrClient"/>
@@ -128,13 +128,13 @@
 
   <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
 
-  <bean name="objectMapper" class="org.emonocot.model.marshall.json.CustomObjectMapperFactory"/>
+  <bean name="objectMapper" class="org.powo.model.marshall.json.CustomObjectMapperFactory"/>
 
-  <bean id="notifyingJobStatusListener" class="org.emonocot.harvest.common.NotifyingJobStatusListener"/>
+  <bean id="notifyingJobStatusListener" class="org.powo.harvest.common.NotifyingJobStatusListener"/>
 
-  <bean id="stepStatusListener" class="org.emonocot.harvest.common.StepStatusListener" />
+  <bean id="stepStatusListener" class="org.powo.harvest.common.StepStatusListener" />
 
-  <bean id="compositeJobListener" class="org.emonocot.harvest.common.CompositeJobStatusListener">
+  <bean id="compositeJobListener" class="org.powo.harvest.common.CompositeJobStatusListener">
     <property name="jobListeners">
       <list>
         <ref bean="notifyingJobStatusListener"/>
@@ -143,11 +143,11 @@
     </property>
   </bean>
 
-  <bean id="jobSequenceListener" class="org.emonocot.harvest.common.JobSequenceListener"/>
+  <bean id="jobSequenceListener" class="org.powo.harvest.common.JobSequenceListener"/>
 
-  <bean id="jobStatusListener" class="org.emonocot.harvest.common.JobStatusListener">
+  <bean id="jobStatusListener" class="org.powo.harvest.common.JobStatusListener">
     <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
   </bean>
 
-  <bean id="jobStatusNotifier" class="org.emonocot.harvest.common.JobStatusNotifierImpl"/>
+  <bean id="jobStatusNotifier" class="org.powo.harvest.common.JobStatusNotifierImpl"/>
 </beans>

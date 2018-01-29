@@ -9,12 +9,12 @@
   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-  <context:component-scan base-package="org.emonocot">
+  <context:component-scan base-package="org.powo">
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobListService" />
-    <context:exclude-filter type="assignable" expression="org.emonocot.api.JobConfigurationService" />
-    <context:exclude-filter type="assignable" expression="org.emonocot.api.ResourceWithJobService" />
-    <context:exclude-filter type="assignable" expression="org.emonocot.model.validators.JobListValidator" />
+    <context:exclude-filter type="assignable" expression="org.powo.api.JobListService" />
+    <context:exclude-filter type="assignable" expression="org.powo.api.JobConfigurationService" />
+    <context:exclude-filter type="assignable" expression="org.powo.api.ResourceWithJobService" />
+    <context:exclude-filter type="assignable" expression="org.powo.model.validators.JobListValidator" />
   </context:component-scan>
 
   <context:property-placeholder location="classpath*:test.properties" order="1" ignore-unresolvable="true" />
@@ -82,32 +82,32 @@
     </property>
     <property name="annotatedClasses">
       <list>
-        <value>org.emonocot.model.Annotation</value>
-        <value>org.emonocot.model.Concept</value>
-        <value>org.emonocot.model.Description</value>
-        <value>org.emonocot.model.Distribution</value>
-        <value>org.emonocot.model.Identification</value>
-        <value>org.emonocot.model.Identifier</value>
-        <value>org.emonocot.model.Image</value>
-        <value>org.emonocot.model.JobConfiguration</value>
-        <value>org.emonocot.model.JobList</value>
-        <value>org.emonocot.model.MeasurementOrFact</value>
-        <value>org.emonocot.model.Place</value>
-        <value>org.emonocot.model.Reference</value>
-        <value>org.emonocot.model.Taxon</value>
-        <value>org.emonocot.model.TypeAndSpecimen</value>
-        <value>org.emonocot.model.VernacularName</value>
-        <value>org.emonocot.model.auth.Group</value>
-        <value>org.emonocot.model.auth.User</value>
-        <value>org.emonocot.model.registry.Organisation</value>
-        <value>org.emonocot.model.registry.Resource</value>
+        <value>org.powo.model.Annotation</value>
+        <value>org.powo.model.Concept</value>
+        <value>org.powo.model.Description</value>
+        <value>org.powo.model.Distribution</value>
+        <value>org.powo.model.Identification</value>
+        <value>org.powo.model.Identifier</value>
+        <value>org.powo.model.Image</value>
+        <value>org.powo.model.JobConfiguration</value>
+        <value>org.powo.model.JobList</value>
+        <value>org.powo.model.MeasurementOrFact</value>
+        <value>org.powo.model.Place</value>
+        <value>org.powo.model.Reference</value>
+        <value>org.powo.model.Taxon</value>
+        <value>org.powo.model.TypeAndSpecimen</value>
+        <value>org.powo.model.VernacularName</value>
+        <value>org.powo.model.auth.Group</value>
+        <value>org.powo.model.auth.User</value>
+        <value>org.powo.model.registry.Organisation</value>
+        <value>org.powo.model.registry.Resource</value>
       </list>
     </property>
-    <property name="annotatedPackages" value="org.emonocot.model" />
+    <property name="annotatedPackages" value="org.powo.model" />
     <property name="entityInterceptor" ref="solrIndexingInterceptor"/>
   </bean>
 
-  <bean id="solrIndexingInterceptor" class="org.emonocot.persistence.hibernate.SolrIndexingInterceptor">
+  <bean id="solrIndexingInterceptor" class="org.powo.persistence.hibernate.SolrIndexingInterceptor">
     <property name="solrClient" ref="solrClient"/>
   </bean>
 

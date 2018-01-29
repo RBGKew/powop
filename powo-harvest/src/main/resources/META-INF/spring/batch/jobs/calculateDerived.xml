@@ -28,7 +28,7 @@
     <property name="queryString" value="#{jobParameters['query.string']}"/>
   </bean>
 
-  <bean id="itemProcessor" class="org.emonocot.job.dwc.taxon.CalculateDerivedPropertiesProcessor">
+  <bean id="itemProcessor" class="org.powo.job.dwc.taxon.CalculateDerivedPropertiesProcessor">
     <property name="taxonService" ref="taxonServiceImpl"/>
   </bean>
 
