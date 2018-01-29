@@ -16,13 +16,9 @@
  */
 package org.powo.portal.controller;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
-import org.powo.api.DescriptionService;
-import org.powo.api.ImageService;
-import org.powo.api.TaxonService;
+import org.powo.site.Site;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,23 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
 	@Autowired
-	TaxonService taxonService;
-
-	@Autowired
-	ImageService imageService;
-
-	@Autowired
-	DescriptionService descriptionService;
+	@Qualifier("currentSite")
+	Site site;
 
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String index(Model model) {
-		model.addAttribute("names", format(taxonService.count(), 1000));
-		model.addAttribute("images", format(imageService.count(), 100));
-		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
+		site.populateIndexModel(model);
 		return "index";
-	}
-
-	private String format(long n, int ceilTo) {
-		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo-1)) / ceilTo) * ceilTo);
 	}
 }

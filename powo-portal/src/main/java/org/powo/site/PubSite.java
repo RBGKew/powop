@@ -1,9 +1,12 @@
-package org.powo.site.powo;
+package org.powo.site;
 
+import org.powo.model.Taxon;
 import org.powo.model.solr.QueryOption;
-import org.powo.site.Site;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
-public class PowoSite implements Site {
+@Component("PubSite")
+public class PubSite implements Site {
 
 	@Override
 	public String sitePageClass() {
@@ -12,13 +15,13 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public void populateTaxonModel() {
+	public void populateTaxonModel(Taxon taxon, Model model) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void populateIndexModel() {
+	public void populateIndexModel(Model model) {
 		// TODO Auto-generated method stub
 
 	}

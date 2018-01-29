@@ -1,6 +1,8 @@
 package org.powo.site;
 
+import org.powo.model.Taxon;
 import org.powo.model.solr.QueryOption;
+import org.springframework.ui.Model;
 
 /*
  * Allow running the portal in one of a predefined set of configurations
@@ -14,7 +16,7 @@ import org.powo.model.solr.QueryOption;
  */
 public interface Site {
 	public String sitePageClass();
-	public void populateTaxonModel();
-	public void populateIndexModel();
+	public void populateTaxonModel(Taxon taxon, Model model);
+	public void populateIndexModel(Model model);
 	public QueryOption defaultQuery();
 }
