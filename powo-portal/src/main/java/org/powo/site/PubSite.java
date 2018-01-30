@@ -6,29 +6,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 @Component("PubSite")
-public class PubSite implements Site {
+public class PubSite extends PowoSite implements Site {
 
 	@Override
 	public String sitePageClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return "s-pub";
 	}
 
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
-		// TODO Auto-generated method stub
-
+		super.populateTaxonModel(taxon, model);
 	}
 
 	@Override
 	public void populateIndexModel(Model model) {
-		// TODO Auto-generated method stub
-
+		model.addAttribute("siteClass", "s-pub");
+		model.addAttribute("intro", "partials/intro/pub");
 	}
 
 	@Override
 	public QueryOption defaultQuery() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

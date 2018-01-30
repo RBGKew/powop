@@ -1,4 +1,4 @@
-package org.powo.site.powo;
+package org.powo.site;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -94,6 +94,7 @@ public class PowoSite implements Site {
 		model.addAttribute("names", format(taxonService.count(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
+		model.addAttribute("intro", "partials/intro/powo");
 	}
 
 	@Override
