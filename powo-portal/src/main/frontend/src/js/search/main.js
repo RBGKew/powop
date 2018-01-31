@@ -28,6 +28,15 @@ define(function(require) {
     filters.setSort($(this).attr("id"));
   }
 
+  function transformToSearchLayout() {
+    // transform page to search style page
+    if($('.s-page').hasClass('s-search__fullpage')) {
+      $('.s-page').removeClass('s-search__fullpage');
+      $('#search_box').detach().appendTo('.c-header .container');
+      filters.refresh();
+    }
+  }
+
   var initialize = function() {
     if ($(window).width() < 992) {
       $("input[type=search]").attr('placeholder', "Search");
@@ -35,12 +44,14 @@ define(function(require) {
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {
+      transformToSearchLayout();
       filters.deserialize(window.location.search, false);
       results.initialize();
       results.update(filters.serialize());
     }
 
-    $('.s-search__fullpage .c-search .token-input').on('input', function(e) {
+    $('.s-search__fullpage .c-search .token-input').on('submit', function(e) {
+      e.preventDefault();
       results.initialize();
     });
 
@@ -54,6 +65,8 @@ define(function(require) {
 
   // event listeners for updating search results based on filters
   pubsub.subscribe('search.updated', function() {
+    transformToSearchLayout();
+
     results.update(filters.serialize());
     this.History.pushState(null, null, '?' + filters.serialize());
   });

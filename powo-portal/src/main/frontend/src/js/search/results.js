@@ -42,7 +42,6 @@ define(function(require) {
   var prepare = function() {
     if(_.isEmpty($('.c-results-outer'))) {
       $('.c-search').append(resultsContainerTmpl());
-      $('.c-footer').show();
     }
   }
 
@@ -62,11 +61,6 @@ define(function(require) {
   };
 
   var initialize = function(initialToken) {
-    if($('.s-page').hasClass('s-search__fullpage')) {
-      $('.s-page').removeClass('s-search__fullpage');
-      $('.c-footer').hide();
-    }
-
     $('body')
       .on('click', '.js-show-list', listView)
       .on('click', '.js-show-grid', gridView)

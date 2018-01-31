@@ -1,7 +1,7 @@
 /*
  * Component - Search
  */
-.c-search {
+#search_box {
 
   .btn-link,
   a {
@@ -12,18 +12,6 @@
     margin: 0 0 1em;
     @media (min-width: $screen-md-min) { margin: 0.8em; }
     @media (max-width: $screen-sm-min) { display: none; }
-  }
-
-  &__advanced {
-    @media (min-width: $screen-md-min) {
-      position: absolute;
-      top: 2em;
-      right: 10px;
-    }
-
-    @media (max-width: $screen-sm-min) {
-      display: none;
-    }
   }
 
   .tokenfield {
@@ -58,6 +46,11 @@
   }
 }
 
+.c-header .form-inline--search {
+  width: 56%;
+  float: right;
+}
+
 .s-search__fullpage .c-search {
   @media (min-width: $screen-sm-max) {
     position: absolute;
@@ -66,74 +59,4 @@
     width: 90%;
     transform: translateY(-50%);
   }
-}
-
-.filters {
-  color: $navbar-default-color;
-  padding: 19px;
-  background-color: #fff;
-  margin: 10px 0 0 0;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom: 1px solid #ccc;
-  @media(max-width: $screen-xs-max) { display: none; }
-
-  li {
-    list-style-type: none;
-
-    @media(min-width: $screen-sm) {
-      float: left;
-      margin-top: -12px;
-      width: auto;
-    }
-
-    &:first-child {
-      padding-right: 10px;
-      @media(min-width: $screen-sm) and (max-width: $screen-sm-max) { display: none; }
-    } 
-  }
-
-  .Family { fill: #336699; }
-  .Genus { fill: #339999; }
-  .Species { fill: #669933; }
-  .Infraspecific { fill: #993399; }
-  .Synonym { fill: #c7c7c7; }
-
-  a {
-    color: $navbar-default-color;
-    padding: 9px;
-    @media(max-width: $screen-lg) {
-      font-size: 14px;
-      padding: 7px;
-    }
-
-    @media(max-width: $screen-xs-max) {
-      width: 100%;
-      display: block;
-    }
-  }
-
-  .facet.selected {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-
-  a:link {
-    text-decoration: none;
-  }
-
-  @media (min-width: $screen-sm) {
-    a:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-  }
-}
-
-.results-kingdom {
-  width: 17px;
-  height: 14px;
-}
-
-.chevron {
-  width: 11px;
-  height: 11px;
 }
