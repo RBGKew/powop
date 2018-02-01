@@ -22,7 +22,7 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.powo.api.job.EmonocotTerm;
 import org.powo.api.job.TermFactory;
 import org.powo.job.dwc.read.BaseDataFieldSetMapper;

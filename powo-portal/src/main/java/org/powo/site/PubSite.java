@@ -1,13 +1,18 @@
 package org.powo.site;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.powo.model.Taxon;
-import org.powo.model.solr.QueryOption;
+import org.powo.model.solr.DefaultQueryOption;
+import org.powo.persistence.solr.PubDefaultQuery;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 @Component("PubSite")
 public class PubSite extends PowoSite implements Site {
 
+	private List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 	@Override
 	public String sitePageClass() {
 		return "s-pub";
@@ -25,8 +30,18 @@ public class PubSite extends PowoSite implements Site {
 	}
 
 	@Override
-	public QueryOption defaultQuery() {
-		return null;
+	public DefaultQueryOption defaultQuery() {
+		return new PubDefaultQuery();
+	}
+	
+	@Override
+	public String suggesterFilter(){
+		return "pub";
+	}
+	
+	@Override 
+	public List<String> getSuggesters(){
+		return suggesters;
 	}
 
 }

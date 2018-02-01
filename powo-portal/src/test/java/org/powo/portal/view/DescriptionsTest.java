@@ -13,7 +13,7 @@ import org.powo.model.Description;
 import org.powo.model.Taxon;
 import org.powo.model.constants.DescriptionType;
 import org.powo.model.registry.Organisation;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.portal.view.Descriptions;

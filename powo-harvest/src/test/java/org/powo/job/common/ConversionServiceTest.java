@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.model.convert.TaxonomicStatusConverter;

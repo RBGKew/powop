@@ -21,9 +21,11 @@ import org.powo.persistence.solr.QueryBuilder;
 import org.powo.portal.json.MainSearchBuilder;
 import org.powo.portal.json.ResponseBuilder;
 import org.powo.portal.json.TaxonResponse;
+import org.powo.site.Site;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,12 +42,11 @@ public class ApiController {
 
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(ApiController.class);
+	
+	@Autowired
+	@Qualifier("currentSite")
+	Site site;
 
-	private static List<String> suggesters = ImmutableList.<String>of(
-			"location",
-			"common-name",
-			"scientific-name",
-			"characteristic");
 
 	@Autowired
 	private SearchableObjectService searchableObjectService;
@@ -55,7 +56,7 @@ public class ApiController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
-		QueryBuilder queryBuilder = new QueryBuilder();
+		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery());
 		for(Entry<String, String> entry : params.entrySet()){
 			queryBuilder.addParam(entry.getKey(), entry.getValue());
 		}
@@ -74,10 +75,10 @@ public class ApiController {
 			) throws SolrServerException, IOException {
 
 		SolrQuery query = new AutoCompleteBuilder()
-				.setWorkingSuggesters(checkSuggesters(suggesters))
-				.setSuggesters(suggesters)
+				.setSuggesters(checkSuggesters(site.getSuggesters()))
 				.pageSize(pageSize)
 				.setQuery(queryString)
+				.setFilterQuery(site.suggesterFilter())
 				.build();
 
 		if(query != null) {
@@ -105,7 +106,8 @@ public class ApiController {
 		NamedList<Object> responseStats = (NamedList<Object>) response.getResponse().findRecursive("solr-mbeans","OTHER","suggest","stats");
 		for(Entry<String, Object> suggester : responseStats){
 			if(!suggester.getKey().equals("totalSizeInBytes") 
-					&& !(((String) suggester.getValue()).contains("sizeInBytes=0"))) {
+					&& !(((String) suggester.getValue()).contains("sizeInBytes=0"))
+			        && suggesters.contains(suggester.getKey())){
 				workingSuggesters.add(suggester.getKey());
 			}
 		}

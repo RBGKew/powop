@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.gbif.ecat.voc.Rank;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Example;

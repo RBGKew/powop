@@ -15,7 +15,7 @@ import java.util.TreeSet;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.gbif.ecat.voc.Rank;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.junit.Test;
 import org.powo.api.job.WCSPTerm;
 import org.powo.model.Description;

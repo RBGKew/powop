@@ -13,6 +13,8 @@ services:
     image: eu.gcr.io/powop-1349/portal:latest
     env_file:
       - src/main/resources/docker/env/common.env
+    environment:
+      - SITE_VARIANT=PubSite
     links:
       - db
       - geoserver

@@ -17,7 +17,7 @@
 package org.powo.job.common;
 
 import org.gbif.ecat.voc.Rank;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

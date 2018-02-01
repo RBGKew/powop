@@ -2,10 +2,14 @@ package org.powo.persistence.solr;
 
 import java.util.Map;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.powo.model.solr.DefaultQueryOption;
 import org.powo.model.solr.QueryOption;
 import org.powo.model.solr.SolrFieldNameMappings;
+import org.powo.site.Site;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
@@ -56,9 +60,18 @@ public class QueryBuilder {
 			.put("base.class_searchable_b", new searchableFilterQuery())
 			.put("f", new ResultsFilterQuery())
 			.build();
-
+	
 	private static final QueryOption basicMapper = new SingleFieldFilterQuery();
-
+	
+	public QueryBuilder(){
+		query = new SolrQuery().setRequestHandler("/powop_search");
+	}
+	
+	public QueryBuilder(DefaultQueryOption defaultQuery){
+		query = new SolrQuery().setRequestHandler("/powop_search");
+		defaultQuery.add(query);
+	}
+	
 	public QueryBuilder addParam(String key, String value) {
 		if(key.equals("q")) {
 			parseQuery(value);

@@ -1290,6 +1290,7 @@
       <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
       <str name="dictionaryImpl">FileDictionaryFactory</str>
       <str name="sourceLocation">tdwg.txt</str>
+      <str name="contextField">searchable.sources_ss</str>
       <str name="suggestAnalyzerFieldType">lowercase</str>
       <str name="highlight">false</str>
     </lst>
@@ -1300,7 +1301,7 @@
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="field">taxon.scientific_name_s_lower</str>
       <str name="indexPath">scientific_name_suggest</str>
-      <str name="contextField">taxon.rank_s_lower</str>
+      <str name="contextField">searchable.sources_ss</str>
       <str name="weightField">suggest.weight_i</str>
       <str name="suggestAnalyzerFieldType">lowercase</str>
       <str name="highlight">false</str>
@@ -1312,6 +1313,7 @@
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="field">taxon.vernacular_names_t</str>
       <str name="indexPath">common_name_suggest</str>
+      <str name="contextField">searchable.sources_ss</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
     </lst>

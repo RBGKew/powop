@@ -19,6 +19,9 @@ package org.powo.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
@@ -136,7 +139,8 @@ public class SearchIntegrationTest extends AbstractPersistenceTest {
 	 */
 	@Test
 	public final void testAutocomplete() throws Exception {
-		SolrQuery query = new AutoCompleteBuilder().setQuery("Africa").pageSize(10).addSuggester("location").build();
+		List<String> suggesters = Arrays.asList("location");
+		SolrQuery query = new AutoCompleteBuilder().setQuery("Africa").pageSize(10).setSuggesters(suggesters).build();
 		SuggesterResponse matched = getSearchableObjectDao().autocomplete(query);
 	}
 }

@@ -16,7 +16,7 @@
  */
 package org.powo.model.convert;
 
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.springframework.core.convert.converter.Converter;
 
 public class TaxonomicStatusToStringConverter implements Converter<TaxonomicStatus, String> {

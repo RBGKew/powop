@@ -16,7 +16,7 @@ import org.powo.model.MeasurementOrFact;
 import org.powo.model.Taxon;
 import org.powo.model.constants.DescriptionType;
 import org.gbif.dwc.terms.Term;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.powo.portal.naturalLanguage.PhraseUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

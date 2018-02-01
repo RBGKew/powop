@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.powo.model.Description;
 import org.powo.model.Reference;
 import org.powo.model.Taxon;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.portal.view.Bibliography;

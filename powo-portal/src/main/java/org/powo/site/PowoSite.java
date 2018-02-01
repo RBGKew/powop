@@ -1,6 +1,8 @@
 package org.powo.site;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -8,7 +10,8 @@ import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
-import org.powo.model.solr.QueryOption;
+import org.powo.model.solr.DefaultQueryOption;
+import org.powo.persistence.solr.PowoDefaultQuery;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
@@ -39,9 +42,17 @@ public class PowoSite implements Site {
 
 	@Autowired
 	DescriptionService descriptionService;
+	
+	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
 	@Override
 	public String sitePageClass() {
+		return null;
+	}
+	
+	
+	@Override
+	public String suggesterFilter(){
 		return null;
 	}
 
@@ -98,8 +109,8 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public QueryOption defaultQuery() {
-		return null;
+	public DefaultQueryOption defaultQuery() {
+		return new PowoDefaultQuery();
 	}
 
 	private String pageTitle(Taxon taxon) {
@@ -120,5 +131,11 @@ public class PowoSite implements Site {
 
 	private String format(long n, int ceilTo) {
 		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo-1)) / ceilTo) * ceilTo);
+	}
+
+
+	@Override
+	public List<String> getSuggesters() {
+		return suggesters;
 	}
 }

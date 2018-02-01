@@ -23,7 +23,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 import org.gbif.ecat.voc.Rank;
-import org.gbif.ecat.voc.TaxonomicStatus;
+import org.powo.model.constants.TaxonomicStatus;
 import org.powo.model.Annotation;
 import org.powo.model.Base;
 import org.powo.model.Description;
@@ -185,7 +185,7 @@ public abstract class DataManagementSupport {
 			Taxon parent, Taxon accepted, String family,
 			String genus, String specificEpithet,
 			String datePublished, Rank rank,
-			org.gbif.ecat.voc.TaxonomicStatus status, Organisation source,
+			TaxonomicStatus status, Organisation source,
 			Location[] distributions, Organisation[] sources) {
 		Taxon taxon = new Taxon();
 		taxon.setScientificName(name);

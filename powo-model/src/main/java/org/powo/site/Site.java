@@ -1,7 +1,9 @@
 package org.powo.site;
 
+import java.util.List;
+
 import org.powo.model.Taxon;
-import org.powo.model.solr.QueryOption;
+import org.powo.model.solr.DefaultQueryOption;
 import org.springframework.ui.Model;
 
 /*
@@ -18,5 +20,7 @@ public interface Site {
 	public String sitePageClass();
 	public void populateTaxonModel(Taxon taxon, Model model);
 	public void populateIndexModel(Model model);
-	public QueryOption defaultQuery();
+	public DefaultQueryOption defaultQuery();
+	public List<String> getSuggesters();
+	public String suggesterFilter();
 }
