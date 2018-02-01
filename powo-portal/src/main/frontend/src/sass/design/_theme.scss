@@ -39,6 +39,9 @@
       fill: $primary;
     }
 
+    .s-page--taxon .form-inline--search.focused {
+      border-color: rgba($primary, .3);
+    }
   }
 
   .#{$name}.c-card {
@@ -50,7 +53,6 @@
     }
   }
 }
-
 
 $type-themes: (
   s-theme-Family: #336699,

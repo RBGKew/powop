@@ -3,12 +3,35 @@ define(function(require) {
   var $ = require('jquery');
   var map = require('./map');
   var History = require('libs/native.history');
+  var filters = require('../search/filters');
+  var pubsub = require('libs/pubsub');
   require('libs/bootstrap');
   require('libs/magnific-popup');
 
   var bibliographyTmpl = require('templates/partials/taxon/bibliography.js');
 
   var initialize = function() {
+
+    // setup search box
+    filters.initialize();
+    filters.tokenfield().on('tokenfield:createtoken', function(e) {
+      e.preventDefault();
+      window.location = '/?q=' + e.attrs.value;
+    });
+
+    $(document).on('click', '#search-button', function(e) {
+      window.location = '/?q=' + $('.token-input').val();
+    })
+
+    $('.tokenfield input')
+      .on('focus', function() {
+        $('#search_box')
+          .addClass('focused');
+      })
+      .on('blur', function() {
+        $('#search_box')
+          .removeClass('focused');
+      })
 
     // collapse all sections if screen size is less than 768px
     if ($(window).width() < 768) {

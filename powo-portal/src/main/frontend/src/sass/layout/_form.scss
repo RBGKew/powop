@@ -2,9 +2,6 @@
  * Form - Inline defaults
  */
 .form-inline {
-  button {
-    display: none;
-  }
   select,
   input {
     border-radius: $input-radius;
@@ -29,10 +26,6 @@
 
   input {
     width: 100%;
-  }
-
-  button {
-    display: none;
   }
 }
 

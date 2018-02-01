@@ -38,9 +38,10 @@ define(function(require) {
   }
 
   var initialize = function() {
-    if ($(window).width() < 992) {
-      $("input[type=search]").attr('placeholder', "Search");
+    if ($(window).width() > 992) {
+      $("input[type=search]").attr('placeholder', "Search by species, genus or family name, or any words describing the plant");
     }
+
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {
@@ -55,10 +56,16 @@ define(function(require) {
       results.initialize();
     });
 
-    $('.c-search')
+    $(document)
       .on('click', '.facet', toggleFacet)
       .on('click', '.c-results-outer .sort_options', setSort)
-      .on('click', '.c-results-outer .search_view', setView);
+      .on('click', '.c-results-outer .search_view', setView)
+      .on('click', '#search-button', function(e) {
+        var input = $('.token-input');
+        filters.add(input.val());
+        input.val('');
+      });
+
 
     $('.s-page').removeClass('invisible');
   };

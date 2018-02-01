@@ -25,26 +25,41 @@ define(function(require) {
     'characteristic',
   ];
 
-  function humanize(name) {
-    return name.split('-').join(' ');
+  function suggesterToGlyphicon(suggester) {
+    switch(suggester) {
+      case 'location':
+        return 'glyphicon-globe';
+      case 'characteristic':
+        return 'glyphicon-grain';
+    }
   }
 
   function transform(res) {
     ret = [];
+    var totalSuggestions = _.reduce(
+      res.suggestedTerms,
+      function(n, sug) { return n + sug.length },
+      0
+    );
+
     _.each(suggesters, function(suggester) {
       if(!(suggester in res.suggestedTerms)) {
         return;
       }
 
-      for(i = 0; i < res.suggestedTerms[suggester].length && i < 2; i++) {
+      for(i = 0; i < res.suggestedTerms[suggester].length && i < 5; i++) {
+        var val = res.suggestedTerms[suggester][i];
         ret.push({
-          value: res.suggestedTerms[suggester][i],
-          category: humanize(suggester),
+          value: (suggester === suggesters[0] || suggester == suggesters[1]) ? val : suggester + ":" + val,
+          display: val,
+          category: suggesterToGlyphicon(suggester),
         });
       }
     });
+
     return ret;
   }
+
 
   var initialize = function() {
     engine = new Bloodhound({
@@ -172,6 +187,10 @@ define(function(require) {
     tokenfield.tokenfield('update');
   }
 
+  var getTokenfield = function() {
+    return tokenfield;
+  }
+
   return {
     add: add,
     deserialize: deserialize,
@@ -184,5 +203,6 @@ define(function(require) {
     setSort: setSort,
     setPage: setPage,
     setPageSize: setPageSize,
+    tokenfield: getTokenfield,
   }
 });

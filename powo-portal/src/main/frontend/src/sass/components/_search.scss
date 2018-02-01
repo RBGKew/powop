@@ -16,6 +16,8 @@
 
   .tokenfield {
     background-color: #fff;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 
     .token {
       color: #000;
@@ -28,13 +30,17 @@
     }
 
     &.form-control {
-      padding: 0.7em;
+      padding: .4em 0 .4em .8em;
     }
   }
 
   .suggestion-category {
     color: #ccc;
     float: right;
+
+    &.glyphicon {
+      padding-top: 8px;
+    }
 
     @media (max-width: $screen-sm-min) {
       display: none;
@@ -44,11 +50,27 @@
   input.token-input {
     background-color: transparent;
   }
+
+  .glyphicon-search {
+    padding: .7em .2em;
+  }
 }
 
 .c-header .form-inline--search {
-  width: 56%;
+  margin-top: 6px;
+  width: 850px;
   float: right;
+
+  .form-control {
+    box-shadow: none;
+  }
+}
+
+.s-page--taxon .c-header .form-inline--search {
+  margin-top: 12px;
+  width: 400px;
+  border: 0px solid #e7e7e7;
+  border-bottom-width: 5px;
 }
 
 .s-search__fullpage .c-search {
