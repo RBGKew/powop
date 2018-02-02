@@ -8,6 +8,7 @@ RUN apk add --no-cache openssl ca-certificates wget \
 RUN rm -rf webapps/* \
   && mkdir webapps/ROOT \
   && mkdir $DATA_DIR \
+  && mkdir $DATA_DIR/logs \
   && unzip -q /tmp/geoserver.zip geoserver.war \
   && unzip -q geoserver.war -d webapps/ROOT \
   && rm -rf ${DATA_DIR}/styles \
@@ -20,3 +21,4 @@ COPY workspaces ${DATA_DIR}/workspaces
 COPY lib/* webapps/ROOT/WEB-INF/lib/
 COPY logging.xml ${DATA_DIR}/
 COPY users.properties ${DATA_DIR}/security/
+COPY PRODUCTION_LOGGING.properties ${DATA_DIR}/logs
