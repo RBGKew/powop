@@ -9,13 +9,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- Share meta -->
-    <meta property="og:site_name" content="" />
+    <meta property="og:site_name" content="Plants of the World Online" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="" />
-    <meta property="og:title" content="" />
+    {{#if taxon }}
+    <meta property="og:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />
+    {{/if}}
+    <meta property="og:title" content="{{title}}" />
     <meta property="og:description" content="" />
-    <meta name="twitter:url" content="" />
-    <meta name="twitter:title" content="" />
+    {{#if images.headerImage }}
+    <meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />
+    {{/if}}
+    {{#if taxon }}
+    <meta name="twitter:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />
+    {{/if}}
+    <meta name="twitter:title" content="{{title}}" />
     <meta name="twitter:description" content="" />
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
