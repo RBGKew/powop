@@ -39,6 +39,17 @@
     <property name="solrClient" ref="solrClient"/>
   </bean>
 
+  <bean id="messageSource"
+    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basenames">
+      <list>
+        <value>WEB-INF/i18n/messages</value>
+        <value>WEB-INF/i18n/application</value>
+      </list>
+    </property>
+    <property name="useCodeAsDefaultMessage" value="true" />
+  </bean>
+
   <beans profile="default">
     <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="springLiquibase">
       <property name="dataSource" ref="dataSource" />
