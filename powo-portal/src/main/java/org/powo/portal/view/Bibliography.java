@@ -176,6 +176,7 @@ public class Bibliography {
 	abstract class ReferenceSerializer {
 		@JsonProperty private String bibliographicCitation;
 		@JsonProperty private String date;
+		@JsonProperty private String taxonRemarks;
 		@JsonIgnore abstract DateTime getCreated();
 		@JsonIgnore abstract DateTime getModified();
 		@JsonIgnore abstract Organisation getAuthority();
