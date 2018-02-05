@@ -40,8 +40,6 @@
 	</modules>
 
 	<properties>
-		<docker.registry /><!-- Left intentionally empty. Set via DOCKER_REGISTRY 
-			so it can be picked up by docker-compose -->
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
 		<handlebars.version>4.0.7-SNAPSHOT</handlebars.version>
