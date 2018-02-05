@@ -220,47 +220,27 @@
 
 			<plugin>
 				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.11</version>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>${dockerfile.maven.version}</version>
 				<configuration>
-					<imageName>${docker.registry}harvester</imageName>
-					<dockerDirectory>${project.basedir}/docker</dockerDirectory>
-					<forceTags>true</forceTags>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.war</include>
-						</resource>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
-							<include>logback-access-${logback.version}.jar</include>
-						</resource>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
-							<include>logback-core-${logback.version}.jar</include>
-						</resource>
-					</resources>
+					<repository>${docker.registry}harvester</repository>
+					<tag>${project.version}-${buildNumber}</tag>
 				</configuration>
 				<executions>
 					<execution>
-						<id>build-image</id>
-						<phase>package</phase>
+						<id>default</id>
 						<goals>
 							<goal>build</goal>
+							<goal>push</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>tag-image</id>
-						<phase>package</phase>
+						<id>tag-image-latest</id>
 						<goals>
 							<goal>tag</goal>
 						</goals>
 						<configuration>
-							<image>${docker.registry}harvester</image>
-							<newName>${docker.registry}harvester:${project.version}-${buildNumber}</newName>
+							<tag>latest</tag>
 						</configuration>
 					</execution>
 				</executions>
