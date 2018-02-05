@@ -2,26 +2,25 @@
 <!--[if IE 9 ]> <html class="no-js lt-ie10"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
+  {{ gaTracking }}
 	<title>{{title}}</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- Share meta -->
-    <meta property="og:site_name" content="Plants of the World Online" />
-    <meta property="og:type" content="website" />
-    {{#if taxon }}<meta property="og:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
-    <meta property="og:title" content="{{title}}" />
-    {{#if summary}}<meta property="og:description" content="{{summary}}" />{{/if}}
-    {{#if images.headerImage }}<meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />{{/if}}
-    {{#if taxon }}<meta name="twitter:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
-    <meta name="twitter:title" content="{{title}}" />
-    {{#if summary}}<meta name="twitter:description" content="{{summary}}" />{{/if}}
+  <!-- Share meta -->
+  <meta property="og:site_name" content="Plants of the World Online" />
+  <meta property="og:type" content="website" />
+  {{#if taxon }}<meta property="og:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
+  <meta property="og:title" content="{{title}}" />
+  {{#if summary}}<meta property="og:description" content="{{summary}}" />{{/if}}
+  {{#if images.headerImage }}<meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />{{/if}}
+  {{#if taxon }}<meta name="twitter:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
+  <meta name="twitter:title" content="{{title}}" />
+  {{#if summary}}<meta name="twitter:description" content="{{summary}}" />{{/if}}
 
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
-    <link href="/{{asset "css/style.min.css"}}" rel="stylesheet">
-
-    {{gaTracking}}
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
+  <link href="/{{asset "css/style.min.css"}}" rel="stylesheet">
 </head>
 
 <body class="{{color-theme}}">
+{{ gaNoScript }}
