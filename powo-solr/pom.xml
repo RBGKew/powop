@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>geoserver</artifactId>
+	<artifactId>solr</artifactId>
 	<groupId>org.powo</groupId>
 	<version>2.0.0</version>
 	<packaging>pom</packaging>
 
-	<name>powo-geoserver</name>
-	<description>POWO customized geoserver component</description>
+	<name>powo-solr</name>
+	<description>POWO customized solr component</description>
 
 	<parent>
 		<artifactId>powo</artifactId>
@@ -24,7 +24,7 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>${dockerfile.maven.version}</version>
 				<configuration>
-					<repository>${docker.registry}geoserver</repository>
+					<repository>${docker.registry}solr</repository>
 					<tag>${project.version}-${buildNumber}</tag>
 				</configuration>
 				<executions>

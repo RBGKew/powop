@@ -239,6 +239,10 @@
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>${dockerfile.maven.version}</version>
+				<configuration>
+					<repository>${docker.registry}portal</repository>
+					<tag>${project.version}-${buildNumber}</tag>
+				</configuration>
 				<executions>
 					<execution>
 						<id>default</id>
@@ -247,40 +251,13 @@
 							<goal>push</goal>
 						</goals>
 					</execution>
-				</executions>
-				<configuration>
-					<repository>${docker.registry}portal</repository>
-					<tag>${project.version}-${buildNumber}</tag>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.11</version>
-				<executions>
-					<!-- Build geoserver application -->
 					<execution>
-						<id>build-geoserver</id>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-						<configuration>
-							<imageName>${docker.registry}geoserver</imageName>
-							<dockerDirectory>${project.basedir}/docker/geoserver</dockerDirectory>
-							<forceTags>true</forceTags>
-						</configuration>
-					</execution>
-					<execution>
-						<id>tag-geoserver</id>
-						<phase>package</phase>
+						<id>tag-image-latest</id>
 						<goals>
 							<goal>tag</goal>
 						</goals>
 						<configuration>
-							<image>${docker.registry}geoserver</image>
-							<newName>${docker.registry}geoserver:${project.version}-${buildNumber}</newName>
+							<tag>latest</tag>
 						</configuration>
 					</execution>
 				</executions>
