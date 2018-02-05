@@ -195,7 +195,7 @@
 
 				<configuration>
 					<workingDirectory>src/main/frontend</workingDirectory>
-          <installDirectory>target</installDirectory>
+					<installDirectory>target</installDirectory>
 				</configuration>
 
 				<executions>
@@ -237,51 +237,28 @@
 
 			<plugin>
 				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>${dockerfile.maven.version}</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>${docker.registry}portal</repository>
+					<tag>${project.version}-${buildNumber}</tag>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.11</version>
 				<executions>
-					<!-- Build portal application -->
-					<execution>
-						<id>build-portal</id>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-						<configuration>
-							<imageName>${docker.registry}portal</imageName>
-							<dockerDirectory>${project.basedir}/docker/portal</dockerDirectory>
-							<forceTags>true</forceTags>
-							<resources>
-								<resource>
-									<targetPath>/</targetPath>
-									<directory>${project.build.directory}</directory>
-									<include>${project.build.finalName}.war</include>
-								</resource>
-								<resource>
-									<targetPath>/</targetPath>
-									<directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
-									<include>logback-access-${logback.version}.jar</include>
-								</resource>
-								<resource>
-									<targetPath>/</targetPath>
-									<directory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</directory>
-									<include>logback-core-${logback.version}.jar</include>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>tag-portal</id>
-						<phase>package</phase>
-						<goals>
-							<goal>tag</goal>
-						</goals>
-						<configuration>
-							<image>${docker.registry}portal</image>
-							<newName>${docker.registry}portal:${project.version}-${buildNumber}</newName>
-						</configuration>
-					</execution>
-
 					<!-- Build geoserver application -->
 					<execution>
 						<id>build-geoserver</id>
