@@ -31,6 +31,7 @@ define(function(require) {
   function transformToSearchLayout() {
     // transform page to search style page
     if($('.s-page').hasClass('s-search__fullpage')) {
+      results.initialize();
       $('.s-page').removeClass('s-search__fullpage');
       $('#search_box').detach().appendTo('.c-header .container');
       filters.refresh();
@@ -50,11 +51,6 @@ define(function(require) {
       results.initialize();
       results.update(filters.serialize());
     }
-
-    $('.s-search__fullpage .c-search .token-input').on('submit', function(e) {
-      e.preventDefault();
-      results.initialize();
-    });
 
     $(document)
       .on('click', '.facet', toggleFacet)
