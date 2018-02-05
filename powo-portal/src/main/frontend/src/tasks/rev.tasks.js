@@ -3,7 +3,7 @@ module.exports = function (gulp, $) {
   gulp.task('rev', function() {
     return gulp.src([
       'dist/css/style.min.css',
-      'dist/js/main.min.js',
+      'dist/js/all.min.js',
       'dist/js/maps/*.min.js.map'
     ], {base: 'dist'})
       .pipe($.rev())
