@@ -33,6 +33,10 @@
 		<module>powo-harvest</module>
 		<module>powo-portal</module>
 		<module>powo-static</module>
+		<module>powo-geodb</module>
+		<module>powo-geoserver</module>
+		<module>powo-mysql</module>
+		<module>powo-solr</module>
 	</modules>
 
 	<properties>
