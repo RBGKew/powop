@@ -705,8 +705,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 					<fork>true</fork>
 					<meminitial>512m</meminitial>
 					<maxmem>2048m</maxmem>
@@ -791,6 +791,15 @@
 					<doCheck>false</doCheck>
 					<doUpdate>false</doUpdate>
 					<shortRevisionLength>7</shortRevisionLength>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>
