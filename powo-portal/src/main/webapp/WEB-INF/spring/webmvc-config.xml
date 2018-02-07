@@ -101,6 +101,7 @@
 				<bean class="org.powo.portal.view.helpers.FormHelper" />
 				<bean class="org.powo.portal.view.helpers.AssetHelper" />
 				<bean class="org.powo.portal.view.helpers.AnalyticsHelper" />
+				<bean class="org.powo.portal.view.helpers.TextHelper" />
 			</list>
 		</property>
 	</bean>

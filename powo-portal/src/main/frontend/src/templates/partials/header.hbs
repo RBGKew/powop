@@ -12,11 +12,11 @@
   <meta property="og:type" content="website" />
   {{#if taxon }}<meta property="og:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
   <meta property="og:title" content="{{title}}" />
-  {{#if summary}}<meta property="og:description" content="{{summary}}" />{{/if}}
+  {{#if summary}}<meta property="og:description" content="{{stripHTML summary}}" />{{/if}}
   {{#if images.headerImage }}<meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />{{/if}}
   {{#if taxon }}<meta name="twitter:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
   <meta name="twitter:title" content="{{title}}" />
-  {{#if summary}}<meta name="twitter:description" content="{{summary}}" />{{/if}}
+  {{#if summary}}<meta name="twitter:description" content="{{stripHTML summary}}" />{{/if}}
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
   <link href="/{{asset "css/style.min.css"}}" rel="stylesheet">
