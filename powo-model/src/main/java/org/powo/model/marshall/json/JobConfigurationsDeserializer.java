@@ -40,7 +40,7 @@ public class JobConfigurationsDeserializer extends StdDeserializer<List<JobConfi
 		if(t == JsonToken.START_ARRAY) {
 			t = p.nextToken();
 			while(t != JsonToken.END_ARRAY) {
-				Long id = _parseLong(p, ctxt);
+				Long id = _parseLongPrimitive(p, ctxt);
 				try {
 					jobs.add(jobConfigurationService.get(id));
 				} catch(NotFoundException e) {

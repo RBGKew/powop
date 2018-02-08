@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
 		.withUser(username)
-		.password(password)
+		.password("{noop}" + password)
 		.roles("USER", "PERMISSION_ADMINISTRATE");
 	}
 

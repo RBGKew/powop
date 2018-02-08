@@ -40,12 +40,16 @@
 	</modules>
 
 	<properties>
+		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
+		<dockerfile.maven.version>1.3.7</dockerfile.maven.version>
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
 		<handlebars.version>4.0.7-SNAPSHOT</handlebars.version>
 		<hibernate.version>5.2.2.Final</hibernate.version>
+		<jackson.version>2.9.4</jackson.version>
 		<java.version>1.8</java.version>
 		<liquibase.version>3.4.2</liquibase.version>
+		<logback.version>1.2.2</logback.version>
 		<lucene.version>6.6.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,12 +57,9 @@
 		<skip.global.tests>true</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
 		<spring.batch.admin.version>1.3.1.RELEASE</spring.batch.admin.version>
-		<spring.batch.version>4.0.0.M1</spring.batch.version>
-		<spring.security.version>4.2.0.RELEASE</spring.security.version>
-		<spring.version>4.3.4.RELEASE</spring.version>
-		<logback.version>1.2.2</logback.version>
-		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
-		<dockerfile.maven.version>1.3.7</dockerfile.maven.version>
+		<spring.batch.version>4.0.0.RELEASE</spring.batch.version>
+		<spring.security.version>5.0.1.RELEASE</spring.security.version>
+		<spring.version>5.0.3.RELEASE</spring.version>
 	</properties>
 
 	<inceptionYear>2010</inceptionYear>
@@ -555,17 +556,17 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
-				<version>2.8.4</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
-				<version>2.8.4</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>2.8.4</version>
+				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
