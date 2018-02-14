@@ -42,17 +42,16 @@ public class PowoSite implements Site {
 
 	@Autowired
 	DescriptionService descriptionService;
-	
+
 	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
 	@Override
 	public String sitePageClass() {
 		return null;
 	}
-	
-	
+
 	@Override
-	public String suggesterFilter(){
+	public String suggesterFilter() {
 		return null;
 	}
 
@@ -64,34 +63,34 @@ public class PowoSite implements Site {
 		Descriptions descriptions = new Descriptions(taxon);
 		Descriptions uses = new Descriptions(taxon, true);
 		Images images = new Images(taxon, imageService);
-		if(!descriptions.getBySource().isEmpty()) {
+		if (!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}
-		if(!bibliography.isEmpty()) {
+		if (!bibliography.isEmpty()) {
 			model.addAttribute(bibliography);
 		}
-		if(!uses.getBySource().isEmpty()) {
+		if (!uses.getBySource().isEmpty()) {
 			model.addAttribute("uses", uses);
 		}
-		if(!taxon.getSynonymNameUsages().isEmpty()) {
+		if (!taxon.getSynonymNameUsages().isEmpty()) {
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
 		}
-		if(!taxon.getChildNameUsages().isEmpty()) {
+		if (!taxon.getChildNameUsages().isEmpty()) {
 			model.addAttribute("children", new ScientificNames(taxon.getChildNameUsages()));
 		}
-		if(!taxon.getMeasurementsOrFacts().isEmpty()) {
+		if (!taxon.getMeasurementsOrFacts().isEmpty()) {
 			model.addAttribute(new MeasurementOrFacts(taxon));
 		}
-		if(!taxon.getDistribution().isEmpty()) {
+		if (!taxon.getDistribution().isEmpty()) {
 			model.addAttribute(new Distributions(taxon));
 		}
-		if(!taxon.getVernacularNames().isEmpty()) {
+		if (!taxon.getVernacularNames().isEmpty()) {
 			model.addAttribute(new VernacularNames(taxon));
 		}
-		if(!taxon.getIdentifications().isEmpty()) {
+		if (!taxon.getIdentifications().isEmpty()) {
 			model.addAttribute(new Identifications(taxon));
 		}
-		if(!images.getAll().isEmpty()) {
+		if (!images.getAll().isEmpty()) {
 			model.addAttribute(images);
 		}
 
@@ -114,12 +113,13 @@ public class PowoSite implements Site {
 	}
 
 	private String pageTitle(Taxon taxon) {
-		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(), taxon.getScientificNameAuthorship());
+		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
 	}
 
 	private String bodyClass(Taxon taxon) {
-		if(taxon.looksAccepted()) {
-			if(taxon.getTaxonRank() == null || taxon.getTaxonRank().isInfraspecific()) {
+		if (taxon.looksAccepted()) {
+			if (taxon.getTaxonRank() == null || taxon.getTaxonRank().isInfraspecific()) {
 				return "s-theme-Infraspecific";
 			} else {
 				return String.format("s-theme-%s", WordUtils.capitalizeFully(taxon.getTaxonRank().toString()));
@@ -130,9 +130,8 @@ public class PowoSite implements Site {
 	}
 
 	private String format(long n, int ceilTo) {
-		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo-1)) / ceilTo) * ceilTo);
+		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo - 1)) / ceilTo) * ceilTo);
 	}
-
 
 	@Override
 	public List<String> getSuggesters() {

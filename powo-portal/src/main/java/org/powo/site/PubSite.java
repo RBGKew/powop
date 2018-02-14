@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 public class PubSite extends PowoSite implements Site {
 
 	private List<String> suggesters = Arrays.asList("scientific-name", "common-name");
+
 	@Override
 	public String sitePageClass() {
 		return "s-pub";
@@ -33,15 +34,14 @@ public class PubSite extends PowoSite implements Site {
 	public DefaultQueryOption defaultQuery() {
 		return new PubDefaultQuery();
 	}
-	
+
 	@Override
-	public String suggesterFilter(){
+	public String suggesterFilter() {
 		return "pub";
 	}
-	
-	@Override 
-	public List<String> getSuggesters(){
+
+	@Override
+	public List<String> getSuggesters() {
 		return suggesters;
 	}
-
 }
