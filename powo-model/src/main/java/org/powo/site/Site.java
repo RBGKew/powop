@@ -15,11 +15,12 @@ import org.springframework.ui.Model;
  *  - Background image and site logo
  *  - Blurb text
  *  - Default search parameters and filters
+ *  - Available suggesters
  */
 public interface Site {
-	public String sitePageClass();
 	public void populateTaxonModel(Taxon taxon, Model model);
 	public void populateIndexModel(Model model);
+	public void populateStaticModel(Model model);
 	public DefaultQueryOption defaultQuery();
 	public List<String> getSuggesters();
 	public String suggesterFilter();

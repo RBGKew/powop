@@ -56,13 +56,4 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 		site.populateTaxonModel(taxon, model);
 		return "taxon";
 	}
-
-	/**
-	 * Many users visit a taxon page and then navigate to the document above, then bounce
-	 */
-	@RequestMapping(method = RequestMethod.GET, produces = {"text/html", "*/*"})
-	public String list(Model model) {
-		return "redirect:/search";
-	}
-
 }

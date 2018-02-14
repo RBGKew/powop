@@ -5,9 +5,9 @@ import org.powo.model.solr.DefaultQueryOption;
 
 import com.google.common.base.Joiner;
 
-public class PubDefaultQuery implements DefaultQueryOption {
+public class ColPlantADefaultQuery implements DefaultQueryOption {
 	public void add(SolrQuery query){
-		String[] sources = {"pub",};
+		String[] sources = {"ColPlantA",};
 		String value = Joiner.on(" AND ").join(sources);
 		query.addFilterQuery(String.format("%s:\"%s\"", "searchable.sources_ss", value));
 	}

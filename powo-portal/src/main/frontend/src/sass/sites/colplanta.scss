@@ -1,8 +1,21 @@
-.s-pub {
+.s-colplanta {
 
   .featured { display: none; }
 
   &.s-page {
     background-image: url('https://media.gadventures.com/media-server/dynamic/blogs/posts/admin/2015/04/Colombia_Armenia_Cocora_Valley-MG0867_processed_Lg_RGBsm.jpg') !important;
+  }
+
+  &.s-page--home,
+  &.s-page--error {
+    #colplanta-logo-svg {
+      width: 200px;
+      height: 60px;
+      fill: #fff;
+    }
+
+    .site-logo {
+      fill: #fff;
+    }
   }
 }

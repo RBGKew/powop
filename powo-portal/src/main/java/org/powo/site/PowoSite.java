@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.joda.time.DateTime;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
@@ -44,11 +45,6 @@ public class PowoSite implements Site {
 	DescriptionService descriptionService;
 
 	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
-
-	@Override
-	public String sitePageClass() {
-		return null;
-	}
 
 	@Override
 	public String suggesterFilter() {
@@ -97,6 +93,8 @@ public class PowoSite implements Site {
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("title", pageTitle(taxon));
 		model.addAttribute("summary", new Summary(taxon, messageSource).build());
+		model.addAttribute("site-logo", "partials/logo/powo");
+		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
 
 	@Override
@@ -105,6 +103,16 @@ public class PowoSite implements Site {
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		model.addAttribute("intro", "partials/intro/powo");
+		model.addAttribute("site-logo", "partials/logo/powo");
+		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
+	}
+
+	@Override
+	public void populateStaticModel(Model model) {
+		model.addAttribute("date", new DateTime().toString("d MMMM y"));
+		model.addAttribute("year", new DateTime().getYear());
+		model.addAttribute("site-logo", "partials/logo/powo");
+		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
 
 	@Override
@@ -137,4 +145,5 @@ public class PowoSite implements Site {
 	public List<String> getSuggesters() {
 		return suggesters;
 	}
+
 }

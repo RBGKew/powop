@@ -34,19 +34,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.common.collect.ImmutableList;
-
 @Controller
 @RequestMapping("/api/1/")
 public class ApiController {
 
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(ApiController.class);
-	
+
 	@Autowired
 	@Qualifier("currentSite")
 	Site site;
-
 
 	@Autowired
 	private SearchableObjectService searchableObjectService;
@@ -107,7 +104,7 @@ public class ApiController {
 		for(Entry<String, Object> suggester : responseStats){
 			if(!suggester.getKey().equals("totalSizeInBytes") 
 					&& !(((String) suggester.getValue()).contains("sizeInBytes=0"))
-			        && suggesters.contains(suggester.getKey())){
+					&& suggesters.contains(suggester.getKey())){
 				workingSuggesters.add(suggester.getKey());
 			}
 		}

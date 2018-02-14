@@ -1,7 +1,7 @@
 {{> partials/header}}
 
 <div id="svgs" style="display:none">
-{{> svg/powo-logo.svg }}
+{{> (lookup '.' 'site-logo-svg') }}
 </div>
 
 <div id="{{taxon.identifier}}" class="s-page s-page--taxon">
