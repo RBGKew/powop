@@ -24,6 +24,7 @@ public class HtmlSanitizer {
 
 	private static final Whitelist html = Whitelist.basic()
 			.addAttributes("a", "title")
+			.addTags("table", "caption", "thead", "tbody", "tr", "td")
 			.removeTags("span");
 
 	public static String sanitize(String unclean) {
