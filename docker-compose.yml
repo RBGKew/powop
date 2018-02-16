@@ -20,6 +20,19 @@ services:
     volumes:
       - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
 
+  portal_colplanta:
+    image: eu.gcr.io/powop-1349/portal:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    environment:
+      SITE_VARIANT: ColPlantASite
+    links:
+      - db
+      - geoserver
+      - solr
+    volumes:
+      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
+
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
     env_file:
@@ -39,6 +52,7 @@ services:
       - geoserver
       - harvester
       - portal
+      - portal_colplanta
     volumes:
       - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
       - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts

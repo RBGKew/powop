@@ -3,7 +3,7 @@
   .featured { display: none; }
 
   &.s-page {
-    background-image: url('https://media.gadventures.com/media-server/dynamic/blogs/posts/admin/2015/04/Colombia_Armenia_Cocora_Valley-MG0867_processed_Lg_RGBsm.jpg') !important;
+    background-image: url('/img/raster/ColPlantA.jpg') !important;
   }
 
   &.s-page--home,
@@ -11,11 +11,15 @@
     #colplanta-logo-svg {
       width: 200px;
       height: 60px;
-      fill: #fff;
+      fill: #232323;
     }
 
     .site-logo {
-      fill: #fff;
+      fill: #232323;
+    }
+    
+    #kew-logo-svg {
+      fill: #000; 
     }
   }
 }
