@@ -20,7 +20,7 @@ services:
     volumes:
       - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
 
-  portal_colplanta:
+  portalColplanta:
     image: eu.gcr.io/powop-1349/portal:latest
     env_file:
       - src/main/resources/docker/env/common.env
