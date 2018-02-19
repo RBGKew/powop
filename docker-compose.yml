@@ -48,11 +48,13 @@ services:
     image: eu.gcr.io/powop-1349/apache:latest
     env_file:
       - src/main/resources/docker/env/common.env
+    environment:
+      PORTAL: portal
     links:
       - geoserver
       - harvester
       - portal
-      - portal_colplanta
+      - portalcolplanta
     volumes:
       - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
       - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
@@ -61,6 +63,26 @@ services:
       - ./powo-static/src/main/tiles/:/usr/local/apache2/htdocs/tiles
     ports:
       - "10080:80"
+    mem_limit: 200M
+
+  apachecolplanta:
+    image: eu.gcr.io/powop-1349/apache:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    environment:
+      PORTAL: portalcolplanta
+    links:
+      - geoserver
+      - harvester
+      - portalcolplanta
+    volumes:
+      - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
+      - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
+      - ./powo-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
+      - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
+      - ./powo-static/src/main/tiles/:/usr/local/apache2/htdocs/tiles
+    ports:
+      - "20080:80"
     mem_limit: 200M
 
   solr:
