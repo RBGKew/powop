@@ -1,6 +1,6 @@
 from tomcat:8.0-jre8-alpine
 
-ENV VERSION 2.9.1
+ENV VERSION 2.12.2
 ENV DATA_DIR webapps/ROOT/data
 
 RUN apk add --no-cache openssl ca-certificates wget \
