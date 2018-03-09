@@ -80,7 +80,6 @@ services:
       - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
       - ./powo-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
       - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
-      - ./powo-static/src/main/tiles/:/usr/local/apache2/htdocs/tiles
     ports:
       - "20080:80"
     mem_limit: 200M

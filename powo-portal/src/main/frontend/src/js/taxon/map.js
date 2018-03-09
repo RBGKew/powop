@@ -15,7 +15,7 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
     title: 'Base Layer',
     projection: projection,
     source: new ol.source.XYZ({
-      url: '/tiles/{z}/{x}/{-y}.png'
+      url: 'https://storage.googleapis.com/powop-assets/tiles/{z}/{x}/{-y}.png'
     })
   });
 
