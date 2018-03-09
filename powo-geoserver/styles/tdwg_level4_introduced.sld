@@ -18,10 +18,10 @@
         <Rule>
           <Name>Fill</Name>
           <Title>Brown Fill</Title>
-          <Abstract>A polygon with green fill</Abstract>
+          <Abstract>A polygon with purple fill</Abstract>
           <PolygonSymbolizer>
             <Fill>
-              <CssParameter name="fill">#d09e7c</CssParameter>
+              <CssParameter name="fill">#995499</CssParameter>
             </Fill>
           </PolygonSymbolizer>
         </Rule>
