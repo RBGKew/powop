@@ -115,6 +115,10 @@ public class TermFactory {
 					new String[] {XmpTerm.PREFIX, XmpTerm.NS});
 		}
 		if (term == null) {
+			term = findTermInEnum(normTermName, IucnTerm.values(),
+					new String[] {IucnTerm.PREFIX, IucnTerm.NS});
+		}
+		if (term == null) {
 			term = findTermInEnum(normTermName, unkownTerms);
 		}
 		if (term == null) {

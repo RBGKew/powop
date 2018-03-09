@@ -18,9 +18,11 @@ package org.powo.job.dwc.distribution;
 
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.ecat.voc.EstablishmentMeans;
 import org.gbif.ecat.voc.OccurrenceStatus;
+import org.gbif.ecat.voc.ThreatStatus;
 import org.powo.api.job.TermFactory;
 import org.powo.job.dwc.read.OwnedEntityFieldSetMapper;
 import org.powo.model.Distribution;
@@ -86,6 +88,14 @@ public class FieldSetMapper extends OwnedEntityFieldSetMapper<Distribution> {
 				break;
 			default:
 				break;
+			}
+		}
+
+		if (term instanceof IucnTerm) {
+			IucnTerm iucnTerm = (IucnTerm) term;
+			switch (iucnTerm) {
+			case threatStatus:
+				object.setThreatStatus(conversionService.convert(value, ThreatStatus.class));
 			}
 		}
 	}

@@ -240,19 +240,46 @@
               Full Distribution Listing
             </a>
             <div id="distribution-listing" class="collapse">
-              {{#if native}}
-              <h4>Found In:</h4>
+              {{#if doubtful}}
+              <h4>Doubtfully present in:</h4>
               <p>
-              {{#each native}}
+              {{#each doubtful}}
+              {{locality}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+              {{/if}}
+
+              {{#if natives}}
+              <h4>Native to:</h4>
+              <p>
+              {{#each natives}}
+              {{locality}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+              {{/if}}
+
+              {{#if extinct}}
+              <h4>Extinct in:</h4>
+              <p>
+              {{#each extinct}}
               {{locality}}{{#unless @last}}, {{/unless}}
               {{/each}}
               </p>
               {{/if}}
 
               {{#if introduced}}
-              <h4>Introduced Into:</h4>
+              <h4>Introduced into:</h4>
               <p>
               {{#each introduced}}
+              {{locality}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+              {{/if}}
+
+              {{#if absent}}
+              <h4>Recorded in error in:</h4>
+              <p>
+              {{#each absent}}
               {{locality}}{{#unless @last}}, {{/unless}}
               {{/each}}
               </p>

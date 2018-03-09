@@ -41,6 +41,7 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
 
   function distinctLayers(distributions) {
     return _.chain(distributions)
+      .filter(function(d) {return d.establishment !== 'Absent'})
       .map(function(d) {return {level: d.tdwgLevel, establishment: d.establishment}})
       .uniqWith(_.isEqual)
       .value();

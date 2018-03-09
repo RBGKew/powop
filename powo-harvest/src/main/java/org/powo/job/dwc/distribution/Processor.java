@@ -68,6 +68,7 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
 		persisted.setLocation(t.getLocation());
 		persisted.setOccurrenceRemarks(t.getOccurrenceRemarks());
 		persisted.setOccurrenceStatus(t.getOccurrenceStatus());
+		persisted.setThreatStatus(t.getThreatStatus());
 
 		persisted.getReferences().clear();
 		for(Reference r : t.getReferences()) {

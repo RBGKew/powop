@@ -16,6 +16,8 @@
  */
 package org.powo.model;
 
+import static org.gbif.ecat.voc.EstablishmentMeans.Introduced;
+import static org.gbif.ecat.voc.EstablishmentMeans.Native;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +37,9 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.gbif.ecat.voc.EstablishmentMeans;
+import org.gbif.ecat.voc.KnownTerm;
 import org.gbif.ecat.voc.OccurrenceStatus;
+import org.gbif.ecat.voc.ThreatStatus;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -68,6 +72,8 @@ public class Distribution extends OwnedEntity {
 	private OccurrenceStatus occurrenceStatus;
 
 	private EstablishmentMeans establishmentMeans;
+
+	private ThreatStatus threatStatus;
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
@@ -235,10 +241,46 @@ public class Distribution extends OwnedEntity {
 		this.references = references;
 	}
 
+	@Enumerated(value = EnumType.STRING)
+	public ThreatStatus getThreatStatus() {
+		return threatStatus;
+	}
+
+	public void setThreatStatus(ThreatStatus threatStatus) {
+		this.threatStatus = threatStatus;
+	}
+
 	@Transient
 	@JsonIgnore
 	public final String getClassName() {
 		return "Distribution";
+	}
+
+	@Transient
+	public KnownTerm getEstablishment() {
+		if (getOccurrenceStatus() != null) {
+			return getOccurrenceStatus();
+		}
+
+		if (getThreatStatus() != null) {
+			return getThreatStatus();
+		}
+
+		if (getEstablishmentMeans() == null) {
+			return Native;
+		} else {
+			switch (getEstablishmentMeans()) {
+			case Introduced:
+			case Invasive:
+			case Managed:
+			case Naturalised:
+				return Introduced;
+			case Uncertain:
+			case Native:
+			default:
+				return Native;
+			}
+		}
 	}
 
 	@Override
@@ -255,4 +297,5 @@ public class Distribution extends OwnedEntity {
 		}
 		return stringBuffer.toString();
 	}
+
 }

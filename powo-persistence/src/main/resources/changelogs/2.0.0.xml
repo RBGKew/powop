@@ -195,4 +195,11 @@
     <dropTable tableName="qrtz_simprop_triggers"/>
     <dropTable tableName="qrtz_triggers"/>
   </changeSet>
+
+  <changeSet id="2018-03-08_01" author="ji10kg">
+    <comment>Add threat status to distributions</comment>
+    <addColumn tableName="distribution">
+      <column name="threatStatus" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
 </databaseChangeLog>

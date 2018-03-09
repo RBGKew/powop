@@ -1,47 +1,35 @@
 package org.powo.portal.view;
 
+import static java.util.stream.Collectors.toList;
 import static org.gbif.ecat.voc.EstablishmentMeans.Introduced;
 import static org.gbif.ecat.voc.EstablishmentMeans.Native;
+import static org.gbif.ecat.voc.OccurrenceStatus.Doubtful;
+import static org.gbif.ecat.voc.OccurrenceStatus.Absent;
+import static org.gbif.ecat.voc.ThreatStatus.Extinct;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.gbif.ecat.voc.KnownTerm;
 import org.powo.model.Distribution;
 import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
-import org.gbif.ecat.voc.EstablishmentMeans;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Ordering;
+import lombok.Getter;
 
 public class Distributions {
 
 	private Set<Distribution> distributions;
-	private List<Distribution> nativ;
-	private List<Distribution> introduced;
-	private Set<Organisation> sources;
+	@Getter(lazy = true) private final List<Distribution> natives = filterBy(Native);
+	@Getter(lazy = true) private final List<Distribution> introduced = filterBy(Introduced);
+	@Getter(lazy = true) private final List<Distribution> doubtful = filterBy(Doubtful);
+	@Getter(lazy = true) private final List<Distribution> extinct = filterBy(Extinct);
+	@Getter(lazy = true) private final List<Distribution> absent = filterBy(Absent);
+	@Getter private final Set<Organisation> sources;
 
-	private Ordering<Distribution> byLocality = new Ordering<Distribution>() {
-		@Override
-		public int compare(Distribution left, Distribution right) {
-			return left.getLocality().compareToIgnoreCase(right.getLocality());
-		}
-	};
-
-	private class FilterByEstablishment implements Predicate<Distribution> {
-		private EstablishmentMeans establishment;
-
-		public FilterByEstablishment(EstablishmentMeans em) {
-			this.establishment = em;
-		}
-
-		@Override
-		public boolean apply(Distribution input) {
-			return nativeOrIntroduced(input.getEstablishmentMeans()).equals(establishment);
-		}
-	}
+	private Comparator<Distribution> byLocality = (left, right) -> left.getLocality().compareToIgnoreCase(right.getLocality());
 
 	public Distributions(Taxon taxon) {
 		this.distributions = taxon.getDistribution();
@@ -51,43 +39,10 @@ public class Distributions {
 		}
 	}
 
-	public List<Distribution> getNative() {
-		if(nativ == null) {
-			nativ = byLocality.sortedCopy(
-					Collections2.filter(distributions, new FilterByEstablishment(Native)));
-		}
-
-		return nativ;
-	}
-
-	public List<Distribution> getIntroduced() {
-		if(introduced == null) {
-			introduced = byLocality.sortedCopy(
-					Collections2.filter(distributions, new FilterByEstablishment(Introduced)));
-		}
-
-		return introduced;
-	}
-
-	public Set<Organisation> getSources() {
-		return this.sources;
-	}
-
-	public static EstablishmentMeans nativeOrIntroduced(EstablishmentMeans em) {
-		if (em == null) {
-			return Native;
-		} else {
-			switch (em) {
-			case Introduced:
-			case Invasive:
-			case Managed:
-			case Naturalised:
-				return Introduced;
-			case Uncertain:
-			case Native:
-			default:
-				return Native;
-			}
-		}
+	private List<Distribution> filterBy(KnownTerm establishment) {
+		return distributions.stream()
+				.filter(d -> establishment.equals(d.getEstablishment()))
+				.sorted(byLocality)
+				.collect(toList());
 	}
 }

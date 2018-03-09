@@ -1,8 +1,7 @@
 package org.powo.portal.json;
 
+import org.gbif.ecat.voc.KnownTerm;
 import org.powo.model.Distribution;
-import org.gbif.ecat.voc.EstablishmentMeans;
-import org.powo.portal.view.Distributions;
 
 public class DistributionResponse {
 
@@ -29,7 +28,7 @@ public class DistributionResponse {
 		return distribution.getLocation().getName();
 	}
 
-	public EstablishmentMeans getEstablishment() {
-		return Distributions.nativeOrIntroduced(distribution.getEstablishmentMeans());
+	public KnownTerm getEstablishment() {
+		return distribution.getEstablishment();
 	}
 }
