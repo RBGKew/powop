@@ -256,8 +256,19 @@ public class Distribution extends OwnedEntity {
 		return "Distribution";
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Transient
 	public KnownTerm getEstablishment() {
+		if (getEstablishmentMeans() != null) {
+			switch (getEstablishmentMeans()) {
+			case Introduced:
+			case Invasive:
+			case Managed:
+			case Naturalised:
+				return Introduced;
+			}
+		}
+
 		if (getOccurrenceStatus() != null) {
 			return getOccurrenceStatus();
 		}
@@ -266,21 +277,7 @@ public class Distribution extends OwnedEntity {
 			return getThreatStatus();
 		}
 
-		if (getEstablishmentMeans() == null) {
-			return Native;
-		} else {
-			switch (getEstablishmentMeans()) {
-			case Introduced:
-			case Invasive:
-			case Managed:
-			case Naturalised:
-				return Introduced;
-			case Uncertain:
-			case Native:
-			default:
-				return Native;
-			}
-		}
+		return Native;
 	}
 
 	@Override

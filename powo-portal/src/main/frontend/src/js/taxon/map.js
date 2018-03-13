@@ -48,9 +48,12 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
   }
 
   function addLegend(overlays) {
+    var acceptable = ['Doubtful', 'Native', 'Extinct', 'Introduced'];
     var legend = '<div class="legend"><p>'
-    _.forEach(overlays, function(__, layer) {
-      legend += '<span class="' + layer + '"></span>' + layer;
+    _.forEach(acceptable, function(layer) {
+      if(overlays[layer]) {
+        legend += '<span class="' + layer + '"></span>' + layer;
+      }
     });
     legend += '</p></div>';
 
