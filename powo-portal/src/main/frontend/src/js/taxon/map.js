@@ -27,7 +27,7 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
     view: new ol.View({
       projection: projection,
       maxResolution: serverResolutions[2],
-      minResolution: serverResolutions[6],
+      minResolution: serverResolutions[4],
     })
   });
 
@@ -81,9 +81,7 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
       })
     );
 
-    options = { maxZoom: 2 }
-
-    map.getView().fit(bounds, map.getSize(), options);
+    map.getView().fit(bounds, map.getSize());
   }
 
   function loadDistributionLayers() {
