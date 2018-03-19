@@ -8,7 +8,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.powo.api.job.WCSPTerm;
 import org.powo.model.Description;
 import org.powo.model.Distribution;
@@ -42,99 +45,76 @@ public class Summary {
 		this.messageSource = messageSource;
 		this.phraseUtils = new PhraseUtilities(messageSource);
 	}
-
-	public List<String> getMeasurementByType(Term type){
-		List<String> measurements = new ArrayList<String>();
-		for(MeasurementOrFact item : taxon.getMeasurementsOrFacts()){
-			if(item.isType(type)){
-				measurements.add(item.getMeasurementValue());
-			}
-		}
-		return measurements;
-	}
-
-
-
-	private String getDistribution(){
-		Map<String, List<String>> distributionsByContinent = new HashMap<String, List<String>>();
-		List<String> distributionList = new ArrayList<String>();
-		if(!taxon.getDistribution().isEmpty()){
-			for(Distribution distribution : taxon.getDistribution()){
-				if(distribution.getEstablishmentMeans() == null){
-					String key = distribution.getLocation().getContinent().toString();
-					if(distributionsByContinent.containsKey(key)){
-						List<String> locations = distributionsByContinent.get(key);
-						locations.add(distribution.getLocation().toString());
-						distributionsByContinent.put(key, locations);
-					}else{
-						List<String> locations = new ArrayList<String>();
-						locations.add(distribution.getLocation().toString());
-						distributionsByContinent.put(key, locations);
-					}
-				}
-			}
-		}
-		distributionsByContinent = phraseUtils.shortenToSuperType(distributionsByContinent);
-		for(List<String> list : distributionsByContinent.values()){
-			distributionList.addAll(list);
-		}
-		return phraseUtils.constructList(distributionList);
-	}
-
-	private String buildLocationandHabitat(){
-		String distribution = getDistribution();
-		String rank ="";
-		if(taxon.getTaxonRank() != null){
-			rank = taxon.getTaxonRank().toString().toLowerCase();
-		}else{
-			rank = "plant";
-		}
-		if(!distribution.isEmpty()){
-			return String.format("This %s is accepted, and is native to %s.", rank, distribution);
-		}
-		return null;
-	}
 	
-	private String createAcceptedNameSummary(){
+	private String existingDescription() {
 		for(Description description : taxon.getDescriptions()){
 			if(description.getTypes().contains(DescriptionType.summary)){
 				return description.getDescription();
 			}
 		}
-		String location =  buildLocationandHabitat();
-		String uses = new SummaryUses().buildUses(taxon, messageSource);
+		return null;
+	}
 
-		if(location != null && uses != null && !uses.isEmpty()) {
-			return String.format("%s It is %s.", location, uses);
-		} else if(location != null) {
-			return location;
-		} else if(uses != null && !uses.isEmpty()) {
-			if(taxon.getTaxonRank() != null) {
-				return String.format("This %s is accepted, and is %s.", taxon.getTaxonRank().toString().toLowerCase(), uses);
-			} else {
-				return String.format("This plant is %s.", uses);
-			}
-		} else {
-			String thing = taxon.getTaxonRank() == null ? "plant" : taxon.getTaxonRank().toString().toLowerCase();
-			return String.format("This %s is accepted.", thing);
+	private String taxonRank(){
+		if(taxon.getTaxonRank() != null){
+			return taxon.getTaxonRank().toString().toLowerCase();
 		}
+		return "plant";
+	}
+	
+	public String taxonStatus() {
+		if (taxon.getTaxonomicStatus() == null) {
+			return null;
+		} else {
+			switch (taxon.getTaxonomicStatus()) {
+			case Synonym:
+			case Heterotypic_Synonym:
+			case Homotypic_Synonym:
+			case DeterminationSynonym:
+			case IntermediateRankSynonym:
+			case Proparte_Synonym:
+				return "synonym";
+			case Accepted:
+				return "accepted";
+			case Artifical_Hybrid:
+				return "an artifical hybrid";
+			case Doubtful:
+			case Misapplied:
+				return "misapplied name";
+			default:
+				return null;
+			}
+		}
+	}
+
+	private String createAcceptedNameSummary(){
+		if(existingDescription() != null){
+			return existingDescription();
+		}
+		String[] elements = {
+				taxonRank(),
+				taxonStatus(),
+				new SummaryDistribution(taxon, messageSource).build(),
+				new SummaryUses().build(taxon, messageSource)
+				};
+		
+		elements = ArrayUtils.removeAllOccurences(elements, null);
+		elements = ArrayUtils.removeAllOccurences(elements, "");
+		if(elements.length < 2){
+			return null;
+		}
+		String descriptionString = String.format("This %s is %s", elements[0], elements[1]);
+		if(elements.length > 2){
+			descriptionString += String.format(", and %s", elements[2]);
+		}
+		if(elements.length > 3){
+			descriptionString += String.format(". It is %s", elements[3]);
+		}
+		return descriptionString += ".";
 	}
 
 	private String createSynonymNameSummary(){
-		String string = "";
-		if(taxon.getTaxonRank() != null) {
-			string = String.format("This %s is a synonym", taxon.getTaxonRank().toString().toLowerCase());
-		}else{
-			string = "This is a synonym";
-		}
-		if(taxon.getAcceptedNameUsage() != null) {
-			string += " of ";
-		}
-		return string;
-	}
-	
-	private String createMisappliedNameSummary(){
-		String string = "This is a misapplied name";
+		String string = String.format("This is a %s", taxonStatus());
 		if(taxon.getAcceptedNameUsage() != null) {
 			string += " of ";
 		}
@@ -142,14 +122,11 @@ public class Summary {
 	}
 	
 	public String build(){
-		if(taxon.isAccepted()){
+		if(taxon.isAccepted() || taxon.getTaxonomicStatus() == TaxonomicStatus.Artifical_Hybrid){
 			return createAcceptedNameSummary();
 		}
-		if(taxon.isSynonym()){
+		if(taxon.isSynonym() || taxon.getTaxonomicStatus() == TaxonomicStatus.Misapplied){
 			return createSynonymNameSummary(); 
-		}
-		if(taxon.getTaxonomicStatus() == TaxonomicStatus.Misapplied){
-			return createMisappliedNameSummary();
 		}
 		return "";
 		

@@ -24,38 +24,10 @@ public class SummaryUses {
 	
 	private PhraseUtilities phraseUtils;
 	
-	
-	
 	private DescriptionType[] supertypes = {DescriptionType.usePoisons, DescriptionType.useAnimalFood, DescriptionType.useFood,
 			DescriptionType.useFuel, DescriptionType.useMedicines, DescriptionType.useEnvironmentalUse,
 			DescriptionType.useSocialUse, DescriptionType.useWeedImpact};
-	
-	public String buildUses(Taxon taxon, MessageSource messageSource){
-		this.phraseUtils = new PhraseUtilities( messageSource);
-		Set<Taxon> taxonAndSynonyms = taxon.getSynonymNameUsages();
-		taxonAndSynonyms.add(taxon);
-		for(Taxon item : taxonAndSynonyms){
-			for(Description description : item.getDescriptions()){
-				for(DescriptionType type : description.getTypes()){
-					for(DescriptionType supertype : supertypes){
-						if(type.isA(supertype)){
-							if(descriptionsBySuperType.containsKey(supertype)){
-								List<DescriptionType> descriptionsByType = descriptionsBySuperType.get(supertype);
-								descriptionsByType.add(type);
-								descriptionsBySuperType.put(supertype, descriptionsByType);
-							}else{
-								List<DescriptionType> descriptionsByType = new ArrayList<DescriptionType>();
-								descriptionsByType.add(type);
-								descriptionsBySuperType.put(supertype, descriptionsByType);
-							}
-						}
-					}
-				}
-			}
-		}	
 
-		return usesByPreposition();
-	}
 	
 	private String usesByPreposition(){
 		descriptionsBySuperType = phraseUtils.shortenDescToSuperType(descriptionsBySuperType);
@@ -83,6 +55,33 @@ public class SummaryUses {
 			sentence = "used " + sentence;
 		}
 		return sentence;
+	}
+	
+	public String build(Taxon taxon, MessageSource messageSource){
+		this.phraseUtils = new PhraseUtilities( messageSource);
+		Set<Taxon> taxonAndSynonyms = taxon.getSynonymNameUsages();
+		taxonAndSynonyms.add(taxon);
+		for(Taxon item : taxonAndSynonyms){
+			for(Description description : item.getDescriptions()){
+				for(DescriptionType type : description.getTypes()){
+					for(DescriptionType supertype : supertypes){
+						if(type.isA(supertype)){
+							if(descriptionsBySuperType.containsKey(supertype)){
+								List<DescriptionType> descriptionsByType = descriptionsBySuperType.get(supertype);
+								descriptionsByType.add(type);
+								descriptionsBySuperType.put(supertype, descriptionsByType);
+							}else{
+								List<DescriptionType> descriptionsByType = new ArrayList<DescriptionType>();
+								descriptionsByType.add(type);
+								descriptionsBySuperType.put(supertype, descriptionsByType);
+							}
+						}
+					}
+				}
+			}
+		}	
+
+		return usesByPreposition();
 	}
 	
 }
