@@ -1,4 +1,4 @@
-FROM httpd:2.4-alpine
+FROM httpd:2.4.29-alpine
 
 COPY conf/tomcat.conf conf.d/
 COPY conf/httpd.conf conf/
