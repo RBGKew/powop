@@ -9,41 +9,41 @@ import org.powo.persistence.solr.SourceFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-@Component("ColPlantASite")
-public class ColPlantASite extends PowoSite {
+@Component("UPBSite")
+public class UPBSite extends PowoSite {
 
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
 		super.populateTaxonModel(taxon, model);
-		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
+		model.addAttribute("site-logo", "partials/logo/upb");
+		model.addAttribute("site-logo-svg", "svg/upb.svg");
 	}
 
 	@Override
 	public void populateIndexModel(Model model) {
-		model.addAttribute("siteClass", "s-colplanta");
-		model.addAttribute("intro", "partials/intro/colplanta");
-		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
+		model.addAttribute("siteClass", "s-upb");
+		model.addAttribute("intro", "partials/intro/upb");
+		model.addAttribute("site-logo", "partials/logo/upb");
+		model.addAttribute("site-logo-svg", "svg/upb.svg");
 	}
 
 	@Override
 	public void populateStaticModel(Model model) {
-		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
-		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("siteClass", "s-colplanta");
+		model.addAttribute("site-logo-svg", "svg/upb.svg");
+		model.addAttribute("site-logo", "partials/logo/upb");
+		model.addAttribute("siteClass", "s-upb");
 	}
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("ColPlantA");
+		return new SourceFilter("UPB");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "ColPlantA";
+		return "UPB";
 	}
 
 	@Override

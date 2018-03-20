@@ -20,12 +20,12 @@ services:
     volumes:
       - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
 
-  portalcolplanta:
+  portal_col:
     image: eu.gcr.io/powop-1349/portal:latest
     env_file:
       - src/main/resources/docker/env/common.env
     environment:
-      SITE_VARIANT: ColPlantASite
+      SITE_VARIANT: UPBSite
     links:
       - db
       - geoserver
@@ -54,7 +54,6 @@ services:
       - geoserver
       - harvester
       - portal
-      - portalcolplanta
     volumes:
       - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
       - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
@@ -64,16 +63,16 @@ services:
       - "10080:80"
     mem_limit: 200M
 
-  apachecolplanta:
+  apache_col:
     image: eu.gcr.io/powop-1349/apache:latest
     env_file:
       - src/main/resources/docker/env/common.env
     environment:
-      PORTAL: portalcolplanta
+      PORTAL: portal_col
     links:
       - geoserver
       - harvester
-      - portalcolplanta
+      - portal_col
     volumes:
       - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
       - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
