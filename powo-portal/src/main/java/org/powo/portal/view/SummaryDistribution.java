@@ -20,8 +20,7 @@ public class SummaryDistribution {
 	///notes: replace ? & (?) with " and its native range is likely to be x // its native range is not known, but is thought to be x	
 	private static final Map<Pattern, String> transformerDoubtful = new ImmutableMap.Builder<Pattern, String>()
 			.put(Pattern.compile("\\(\\?\\)"), "")
-			.put(Pattern.compile("\\?\\)"), "")
-			.put(Pattern.compile("\\?"), "")
+			.put(Pattern.compile("\\?^\\)"), "")
 			.build();
 	
 	private static final Map<Pattern, String> transformerAbreviations = new ImmutableMap.Builder<Pattern, String>()

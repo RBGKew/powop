@@ -107,11 +107,12 @@ public class SummaryTest {
 		assertEquals("This plant is accepted, and its native range is Andaman Islands, Thailand to W. Malesia." ,new Summary(tax, messageSource).build());
 	}
 	
+	@Test
 	public void taxonWCSUncertainDistribution(){
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		tax.setTaxonRemarks("Guatamala?) ? (?)");
-		assertEquals("This plant is accepted, and its native range is likely to be Guatamala.", new Summary(tax, messageSource).build());
+		tax.setTaxonRemarks("(Guatamala?) ? (?)");
+		assertEquals("This plant is accepted, and its native range is likely to be (Guatamala?).", new Summary(tax, messageSource).build());
 	}
 
 }
