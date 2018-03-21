@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import org.powo.model.Distribution;
 import org.powo.model.Taxon;
-import org.powo.model.solr.QueryOption;
 import org.powo.portal.naturalLanguage.PhraseUtilities;
 import org.springframework.context.MessageSource;
 
@@ -21,9 +20,10 @@ public class SummaryDistribution {
 	///notes: replace ? & (?) with " and its native range is likely to be x // its native range is not known, but is thought to be x	
 	private static final Map<Pattern, String> transformerDoubtful = new ImmutableMap.Builder<Pattern, String>()
 			.put(Pattern.compile("\\(\\?\\)"), "")
+			.put(Pattern.compile("\\?\\)"), "")
 			.put(Pattern.compile("\\?"), "")
 			.build();
-
+	
 	private static final Map<Pattern, String> transformerAbreviations = new ImmutableMap.Builder<Pattern, String>()
 			.put(Pattern.compile("I\\."), "Island")
 			.put(Pattern.compile("Is\\."), "Islands")
@@ -41,15 +41,16 @@ public class SummaryDistribution {
 			.put(Pattern.compile("EC\\."), "E. Central")
 			.put(Pattern.compile("\\sC\\."), " Central")
 			.put(Pattern.compile("^C\\."), "Central")
+			.put(Pattern.compile("Throughout"), "throughout")
 			//strip trailing punctuation
-			.put(Pattern.compile("^[^a-zA-Z]+"), "")
+			.put(Pattern.compile("\\.$"), "")
 			.build();
 	
 	private Taxon taxon;
 	
 	
 	private PhraseUtilities phraseUtils;
-
+	
 	public SummaryDistribution(Taxon taxon, MessageSource messageSource){
 		this.taxon = taxon;
 		this.phraseUtils = new PhraseUtilities(messageSource);
@@ -62,15 +63,15 @@ public class SummaryDistribution {
     		distribution = transformer.getKey().matcher(distribution).replaceAll(transformer.getValue());
     	}
     	for(Entry<Pattern, String> transformer : transformerDoubtful.entrySet()){
-    		if(transformer.getKey().matcher(distribution).matches()){
+    		if(transformer.getKey().matcher(distribution).find()){
     			doubtful = true;
     			distribution = transformer.getKey().matcher(distribution).replaceAll(transformer.getValue());
     		}
     	}
 		if(doubtful){
-			return String.format("its native range is likely to be %s", distribution);
+			return String.format("its native range is likely to be %s", distribution).trim();
 		}
-		return String.format("its native range is %s", distribution);
+		return String.format("its native range is %s", distribution).trim();
 	}
 	
 	private String tdwgDistribution(){
