@@ -27,7 +27,6 @@ import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
 import org.powo.job.dwc.exception.DarwinCoreProcessingException;
 import org.powo.job.dwc.exception.InvalidValuesException;
-import org.powo.job.dwc.exception.OutOfScopeTaxonException;
 import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.job.dwc.exception.WrongAuthorityException;
 import org.powo.model.Annotated;
@@ -50,11 +49,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 
-/**
- *
- * @author ben
- * @param <T> the type of object validated
- */
 @Scope("step")
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
 ItemProcessor<T, T>, ChunkListener {
@@ -64,14 +58,6 @@ ItemProcessor<T, T>, ChunkListener {
 	private Validator validator;
 
 	private TaxonService taxonService;
-
-	private String family;
-
-	private String subfamily;
-
-	private String tribe;
-
-	private String subtribe;
 
 	protected Boolean skipUnmodified = Boolean.TRUE;
 
@@ -93,60 +79,9 @@ ItemProcessor<T, T>, ChunkListener {
 		}
 	}
 
-	/**
-	 *
-	 * @param family Set the family
-	 */
-	public void setFamily(String family) {
-		this.family = family;
-	}
-
-
-	/**
-	 * @param subfamily the subfamily to set
-	 */
-	public void setSubfamily(String subfamily) {
-		this.subfamily = subfamily;
-	}
-
-
-	/**
-	 * @param tribe the tribe to set
-	 */
-	public void setTribe(String tribe) {
-		this.tribe = tribe;
-	}
-
-
-	/**
-	 * @param subtribe the subtribe to set
-	 */
-	public void setSubtribe(String subtribe) {
-		this.subtribe = subtribe;
-	}
-
-
-	/**
-	 *
-	 * @param recordType Set the record type
-	 * @param taxon Set the
-	 * @throws DarwinCoreProcessingException
-	 */
 	protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
 		if(taxon == null) {
 			throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
-		} else if(subtribe != null && subtribeOutOfScope(taxon)) {
-			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subtribe + " but found content related to " + taxon + " which is in " + taxon.getSubtribe(),
-					recordType, getLineNumber());
-		} else if(tribe != null && tribeOutOfScope(taxon)) {
-			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + tribe + " but found content related to " + taxon + " which is in " + taxon.getTribe(),
-					recordType, getLineNumber());
-		} else if(subfamily != null && subfamilyOutOfScope(taxon)) {
-			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + subfamily + " but found content related to " + taxon + " which is in " + taxon.getSubfamily(),
-					recordType, getLineNumber());
-		} else if(family != null && familyOutOfScope(taxon)) {
-			throw new OutOfScopeTaxonException("Expected content at line + " + getLineNumber() +  " to be related to " + family + " but found content related to " + taxon + " which is in " + taxon.getFamily(),
-					recordType, getLineNumber());
 		}
 	}
 
@@ -172,94 +107,6 @@ ItemProcessor<T, T>, ChunkListener {
 		return itemsRead;
 	}
 
-	private boolean subtribeOutOfScope(Taxon taxon) {
-		boolean outOfScope = false;
-		Taxon t = taxon;
-		if (t != null){
-			// Traverse all the way up to the acc name
-			while(t.getAcceptedNameUsage() != null){
-				if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
-					break;
-				else
-					t = t.getAcceptedNameUsage();
-			}
-			// Check for unplaced taxa, which are OK
-			String identifier = t.getIdentifier();
-			if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
-				// If not unplaced, its acc taxon must have a null subtribe or a different one
-				// to that in which we are interested to be out of scope.
-				outOfScope = t.getSubtribe() == null || !t.getSubtribe().equals(subtribe);
-			}
-		}
-		return outOfScope;
-	}
-
-	private boolean tribeOutOfScope(Taxon taxon) {
-		boolean outOfScope = false;
-		Taxon t = taxon;
-		if (t != null){
-			// Traverse all the way up to the acc name
-			while(t.getAcceptedNameUsage() != null){
-				if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
-					break;
-				else
-					t = t.getAcceptedNameUsage();
-			}
-			// Check for unplaced taxa, which are OK
-			String identifier = t.getIdentifier();
-			if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
-				// If not unplaced, its acc taxon must have a null tribe or a different one
-				// to that in which we are interested to be out of scope.
-				outOfScope = t.getTribe() == null || !t.getTribe().equals(tribe);
-			}
-		}
-		return outOfScope;
-	}
-
-	private boolean subfamilyOutOfScope(Taxon taxon) {
-		boolean outOfScope = false;
-		Taxon t = taxon;
-		if (t != null){
-			// Traverse all the way up to the acc name
-			while(t.getAcceptedNameUsage() != null){
-				if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
-					break;
-				else
-					t = t.getAcceptedNameUsage();
-			}
-			// Check for unplaced taxa, which are OK
-			String identifier = t.getIdentifier();
-			if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
-				// If not unplaced, its acc taxon must have a null subfamily or a different one
-				// to that in which we are interested to be out of scope.
-				outOfScope = t.getSubfamily() == null || !t.getSubfamily().equals(subfamily);
-			}
-		}
-		return outOfScope;
-	}
-
-	private boolean familyOutOfScope(Taxon taxon) {
-		boolean outOfScope = false;
-		Taxon t = taxon;
-		if (t != null){
-			// Traverse all the way up to the acc name
-			while(t.getAcceptedNameUsage() != null){
-				if (t.getAcceptedNameUsage().getIdentifier().equals(t.getIdentifier()))
-					break;
-				else
-					t = t.getAcceptedNameUsage();
-			}
-			// Check for unplaced taxa, which are OK
-			String identifier = t.getIdentifier();
-			if (identifier != null && !t.getIdentifier().equals(WCS_UNPLACED_IDENTIFIER)){
-				// If not unplaced, its acc taxon must have a null family or a different one
-				// to that in which we are interested to be out of scope.
-				outOfScope = t.getFamily() == null || !t.getFamily().equals(family);
-			}
-		}
-		return outOfScope;
-	}
-
 	protected Annotation createAnnotation(final BaseData object, RecordType recordType, AnnotationCode code, AnnotationType annotationType) {
 		Annotation annotation = super.createAnnotation(object, recordType, code, annotationType);
 		annotation.setResource(object.getResource());
@@ -267,31 +114,20 @@ ItemProcessor<T, T>, ChunkListener {
 	}
 
 	protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {
-		boolean annotationPresent = false;
-
 		for(Annotation a : annotated.getAnnotations()) {
 			if(getStepExecution().getJobExecutionId().equals(a.getJobId())) {
 				a.setType(type);
 				a.setCode(code);
-				annotationPresent = true;
 				break;
 			}
 		}
-
 	}
 
-	/**
-	 * @param taxonService set the taxon service
-	 */
 	@Autowired
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
 	}
 
-	/**
-	 *
-	 * @return the taxon service set
-	 */
 	public TaxonService getTaxonService() {
 		return taxonService;
 	}
@@ -310,15 +146,10 @@ ItemProcessor<T, T>, ChunkListener {
 		}
 	}
 
-	/**
-	 * @param t an object
-	 * @throws Exception if something goes wrong
-	 * @return an object of class T
-	 */
 	public T process(T t) throws Exception {
 		logger.debug("resourceId is" + resourceId);
 		logger.debug("object identifer is" + t.getIdentifier());
-		if(resourceId != null){
+		if(resourceId != null) {
 			Resource resource = new Resource();
 			resource.setId(resourceId);
 			t.setResource(resource);

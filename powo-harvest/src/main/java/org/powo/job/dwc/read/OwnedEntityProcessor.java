@@ -59,7 +59,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted
 						.getModified().isBefore(t.getModified()))) {
 					// The content hasn't changed, skip it
-					logger.info("Skipping " + t);
+					logger.debug("Skipping " + t);
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 					return persisted;
@@ -75,7 +75,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 					validate(t);
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.info("Updating " + t);
+					logger.debug("Updating " + t);
 					return persisted;
 				}
 			} else {
@@ -89,7 +89,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 				return t;
 			}
 		} else {
-			logger.info("Skipping object " + t.getIdentifier());
+			logger.debug("Skipping object " + t.getIdentifier());
 			return null;
 		}
 	}
@@ -113,13 +113,11 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	@Override
 	public void afterChunk(ChunkContext context) {
 		super.afterChunk(context);
-		logger.debug("After Chunk");
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		super.beforeChunk(context);
-		logger.debug("Before Chunk");
 		boundObjects  = new HashMap<String, T>();
 	}
 

@@ -46,7 +46,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	 */
 	public final T doProcess(final T t)
 			throws Exception {
-		logger.info("Validating " + t.getIdentifier());
+		logger.debug("Validating " + t.getIdentifier());
 
 		if(doFilter(t)) {
 			return null;
@@ -76,7 +76,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				t.setAuthority(getSource());
 				Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
 				t.getAnnotations().add(annotation);
-				logger.info("Adding object " + t.getIdentifier());
+				logger.debug("Adding object " + t.getIdentifier());
 				return t;
 			} else {
 				checkAuthority(getRecordType(), t, persisted.getAuthority());
@@ -92,7 +92,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 						} else {
 							// Add the taxon to the list of taxa
 							bind(persisted);
-							logger.info("Updating object " + t.getIdentifier());
+							logger.debug("Updating object " + t.getIdentifier());
 							((NonOwned)persisted).getTaxa().add(taxon);
 						}
 					}
@@ -118,7 +118,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.info("Overwriting object " + t.getIdentifier());
+					logger.debug("Overwriting object " + t.getIdentifier());
 					return persisted;
 				}
 			}
@@ -135,7 +135,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				}
 			}
 			// We've already returned this object once
-			logger.info("Skipping object " + t.getIdentifier());
+			logger.debug("Skipping object " + t.getIdentifier());
 			return null;
 		}
 	}
@@ -159,13 +159,11 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	@Override
 	public void afterChunk(ChunkContext context) {
 		super.afterChunk(context);
-		logger.debug("After Chunk");
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) { 
 		super.beforeChunk(context);
-		logger.debug("Before Chunk");
 		boundObjects.clear();
 	}
 

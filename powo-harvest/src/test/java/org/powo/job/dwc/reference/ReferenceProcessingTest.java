@@ -31,11 +31,6 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-/**
- *
- * @author ben
- *
- */
 public class ReferenceProcessingTest {
 
 	private Reference reference;
@@ -51,7 +46,6 @@ public class ReferenceProcessingTest {
 	private Organisation source = new Organisation();
 
 	private Processor referenceValidator;
-
 
 	@Before
 	public void setUp() {
@@ -76,23 +70,17 @@ public class ReferenceProcessingTest {
 		referenceValidator.setOrganisationService(sourceService);
 		referenceValidator.setTaxonService(taxonService);
 		referenceValidator.setSourceName("test source");
-		referenceValidator.setFamily("Araceae");
-		referenceValidator.beforeStep(new StepExecution("teststep",
-				new JobExecution(1L)));
+		referenceValidator.beforeStep(new StepExecution("teststep", new JobExecution(1L)));
 	}
-	/**
-	 * @throws Exception if there is a problem
-	 */
+
 	@Test
 	public void testProcessReference() throws Exception {
-		EasyMock.expect(referenceService.find(EasyMock.isA(String.class)))
-		.andReturn(null).anyTimes();
+		EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(null).anyTimes();
 		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
-		EasyMock.expect(sourceService.load(EasyMock.eq("test source")))
-		.andReturn(source);
-		EasyMock.replay(referenceService, sourceService,taxonService);
+		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
+		EasyMock.replay(referenceService, sourceService, taxonService);
 		referenceValidator.process(reference);
-		EasyMock.verify(referenceService, sourceService,taxonService);
+		EasyMock.verify(referenceService, sourceService, taxonService);
 	}
 
 }
