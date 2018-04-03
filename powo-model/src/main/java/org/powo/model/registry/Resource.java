@@ -27,6 +27,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
@@ -61,7 +62,8 @@ public class Resource extends Base {
 	private static final long serialVersionUID = 5676965857186600965L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resourceSequenceGenerator")
+	@SequenceGenerator(name = "resourceSequenceGenerator", allocationSize = 1000, sequenceName = "seq_resource")
 	private Long id;
 
 	@NotNull

@@ -34,6 +34,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -54,8 +55,6 @@ import org.powo.model.marshall.json.ReferenceSerializer;
 import org.powo.model.marshall.json.TaxonDeserializer;
 import org.powo.model.marshall.json.TaxonSerializer;
 import org.powo.model.solr.TaxonSolrInputDocument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -68,8 +67,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 public class Taxon extends SearchableObject {
-
-	private Logger logger = LoggerFactory.getLogger(Taxon.class);
 
 	private static final long serialVersionUID = -3511287213090466877L;
 
@@ -188,7 +185,8 @@ public class Taxon extends SearchableObject {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taxonSequenceGenerator")
+	@SequenceGenerator(name = "taxonSequenceGenerator", allocationSize = 1000, sequenceName = "seq_taxon")
 	public Long getId() {
 		return id;
 	}

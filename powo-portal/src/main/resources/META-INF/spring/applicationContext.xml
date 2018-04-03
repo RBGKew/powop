@@ -56,7 +56,7 @@
       <property name="hibernateProperties">
         <value>
           hibernate.hbm2ddl.auto=validate
-          hibernate.dialect=org.hibernate.spatial.dialect.mysql.MySQL5InnoDBSpatialDialect
+          hibernate.dialect=${hibernate.dialect}
           hibernate.validator.autoregister_listeners=false
           hibernate.cache.provider_configuration_file_resource_path=${ehcache.config.location}
           hibernate.default_schema=${liquibase.default.schema.name}

@@ -30,6 +30,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -95,7 +96,8 @@ public class Reference extends BaseData implements NonOwned {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "referenceSequenceGenerator")
+	@SequenceGenerator(name = "referenceSequenceGenerator", allocationSize = 1000, sequenceName = "seq_reference")
 	public Long getId() {
 		return id;
 	}

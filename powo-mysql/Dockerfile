@@ -1,4 +1,4 @@
-FROM mysql:5.5
+FROM mariadb:10.3.5
 
 ENV LC_ALL C.UTF-8
 

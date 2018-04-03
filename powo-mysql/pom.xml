@@ -24,7 +24,7 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>${dockerfile.maven.version}</version>
 				<configuration>
-					<repository>${docker.registry}mysql</repository>
+					<repository>${docker.registry}db</repository>
 					<tag>${project.version}-${buildNumber}</tag>
 				</configuration>
 				<executions>

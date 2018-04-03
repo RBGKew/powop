@@ -30,6 +30,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -117,7 +118,8 @@ public class VernacularName extends OwnedEntity {
 
 	@Override
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vernacularNameSequenceGenerator")
+	@SequenceGenerator(name = "vernacularNameSequenceGenerator", allocationSize = 1000, sequenceName = "seq_vernacularname")
 	public Long getId() {
 		return id;
 	}

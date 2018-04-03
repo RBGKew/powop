@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -61,7 +62,8 @@ public class Identification extends OwnedEntity {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "identificationSequenceGenerator")
+	@SequenceGenerator(name = "identificationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_identification")
 	public Long getId() {
 		return id;
 	}

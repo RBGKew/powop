@@ -27,6 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
@@ -70,7 +71,8 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	private static final long serialVersionUID = -2463044801110563816L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organisationSequenceGenerator")
+	@SequenceGenerator(name = "organisationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_organisation")
 	private Long id;
 
 	@Lob

@@ -72,7 +72,7 @@
     <property name="hibernateProperties">
       <value>
         hibernate.hbm2ddl.auto=validate
-        hibernate.dialect=org.hibernate.spatial.dialect.mysql.MySQL5InnoDBSpatialDialect
+        hibernate.dialect=${hibernate.dialect}
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
         hibernate.jdbc.time_zone=UTC

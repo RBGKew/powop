@@ -202,4 +202,21 @@
       <column name="threatStatus" type="varchar(255)" />
     </addColumn>
   </changeSet>
+
+  <changeSet id="2018-03-27_01" author="ji10kg">
+    <comment>Add db sequences for high volume tables to optimize inserts</comment>
+    <sql>
+      CREATE SEQUENCE seq_annotation START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_taxon START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_description START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_distribution START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_identification START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_measurementorfact START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_reference START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_vernacularname START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_image START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_organisation START WITH 1 INCREMENT BY 1000;
+      CREATE SEQUENCE seq_resource START WITH 1 INCREMENT BY 1000;
+    </sql>
+  </changeSet>
 </databaseChangeLog>

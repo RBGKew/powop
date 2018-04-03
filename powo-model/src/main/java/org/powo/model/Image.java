@@ -34,6 +34,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
 
 import org.apache.solr.common.SolrInputDocument;
@@ -126,7 +127,8 @@ public class Image extends Multimedia {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ImageSequenceGenerator")
+	@SequenceGenerator(name = "ImageSequenceGenerator", allocationSize = 1000, sequenceName = "seq_image")
 	public Long getId() {
 		return id;
 	}

@@ -29,6 +29,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -84,7 +85,8 @@ public class MeasurementOrFact extends OwnedEntity {
 	private String source;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "measurementOrFactSequenceGenerator")
+	@SequenceGenerator(name = "measurementOrFactSequenceGenerator", allocationSize = 1000, sequenceName = "seq_measurementorfact")
 	public Long getId() {
 		return id;
 	}
