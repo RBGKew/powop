@@ -16,12 +16,14 @@
  */
 package org.powo.job.dwc.read;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.powo.api.AnnotationService;
 import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
@@ -42,6 +44,7 @@ import org.powo.model.registry.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
@@ -51,7 +54,7 @@ import org.springframework.context.annotation.Scope;
 
 @Scope("step")
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
-ItemProcessor<T, T>, ChunkListener {
+ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
 
@@ -63,11 +66,14 @@ ItemProcessor<T, T>, ChunkListener {
 
 	private int itemsRead;
 
-	private static final String WCS_UNPLACED_IDENTIFIER = "urn:kew.org:wcs:taxon:-9999";
-	
+	protected List<Annotation> chunkAnnotations = new ArrayList<>();
+
+	@Autowired
+	private AnnotationService annotationService;
+
 	@Value("#{jobParameters['resource.id']}")
 	private Long resourceId;
-	
+
 	@Autowired
 	public void setValidator(Validator validator) {
 		this.validator = validator;
@@ -102,6 +108,9 @@ ItemProcessor<T, T>, ChunkListener {
 		logger.debug("Before Chunk");
 		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
 	}
+
+	@Override
+	public void afterChunkError(ChunkContext context) { }
 
 	protected int getLineNumber() {
 		return itemsRead;
@@ -159,4 +168,17 @@ ItemProcessor<T, T>, ChunkListener {
 	}
 
 	public abstract T doProcess(T t) throws Exception;
+
+	@Override
+	public void beforeWrite(List<? extends T> items) { }
+
+	@Override
+	public void afterWrite(List<? extends T> items) {
+		chunkAnnotations.forEach(a -> annotationService.save(a));
+		chunkAnnotations = new ArrayList<>();
+	}
+
+	@Override
+	public void onWriteError(Exception exception, List<? extends T> items) { }
+
 }

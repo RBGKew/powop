@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.powo.api.Service;
-import org.powo.model.Annotation;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -74,8 +73,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				validate(t);
 				bind(t);
 				t.setAuthority(getSource());
-				Annotation annotation = createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info);
-				t.getAnnotations().add(annotation);
+				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
 				logger.debug("Adding object " + t.getIdentifier());
 				return t;
 			} else {

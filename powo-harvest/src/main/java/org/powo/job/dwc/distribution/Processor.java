@@ -25,7 +25,6 @@ import org.powo.api.DistributionService;
 import org.powo.api.ReferenceService;
 import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.job.dwc.read.OwnedEntityProcessor;
-import org.powo.model.Annotation;
 import org.powo.model.Distribution;
 import org.powo.model.Reference;
 import org.powo.model.constants.AnnotationCode;
@@ -111,10 +110,7 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
 				if (r == null) {
 					r = new Reference();
 					r.setIdentifier(value);
-					Annotation annotation = super.createAnnotation(r,
-							RecordType.Reference, AnnotationCode.Create,
-							AnnotationType.Info);
-					r.getAnnotations().add(annotation);
+					chunkAnnotations.add(super.createAnnotation(r, RecordType.Reference, AnnotationCode.Create, AnnotationType.Info));
 					r.setAuthority(getSource());
 				}
 				boundReferences.put(value, r);

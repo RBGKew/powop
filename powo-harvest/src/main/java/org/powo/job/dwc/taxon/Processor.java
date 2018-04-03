@@ -16,11 +16,8 @@
  */
 package org.powo.job.dwc.taxon;
 
-import java.util.List;
-
 import org.powo.job.dwc.exception.NoIdentifierException;
 import org.powo.job.dwc.read.DarwinCoreProcessor;
-import org.powo.model.Annotation;
 import org.powo.model.Taxon;
 import org.powo.model.constants.AnnotationCode;
 import org.powo.model.constants.AnnotationType;
@@ -47,8 +44,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		if (persisted == null) {
 			// Taxon is new
 			validate(t);
-			Annotation annotation = createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info);
-			t.getAnnotations().add(annotation);
+			chunkAnnotations.add(createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info));
 			t.setAuthority(getSource());
 			logger.debug("Adding taxon " + t);
 			return t;
@@ -101,15 +97,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 
 		}
 	}
-
-	@Override
-	public void beforeWrite(List<? extends Taxon> items) { }
-
-	@Override
-	public void afterWrite(List<? extends Taxon> items) { }
-
-	@Override
-	public void onWriteError(Exception exception, List<? extends Taxon> items) { }
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }

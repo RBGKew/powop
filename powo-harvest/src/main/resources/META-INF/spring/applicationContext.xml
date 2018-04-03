@@ -76,6 +76,7 @@
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
         hibernate.jdbc.time_zone=UTC
+        hibernate.jdbc.batch_size=5000
       </value>
     </property>
     <property name="annotatedPackages" value="org.powo.model" />

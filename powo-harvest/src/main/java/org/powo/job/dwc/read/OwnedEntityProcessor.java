@@ -17,9 +17,7 @@
 package org.powo.job.dwc.read;
 
 import java.util.HashMap;
-
 import org.powo.api.Service;
-import org.powo.model.Annotation;
 import org.powo.model.OwnedEntity;
 import org.powo.model.constants.AnnotationCode;
 import org.powo.model.constants.AnnotationType;
@@ -29,7 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
-public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
+public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extends Service<T>> extends DarwinCoreProcessor<T>
+	implements ChunkListener {
 
 	private Logger logger = LoggerFactory.getLogger(OwnedEntityProcessor.class);
 
@@ -82,9 +81,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 				doCreate(t);
 				validate(t);
 				bind(t);
-				Annotation annotation = createAnnotation(t, getRecordType(),
-						AnnotationCode.Create, AnnotationType.Info);
-				t.getAnnotations().add(annotation);
+				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
 				t.setAuthority(getSource());
 				return t;
 			}
@@ -118,10 +115,9 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		super.beforeChunk(context);
-		boundObjects  = new HashMap<String, T>();
+		boundObjects.clear();
 	}
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }
-
 }

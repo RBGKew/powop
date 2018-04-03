@@ -1,4 +1,3 @@
-
 package org.powo.job.dwc.taxon;
 /*
  * This is eMonocot, a global online biodiversity information resource.
@@ -27,7 +26,6 @@ import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
@@ -60,7 +58,7 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 			persistedTaxon.setClazz(taxon.getClazz());
 			persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
 			persistedTaxon.setTaxonRemarks(taxon.getTaxonRemarks());
-			persistedTaxon.getAnnotations().add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
+			chunkAnnotations.add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
 		}
 
 		return persistedTaxon;
@@ -94,6 +92,4 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		return taxon;
 	}
 
-	@Override
-	public void afterChunkError(ChunkContext context) { }
 }
