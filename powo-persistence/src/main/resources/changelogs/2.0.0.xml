@@ -219,4 +219,11 @@
       CREATE SEQUENCE seq_resource START WITH 1 INCREMENT BY 1000;
     </sql>
   </changeSet>
+
+  <changeSet id="2018-04-03_01" author="ji10kg">
+    <comment>Add index to identifications table</comment>
+    <createIndex tableName="identification" indexName="identification_identifier_idx">
+      <column name="identifier" />
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>
