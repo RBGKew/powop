@@ -85,7 +85,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		addField(sid, "taxon.order_s_lower", taxon.getOrder());
 		addField(sid, "taxon.name_published_in_year_i", taxon.getNamePublishedInYear());
 		addField(sid, "taxon.name_published_in_s_lower", taxon.getNamePublishedInString());
-		addField(sid, "taxon.scientific_name_authorship_s_lower", taxon.getScientificNameAuthorship());
+		addField(sid, "taxon.scientific_name_authorship_t", taxon.getScientificNameAuthorship());
 		addField(sid, "taxon.scientific_name_s_lower", taxon.getScientificName());
 		addField(sid, "taxon.specific_epithet_s_lower", taxon.getSpecificEpithet());
 		addField(sid, "taxon.rank_s_lower", Objects.toString(taxon.getTaxonRank(), null));
@@ -106,8 +106,8 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 		if(taxon.getAcceptedNameUsage() != null) {
 			addField(sid, "taxon.accepted.identifier_s", taxon.getAcceptedNameUsage().getIdentifier());
-			addField(sid, "taxon.accepted.scientific_name_s", taxon.getAcceptedNameUsage().getScientificName());
-			addField(sid, "taxon.accepted.scientific_name_authorship_s", taxon.getAcceptedNameUsage().getScientificNameAuthorship());
+			addField(sid, "taxon.accepted.scientific_name_s_lower", taxon.getAcceptedNameUsage().getScientificName());
+			addField(sid, "taxon.accepted.scientific_name_authorship_t", taxon.getAcceptedNameUsage().getScientificNameAuthorship());
 			addField(sid, "taxon.accepted.kingdom_s", taxon.getAcceptedNameUsage().getKingdom());
 		}
 

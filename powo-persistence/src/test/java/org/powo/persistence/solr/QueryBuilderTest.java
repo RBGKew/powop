@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class QueryBuilderTest {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(QueryBuilderTest.class);
 	
 	@Test
@@ -44,7 +45,7 @@ public class QueryBuilderTest {
 				"taxon.species_s_lower:\"blarg\"",
 				"taxon.vernacular_names_t:\"blarg\"~10",
 				"taxon.name_published_in_s_lower:\"blarg\"",
-				"taxon.scientific_name_authorship_s_lower:\"blarg\"",
+				"taxon.scientific_name_authorship_t:\"blarg\"",
 				"taxon.description_appearance_t:\"blarg\"~10",
 				"taxon.description_inflorescence_t:\"blarg\"~10",
 				"taxon.description_fruit_t:\"blarg\"~10",

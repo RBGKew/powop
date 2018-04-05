@@ -5,11 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -27,9 +23,6 @@ import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.Location;
 import org.powo.model.constants.MeasurementUnit;
 import org.powo.model.solr.TaxonSolrInputDocument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
@@ -79,7 +72,7 @@ public class TaxonSolrInputDocumentTest {
 				"taxon.infraspecific_epithet_s_lower",
 				"taxon.kingdom_s_lower",
 				"taxon.order_s_lower",
-				"taxon.scientific_name_authorship_s_lower",
+				"taxon.scientific_name_authorship_t",
 				"taxon.scientific_name_s_lower",
 				"taxon.specific_epithet_s_lower",
 		};

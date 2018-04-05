@@ -44,7 +44,7 @@ public class QueryBuilder {
 			.addAll(allCharacteristicFields)
 			.add("taxon.distribution_ss_lower")
 			.add("taxon.name_published_in_s_lower")
-			.add("taxon.scientific_name_authorship_s_lower")
+			.add("taxon.scientific_name_authorship_t")
 			.add("taxon.description_use_t")
 			.add("taxon.description_general_t")
 			.build();

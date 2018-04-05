@@ -62,16 +62,16 @@ public class ResponseBuilder {
 				.url("/taxon/" + getStr(document, "taxon.identifier_s"))
 				.name(getStr(document, "taxon.scientific_name_s_lower"))
 				.accepted(getBool(document, "taxon.looks_accepted_b"))
-				.author(getStr(document, "taxon.scientific_name_authorship_s_lower"))
+				.author(getFirst(document, "taxon.scientific_name_authorship_t"))
 				.kingdom(getStr(document, "taxon.kingdom_s_lower"));
 
 		if(!getBool(document, "taxon.is_accepted_b") && document.containsKey("taxon.accepted.identifier_s")) {
 			SearchResultBuilder synonym = new SearchResultBuilder()
 					.url("/taxon/" + document.get("taxon.accepted.identifier_s"))
-					.name(getStr(document, "taxon.accepted.scientific_name_s"))
+					.name(getStr(document, "taxon.accepted.scientific_name_s_lower"))
 					.accepted(true)
-					.author(getStr(document, "taxon.accepted.scientific_name_authorship_s"))
-					.kingdom(getStr(document, "taxon.accepted.kingdom_s"));
+					.author(getFirst(document, "taxon.accepted.scientific_name_authorship_t"))
+					.kingdom(getStr(document, "taxon.accepted.kingdom_s_lower"));
 			result.synonymOf(synonym);
 		}
 
@@ -158,9 +158,8 @@ public class ResponseBuilder {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private String getFirst(SolrDocument document, String key) {
-		return ((List<String>)document.get(key)).get(0);
+		return (String) document.getFirstValue(key);
 	}
 
 	private Boolean getBool(SolrDocument document, String key) {
