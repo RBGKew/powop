@@ -35,7 +35,7 @@
 		<module>powo-static</module>
 		<module>powo-geodb</module>
 		<module>powo-geoserver</module>
-		<module>powo-mysql</module>
+		<module>powo-db</module>
 		<module>powo-solr</module>
 	</modules>
 

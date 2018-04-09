@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>mysql</artifactId>
+	<artifactId>db</artifactId>
 	<groupId>org.powo</groupId>
 	<version>2.0.0</version>
 	<packaging>pom</packaging>
 
-	<name>powo mysql</name>
-	<description>POWO customized mysql component</description>
+	<name>powo db</name>
+	<description>POWO customized db component (MariaDB)</description>
 
 	<parent>
 		<artifactId>powo</artifactId>
