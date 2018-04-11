@@ -110,6 +110,7 @@
       <property name="url" value="${jdbc.driver.url}" />
       <property name="username" value="${jdbc.driver.username}" />
       <property name="password" value="${jdbc.driver.password}" />
+      <property name="validationQuery" value="SELECT 1" />
     </bean>
   </beans>
 </beans>
