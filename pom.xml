@@ -37,6 +37,7 @@
 		<module>powo-geoserver</module>
 		<module>powo-db</module>
 		<module>powo-solr</module>
+		<module>powo-builder</module>
 	</modules>
 
 	<properties>
