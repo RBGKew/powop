@@ -1,0 +1,38 @@
+{
+ "exports": [
+   "ol.Map",
+   "ol.Map#addLayer",
+   "ol.Map#getView",
+   "ol.Map#getSize",
+   "ol.View",
+   "ol.View#fit",
+   "ol.layer.Tile",
+   "ol.geom.MultiPoint",
+   "ol.source.TileWMS",
+   "ol.source.XYZ",
+   "ol.interaction.defaults"
+ ],
+ "umd": true,
+  "compile": {
+    "externs": [
+      "externs/closure-compiler.js",
+      "externs/oli.js",
+      "externs/olx.js"
+    ],
+    "define": [
+      "ol.ENABLE_WEBGL=false",
+      "ol.ENABLE_PROJ4JS=false",
+      "goog.dom.ASSUME_STANDARDS_MODE=true"
+    ],
+    "jscomp_off": [
+      "unknownDefines"
+    ],
+    "extra_annotation_name": [
+      "api", "observable"
+    ],
+    "compilation_level": "ADVANCED_OPTIMIZATIONS",
+    "use_types_for_optimization": true,
+    "manage_closure_dependencies": true,
+    "rewrite_polyfills": false
+  }
+}

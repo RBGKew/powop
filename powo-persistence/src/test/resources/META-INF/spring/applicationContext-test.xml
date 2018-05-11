@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+  http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+  <context:component-scan base-package="org.powo">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    <context:exclude-filter type="assignable" expression="org.powo.api.JobListService" />
+    <context:exclude-filter type="assignable" expression="org.powo.api.JobConfigurationService" />
+    <context:exclude-filter type="assignable" expression="org.powo.api.ResourceWithJobService" />
+    <context:exclude-filter type="assignable" expression="org.powo.model.validators.JobListValidator" />
+  </context:component-scan>
+
+  <context:property-placeholder location="classpath*:test.properties" order="1" ignore-unresolvable="true" />
+
+  <tx:annotation-driven />
+  <context:annotation-config />
+
+  <bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+  <bean name="dataSource"
+    class="org.apache.commons.dbcp2.BasicDataSource" depends-on="springLiquibase">
+    <property name="driverClassName" value="${jdbc.driver.classname}" />
+    <property name="url" value="${jdbc.driver.url}" />
+    <property name="username" value="${jdbc.driver.username}" />
+    <property name="password" value="${jdbc.driver.password}" />
+  </bean>
+
+  <bean id="springLiquibase"
+    class="liquibase.integration.spring.SpringLiquibase">
+    <property name="dataSource" ref="dataSource" />
+    <property name="changeLog" value="classpath:${liquibase.changelog}" />
+    <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+  </bean>
+
+  <bean name="simpleJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg ref="dataSource" />
+  </bean>
+
+  <bean id="jobExecutionIncrementer"
+    class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
+    <constructor-arg index="0" ref="dataSource" />
+    <constructor-arg index="1"  value="BATCH_JOB_EXECUTION_SEQ"/>
+    <constructor-arg index="2"  value="ID"/>
+  </bean>
+
+  <bean id="jobIncrementer"
+    class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
+    <constructor-arg index="0" ref="dataSource" />
+    <constructor-arg index="1"  value="BATCH_JOB_SEQ"/>
+    <constructor-arg index="2"  value="ID"/>
+  </bean> 
+
+  <bean name="jdbcJobInstanceDao"
+    class="org.springframework.batch.core.repository.dao.JdbcJobInstanceDao">
+    <property name="jdbcTemplate" ref="simpleJdbcTemplate" />
+    <property name="jobIncrementer" ref="jobIncrementer" />
+  </bean>
+
+  <bean name="jdbcJobExecutionDao"
+    class="org.springframework.batch.core.repository.dao.JdbcJobExecutionDao">
+    <property name="jdbcTemplate" ref="simpleJdbcTemplate" />
+    <property name="jobExecutionIncrementer" ref="jobExecutionIncrementer" />
+  </bean>
+
+  <bean id="sessionFactory"
+    class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="hibernateProperties">
+      <value>
+        hibernate.hbm2ddl.auto=validate
+        hibernate.dialect=org.hibernate.spatial.dialect.mysql.MySQL5InnoDBSpatialDialect
+        hibernate.validator.autoregister_listeners=false
+        hibernate.default_schema=${liquibase.default.schema.name}
+      </value>
+    </property>
+    <property name="annotatedClasses">
+      <list>
+        <value>org.powo.model.Annotation</value>
+        <value>org.powo.model.Concept</value>
+        <value>org.powo.model.Description</value>
+        <value>org.powo.model.Distribution</value>
+        <value>org.powo.model.Identification</value>
+        <value>org.powo.model.Identifier</value>
+        <value>org.powo.model.Image</value>
+        <value>org.powo.model.JobConfiguration</value>
+        <value>org.powo.model.JobList</value>
+        <value>org.powo.model.MeasurementOrFact</value>
+        <value>org.powo.model.Place</value>
+        <value>org.powo.model.Reference</value>
+        <value>org.powo.model.Taxon</value>
+        <value>org.powo.model.TypeAndSpecimen</value>
+        <value>org.powo.model.VernacularName</value>
+        <value>org.powo.model.auth.Group</value>
+        <value>org.powo.model.auth.User</value>
+        <value>org.powo.model.registry.Organisation</value>
+        <value>org.powo.model.registry.Resource</value>
+      </list>
+    </property>
+    <property name="annotatedPackages" value="org.powo.model" />
+    <property name="entityInterceptor" ref="solrIndexingInterceptor"/>
+  </bean>
+
+  <bean id="solrIndexingInterceptor" class="org.powo.persistence.hibernate.SolrIndexingInterceptor">
+    <property name="solrClient" ref="solrClient"/>
+  </bean>
+
+  <bean id="solrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+    <constructor-arg value="http://127.0.0.1:18983/solr/powop"/>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+</beans>

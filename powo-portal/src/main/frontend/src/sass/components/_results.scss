@@ -1,0 +1,178 @@
+/*
+ * Component - Results
+ */
+.c-results-outer {
+  margin-top: 0;
+  @media (max-width: $screen-xs-max) {
+    margin-top: 10px;
+  }
+
+  a {
+    color: #000;
+  }
+
+  article:last-child {
+    border-right: $border-grey;
+  }
+
+  .grid--lines {
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
+  }
+
+  .container--lines {
+    padding: 0 15px;
+  }
+
+  .navbar {
+    min-height: auto;
+    background-color: #fff;
+
+  }
+
+  .navbar-right {
+    margin-right: 0;
+  }
+}
+
+.grid--rows {
+  #list_view {
+    background-color: #e7e7e7 !important;
+  }
+}
+
+.grid--columns {
+  #grid_view {
+    background-color: #e7e7e7 !important;
+  }
+}
+
+.selected_background {
+  background-color: #e7e7e7;
+}
+
+.results-count {
+  color: $navbar-default-color;
+  float: left;
+  margin: 7px 20px;
+
+  @media (max-width: $screen-xs-max) {
+    border-right: 0;
+    margin: 12px 0;
+    padding: 0;
+  }
+}
+
+.navbar .filters {
+  display: none;
+}
+
+@media(max-width: $screen-xs-max) {
+  .navbar {
+    padding: 0 15px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    .layout-toggle {
+      display: none;
+    }
+
+    .navbar-toggle {
+      margin-right: 0;
+    }
+
+    .navbar-nav {
+      margin: 0px;
+    }
+
+    .filters {
+      display: block;
+      padding: 0;
+
+      a {
+        margin: 2px 0;
+        border-radius: 4px;
+      }
+    }
+  }
+  .c-results-outer article {
+    border-width: 0 0 1px 0;
+  }
+  .grid--lines {
+    border-right-width: 0;
+  }
+}
+
+.filters {
+  color: $navbar-default-color;
+  padding: 19px;
+  background-color: #fff;
+  margin: 10px 0 0 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid #ccc;
+  @media(max-width: $screen-xs-max) { display: none; }
+
+  li {
+    list-style-type: none;
+
+    @media(min-width: $screen-sm) {
+      float: left;
+      margin-top: -12px;
+      width: auto;
+    }
+
+    &:first-child {
+      padding-right: 10px;
+      @media(min-width: $screen-sm) and (max-width: $screen-sm-max) { display: none; }
+    } 
+  }
+
+  .Family { fill: #336699; }
+  .Genus { fill: #339999; }
+  .Species { fill: #669933; }
+  .Infraspecific { fill: #993399; }
+  .Synonym { fill: #c7c7c7; }
+
+  a {
+    color: $navbar-default-color;
+    padding: 9px;
+    @media(max-width: $screen-lg) {
+      font-size: 14px;
+      padding: 7px;
+    }
+
+    @media(max-width: $screen-xs-max) {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  .facet.selected {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  a:link {
+    text-decoration: none;
+  }
+
+  @media (min-width: $screen-sm) {
+    a:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.results-kingdom {
+  width: 17px;
+  height: 14px;
+}
+
+.chevron {
+  width: 11px;
+  height: 11px;
+}

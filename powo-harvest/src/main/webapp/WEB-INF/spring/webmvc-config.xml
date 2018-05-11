@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+  <context:property-placeholder ignore-resource-not-found="true" location="classpath*:META-INF/spring/application.properties"/>
+
+  <context:component-scan base-package="org.powo.harvest.controller" />
+
+  <mvc:annotation-driven />
+
+  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+    <property name="webBindingInitializer">
+      <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <property name="conversionService" ref="conversionService" />
+        <property name="validator" ref="globalValidator" />
+      </bean>
+    </property>
+    <property name="messageConverters">
+      <list>
+        <ref bean="jsonConverter" />
+        <ref bean="stringConverter" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    <property name="converters">
+      <set>
+        <bean class="org.powo.model.convert.ClassToStringConverter" />
+        <bean class="org.powo.model.convert.DurationToStringConverter" />
+        <bean class="org.powo.model.convert.IsoDateTimeToStringConverter" />
+        <bean class="org.powo.model.convert.OrganisationToStringConverter" />
+        <bean class="org.powo.model.convert.StringToClassConverter" />
+        <bean class="org.powo.model.convert.StringToDurationConverter" />
+        <bean class="org.powo.model.convert.StringToIsoDateTimeConverter" />
+        <bean class="org.powo.model.convert.StringToOrganisationConverter" />
+        <bean class="org.powo.model.convert.ThreatStatusConverter" />
+      </set>
+    </property>
+  </bean>
+
+  <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+  <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
+
+</beans>

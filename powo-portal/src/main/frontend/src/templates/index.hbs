@@ -1,0 +1,27 @@
+{{> partials/header title="Plants of the World Online | Kew Science"}}
+<div id="svgs" style="display:none">
+{{> svg/leaf.svg }}
+{{> svg/mushroom.svg }}
+{{> svg/chevron.svg }}
+{{> (lookup '.' 'site-logo-svg') }}
+</div>
+<div class="s-page s-page--home s-search__fullpage s-theme-home {{ siteClass }} invisible">
+  <div class="s-page-wrapper">
+    {{> partials/page-header}}
+
+    <section class="c-search autocomplete-form">
+      <div class="container">
+
+        <div class="c-intro">
+          {{> (lookup '.' 'intro') }}
+        </div>
+
+        {{> partials/search/search-box }}
+        <div id="search-filters"></div>
+
+      </div><!-- End Container -->
+    </section>
+    {{> partials/footer-links}}
+  </div>
+</div>
+{{> partials/footer initialize="search"}}

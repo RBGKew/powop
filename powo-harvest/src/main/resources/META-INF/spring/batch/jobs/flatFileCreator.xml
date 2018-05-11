@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+    <context:property-placeholder
+      ignore-resource-not-found="true"
+      location="classpath*:META-INF/spring/application.properties"/>
+
+  <context:annotation-config />
+
+  <batch:step id="produceCoreFile">
+    <batch:description>Produce a download file</batch:description>
+    <batch:tasklet>
+      <batch:chunk reader="downloadItemsReader" processor="nullLicenseTaxonFilter" writer="downloadTextFileWriter" commit-interval="10"/>
+      <batch:listeners>
+        <batch:listener ref="stepStatusListener" />
+      </batch:listeners>
+    </batch:tasklet>
+  </batch:step>
+
+  <batch:job id="FlatFileCreation">
+    <batch:description>Create a DwC/A core 'Taxon' file</batch:description>
+    <batch:decision id="formatDecider" decider="downloadFormatDecider">
+      <batch:next on="taxon" to="createCoreFile" />
+    </batch:decision>
+    <batch:step id="createCoreFile" parent="produceCoreFile">
+      <batch:description>Create the Taxon (core) file</batch:description>
+      <batch:end on="COMPLETED"/>
+    </batch:step>
+    <batch:listeners>
+      <batch:listener ref="jobStatusListener" />
+    </batch:listeners>
+  </batch:job>
+
+  <bean id="downloadItemsReader" class="org.powo.harvest.common.SolrItemReader" scope="step">
+    <property name="service" ref="searchableObjectServiceImpl" />
+    <property name="pageSize" value="10"/>
+    <property name="maxItemCount" value="#{jobParameters['download.limit']}"/>
+    <property name="queryString" value="#{jobParameters['download.query']}"/>
+    <property name="sort" value="#{jobParameters['download.sort']}"/>
+    <property name="selectedFacets" value="#{jobParameters['download.selectedFacets']}"/>
+  </bean>
+
+  <bean id="groupedTaxonListReader" class="org.springframework.batch.item.support.ListItemReader" scope="step">
+    <constructor-arg value="#{(jobExecutionContext['taxa.hierarchy.ordered'])}"/>
+  </bean>
+
+  <bean id="nullLicenseTaxonFilter" class="org.powo.job.dwc.write.NullLicenseTaxonFilter"/>
+
+  <bean id="downloadTextFileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+    <property name="resource" ref="downloadFile"/>
+    <property name="lineAggregator" ref="lineAggregator"/>
+    <property name="headerCallback" ref="dwcHeaderWriter"/>
+  </bean>
+
+  <bean id="dwcHeaderWriter" class="org.powo.job.dwc.write.DwcHeaderWriter" scope="step">
+    <property name="header" value="#{jobParameters['download.taxon']}"/>
+    <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
+  </bean>
+
+  <bean id="downloadFile" class="org.springframework.core.io.FileSystemResource" scope="step">
+    <constructor-arg type="java.io.File">
+      <bean class="java.io.File" scope="step">
+        <constructor-arg type="java.io.File" value="${harvester.output.directory}"/>
+        <constructor-arg type="java.lang.String" value="#{jobParameters['download.file']}"/>
+      </bean>
+    </constructor-arg>
+  </bean>
+
+  <bean name="lineAggregator" class="org.springframework.batch.item.file.transform.DelimitedLineAggregator" scope="step">
+    <property name="delimiter" value="#{jobParameters['download.fieldsTerminatedBy']}"/>
+    <property name="fieldExtractor">
+      <bean class="org.powo.job.dwc.write.DwcFieldExtractor" scope="step">
+        <property name="names" value="#{jobParameters['download.taxon']}"/>
+        <property name="quoteCharacter" value="#{jobParameters['download.fieldsEnclosedBy']}"/>
+        <property name="extension" value="Taxon"/>
+        <property name="conversionService" ref="conversionService"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="downloadFormatDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
+    <property name="processingModeKey" value="download.format"/>
+    <!-- Fail on unknown download format-->
+  </bean>
+</beans>

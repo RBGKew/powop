@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<context:property-placeholder
+		ignore-resource-not-found="false"
+		ignore-unresolvable="false"
+		location="classpath:META-INF/spring/application.properties"/>
+	<context:property-override />
+
+	<context:component-scan base-package="org.powo" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="useSuffixPatternMatch" value="false" />
+	</bean>
+
+	<!-- Applied first to cover controller specific exception handling with @ExceptionHandler -->
+	<bean id="localHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+		<property name="order" value="0"/>
+	</bean>
+
+	<!-- Applied second to handle exceptions not covered by the first -->
+	<bean id="globalHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver">
+		<property name="order" value="1"/>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<property name="conversionService" ref="conversionService" />
+				<property name="validator" ref="validator" />
+			</bean>
+		</property>
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+				<ref bean="stringConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json,application/javascript" />
+		<property name="objectMapper" ref="customObjectMapper" />
+	</bean>
+
+	<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes" value="text/plain,application/xml" />
+		<property name="writeAcceptCharset" value="false"/>
+	</bean>
+
+	<mvc:view-controller path="/contribute" view-name="contribute"/>
+	<mvc:view-controller path="/tour" view-name="tour"/>
+	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
+
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="org.powo.model.convert.StringToPermissionConverter" />
+				<bean class="org.powo.model.convert.PermissionToStringConverter" />
+				<bean class="org.powo.model.convert.StringToIsoDateTimeConverter" />
+				<bean class="org.powo.model.convert.IsoDateTimeToStringConverter" />
+				<bean class="org.powo.model.convert.StringToDurationConverter" />
+				<bean class="org.powo.model.convert.DurationToStringConverter" />
+				<bean class="org.powo.model.convert.StringToClassConverter" />
+				<bean class="org.powo.model.convert.ClassToStringConverter" />
+				<bean class="org.powo.model.convert.OrganisationToStringConverter" />
+				<bean class="org.powo.model.convert.StringToOrganisationConverter" />
+			</set>
+		</property>
+	</bean>
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<bean class="com.github.jknack.handlebars.springmvc.HandlebarsViewResolver" id="handlebarsViewResolver">
+		<property name="order" value="1" />
+		<property name="failOnMissingFile" value="false"/><!-- Allows for resolver chaining -->
+		<property name="valueResolvers">
+			<list>
+				<util:constant static-field="com.github.jknack.handlebars.context.JavaBeanValueResolver.INSTANCE" />
+				<util:constant static-field="com.github.jknack.handlebars.context.MapValueResolver.INSTANCE" />
+				<util:constant static-field="com.github.jknack.handlebars.context.FieldValueResolver.INSTANCE" />
+				<util:constant static-field="com.github.jknack.handlebars.context.MethodValueResolver.INSTANCE" />
+			</list>
+		</property>
+		<property name="helperSources">
+			<list>
+				<bean class="org.powo.portal.view.helpers.BibliographyHelper" />
+				<bean class="org.powo.portal.view.helpers.ImageHelper" />
+				<bean class="org.powo.portal.view.helpers.NameHelper" />
+				<bean class="org.powo.portal.view.helpers.FormHelper" />
+				<bean class="org.powo.portal.view.helpers.AssetHelper" />
+				<bean class="org.powo.portal.view.helpers.AnalyticsHelper" />
+				<bean class="org.powo.portal.view.helpers.TextHelper" />
+			</list>
+		</property>
+	</bean>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/ping"/>
+			<bean class="org.powo.portal.RequestLoggingInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<beans profile="local.tests">
+		<mvc:resources mapping="/css/**" location="classpath:/static/css/"/>
+		<mvc:resources mapping="/js/**" location="classpath:/static/js/"/>
+	</beans>
+</beans>

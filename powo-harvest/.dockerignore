@@ -1,0 +1,8 @@
+src
+target/classes
+target/maven-archiver
+target/generated-sources
+target/test-classes
+target/powo-harvest
+target/m2e-wtp
+target/war

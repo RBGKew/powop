@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+    <context:property-placeholder
+      ignore-resource-not-found="true"
+      location="classpath*:META-INF/spring/application.properties"/>
+  <context:annotation-config />
+
+  <batch:job id="CalculateDerivedProperties">
+    <batch:description>Calculate Derived Properties</batch:description>
+    <batch:step id="calculateDerived">
+      <batch:description>Calculate derived properties</batch:description>
+      <batch:tasklet>
+        <batch:chunk reader="itemReader" processor="itemProcessor" writer="itemWriter" commit-interval="10" />
+      </batch:tasklet>
+      <batch:end on="COMPLETED" />
+    </batch:step>
+  </batch:job>
+
+  <bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="queryString" value="#{jobParameters['query.string']}"/>
+  </bean>
+
+  <bean id="itemProcessor" class="org.powo.job.dwc.taxon.CalculateDerivedPropertiesProcessor">
+    <property name="taxonService" ref="taxonServiceImpl"/>
+  </bean>
+
+  <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+</beans>

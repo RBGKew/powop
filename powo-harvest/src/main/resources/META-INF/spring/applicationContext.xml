@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:task="http://www.springframework.org/schema/task"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+  <context:property-placeholder location="classpath*:META-INF/spring/test.properties" order="1" ignore-unresolvable="true" />
+  <context:property-placeholder location="classpath*:META-INF/spring/application.properties" order="2" />
+
+  <context:annotation-config />
+
+  <context:component-scan base-package="org.powo" />
+  <tx:annotation-driven />
+  <task:annotation-driven />
+
+  <bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+  <bean id="getResourceClient" class="org.powo.harvest.common.GetResourceClient"/>
+  <bean id="requestFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory"/>
+
+  <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+    <property name="converters">
+      <list>
+        <bean class="org.powo.model.convert.StringToIsoDateTimeConverter" />
+        <bean class="org.powo.model.convert.IsoDateTimeToStringConverter" />
+        <bean class="org.powo.model.convert.RankConverter" />
+        <bean class="org.powo.model.convert.RankToStringConverter" />
+        <bean class="org.powo.model.convert.EstablishmentMeansConverter" />
+        <bean class="org.powo.model.convert.OccurrenceStatusConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalCodeConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalCodeToStringConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalStatusConverter" />
+        <bean class="org.powo.model.convert.NomenclaturalStatusToStringConverter" />
+        <bean class="org.powo.model.convert.ReferenceTypeConverter" />
+        <bean class="org.powo.model.convert.TaxonomicStatusConverter" />
+        <bean class="org.powo.model.convert.TaxonomicStatusToStringConverter" />
+        <bean class="org.powo.model.convert.StringToLocationConverter" />
+        <bean class="org.powo.model.convert.LocationToStringConverter" />
+        <bean class="org.powo.model.convert.StringToLocationConverter" />
+        <bean class="org.powo.model.convert.DescriptionTypeConverter" />
+        <bean class="org.powo.model.convert.DescriptionTypeSetConverter" />
+        <bean class="org.powo.model.convert.MediaFormatConverter" />
+        <bean class="org.powo.model.convert.TypeStatusConverter" />
+        <bean class="org.powo.model.convert.StringToConceptTermConverter" />
+        <bean class="org.powo.model.convert.ReferenceToStringConverter" />
+        <bean class="org.powo.model.convert.MultimediaToImageConverter" />
+        <bean class="org.powo.model.convert.StringToMediaTypeConverter" />
+        <!-- Required due to SPR-6564 Spring ConversionService breaks String-to-Resource
+          resolution -->
+        <bean class="org.powo.model.convert.FileConverter" />
+      </list>
+    </property>
+  </bean>
+
+  <bean name="transactionManager"
+    class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+  
+  <bean name="solrIndexingInterceptor" class="org.powo.persistence.hibernate.SolrIndexingInterceptor">
+    <property name="solrClient" ref="solrClient" />
+  </bean>
+
+  <bean name="sessionFactory"
+    class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="springLiquibase">
+    <property name="dataSource" ref="dataSource" />
+    <property name="hibernateProperties">
+      <value>
+        hibernate.hbm2ddl.auto=validate
+        hibernate.dialect=${hibernate.dialect}
+        hibernate.validator.autoregister_listeners=false
+        hibernate.default_schema=${liquibase.default.schema.name}
+        hibernate.jdbc.time_zone=UTC
+        hibernate.jdbc.batch_size=5000
+      </value>
+    </property>
+    <property name="annotatedPackages" value="org.powo.model" />
+    <property name="annotatedClasses">
+      <list>
+        <value>org.powo.model.Annotation</value>
+        <value>org.powo.model.Concept</value>
+        <value>org.powo.model.Description</value>
+        <value>org.powo.model.Distribution</value>
+        <value>org.powo.model.Identification</value>
+        <value>org.powo.model.Identifier</value>
+        <value>org.powo.model.Image</value>
+        <value>org.powo.model.JobConfiguration</value>
+        <value>org.powo.model.JobList</value>
+        <value>org.powo.model.MeasurementOrFact</value>
+        <value>org.powo.model.Place</value>
+        <value>org.powo.model.Reference</value>
+        <value>org.powo.model.Taxon</value>
+        <value>org.powo.model.TypeAndSpecimen</value>
+        <value>org.powo.model.VernacularName</value>
+        <value>org.powo.model.registry.Organisation</value>
+        <value>org.powo.model.registry.Resource</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="solrOptimizingTasklet" class="org.powo.harvest.common.SolrOptimizingTasklet">
+    <property name="core" value="${solr.core}"/>
+    <property name="maxSegments" value="${solr.max.segments}"/>
+    <property name="solrClient" ref="solrClient"/>
+  </bean>
+
+  <bean id="solrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
+    <constructor-arg value="${solr.url}"/>
+  </bean>
+
+  <bean id="springLiquibase" class="liquibase.integration.spring.SpringLiquibase">
+    <property name="dataSource" ref="dataSource" />
+    <property name="changeLog" value="classpath:${liquibase.changelog}" />
+    <property name="dropFirst" value="${liquibase.drop.database.first}"/>
+  </bean>
+
+  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+    destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driver.classname}" />
+    <property name="url" value="${jdbc.driver.url}" />
+    <property name="username" value="${jdbc.driver.username}" />
+    <property name="password" value="${jdbc.driver.password}" />
+    <property name="validationQuery" value="SELECT 1" />
+  </bean>
+
+  <bean id="nameParser" class="org.gbif.ecat.parser.NameParser" />
+
+  <bean name="objectMapper" class="org.powo.model.marshall.json.CustomObjectMapperFactory"/>
+
+  <bean id="notifyingJobStatusListener" class="org.powo.harvest.common.NotifyingJobStatusListener"/>
+
+  <bean id="stepStatusListener" class="org.powo.harvest.common.StepStatusListener" />
+
+  <bean id="compositeJobListener" class="org.powo.harvest.common.CompositeJobStatusListener">
+    <property name="jobListeners">
+      <list>
+        <ref bean="notifyingJobStatusListener"/>
+        <ref bean="jobStatusListener"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="jobSequenceListener" class="org.powo.harvest.common.JobSequenceListener"/>
+
+  <bean id="jobStatusListener" class="org.powo.harvest.common.JobStatusListener">
+    <property name="jobStatusNotifier" ref="jobStatusNotifier"/>
+  </bean>
+
+  <bean id="jobStatusNotifier" class="org.powo.harvest.common.JobStatusNotifierImpl"/>
+</beans>

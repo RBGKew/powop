@@ -1,0 +1,97 @@
+/*
+ * Component - Search
+ */
+#search_box {
+
+  .btn-link,
+  a {
+    color: #FFFFFF;
+  }
+
+  &__title {
+    margin: 0 0 1em;
+    @media (min-width: $screen-md-min) { margin: 0.8em; }
+    @media (max-width: $screen-sm-min) { display: none; }
+  }
+
+  .tokenfield {
+    font-size: 16px;
+    background-color: #fff;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+
+    .token {
+      color: #000;
+      height: auto;
+      margin-top: 3px;
+      margin-bottom: -1px;
+
+      .close {
+        color: #000;
+      }
+    }
+
+    &.form-control {
+      padding: 8px 0 7px 12px;
+    }
+  }
+
+  .tt-input {
+    font-size: 16px;
+  }
+
+  .suggestion-category {
+    color: #ccc;
+    float: right;
+
+    &.glyphicon {
+      padding-top: 8px;
+    }
+
+    @media (max-width: $screen-sm-min) {
+      display: none;
+    }
+  }
+
+  input.token-input {
+    background-color: transparent;
+  }
+
+  .glyphicon-search {
+    padding: 10px 0px;
+  }
+}
+
+.c-header .form-inline--search {
+  margin-top: 6px;
+  width: 100%;
+  float: right;
+
+  .form-control {
+    box-shadow: none;
+  }
+
+  @media (min-width: $screen-hg-min) { width: 850px; }
+  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 670px; }
+}
+
+.s-page--taxon .c-header .form-inline--search {
+  width: 300px;
+  margin-top: 13px;
+  border: 0px solid #e7e7e7;
+  border-bottom-width: 5px;
+  display: none;
+
+  @media (min-width: $screen-sm-min) { display: table; }
+  @media (min-width: $screen-lg-min) { width: 400px; }
+}
+
+.s-search__fullpage .c-search {
+  @media (min-width: $screen-sm-max) {
+    position: absolute;
+    top: 40%;
+    left: 5%;
+    width: 90%;
+    transform: translateY(-50%);
+  }
+}

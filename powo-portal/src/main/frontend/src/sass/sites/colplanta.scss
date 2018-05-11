@@ -1,0 +1,25 @@
+.s-colplanta {
+
+  .featured { display: none; }
+
+  &.s-page {
+    background-image: url('/img/raster/ColPlantA.jpg') !important;
+  }
+
+  &.s-page--home,
+  &.s-page--error {
+    #colplanta-logo-svg {
+      width: 200px;
+      height: 60px;
+      fill: #232323;
+    }
+
+    .site-logo {
+      fill: #232323;
+    }
+    
+    #kew-logo-svg {
+      fill: #000; 
+    }
+  }
+}

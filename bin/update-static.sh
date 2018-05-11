@@ -8,8 +8,8 @@
 # (git add) and run this script with no options
 
 
-container=emonocot_portal_1
-template_dir=emonocot-portal/src/main/frontend/src/templates/
+container=powo_portal_1
+template_dir=powo-portal/src/main/frontend/src/templates/
 remote_prefix=/usr/local/tomcat/webapps/ROOT/
 
 for changed in `git diff --name-only $template_dir`

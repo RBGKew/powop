@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+  "-//Hibernate/Hibernate Configuration DTD//EN"
+  "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <mapping package="org.powo.model.common"/>
+    <mapping class="org.powo.model.identifier.Identifier"/>
+    <mapping class="org.powo.model.job.Job"/>
+    <mapping class="org.powo.model.source.Source"/>
+    <mapping class="org.powo.model.common.Annotation"/>
+    <mapping class="org.powo.model.description.Distribution"/>
+    <mapping class="org.powo.model.description.Description"/>
+    <mapping class="org.powo.model.media.Image"/>
+    <mapping class="org.powo.model.reference.Reference"/>
+    <mapping class="org.powo.model.taxon.Taxon"/>
+    <mapping class="org.powo.model.user.User"/>
+    <mapping class="org.powo.model.user.Group"/>
+  </session-factory>
+</hibernate-configuration>

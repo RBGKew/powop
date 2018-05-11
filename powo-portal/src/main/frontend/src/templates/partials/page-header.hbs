@@ -1,0 +1,18 @@
+<header class="c-header">
+  <div class="container">
+    <a id="kew-logo" href="http://www.kew.org/science-conservation">{{> svg/kew-science-big-logo.svg}}</a>
+
+    <a class="site-logo" href="/">
+      {{> (lookup '.' 'site-logo') }}
+    </a>
+
+    <p class="featured">
+       Featured: <i><a href="/taxon/urn:lsid:ipni.org:names:77100386-1">Lysimachia arvensis</a></i>
+       <small>Image from Stuppy &amp; Kesseler<br/>©Papadakis Publisher</small>
+    </p>
+
+    {{#if withSearchBox }}
+      {{> partials/search/search-box }}
+    {{/if}}
+  </div>
+</header>

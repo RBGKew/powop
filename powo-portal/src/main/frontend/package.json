@@ -1,0 +1,42 @@
+{
+  "name": "frontend-framework-gulp",
+  "version": "1.0.0",
+  "description": "Numiko frontend framework using Gulp as build tool",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "author": "Adam Robinson",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "del": "^2.0.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-cssnano": "^2.1.0",
+    "gulp-define-module": "^0.1.4",
+    "gulp-extname": "^0.2.2",
+    "gulp-filter": "^4.0.0",
+    "gulp-flatten": "^0.2.0",
+    "gulp-handlebars": "^5.0.0",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-load-subtasks": "^1.1.2",
+    "gulp-raster": "^0.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-requirejs": "^1.1.1",
+    "gulp-rev": "^7.1.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sass-lint": "^1.2.0",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-svg-sprite": "^1.2.11",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.6",
+    "handlebars": "^4.0.11",
+    "imagemin-pngquant": "^5.0.1",
+    "openlayers": "^4.6.4",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.4"
+  }
+}

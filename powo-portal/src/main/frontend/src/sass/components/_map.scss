@@ -1,0 +1,24 @@
+#c-map {
+  width: 100%;
+  height: 500px;
+}
+
+#distribution-map {
+  .legend {
+    span {
+      display: inline-block;
+      width: 0.75em;
+      height: 0.75em;
+      margin: 0 0.7em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .Introduced { background-color: #995499 }
+    .Native { background-color: #72994C }
+    .Doubtful { background-color: #EA962E }
+    .Extinct { background-color: #E22D2D }
+  }
+}

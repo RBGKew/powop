@@ -1,0 +1,7 @@
+src
+target/classes
+target/etc
+target/generated-sources
+target/test-classes
+target/node
+target/powo-portal

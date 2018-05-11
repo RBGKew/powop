@@ -1,0 +1,30 @@
+.c-footer {
+  padding: $line-height-computed 0;
+  font-size: 11px;
+
+  &__links {
+    margin: 0;
+    float: left;
+    > li {
+      padding: 0 10px 0 0;
+    }
+  }
+
+  &__copyright {
+    display: inline-block;
+    margin-top: 1em;
+    @media (min-width: $screen-sm-min) {
+      margin-top: 0;
+      float: right;
+    }
+  }
+}
+
+.s-search__fullpage .c-footer {
+  padding-top: 100px;
+  @media (min-width: $screen-sm-max) {
+    position: absolute;
+    bottom: 0px;
+  }
+}
+

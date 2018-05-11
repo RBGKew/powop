@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>geodb</artifactId>
+	<groupId>org.powo</groupId>
+	<version>2.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>powo geodb</name>
+	<description>Geoserver customized mysql component</description>
+
+	<parent>
+		<artifactId>powo</artifactId>
+		<groupId>org.powo</groupId>
+		<version>2.0.0</version>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>${dockerfile.maven.version}</version>
+				<configuration>
+					<repository>${docker.registry}geodb</repository>
+					<tag>${project.version}-${buildNumber}</tag>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>tag-image-latest</id>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+						<configuration>
+							<tag>latest</tag>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
