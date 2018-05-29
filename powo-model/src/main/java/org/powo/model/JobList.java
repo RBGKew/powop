@@ -21,11 +21,11 @@ import org.powo.model.constants.SchedulingPeriod;
 import org.powo.model.marshall.json.DateTimeDeserializer;
 import org.powo.model.marshall.json.DateTimeSerializer;
 import org.powo.model.marshall.json.JobConfigurationsDeserializer;
-import org.powo.model.marshall.json.JobConfigurationsSerializer;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -81,9 +81,9 @@ public class JobList {
 	@Fetch(FetchMode.SELECT)
 	@OrderColumn
 	@JsonDeserialize(using = JobConfigurationsDeserializer.class)
-	@JsonSerialize(using = JobConfigurationsSerializer.class)
 	private List<JobConfiguration> jobConfigurations;
 
+	@JsonProperty(access = Access.READ_ONLY)
 	public boolean hasNextJob() {
 		log.debug("currentJob: {}, num jobConfigurations: {}", currentJob, getJobConfigurations().size());
 		log.debug("jobConfigurations: {}", getJobConfigurations());

@@ -211,4 +211,12 @@
       <column name="identifier" />
     </createIndex>
   </changeSet>
+  
+  <changeSet id="2018-04-11_01" author="jc20kg">
+    <comment>Add identifier to jobconfiguration</comment>
+    <addColumn tableName="jobconfiguration">
+      <column name="identifier" type="varchar(255)" />
+    </addColumn>
+  </changeSet>
+  
 </databaseChangeLog>

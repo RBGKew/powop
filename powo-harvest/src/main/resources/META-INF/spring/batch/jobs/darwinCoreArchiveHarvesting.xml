@@ -883,7 +883,7 @@
   <bean id="markTaxonRecordsByResourceTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Taxon"/>
   </bean>
 
@@ -1007,7 +1007,7 @@
   <bean id="markDescriptionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Description" />
   </bean>
 
@@ -1084,14 +1084,14 @@
   <bean id="markImageRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Image"/>
   </bean>
 
   <bean id="markAssociatedTaxaForIndexingTasklet" class="org.powo.job.dwc.read.AncestorImageAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
   </bean>
 
   <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1199,7 +1199,7 @@
   <bean id="markTermRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Concept"/>
   </bean>
 
@@ -1296,7 +1296,7 @@
   <bean id="markReferenceRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Reference"/>
   </bean>
 
@@ -1385,7 +1385,7 @@
   <bean id="markIdentifierRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Identifier" />
   </bean>
 
@@ -1474,7 +1474,7 @@
   <bean id="markDistributionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Distribution" />
   </bean>
 
@@ -1560,7 +1560,7 @@
   <bean id="markMeasurementOrFactRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="MeasurementOrFact" />
   </bean>
 
@@ -1648,7 +1648,7 @@
   <bean id="markVernacularNameRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="VernacularName" />
   </bean>
 
@@ -1742,7 +1742,7 @@
   <bean id="markTypeAndSpecimenRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="TypeAndSpecimen"/>
   </bean>
 
@@ -1847,7 +1847,7 @@
   <bean id="markIdentificationRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Identification" />
   </bean>
 

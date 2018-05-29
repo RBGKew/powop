@@ -1,6 +1,7 @@
 package org.powo.model;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -22,13 +23,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Singular;
 
 @Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(Include.NON_NULL)
 public class JobConfiguration {
@@ -38,6 +37,9 @@ public class JobConfiguration {
 	private Long id;
 
 	private String jobName;
+
+	@Builder.Default
+	private String identifier = UUID.randomUUID().toString();
 
 	private Long lastJobExecution;
 
@@ -52,4 +54,8 @@ public class JobConfiguration {
 	private BatchStatus jobStatus;
 
 	private String jobExitCode;
+
+	public JobConfiguration() {
+		identifier = UUID.randomUUID().toString();
+	}
 }

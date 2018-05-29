@@ -28,8 +28,8 @@ public class JobListValidator implements Validator {
 		JobList jobList = (JobList)target;
 
 		for(JobConfiguration job : jobList.getJobConfigurations()) {
-			if(jobConfigurationService.get(job.getId()) == null) {
-				errors.reject("jobConfiguration[" + job.getId() + "]", "unknown");
+			if(jobConfigurationService.get(job.getIdentifier()) == null) {
+				errors.reject("jobConfiguration[" + job.getIdentifier() + "]", "unknown");
 			}
 		}
 

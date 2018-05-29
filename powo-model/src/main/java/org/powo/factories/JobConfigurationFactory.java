@@ -23,7 +23,6 @@ public class JobConfigurationFactory {
 				.description("Harvest " + resource.getTitle())
 				.parameter("authority.name", resource.getOrganisation().getIdentifier())
 				.parameter("authority.uri", resource.getUri())
-				.parameter("resource.id", resource.getId().toString())
 				.parameter("resource.identifier", resource.getIdentifier());
 	}
 

@@ -11,11 +11,15 @@ public interface JobConfigurationService {
 
 	public JobConfiguration get(Long id);
 
+	public JobConfiguration get(String identifier);
+
 	public void refresh(JobConfiguration conf);
 
 	public void saveOrUpdate(JobConfiguration job);
 
 	public Page<JobConfiguration> list(int page, int size);
+
+	public List<JobConfiguration> list();
 
 	public List<JobConfiguration> listByName(String jobName);
 }

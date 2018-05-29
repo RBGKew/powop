@@ -9,23 +9,22 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class JobConfigurationsSerializer extends JsonSerializer<List<JobConfiguration>> {
+public class JobListConfigurationSerializer extends JsonSerializer<List<JobConfiguration>> {
 
 	@Getter
 	@AllArgsConstructor
 	private class Summary {
-		private Long id;
 		private String identifier;
-		private String description;
 	}
 
 	@Override
 	public void serialize(List<JobConfiguration> jobConfigurations, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
 		Summary[] summaries = jobConfigurations.stream()
-				.map(jc -> new Summary(jc.getId(), jc.getIdentifier(), jc.getDescription()))
+				.map(jc -> new Summary(jc.getIdentifier()))
 				.toArray(Summary[]::new);
 
 		gen.writeStartArray();
@@ -36,5 +35,6 @@ public class JobConfigurationsSerializer extends JsonSerializer<List<JobConfigur
 
 		gen.writeEndArray();
 	}
+
 
 }

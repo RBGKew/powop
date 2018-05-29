@@ -2,6 +2,8 @@ package org.powo.persistence.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.powo.model.JobConfiguration;
@@ -34,17 +36,33 @@ public class JobConfigurationDao {
 	}
 
 	public JobConfiguration get(long id) {
-		JobConfiguration jobConfiguration = session().get(JobConfiguration.class, id);
-
-		if(jobConfiguration == null) {
+		try {
+			JobConfiguration jobConfiguration = session().get(JobConfiguration.class, id);
+			return jobConfiguration;
+		} catch (NoResultException e) {
 			throw new NotFoundException(JobConfiguration.class, id);
 		}
+	}
 
-		return jobConfiguration;
+	public JobConfiguration get(String identifier) {
+		try {
+			JobConfiguration jobConfiguration = session()
+					.createQuery("SELECT c FROM JobConfiguration c where identifier = :identifier", JobConfiguration.class)
+					.setParameter("identifier", identifier)
+					.getSingleResult();
+			return jobConfiguration;
+		} catch (NoResultException e) {
+			throw new NotFoundException(JobConfiguration.class, identifier);
+		}
 	}
 
 	public void refresh(JobConfiguration conf) {
 		session().refresh(conf);
+	}
+
+	public List<JobConfiguration> list() {
+		return session().createQuery("SELECT c FROM JobConfiguration c", JobConfiguration.class)
+				.getResultList();
 	}
 
 	public List<JobConfiguration> list(final Integer page, final Integer size) {

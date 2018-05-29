@@ -61,11 +61,11 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"resources", "annotations"})
+@ToString(exclude = { "resources", "annotations" })
 @JsonInclude(Include.NON_NULL)
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Organisation extends Base implements Comparable<Organisation> {
 
 	private static final long serialVersionUID = -2463044801110563816L;
@@ -77,6 +77,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 
 	@Lob
 	@Length(max = 1431655761)
+
 	private String description;
 
 	@NotEmpty
@@ -98,7 +99,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	protected String identifier;
 
 	@OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
-	@Cascade(CascadeType.DELETE)
+	@Cascade({ CascadeType.ALL })
 	@Fetch(FetchMode.SELECT)
 	private List<Resource> resources;
 

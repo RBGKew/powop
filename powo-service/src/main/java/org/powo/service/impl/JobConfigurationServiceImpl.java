@@ -26,6 +26,11 @@ public class JobConfigurationServiceImpl implements JobConfigurationService {
 	public JobConfiguration get(Long id) {
 		return dao.get(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public JobConfiguration get(String identifier) {
+		return dao.get(identifier);
+	}
 
 	@Transactional(readOnly = true)
 	public void refresh(JobConfiguration conf) {
@@ -40,6 +45,11 @@ public class JobConfigurationServiceImpl implements JobConfigurationService {
 	@Transactional
 	public Page<JobConfiguration> list(int page, int size) {
 		return new DefaultPageImpl<>(dao.list(page, size), page, size);
+	}
+
+	@Override
+	public List<JobConfiguration> list() {
+		return dao.list();
 	}
 
 	@Override
