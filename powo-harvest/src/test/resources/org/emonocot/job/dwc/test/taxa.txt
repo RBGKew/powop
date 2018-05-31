@@ -1,1 +1,0 @@
-urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5	Acontias conspurcatus	urn:lsid:ipni.org:names:83987-1	(Schott) Schott	Species	 synonym			Acontias		conspurcatus		Available	2009-07-21	http://www.cate-araceae.org/taxonomy/Acontias/conspurcatus
