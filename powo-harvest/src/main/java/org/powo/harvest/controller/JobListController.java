@@ -2,6 +2,7 @@ package org.powo.harvest.controller;
 
 import javax.validation.Valid;
 
+import org.joda.time.DateTime;
 import org.powo.api.JobListService;
 import org.powo.model.JobList;
 import org.powo.model.exception.InvalidEntityException;
@@ -98,4 +99,9 @@ public class JobListController {
 		return new ResponseEntity<>(jobListService.schedule(id, schedule), HttpStatus.OK);
 	}
 
+	@PostMapping(path = "/{id}/run")
+	public ResponseEntity<JobList> runJobList(@PathVariable Long id) {
+		JobSchedule runNow = JobSchedule.builder().nextRun(DateTime.now()).build();
+		return new ResponseEntity<>(jobListService.schedule(id, runNow), HttpStatus.OK);
+	}
 }
