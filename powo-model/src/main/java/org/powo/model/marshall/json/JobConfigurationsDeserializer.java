@@ -44,18 +44,23 @@ public class JobConfigurationsDeserializer extends StdDeserializer<List<JobConfi
 		if (node.isArray()) {
 			for (JsonNode config : node) {
 				JobConfiguration job = null;
-				String id = config.get("identifier").asText();
+				String identifier = null;
+				if(config.hasNonNull("identifier")) {
+					identifier = config.get("identifier").asText();
+				} else {
+					identifier = config.asText();
+				}
 
 				if (jobConfigurationService != null) {
 					try {
-						job = jobConfigurationService.get(id);
+						job = jobConfigurationService.get(identifier);
 					} catch (NotFoundException e) {
-						logger.info("Couldn't find job configuration with id: {}", id);
+						logger.info("Couldn't find job configuration with id: {}", identifier);
 					}
 				}
 
 				if (job == null) {
-					jobs.add(JobConfiguration.builder().identifier(id).build());
+					jobs.add(JobConfiguration.builder().identifier(identifier).build());
 				}
 
 				jobs.add(job);

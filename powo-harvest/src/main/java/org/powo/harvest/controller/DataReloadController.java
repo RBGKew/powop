@@ -9,6 +9,7 @@ import org.powo.api.JobListService;
 import org.powo.api.OrganisationService;
 import org.powo.harvest.export.mixins.JobConfigurationExportMixin;
 import org.powo.harvest.export.mixins.JobListExportMixin;
+import org.powo.harvest.export.mixins.OrganisationExportMixin;
 import org.powo.harvest.export.mixins.ResourceExportMixin;
 import org.powo.model.ConfigurationExport;
 import org.powo.model.JobConfiguration;
@@ -36,6 +37,7 @@ public class DataReloadController {
 	private final ObjectMapper mapper = new ObjectMapper()
 			.addMixIn(JobConfiguration.class, JobConfigurationExportMixin.class)
 			.addMixIn(JobList.class, JobListExportMixin.class)
+			.addMixIn(Organisation.class, OrganisationExportMixin.class)
 			.addMixIn(Resource.class, ResourceExportMixin.class);
 
 	@Autowired
@@ -64,10 +66,10 @@ public class DataReloadController {
 			for(Organisation organisation : conf.getOrganisations()) {
 				// jackson doesn't set back references when deserialising so it must be done manually
 				organisation.getResources().forEach(resource -> resource.setOrganisation(organisation));
-				organisationService.saveOrUpdate(organisation);
+				organisationService.save(organisation);
 			}
 
-			conf.getJobConfigurations().forEach(jobService::saveOrUpdate);
+			conf.getJobConfigurations().forEach(jobService::save);
 
 			for(JobList jobList : conf.getJobLists()) {
 				List<JobConfiguration> jobConfigurations = jobList.getJobConfigurations().stream()
@@ -75,7 +77,7 @@ public class DataReloadController {
 						.map(jc -> jobService.get(jc.getIdentifier()))
 						.collect(Collectors.toList());
 				jobList.setJobConfigurations(jobConfigurations);
-				jobListService.saveOrUpdate(jobList);
+				jobListService.save(jobList);
 			}
 
 			return new ResponseEntity<>(mapper.writeValueAsString(conf), HttpStatus.CREATED);

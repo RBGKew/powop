@@ -36,10 +36,10 @@ public class JobConfigurationDao {
 	}
 
 	public JobConfiguration get(long id) {
-		try {
-			JobConfiguration jobConfiguration = session().get(JobConfiguration.class, id);
+		JobConfiguration jobConfiguration = session().get(JobConfiguration.class, id);
+		if(jobConfiguration != null) {
 			return jobConfiguration;
-		} catch (NoResultException e) {
+		} else {
 			throw new NotFoundException(JobConfiguration.class, id);
 		}
 	}

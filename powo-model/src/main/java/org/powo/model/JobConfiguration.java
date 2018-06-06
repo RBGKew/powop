@@ -38,8 +38,7 @@ public class JobConfiguration {
 
 	private String jobName;
 
-	@Builder.Default
-	private String identifier = UUID.randomUUID().toString();
+	private String identifier;
 
 	private Long lastJobExecution;
 
