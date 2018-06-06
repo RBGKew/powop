@@ -11,8 +11,6 @@ import org.powo.model.JobConfiguration;
 import org.powo.model.JobList;
 import org.powo.model.constants.JobListStatus;
 import org.powo.model.marshall.json.JobSchedule;
-import org.powo.pager.DefaultPageImpl;
-import org.powo.pager.Page;
 import org.powo.persistence.dao.JobListDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class JobListServiceImpl implements JobListService {
+public class JobListServiceImpl extends ServiceImpl<JobList, JobListDao> implements JobListService {
 
 	private final Logger log = LoggerFactory.getLogger(JobListServiceImpl.class);
 
@@ -30,36 +28,6 @@ public class JobListServiceImpl implements JobListService {
 
 	@Autowired
 	private JobLauncher jobLauncher;
-
-	@Transactional
-	public void save(JobList list) {
-		dao.save(list);
-	}
-
-	@Transactional
-	public void saveOrUpdate(JobList list) {
-		dao.saveOrUpdate(list);
-	}
-
-	@Transactional
-	public void delete(Long id) {
-		dao.delete(id);
-	}
-
-	@Transactional(readOnly = true)
-	public JobList get(Long id) {
-		return dao.get(id);
-	}
-
-	@Transactional(readOnly = true)
-	public List<JobList> list() {
-		return dao.list();
-	}
-
-	@Transactional
-	public void refresh(JobList list) {
-		dao.refresh(list);
-	}
 
 	@Transactional(readOnly = true)
 	public List<JobList> scheduled() {
@@ -81,13 +49,8 @@ public class JobListServiceImpl implements JobListService {
 	}
 
 	@Transactional
-	public Page<JobList> list(int page, int size) {
-		return new DefaultPageImpl<>(dao.list(page, size), page, size);
-	}
-
-	@Transactional
-	public JobList schedule(Long id, JobSchedule schedule) {
-		JobList jobList = get(id);
+	public JobList schedule(String id, JobSchedule schedule) {
+		JobList jobList = find(id);
 
 		if(jobList.isSchedulable()) {
 			jobList.setCurrentJob(0);

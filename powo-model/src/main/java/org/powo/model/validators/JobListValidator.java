@@ -3,6 +3,7 @@ package org.powo.model.validators;
 import org.powo.api.JobConfigurationService;
 import org.powo.model.JobConfiguration;
 import org.powo.model.JobList;
+import org.powo.model.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -28,7 +29,9 @@ public class JobListValidator implements Validator {
 		JobList jobList = (JobList)target;
 
 		for(JobConfiguration job : jobList.getJobConfigurations()) {
-			if(jobConfigurationService.get(job.getIdentifier()) == null) {
+			try {
+				jobConfigurationService.find(job.getIdentifier());
+			} catch(NotFoundException e) {
 				errors.reject("jobConfiguration[" + job.getIdentifier() + "]", "unknown");
 			}
 		}

@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.powo.model.Base;
 import org.powo.pager.Page;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -140,7 +139,11 @@ public interface Service<T extends Base> {
 	 */
 	Page<T> list(Integer page, Integer size, String fetch);
 
+	Page<T> list(Integer page, Integer size);
+
 	List<T> list(String fetch);
+
+	List<T> list();
 
 	/**
 	 * 
@@ -153,6 +156,7 @@ public interface Service<T extends Base> {
 	 *            the object to merge
 	 * @return the merged object
 	 */
-	@Transactional
 	T merge(T t);
+	
+	void refresh(T t);
 }

@@ -201,11 +201,26 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
 	}
 
 	@Transactional
+	public final Page<T> list(final Integer page, final Integer size) {
+		return list(page, size, null);
+	}
+
+	@Transactional
+	public final List<T> list() {
+		return dao.list();
+	}
+
+	@Transactional
 	public final List<T> list(String fetch) {
 		return dao.list(null, null, fetch);
 	}
 
 	public long count() {
 		return dao.count();
+	}
+
+	@Transactional
+	public void refresh(T t) {
+		dao.refresh(t);
 	}
 }

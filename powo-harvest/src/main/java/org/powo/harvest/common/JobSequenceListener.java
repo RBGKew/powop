@@ -22,7 +22,7 @@ public class JobSequenceListener implements JobExecutionListener {
 
 		if(jobListId != null) {
 			Long id = Long.parseLong(jobListId);
-			JobList list = jobListService.get(id);
+			JobList list = jobListService.find(id);
 			if(list != null) {
 				list.setStatus(JobListStatus.Running);
 				jobListService.saveOrUpdate(list);
@@ -38,7 +38,7 @@ public class JobSequenceListener implements JobExecutionListener {
 
 		if(jobListId != null) {
 			Long id = Long.parseLong(jobListId);
-			JobList list = jobListService.get(id);
+			JobList list = jobListService.find(id);
 			if(list != null) {
 				logger.debug("Scheduling next job for jobList - {}", list.getDescription());
 				if(list.hasNextJob()) {

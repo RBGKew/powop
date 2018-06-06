@@ -146,4 +146,14 @@ public interface Dao<T extends Base> {
 	 * @return A list of results
 	 */
 	List<T> list(Integer page, Integer size, String fetch);
+
+	List<T> list(Integer page, Integer size);
+
+	/**
+	 * @return all objects of given type
+	 * @return
+	 */
+	List<T> list();
+
+	void refresh(T t);
 }

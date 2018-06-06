@@ -63,7 +63,7 @@ public class JobListController {
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<JobList> getJobList(@PathVariable Long id) {
-		return new ResponseEntity<>(jobListService.get(id), HttpStatus.OK);
+		return new ResponseEntity<>(jobListService.find(id), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/{id}")
@@ -86,21 +86,21 @@ public class JobListController {
 
 	@DeleteMapping(path= "/{id}")
 	public ResponseEntity<String> deleteJobList(@PathVariable Long id) {
-		jobListService.delete(id);
+		jobListService.deleteById(id);
 
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 
-	@PostMapping(path = "/{id}/schedule")
+	@PostMapping(path = "/{identifier}/schedule")
 	public ResponseEntity<JobList> scheduleJobList(
-			@PathVariable Long id,
+			@PathVariable String id,
 			@RequestBody JobSchedule schedule) {
 
 		return new ResponseEntity<>(jobListService.schedule(id, schedule), HttpStatus.OK);
 	}
 
-	@PostMapping(path = "/{id}/run")
-	public ResponseEntity<JobList> runJobList(@PathVariable Long id) {
+	@PostMapping(path = "/{identifier}/run")
+	public ResponseEntity<JobList> runJobList(@PathVariable String id) {
 		JobSchedule runNow = JobSchedule.builder().nextRun(DateTime.now()).build();
 		return new ResponseEntity<>(jobListService.schedule(id, runNow), HttpStatus.OK);
 	}

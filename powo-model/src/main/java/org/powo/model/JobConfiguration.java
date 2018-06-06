@@ -22,15 +22,19 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.Singular;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(Include.NON_NULL)
-public class JobConfiguration {
+public class JobConfiguration extends Base {
+
+	private static final long serialVersionUID = -8150198731653314742L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

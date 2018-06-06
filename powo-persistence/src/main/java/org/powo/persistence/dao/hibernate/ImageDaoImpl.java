@@ -21,12 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.TypedQuery;
+
 import org.gbif.ecat.voc.Rank;
-import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.Query;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.powo.model.Image;
 import org.powo.model.Taxon;
 import org.powo.model.hibernate.Fetch;
@@ -63,7 +61,7 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 	@SuppressWarnings("unchecked")
 	public List<Image> getTopImages(Taxon rootTaxon, int n) {
 		String queryTemplate = "select img from Image as img join img.taxon as taxon where %s order by img.rating desc";
-		Query q;
+		TypedQuery<Image> q;
 
 		List<Long> rootImgs = new ArrayList<>();
 		for(Image img : rootTaxon.getImages()) {
@@ -75,14 +73,14 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 		}
 
 		if(rootTaxon.getTaxonRank() != null && rootTaxon.getTaxonRank().equals(Rank.FAMILY)) {
-			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family"));
+			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family"), Image.class);
 			q.setParameter("family", rootTaxon.getFamily());
-			if(!rootImgs.isEmpty()) q.setParameterList("rootImgs", rootImgs);
+			if(!rootImgs.isEmpty()) q.setParameter("rootImgs", rootImgs);
 		} else if (rootTaxon.getTaxonRank() != null && rootTaxon.getTaxonRank().equals(Rank.GENUS)) {
 			q = getSession().createQuery(String.format(queryTemplate, "taxon.family = :family and taxon.genus = :genus"));
 			q.setParameter("family", rootTaxon.getFamily());
 			q.setParameter("genus", rootTaxon.getGenus());
-			if(!rootImgs.isEmpty()) q.setParameterList("rootImgs", rootImgs);
+			if(!rootImgs.isEmpty()) q.setParameter("rootImgs", rootImgs);
 		} else {
 			// we don't want to add anything to species and below
 			q = getSession().createQuery("from Image where 1=0");
@@ -90,7 +88,7 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 
 		q.setMaxResults(n);
 
-		List<Image> ret = (List<Image>)q.list();
+		List<Image> ret = q.getResultList();
 		if(ret != null) {
 			return ret;
 		} else {

@@ -74,7 +74,7 @@ public class DataReloadController {
 			for(JobList jobList : conf.getJobLists()) {
 				List<JobConfiguration> jobConfigurations = jobList.getJobConfigurations().stream()
 						.filter(Objects::nonNull)
-						.map(jc -> jobService.get(jc.getIdentifier()))
+						.map(jc -> jobService.find(jc.getIdentifier()))
 						.collect(Collectors.toList());
 				jobList.setJobConfigurations(jobConfigurations);
 				jobListService.save(jobList);

@@ -53,7 +53,7 @@ public class JobConfigurationsDeserializer extends StdDeserializer<List<JobConfi
 
 				if (jobConfigurationService != null) {
 					try {
-						job = jobConfigurationService.get(identifier);
+						job = jobConfigurationService.find(identifier);
 					} catch (NotFoundException e) {
 						logger.info("Couldn't find job configuration with id: {}", identifier);
 					}
