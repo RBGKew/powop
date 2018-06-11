@@ -1,4 +1,4 @@
-from functools import reduce
+from functools import reduce, partial
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
 import datetime
@@ -8,6 +8,8 @@ import random
 import string
 import subprocess
 import time
+
+print = partial(print, flush=True)
 
 GIT_URL = 'https://github.com/RBGKew/powop-infrastructure'
 CHART_FILES = '/tmp/helm'
