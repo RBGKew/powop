@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 public class JobConfigurationServiceImpl extends ServiceImpl<JobConfiguration, JobConfigurationDao> implements JobConfigurationService {
 
 	@Autowired
-	private JobConfigurationDao dao;
+	public final void setMeasurementOrFactDao(final JobConfigurationDao jobConfigurationDao) {
+		super.dao = jobConfigurationDao;
+	}
 
 	@Override
 	public List<JobConfiguration> listByName(String jobName) {

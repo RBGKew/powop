@@ -24,7 +24,9 @@ public class JobListServiceImpl extends ServiceImpl<JobList, JobListDao> impleme
 	private final Logger log = LoggerFactory.getLogger(JobListServiceImpl.class);
 
 	@Autowired
-	private JobListDao dao;
+	public final void setJobListDao(JobListDao jobListDao) {
+		super.dao = jobListDao;
+	}
 
 	@Autowired
 	private JobLauncher jobLauncher;

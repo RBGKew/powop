@@ -51,7 +51,7 @@ public class OrganisationController {
 	public ResponseEntity<Page<Organisation>> list(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "perPage", required = false, defaultValue = "30") Integer perPage) {
-		return new ResponseEntity<>(organisationService.list(page, perPage, "source-with-jobs"), HttpStatus.OK);
+		return new ResponseEntity<>(organisationService.list(page, perPage), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{identifier}")

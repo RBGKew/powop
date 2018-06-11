@@ -372,10 +372,9 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 	/**
 	 * @param page Set the offset (in size chunks, 0-based), optional
 	 * @param size Set the page size
-	 * @param fetch Set the fetch profile to which relations are fetched
 	 * @return A list of results
 	 */
-	public final List<T> list(final Integer page, final Integer size, final String fetch) {
+	public final List<T> list(final Integer page, final Integer size) {
 		CriteriaQuery<T> criteria = getSession().getCriteriaBuilder().createQuery(type);
 		criteria.select(criteria.from(type));
 
@@ -390,12 +389,8 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		return query.getResultList();
 	}
 
-	public final List<T> list(final Integer page, final Integer size) {
-		return list(page, size, null);
-	}
-
 	public final List<T> list() {
-		return list(null, null, null);
+		return list(null, null);
 	}
 
 	public void refresh(T t) {

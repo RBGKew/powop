@@ -60,7 +60,7 @@ public class ResourceController {
 	public ResponseEntity<Page<Resource>> list(
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(value = "perPage", required = false, defaultValue = "30") Integer perPage) {
-		return new ResponseEntity<>(resourceService.list(page, perPage, "job-with-source"), HttpStatus.OK);
+		return new ResponseEntity<>(resourceService.list(page, perPage), HttpStatus.OK);
 	}
 
 	@GetMapping("/{resourceId}")

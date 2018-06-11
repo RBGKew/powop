@@ -52,7 +52,7 @@ public class DataReloadController {
 	@GetMapping(produces = "application/json; charset=utf-8")
 	public ResponseEntity<String> exportConfiguration() throws JsonProcessingException {
 		ConfigurationExport export = ConfigurationExport.builder()
-				.organisations(organisationService.list("resources"))
+				.organisations(organisationService.list())
 				.jobConfigurations(jobService.list())
 				.jobLists(jobListService.list())
 				.build();

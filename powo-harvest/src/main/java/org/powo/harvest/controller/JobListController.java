@@ -93,15 +93,15 @@ public class JobListController {
 
 	@PostMapping(path = "/{identifier}/schedule")
 	public ResponseEntity<JobList> scheduleJobList(
-			@PathVariable String id,
+			@PathVariable String identifier,
 			@RequestBody JobSchedule schedule) {
 
-		return new ResponseEntity<>(jobListService.schedule(id, schedule), HttpStatus.OK);
+		return new ResponseEntity<>(jobListService.schedule(identifier, schedule), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/{identifier}/run")
-	public ResponseEntity<JobList> runJobList(@PathVariable String id) {
+	public ResponseEntity<JobList> runJobList(@PathVariable String identifier) {
 		JobSchedule runNow = JobSchedule.builder().nextRun(DateTime.now()).build();
-		return new ResponseEntity<>(jobListService.schedule(id, runNow), HttpStatus.OK);
+		return new ResponseEntity<>(jobListService.schedule(identifier, runNow), HttpStatus.OK);
 	}
 }

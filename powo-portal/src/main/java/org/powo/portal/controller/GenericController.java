@@ -97,7 +97,7 @@ public abstract class GenericController<T extends Base, SERVICE extends Service<
 			produces = "application/json")
 	public ResponseEntity<Page<T>> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
 			@RequestParam(value = "start", required = false, defaultValue = "0") Integer start) {
-		return new ResponseEntity<Page<T>>(service.list(start, limit, null), HttpStatus.OK);
+		return new ResponseEntity<Page<T>>(service.list(start, limit), HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.POST,

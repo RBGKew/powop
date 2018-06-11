@@ -145,8 +145,6 @@ public interface Dao<T extends Base> {
 	 * @param fetch Set the fetch profile to determine which relations are fetched
 	 * @return A list of results
 	 */
-	List<T> list(Integer page, Integer size, String fetch);
-
 	List<T> list(Integer page, Integer size);
 
 	/**

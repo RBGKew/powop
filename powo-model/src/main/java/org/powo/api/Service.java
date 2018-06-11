@@ -137,11 +137,7 @@ public interface Service<T extends Base> {
 	 * @param fetch Set the fetch profile to determine which relations are fetched
 	 * @return A page of results
 	 */
-	Page<T> list(Integer page, Integer size, String fetch);
-
 	Page<T> list(Integer page, Integer size);
-
-	List<T> list(String fetch);
 
 	List<T> list();
 
