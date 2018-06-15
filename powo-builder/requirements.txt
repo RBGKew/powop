@@ -1,2 +1,3 @@
-kubernetes
-requests
+google-cloud-dns==0.29.0
+kubernetes==6.0.0
+requests==2.19.1
