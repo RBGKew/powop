@@ -32,6 +32,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.powo.model.Base;
@@ -90,6 +91,7 @@ public class Resource extends Base {
 	private JobConfiguration jobConfiguration;
 
 	@NotEmpty
+	@NaturalId
 	protected String identifier;
 
 	public Resource() {

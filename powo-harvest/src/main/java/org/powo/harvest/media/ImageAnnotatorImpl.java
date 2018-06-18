@@ -24,15 +24,8 @@ import org.powo.model.constants.AnnotationCode;
 import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
 
-/**
- * @author jk00kg
- *
- */
 public class ImageAnnotatorImpl extends AbstractRecordAnnotator implements ImageAnnotator {
 
-	/**
-	 *
-	 */
 	private Long jobId;
 
 	/**
@@ -49,7 +42,7 @@ public class ImageAnnotatorImpl extends AbstractRecordAnnotator implements Image
 	public void annotate(Image image, AnnotationType type, AnnotationCode code, String message) {
 		Annotation a = new Annotation();
 		a.setAnnotatedObj(image);
-		a.setAuthority(super.getSource());
+		a.setAuthority(getSource());
 		if(jobId != null) {
 			a.setJobId(jobId);
 		}

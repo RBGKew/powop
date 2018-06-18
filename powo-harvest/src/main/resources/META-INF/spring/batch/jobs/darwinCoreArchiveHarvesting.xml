@@ -1114,10 +1114,6 @@
   <bean id="imageProcessor" class="org.powo.job.dwc.image.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
-    <property name="family" value="#{jobParameters['family']}" />
-    <property name="subfamily" value="#{jobParameters['subfamily']}" />
-    <property name="tribe" value="#{jobParameters['tribe']}" />
-    <property name="subtribe" value="#{jobParameters['subtribe']}" />
   </bean>
 
   <bean id="imageRecordSeparatorPolicy" class="org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy"
@@ -1917,8 +1913,6 @@
     class="org.powo.job.dwc.DwCProcessingExceptionProcessListener"
     scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="transactionManager" ref="transactionManager" />
   </bean>
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">

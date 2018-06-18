@@ -83,6 +83,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 				bind(t);
 				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
 				t.setAuthority(getSource());
+				t.setResource(getResource());
 				return t;
 			}
 		} else {

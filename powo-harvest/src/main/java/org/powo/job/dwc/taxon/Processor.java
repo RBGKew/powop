@@ -46,6 +46,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			validate(t);
 			chunkAnnotations.add(createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info));
 			t.setAuthority(getSource());
+			t.setResource(getResource());
 			logger.debug("Adding taxon " + t);
 			return t;
 		} else {

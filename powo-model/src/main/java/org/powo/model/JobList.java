@@ -92,7 +92,6 @@ public class JobList extends Base {
 	@JsonProperty(access = Access.READ_ONLY)
 	public boolean hasNextJob() {
 		log.debug("currentJob: {}, num jobConfigurations: {}", currentJob, getJobConfigurations().size());
-		log.debug("jobConfigurations: {}", getJobConfigurations());
 		return currentJob < (getJobConfigurations().size() - 1);
 	}
 
