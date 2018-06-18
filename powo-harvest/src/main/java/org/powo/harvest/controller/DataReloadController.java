@@ -19,6 +19,7 @@ import org.powo.model.registry.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +50,7 @@ public class DataReloadController {
 	@Autowired
 	private JobListService jobListService;
 
-	@GetMapping(produces = "application/json; charset=utf-8")
+	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<String> exportConfiguration() throws JsonProcessingException {
 		ConfigurationExport export = ConfigurationExport.builder()
 				.organisations(organisationService.list())
@@ -60,7 +61,7 @@ public class DataReloadController {
 		return new ResponseEntity<>(mapper.writeValueAsString(export), HttpStatus.OK);
 	}
 
-	@PostMapping
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<String> importConfiguration(@RequestBody ConfigurationExport conf, BindingResult result) throws JsonProcessingException {
 		try {
 			for(Organisation organisation : conf.getOrganisations()) {

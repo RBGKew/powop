@@ -13,7 +13,7 @@ def _api(method):
     return API_PREFIX + API_URL + method
 
 def load_data_config():
-    config = open('data.json').read()
+    config = open('data.json', 'br')
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     r = requests.post(_api('/data'), data=config, headers=headers)
     r.raise_for_status()
