@@ -40,7 +40,7 @@ def load_data():
     load_data_config()
     # assume the job list that loads everything has identifier 1
     run_joblist("1")
-    return wait_until_data_loded("1", timeout=datetime.timedelta(hours=10))
+    return wait_until_data_loded("1", timeout=datetime.timedelta(hours=16))
 
 def wait_until_data_loded(joblist, timeout=None):
     wait = 60
