@@ -47,4 +47,8 @@
   <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
   <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
 
+  <mvc:cors>
+    <mvc:mapping path="/api/1/**" />
+  </mvc:cors>
+
 </beans>
