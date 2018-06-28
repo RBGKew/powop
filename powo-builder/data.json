@@ -1,59 +1,69 @@
 {
   "organisations": [
     {
-      "description": "The International Plant Names Index (IPNI) is a database of the names and associated basic bibliographical details of seed plants, ferns and lycophytes. Its goal is to eliminate the need for repeated reference to primary sources for basic bibliographic information about plant names. The data are freely available and are gradually being standardized and checked. IPNI is a dynamic resource, depending on direct contributions by all members of the botanical community.",
+      "description": "See <a href=\"http://apps.kew.org/wcsp/about.do\">http://apps.kew.org/wcsp/about.do</a>",
       "abbreviation": "KB",
-      "subject": "IPNI; International Plant Name Index; Royal Botanic Gardens, Kew",
+      "subject": "WCSP; World Checklist of Selected Plant families; Royal Botanic Gardens, Kew",
       "title": "Kew Names and Taxonomic Backbone",
-      "bibliographicCitation": "The International Plant Names Index (2017). Published on the Internet http://www.ipni.org",
-      "identifier": "Kew-Backbone",
+      "bibliographicCitation": "The International Plant Names Index and World Checklist of Selected Plant Families 2018. Published on the Internet at http://www.ipni.org and http://apps.kew.org/wcsp/",
+      "identifier": "Kew-Names-and-Taxonomic-Backbone",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/backbone/msic_ipni_names.zip",
-          "organisation": "Kew-Backbone",
+          "organisation": "Kew-Names-and-Taxonomic-Backbone",
           "title": "Misc IPNI Names",
-          "identifier": "IPNI-Names"
+          "identifier": "Misc-IPNI-Names"
         },
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/backbone/if_species_name.zip",
-          "organisation": "Kew-Backbone",
-          "title": "IF Species Namess",
-          "identifier": "IF-Species-Name"
+          "organisation": "Kew-Names-and-Taxonomic-Backbone",
+          "title": "IF Species Names",
+          "identifier": "IF-Species-Names"
         },
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/backbone/taxonFamilyGenus.zip",
-          "organisation": "Kew-Backbone",
+          "organisation": "Kew-Names-and-Taxonomic-Backbone",
           "title": "Family and Genus Names",
-          "identifier": "Family-Genus-Names"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyFamilyGenus.zip",
-          "organisation": "Kew-Backbone",
-          "title": "Family and Genus Taxonomy",
-          "identifier": "Family-Genus-Taxonomy"
+          "identifier": "Family-and-Genus-Names"
         },
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/backbone/taxonWCS.zip",
-          "organisation": "Kew-Backbone",
+          "organisation": "Kew-Names-and-Taxonomic-Backbone",
           "title": "Species Names",
           "identifier": "Species-Names"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyWCS.zip",
-          "organisation": "Kew-Backbone",
-          "title": "Species Taxonomy ",
-          "identifier": "Species-Taxonomy"
+          "uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyFamilyGenus.zip",
+          "organisation": "Kew-Names-and-Taxonomic-Backbone",
+          "title": "Family and Genus Taxonomy",
+          "identifier": "Family-and-Genus-Taxonomy"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/backbone/distributionWCS.zip",
-          "organisation": "Kew-Backbone",
+          "uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyWCS.zip",
+          "organisation": "Kew-Names-and-Taxonomic-Backbone",
+          "title": "Species Taxonomy",
+          "identifier": "Species-Taxonomy"
+        }
+      ]
+    },
+    {
+      "description": "See <a href=\"http://apps.kew.org/wcsp/about.do\">http://apps.kew.org/wcsp/about.do</a>",
+      "abbreviation": "KBD",
+      "subject": "WCSP; World Checklist of Selected Plant families; Royal Botanic Gardens, Kew",
+      "title": "Kew Backbone Distributions",
+      "bibliographicCitation": "The International Plant Names Index and World Checklist of Selected Plant Families 2018. Published on the Internet at http://www.ipni.org and http://apps.kew.org/wcsp/",
+      "identifier": "Kew-Backbone-Distributions",
+      "resources": [
+        {
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/backbone/distributionWCS.zip",
+          "organisation": "Kew-Backbone-Distributions",
           "title": "WCS Distributions",
           "identifier": "WCS-Distributions"
         }
@@ -61,27 +71,40 @@
     },
     {
       "description": "Flora of Tropical East Africa",
-      "abbreviation": "FTEA",
-      "publisherName": "POWOP content",
-      "subject": "; Kenya; Uganda; Tanzania; Angiosperms; Gymnosperms",
+      "abbreviation": " FTEA",
       "title": "Flora of Tropical East Africa",
       "bibliographicCitation": "Flora of Tropical East Africa",
-      "creator": "POWOP content",
-      "identifier": "FTEA",
+      "identifier": "Flora-of-Tropical-East-Africa",
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/ftea/newFteaTreatments2017.11.21.zip",
-          "organisation": "FTEA",
-          "title": "FTEA New Treatments",
-          "identifier": "FTEA-new-2017"
+          "uri": "https://storage.googleapis.com/powop-content/FTEA/FTEA.zip",
+          "organisation": "Flora-of-Tropical-East-Africa",
+          "title": "FTEA all descriptions",
+          "identifier": "FTEA-all-descriptions"
+        }
+      ]
+    },
+    {
+      "description": "Flora of West Tropical Africa",
+      "abbreviation": "FWTA",
+      "title": "Flora of West Tropical Africa",
+      "bibliographicCitation": "Flora of West Tropical Africa",
+      "identifier": "Flora-of-West-Tropical-Africa",
+      "resources": [
+        {
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/FWTA/FTWA.zip",
+          "organisation": "Flora-of-West-Tropical-Africa",
+          "title": "FWTA",
+          "identifier": "FWTA"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/ftea/ftea%2Bhabitat%2Bdistricts%2Brange.2017.11.21.zip",
-          "organisation": "FTEA",
-          "title": "FTEA All",
-          "identifier": "FTEA-all"
+          "uri": "https://storage.googleapis.com/powop-content/multimedia/fwtaAcmedia.zip",
+          "organisation": "Flora-of-West-Tropical-Africa",
+          "title": "Illustrations from Flora of West Tropical Africa",
+          "identifier": "Illustrations-from-Flora-of-West-Tropical-Africa"
         }
       ]
     },
@@ -93,105 +116,36 @@
       "title": "Flora Zambesiaca",
       "bibliographicCitation": "Flora Zambesiaca",
       "creator": "POWOP content",
-      "identifier": "FZ",
+      "identifier": "Flora-Zambesiaca",
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fz/fzFamilies2016.11.22.zip",
-          "organisation": "FZ",
-          "title": "FZ Families",
-          "identifier": "FZ-Families"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fz/fz_genera_6_nov-2017.zip",
-          "organisation": "FZ",
-          "title": "FZ Genera",
-          "identifier": "FZ-Genera"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fz/fz_species(latest).zip",
-          "organisation": "FZ",
-          "title": "FZ Species",
-          "identifier": "FZ-Species"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fz/FZ%20Aspar-Amary_Isabelle.zip",
-          "organisation": "FZ",
-          "title": "FZ Aspara. Amary.",
-          "identifier": "FZ-Aspara-Amary"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fz/FZ_new_acanthaceae_pt2.zip",
-          "organisation": "FZ",
-          "title": "FZ Acanthaceae pt 2",
-          "identifier": "FZ-Acanthaceae"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fz/FZ_new_Papilionoideae.zip",
-          "organisation": "FZ",
-          "title": "FZ Papilionoideae",
-          "identifier": "FZ-Papilionoideae"
+          "uri": "https://storage.googleapis.com/powop-content/FZ/FZ.zip",
+          "organisation": "Flora-Zambesiaca",
+          "title": "FZ",
+          "identifier": "FZ"
         }
       ]
     },
     {
-      "abbreviation": "FWTA",
-      "title": "Flora of West Tropical Africa",
-      "identifier": "FWTA",
-      "resources": [
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fwta/fwtaFamilies2016.11.22.zip",
-          "organisation": "FWTA",
-          "title": "FWTA Families",
-          "identifier": "FWTA-Families"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fwta/fwta_genera(latest).zip",
-          "organisation": "FWTA",
-          "title": "FWTA Genera",
-          "identifier": "FWTA-Genera"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/fwta/fwtaSpecies_2016_11_22.zip",
-          "organisation": "FWTA",
-          "title": "FWTA Species",
-          "identifier": "FWTA-Species"
-        },
-        {
-          "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/multimedia/fwtaAcmedia.zip",
-          "organisation": "FWTA",
-          "title": "Illustrations from Flora of West Tropical Africa",
-          "identifier": "FWTA-Images"
-        }
-      ]
-    },
-    {
+      "description": "GrassBase - The Online World Grass Flora",
       "abbreviation": "GB",
       "title": "GrassBase - The Online World Grass Flora",
-      "identifier": "Grassbase",
+      "identifier": "GrassBase-The-Online-World-Grass-Flora",
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/descriptions/dwcaGrassbase2017.04.12.zip",
-          "organisation": "Grassbase",
-          "title": "Grassbase",
-          "identifier": "Grassbase"
+          "uri": "https://storage.googleapis.com/powop-content/grassbase/Grassbase.zip",
+          "organisation": "GrassBase-The-Online-World-Grass-Flora",
+          "title": "Grassbase descriptions",
+          "identifier": "Grassbase-descriptions"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/multimedia/dwcaGBM2.zip",
-          "organisation": "Grassbase",
-          "title": "Grassbase Images",
-          "identifier": "Grassbase-Images"
+          "uri": "https://storage.googleapis.com/powop-content/multimedia/dwcaGBM2.zip",
+          "organisation": "GrassBase-The-Online-World-Grass-Flora",
+          "title": "Grassbase images",
+          "identifier": "Grassbase-images"
         }
       ]
     },
@@ -207,24 +161,24 @@
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/species_profiles/SpeciesProfiles_May2018.zip",
+          "uri": "https://storage.googleapis.com/powop-content/species_profiles/SpeciesProfileDescriptions.zip",
           "organisation": "Kew-Species-Profiles",
-          "title": "Kew Species Profiles",
-          "identifier": "Kew-Species-Profiles"
+          "title": "Species Profile Descriptons",
+          "identifier": "Species-Profile-Descriptons"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/species_profiles/vernacular.zip",
+          "uri": "https://storage.googleapis.com/powop-content/species_profiles/SpeciesProfileVernacular.zip",
           "organisation": "Kew-Species-Profiles",
-          "title": "KSP Vernaculars",
-          "identifier": "KSP-Vernaculars"
+          "title": "Species Profile Vernacular",
+          "identifier": "Species-Profile-Vernacular"
         },
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/kewProfileImages_full.zip",
           "organisation": "Kew-Species-Profiles",
-          "title": "KSP Images",
-          "identifier": "KSP-Images"
+          "title": "Species Profile Images",
+          "identifier": "Species-Profile-Images"
         }
       ]
     },
@@ -236,25 +190,23 @@
       "title": "Interactive Key to Seed Plants of Malesia and Indo-China",
       "bibliographicCitation": "The Malesian Key Group (2010) Interactive Key to Seed Plants of Malesia and Indo-China (Version 2.0, 28 Jul 2010) The Nationaal Herbarium Nederland Leiden and The Royal Botanic Gardens Kew",
       "creator": "POWOP content",
-      "identifier": "Malesian-Key",
+      "identifier": "Interactive-Key-to-Seed-Plants-of-Malesia-and-Indo-China",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/malesian_key_new.zip",
-          "organisation": "Malesian-Key",
+          "organisation": "Interactive-Key-to-Seed-Plants-of-Malesia-and-Indo-China",
           "title": "Malesian Key Images",
-          "identifier": "MK-Images"
+          "identifier": "Malesian-Key-Images"
         }
       ]
     },
     {
-      "description": "Field Photographs from Botswana",
+      "description": "Common Names from the http://www.plantsandpeopleafrica.com/",
       "abbreviation": "PaPA",
-      "publisherName": "Plants and People Africa - Roger and Alison Heath",
-      "subject": "Angiosperms",
+      "subject": "Botswana; Common Names",
       "title": "Plants and People Africa",
-      "bibliographicCitation": "Roger and Alison Heath, Plants and People Africa",
-      "creator": "Roger and Alison Heath",
+      "bibliographicCitation": "Common Names from Plants and People Africa http://www.plantsandpeopleafrica.com/",
       "identifier": "Plants-and-People-Africa",
       "resources": [
         {
@@ -266,7 +218,7 @@
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/common_names/botswana_common.zip",
+          "uri": "https://storage.googleapis.com/powop-content/common_names/PPAfrica-botswana-commonnames.zip",
           "organisation": "Plants-and-People-Africa",
           "title": "Botswana Common Names",
           "identifier": "Botswana-Common-Names"
@@ -279,21 +231,21 @@
       "subject": "Kew; Herbarium; Determination",
       "title": "Herbarium Catalogue Determinations",
       "bibliographicCitation": "'The Herbarium Catalogue, Royal Botanic Gardens, Kew. Published on the Internet http://www.kew.org/herbcat [accessed on Day Month Year]'. Please enter the date on which you consulted the system.",
-      "identifier": "Herbcat",
+      "identifier": "Herbarium-Catalogue-Determinations",
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/herbcat_dets.zip",
-          "organisation": "Herbcat",
+          "uri": "https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets.zip",
+          "organisation": "Herbarium-Catalogue-Determinations",
           "title": "Herbcat Dets",
           "identifier": "Herbcat-Dets"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/herbcat_dets_autonyms.zip",
-          "organisation": "Herbcat",
-          "title": "Autonym Dets",
-          "identifier": "Autonym-Dets"
+          "uri": "https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets_autonyms.zip",
+          "organisation": "Herbarium-Catalogue-Determinations",
+          "title": "Herbcat Autonym Dets",
+          "identifier": "Herbcat-Autonym-Dets"
         }
       ]
     },
@@ -301,20 +253,20 @@
       "description": "Art and Illustrations in Digifolia",
       "abbreviation": "LAA",
       "subject": "Art; Illustrations; Digifolia; Royal Botanic Gardens, Kew",
-      "title": "Kew Library Art and Archives",
-      "identifier": "LAA",
+      "title": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip",
+      "identifier": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip",
-          "organisation": "LAA",
+          "organisation": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
           "title": "Library Art and Archives",
-          "identifier": "LAA-Illustrations"
+          "identifier": "Library-Art-and-Archives"
         },
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/colombia.zip",
-          "organisation": "LAA",
+          "organisation": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
           "title": "Colombian Illustrations",
           "identifier": "Colombian-Illustrations"
         }
@@ -325,14 +277,14 @@
       "abbreviation": "O-EM",
       "subject": "eMonocot; Orchideae; Royal Botanic Gardens, Kew",
       "title": "Orchideae: e-monocot.org",
-      "identifier": "orchideae",
+      "identifier": "Orchideae-e-monocot-org",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/scratchpads/orchideae.e-monocot.org.zip",
-          "organisation": "orchideae",
+          "organisation": "Orchideae-e-monocot-org",
           "title": "Orchideae: e-monocot.org",
-          "identifier": "orchideae"
+          "identifier": "Orchideae-e-monocot-org"
         }
       ]
     },
@@ -341,14 +293,14 @@
       "abbreviation": "E-EM",
       "subject": "eMonocot; Eulophiinae; Royal Botanic Gardens, Kew",
       "title": "Eulophiinae: e-monocot.org",
-      "identifier": "eulophiinae",
+      "identifier": "Eulophiinae-e-monocot-org",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/scratchpads/eulophiinae.e-monocot.org.zip",
-          "organisation": "eulophiinae",
+          "organisation": "Eulophiinae-e-monocot-org",
           "title": "Eulophiinae: e-monocot.org",
-          "identifier": "eulophiinae"
+          "identifier": "Eulophiinae-e-monocot-org"
         }
       ]
     },
@@ -357,14 +309,14 @@
       "abbreviation": "C-EM",
       "subject": "eMonocot; Cypripedioideae; Royal Botanic Gardens, Kew",
       "title": "Cypripedioideae: e-monocot.org",
-      "identifier": "cypripedioideae",
+      "identifier": "Cypripedioideae-e-monocot-org",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/scratchpads/cypripedioideae.e-monocot.org.zip",
-          "organisation": "cypripedioideae",
+          "organisation": "Cypripedioideae-e-monocot-org",
           "title": "Cypripedioideae: e-monocot.org",
-          "identifier": "cypripedioideae"
+          "identifier": "Cypripedioideae-e-monocot-org"
         }
       ]
     },
@@ -373,14 +325,14 @@
       "abbreviation": "A-EM",
       "subject": "eMonocot; Aeridinae; Royal Botanic Gardens, Kew",
       "title": "Aeridinae: e-monocot.org",
-      "identifier": "aeridinae",
+      "identifier": "Aeridinae-e-monocot-org",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/scratchpads/aeridinae.e-monocot.org.zip",
-          "organisation": "aeridinae",
+          "organisation": "Aeridinae-e-monocot-org",
           "title": "Aeridinae: e-monocot.org",
-          "identifier": "aeridinae"
+          "identifier": "Aeridinae-e-monocot-org"
         }
       ]
     },
@@ -396,14 +348,14 @@
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/neotropikey/neotropikey6.zip",
+          "uri": "https://storage.googleapis.com/powop-content/neotropikey/neotropikey.zip",
           "organisation": "Neotropikey",
           "title": "Neotropikey",
           "identifier": "Neotropikey"
         },
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/neotropikey/dwcaNeotropikeyMedia.zip",
+          "uri": "https://storage.googleapis.com/powop-content/multimedia/neotropikey-acmedia.zip",
           "organisation": "Neotropikey",
           "title": "Neotropikey Images",
           "identifier": "Neotropikey-Images"
@@ -415,14 +367,14 @@
       "abbreviation": "SP",
       "subject": "Science; Photographs; Digifolia; Royal Botanic Gardens, Kew",
       "title": "Kew Science Photographs",
-      "identifier": "Science-Photographs",
+      "identifier": "Kew-Science-Photographs",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_science_photos.zip",
-          "organisation": "Science-Photographs",
+          "organisation": "Kew-Science-Photographs",
           "title": "Kew Science Photographs",
-          "identifier": "Science-Photographs"
+          "identifier": "Kew-Science-Photographs"
         }
       ]
     },
@@ -431,12 +383,12 @@
       "abbreviation": "WAMS",
       "subject": "Microscope; Slides; Wood; Anatomy; Royal Botanic Gardens, Kew",
       "title": "Wood Anatomy Microscope Slides",
-      "identifier": "Wood-Slides",
+      "identifier": "Wood-Anatomy-Microscope-Slides",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/microscope_slides.zip",
-          "organisation": "Wood-Slides",
+          "organisation": "Wood-Anatomy-Microscope-Slides",
           "title": "Microscope Slides",
           "identifier": "Microscope-Slides"
         }
@@ -451,12 +403,12 @@
       "title": "Palmweb - Palms of the World Online",
       "bibliographicCitation": "Palmweb 2011. Palmweb: Palms of the World Online. Published on the internet http://www.palmweb.org. Accessed on 21/04/2013",
       "creator": "Palmweb",
-      "identifier": "Palmweb",
+      "identifier": "Palmweb-Palms-of-the-World-Online",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/emonocot/palmweb.org.zip",
-          "organisation": "Palmweb",
+          "organisation": "Palmweb-Palms-of-the-World-Online",
           "title": "PalmWeb",
           "identifier": "PalmWeb"
         }
@@ -467,33 +419,59 @@
       "abbreviation": "LOWO",
       "subject": "LOWO; Legumes; Images; Royal Botanic Gardens, Kew",
       "title": "Legumes of the World Online",
-      "identifier": "LOWO",
+      "identifier": "Legumes-of-the-World-Online",
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/multimedia/lowo_images.zip",
-          "organisation": "LOWO",
+          "uri": "https://storage.googleapis.com/powop-content/LOWO/LOWOdescs-genera-tribes.zip",
+          "organisation": "Legumes-of-the-World-Online",
+          "title": "LOWO Descriptions",
+          "identifier": "LOWO-Descriptions"
+        },
+        {
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/multimedia/lowo_images.zip",
+          "organisation": "Legumes-of-the-World-Online",
           "title": "LOWO Images",
-          "identifier": "LOWO-images"
+          "identifier": "LOWO-Images"
         }
       ]
     },
     {
-      "description": "Useful Plants of Boyacá Project",
-      "abbreviation": "UPB",
+      "description": "Gymnosperms (comprising ginkgo, conifers, cycads, and gnetophytes) are one of the most threatened groups of living organisms, with 40% of the species at high risk of extinction. The Evolutionary Distinct and Globally Endangered (EDGE) method rapidly ranks species based on their evolutionary distinctiveness and the extinction risks they face. EDGE is applied to gymnosperms using a phylogenetic tree comprising DNA sequence data for 85% of gymnosperm species (923 out of 1090 species), to which the 167 missing species were added, and IUCN Red List assessments available for 92% of species.",
+      "abbreviation": "EDGE",
       "publisherName": "POWOP content",
-      "subject": "; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
-      "title": "Useful Plants of Boyacá",
-      "bibliographicCitation": "Useful Plants of Boyacá Project",
+      "subject": "Conservation; Gymnosperms; EDGE",
+      "title": "EDGE Gymnosperms",
+      "bibliographicCitation": "EDGE of Existence (Gymnosperms)",
       "creator": "POWOP content",
-      "identifier": "UPB",
+      "identifier": "EDGE-Gymnosperms",
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/UPB/UPB_09032018.zip",
-          "organisation": "UPB",
-          "title": "UPB",
-          "identifier": "UPB"
+          "uri": "https://storage.googleapis.com/powop-content/ConservRanking-EDGE/EDGEGYMN-180418.zip",
+          "organisation": "EDGE-Gymnosperms",
+          "title": "EDGE gymnosperms",
+          "identifier": "EDGE-gymnosperms"
+        }
+      ]
+    },
+    {
+      "description": "Kew Bulletin",
+      "abbreviation": "KBu",
+      "publisherName": "POWOP content",
+      "subject": "; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms",
+      "title": "Kew Bulletin",
+      "bibliographicCitation": "Kew Bulletin",
+      "creator": "POWOP content",
+      "identifier": "Kew-Bulletin",
+      "resources": [
+        {
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/KewBulletin/KewBulletinBatches0-2.zip",
+          "organisation": "Kew-Bulletin",
+          "title": "Kew Bulletin",
+          "identifier": "Kew-Bulletin"
         }
       ]
     }
@@ -501,490 +479,426 @@
   "jobConfigurations": [
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "1",
-      "description": "Harvest names from Misc IPNI Names",
+      "identifier": "Harvest-Misc-IPNI-Names",
+      "description": "Harvest Misc IPNI Names",
       "parameters": {
-        "resource.identifier": "IPNI-Names",
+        "resource.identifier": "Misc-IPNI-Names",
+        "skip.indexing": "true",
         "taxon.processing.mode": "IMPORT_NAMES",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/msic_ipni_names.zip",
-        "skip.indexing": "true"
+        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/msic_ipni_names.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "2",
-      "description": "Harvest names from IF Species Names",
+      "identifier": "Harvest-IF-Species-Names",
+      "description": "Harvest IF Species Names",
       "parameters": {
-        "resource.identifier": "IF-Species-Name",
+        "resource.identifier": "IF-Species-Names",
+        "skip.indexing": "true",
         "taxon.processing.mode": "IMPORT_NAMES",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/if_species_name.zip",
-        "skip.indexing": "true"
+        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/if_species_name.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "3",
-      "description": "Harvest names from Family and Genus Names",
+      "identifier": "Harvest-Family-and-Genus-Names",
+      "description": "Harvest Family and Genus Names",
       "parameters": {
-        "resource.identifier": "Family-Genus-Names",
+        "resource.identifier": "Family-and-Genus-Names",
+        "skip.indexing": "true",
         "taxon.processing.mode": "IMPORT_NAMES",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonFamilyGenus.zip",
-        "skip.indexing": "true"
+        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonFamilyGenus.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "4",
-      "description": "Harvest taxonomy from Family and Genus Taxonomy",
-      "parameters": {
-        "resource.identifier": "Family-Genus-Taxonomy",
-        "taxon.processing.mode": "IMPORT_TAXONOMY",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyFamilyGenus.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "5",
-      "description": "Harvest names from Species Names",
+      "identifier": "Harvest-Species-Names",
+      "description": "Harvest Species Names",
       "parameters": {
         "resource.identifier": "Species-Names",
+        "skip.indexing": "true",
         "taxon.processing.mode": "IMPORT_NAMES",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonWCS.zip",
-        "skip.indexing": "true"
+        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonWCS.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "6",
-      "description": "Harvest taxonomy from Species Taxonomy",
+      "identifier": "Harvest-Family-and-Genus-Taxonomy",
+      "description": "Harvest Family and Genus Taxonomy",
+      "parameters": {
+        "resource.identifier": "Family-and-Genus-Taxonomy",
+        "skip.indexing": "true",
+        "taxon.processing.mode": "IMPORT_TAXONOMY",
+        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyFamilyGenus.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Species-Taxonomy",
+      "description": "Harvest Species Taxonomy",
       "parameters": {
         "resource.identifier": "Species-Taxonomy",
+        "skip.indexing": "true",
         "taxon.processing.mode": "IMPORT_TAXONOMY",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyWCS.zip",
-        "skip.indexing": "true"
+        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/taxonomyWCS.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "7",
+      "identifier": "Harvest-WCS-Distributions",
       "description": "Harvest WCS Distributions",
       "parameters": {
         "resource.identifier": "WCS-Distributions",
-        "authority.name": "Kew-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/distributionWCS.zip",
-        "skip.indexing": "true"
+        "skip.indexing": "true",
+        "authority.name": "Kew-Backbone-Distributions",
+        "authority.uri": "https://storage.googleapis.com/powop-content/backbone/distributionWCS.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "8",
-      "description": "Harvest Grassbase",
+      "identifier": "Harvest-FTEA-all-descriptions",
+      "description": "Harvest FTEA all descriptions",
       "parameters": {
-        "resource.identifier": "Grassbase",
-        "authority.name": "Grassbase",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/dwcaGrassbase2017.04.12.zip",
-        "skip.indexing": "true"
+        "resource.identifier": "FTEA-all-descriptions",
+        "skip.indexing": "true",
+        "authority.name": "Flora-of-Tropical-East-Africa",
+        "authority.uri": "https://storage.googleapis.com/powop-content/FTEA/FTEA.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "9",
-      "description": "Harvest Kew Species Profiles",
+      "identifier": "Harvest-FWTA",
+      "description": "Harvest FWTA",
       "parameters": {
-        "resource.identifier": "Kew-Species-Profiles",
+        "resource.identifier": "FWTA",
+        "skip.indexing": "true",
+        "authority.name": "Flora-of-West-Tropical-Africa",
+        "authority.uri": "https://storage.googleapis.com/powop-content/FWTA/FTWA.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Illustrations-from-Flora-of-West-Tropical-Africa",
+      "description": "Harvest Illustrations from Flora of West Tropical Africa",
+      "parameters": {
+        "resource.identifier": "Illustrations-from-Flora-of-West-Tropical-Africa",
+        "skip.indexing": "true",
+        "prefix": "https://storage.googleapis.com/powop-assets/",
+        "authority.name": "Flora-of-West-Tropical-Africa",
+        "authority.uri": "https://storage.googleapis.com/powop-content/multimedia/fwtaAcmedia.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-FZ",
+      "description": "Harvest FZ",
+      "parameters": {
+        "resource.identifier": "FZ",
+        "skip.indexing": "true",
+        "authority.name": "Flora-Zambesiaca",
+        "authority.uri": "https://storage.googleapis.com/powop-content/FZ/FZ.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Grassbase-descriptions",
+      "description": "Harvest Grassbase descriptions",
+      "parameters": {
+        "resource.identifier": "Grassbase-descriptions",
+        "skip.indexing": "true",
+        "authority.name": "GrassBase-The-Online-World-Grass-Flora",
+        "authority.uri": "https://storage.googleapis.com/powop-content/grassbase/Grassbase.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Grassbase-images",
+      "description": "Harvest Grassbase images",
+      "parameters": {
+        "resource.identifier": "Grassbase-images",
+        "skip.indexing": "true",
+        "prefix": "http://storage.googleapis.com/powop-assets",
+        "authority.name": "GrassBase-The-Online-World-Grass-Flora",
+        "authority.uri": "https://storage.googleapis.com/powop-content/multimedia/dwcaGBM2.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Species-Profile-Descriptons",
+      "description": "Harvest Species Profile Descriptons",
+      "parameters": {
+        "resource.identifier": "Species-Profile-Descriptons",
+        "skip.indexing": "true",
         "authority.name": "Kew-Species-Profiles",
-        "authority.uri": "http://storage.googleapis.com/powop-content/species_profiles/SpeciesProfiles_May2018.zip",
-        "skip.indexing": "true"
+        "authority.uri": "https://storage.googleapis.com/powop-content/species_profiles/SpeciesProfileDescriptions.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "10",
-      "description": "Harvest KSP Vernaculars",
+      "identifier": "Harvest-Species-Profile-Vernacular",
+      "description": "Harvest Species Profile Vernacular",
       "parameters": {
-        "resource.identifier": "KSP-Vernaculars",
+        "resource.identifier": "Species-Profile-Vernacular",
+        "skip.indexing": "true",
         "authority.name": "Kew-Species-Profiles",
-        "authority.uri": "http://storage.googleapis.com/powop-content/species_profiles/vernacular.zip",
-        "skip.indexing": "true"
+        "authority.uri": "https://storage.googleapis.com/powop-content/species_profiles/SpeciesProfileVernacular.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "11",
-      "description": "Harvest KSP Images",
+      "identifier": "Harvest-Species-Profile-Images",
+      "description": "Harvest Species Profile Images",
       "parameters": {
-        "resource.identifier": "KSP-Images",
+        "resource.identifier": "Species-Profile-Images",
+        "skip.indexing": "true",
         "prefix": "http://storage.googleapis.com/powop-assets/",
         "authority.name": "Kew-Species-Profiles",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/kewProfileImages_full.zip",
-        "skip.indexing": "true"
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/kewProfileImages_full.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "12",
-      "description": "Harvest Grassbase Images",
-      "parameters": {
-        "resource.identifier": "Grassbase-Images",
-        "prefix": "http://storage.googleapis.com/powop-assets",
-        "authority.name": "Grassbase",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/dwcaGBM2.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "13",
+      "identifier": "Harvest-Malesian-Key-Images",
       "description": "Harvest Malesian Key Images",
       "parameters": {
-        "resource.identifier": "MK-Images",
+        "resource.identifier": "Malesian-Key-Images",
+        "skip.indexing": "true",
         "prefix": "http://storage.googleapis.com/powop-assets/",
-        "authority.name": "Malesian-Key",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/malesian_key_new.zip",
-        "skip.indexing": "true"
+        "authority.name": "Interactive-Key-to-Seed-Plants-of-Malesia-and-Indo-China",
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/malesian_key_new.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "14",
+      "identifier": "Harvest-Botswana-Images",
       "description": "Harvest Botswana Images",
       "parameters": {
         "resource.identifier": "Botswana-Images",
+        "skip.indexing": "true",
         "prefix": "https://storage.googleapis.com/powop-assets/",
         "authority.name": "Plants-and-People-Africa",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/botswana.zip",
-        "skip.indexing": "true"
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/botswana.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "15",
-      "description": "Harvest Library Art and Archives",
-      "parameters": {
-        "resource.identifier": "LAA-Illustrations",
-        "authority.name": "LAA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "16",
-      "description": "Harvest Colombian Illustrations",
-      "parameters": {
-        "resource.identifier": "Colombian-Illustrations",
-        "prefix": "https://storage.googleapis.com/powop-assets",
-        "authority.name": "LAA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/colombia.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "19",
-      "description": "Harvest Orchideae: e-monocot.org",
-      "parameters": {
-        "resource.identifier": "orchideae",
-        "prefix": "http://storage.googleapis.com/powop-assets",
-        "authority.name": "orchideae",
-        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/orchideae.e-monocot.org.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "20",
-      "description": "Harvest Eulophiinae: e-monocot.org",
-      "parameters": {
-        "resource.identifier": "eulophiinae",
-        "prefix": "https://storage.googleapis.com/powop-assets",
-        "authority.name": "eulophiinae",
-        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/eulophiinae.e-monocot.org.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "21",
-      "description": "Harvest Cypripedioideae: e-monocot.org",
-      "parameters": {
-        "resource.identifier": "cypripedioideae",
-        "prefix": "https://storage.googleapis.com/powop-assets",
-        "authority.name": "cypripedioideae",
-        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/cypripedioideae.e-monocot.org.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "22",
-      "description": "Harvest Aeridinae: e-monocot.org",
-      "parameters": {
-        "resource.identifier": "aeridinae",
-        "prefix": "https://storage.googleapis.com/powop-assets",
-        "authority.name": "aeridinae",
-        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/aeridinae.e-monocot.org.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "23",
-      "description": "Harvest FTEA New Treatments",
-      "parameters": {
-        "resource.identifier": "FTEA-new-2017",
-        "authority.name": "FTEA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/ftea/newFteaTreatments2017.11.21.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "24",
-      "description": "Harvest FZ Families",
-      "parameters": {
-        "resource.identifier": "FZ-Families",
-        "authority.name": "FZ",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fz/fzFamilies2016.11.22.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "25",
-      "description": "Harvest FZ Genera",
-      "parameters": {
-        "resource.identifier": "FZ-Genera",
-        "authority.name": "FZ",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fz/fz_genera_6_nov-2017.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "26",
-      "description": "Harvest FZ Species",
-      "parameters": {
-        "resource.identifier": "FZ-Species",
-        "authority.name": "FZ",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fz/fz_species(latest).zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "27",
-      "description": "Harvest FZ Aspara. Amary.",
-      "parameters": {
-        "resource.identifier": "FZ-Aspara-Amary",
-        "authority.name": "FZ",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fz/FZ%20Aspar-Amary_Isabelle.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "28",
-      "description": "Harvest FZ Acanthaceae pt 2",
-      "parameters": {
-        "resource.identifier": "FZ-Acanthaceae",
-        "authority.name": "FZ",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fz/FZ_new_acanthaceae_pt2.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "29",
-      "description": "Harvest FZ Papilionoideae",
-      "parameters": {
-        "resource.identifier": "FZ-Papilionoideae",
-        "authority.name": "FZ",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fz/FZ_new_Papilionoideae.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "30",
-      "description": "Harvest FWTA Families",
-      "parameters": {
-        "resource.identifier": "FWTA-Families",
-        "authority.name": "FWTA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fwta/fwtaFamilies2016.11.22.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "31",
-      "description": "Harvest FWTA Genera",
-      "parameters": {
-        "resource.identifier": "FWTA-Genera",
-        "authority.name": "FWTA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fwta/fwta_genera(latest).zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "32",
-      "description": "Harvest FWTA Species",
-      "parameters": {
-        "resource.identifier": "FWTA-Species",
-        "authority.name": "FWTA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/fwta/fwtaSpecies_2016_11_22.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "33",
-      "description": "Harvest Illustrations from Flora of West Tropical Africa",
-      "parameters": {
-        "resource.identifier": "FWTA-Images",
-        "prefix": "https://storage.googleapis.com/powop-assets/",
-        "authority.name": "FWTA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/fwtaAcmedia.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "34",
-      "description": "Harvest Neotropikey",
-      "parameters": {
-        "resource.identifier": "Neotropikey",
-        "authority.name": "Neotropikey",
-        "authority.uri": "http://storage.googleapis.com/powop-content/neotropikey/neotropikey6.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "35",
-      "description": "Harvest Neotropikey Images",
-      "parameters": {
-        "resource.identifier": "Neotropikey-Images",
-        "prefix": "http://storage.googleapis.com/powop-assets/",
-        "authority.name": "Neotropikey",
-        "authority.uri": "http://storage.googleapis.com/powop-content/neotropikey/dwcaNeotropikeyMedia.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "36",
-      "description": "Harvest Kew Science Photographs",
-      "parameters": {
-        "resource.identifier": "Science-Photographs",
-        "authority.name": "Science-Photographs",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_science_photos.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "37",
-      "description": "Harvest Microscope Slides",
-      "parameters": {
-        "resource.identifier": "Microscope-Slides",
-        "authority.name": "Wood-Slides",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/microscope_slides.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "38",
-      "description": "Harvest PalmWeb",
-      "parameters": {
-        "resource.identifier": "PalmWeb",
-        "prefix": "https://storage.googleapis.com/powop-assets",
-        "authority.name": "Palmweb",
-        "authority.uri": "http://storage.googleapis.com/powop-content/emonocot/palmweb.org.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "39",
-      "description": "Harvest LOWO Images",
-      "parameters": {
-        "resource.identifier": "LOWO-images",
-        "prefix": "http://storage.googleapis.com/powop-assets/",
-        "authority.name": "LOWO",
-        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/lowo_images.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "40",
-      "description": "Harvest FTEA All",
-      "parameters": {
-        "resource.identifier": "FTEA-all",
-        "authority.name": "FTEA",
-        "authority.uri": "http://storage.googleapis.com/powop-content/descriptions/ftea/ftea%2Bhabitat%2Bdistricts%2Brange.2017.11.21.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "41",
-      "description": "Harvest Herbcat Dets",
-      "parameters": {
-        "resource.identifier": "Herbcat-Dets",
-        "authority.name": "Herbcat",
-        "authority.uri": "http://storage.googleapis.com/powop-content/herbcat_dets.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "43",
-      "description": "Harvest Autonym Dets",
-      "parameters": {
-        "resource.identifier": "Autonym-Dets",
-        "authority.name": "Herbcat",
-        "authority.uri": "http://storage.googleapis.com/powop-content/herbcat_dets_autonyms.zip",
-        "skip.indexing": "true"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "44",
+      "identifier": "Harvest-Botswana-Common-Names",
       "description": "Harvest Botswana Common Names",
       "parameters": {
         "resource.identifier": "Botswana-Common-Names",
+        "skip.indexing": "true",
+        "prefix": "",
         "authority.name": "Plants-and-People-Africa",
-        "authority.uri": "http://storage.googleapis.com/powop-content/common_names/botswana_common.zip",
-        "skip.indexing": "true"
+        "authority.uri": "https://storage.googleapis.com/powop-content/common_names/PPAfrica-botswana-commonnames.zip"
       }
     },
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "47",
-      "description": "Harvest UPB",
+      "identifier": "Harvest-Herbcat-Dets",
+      "description": "Harvest Herbcat Dets",
       "parameters": {
-        "resource.identifier": "UPB",
-        "authority.name": "UPB",
-        "authority.uri": "http://storage.googleapis.com/powop-content/UPB/UPB_09032018.zip",
-        "skip.indexing": "true"
+        "resource.identifier": "Herbcat-Dets",
+        "skip.indexing": "true",
+        "authority.name": "Herbarium-Catalogue-Determinations",
+        "authority.uri": "https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Herbcat-Autonym-Dets",
+      "description": "Harvest Herbcat Autonym Dets",
+      "parameters": {
+        "resource.identifier": "Herbcat-Autonym-Dets",
+        "skip.indexing": "true",
+        "authority.name": "Herbarium-Catalogue-Determinations",
+        "authority.uri": "https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets_autonyms.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Library-Art-and-Archives",
+      "description": "Harvest Library Art and Archives",
+      "parameters": {
+        "resource.identifier": "Library-Art-and-Archives",
+        "skip.indexing": "true",
+        "authority.name": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Colombian-Illustrations",
+      "description": "Harvest Colombian Illustrations",
+      "parameters": {
+        "resource.identifier": "Colombian-Illustrations",
+        "skip.indexing": "true",
+        "prefix": "https://storage.googleapis.com/powop-assets",
+        "authority.name": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/colombia.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Orchideae-e-monocot-org",
+      "description": "Harvest Orchideae: e-monocot.org",
+      "parameters": {
+        "resource.identifier": "Orchideae-e-monocot-org",
+        "skip.indexing": "true",
+        "prefix": "http://storage.googleapis.com/powop-assets",
+        "authority.name": "Orchideae-e-monocot-org",
+        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/orchideae.e-monocot.org.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Eulophiinae-e-monocot-org",
+      "description": "Harvest Eulophiinae: e-monocot.org",
+      "parameters": {
+        "resource.identifier": "Eulophiinae-e-monocot-org",
+        "skip.indexing": "true",
+        "prefix": "https://storage.googleapis.com/powop-assets",
+        "authority.name": "Eulophiinae-e-monocot-org",
+        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/eulophiinae.e-monocot.org.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Cypripedioideae-e-monocot-org",
+      "description": "Harvest Cypripedioideae: e-monocot.org",
+      "parameters": {
+        "resource.identifier": "Cypripedioideae-e-monocot-org",
+        "skip.indexing": "true",
+        "prefix": "https://storage.googleapis.com/powop-assets",
+        "authority.name": "Cypripedioideae-e-monocot-org",
+        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/cypripedioideae.e-monocot.org.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Aeridinae-e-monocot-org",
+      "description": "Harvest Aeridinae: e-monocot.org",
+      "parameters": {
+        "resource.identifier": "Aeridinae-e-monocot-org",
+        "skip.indexing": "true",
+        "prefix": "https://storage.googleapis.com/powop-assets",
+        "authority.name": "Aeridinae-e-monocot-org",
+        "authority.uri": "http://storage.googleapis.com/powop-content/scratchpads/aeridinae.e-monocot.org.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Neotropikey",
+      "description": "Harvest Neotropikey",
+      "parameters": {
+        "resource.identifier": "Neotropikey",
+        "skip.indexing": "true",
+        "authority.name": "Neotropikey",
+        "authority.uri": "https://storage.googleapis.com/powop-content/neotropikey/neotropikey.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Neotropikey-Images",
+      "description": "Harvest Neotropikey Images",
+      "parameters": {
+        "resource.identifier": "Neotropikey-Images",
+        "skip.indexing": "true",
+        "prefix": "http://storage.googleapis.com/powop-assets/",
+        "authority.name": "Neotropikey",
+        "authority.uri": "https://storage.googleapis.com/powop-content/multimedia/neotropikey-acmedia.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Kew-Science-Photographs",
+      "description": "Harvest Kew Science Photographs",
+      "parameters": {
+        "resource.identifier": "Kew-Science-Photographs",
+        "skip.indexing": "true",
+        "authority.name": "Kew-Science-Photographs",
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_science_photos.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Microscope-Slides",
+      "description": "Harvest Microscope Slides",
+      "parameters": {
+        "resource.identifier": "Microscope-Slides",
+        "skip.indexing": "true",
+        "authority.name": "Wood-Anatomy-Microscope-Slides",
+        "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/microscope_slides.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-PalmWeb",
+      "description": "Harvest PalmWeb",
+      "parameters": {
+        "resource.identifier": "PalmWeb",
+        "skip.indexing": "true",
+        "prefix": "https://storage.googleapis.com/powop-assets",
+        "authority.name": "Palmweb-Palms-of-the-World-Online",
+        "authority.uri": "http://storage.googleapis.com/powop-content/emonocot/palmweb.org.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-LOWO-Descriptions",
+      "description": "Harvest LOWO Descriptions",
+      "parameters": {
+        "resource.identifier": "LOWO-Descriptions",
+        "skip.indexing": "true",
+        "authority.name": "Legumes-of-the-World-Online",
+        "authority.uri": "https://storage.googleapis.com/powop-content/LOWO/LOWOdescs-genera-tribes.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-LOWO-Images",
+      "description": "Harvest LOWO Images",
+      "parameters": {
+        "resource.identifier": "LOWO-Images",
+        "skip.indexing": "true",
+        "prefix": "http://storage.googleapis.com/powop-assets/",
+        "authority.name": "Legumes-of-the-World-Online",
+        "authority.uri": "https://storage.googleapis.com/powop-content/multimedia/lowo_images.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-EDGE-gymnosperms",
+      "description": "Harvest EDGE gymnosperms",
+      "parameters": {
+        "resource.identifier": "EDGE-gymnosperms",
+        "skip.indexing": "true",
+        "authority.name": "EDGE-Gymnosperms",
+        "authority.uri": "https://storage.googleapis.com/powop-content/ConservRanking-EDGE/EDGEGYMN-180418.zip"
+      }
+    },
+    {
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "identifier": "Harvest-Kew-Bulletin",
+      "description": "Harvest Kew Bulletin",
+      "parameters": {
+        "resource.identifier": "Kew-Bulletin",
+        "skip.indexing": "true",
+        "authority.name": "Kew-Bulletin",
+        "authority.uri": "https://storage.googleapis.com/powop-content/KewBulletin/KewBulletinBatches0-2.zip"
       }
     },
     {
       "jobName": "ReIndex",
-      "identifier": "42",
+      "identifier": "reindex",
       "description": "Re index all taxa",
       "parameters": {
+        "resource.identifier": "reindex",
         "query.string": "select t.id from Taxon t",
         "query.type": "org.powo.model.Taxon",
         "solr.selectedFacets": "base.class_s=org.powo.model.Taxon"
@@ -996,49 +910,43 @@
       "identifier": "1",
       "description": "Load everything",
       "jobConfigurations": [
-        "1",
-        "2",
-        "3",
-        "5",
-        "4",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-        "31",
-        "32",
-        "33",
-        "34",
-        "35",
-        "36",
-        "37",
-        "38",
-        "39",
-        "40",
-        "41",
-        "43",
-        "44",
-        "47",
-        "42"
+        "Harvest-Misc-IPNI-Names",
+        "Harvest-IF-Species-Names",
+        "Harvest-Family-and-Genus-Names",
+        "Harvest-Species-Names",
+        "Harvest-Family-and-Genus-Taxonomy",
+        "Harvest-Species-Taxonomy",
+        "Harvest-WCS-Distributions",
+        "Harvest-FTEA-all-descriptions",
+        "Harvest-FWTA",
+        "Harvest-Illustrations-from-Flora-of-West-Tropical-Africa",
+        "Harvest-FZ",
+        "Harvest-Grassbase-descriptions",
+        "Harvest-Grassbase-images",
+        "Harvest-Species-Profile-Descriptons",
+        "Harvest-Species-Profile-Vernacular",
+        "Harvest-Species-Profile-Images",
+        "Harvest-Malesian-Key-Images",
+        "Harvest-Botswana-Images",
+        "Harvest-Botswana-Common-Names",
+        "Harvest-Herbcat-Dets",
+        "Harvest-Herbcat-Autonym-Dets",
+        "Harvest-Library-Art-and-Archives",
+        "Harvest-Colombian-Illustrations",
+        "Harvest-Orchideae-e-monocot-org",
+        "Harvest-Eulophiinae-e-monocot-org",
+        "Harvest-Cypripedioideae-e-monocot-org",
+        "Harvest-Aeridinae-e-monocot-org",
+        "Harvest-Neotropikey",
+        "Harvest-Neotropikey-Images",
+        "Harvest-Kew-Science-Photographs",
+        "Harvest-Microscope-Slides",
+        "Harvest-PalmWeb",
+        "Harvest-LOWO-Descriptions",
+        "Harvest-LOWO-Images",
+        "Harvest-EDGE-gymnosperms",
+        "Harvest-Kew-Bulletin",
+        "reindex"
       ]
     }
   ]
