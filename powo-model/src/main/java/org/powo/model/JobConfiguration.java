@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -23,6 +24,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 
@@ -31,6 +33,7 @@ import lombok.Singular;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
 public class JobConfiguration extends Base {
 
@@ -42,7 +45,9 @@ public class JobConfiguration extends Base {
 
 	private String jobName;
 
-	private String identifier;
+	@Builder.Default
+	@NotNull
+	private String identifier = UUID.randomUUID().toString();
 
 	private Long lastJobExecution;
 
@@ -57,8 +62,4 @@ public class JobConfiguration extends Base {
 	private BatchStatus jobStatus;
 
 	private String jobExitCode;
-
-	public JobConfiguration() {
-		identifier = UUID.randomUUID().toString();
-	}
 }

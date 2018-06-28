@@ -78,7 +78,7 @@ public class Resource extends Base {
 
 	@JsonSerialize(using = OrganisationSerializer.class)
 	@JsonDeserialize(using = OrganisationDeserialiser.class)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Organisation organisation;
 
 	@NotEmpty

@@ -13,7 +13,6 @@
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     <context:exclude-filter type="assignable" expression="org.powo.api.JobListService" />
     <context:exclude-filter type="assignable" expression="org.powo.api.JobConfigurationService" />
-    <context:exclude-filter type="assignable" expression="org.powo.api.ResourceWithJobService" />
     <context:exclude-filter type="assignable" expression="org.powo.model.validators.JobListValidator" />
   </context:component-scan>
 

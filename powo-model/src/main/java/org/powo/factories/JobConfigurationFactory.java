@@ -7,7 +7,6 @@ import org.powo.api.job.JobConfigurationException;
 import org.powo.model.JobConfiguration;
 import org.powo.model.constants.ResourceType;
 import org.powo.model.marshall.json.JobWithParams;
-import org.powo.model.marshall.json.ResourceWithJob;
 import org.powo.model.registry.Resource;
 
 public class JobConfigurationFactory {
@@ -24,34 +23,6 @@ public class JobConfigurationFactory {
 				.parameter("authority.name", resource.getOrganisation().getIdentifier())
 				.parameter("authority.uri", resource.getUri())
 				.parameter("resource.identifier", resource.getIdentifier());
-	}
-
-	public static JobConfiguration resourceJob(ResourceWithJob resourceWithJob) {
-		JobConfiguration job;
-		switch(resourceWithJob.getJobType()) {
-		case Harvest:
-			job = JobConfigurationFactory.harvest(resourceWithJob.getResource());
-			break;
-		case HarvestNames:
-			job = JobConfigurationFactory.harvestNames(resourceWithJob.getResource());
-			break;
-		case HarvestTaxonomy:
-			job = JobConfigurationFactory.harvestTaxonomy(resourceWithJob.getResource());
-			break;
-		case HarvestImages:
-			job = JobConfigurationFactory.harvestImages(resourceWithJob.getResource(), resourceWithJob.getParams().remove("prefix"));
-			break;
-		default:
-			throw new JobConfigurationException("Not a job type associated with a resource");
-		}
-
-		if(resourceWithJob.getParams() != null && !resourceWithJob.getParams().isEmpty()) {
-			Map<String, String> params = new HashMap<>(job.getParameters());
-			params.putAll(resourceWithJob.getParams());
-			job.setParameters(params);
-		}
-
-		return job;
 	}
 
 	public static JobConfiguration buildJob(JobWithParams jobWithParams) {
