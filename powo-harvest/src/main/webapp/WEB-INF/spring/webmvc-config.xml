@@ -48,7 +48,9 @@
   <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
 
   <mvc:cors>
-    <mvc:mapping path="/api/1/**" />
+    <mvc:mapping path="/api/1/**" 
+      allowed-methods="GET, POST, HEAD, DELETE, OPTIONS"
+    />
   </mvc:cors>
 
 </beans>
