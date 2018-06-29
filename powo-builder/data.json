@@ -71,7 +71,7 @@
     },
     {
       "description": "Flora of Tropical East Africa",
-      "abbreviation": " FTEA",
+      "abbreviation": "FTEA",
       "title": "Flora of Tropical East Africa",
       "bibliographicCitation": "Flora of Tropical East Africa",
       "identifier": "Flora-of-Tropical-East-Africa",
@@ -253,20 +253,20 @@
       "description": "Art and Illustrations in Digifolia",
       "abbreviation": "LAA",
       "subject": "Art; Illustrations; Digifolia; Royal Botanic Gardens, Kew",
-      "title": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip",
-      "identifier": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+      "title": "Art and Illustrations in Digifolia",
+      "identifier": "Art-and-Illustrations-in-Digifolia",
       "resources": [
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip",
-          "organisation": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+          "organisation": "Art-and-Illustrations-in-Digifolia",
           "title": "Library Art and Archives",
           "identifier": "Library-Art-and-Archives"
         },
         {
           "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/multimedia/colombia.zip",
-          "organisation": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+          "organisation": "Art-and-Illustrations-in-Digifolia",
           "title": "Colombian Illustrations",
           "identifier": "Colombian-Illustrations"
         }
