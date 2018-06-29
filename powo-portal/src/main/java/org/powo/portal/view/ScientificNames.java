@@ -15,10 +15,11 @@ public class ScientificNames {
 	private Set<Organisation> sources;
 	private List<Taxon> sorted;
 
-	Comparator<Taxon> byScientificName = Comparator.comparing(Taxon::getFamily)
-			.thenComparing(Taxon::getGenus)
-			.thenComparing(Taxon::getSpecificEpithet)
-			.thenComparing(Taxon::getInfraspecificEpithet);
+	Comparator<String> nullFirst = Comparator.nullsFirst(Comparator.naturalOrder());
+	Comparator<Taxon> byScientificName = Comparator.comparing(Taxon::getFamily, nullFirst)
+			.thenComparing(Taxon::getGenus, nullFirst)
+			.thenComparing(Taxon::getSpecificEpithet, nullFirst)
+			.thenComparing(Taxon::getInfraspecificEpithet, nullFirst);
 
 	public ScientificNames(Collection<Taxon> taxa) {
 		this.sources = new HashSet<>();
@@ -36,7 +37,13 @@ public class ScientificNames {
 		return sources;
 	}
 
-	public int getCount() {
+	public long getNonHybridCount() {
+		return sorted.stream()
+				.filter(taxon -> !taxon.getScientificName().contains("×"))
+				.count();
+	}
+
+	public long getCount() {
 		return sorted.size();
 	}
 }
