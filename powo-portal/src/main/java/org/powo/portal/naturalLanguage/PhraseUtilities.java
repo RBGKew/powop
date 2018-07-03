@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.powo.model.constants.DescriptionType;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -71,6 +72,12 @@ public class PhraseUtilities {
 			}
 		}
 		return mapBySuperType;
+	}
+	
+	public String cleanSentence(String string){
+		// strips double full stops, adds trailing full stop, capitalizes
+		string += ".";
+		return string.replace("..", ".");
 	}
 	
 }

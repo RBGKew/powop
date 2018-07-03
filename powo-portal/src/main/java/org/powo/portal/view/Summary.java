@@ -1,34 +1,14 @@
 package org.powo.portal.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.Transient;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.powo.api.job.WCSPTerm;
 import org.powo.model.Description;
-import org.powo.model.Distribution;
-import org.powo.model.MeasurementOrFact;
 import org.powo.model.Taxon;
 import org.powo.model.constants.DescriptionType;
-import org.gbif.dwc.terms.Term;
 import org.powo.model.constants.TaxonomicStatus;
 import org.powo.portal.naturalLanguage.PhraseUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.i18n.LocaleContextHolder;
-
-import com.google.common.collect.ImmutableSet;
 
 public class Summary {
 

@@ -83,7 +83,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setSubgenus(t.getSubgenus());
 				persisted.setSubtribe(t.getSubtribe());
 				persisted.setTaxonomicStatus(t.getTaxonomicStatus());
-				persisted.setTaxonRank(t.getTaxonRank());
 				persisted.setTaxonRemarks(t.getTaxonRemarks());
 				persisted.setTribe(t.getTribe());
 				persisted.setTaxonRank(t.getTaxonRank());
