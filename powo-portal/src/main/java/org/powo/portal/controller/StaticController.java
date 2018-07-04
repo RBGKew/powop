@@ -15,18 +15,6 @@ public class StaticController {
 	@Qualifier("currentSite")
 	Site site;
 
-	@RequestMapping(value = "/generic-error", method = RequestMethod.GET, produces = {"text/html"})
-	public String error(Model model) {
-		site.populateStaticModel(model);
-		return "/generic_error";
-	}
-
-	@RequestMapping(value = "/not-found-error", method = RequestMethod.GET, produces = {"text/html"})
-	public String notFoundError(Model model) {
-		site.populateStaticModel(model);
-		return "/not_found_error";
-	}
-
 	@RequestMapping(value = "/privacy", method = RequestMethod.GET, produces = {"text/html"})
 	public String privacyPolicy(Model model) {
 		site.populateStaticModel(model);
