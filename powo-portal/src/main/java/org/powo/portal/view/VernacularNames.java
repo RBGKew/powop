@@ -50,7 +50,7 @@ public class VernacularNames {
 		if(sorted == null) {
 			sorted = new SortedCache();
 			for(VernacularName name : names) {
-				if(name.getLanguage().equals(Locale.ROOT)) {
+				if(name.getLanguage() == null || name.getLanguage().equals(Locale.ROOT)) {
 					sorted.put("Unknown", name.getVernacularName());
 				} else {
 					sorted.put(name.getLanguage().getDisplayName(), name.getVernacularName());

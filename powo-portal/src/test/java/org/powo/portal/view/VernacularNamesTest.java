@@ -30,9 +30,12 @@ public class VernacularNamesTest {
 
 		VernacularName n3 = new VernacularName();
 		n3.setVernacularName("starrslekta");
-		n3.setLanguage(new Locale(""));
 
-		taxon.setVernacularNames(ImmutableSet.<VernacularName>of(n1, n2, n3));
+		VernacularName n4 = new VernacularName();
+		n4.setVernacularName("starrslekta2");
+		n4.setLanguage(new Locale(""));
+
+		taxon.setVernacularNames(ImmutableSet.<VernacularName>of(n1, n2, n3, n4));
 
 		names = new VernacularNames(taxon);
 	}
@@ -42,5 +45,6 @@ public class VernacularNamesTest {
 		assertEquals("Sedge", names.getSortedByLanguage().get("English").first());
 		assertEquals("швар", names.getSortedByLanguage().get("Ukrainian").first());
 		assertEquals("starrslekta", names.getSortedByLanguage().get("Unknown").first());
+		assertEquals("starrslekta2", names.getSortedByLanguage().get("Unknown").last());
 	}
 }
