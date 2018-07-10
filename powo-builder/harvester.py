@@ -8,6 +8,8 @@ print = functools.partial(print, flush=True)
 
 API_PREFIX = os.getenv('API_PREFIX', 'http://localhost:10080')
 API_URL = os.getenv('API_URL', '/harvester/api/1')
+API_USERNAME = os.getenv('API_USERNAME', 'admin')
+API_PASSWORD = os.getenv('API_PASSWORD', 'password')
 
 def _api(method):
     return API_PREFIX + API_URL + method
@@ -15,7 +17,7 @@ def _api(method):
 def load_data_config():
     config = open('data.json', 'br')
     headers = {'Content-Type': 'application/json; charset=utf-8'}
-    r = requests.post(_api('/data'), data=config, headers=headers)
+    r = requests.post(_api('/data'), data=config, headers=headers, auth=(API_USERNAME, API_PASSWORD))
     r.raise_for_status()
     print("Data configuration loaded")
     return r.json()
@@ -26,7 +28,7 @@ def get_data_config():
     return r.json()
 
 def run_joblist(identifier):
-    r = requests.post(_api('/job/list/' + identifier + '/run'))
+    r = requests.post(_api('/job/list/' + identifier + '/run'), auth=(API_USERNAME, API_PASSWORD))
     print("Running job list with identifier %s" % identifier)
     r.raise_for_status()
     return r.json()
