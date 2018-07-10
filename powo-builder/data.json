@@ -727,7 +727,7 @@
       "parameters": {
         "resource.identifier": "Library-Art-and-Archives",
         "skip.indexing": "true",
-        "authority.name": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+        "authority.name": "Art-and-Illustrations-in-Digifolia",
         "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/digifolia_illustrations.zip"
       }
     },
@@ -739,7 +739,7 @@
         "resource.identifier": "Colombian-Illustrations",
         "skip.indexing": "true",
         "prefix": "https://storage.googleapis.com/powop-assets",
-        "authority.name": "http-storage-googleapis-com-powop-content-multimedia-digifolia_illustrations-zip",
+        "authority.name": "Art-and-Illustrations-in-Digifolia",
         "authority.uri": "http://storage.googleapis.com/powop-content/multimedia/colombia.zip"
       }
     },
