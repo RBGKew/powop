@@ -103,12 +103,6 @@
     </property>
   </bean>
 
-  <bean id="solrOptimizingTasklet" class="org.powo.harvest.common.SolrOptimizingTasklet">
-    <property name="core" value="${solr.core}"/>
-    <property name="maxSegments" value="${solr.max.segments}"/>
-    <property name="solrClient" ref="solrClient"/>
-  </bean>
-
   <bean id="solrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
     <constructor-arg value="${solr.url}"/>
   </bean>

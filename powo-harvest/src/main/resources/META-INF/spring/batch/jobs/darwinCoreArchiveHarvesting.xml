@@ -141,12 +141,18 @@
       <batch:tasklet>
         <batch:chunk reader="deleteTaxaReader"  writer="taxonDeletingWriter" commit-interval="100"/>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexNamesSuggester" />
+      <batch:next on="COMPLETED" to="indexNamesSuggesterDecision" />
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexNamesSuggesterDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexNamesSuggester" />
+      <batch:next on="true" to="checkDescriptionProcessingMode" />
+    </batch:decision>
 
     <batch:step id="indexNamesSuggester">
       <batch:description>Build the scientific-names suggester index</batch:description>
@@ -202,12 +208,18 @@
       <batch:tasklet>
         <batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"  commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexDescriptionsSuggester" />
+      <batch:next on="COMPLETED" to="indexDescriptionsSuggesterDecision" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexDescriptionsSuggesterDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexDescriptionsSuggester" />
+      <batch:next on="true" to="checkTermProcessingMode" />
+    </batch:decision>
 
     <batch:step id="indexDescriptionsSuggester">
       <batch:description>Build the characteristic suggester index</batch:description>
@@ -665,12 +677,18 @@
       <batch:tasklet>
         <batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexCommonNameSuggester" />
+      <batch:next on="COMPLETED" to="indexCommonNameSuggesterDecision" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexCommonNameSuggesterDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexCommonNameSuggester" />
+      <batch:next on="true" to="checkTypeAndSpecimenProcessingMode" />
+    </batch:decision>
 
     <batch:step id="indexCommonNameSuggester">
       <batch:description>Build the common-name suggester index</batch:description>
@@ -744,7 +762,7 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:decision decider="skipIndexTaxaDecider" id="indexTaxaDecision">
+    <batch:decision decider="skipIndexDecider" id="indexTaxaDecision">
       <!-- Defaults to false -->
       <batch:next on="false" to="indexTaxa" />
       <batch:next on="true" to="deleteOldAnnotations" />
@@ -1927,7 +1945,7 @@
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
-  <bean id="skipIndexTaxaDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
+  <bean id="skipIndexDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="skip.indexing" />
     <property name="defaultProcessingMode" value="false" />
   </bean>

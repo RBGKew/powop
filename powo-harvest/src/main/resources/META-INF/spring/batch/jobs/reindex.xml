@@ -14,30 +14,38 @@
 
   <batch:job id="ReIndex">
     <batch:step id="reIndex">
-      <batch:description>Re-index some or all of the eMonocot database</batch:description>
+      <batch:description>Re-index some or all of the database</batch:description>
       <batch:tasklet>
         <batch:chunk reader="itemReader" writer="itemIndexer" commit-interval="1000" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkDeleteMissing"/>
+      <batch:next on="COMPLETED" to="optimizeIndex"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
 
-    <batch:decision decider="deleteMissingeDecider" id="checkDeleteMissing">
-      <batch:next on="true" to="removeMissingDocuments"/>
-      <batch:end on="*" />
-    </batch:decision>
+    <batch:step id="optimizeIndex">
+      <batch:description>Optimize the solr index</batch:description>
+      <batch:tasklet ref="solrOptimizingTasklet" />
+      <batch:next on="COMPLETED" to="indexNamesSuggester" />
+    </batch:step>
 
-    <batch:step id="removeMissingDocuments">
-      <batch:description>Remove missing solr documents</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="solrDocumentItemReader" processor="solrMissingObjectProcessor" writer="solrDeletingWriter" commit-interval="10000" />
-      </batch:tasklet>
+    <batch:step id="indexNamesSuggester">
+      <batch:description>Build the scientific-name suggester index</batch:description>
+      <batch:tasklet ref="nameSuggesterIndexingTasklet" />
+      <batch:next on="COMPLETED" to="indexCommonNamesSuggester" />
+    </batch:step>
+
+    <batch:step id="indexCommonNamesSuggester">
+      <batch:description>Build the common-name suggester index</batch:description>
+      <batch:tasklet ref="commonNameSuggesterIndexingTasklet" />
+      <batch:next on="COMPLETED" to="indexDescriptionSuggester" />
+    </batch:step>
+
+    <batch:step id="indexDescriptionSuggester">
+      <batch:description>Build the characteristic suggester index</batch:description>
+      <batch:tasklet ref="descriptionSuggesterIndexingTasklet" />
       <batch:end on="COMPLETED"/>
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-      </batch:listeners>
     </batch:step>
 
     <batch:listeners>
@@ -45,11 +53,6 @@
       <batch:listener ref="jobSequenceListener" />
     </batch:listeners>
   </batch:job>
-
-  <bean id="deleteMissingeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
-    <property name="processingModeKey" value="delete.missing" />
-    <property name="defaultProcessingMode" value="false" />
-  </bean>
 
   <bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
     <property name="sessionFactory" ref="sessionFactory" />
@@ -69,11 +72,24 @@
     <property name="selectedFacets" value="#{jobParameters['solr.selectedFacets']}" />
   </bean>
 
-  <bean id="solrMissingObjectProcessor" class="org.powo.harvest.common.SolrMissingObjectProcessor">
-    <property name="searchableObjectService" ref="searchableObjectServiceImpl" />
+  <bean id="nameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
+    <property name="solrClient" ref="solrClient" />
+    <property name="suggester" value="scientific-name" />
   </bean>
 
-  <bean id="solrDeletingWriter"  class="org.powo.harvest.common.SolrDeletingWriter">
+  <bean id="commonNameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
     <property name="solrClient" ref="solrClient" />
+    <property name="suggester" value="common-name" />
+  </bean>
+
+  <bean id="descriptionSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
+    <property name="solrClient" ref="solrClient" />
+    <property name="suggester" value="characteristic" />
+  </bean>
+
+  <bean id="solrOptimizingTasklet" class="org.powo.harvest.common.SolrOptimizingTasklet">
+    <property name="core" value="${solr.core}"/>
+    <property name="maxSegments" value="${solr.max.segments}"/>
+    <property name="solrClient" ref="solrClient"/>
   </bean>
 </beans>
