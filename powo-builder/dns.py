@@ -5,7 +5,7 @@ import time
 import yaml
 
 def update(namespace):
-    with open('dns-mappings.yaml', 'r') as yamlfile:
+    with open('/config/dns-mappings.yaml', 'r') as yamlfile:
         cfg = yaml.load(yamlfile)
     for mapping in cfg['dns']:
         if not Swapper(mapping, namespace).update_dns():
