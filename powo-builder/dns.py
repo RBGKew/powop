@@ -1,13 +1,24 @@
 from kubernetes import client, config
 from google.cloud import dns
+import os
 import time
+import yaml
+
+def update(namespace):
+    with open('dns-mappings.yaml', 'r') as yamlfile:
+        cfg = yaml.load(yamlfile)
+    for mapping in cfg['dns']:
+        if not Swapper(mapping, namespace).update_dns():
+            return False
+    return True
 
 class Swapper:
 
-    def __init__(self, zone, name, namespace, project = 'powop-1349'):
-        self.project = project
-        self.dns_client = dns.Client(project=project)
-        self.zone = self.dns_client.zone(zone, name)
+    def __init__(self, mapping, namespace):
+        self.project = os.environ['G_PROJECT']
+        self.mapping = mapping
+        self.dns_client = dns.Client(project=self.project)
+        self.zone = self.dns_client.zone(mapping['zone'], mapping['name'])
         self.namespace = namespace
 
     def _kube_client(self):
@@ -16,10 +27,13 @@ class Swapper:
 
     def current_dns_record(self):
         records = self.zone.list_resource_record_sets()
-        return [r for r in records if r.record_type == 'A'][0]
+        for record in records:
+            if record.record_type == 'A' and record.name == self.mapping['name']:
+                return record
 
     def new_dns_record(self, current):
-        service = self._kube_client().list_namespaced_service(self.namespace, label_selector='name=apache').items
+        selector = 'name=%s' % self.mapping['service']
+        service = self._kube_client().list_namespaced_service(self.namespace, label_selector=selector).items
         new_ip = service[0].status.load_balancer.ingress[0].ip
         return self.zone.resource_record_set(current.name, current.record_type, current.ttl, [new_ip,])
 

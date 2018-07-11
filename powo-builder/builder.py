@@ -31,8 +31,7 @@ if not harvester.load_data():
     log("Error loading data. Exiting")
     sys.exit(1)
 
-swapper = dns.Swapper('plantsoftheworld-online', 'plantsoftheworld.online', build)
-if not swapper.update_dns():
+if not dns.update(build):
     log("Error swapping dns. Exiting")
     sys.exit(1)
 
