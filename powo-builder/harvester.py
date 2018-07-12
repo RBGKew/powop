@@ -36,7 +36,8 @@ def run_joblist(identifier):
 def joblist_running(identifier):
     r = requests.get(_api('/job/list/' + identifier))
     r.raise_for_status()
-    return r.json()['hasNextJob']
+    status = r.json().get('status')
+    return status == None or status != 'Completed'
 
 def load_data():
     load_data_config()

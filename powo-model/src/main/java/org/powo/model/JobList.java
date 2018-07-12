@@ -113,7 +113,7 @@ public class JobList extends Base {
 	public void scheduleNextJob() {
 		log.debug("Setting currentJob from {} to {}", currentJob, currentJob + 1);
 		currentJob += 1;
-		setStatus(JobListStatus.Completed);
+		setStatus(JobListStatus.Scheduled);
 	}
 
 	public void updateNextAvailableDate() {

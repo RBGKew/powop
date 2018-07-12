@@ -58,6 +58,7 @@ public class JobListServiceImpl extends ServiceImpl<JobList, JobListDao> impleme
 			jobList.setCurrentJob(0);
 			jobList.setNextRun(schedule.getNextRun());
 			jobList.setSchedulingPeriod(schedule.getSchedulingPeriod());
+			jobList.setStatus(null);
 			saveOrUpdate(jobList);
 		}
 
@@ -90,6 +91,7 @@ public class JobListServiceImpl extends ServiceImpl<JobList, JobListDao> impleme
 
 	public void updateNextAvailableDate(JobList list) {
 		list.updateNextAvailableDate();
+		list.setStatus(JobListStatus.Completed);
 		saveOrUpdate(list);
 	}
 }
