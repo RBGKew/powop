@@ -1,5 +1,4 @@
 require([
   'search',
-  'taxon',
-  'admin'
+  'taxon'
 ]);

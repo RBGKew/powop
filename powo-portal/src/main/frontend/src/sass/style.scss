@@ -90,12 +90,6 @@ $border-grey: 1px solid #CCCCCC;
 @import "vendor/bootstrap-tokenfield";
 @import "vendor/tokenfield-typeahead";
 
-@import "vendor/select2/select2";
-@import "vendor/select2/select2-bootstrap";
-@import "vendor/select2/select2.sortable";
-
-@import "vendor/bootstrap-datetimepicker";
-
 @import "core/functions";
 @import "core/helpers";
 @import "core/mixins";
@@ -129,7 +123,6 @@ $border-grey: 1px solid #CCCCCC;
 @import "pages/home";
 @import "pages/taxon";
 @import "pages/static";
-@import "pages/harvester";
 
 @import "sites/colplanta";
 @import "sites/upb";
