@@ -46,23 +46,23 @@ const deleteResource = function(identifier, credentials) {
 }
 
 const jobs = function() {
-  return api.get('job/credentialsuration')
+  return api.get('job/configuration')
 }
 
 const job = function(identifier) {
-  return api.get('job/credentialsuration/' + identifier)
+  return api.get('job/configuration/' + identifier)
 }
 
 const updateJob = function(job, credentials) {
-  return api.post('job/credentialsuration/' + job.identifier, job, credentials)
+  return api.post('job/configuration/' + job.identifier, job, credentials)
 }
 
 const deleteJob = function(identifier, credentials) {
-  return api.delete('job/credentialsuration/' + identifier, credentials)
+  return api.delete('job/configuration/' + identifier, credentials)
 }
 
 const run = function(identifier, credentials) {
-  return api.post('job/credentialsuration/' + identifier + '/run', {}, credentials)
+  return api.post('job/configuration/' + identifier + '/run', {}, credentials)
 }
 
 const checkCredentials = function(cred) {
