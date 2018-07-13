@@ -13,16 +13,16 @@ const organisation = function(identifier) {
   return api.get('organisation/' + identifier)
 }
 
-const createOrganisation = function(organisation) {
-  return api.post('organisation', organisation)
+const createOrganisation = function(organisation, credentials) {
+  return api.post('organisation', organisation, credentials)
 }
 
-const updateOrganisation = function(organisation) {
-  return api.post('organisation/' + organisation.identifier, organisation)
+const updateOrganisation = function(organisation, credentials) {
+  return api.post('organisation/' + organisation.identifier, organisation, credentials)
 }
 
-const deleteOrganisation = function(identifier) {
-  return api.delete('organisation/' + identifier)
+const deleteOrganisation = function(identifier, credentials) {
+  return api.delete('organisation/' + identifier, {}, credentials)
 }
 
 const resources = function () {
@@ -33,36 +33,40 @@ const resource = function(identifier) {
   return api.get('resources/' + identifier)
 }
 
-const createResource = function(resource) {
-  return api.post('resource/', resource)
+const createResource = function(resource, credentials) {
+  return api.post('resource/', resource, credentials)
 }
 
-const updateResource = function(resource) {
-  return api.post('resource/' + resource.identifier, resource)
+const updateResource = function(resource, credentials) {
+  return api.post('resource/' + resource.identifier, resource, credentials)
 }
 
-const deleteResource = function(identifier) {
-  return api.delete('resource/' + identifier)
+const deleteResource = function(identifier, credentials) {
+  return api.delete('resource/' + identifier, {}, credentials)
 }
 
 const jobs = function() {
-  return api.get('job/configuration')
+  return api.get('job/credentialsuration')
 }
 
 const job = function(identifier) {
-  return api.get('job/configuration/' + identifier)
+  return api.get('job/credentialsuration/' + identifier)
 }
 
-const updateJob = function(job) {
-  return api.post('job/configuration/' + job.identifier, job)
+const updateJob = function(job, credentials) {
+  return api.post('job/credentialsuration/' + job.identifier, job, credentials)
 }
 
-const deleteJob = function(identifier) {
-  return api.delete('job/configuration/' + identifier)
+const deleteJob = function(identifier, credentials) {
+  return api.delete('job/credentialsuration/' + identifier, credentials)
 }
 
-const run = function(identifier) {
-  return api.post('job/configuration/' + identifier + '/run')
+const run = function(identifier, credentials) {
+  return api.post('job/credentialsuration/' + identifier + '/run', {}, credentials)
+}
+
+const checkCredentials = function(cred) {
+  return api.post('login', {}, cred)
 }
 
 export default {
@@ -80,5 +84,6 @@ export default {
   job,
   updateJob,
   deleteJob,
-  run
+  run,
+  checkCredentials
 }

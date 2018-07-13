@@ -10,7 +10,8 @@ export default new Vuex.Store({
     organisations: [],
     jobs: [],
     lists: [],
-    messages: []
+    messages: [],
+    credentials: {}
   },
 
   mutations: {
@@ -104,6 +105,10 @@ export default new Vuex.Store({
         text: message,
         color: 'error'
       })
+    },
+
+    setCredentials (state, credentials) {
+      state.credentials = credentials
     }
   },
 
@@ -125,68 +130,95 @@ export default new Vuex.Store({
     },
 
     createOrganisation (context, organisation) {
-      return api.createOrganisation(organisation)
+      return api.createOrganisation(organisation, context.state.credentials)
         .then(function(result) {
           context.commit('createOrganisation', result.data)
           context.commit('successMessage', 'Created ' + organisation.title)
           return result
         })
         .catch(function(error) {
+          if(error.status === 401) {
+            context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+          } else {
           context.commit('errorMessage', 'Error creating ' + organisation.title + '. ' + error.message)
           throw error
+          }
         })
     },
 
     updateOrganisation (context, organisation) {
-      return api.updateOrganisation(organisation)
+      return api.updateOrganisation(organisation, context.state.credentials)
         .then(function(result) {
           context.commit('updateOrganisation', result.data)
           context.commit('successMessage', 'Updated ' + organisation.title)
           return result
         })
         .catch(function(error) {
+          if(error.status === 401) {
+            context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+          } else {
           context.commit('errorMessage', 'Error updating ' + organisation.title + '. ' + error.message)
           throw error
+          }
         })
     },
 
     deleteOrganisation (context, organisation) {
-      return api.deleteOrganisation(organisation.identifier)
+      return api.deleteOrganisation(organisation.identifier, context.state.credentials)
         .then(function(result) {
           context.commit('deleteOrganisation', organisation)
           context.commit('successMessage', 'Deleted ' + organisation.title)
           return result
         })
+        .catch(function(error) {
+            if(error.status === 401) {
+              context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+            }
+        })
     },
 
     createResource (context, resource) {
-      return api.createResource(resource)
+      return api.createResource(resource, context.state.credentials)
         .then(function(result) {
           context.commit('createResource', result.data)
           context.commit('successMessage', 'Created ' + resource.title)
           return result
         })
+        .catch(function(error) {
+            if(error.status === 401) {
+              context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+            }
+        })
     },
 
     updateResource (context, resource) {
-      return api.updateResource(resource)
+      return api.updateResource(resource, context.state.credentials)
         .then(function(result) {
           context.commit('updateResource', result.data)
           context.commit('successMessage', 'Updated ' + resource.title)
           return result
         })
+        .catch(function(error) {
+            if(error.status === 401) {
+              context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+            }
+        })
     },
 
     deleteResource (context, resource) {
-      return api.deleteResource(resource.identifier)
+      return api.deleteResource(resource.identifier, context.state.credentials)
         .then(function(result) {
           context.commit('deleteResource', resource)
           context.commit('successMessage', 'Deleted ' + resource.title)
           return result
         })
         .catch(function(error) {
+          if(error.status === 401) {
+            context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+          } else {
           context.commit('errorMessage', 'Error deleting ' + resource.title + '. ' + error.message)
           throw error
+          }
         })
     },
 
@@ -199,13 +231,39 @@ export default new Vuex.Store({
     },
 
     updateJob (context, job) {
-      return api.updateJob(job)
+      return api.updateJob(job, context.state.credentials)
         .then(function(result) {
           context.commit('updateJob', result.data)
           context.commit('successMessage', 'Updated job ' + job.title)
           return result
         })
+        .catch(function(error) {
+            if(error.status === 401) {
+              context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+            }
+        })
+    },
+
+    setCredentials (context, cred) {
+      return api.checkCredentials(cred)
+      .then(function(){
+          context.commit('setCredentials', cred)
+          context.commit('successMessage', 'Login Successful')
+      })
+      .catch(function(error) {
+          if(error.status === 401) {
+            context.commit('errorMessage', 'Login unsuccessful. Please check your username and password.')
+          }else {
+            context.commit('errorMessage', 'Something went wrong with your login attempt. Please try again, or contact powop_support@kew.org if this error persists')
+          }
+      })
+    },
+
+    unsetCredentials(context) {
+      context.commit('setCredentials', {})
+      context.commit('successMessage', 'You are now logged out')
     }
+
   },
 
   getters: {
@@ -223,6 +281,10 @@ export default new Vuex.Store({
 
     visibleMessages: (state) => {
       return _.filter(state.messages, 'visible')
+    },
+    isAuthenticated: (state) => {
+      return !_.isEmpty(state.credentials)
     }
+
   }
 })

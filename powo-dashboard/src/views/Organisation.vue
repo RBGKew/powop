@@ -6,10 +6,10 @@
       <v-toolbar card>
         <v-toolbar-title>{{ organisation.abbreviation }}: {{ organisation.title }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click.native.stop="editOrganisation()">
+        <v-btn icon :disabled=!isAuthenticated @click.native.stop="editOrganisation()">
           <v-icon color="blue">edit</v-icon>
         </v-btn>
-        <v-btn icon><v-icon color="red">delete</v-icon></v-btn>
+        <v-btn :disabled=!isAuthenticated icon><v-icon color="red">delete</v-icon></v-btn>
       </v-toolbar>
       <v-card-text>
         <p>{{ organisation.description }}</p>
@@ -28,16 +28,16 @@
             <td><h4>{{ props.item.title }}</h4></td>
             <td>{{ props.item.uri }}</td>
             <td class="justify-center layout">
-              <v-btn class="py-0" icon @click.native.stop="editResource(props.item)">
+              <v-btn class="py-0" :disabled=!isAuthenticated icon @click.native.stop="editResource(props.item)">
                 <v-icon color="blue">edit</v-icon>
               </v-btn>
-              <v-btn class="py-0" icon @click.native.stop="confirmDelete(props.item)">
+              <v-btn class="py-0" :disabled=!isAuthenticated icon @click.native.stop="confirmDelete(props.item)">
                 <v-icon color="red">delete</v-icon>
               </v-btn>
             </td>
           </template>
           <template slot="footer">
-            <v-btn color="success" @click.native.stop="newResource(organisation)">
+            <v-btn color="success" :disabled=!isAuthenticated @click.native.stop="newResource(organisation)">
               <v-icon left>add</v-icon>Add Resource
             </v-btn>
           </template>
@@ -62,7 +62,7 @@
 import _ from 'lodash'
 import OrganisationForm from '@/views/OrganisationForm'
 import ResourceForm from '@/views/ResourceForm'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'Organisation',
   components: { OrganisationForm, ResourceForm },
@@ -101,7 +101,8 @@ export default {
 
     resources () {
       return this.organisation.resources
-    }
+    },
+    ...mapGetters(['isAuthenticated',])
   },
 
   methods: {

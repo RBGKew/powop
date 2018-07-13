@@ -25,7 +25,8 @@
     "@vue/test-utils": "^1.0.0-beta.16",
     "chai": "^4.1.2",
     "vue-cli-plugin-vuetify": "^0.1.5",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.16",
+    "@websanova/vue-auth": "^2.21.14-beta"
   },
   "eslintConfig": {
     "root": true,

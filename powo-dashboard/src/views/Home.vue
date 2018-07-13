@@ -20,7 +20,7 @@
             <v-btn class="py-0" icon @click="go(props.item.identifier)">
               <v-icon color="blue">edit</v-icon>
             </v-btn>
-            <v-btn class="py-0" icon @click="confirmDelete(props.item)">
+            <v-btn class="py-0" :disabled=!isAuthenticated icon @click="confirmDelete(props.item)">
               <v-icon color="red">delete</v-icon>
             </v-btn>
           </td>
@@ -29,7 +29,7 @@
           No organisations called "{{ search }}"
         </v-alert>
         <template slot="footer">
-          <v-btn color="success" @click.native.stop="newOrganisation()">
+          <v-btn color="success" :disabled=!isAuthenticated @click.native.stop="newOrganisation()">
             <v-icon left>add</v-icon>Add Organisation
           </v-btn>
         </template>
@@ -52,6 +52,7 @@
 
 <script>
 import OrganisationForm from '@/views/OrganisationForm'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Home',
   components: { OrganisationForm },
@@ -76,7 +77,8 @@ export default {
   computed: {
     organisations () {
       return this.$store.state.organisations
-    }
+    },
+    ...mapGetters(['isAuthenticated',])
   },
 
   methods: {

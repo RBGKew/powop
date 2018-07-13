@@ -15,7 +15,7 @@
       <v-toolbar-items>
         <v-btn flat ripple @click="$router.push('/organisations')">Organisations</v-btn>
         <v-btn flat ripple @click="$router.push('/jobs')">Jobs</v-btn>
-        <v-btn flat ripple>Login</v-btn>
+        <login></login>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
@@ -25,8 +25,10 @@
 </template>
 
 <script>
+import Login from '@/views/Login'
 export default {
   name: 'App',
+  components:  { Login },
   beforeMount: function() {
     this.$store.dispatch('initialize')
   },
