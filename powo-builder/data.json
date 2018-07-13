@@ -474,6 +474,34 @@
           "identifier": "Kew-Bulletin"
         }
       ]
+    },
+    {
+      "identifier": "Useful-Plants-of-Boyaca",
+      "abbreviation": "UPB",
+      "title": "Useful Plants of Boyaca",
+      "resources": [
+        {
+          "identifier": "Useful-plants-of-Boyaca",
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/UPB/UPB.zip",
+          "organisation": "Useful-Plants-of-Boyaca",
+          "title": "Useful plants of Boyaca"
+        }
+      ]
+    },
+    {
+      "identifier": "Colombian-Plants-Made-Accessible",
+      "abbreviation": "ColPlantA",
+      "title": "Colombian Plants Made Accessible",
+      "resources": [
+        {
+          "identifier": "Colplanta",
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/colPlantA/col_plant_a.zip",
+          "organisation": "Colombian-Plants-Made-Accessible",
+          "title": "Colplanta"
+        }
+      ]
     }
   ],
   "jobConfigurations": [
@@ -903,6 +931,28 @@
         "query.type": "org.powo.model.Taxon",
         "solr.selectedFacets": "base.class_s=org.powo.model.Taxon"
       }
+    },
+    {
+      "identifier": "Harvest-Useful-plants-of-Boyaca",
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "description": "Harvest Useful plants of Boyaca",
+      "parameters": {
+        "resource.identifier": "Useful-plants-of-Boyaca",
+        "skip.indexing": "true",
+        "authority.name": "Useful-Plants-of-Boyaca",
+        "authority.uri": "https://storage.googleapis.com/powop-content/UPB/UPB.zip"
+      }
+    },
+    {
+      "identifier": "Harvest-Colplanta",
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "description": "Harvest Colplanta",
+      "parameters": {
+        "resource.identifier": "Colplanta",
+        "skip.indexing": "true",
+        "authority.name": "Colombian-Plants-Made-Accessible",
+        "authority.uri": "https://storage.googleapis.com/powop-content/colPlantA/col_plant_a.zip"
+      }
     }
   ],
   "jobLists": [
@@ -946,6 +996,8 @@
         "Harvest-LOWO-Images",
         "Harvest-EDGE-gymnosperms",
         "Harvest-Kew-Bulletin",
+        "Harvest-Useful-plants-of-Boyaca",
+        "Harvest-Colplanta",
         "reindex"
       ]
     }
