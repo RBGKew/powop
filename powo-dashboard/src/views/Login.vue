@@ -2,9 +2,9 @@
   <v-toolbar-items>
     <v-menu :close-on-content-click="false" offset-y offset-x id="loginMenu" v-model="menu">
     <v-btn flat ripple slot="activator" v-show=!isAuthenticated>Login</v-btn>
-      <v-text-field label="Username:" v-model="username"></v-text-field>
-      <v-text-field label="Password:" v-model="password" :type="false ? 'text' : 'password'"></v-text-field>
-      <v-btn flat ripple @click.native="login">Log in</v-btn>
+      <v-text-field label="Username:" @keyup.enter="login" v-model="username"></v-text-field>
+      <v-text-field @keyup.enter="login"  label="Password:" v-model="password" :type="false ? 'text' : 'password'"></v-text-field>
+      <v-btn flat ripple  @click.native="login">Log in</v-btn>
     </v-menu>
     <v-btn flat ripple @click.native="logout" v-show=isAuthenticated>Logout</v-btn>
   </v-toolbar-items>

@@ -27,7 +27,7 @@
             <td class="py-3">{{ props.item.jobExitCode }}</td>
             <td>
               <v-progress-circular class="py-2" :indeterminate="isRunning(props.item)" color="primary" :width="progress.width" :size="progress.size">
-              <v-btn class="py-0" icon @click="run(props.item.id)">
+              <v-btn class="py-0" icon :disabled=!isAuthenticated @click="run(props.item.id)">
                 <v-icon color="green">play_circle_outline</v-icon>
               </v-btn>
               </v-progress-circular>
@@ -44,7 +44,7 @@
 
 <script>
 import api from '../lib/Api'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'Jobs',
 
@@ -85,7 +85,8 @@ export default {
 
     watchingColor () {
       return this.watching ? 'green' : 'grey'
-    }
+    },
+    ...mapGetters(['isAuthenticated',])
   },
 
   methods: {
@@ -98,7 +99,7 @@ export default {
     },
 
     isRunning (job) {
-      return job.jobStatus && 
+      return job.jobStatus &&
         !( job.jobStatus === 'COMPLETED' || job.jobStatus == 'FAILED')
     },
 
