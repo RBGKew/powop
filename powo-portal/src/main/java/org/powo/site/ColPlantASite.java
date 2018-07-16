@@ -38,12 +38,12 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("ColPlantA");
+		return new SourceFilter("Colombian-Plants-Made-Accessible");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "ColPlantA";
+		return "Colombian-Plants-Made-Accessible";
 	}
 
 	@Override

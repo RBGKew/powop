@@ -38,12 +38,12 @@ public class UPBSite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("UPB");
+		return new SourceFilter("Useful-Plants-of-Boyaca");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "UPB";
+		return "Useful-Plants-of-Boyaca";
 	}
 
 	@Override
