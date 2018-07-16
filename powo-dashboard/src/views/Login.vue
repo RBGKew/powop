@@ -11,8 +11,8 @@
 </template>
 <style>
 .v-menu__content {
-  background: white;
-  padding: 10px;
+  background: white !important;
+  padding: 10px !important;
 }
 </style>
 <script>
