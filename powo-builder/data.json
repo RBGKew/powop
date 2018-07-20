@@ -502,6 +502,20 @@
           "title": "Colplanta"
         }
       ]
+    },
+    {
+      "identifier": "International-Legume-Database-and-Information-Service",
+      "abbreviation": "ILDIS",
+      "title": "International Legume Database and Information Service",
+      "resources": [
+        {
+          "identifier": "ILDIS",
+          "resourceType": "DwC_Archive",
+          "uri": "https://storage.googleapis.com/powop-content/ILDIS/ildis.zip",
+          "organisation": "International-Legume-Database-and-Information-Service",
+          "title": "ILDIS"
+        }
+      ]
     }
   ],
   "jobConfigurations": [
@@ -953,6 +967,17 @@
         "authority.name": "Colombian-Plants-Made-Accessible",
         "authority.uri": "https://storage.googleapis.com/powop-content/colPlantA/col_plant_a.zip"
       }
+    },
+    {
+      "identifier": "Harvest-ILDIS",
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "description": "Harvest ILDIS",
+      "parameters": {
+        "resource.identifier": "ILDIS",
+        "skip.indexing": "true",
+        "authority.name": "International-Legume-Database-and-Information-Service",
+        "authority.uri": "https://storage.googleapis.com/powop-content/ILDIS/ildis.zip"
+      }
     }
   ],
   "jobLists": [
@@ -998,6 +1023,7 @@
         "Harvest-Kew-Bulletin",
         "Harvest-Useful-plants-of-Boyaca",
         "Harvest-Colplanta",
+        "Harvest-ILDIS",
         "reindex"
       ]
     }
