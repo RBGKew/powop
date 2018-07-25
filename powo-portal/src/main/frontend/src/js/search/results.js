@@ -47,12 +47,22 @@ define(function(require) {
 
   var update = function(state) {
     prepare();
+
+    var indicateProgress = _.debounce(function() {
+      $('.total-results').addClass('hidden');
+      $('.loading').removeClass('hidden');
+    }, 100);
+    indicateProgress();
+
     $.getJSON("/api/1/search?" + state, function(json) {
+      indicateProgress.cancel();
       json['f'] = filters.getParam('f');
       json['sort'] = filters.getParam('sort') || 'relevance';
       json['layout'] = Cookies.get('powop');
       $('.c-results').replaceWith(resultsTmpl(json));
       $('.c-results .container--lines').replaceWith(itemsTmpl(json));
+      $('.total-results').removeClass('hidden');
+      $('.loading').addClass('hidden');
       $('#search-filters').html(filtersTmpl(json));
       $('.results-count').replaceWith(countTmpl(json));
       paginate(json);

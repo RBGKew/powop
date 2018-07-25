@@ -1,6 +1,17 @@
 <div class="container">
   <nav class="navbar navbar-default">
-    {{> results-count }}
+    <div class="total-results inline-block hidden">
+      {{> results-count }}
+    </div>
+
+    <div class="loading inline-block">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".search-bar" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
