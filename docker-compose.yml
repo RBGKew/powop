@@ -9,6 +9,8 @@ services:
       - portal_data:/var/lib/mysql
     ports:
       - "13306:3306"
+    mem_limit: 2800M
+
   portal:
     image: eu.gcr.io/powop-1349/portal:latest
     env_file:
@@ -19,6 +21,7 @@ services:
       - solr
     volumes:
       - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
+    mem_limit: 500M
 
   portal_col:
     image: eu.gcr.io/powop-1349/portal:latest
@@ -32,6 +35,7 @@ services:
       - solr
     volumes:
       - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
+    mem_limit: 500M
 
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
@@ -43,6 +47,7 @@ services:
       - solr
     volumes:
       - ./powo-harvest/target/powo-harvest.war:/usr/local/tomcat/webapps/harvester.war
+    mem_limit: 2G
 
   apache:
     image: eu.gcr.io/powop-1349/apache:latest
@@ -61,7 +66,7 @@ services:
       - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
     ports:
       - "10080:80"
-    mem_limit: 200M
+    mem_limit: 50M
 
   apache_col:
     image: eu.gcr.io/powop-1349/apache:latest
@@ -80,7 +85,7 @@ services:
       - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
     ports:
       - "20080:80"
-    mem_limit: 200M
+    mem_limit: 50M
 
   solr:
     image: eu.gcr.io/powop-1349/solr:latest
@@ -88,6 +93,7 @@ services:
       - "18983:8983"
     volumes:
       - solr_data:/opt/solr/server/solr/powop/data
+    mem_limit: 800M
 
   geoserver:
     image: eu.gcr.io/powop-1349/geoserver:latest
@@ -96,14 +102,14 @@ services:
       - geodb
     ports:
       - "18080:8080"
-    mem_limit: 1G
+    mem_limit: 1500M
 
   geodb:
     image: eu.gcr.io/powop-1349/geodb:latest
     env_file:
       - src/main/resources/docker/env/common.env
       - src/main/resources/docker/env/geoserver.env
-
+    mem_limit: 200M
 
 volumes:
   portal_data: {}
