@@ -10,13 +10,6 @@
       "resources": [
         {
           "resourceType": "DwC_Archive",
-          "uri": "http://storage.googleapis.com/powop-content/backbone/msic_ipni_names.zip",
-          "organisation": "Kew-Names-and-Taxonomic-Backbone",
-          "title": "Misc IPNI Names",
-          "identifier": "Misc-IPNI-Names"
-        },
-        {
-          "resourceType": "DwC_Archive",
           "uri": "http://storage.googleapis.com/powop-content/backbone/if_species_name.zip",
           "organisation": "Kew-Names-and-Taxonomic-Backbone",
           "title": "IF Species Names",
@@ -521,18 +514,6 @@
   "jobConfigurations": [
     {
       "jobName": "DarwinCoreArchiveHarvesting",
-      "identifier": "Harvest-Misc-IPNI-Names",
-      "description": "Harvest Misc IPNI Names",
-      "parameters": {
-        "resource.identifier": "Misc-IPNI-Names",
-        "skip.indexing": "true",
-        "taxon.processing.mode": "IMPORT_NAMES",
-        "authority.name": "Kew-Names-and-Taxonomic-Backbone",
-        "authority.uri": "http://storage.googleapis.com/powop-content/backbone/msic_ipni_names.zip"
-      }
-    },
-    {
-      "jobName": "DarwinCoreArchiveHarvesting",
       "identifier": "Harvest-IF-Species-Names",
       "description": "Harvest IF Species Names",
       "parameters": {
@@ -985,7 +966,6 @@
       "identifier": "1",
       "description": "Load everything",
       "jobConfigurations": [
-        "Harvest-Misc-IPNI-Names",
         "Harvest-IF-Species-Names",
         "Harvest-Family-and-Genus-Names",
         "Harvest-Species-Names",
