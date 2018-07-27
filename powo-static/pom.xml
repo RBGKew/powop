@@ -77,6 +77,7 @@
 
 								<mkdir dir="${project.build.directory}/static/js/" />
 								<mkdir dir="${project.build.directory}/static/css/" />
+                                <mkdir dir="${project.build.directory}/admin/" />
 
 								<copy todir="${project.build.directory}/static/img">
 									<fileset dir="${basedir}/src/frontend/img" includes="**/*" />
@@ -84,12 +85,19 @@
 								<copy todir="${project.build.directory}/static/js">
 									<fileset dir="${basedir}/src/frontend/js" includes="**/*" />
 								</copy>
+								<copy todir="${project.build.directory}/static/js">
+                                    <fileset dir="${basedir}/src/admin/js" includes="**/*" />
+								</copy>
 								<copy todir="${project.build.directory}/static/fonts">
 									<fileset dir="${basedir}/src/frontend/fonts" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/css">
 									<fileset dir="${basedir}/src/frontend/css" includes="**/*" />
 								</copy>
+								<copy todir="${project.build.directory}/static/css">
+									<fileset dir="${basedir}/src/admin/css" includes="**/*" />
+								</copy>
+                                <copy file="${basedir}/src/admin/index.html" todir="${project.build.directory}/admin/"/>
 							</tasks>
 						</configuration>
 						<goals>

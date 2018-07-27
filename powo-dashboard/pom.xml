@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>dashboard</artifactId>
+	<groupId>org.powo</groupId>
+	<version>2.0.0</version>
+	<packaging>pom</packaging>
+
+	<name>powo dashboard</name>
+	<description>Harvester Dashboard and admin interface</description>
+
+	<parent>
+		<artifactId>powo</artifactId>
+		<groupId>org.powo</groupId>
+		<version>2.0.0</version>
+	</parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.eirslett</groupId>
+      <artifactId>frontend-maven-plugin</artifactId>
+    </dependency>
+  </dependencies>
+
+	<build>
+		<plugins>
+
+      <plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.6</version>
+        <executions>
+          <execution>
+              <id>install node and yarn</id>
+              <goals>
+                  <goal>install-node-and-yarn</goal>
+              </goals>
+              <phase>generate-resources</phase>
+          </execution>
+          <execution>
+              <id>yarn install</id>
+              <goals>
+                  <goal>yarn</goal>
+              </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <nodeVersion>v10.6.0</nodeVersion>
+          <yarnVersion>v1.7.0</yarnVersion>
+        </configuration>
+      </plugin>
+
+		</plugins>
+	</build>
+</project>

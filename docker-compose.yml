@@ -60,10 +60,10 @@ services:
       - harvester
       - portal
     volumes:
-      - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
-      - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
-      - ./powo-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
-      - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
+      - ./powo-static/target/static/css:/usr/local/apache2/htdocs/css
+      - ./powo-static/target/static/fonts:/usr/local/apache2/htdocs/fonts
+      - ./powo-static/target/static/img:/usr/local/apache2/htdocs/img
+      - ./powo-static/target/static/js:/usr/local/apache2/htdocs/js
     ports:
       - "10080:80"
     mem_limit: 50M
@@ -79,10 +79,10 @@ services:
       - harvester
       - portal_col
     volumes:
-      - ./powo-portal/src/main/frontend/dist/css:/usr/local/apache2/htdocs/css
-      - ./powo-portal/src/main/frontend/dist/fonts:/usr/local/apache2/htdocs/fonts
-      - ./powo-portal/src/main/frontend/dist/img:/usr/local/apache2/htdocs/img
-      - ./powo-portal/src/main/frontend/dist/js:/usr/local/apache2/htdocs/js
+      - ./powo-static/target/static/css:/usr/local/apache2/htdocs/css
+      - ./powo-static/target/static/fonts:/usr/local/apache2/htdocs/fonts
+      - ./powo-static/target/static/img:/usr/local/apache2/htdocs/img
+      - ./powo-static/target/static/js:/usr/local/apache2/htdocs/js
     ports:
       - "20080:80"
     mem_limit: 50M

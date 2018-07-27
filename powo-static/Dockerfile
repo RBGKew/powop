@@ -7,6 +7,8 @@ COPY target/static/img/ htdocs/img
 COPY target/static/fonts/ htdocs/fonts
 COPY target/static/css/ htdocs/css
 COPY target/static/js/ htdocs/js
+RUN  mkdir htdocs/admin
+COPY target/admin/index.html htdocs/admin/index.html
 COPY apache.sh ./
 RUN chmod +x ./apache.sh
 CMD [ "./apache.sh" ]

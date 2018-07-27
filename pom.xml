@@ -32,6 +32,7 @@
 		<module>powo-persistence</module>
 		<module>powo-harvest</module>
 		<module>powo-portal</module>
+		<module>powo-dashboard</module>
 		<module>powo-static</module>
 		<module>powo-geodb</module>
 		<module>powo-geoserver</module>
@@ -635,7 +636,7 @@
 			<dependency>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>1.6</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
