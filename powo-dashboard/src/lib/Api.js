@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:10080/harvester/api/1/'
+const url = process.env.HARVESTER_URL || 'http://localhost:10080/harvester/api/1/'
 const api = axios.create({
   baseURL: url
 })
