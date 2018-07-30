@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = process.env.HARVESTER_URL
+const url = process.env.VUE_APP_HARVESTER_URL
 const api = axios.create({
   baseURL: url
 })
