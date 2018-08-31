@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 
 import org.gbif.ecat.voc.Rank;
 
 public class ResultsFilterQuery extends BaseQueryOption {
-	private static Logger logger = LoggerFactory.getLogger(ResultsFilterQuery.class);
-
 	@Override
 	public void addQueryOption(String key, String value, SolrQuery query) {
 		String[] facets = value.split(",");

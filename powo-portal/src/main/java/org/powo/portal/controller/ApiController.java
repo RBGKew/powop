@@ -18,7 +18,7 @@ import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
 import org.powo.persistence.solr.AutoCompleteBuilder;
 import org.powo.persistence.solr.QueryBuilder;
-import org.powo.portal.json.MainSearchBuilder;
+import org.powo.portal.json.SearchResponse;
 import org.powo.portal.json.ResponseBuilder;
 import org.powo.portal.json.TaxonResponse;
 import org.powo.site.Site;
@@ -52,17 +52,13 @@ public class ApiController {
 	private TaxonService taxonService;
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces={"application/json"})
-	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
-		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery());
-		for(Entry<String, String> entry : params.entrySet()){
-			queryBuilder.addParam(entry.getKey(), entry.getValue());
-		}
-
+	public ResponseEntity<SearchResponse> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
+		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery(), params);
 		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
-		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse);
+		SearchResponse jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse);
 
-		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
+		return new ResponseEntity<SearchResponse>(jsonBuilder, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/suggest", method = RequestMethod.GET, produces={"application/json"})
