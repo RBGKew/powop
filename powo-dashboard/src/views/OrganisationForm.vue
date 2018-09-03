@@ -12,13 +12,13 @@
               <v-text-field label="Abbreviation" v-model="organisation.abbreviation"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Description" v-model="organisation.description" multi-line></v-text-field>
+              <v-textarea label="Description" v-model="organisation.description" multi-line></v-textarea>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Bibliographic Citation" v-model="organisation.bibliographicCitation" multi-line></v-text-field>
+              <v-textarea label="Bibliographic Citation" v-model="organisation.bibliographicCitation"></v-textarea>
             </v-flex>
             <v-flex xs12>
-              <v-select label="Subjects" v-model="subjects" chips deletable-chips tags flat append-icon=""></v-select>
+              <v-combobox label="Subjects" v-model="subjects" chips deletable-chips multiple flat append-icon=""></v-combobox>
             </v-flex>
             <v-btn color="success" @click="update()">Save <v-icon right dark>save</v-icon></v-btn>
             <v-btn color="warning" @click="editing = false">Cancel <v-icon right dark>cancel</v-icon></v-btn>
