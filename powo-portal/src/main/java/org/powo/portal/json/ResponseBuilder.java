@@ -58,6 +58,7 @@ public class ResponseBuilder {
 		response.page(IntMath.divide(start, rows, RoundingMode.CEILING));
 		response.totalPages(IntMath.divide(totalResults, rows, RoundingMode.CEILING));
 		response.totalResults(totalResults);
+		response.cursor(queryResponse.getNextCursorMark());
 	}
 
 	private void addResult(SolrDocument document) {

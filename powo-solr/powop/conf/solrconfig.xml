@@ -915,7 +915,7 @@
       <str name="defType">edismax</str>
       <str name="qf">taxon.scientific_name_s_lower</str>
       <str name="fq">base.class_searchable_b:true AND -taxon.kingdom_s_lower:Fungi</str>
-      <str name="sort">score desc,taxon.rank_s_lower asc,sortable asc</str>
+      <str name="sort">score desc,taxon.rank_s_lower asc,sortable asc, id asc</str>
       <str name="facet">true</str>
       <str name="hl">true</str>
       <str name="hl.fl">*</str>

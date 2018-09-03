@@ -50,6 +50,7 @@ public class QueryBuilder {
 	private static final Map<String, QueryOption> queryMappings = new ImmutableMap.Builder<String, QueryOption>()
 			.put("any", new MultiFieldQuery(mainQueryFields))
 			.put("base.class_searchable_b", new searchableFilterQuery())
+			.put("cursor", new CursorQuery())
 			.put("f", new ResultsFilterQuery())
 			.put("names", new MultiFieldQuery(allNamesQueryFields))
 			.put("page", new PageNumberQuery())
