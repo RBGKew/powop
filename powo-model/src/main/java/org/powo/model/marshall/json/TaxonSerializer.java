@@ -16,13 +16,24 @@
  */
 package org.powo.model.marshall.json;
 
+import java.io.IOException;
+
 import org.powo.model.Taxon;
 
-/**
- *
- * @author ben
- *
- */
-public class TaxonSerializer extends BaseSerializer<Taxon> {
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
+public class TaxonSerializer extends JsonSerializer<Taxon> {
+	@Override
+	public final void serialize(final Taxon taxon, final JsonGenerator json, final SerializerProvider serializer)
+			throws IOException {
+		json.writeStartObject();
+		json.writeStringField("identifier", taxon.getIdentifier());
+		json.writeStringField("scientificName", taxon.getScientificName());
+		json.writeStringField("scientificNameAuthorship", taxon.getScientificNameAuthorship());
+		json.writeStringField("taxonRank", taxon.getTaxonRank().toString());
+		json.writeStringField("taxonomicStatus", taxon.getTaxonomicStatus().toString());
+		json.writeEndObject();
+	}
 }

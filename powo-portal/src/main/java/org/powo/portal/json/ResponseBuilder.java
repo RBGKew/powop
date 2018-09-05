@@ -65,6 +65,7 @@ public class ResponseBuilder {
 		SearchResultBuilder result = SearchResult.builder()
 				.url("/taxon/" + getStr(document, "taxon.identifier_s"))
 				.name(getStr(document, "taxon.scientific_name_s_lower"))
+				.family(getStr(document, "taxon.family_s_lower"))
 				.accepted(getBool(document, "taxon.looks_accepted_b"))
 				.author(getFirst(document, "taxon.scientific_name_authorship_t"))
 				.kingdom(getStr(document, "taxon.kingdom_s_lower"));

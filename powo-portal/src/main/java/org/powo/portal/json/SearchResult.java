@@ -19,6 +19,7 @@ public class SearchResult {
 	private boolean accepted;
 	private String author;
 	private String kingdom;
+	private String family;
 	private String name;
 	private String rank;
 	private String snippet;

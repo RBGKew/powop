@@ -45,14 +45,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 import org.powo.model.constants.Location;
-import org.powo.model.marshall.json.GeographicalRegionDeserializer;
-import org.powo.model.marshall.json.ReferenceDeserializer;
-import org.powo.model.marshall.json.ReferenceSerializer;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @see http://rs.gbif.org/extension/gbif/1.0/distribution.xml
@@ -62,24 +56,32 @@ public class Distribution extends OwnedEntity {
 
 	private static final long serialVersionUID = -970244833684895241L;
 
+	@JsonIgnore
 	private Taxon taxon;
 
+	@JsonIgnore
 	private Location location;
 
+	@JsonProperty("name")
 	private String locality;
 
+	@JsonIgnore
 	private String occurrenceRemarks;
 
 	private OccurrenceStatus occurrenceStatus;
 
+	@JsonIgnore
 	private EstablishmentMeans establishmentMeans;
 
 	private ThreatStatus threatStatus;
 
+	@JsonIgnore
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
+	@JsonIgnore
 	private Set<Reference> references = new HashSet<Reference>();
 
+	@JsonIgnore
 	private Long id;
 
 	/**
@@ -108,7 +110,6 @@ public class Distribution extends OwnedEntity {
 	 * @param geoRegion
 	 *            the geographical region this distribution is concerned with
 	 */
-	@JsonDeserialize(using = GeographicalRegionDeserializer.class)
 	public void setLocation(Location geoRegion) {
 		this.location = geoRegion;
 	}
@@ -127,7 +128,6 @@ public class Distribution extends OwnedEntity {
 	 * @param newTaxon
 	 *            Set the taxon that this distribution is about.
 	 */
-	@JsonBackReference("distribution-taxon")
 	public void setTaxon(Taxon newTaxon) {
 		this.taxon = newTaxon;
 	}
@@ -139,7 +139,6 @@ public class Distribution extends OwnedEntity {
 	@JoinColumn(name = "annotatedObjId")
 	@Where(clause = "annotatedObjType = 'Distribution'")
 	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
 	public Set<Annotation> getAnnotations() {
 		return annotations;
 	}
@@ -157,7 +156,6 @@ public class Distribution extends OwnedEntity {
 	 * @return Get the taxon that this distribution is about.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonBackReference("distribution-taxon")
 	public Taxon getTaxon() {
 		return taxon;
 	}
@@ -230,7 +228,6 @@ public class Distribution extends OwnedEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinTable(name = "Distribution_Reference", joinColumns = { @JoinColumn(name = "Distribution_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
-	@JsonSerialize(contentUsing = ReferenceSerializer.class)
 	public Set<Reference> getReferences() {
 		return references;
 	}
@@ -238,7 +235,6 @@ public class Distribution extends OwnedEntity {
 	/**
 	 * @param references the references to set
 	 */
-	@JsonDeserialize(contentUsing = ReferenceDeserializer.class)
 	public void setReferences(Set<Reference> references) {
 		this.references = references;
 	}
@@ -295,6 +291,22 @@ public class Distribution extends OwnedEntity {
 			stringBuffer.append(" " + establishmentMeans.toString());
 		}
 		return stringBuffer.toString();
+	}
+
+	@Transient
+	public String getFeatureId() {
+		return getLocation().getFeatureId().toString();
+	}
+
+	@Transient
+	public String getTdwgCode() {
+		return getLocation().getCode();
+	}
+
+	@Transient
+	public int getTdwgLevel() {
+		// Levels are 0 indexed in Location and 1 indexed in GeoServer
+		return getLocation().getLevel() + 1;
 	}
 
 }

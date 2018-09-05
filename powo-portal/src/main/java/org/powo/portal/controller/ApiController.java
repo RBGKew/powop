@@ -16,11 +16,13 @@ import org.apache.solr.common.util.NamedList;
 import org.powo.api.SearchableObjectService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
+import org.powo.model.constants.TaxonField;
 import org.powo.persistence.solr.AutoCompleteBuilder;
 import org.powo.persistence.solr.QueryBuilder;
 import org.powo.portal.json.SearchResponse;
-import org.powo.portal.json.ResponseBuilder;
 import org.powo.portal.json.TaxonResponse;
+import org.powo.portal.json.TaxonWrapper;
+import org.powo.portal.json.ResponseBuilder;
 import org.powo.site.Site;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/api/1/")
+@RequestMapping("/api")
 public class ApiController {
 
 	@SuppressWarnings("unused")
@@ -51,7 +53,7 @@ public class ApiController {
 	@Autowired
 	private TaxonService taxonService;
 
-	@RequestMapping(value = "/search", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = "/1/search", method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<SearchResponse> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
 		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery(), params);
 		SolrQuery query = queryBuilder.build();
@@ -61,7 +63,7 @@ public class ApiController {
 		return new ResponseEntity<SearchResponse>(jsonBuilder, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/suggest", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = "/1/suggest", method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<SuggesterResponse> suggest(
 			@RequestParam(value = "query", required = true) String queryString,
 			@RequestParam(value = "page.size", required = false, defaultValue = "5") Integer pageSize
@@ -108,9 +110,16 @@ public class ApiController {
 		return workingSuggesters;
 	}
 
-	@RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
+	@RequestMapping(value = "/1/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
 	public ResponseEntity<TaxonResponse> taxon(@PathVariable String identifier) {
 		Taxon taxon = taxonService.find(identifier);
 		return new ResponseEntity<TaxonResponse>(new TaxonResponse(taxon), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/2/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
+	public ResponseEntity<Map<String,Object>> taxa(@PathVariable String identifier,
+			@RequestParam(required=false) List<TaxonField> fields) {
+		Taxon taxon = taxonService.find(identifier);
+		return new ResponseEntity<Map<String,Object>>(new TaxonWrapper(taxon, fields).getOutput(), HttpStatus.OK);
 	}
 }
