@@ -30,9 +30,9 @@ public class TaxonSerializer extends JsonSerializer<Taxon> {
 			throws IOException {
 		json.writeStartObject();
 		json.writeStringField("identifier", taxon.getIdentifier());
-		json.writeStringField("scientificName", taxon.getScientificName());
-		json.writeStringField("scientificNameAuthorship", taxon.getScientificNameAuthorship());
-		json.writeStringField("taxonRank", taxon.getTaxonRank().toString());
+		json.writeStringField("name", taxon.getScientificName());
+		json.writeStringField("author", taxon.getScientificNameAuthorship());
+		json.writeStringField("rank", taxon.getTaxonRank().toString());
 		json.writeStringField("taxonomicStatus", taxon.getTaxonomicStatus().toString());
 		json.writeEndObject();
 	}

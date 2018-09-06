@@ -73,11 +73,11 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organisationSequenceGenerator")
 	@SequenceGenerator(name = "organisationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_organisation")
+	@JsonIgnore
 	private Long id;
 
 	@Lob
 	@Length(max = 1431655761)
-
 	private String description;
 
 	@NotEmpty
@@ -101,12 +101,14 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
 	@Cascade({ CascadeType.ALL })
 	@Fetch(FetchMode.SELECT)
+	@JsonIgnore
 	private List<Resource> resources;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name = "annotatedObjId")
 	@Where(clause = "annotatedObjType = 'Organisation'")
 	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	private Set<Annotation> annotations;
 
 	@JsonIgnore

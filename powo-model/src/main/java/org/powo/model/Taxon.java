@@ -52,6 +52,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -69,18 +70,24 @@ public class Taxon extends SearchableObject {
 
 	private String bibliographicCitation;
 
+	@JsonProperty("name")
 	private String scientificName;
 
+	@JsonProperty("authors")
 	private String scientificNameAuthorship;
 
 	private String genus;
 
+	@JsonProperty("infragenus")
 	private String subgenus;
 
+	@JsonProperty("species")
 	private String specificEpithet;
 
+	@JsonProperty("infraspecies")
 	private String infraspecificEpithet;
 
+	@JsonProperty("rank")
 	private Rank taxonRank;
 
 	private TaxonomicStatus taxonomicStatus;
@@ -95,6 +102,7 @@ public class Taxon extends SearchableObject {
 
 	private String family;
 
+	@JsonProperty("infrafamily")
 	private String subfamily;
 
 	private String tribe;
@@ -109,10 +117,12 @@ public class Taxon extends SearchableObject {
 
 	private Integer namePublishedInYear;
 
+	@JsonIgnore
 	private String verbatimTaxonRank;
 
 	private String taxonRemarks;
 
+	@JsonProperty("reference")
 	private String namePublishedInString;
 
 	private NomenclaturalStatus nomenclaturalStatus;
@@ -127,24 +137,28 @@ public class Taxon extends SearchableObject {
 	private Reference nameAccordingTo;
 
 	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JsonProperty("classification")
 	private List<Taxon> higherClassification = null;
 
 	@JsonSerialize(using = TaxonSerializer.class)
 	private Taxon originalNameUsage;
 
 	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JsonProperty("basionymOf")
 	private Set<Taxon> subsequentNameUsages = new HashSet<Taxon>();
 
-	@JsonSerialize(using = TaxonSerializer.class)
+	@JsonIgnore
 	private Taxon parentNameUsage;
 
 	@JsonSerialize(contentUsing = TaxonSerializer.class)
 	private Set<Taxon> childNameUsages = new HashSet<Taxon>();
 
 	@JsonSerialize(using = TaxonSerializer.class)
+	@JsonProperty("accepted")
 	private Taxon acceptedNameUsage;
 
 	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JsonProperty("synonyms")
 	private Set<Taxon> synonymNameUsages = new HashSet<Taxon>();
 
 	@JsonIgnore
@@ -202,6 +216,12 @@ public class Taxon extends SearchableObject {
 	@SequenceGenerator(name = "taxonSequenceGenerator", allocationSize = 1000, sequenceName = "seq_taxon")
 	public Long getId() {
 		return id;
+	}
+
+	@Override
+	@JsonProperty("fqId")
+	public String getIdentifier() {
+		return super.getIdentifier();
 	}
 
 	/**
@@ -712,6 +732,7 @@ public class Taxon extends SearchableObject {
 	 * @return the ancestors of the taxon
 	 */
 	@Transient
+	@JsonProperty("classification")
 	public List<Taxon> getHigherClassification() {
 		if(higherClassification == null) {
 			List<Taxon> ancestors = new ArrayList<Taxon>();
@@ -949,7 +970,7 @@ public class Taxon extends SearchableObject {
 			}
 		}
 	}
-	
+
 	@Transient
 	public boolean isAccepted() {
 		//we want doubtful names to look like an accepted name, 

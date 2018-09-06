@@ -29,10 +29,6 @@ import org.hibernate.validator.constraints.URL;
 import org.joda.time.DateTime;
 import org.powo.model.marshall.json.DateTimeDeserializer;
 import org.powo.model.marshall.json.DateTimeSerializer;
-import org.powo.model.marshall.json.OrganisationDeserialiser;
-import org.powo.model.marshall.json.OrganisationSerializer;
-import org.powo.model.marshall.json.ResourceDeserializer;
-import org.powo.model.marshall.json.ResourceSerializer;
 import org.powo.model.registry.Organisation;
 import org.powo.model.registry.Resource;
 
@@ -69,6 +65,7 @@ public abstract class BaseData extends Base implements Annotated {
 	@JsonIgnore
 	private Organisation authority;
 
+	@JsonIgnore
 	private String uri;
 
 	@JsonIgnore

@@ -21,7 +21,6 @@ import org.powo.persistence.solr.AutoCompleteBuilder;
 import org.powo.persistence.solr.QueryBuilder;
 import org.powo.portal.json.SearchResponse;
 import org.powo.portal.json.TaxonResponse;
-import org.powo.portal.json.TaxonWrapper;
 import org.powo.portal.json.ResponseBuilder;
 import org.powo.site.Site;
 import org.slf4j.Logger;
@@ -120,6 +119,6 @@ public class ApiController {
 	public ResponseEntity<Map<String,Object>> taxa(@PathVariable String identifier,
 			@RequestParam(required=false) List<TaxonField> fields) {
 		Taxon taxon = taxonService.find(identifier);
-		return new ResponseEntity<Map<String,Object>>(new TaxonWrapper(taxon, fields).getOutput(), HttpStatus.OK);
+		return new ResponseEntity<Map<String,Object>>(new org.powo.portal.json.v2.TaxonResponse(taxon, fields).getOutput(), HttpStatus.OK);
 	}
 }
