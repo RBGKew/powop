@@ -49,17 +49,20 @@ public abstract class BaseData extends Base implements Annotated {
 
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	private String license;
 
 	private DateTime created;
 
 	private DateTime modified;
 
+	@JsonIgnore
 	private String rights;
 
 	@JsonIgnore
 	private String rightsHolder;
 
+	@JsonIgnore
 	private String accessRights;
 
 	@JsonIgnore
