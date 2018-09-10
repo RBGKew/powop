@@ -25,6 +25,7 @@ public class SearchResult {
 	private String snippet;
 	private SearchResult synonymOf;
 	private String url;
+	private String fqId;
 	private List<Map<String, String>> images;
 
 	public static class SearchResultBuilder {

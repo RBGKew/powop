@@ -141,6 +141,7 @@ public class Taxon extends SearchableObject {
 	private List<Taxon> higherClassification = null;
 
 	@JsonSerialize(using = TaxonSerializer.class)
+	@JsonProperty("basionym")
 	private Taxon originalNameUsage;
 
 	@JsonSerialize(contentUsing = TaxonSerializer.class)

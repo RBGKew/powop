@@ -25,7 +25,7 @@ public class QueryBuilder {
 			"taxon.synonyms_ss_lower",
 			"taxon.family_s_lower",
 			"taxon.genus_s_lower",
-			"taxon.species_s_lower",
+			"taxon.specific_epithet_s_lower",
 			"taxon.vernacular_names_t");
 
 	private static final ImmutableSet<String> allCharacteristicFields = ImmutableSet.<String>of(
@@ -55,6 +55,7 @@ public class QueryBuilder {
 			.put("names", new MultiFieldQuery(allNamesQueryFields))
 			.put("page", new PageNumberQuery())
 			.put("page.size", new PageSizeQuery())
+			.put("perPage", new PageSizeQuery())
 			.put("sort", new SortQuery())
 			.put("taxon.description_t", new MultiFieldQuery(allCharacteristicFields))
 			.put("taxon.name_published_in_year_i", new RangeFilterQuery())

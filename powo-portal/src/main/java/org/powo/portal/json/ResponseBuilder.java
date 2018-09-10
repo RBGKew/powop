@@ -63,6 +63,7 @@ public class ResponseBuilder {
 
 	private void addResult(SolrDocument document) {
 		SearchResultBuilder result = SearchResult.builder()
+				.fqId(getStr(document, "taxon.identifier_s"))
 				.url("/taxon/" + getStr(document, "taxon.identifier_s"))
 				.name(getStr(document, "taxon.scientific_name_s_lower"))
 				.family(getStr(document, "taxon.family_s_lower"))
@@ -72,6 +73,7 @@ public class ResponseBuilder {
 
 		if(!getBool(document, "taxon.is_accepted_b") && document.containsKey("taxon.accepted.identifier_s")) {
 			SearchResult synonym = SearchResult.builder()
+					.fqId(getStr(document, "taxon.identifier_s"))
 					.url("/taxon/" + document.get("taxon.accepted.identifier_s"))
 					.name(getStr(document, "taxon.accepted.scientific_name_s_lower"))
 					.accepted(true)
