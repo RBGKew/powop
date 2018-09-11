@@ -77,6 +77,7 @@ public class QueryBuilder {
 	}
 
 	public QueryBuilder addParam(String key, String value) {
+		if(key.equals("format")) return this;
 		if(key.equals("q")) {
 			parseQuery(value);
 		} else {

@@ -52,7 +52,7 @@ public class ApiController {
 	@Autowired
 	private TaxonService taxonService;
 
-	@RequestMapping(value = {"/1/search", "/2/search"}, method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = {"/1/search", "/2/search"}, method = RequestMethod.GET, produces= {"application/json", "application/xml"})
 	public ResponseEntity<SearchResponse> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
 		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery(), params);
 		SolrQuery query = queryBuilder.build();

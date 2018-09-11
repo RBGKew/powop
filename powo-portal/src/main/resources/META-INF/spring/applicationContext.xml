@@ -21,13 +21,6 @@
 
   <tx:annotation-driven />
 
-  <bean name="customObjectMapper" class="org.powo.model.marshall.json.CustomObjectMapperFactory">
-    <property name="referenceService" ref="referenceServiceImpl" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-    <property name="imageService" ref="imageServiceImpl" />
-    <property name="organisationService" ref="organisationServiceImpl" />
-  </bean>
-
   <bean name="transactionManager"
     class="org.springframework.orm.hibernate5.HibernateTransactionManager">
     <property name="sessionFactory" ref="sessionFactory" />
