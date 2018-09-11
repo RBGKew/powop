@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/ping")
 public class PingController {
-	@RequestMapping(method = RequestMethod.GET, produces = "text/plain")
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public String ping() {
 		return "Ok";
