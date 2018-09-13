@@ -101,7 +101,6 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
 	@Cascade({ CascadeType.ALL })
 	@Fetch(FetchMode.SELECT)
-	@JsonIgnore
 	private List<Resource> resources;
 
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
