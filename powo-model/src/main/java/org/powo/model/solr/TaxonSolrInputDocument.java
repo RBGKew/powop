@@ -126,7 +126,19 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			sid.addField("searchable.sources_ss", source);
 		}
 
+		buildSortField();
+
 		return sid;
+	}
+
+	private void buildSortField() {
+		StringBuilder sortable = new StringBuilder();
+		sortable.append(taxon.getTaxonRank().termID());
+		if (!taxon.getTaxonRank().equals(Rank.FAMILY)) {
+			sortable.append(taxon.getFamily());
+		}
+		sortable.append(taxon.getScientificName().replaceAll("\\s", ""));
+		sid.addField("sortable", sortable.toString());
 	}
 
 	private void addSuggestionWeight() {
