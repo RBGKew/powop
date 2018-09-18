@@ -5,9 +5,6 @@ import org.powo.model.Description;
 import org.powo.model.Taxon;
 import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.TaxonomicStatus;
-import org.powo.portal.naturalLanguage.PhraseUtilities;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
 public class Summary {
@@ -16,32 +13,27 @@ public class Summary {
 
 	private MessageSource messageSource;
 
-	private PhraseUtilities phraseUtils;
-
-	private static Logger logger = LoggerFactory.getLogger(Summary.class);
-
-	public Summary(Taxon taxon, MessageSource messageSource){
+	public Summary(Taxon taxon, MessageSource messageSource) {
 		this.taxon = taxon;
 		this.messageSource = messageSource;
-		this.phraseUtils = new PhraseUtilities(messageSource);
 	}
-	
+
 	private String existingDescription() {
-		for(Description description : taxon.getDescriptions()){
-			if(description.getTypes().contains(DescriptionType.summary)){
+		for (Description description : taxon.getDescriptions()) {
+			if (description.getTypes().contains(DescriptionType.summary)) {
 				return description.getDescription();
 			}
 		}
 		return null;
 	}
 
-	private String taxonRank(){
-		if(taxon.getTaxonRank() != null){
+	private String taxonRank() {
+		if (taxon.getTaxonRank() != null) {
 			return taxon.getTaxonRank().toString().toLowerCase();
 		}
 		return "plant";
 	}
-	
+
 	public String taxonStatus() {
 		if (taxon.getTaxonomicStatus() == null) {
 			return null;
@@ -67,8 +59,8 @@ public class Summary {
 		}
 	}
 
-	private String createAcceptedNameSummary(){
-		if(existingDescription() != null){
+	private String createAcceptedNameSummary() {
+		if (existingDescription() != null) {
 			return existingDescription();
 		}
 		String[] elements = {
@@ -76,39 +68,38 @@ public class Summary {
 				taxonStatus(),
 				new SummaryDistribution(taxon, messageSource).build(),
 				new SummaryUses().build(taxon, messageSource)
-				};
-		
+		};
+
 		elements = ArrayUtils.removeAllOccurences(elements, null);
 		elements = ArrayUtils.removeAllOccurences(elements, "");
-		if(elements.length < 2){
+		if (elements.length < 2) {
 			return null;
 		}
 		String descriptionString = String.format("This %s is %s", elements[0], elements[1]);
-		if(elements.length > 2){
+		if (elements.length > 2) {
 			descriptionString += String.format(", and %s", elements[2]);
 		}
-		if(elements.length > 3){
+		if (elements.length > 3) {
 			descriptionString += String.format(". It is %s", elements[3]);
 		}
 		return descriptionString += ".";
 	}
 
-	private String createSynonymNameSummary(){
+	private String createSynonymNameSummary() {
 		String string = String.format("This is a %s", taxonStatus());
-		if(taxon.getAcceptedNameUsage() != null) {
+		if (taxon.getAcceptedNameUsage() != null) {
 			string += " of ";
 		}
 		return string;
 	}
-	
-	public String build(){
-		if(taxon.isAccepted() || taxon.getTaxonomicStatus() == TaxonomicStatus.Artifical_Hybrid){
+
+	public String build() {
+		if (taxon.isAccepted() || taxon.getTaxonomicStatus() == TaxonomicStatus.Artifical_Hybrid) {
 			return createAcceptedNameSummary();
 		}
-		if(taxon.isSynonym() || taxon.getTaxonomicStatus() == TaxonomicStatus.Misapplied){
-			return createSynonymNameSummary(); 
+		if (taxon.isSynonym() || taxon.getTaxonomicStatus() == TaxonomicStatus.Misapplied) {
+			return createSynonymNameSummary();
 		}
 		return "";
-		
 	}
 }
