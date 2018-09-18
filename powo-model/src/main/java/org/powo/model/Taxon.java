@@ -1012,7 +1012,7 @@ public class Taxon extends SearchableObject {
 			case Proparte_Synonym:
 				return true;
 			case Accepted:
-			case Artifical_Hybrid:
+			case Artificial_Hybrid:
 			case Doubtful:
 			case Misapplied:
 			default:

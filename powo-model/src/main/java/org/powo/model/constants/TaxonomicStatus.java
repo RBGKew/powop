@@ -17,7 +17,8 @@ public enum TaxonomicStatus implements KnownTerm {
 	 * Treated as accepted, but doubtful whether this is correct.
 	 */
 	Doubtful,
-	Artifical_Hybrid;
+	Artificial_Hybrid,
+	Unplaced;
 
 	private static final int ID_BASE = 9000; // reserved upto 9999
 
@@ -49,17 +50,16 @@ public enum TaxonomicStatus implements KnownTerm {
 		return null;
 	}
 
-
 	public static TaxonomicStatus fromString(String x) {
 		if (x == null) {
 			return null;
 		}
-		x = x.toLowerCase().trim();
+		x = normalise(x);
 		if (x.isEmpty()) {
 			return null;
 		}
 		for (TaxonomicStatus term : TaxonomicStatus.values()) {
-			if (term.toString().toLowerCase().equals(x)) {
+			if (normalise(term.toString()).equals(x)) {
 				return term;
 			}
 		}
@@ -70,5 +70,9 @@ public enum TaxonomicStatus implements KnownTerm {
 			return Synonym;
 		}
 		return null;
+	}
+
+	private static String normalise(String str) {
+		return str.toLowerCase().replaceAll(" |_", "");
 	}
 }

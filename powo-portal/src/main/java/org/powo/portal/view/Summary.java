@@ -48,11 +48,13 @@ public class Summary {
 				return "synonym";
 			case Accepted:
 				return "accepted";
-			case Artifical_Hybrid:
+			case Artificial_Hybrid:
 				return "an artifical hybrid";
 			case Doubtful:
 			case Misapplied:
 				return "misapplied name";
+			case Unplaced:
+				return "an unplaced name";
 			default:
 				return null;
 			}
@@ -93,12 +95,19 @@ public class Summary {
 		return string;
 	}
 
+	private String createUnplacedNameSummary() {
+		return "This is an unplaced name.";
+	}
+
 	public String build() {
-		if (taxon.isAccepted() || taxon.getTaxonomicStatus() == TaxonomicStatus.Artifical_Hybrid) {
+		if (taxon.isAccepted() || taxon.getTaxonomicStatus() == TaxonomicStatus.Artificial_Hybrid) {
 			return createAcceptedNameSummary();
 		}
 		if (taxon.isSynonym() || taxon.getTaxonomicStatus() == TaxonomicStatus.Misapplied) {
 			return createSynonymNameSummary();
+		}
+		if (TaxonomicStatus.Unplaced.equals(taxon.getTaxonomicStatus())) {
+			return createUnplacedNameSummary();
 		}
 		return "";
 	}
