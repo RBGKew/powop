@@ -21,7 +21,9 @@ public class TaxonTest {
 
 	TaxonomicStatus[] appearsAccepted = new TaxonomicStatus[] {
 			TaxonomicStatus.Accepted,
-			TaxonomicStatus.Doubtful};
+			TaxonomicStatus.Doubtful,
+			TaxonomicStatus.Artificial_Hybrid,
+			TaxonomicStatus.Unplaced};
 
 	@Test
 	public void testIsTaxonSynonym() {

@@ -190,7 +190,18 @@ public class ArchiveMetadataReader implements StepExecutionListener {
 
 	private void updateSourceMetadata(final BasicMetadata basicMetadata) {
 		boolean update = false;
+		if (organisationService == null) {
+			logger.warn("No organisation service.");
+			return;
+		}
+
 		Organisation source = organisationService.find(sourceName);
+
+		if (source == null) {
+			logger.warn("Unable to find organisation {} to update", sourceName);
+			return;
+		}
+
 		if (!nullSafeEquals(source.getBibliographicCitation(), basicMetadata.getCitationString())) {
 			source.setBibliographicCitation(basicMetadata.getCitationString());
 			update = true;

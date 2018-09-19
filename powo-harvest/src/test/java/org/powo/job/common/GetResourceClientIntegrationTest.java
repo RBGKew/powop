@@ -26,8 +26,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Properties;
-
 import org.joda.time.DateTime;
 import org.joda.time.base.BaseDateTime;
 import org.junit.Before;
@@ -41,8 +39,6 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.RetryListener;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;

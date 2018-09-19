@@ -24,7 +24,6 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.api.TaxonService;
-import org.powo.common.HtmlSanitizer;
 import org.powo.job.dwc.reference.FieldSetMapper;
 import org.powo.model.Reference;
 import org.powo.model.Taxon;
@@ -42,11 +41,11 @@ import org.springframework.core.io.Resource;
 
 public class ReferenceParsingTest {
 
-	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/reference.txt");
+	private Resource content = new ClassPathResource("/__files/dwc/reference.txt");
 
 	private TaxonService taxonService = null;
 
-	private FlatFileItemReader<Reference> flatFileItemReader = new FlatFileItemReader<Reference>();
+	private FlatFileItemReader<Reference> flatFileItemReader = new FlatFileItemReader<>();
 
 	@Before
 	public final void setUp() throws Exception {
@@ -59,18 +58,16 @@ public class ReferenceParsingTest {
 				"http://purl.org/dc/terms/bibliographicCitation",
 				"http://purl.org/dc/terms/type",
 				"http://purl.org/dc/terms/title",
-				"http://purl.org/ontology/bibo/volume",
-				"http://purl.org/ontology/bibo/number",
-				"http://purl.org/ontology/bibo/pages",
 				"http://purl.org/dc/terms/description",
 				"http://purl.org/dc/terms/date",
-				"http://purl.org/dc/terms/source",
-				"http://purl.org/dc/terms/creator"
+				"http://purl.org/dc/terms/creator",
 		};
+
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
 		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		tokenizer.setNames(names);
-		Set<Converter> converters = new HashSet<Converter>();
+		@SuppressWarnings("rawtypes")
+		Set<Converter> converters = new HashSet<>();
 		converters.add(new ReferenceTypeConverter());
 		converters.add(new StringToIsoDateTimeConverter());
 
@@ -84,10 +81,9 @@ public class ReferenceParsingTest {
 		FieldSetMapper fieldSetMapper = new FieldSetMapper();
 		fieldSetMapper.setFieldNames(names);
 		fieldSetMapper.setConversionService(conversionService);
-		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
+		fieldSetMapper.setDefaultValues(new HashMap<>());
 		fieldSetMapper.setTaxonService(taxonService);
-		DefaultLineMapper<Reference> lineMapper
-		= new DefaultLineMapper<Reference>();
+		DefaultLineMapper<Reference> lineMapper = new DefaultLineMapper<>();
 		lineMapper.setFieldSetMapper(fieldSetMapper);
 		lineMapper.setLineTokenizer(tokenizer);
 

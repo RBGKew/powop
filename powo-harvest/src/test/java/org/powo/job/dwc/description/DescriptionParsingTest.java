@@ -26,7 +26,6 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.api.TaxonService;
-import org.powo.common.HtmlSanitizer;
 import org.powo.job.dwc.description.FieldSetMapper;
 import org.powo.model.Description;
 import org.powo.model.Taxon;
@@ -42,7 +41,7 @@ import org.springframework.core.io.Resource;
 
 public class DescriptionParsingTest {
 
-	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/description.txt");
+	private Resource content = new ClassPathResource("/__files/dwc/description.txt");
 
 	private TaxonService taxonService = null;
 
@@ -54,14 +53,12 @@ public class DescriptionParsingTest {
 	public final void setUp() throws Exception {
 		String[] names = new String[] {
 				"http://rs.tdwg.org/dwc/terms/taxonID",
-				"http://purl.org/dc/terms/type",
-				"http://purl.org/dc/elements/1.1/source",
+				"http://purl.org/dc/terms/created",
 				"http://purl.org/dc/terms/modified",
-				"http://purl.org/dc/terms/create",
-				"http://purl.org/dc/terms/creator",
 				"http://purl.org/dc/terms/description",
+				"http://purl.org/dc/terms/type",
 				"http://purl.org/dc/terms/references",
-				"http://purl.org/dc/terms/source"
+				"http://purl.org/dc/terms/identifier",
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
 		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
@@ -92,7 +89,7 @@ public class DescriptionParsingTest {
 	@Test
 	public final void testRead() throws Exception {
 		expect(conversionService.convert(isA(String.class), isA(TypeDescriptor.class), isA(TypeDescriptor.class))).andReturn(new TreeSet<>(Arrays.asList(DescriptionType.general)));
-		expect(conversionService.convert(isA(String.class), eq(DateTime.class))).andReturn(new DateTime());
+		expect(conversionService.convert(isA(String.class), eq(DateTime.class))).andReturn(new DateTime()).anyTimes();
 		expect(taxonService.find(isA(String.class))).andReturn(new Taxon()).anyTimes();
 		expect(taxonService.find(isA(String.class), eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
 		replay(taxonService,conversionService);

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:res="eml://ecoinformatics.org/resource-2.1.0"
+	xmlns:acc="eml://ecoinformatics.org/access-2.1.0" xmlns:doc="eml://ecoinformatics.org/documentation-2.1.0"
+	xmlns:prot="eml://ecoinformatics.org/protocol-2.1.0" xmlns:ds="eml://ecoinformatics.org/dataset-2.1.0"
+	xmlns:cit="eml://ecoinformatics.org/literature-2.1.0" xmlns:sw="eml://ecoinformatics.org/software-2.1.0"
+	xmlns:physical="eml://ecoinformatics.org/physical-2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dc="http://purl.org/dc/terms/"
+	xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.0 https://code.ecoinformatics.org/code/eml/tags/RELEASE_EML_2_1_0/eml.xsd"
+	packageId="http://www.cate-araceae.org/eml.xml1d08a760-63d8-44af-b087-e38c325cddd6"
+	system="CATE" scope="system">
+	<!-- The sheet is concerned with descriptions of datasets only -->
+	<dataset>
+		<alternateIdentifier>1d08a760-63d8-44af-b087-e38c325cddd6</alternateIdentifier>
+		<title>CATE Araceae</title>		
+		<creator>
+			<individualName>
+				<givenName>Anna</givenName>
+				<surName>Haigh</surName>
+			</individualName>
+			<onlineUrl>http://www.cate-araceae.org</onlineUrl>
+			<electronicMailAddress>a.haigh@kew.org</electronicMailAddress>
+		</creator>
+		<metadataProvider>
+			<individualName>
+				<givenName>Ben</givenName>
+				<surName>Clark</surName>
+			</individualName>			
+			<electronicMailAddress>admin@cate-araceae.org</electronicMailAddress>
+		</metadataProvider>		
+		<pubDate>2011-04-27</pubDate>		
+		<language>English</language>	
+		<keywordSet>
+			<keyword>e-Taxonomy</keyword>
+			<keyword> CATE</keyword>
+			<keyword> Creating a Taxonomic e-Science</keyword>
+			<keyword> University of Oxford</keyword>
+			<keyword> Royal Botanic Gardens Kew</keyword>
+			<keyword> Araceae</keyword>
+			<keyword> Arum</keyword>
+			<keyword> Philodendron</keyword>
+			<keyword> Anthurium</keyword>			
+		</keywordSet>
+		<intellectualRights>
+			<para>The data in this site, unless otherwise specified (under 'rights'), is licensed using the Creative Commons Attribution Non-Commercial Share Alike License (cc by-nc-sa).</para>
+		</intellectualRights>
+		<coverage>
+			<geographicCoverage>
+				<geographicDescription>Global</geographicDescription>
+			</geographicCoverage>
+			<temporalCoverage>
+				<singleDateTime>
+					<calendarDate>2011-04-27</calendarDate>
+				</singleDateTime>
+			</temporalCoverage>
+			<taxonomicCoverage>
+				<generalTaxonomicCoverage>Araceae</generalTaxonomicCoverage>
+			</taxonomicCoverage>
+		</coverage>
+		<contact>
+			<individualName>
+				<givenName>Anna</givenName>
+				<surName>Haigh</surName>
+			</individualName>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<positionName></positionName>
+		</contact>
+		<contact>
+			<individualName>
+				<givenName>Ben</givenName>
+				<surName>Clark</surName>
+			</individualName>
+			<organizationName>University of Oxford</organizationName>
+			<positionName>Senior Software Developer</positionName>
+			<address>
+				<city>The Tinbergen Building, South Parks Road</city>
+				<administrativeArea></administrativeArea>
+				<postalCode>OX1 3PS</postalCode>
+				<country>GBR</country>
+			</address>
+			<electronicMailAddress>admin@cate-araceae.org</electronicMailAddress>
+		</contact>
+		<project>
+			<title>CATE Araceae</title>
+			<individualName>
+				<givenName>Anna</givenName>
+				<surName>Haigh</surName>
+			</individualName>
+			<organizationName>Royal Botanic Gardens, Kew</organizationName>
+			<positionName></positionName>
+			<individualName>
+				<givenName>Ben</givenName>
+				<surName>Clark</surName>
+			</individualName>
+			<organizationName>University of Oxford</organizationName>
+			<positionName>Senior Software Developer</positionName>
+			<address>
+				<city>The Tinbergen Building, South Parks Road</city>
+				<administrativeArea></administrativeArea>
+				<postalCode>OX1 3PS</postalCode>
+				<country>GBR</country>
+			</address>
+			<electronicMailAddress>admin@cate-araceae.org</electronicMailAddress>
+			<individualName>
+				<givenName>Laura</givenName>
+				<surName>Reynolds</surName>
+			</individualName>
+			<individualName>
+				<givenName>Simon Joseph</givenName>
+				<surName>Mayo</surName>
+			</individualName>
+			<individualName>
+				<givenName>Thomas Bernard</givenName>
+				<surName>Croat</surName>
+			</individualName>
+			<individualName>
+				<givenName>Lucinda</givenName>
+				<surName>Lay</surName>
+			</individualName>
+			<individualName>
+				<givenName>Peter Charles</givenName>
+				<surName>Boyce</surName>
+			</individualName>
+			<individualName>
+				<givenName>Marcela</givenName>
+				<surName>Mora</surName>
+			</individualName>
+			<individualName>
+				<givenName>Josef</givenName>
+				<surName>Bogner</surName>
+			</individualName>
+			<individualName>
+				<givenName>Marcelo</givenName>
+				<surName>Sellaro</surName>
+			</individualName>
+			<individualName>
+				<givenName>Sin Yeng</givenName>
+				<surName>Wong</surName>
+			</individualName>
+			<individualName>
+				<givenName>Carla</givenName>
+				<surName>Kostelac</surName>
+			</individualName>
+			<individualName>
+				<givenName>Michael Howard</givenName>
+				<surName>Grayum</surName>
+			</individualName>
+			<individualName>
+				<givenName>Richard Clark</givenName>
+				<surName>Keating</surName>
+			</individualName>
+			<individualName>
+				<givenName>Greg</givenName>
+				<surName>Ruckert</surName>
+			</individualName>
+			<individualName>
+				<givenName>Mark F.</givenName>
+				<surName>Naylor</surName>
+			</individualName>
+			<individualName>
+				<givenName>Alastair</givenName>
+				<surName>Hay</surName>
+			</individualName>
+			<abstract>An open-access taxonomic web-revision of the Araceae
+			</abstract>
+		</project>
+	</dataset>
+	<additionalMetadata>
+	  <metadata>
+	    <gbif>
+	      <citation>Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 14 Dec 2011 . 17 Dec 2011.</citation>
+	      <resourceLogoUrl>https://www.cate-araceae.org/css/images/cate-logo.png</resourceLogoUrl>
+	    </gbif>
+	  </metadata>	  
+	</additionalMetadata>
+</eml:eml>

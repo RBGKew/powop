@@ -304,6 +304,50 @@ public class TaxonSolrInputDocumentTest {
 		assertFalse("Expected taxon.images_not_empty_b to be false", (Boolean)synonymDoc.getFieldValue("taxon.images_not_empty_b"));
 	}
 
+	@Test
+	public void testFamilySortable() {
+		Taxon taxon = new Taxon();
+		taxon.setTaxonRank(Rank.FAMILY);
+		taxon.setFamily("Asteraceae");
+		taxon.setScientificName("Asteraceae");
+		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+
+		assertEquals("325Asteraceae", doc.getFieldValue("sortable"));
+	}
+
+	@Test
+	public void testGenusSortable() {
+		Taxon taxon = new Taxon();
+		taxon.setTaxonRank(Rank.GENUS);
+		taxon.setFamily("Asteraceae");
+		taxon.setScientificName("Echinacea");
+		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+
+		assertEquals("425AsteraceaeEchinacea", doc.getFieldValue("sortable"));
+	}
+
+	@Test
+	public void testBinomialSortable() {
+		Taxon taxon = new Taxon();
+		taxon.setTaxonRank(Rank.SPECIES);
+		taxon.setFamily("Asteraceae");
+		taxon.setScientificName("Echinacea purpurea");
+		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+
+		assertEquals("600AsteraceaeEchinaceapurpurea", doc.getFieldValue("sortable"));
+	}
+
+	@Test
+	public void testTrinomialSortable() {
+		Taxon taxon = new Taxon();
+		taxon.setTaxonRank(Rank.Form);
+		taxon.setFamily("Asteraceae");
+		taxon.setScientificName("Hieracium sabaudum f. bladonii");
+		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+
+		assertEquals("750AsteraceaeHieraciumsabaudumf.bladonii", doc.getFieldValue("sortable"));
+	}
+
 	private Description buildDescription(String description, DescriptionType... types) {
 		Description desc = new Description();
 		desc.setDescription(description);

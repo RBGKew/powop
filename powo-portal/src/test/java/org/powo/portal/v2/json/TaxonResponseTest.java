@@ -47,7 +47,9 @@ public class TaxonResponseTest {
 		Taxon t = baseTaxon();
 		TaxonResponse tw = new TaxonResponse(t);
 
-		assertEquals(t.getIdentifier(), tw.getOutput().get("identifier").toString());
+		assertEquals(t.getIdentifier(), tw.getOutput().get("fqId").toString());
+		assertEquals(t.getScientificName(), tw.getOutput().get("name").toString());
+		assertEquals(t.getScientificNameAuthorship(), tw.getOutput().get("authors").toString());
 	}
 
 	@Test

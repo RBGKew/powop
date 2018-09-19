@@ -123,7 +123,7 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	}
 
 	protected Resource getResource() {
-		if (resource == null) {
+		if (resource == null && resourceService != null) {
 			resource = resourceService.find(resourceIdentifier);
 			logger.debug("Found resource: {}", resource);
 		}

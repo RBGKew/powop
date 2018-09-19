@@ -29,23 +29,13 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 
-/**
- *
- * @author ben
- *
- */
 public class ConversionServiceTest {
-	/**
-	 *
-	 */
 	private ConversionService conversionService;
 
-	/**
-	 *
-	 */
 	@Before
 	public final void setUp() {
-		Set<Converter> converters = new HashSet<Converter>();
+		@SuppressWarnings("rawtypes")
+		Set<Converter> converters = new HashSet<>();
 		ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
 		converters.add(new TaxonomicStatusConverter());
 		factoryBean.setConverters(converters);
@@ -53,9 +43,6 @@ public class ConversionServiceTest {
 		conversionService = factoryBean.getObject();
 	}
 
-	/**
-	 *
-	 */
 	@Test
 	public final void convertValidString() {
 		assertEquals("Conversion Service should convert valid strings properly",

@@ -133,11 +133,15 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void buildSortField() {
 		StringBuilder sortable = new StringBuilder();
-		sortable.append(taxon.getTaxonRank().termID());
-		if (!taxon.getTaxonRank().equals(Rank.FAMILY)) {
+		if(taxon.getTaxonRank() != null) {
+			sortable.append(taxon.getTaxonRank().termID());
+		}
+		if (!Rank.FAMILY.equals(taxon.getTaxonRank()) && taxon.getFamily() != null) {
 			sortable.append(taxon.getFamily());
 		}
-		sortable.append(taxon.getScientificName().replaceAll("\\s", ""));
+		if(taxon.getScientificName() != null) {
+			sortable.append(taxon.getScientificName().replaceAll("\\s", ""));
+		}
 		sid.addField("sortable", sortable.toString());
 	}
 
