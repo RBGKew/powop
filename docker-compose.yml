@@ -23,19 +23,19 @@ services:
       - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
     mem_limit: 500M
 
-  portal_col:
-    image: eu.gcr.io/powop-1349/portal:latest
-    env_file:
-      - src/main/resources/docker/env/common.env
-    environment:
-      SITE_VARIANT: UPBSite
-    links:
-      - db
-      - geoserver
-      - solr
-    volumes:
-      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
-    mem_limit: 500M
+#  portal_col:
+#    image: eu.gcr.io/powop-1349/portal:latest
+#    env_file:
+#      - src/main/resources/docker/env/common.env
+#    environment:
+#      SITE_VARIANT: UPBSite
+#    links:
+#      - db
+#      - geoserver
+#      - solr
+#    volumes:
+#      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
+#    mem_limit: 500M
 
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
@@ -59,33 +59,28 @@ services:
       - geoserver
       - harvester
       - portal
-    volumes:
-      - ./powo-static/target/static/css:/usr/local/apache2/htdocs/css
-      - ./powo-static/target/static/fonts:/usr/local/apache2/htdocs/fonts
-      - ./powo-static/target/static/img:/usr/local/apache2/htdocs/img
-      - ./powo-static/target/static/js:/usr/local/apache2/htdocs/js
     ports:
       - "10080:80"
     mem_limit: 50M
 
-  apache_col:
-    image: eu.gcr.io/powop-1349/apache:latest
-    env_file:
-      - src/main/resources/docker/env/common.env
-    environment:
-      PORTAL: portal_col
-    links:
-      - geoserver
-      - harvester
-      - portal_col
-    volumes:
-      - ./powo-static/target/static/css:/usr/local/apache2/htdocs/css
-      - ./powo-static/target/static/fonts:/usr/local/apache2/htdocs/fonts
-      - ./powo-static/target/static/img:/usr/local/apache2/htdocs/img
-      - ./powo-static/target/static/js:/usr/local/apache2/htdocs/js
-    ports:
-      - "20080:80"
-    mem_limit: 50M
+#  apache_col:
+#    image: eu.gcr.io/powop-1349/apache:latest
+#    env_file:
+#      - src/main/resources/docker/env/common.env
+#    environment:
+#      PORTAL: portal_col
+#    links:
+#      - geoserver
+#      - harvester
+#      - portal_col
+#    volumes:
+#      - ./powo-static/target/static/css:/usr/local/apache2/htdocs/css
+#      - ./powo-static/target/static/fonts:/usr/local/apache2/htdocs/fonts
+#      - ./powo-static/target/static/img:/usr/local/apache2/htdocs/img
+#      - ./powo-static/target/static/js:/usr/local/apache2/htdocs/js
+#    ports:
+#      - "20080:80"
+#    mem_limit: 50M
 
   solr:
     image: eu.gcr.io/powop-1349/solr:latest
