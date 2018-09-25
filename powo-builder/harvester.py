@@ -3,6 +3,7 @@ import functools
 import requests
 import time
 import os
+import os.path
 
 print = functools.partial(print, flush=True)
 
@@ -10,12 +11,21 @@ API_PREFIX = os.getenv('API_PREFIX', 'http://localhost:10080')
 API_URL = os.getenv('API_URL', '/harvester/api/1')
 API_USERNAME = os.getenv('API_USERNAME', 'admin')
 API_PASSWORD = os.getenv('API_PASSWORD', 'password')
+ENV = os.getenv('ENVIRONMENT', 'test')
 
 def _api(method):
     return API_PREFIX + API_URL + method
 
+def _data_file():
+    path = 'data-%s.json' % ENV
+    if os.path.isfile(path):
+        return path
+    else:
+        print('Could not find %s. Defaulting to data-test.json' % path)
+        return 'data-test.json'
+
 def load_data_config():
-    config = open('data.json', 'br')
+    config = open(_data_file(), 'br')
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     r = requests.post(_api('/data'), data=config, headers=headers, auth=(API_USERNAME, API_PASSWORD))
     r.raise_for_status()
