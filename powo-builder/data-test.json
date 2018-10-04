@@ -447,6 +447,17 @@
         "resource.identifier": "ILDIS",
         "skip.indexing": "true"
       }
+    },
+    {
+      "description": "Harvest CATE Araceae",
+      "identifier": "Harvest-CATE-Araceae",
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "parameters": {
+        "authority.name": "CATE-Araceae",
+        "authority.uri": "https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip",
+        "resource.identifier": "CATE-Araceae",
+        "skip.indexing": "false"
+      }
     }
   ],
   "jobLists": [
@@ -492,6 +503,7 @@
         "Harvest-Useful-plants-of-Boyaca",
         "Harvest-Colplanta",
         "Harvest-ILDIS",
+        "Harvest-CATE-Araceae",
         "reindex"
       ]
     }
@@ -967,7 +979,11 @@
     },
     {
       "abbreviation": "UPB",
+      "bibliographicCitation": "Useful Plants of Boyacá Project",
+      "creator": "POWOP content",
+      "description": "Useful Plants of Boyacá Project",
       "identifier": "Useful-Plants-of-Boyaca",
+      "publisherName": "POWOP content",
       "resources": [
         {
           "identifier": "Useful-plants-of-Boyaca",
@@ -977,10 +993,12 @@
           "uri": "https://storage.googleapis.com/powop-content/UPB/UPB.zip"
         }
       ],
+      "subject": "; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
       "title": "Useful Plants of Boyaca"
     },
     {
       "abbreviation": "ColPlantA",
+      "description": "ColPlantA Data",
       "identifier": "Colombian-Plants-Made-Accessible",
       "resources": [
         {
@@ -991,11 +1009,16 @@
           "uri": "https://storage.googleapis.com/powop-content/colPlantA/col_plant_a.zip"
         }
       ],
+      "subject": "Science; ColPlantA; Colombia; Royal Botanic Gardens, Kew",
       "title": "Colombian Plants Made Accessible"
     },
     {
       "abbreviation": "ILDIS",
+      "bibliographicCitation": "International Legume Database and Information Service (ILDIS) V10.39 Nov 2011",
+      "creator": "POWOP content",
+      "description": "ILDIS",
       "identifier": "International-Legume-Database-and-Information-Service",
+      "publisherName": "POWOP content",
       "resources": [
         {
           "identifier": "ILDIS",
@@ -1005,7 +1028,27 @@
           "uri": "https://storage.googleapis.com/powop-content/ILDIS/ildis.zip"
         }
       ],
+      "subject": "; Legumes; ILDIS; Uses",
       "title": "International Legume Database and Information Service"
+    },
+    {
+      "abbreviation": "CATE",
+      "bibliographicCitation": "Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 17 Dec 2011.",
+      "creator": "araceae.e-monocot.org",
+      "description": "An open-access taxonomic web-revision of the Araceae",
+      "identifier": "CATE-Araceae",
+      "publisherName": "araceae.e-monocot.org",
+      "resources": [
+        {
+          "identifier": "CATE-Araceae",
+          "organisation": "CATE-Araceae",
+          "resourceType": "DwC_Archive",
+          "title": "CATE Araceae",
+          "uri": "https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip"
+        }
+      ],
+      "subject": "emonocot; Araceae; CATE",
+      "title": "CATE Araceae"
     }
   ]
 }
