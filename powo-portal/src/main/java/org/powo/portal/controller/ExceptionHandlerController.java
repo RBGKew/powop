@@ -1,5 +1,7 @@
 package org.powo.portal.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.powo.site.Site;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,14 +18,16 @@ public class ExceptionHandlerController {
 	Site site;
 
 	@RequestMapping(value = "/not-found-error", method = RequestMethod.GET, produces = {"text/html"})
-	public String notFoundError(Model model) {
+	public String notFoundError(HttpServletResponse response, Model model) {
 		site.populateStaticModel(model);
+		response.setStatus(404);
 		return "/not_found_error";
 	}
 
 	@RequestMapping(value = "/generic-error", method = RequestMethod.GET, produces = {"text/html"})
-	public String error(Model model) {
+	public String error(HttpServletResponse response, Model model) {
 		site.populateStaticModel(model);
+		response.setStatus(500);
 		return "/generic_error";
 	}
 }

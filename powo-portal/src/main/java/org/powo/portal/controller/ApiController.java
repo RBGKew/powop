@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.collect.ImmutableMap;
+
 @Controller
 @RequestMapping("/api")
 public class ApiController {
@@ -112,13 +114,22 @@ public class ApiController {
 	@RequestMapping(value = "/1/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
 	public ResponseEntity<TaxonResponse> taxon(@PathVariable String identifier) {
 		Taxon taxon = taxonService.find(identifier);
-		return new ResponseEntity<TaxonResponse>(new TaxonResponse(taxon), HttpStatus.OK);
+		return new ResponseEntity<TaxonResponse>(new TaxonResponse(taxon), taxon == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/2/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
 	public ResponseEntity<Map<String,Object>> taxa(@PathVariable String identifier,
 			@RequestParam(required=false) List<TaxonField> fields) {
 		Taxon taxon = taxonService.find(identifier);
-		return new ResponseEntity<Map<String,Object>>(new org.powo.portal.json.v2.TaxonResponse(taxon, fields).getOutput(), HttpStatus.OK);
+		Map<String, Object> response = null;
+		HttpStatus status = HttpStatus.OK;
+		if (taxon != null) {
+			response = new org.powo.portal.json.v2.TaxonResponse(taxon, fields).getOutput();
+		} else {
+			response = ImmutableMap.<String, Object>of("error", "Not Found");
+			status = HttpStatus.NOT_FOUND;
+		}
+
+		return new ResponseEntity<Map<String,Object>>(response, status);
 	}
 }
