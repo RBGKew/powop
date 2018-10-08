@@ -13,7 +13,7 @@ print = partial(print, flush=True)
 
 GIT_URL = 'https://github.com/RBGKew/powop-infrastructure'
 CHART_FILES = '/tmp/helm'
-SECRETS_FILE = '/secrets/secrets.yaml'
+SECRETS_FILE = '/tmp/secrets/secrets.yaml'
 
 def api():
     config.load_kube_config()

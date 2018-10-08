@@ -1,4 +1,4 @@
-FROM rbgkew/gke-helm-deployer:0.1.3
+FROM rbgkew/gke-helm-deployer:0.1.5
 
 ADD requirements.txt /
 
