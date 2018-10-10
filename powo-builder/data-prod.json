@@ -425,6 +425,17 @@
         "resource.identifier": "ILDIS",
         "skip.indexing": "true"
       }
+    },
+    {
+      "description": "Harvest CATE Araceae",
+      "identifier": "Harvest-CATE-Araceae",
+      "jobName": "DarwinCoreArchiveHarvesting",
+      "parameters": {
+        "authority.name": "CATE-Araceae",
+        "authority.uri": "https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip",
+        "resource.identifier": "CATE-Araceae",
+        "skip.indexing": "true"
+      }
     }
   ],
   "jobLists": [
@@ -468,6 +479,7 @@
         "Harvest-EDGE-gymnosperms",
         "Harvest-Kew-Bulletin",
         "Harvest-ILDIS",
+        "Harvest-CATE-Araceae",
         "reindex"
       ]
     }
@@ -954,6 +966,20 @@
         }
       ],
       "title": "International Legume Database and Information Service"
+    },
+    {
+      "abbreviation": "CATE",
+      "identifier": "CATE-Araceae",
+      "resources": [
+        {
+          "identifier": "CATE-Araceae",
+          "organisation": "CATE-Araceae",
+          "resourceType": "DwC_Archive",
+          "title": "CATE Araceae",
+          "uri": "https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip"
+        }
+      ],
+      "title": "CATE Araceae"
     }
   ]
 }
