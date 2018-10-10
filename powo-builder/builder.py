@@ -10,6 +10,7 @@ log = functools.partial(print, flush=True)
 
 ENV = os.environ['ENVIRONMENT']
 TAG = os.environ['DEPLOY_TAG']
+DELETE_EXISTING = os.getenv('DELETE_EXISTING', 'true')
 
 existing = deployer.current_namespace(ENV)
 build = deployer.next_namespace(ENV)
@@ -35,6 +36,7 @@ if not dns.update(build):
     log("Error swapping dns. Exiting")
     sys.exit(1)
 
-if not deployer.purge(existing):
-    log("Error deleting old build [%s]. Exiting" % existing)
-    sys.exit(1)
+if DELETE_EXISTING == 'true':
+    if not deployer.purge(existing):
+        log("Error deleting old build [%s]. Exiting" % existing)
+        sys.exit(1)
