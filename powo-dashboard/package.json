@@ -13,7 +13,7 @@
     "lodash": "^4.17.10",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.0.19",
+    "vuetify": "^1.2.9",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/test-utils": "^1.0.0-beta.16",
     "chai": "^4.1.2",
-    "vue-cli-plugin-vuetify": "^0.1.5",
+    "vue-cli-plugin-vuetify": "^0.2.1",
     "vue-template-compiler": "^2.5.16"
   },
   "eslintConfig": {
