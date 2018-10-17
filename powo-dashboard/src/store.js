@@ -79,6 +79,24 @@ export default new Vuex.Store({
       }
     },
 
+    loadJobLists (state, lists) {
+      state.lists = lists
+    },
+
+    updateJobList (state, list) {
+      var index = _.findIndex(state.lists, {'identifier': list.identifier})
+      if(index > -1) {
+        state.lists.splice(index, 1, list)
+      }
+    },
+
+    deleteJobList (state, list) {
+      var index = _.findIndex(state.lists, {'identifier': list.identifier})
+      if(index > -1) {
+        state.lists.splice(index, 1)
+      }
+    },
+
     addMessage (state, message) {
       state.messages.push(_.merge(message, {
         visible: true,
@@ -216,7 +234,7 @@ export default new Vuex.Store({
           if(error.status === 401) {
             context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
           } else {
-          context.commit('errorMessage', 'Error deleting ' + resource.title + '. ' + error.message)
+            context.commit('errorMessage', 'Error deleting ' + resource.title + '. ' + error.message)
           throw error
           }
         })
@@ -238,9 +256,51 @@ export default new Vuex.Store({
           return result
         })
         .catch(function(error) {
+          if(error.status === 401) {
+            context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+          }
+        })
+    },
+
+    loadJobLists (context) {
+      return api.joblists()
+        .then(function(result) {
+          context.commit('loadJobLists', result.data.results)
+          return result
+        })
+    },
+
+    updateJobList (context, list) {
+      return api.updateJobList(list, context.state.credentials)
+        .then(function(result) {
+          context.commit('updateJobList', result.data)
+          context.commit('successMessage', 'Updated job list ' + list.description)
+          return result
+        })
+        .catch(function(error) {
             if(error.status === 401) {
               context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+            } else {
+              context.commit('errorMessage', 'Error updating ' + list.description + '. ' + error.message)
+              throw error
             }
+        })
+    },
+
+    deleteJobList (context, list) {
+      return api.deleteJobList(list.identifier, context.state.credentials)
+        .then(function(result) {
+          context.commit('deleteJobList', list)
+          context.commit('successMessage', 'Deleted ' + list.description)
+          return result
+        })
+        .catch(function(error) {
+          if(error.status === 401) {
+            context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+          } else {
+            context.commit('errorMessage', 'Error deleting ' + list.description + '. ' + error.message)
+            throw error
+          }
         })
     },
 
@@ -269,6 +329,10 @@ export default new Vuex.Store({
   getters: {
     job: (state) => (identifier) => {
       return state.jobs.find(job => job.identifier === identifier)
+    },
+
+    jobList: (state) => (identifier) => {
+      return _.find(state.lists, list => list.identifier == identifier)
     },
 
     organisation: (state) => (identifier) => {

@@ -148,9 +148,5 @@ export default {
       clearInterval(this.poller)
     }
   },
-
-  created: function () {
-    this.watchRunningJobs()
-  }
 }
 </script>

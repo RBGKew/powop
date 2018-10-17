@@ -51,16 +51,14 @@ public class JobListServiceImpl extends ServiceImpl<JobList, JobListDao> impleme
 	}
 
 	@Transactional
-	public JobList schedule(String id, JobSchedule schedule) {
-		JobList jobList = find(id);
+	public JobList schedule(String identifier, JobSchedule schedule) {
+		JobList jobList = find(identifier);
 
-		if(jobList.isSchedulable()) {
-			jobList.setCurrentJob(0);
-			jobList.setNextRun(schedule.getNextRun());
-			jobList.setSchedulingPeriod(schedule.getSchedulingPeriod());
-			jobList.setStatus(null);
-			saveOrUpdate(jobList);
-		}
+		jobList.setCurrentJob(0);
+		jobList.setNextRun(schedule.getNextRun());
+		jobList.setSchedulingPeriod(schedule.getSchedulingPeriod());
+		jobList.setStatus(null);
+		saveOrUpdate(jobList);
 
 		return jobList;
 	}

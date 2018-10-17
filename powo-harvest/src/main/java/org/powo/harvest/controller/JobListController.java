@@ -79,7 +79,7 @@ public class JobListController {
 		}
 
 		logger.debug("Updating {}", jobList);
-		jobListService.save(jobList);
+		jobListService.update(jobList);
 
 		return new ResponseEntity<>(jobList, HttpStatus.OK);
 	}

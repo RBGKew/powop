@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Organisation from './views/Organisation.vue'
 import Jobs from './views/Jobs.vue'
+import JobLists from './views/JobLists.vue'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
       path: '/jobs',
       name: 'jobs',
       component: Jobs
+    },
+    {
+      path: '/lists',
+      name: 'lists',
+      component: JobLists
     }
   ]
 })

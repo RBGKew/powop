@@ -65,6 +65,26 @@ const run = function(identifier, credentials) {
   return api.post('job/configuration/' + identifier + '/run', {}, credentials)
 }
 
+const joblists = function() {
+  return api.get('job/list')
+}
+
+const joblist = function(identifier) {
+  return api.get('job/list/' + identifier)
+}
+
+const updateJobList = function(jobList, credentials) {
+  return api.post('job/list/' + jobList.identifier, jobList, credentials)
+}
+
+const deleteJobList = function(identifier, credentials) {
+  return api.delete('job/list/' + identifier, credentials)
+}
+
+const runJobList = function(identifier, credentials) {
+  return api.post('job/list/' + identifier + '/run', credentials)
+}
+
 const checkCredentials = function(cred) {
   return api.post('login', {}, cred)
 }
@@ -85,5 +105,10 @@ export default {
   updateJob,
   deleteJob,
   run,
+  joblists,
+  joblist,
+  updateJobList,
+  deleteJobList,
+  runJobList,
   checkCredentials
 }
