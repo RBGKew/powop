@@ -399,7 +399,7 @@
       "jobName": "DarwinCoreArchiveHarvesting",
       "parameters": {
         "authority.name": "Kew-Bulletin",
-        "authority.uri": "https://storage.googleapis.com/powop-content/KewBulletin/KewBulletinBatches0-3.zip",
+        "authority.uri": "https://storage.googleapis.com/powop-content/KewBulletin/KewBulletin.zip",
         "resource.identifier": "Kew-Bulletin",
         "skip.indexing": "true"
       }
@@ -947,7 +947,7 @@
           "organisation": "Kew-Bulletin",
           "resourceType": "DwC_Archive",
           "title": "Kew Bulletin",
-          "uri": "https://storage.googleapis.com/powop-content/KewBulletin/KewBulletinBatches0-3.zip"
+          "uri": "https://storage.googleapis.com/powop-content/KewBulletin/KewBulletin.zip"
         }
       ],
       "subject": "; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms",
