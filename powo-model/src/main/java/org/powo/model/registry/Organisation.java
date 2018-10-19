@@ -42,6 +42,7 @@ import org.powo.model.Base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Ordering;
 
@@ -63,6 +64,7 @@ import lombok.ToString;
 @Setter
 @ToString(exclude = { "resources", "annotations" })
 @JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder(alphabetic=true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

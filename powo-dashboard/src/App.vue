@@ -16,7 +16,7 @@
         <v-btn flat ripple @click="$router.push('/organisations')">Organisations</v-btn>
         <v-btn flat ripple @click="$router.push('/jobs')">Jobs</v-btn>
         <v-btn flat ripple @click="$router.push('/lists')">Job Lists</v-btn>
-        <login></login>
+        <config></config>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
@@ -26,13 +26,15 @@
 </template>
 
 <script>
-import Login from '@/views/Login'
+import Config from '@/views/Config'
 export default {
   name: 'App',
-  components:  { Login },
+  components:  { Config },
+
   beforeMount: function() {
     this.$store.dispatch('initialize')
   },
+
   computed: {
     messages() {
       return this.$store.getters.visibleMessages

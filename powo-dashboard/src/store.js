@@ -158,8 +158,8 @@ export default new Vuex.Store({
           if(error.status === 401) {
             context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
           } else {
-          context.commit('errorMessage', 'Error creating ' + organisation.title + '. ' + error.message)
-          throw error
+            context.commit('errorMessage', 'Error creating ' + organisation.title + '. ' + error.message)
+            throw error
           }
         })
     },
@@ -306,24 +306,41 @@ export default new Vuex.Store({
 
     setCredentials (context, cred) {
       return api.checkCredentials(cred)
-      .then(function(){
-          context.commit('setCredentials', cred)
-          context.commit('successMessage', 'Login Successful')
+      .then(function() {
+        context.commit('setCredentials', cred)
+        context.commit('successMessage', 'Login Successful')
       })
       .catch(function(error) {
-          if(error.status === 401) {
-            context.commit('errorMessage', 'Login unsuccessful. Please check your username and password.')
-          }else {
-            context.commit('errorMessage', 'Something went wrong with your login attempt. Please try again, or contact powop_support@kew.org if this error persists')
-          }
+        if(error.status === 401) {
+          context.commit('errorMessage', 'Login unsuccessful. Please check your username and password.')
+        } else {
+          context.commit('errorMessage', 'Something went wrong with your login attempt. Please try again, or contact powop_support@kew.org if this error persists')
+        }
       })
     },
 
     unsetCredentials(context) {
       context.commit('setCredentials', {})
       context.commit('successMessage', 'You are now logged out')
-    }
+    },
 
+    importConfiguration(context, file) {
+      return api.importConfiguration(file, context.state.credentials)
+      .then(function(result) {
+        if(result.data.error) {
+          context.commit('errorMessage', result.data.error)
+        } else {
+          context.commit('initialize', result.data.organisations)
+        }
+      })
+      .catch(function(error) {
+        if(error.status === 401) {
+          context.commit('errorMessage', 'Login unsuccessful. Please check your username and password.')
+        } else {
+          context.commit('errorMessage', 'Error loading configuration: ' + error)
+        }
+      })
+    }
   },
 
   getters: {
@@ -346,6 +363,7 @@ export default new Vuex.Store({
     visibleMessages: (state) => {
       return _.filter(state.messages, 'visible')
     },
+
     isAuthenticated: (state) => {
       return !_.isEmpty(state.credentials)
     }

@@ -42,6 +42,7 @@ import org.powo.model.marshall.json.OrganisationDeserialiser;
 import org.powo.model.marshall.json.OrganisationSerializer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -56,6 +57,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder(alphabetic=true)
 @ToString(exclude = "organisation")
 @Builder
 @AllArgsConstructor

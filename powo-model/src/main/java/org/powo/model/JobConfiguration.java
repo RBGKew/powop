@@ -19,6 +19,7 @@ import org.springframework.batch.core.BatchStatus;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ import lombok.Singular;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder(alphabetic=true)
 public class JobConfiguration extends Base {
 
 	private static final long serialVersionUID = -8150198731653314742L;

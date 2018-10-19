@@ -1,4 +1,5 @@
 import axios from 'axios'
+import _ from 'lodash'
 
 const url = process.env.VUE_APP_HARVESTER_URL
 const api = axios.create({
@@ -89,6 +90,15 @@ const checkCredentials = function(cred) {
   return api.post('login', {}, cred)
 }
 
+const exportConfiguration = function() {
+  window.location = url + 'data'
+}
+
+const importConfiguration = function(file, credentials) {
+  var conf = _.merge({headers: {'Content-Type': 'application/json'}}, credentials)
+  return api.post('data', file, conf)
+}
+
 export default {
   organisations,
   organisation,
@@ -110,5 +120,7 @@ export default {
   updateJobList,
   deleteJobList,
   runJobList,
-  checkCredentials
+  checkCredentials,
+  exportConfiguration,
+  importConfiguration
 }
