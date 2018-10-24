@@ -225,4 +225,45 @@
       <column name="identifier" type="varchar(255)" />
     </addColumn>
   </changeSet>
+
+  <changeSet id="2018-10-23_01" author="ji10kg">
+    <comment>Add index to image rating</comment>
+    <createIndex tableName="image" indexName="Image_rating_IDX">
+      <column name="rating" type="double"/>
+    </createIndex>
+  </changeSet>
+
+  <changeSet id="2018-19-24_01" author="ji10kg">
+    <comment>Add indexes to all foreign keys</comment>
+
+    <createIndex tableName="image" indexName="Image_Taxon_FK">
+      <column name="taxon_id"></column>
+    </createIndex>
+    <createIndex tableName="image" indexName="Image_Resource_FK">
+      <column name="resource_id"></column>
+    </createIndex>
+    <createIndex tableName="image" indexName="Image_TaxonCoverage_FK">
+      <column name="taxonCoverage_id"></column>
+    </createIndex>
+
+    <createIndex tableName="description" indexName="Description_Resource_FK">
+      <column name="resource_id"></column>
+    </createIndex>
+
+    <createIndex tableName="distribution" indexName="Distribution_Resource_FK">
+      <column name="resource_id"></column>
+    </createIndex>
+
+    <createIndex tableName="reference" indexName="Reference_Resource_FK">
+      <column name="resource_id"></column>
+    </createIndex>
+
+    <createIndex tableName="vernacularname" indexName="VernacularName_Resource_FK">
+      <column name="resource_id"></column>
+    </createIndex>
+
+    <createIndex tableName="measurementorfact" indexName="MeasurementOrFact_Resource_FK">
+      <column name="resource_id"></column>
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>
