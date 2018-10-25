@@ -436,9 +436,10 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Date Identified</th>
+                      <th>Date</th>
                       <th>Reference</th>
-                      <th>Herbarium Specimen</th>
+                      <th>Identified As</th>
+                      <th>Barcode</th>
                       <th>Type Status</th>
                     </tr>
                   </thead>
@@ -455,6 +456,7 @@
                       >
                       <td>{{date}}</td>
                       <td>{{notes}}</td>
+                      <td>{{{ identifiedAs }}}</td>
                       <td><a href="{{url}}" target="_blank">{{barcode}}</a></td>
                       <td>{{typeStatus}}</td>
                     </tr>
