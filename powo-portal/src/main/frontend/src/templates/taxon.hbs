@@ -124,7 +124,7 @@
             <p class="includes_data"><b>Includes data from the synoyms: </b></p>
             <ul class="c-plain-list includes_data">
               {{#each synonymsIncluded}}
-              <li>{{taxonLinkWithoutAuthor this}}</li>
+              <li>{{taxonLink this}}</li>
               {{/each}}
             </ul>
             {{/with}}
@@ -153,7 +153,7 @@
                  data-toggle="collapse"
                  data-target="#uses-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
-                <h3>According to {{source.title}}{{#if isFromSynonym}} as {{asTaxon.scientificName}}{{/if}}</h3>
+                <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
