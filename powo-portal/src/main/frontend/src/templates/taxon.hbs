@@ -534,7 +534,9 @@
             {{organisation.bibliographicCitation}}<br/>
             {{/if}}
             {{#each licenses}}
-            <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small><br/>
+              {{#if notBlank}}
+                <small id="source-{{organisation.abbreviation}}" class="text-muted offset">{{{rights}}} {{license}}</small><br/>
+              {{/if}}
             {{/each}}
             </p>
             {{/each}}
