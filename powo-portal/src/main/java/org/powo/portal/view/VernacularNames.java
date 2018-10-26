@@ -22,7 +22,7 @@ public class VernacularNames {
 		}
 
 		public void put(String key, String value) {
-			if(!map.containsKey(key)) {
+			if (!map.containsKey(key)) {
 				map.put(key, new TreeSet<String>());
 			}
 
@@ -33,12 +33,24 @@ public class VernacularNames {
 	private Set<VernacularName> names;
 	private SortedCache sorted;
 	private Set<Organisation> sources;
+	private Set<Taxon> synonymsIncluded;
 
 	public VernacularNames(Taxon taxon) {
-		this.names = taxon.getVernacularNames();
-		this.sources = new HashSet<>();
-		for(VernacularName name :names) {
-			sources.add(name.getAuthority());
+		names = new HashSet<>();
+		synonymsIncluded = new HashSet<>();
+		if (taxon.looksAccepted()) {
+			names.addAll(taxon.getVernacularNames());
+			for (Taxon synonym : taxon.getSynonymNameUsages()) {
+				names.addAll(synonym.getVernacularNames());
+			}
+
+			sources = new HashSet<>();
+			for (VernacularName name : names) {
+				sources.add(name.getAuthority());
+				if (!name.getTaxon().equals(taxon)) {
+					synonymsIncluded.add(name.getTaxon());
+				}
+			}
 		}
 	}
 
@@ -46,11 +58,15 @@ public class VernacularNames {
 		return names;
 	}
 
+	public Set<Taxon> getSynonymsIncluded() {
+		return synonymsIncluded;
+	}
+
 	public SortedMap<String, SortedSet<String>> getSortedByLanguage() {
-		if(sorted == null) {
+		if (sorted == null) {
 			sorted = new SortedCache();
-			for(VernacularName name : names) {
-				if(name.getLanguage() == null || name.getLanguage().equals(Locale.ROOT)) {
+			for (VernacularName name : names) {
+				if (name.getLanguage() == null || name.getLanguage().equals(Locale.ROOT)) {
 					sorted.put("Unknown", name.getVernacularName());
 				} else {
 					sorted.put(name.getLanguage().getDisplayName(), name.getVernacularName());

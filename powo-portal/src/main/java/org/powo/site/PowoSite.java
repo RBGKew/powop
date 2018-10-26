@@ -60,6 +60,7 @@ public class PowoSite implements Site {
 		Descriptions uses = new Descriptions(taxon, true);
 		Images images = new Images(taxon, imageService);
 		Identifications identifications = new Identifications(taxon);
+		VernacularNames vernacularNames = new VernacularNames(taxon);
 		if (!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}
@@ -81,8 +82,8 @@ public class PowoSite implements Site {
 		if (!taxon.getDistribution().isEmpty()) {
 			model.addAttribute(new Distributions(taxon));
 		}
-		if (!taxon.getVernacularNames().isEmpty()) {
-			model.addAttribute(new VernacularNames(taxon));
+		if (!vernacularNames.getNames().isEmpty()) {
+			model.addAttribute(vernacularNames);
 		}
 		if (!identifications.getIdentifications().isEmpty()) {
 			model.addAttribute(identifications);

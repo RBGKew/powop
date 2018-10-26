@@ -399,6 +399,14 @@
               <li>{{sourceLink this}}</li>
               {{/each}}
             </ul>
+            {{#with synonymsIncluded}}
+            <p class="includes_data"><b>Includes vernacular names for the synoyms: </b></p>
+            <ul class="c-plain-list includes_data">
+              {{#each synonymsIncluded}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+            {{/with}}
           </aside>
           {{/if}}
         </div>
