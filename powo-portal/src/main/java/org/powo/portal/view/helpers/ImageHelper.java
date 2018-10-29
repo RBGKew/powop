@@ -1,6 +1,7 @@
 package org.powo.portal.view.helpers;
 
 import org.powo.model.Image;
+import org.powo.model.Taxon;
 import org.powo.model.helpers.CDNImageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,12 +20,12 @@ public class ImageHelper {
 		this.cdn = cdn;
 	}
 
-	public CharSequence fullsizeImage(Image image, Options options) {
-		return link(image, "fullsize", options);
+	public CharSequence fullsizeImage(Image image, Taxon taxon, Options options) {
+		return link(image, taxon, "fullsize", options);
 	}
 
-	public CharSequence thumbnailImage(Image image, Options options) {
-		return link(image, "thumbnail", options);
+	public CharSequence thumbnailImage(Image image, Taxon taxon, Options options) {
+		return link(image, taxon, "thumbnail", options);
 	}
 
 	public CharSequence fullsizeUrl(Image image) {
@@ -43,7 +44,7 @@ public class ImageHelper {
 		}
 	}
 
-	private CharSequence link(Image image, String type, Options options) {
+	private CharSequence link(Image image, Taxon taxon, String type, Options options) {
 		boolean modal = options.hash("lightbox", true);
 		String figureClass = options.hash("figure-class");
 		String imgTag = String.format("<img src=\"%s\" title=\"%s\"/>",
@@ -56,16 +57,17 @@ public class ImageHelper {
 
 		if(modal) {
 			imgTag = String.format("<a href=\"%s\" title=\"%s\">%s</a>",
-					imageUrl(image, "fullsize"), generateCaption(image), imgTag);
+					imageUrl(image, "fullsize"), generateCaption(image, taxon, options), imgTag);
 		}
 
 		return new Handlebars.SafeString(imgTag);
 	}
 
-	private String generateCaption(Image image) {
+	private String generateCaption(Image image, Taxon taxon, Options options) {
 		StringBuffer caption = new StringBuffer();
 
-		caption.append(Strings.nullToEmpty(image.getTitle()));
+
+		caption.append(Strings.nullToEmpty(image.getTitle()).replace('"', '\''));
 
 		if(!Strings.isNullOrEmpty(image.getCaption())) {
 			caption.append(" - ");
@@ -76,6 +78,12 @@ public class ImageHelper {
 		String owner = image.getOwner();
 		String creator = image.getCreator();
 		String source = image.getSource();
+
+		if (taxon != null && image.getTaxon() != null && !taxon.equals(image.getTaxon())) {
+			NameHelper nh = new NameHelper();
+			caption.append(nh.taxonLinkWithoutAuthor(image.getTaxon(), options).toString().replace('"', '\''));
+			caption.append(" | ");
+		}
 
 		if(!Strings.isNullOrEmpty(owner) && Strings.isNullOrEmpty(creator)) {
 			caption.append(owner);
