@@ -214,7 +214,7 @@
       "identifier":"Harvest-Herbcat-Dets",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
-        "authority.name":"Herbarium-Catalogue-Determinations",
+        "authority.name":"Herbarium-Catalogue-Specimens",
         "authority.uri":"https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets.zip",
         "resource.identifier":"Herbcat-Dets",
         "skip.indexing":"true"
@@ -225,7 +225,7 @@
       "identifier":"Harvest-Herbcat-Autonym-Dets",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
-        "authority.name":"Herbarium-Catalogue-Determinations",
+        "authority.name":"Herbarium-Catalogue-Specimens",
         "authority.uri":"https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets_autonyms.zip",
         "resource.identifier":"Herbcat-Autonym-Dets",
         "skip.indexing":"true"
@@ -707,25 +707,25 @@
       "abbreviation":"HC",
       "bibliographicCitation":"'The Herbarium Catalogue, Royal Botanic Gardens, Kew. Published on the Internet http://www.kew.org/herbcat [accessed on Day Month Year]'. Please enter the date on which you consulted the system.",
       "description":"The Herbarium at the Royal Botanic Gardens Kew houses approximately 7 million specimens, collected from all around the world. Specimens are either pressed and dried or preserved in spirit. Kew is committed to making this important collection more accessible to botanists and others, wherever they may be, for use in their own projects: particularly in biodiversity, conservation, sustainable development and systematics. To this end we are building an electronic Herbarium Catalogue containing images of the specimens and information taken from their collection labels.",
-      "identifier":"Herbarium-Catalogue-Determinations",
+      "identifier":"Herbarium-Catalogue-Specimens",
       "resources":[
         {
           "identifier":"Herbcat-Dets",
-          "organisation":"Herbarium-Catalogue-Determinations",
+          "organisation":"Herbarium-Catalogue-Specimens",
           "resourceType":"DwC_Archive",
           "title":"Herbcat Dets",
           "uri":"https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets.zip"
         },
         {
           "identifier":"Herbcat-Autonym-Dets",
-          "organisation":"Herbarium-Catalogue-Determinations",
+          "organisation":"Herbarium-Catalogue-Specimens",
           "resourceType":"DwC_Archive",
           "title":"Herbcat Autonym Dets",
           "uri":"https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets_autonyms.zip"
         }
       ],
       "subject":"Kew; Herbarium; Determination",
-      "title":"Herbarium Catalogue Determinations"
+      "title":"Herbarium Catalogue Specimens"
     },
     {
       "abbreviation":"LAA",
