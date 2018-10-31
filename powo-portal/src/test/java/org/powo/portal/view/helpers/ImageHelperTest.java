@@ -89,4 +89,20 @@ public class ImageHelperTest extends AbstractHelperTest {
 				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small><a href='/taxon/456'>Poa annua</a> | Some dude</small>\">" +
 				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></a>");
 	}
+
+	@Test
+	public void imageWithQuotesInCaption() throws IOException {
+		context.getImage().setCaption("<a href=\"google.com\">a link</a>");
+		shouldCompileTo("{{thumbnailImage image taxon}}", context,
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - <a href='google.com'>a link</a><small>Some dude</small>\">" +
+				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></a>");
+	}
+
+	@Test
+	public void imageWithQuotesInTitle() throws IOException {
+		context.getImage().setTitle("\"some title\"");
+		shouldCompileTo("{{thumbnailImage image taxon}}", context,
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"'some title' - Coolio<small>Some dude</small>\">" +
+				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"'some title'\"/></a>");
+	}
 }

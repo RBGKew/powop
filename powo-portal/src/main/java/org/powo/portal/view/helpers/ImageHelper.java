@@ -49,7 +49,7 @@ public class ImageHelper {
 		String figureClass = options.hash("figure-class");
 		String imgTag = String.format("<img src=\"%s\" title=\"%s\"/>",
 				imageUrl(image, type),
-				image.getTitle() == null ? "" : image.getTitle());
+				image.getTitle() == null ? "" : image.getTitle().replace('"', '\''));
 
 		if(figureClass != null) {
 			imgTag = String.format("<figure class=\"%s\">%s</figure>", figureClass, imgTag);
@@ -57,7 +57,9 @@ public class ImageHelper {
 
 		if(modal) {
 			imgTag = String.format("<a href=\"%s\" title=\"%s\">%s</a>",
-					imageUrl(image, "fullsize"), generateCaption(image, taxon, options), imgTag);
+					imageUrl(image, "fullsize"),
+					generateCaption(image, taxon, options).replace('"', '\''),
+					imgTag);
 		}
 
 		return new Handlebars.SafeString(imgTag);
@@ -67,7 +69,7 @@ public class ImageHelper {
 		StringBuffer caption = new StringBuffer();
 
 
-		caption.append(Strings.nullToEmpty(image.getTitle()).replace('"', '\''));
+		caption.append(Strings.nullToEmpty(image.getTitle()));
 
 		if(!Strings.isNullOrEmpty(image.getCaption())) {
 			caption.append(" - ");
@@ -81,7 +83,7 @@ public class ImageHelper {
 
 		if (taxon != null && image.getTaxon() != null && !taxon.equals(image.getTaxon())) {
 			NameHelper nh = new NameHelper();
-			caption.append(nh.taxonLinkWithoutAuthor(image.getTaxon(), options).toString().replace('"', '\''));
+			caption.append(nh.taxonLinkWithoutAuthor(image.getTaxon(), options));
 			caption.append(" | ");
 		}
 
