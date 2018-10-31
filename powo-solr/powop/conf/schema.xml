@@ -90,6 +90,7 @@
 
   <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
     <analyzer>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^[×xX] | [×xX] " replacement=" "/>
       <tokenizer class="solr.KeywordTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
       <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt"/>
