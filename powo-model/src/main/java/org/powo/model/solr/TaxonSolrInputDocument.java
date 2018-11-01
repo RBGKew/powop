@@ -182,7 +182,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				} else {
 					sid.addField("taxon.image_" + index + "_thumbnail_s", cdn.getThumbnailUrl(img));
 					sid.addField("taxon.image_" + index + "_fullsize_s", cdn.getFullsizeUrl(img));
-					sid.addField("taxon.image_" + index + "_caption_s", img.getCaption());
+					sid.addField("taxon.image_" + index + "_caption_s", img.getTitle());
 				}
 			}
 		}
