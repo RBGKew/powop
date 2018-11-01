@@ -86,7 +86,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 		context.getImage().setTaxon(taxon);
 
 		shouldCompileTo("{{thumbnailImage image taxon}}", context,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small><a href='/taxon/456'>Poa annua</a> | Some dude</small>\">" +
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small><a href='/taxon/456'><em>Poa annua</em></a> | Some dude</small>\">" +
 				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" title=\"Cool brah\"/></a>");
 	}
 
