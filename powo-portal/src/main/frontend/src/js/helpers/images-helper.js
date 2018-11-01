@@ -1,7 +1,9 @@
 define(['handlebars'], function(Handlebars) {
 
   var clean = function(caption) {
-    return caption.replace(/"/g, "'");
+    if (caption) {
+      return caption.replace(/"/g, "'");
+    }
   }
 
   Handlebars.registerHelper('thumbnailImage', function(image, options) {
