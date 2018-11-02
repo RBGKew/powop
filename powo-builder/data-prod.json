@@ -436,6 +436,17 @@
         "resource.identifier":"CATE-Araceae",
         "skip.indexing":"true"
       }
+    },
+    {
+      "description":"Harvest Herbcat Images",
+      "identifier":"Harvest-Herbcat-Images",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Herbarium-Catalogue-Specimens",
+        "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/herbcat_images.zip",
+        "resource.identifier":"Herbcat-Images",
+        "skip.indexing":"true"
+      }
     }
   ],
   "jobLists":[
@@ -462,6 +473,7 @@
         "Harvest-Botswana-Images",
         "Harvest-Botswana-Common-Names",
         "Harvest-Herbcat-Dets",
+        "Harvest-Herbcat-Images",
         "Harvest-Herbcat-Autonym-Dets",
         "Harvest-Library-Art-and-Archives",
         "Harvest-Colombian-Illustrations",
@@ -722,6 +734,13 @@
           "resourceType":"DwC_Archive",
           "title":"Herbcat Autonym Dets",
           "uri":"https://storage.googleapis.com/powop-content/Herbcat/herbcat_dets_autonyms.zip"
+        },
+        {
+          "identifier":"Herbcat-Images",
+          "organisation":"Herbarium-Catalogue-Specimens",
+          "resourceType":"DwC_Archive",
+          "title":"Herbcat Images",
+          "uri":"https://storage.googleapis.com/powop-content/multimedia/herbcat_images.zip"
         }
       ],
       "subject":"Kew; Herbarium; Determination",
