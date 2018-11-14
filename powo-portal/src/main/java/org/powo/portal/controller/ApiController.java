@@ -64,7 +64,7 @@ public class ApiController {
 		return new ResponseEntity<SearchResponse>(jsonBuilder, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/1/suggest", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = {"/1/suggest", "/2/suggest"}, method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<SuggesterResponse> suggest(
 			@RequestParam(value = "query", required = true) String queryString,
 			@RequestParam(value = "page.size", required = false, defaultValue = "5") Integer pageSize
