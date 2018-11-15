@@ -46,12 +46,14 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.FileSystemResource;
 
 import freemarker.template.TemplateException;
+import lombok.Setter;
 
+@Setter
 public class ArchiveMetadataWriter implements Tasklet {
 
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYYY");
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYYY");
 
-	private Pattern defaultValuesPattern = Pattern.compile("((?:[^\\\\,]|\\\\.)*)(?:,|$)");
+	private static final Pattern defaultValuesPattern = Pattern.compile("((?:[^\\\\,]|\\\\.)*)(?:,|$)");
 
 	private String archiveFile;
 
@@ -122,150 +124,6 @@ public class ArchiveMetadataWriter implements Tasklet {
 	private String title;
 
 	private int ignoreHeaderLines = 0;
-
-	public void setIgnoreHeaderLines(int ignoreHeaderLines) {
-		this.ignoreHeaderLines = ignoreHeaderLines;
-	}
-
-	public void setCitationString(String citationString) {
-		this.citationString = citationString;
-	}
-
-	public void setCreatorEmail(String creatorEmail) {
-		this.creatorEmail = creatorEmail;
-	}
-
-	public void setCreatorName(String creatorName) {
-		this.creatorName = creatorName;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setHomepageUrl(String homepageUrl) {
-		this.homepageUrl = homepageUrl;
-	}
-
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	public void setLogoUrl(String logoUrl) {
-		this.logoUrl = logoUrl;
-	}
-
-	public void setPublisherEmail(String publisherEmail) {
-		this.publisherEmail = publisherEmail;
-	}
-
-	public void setPublisherName(String publisherName) {
-		this.publisherName = publisherName;
-	}
-
-	public void setRights(String rights) {
-		this.rights = rights;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void setQuoteCharacter(Character quoteCharacter) {
-		this.quoteCharacter = quoteCharacter;
-	}
-
-	public void setDelimiter(String delimiter) {
-		this.delimiter = delimiter;
-	}
-
-	public void setArchiveFile(String archiveFile) {
-		this.archiveFile = archiveFile;
-	}
-
-	public void setTaxonDefaultValues(String taxonDefaultValues) {
-		this.taxonDefaultValues = toDefaultValues(taxonDefaultValues);
-	}
-
-	public void setDescriptionDefaultValues(String descriptionDefaultValues) {
-		this.descriptionDefaultValues = toDefaultValues(descriptionDefaultValues);
-	}
-
-	public void setDistributionDefaultValues(String distributionDefaultValues) {
-		this.distributionDefaultValues = toDefaultValues(distributionDefaultValues);
-	}
-
-	public void setReferenceDefaultValuesFields(String referenceDefaultValues) {
-		this.referenceDefaultValues = toDefaultValues(referenceDefaultValues);
-	}
-
-	public void setImageDefaultValues(String imageDefaultValues) {
-		this.imageDefaultValues = toDefaultValues(imageDefaultValues);
-	}
-
-	public void setTypeAndSpecimenDefaultValues(String typeAndSpecimenDefaultValues) {
-		this.typeAndSpecimenDefaultValues = toDefaultValues(typeAndSpecimenDefaultValues);
-	}
-
-	public void setMeasurementOrFactDefaultValues(String measurementOrFactDefaultValues) {
-		this.measurementOrFactDefaultValues = toDefaultValues(measurementOrFactDefaultValues);
-	}
-
-	public void setVernacularNameDefaultValues(String vernacularNameDefaultValues) {
-		this.vernacularNameDefaultValues = toDefaultValues(vernacularNameDefaultValues);
-	}
-
-	public void setIdentifierDefaultValues(String identifierDefaultValues) {
-		this.identifierDefaultValues = toDefaultValues(identifierDefaultValues);
-	}
-
-	public void setReferenceDefaultValues(String referenceDefaultValues) {
-		this.referenceDefaultValues = toDefaultValues(referenceDefaultValues);
-	}
-
-	public void setTaxonFields(String[] taxonFields) {
-		this.taxonFields = taxonFields;
-	}
-
-	public void setDescriptionFields(String[] descriptionFields) {
-		this.descriptionFields = descriptionFields;
-	}
-
-	public void setDistributionFields(String[] distributionFields) {
-		this.distributionFields = distributionFields;
-	}
-
-	public void setReferenceFields(String[] referenceFields) {
-		this.referenceFields = referenceFields;
-	}
-
-	public void setImageFields(String[] imageFields) {
-		this.imageFields = imageFields;
-	}
-
-	public void setTypeAndSpecimenFields(String[] typeAndSpecimenFields) {
-		this.typeAndSpecimenFields = typeAndSpecimenFields;
-	}
-
-	public void setMeasurementOrFactFields(String[] measurementOrFactFields) {
-		this.measurementOrFactFields = measurementOrFactFields;
-	}
-
-	public void setVernacularNameFields(String[] vernacularNameFields) {
-		this.vernacularNameFields = vernacularNameFields;
-	}
-
-	public void setIdentifierFields(String[] identifierFields) {
-		this.identifierFields = identifierFields;
-	}
-
-	public void setOutputDirectory(FileSystemResource outputDirectory) {
-		this.outputDirectory = outputDirectory;
-	}
 
 	Map<String, String> toDefaultValues(String defaultValueList) {
 		Map<String, String> defaultValues = new HashMap<String, String>();

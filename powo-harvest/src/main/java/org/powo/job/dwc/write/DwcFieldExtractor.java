@@ -28,35 +28,22 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.NullValueInNestedPathException;
 import org.springframework.beans.PropertyAccessException;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.util.Assert;
 
+import lombok.NonNull;
+import lombok.Setter;
+
+@Setter
 public class DwcFieldExtractor implements FieldExtractor<BaseData> {
 
+	@NonNull
 	private String[] names;
 
+	@NonNull
 	private String extension;
 
 	private Character quoteCharacter;
 
 	private ConversionService conversionService;
-
-	public void setQuoteCharacter(Character quoteCharacter) {
-		this.quoteCharacter = quoteCharacter;
-	}
-
-	public void setConversionService(ConversionService conversionService) {
-		this.conversionService = conversionService;
-	}
-
-	public void setNames(String[] names) {
-		Assert.notNull(names, "Names must be non-null");
-		this.names = names;
-	}
-
-	public void setExtension(String extension) {
-		Assert.notNull(extension, "Extension must be non-null");
-		this.extension = extension;
-	}
 
 	@Override
 	public Object[] extract(BaseData item) {

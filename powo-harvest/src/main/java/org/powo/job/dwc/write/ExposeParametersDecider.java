@@ -18,8 +18,6 @@ package org.powo.job.dwc.write;
 
 import java.io.File;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepExecution;
@@ -28,21 +26,16 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.core.io.FileSystemResource;
 
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
+@Setter
+@Slf4j
 public class ExposeParametersDecider implements JobExecutionDecider {
 
-	private Logger logger = LoggerFactory.getLogger(ExposeParametersDecider.class);
-
-	private String jobParameterName = null;
+	private String jobParameterName;
 
 	private FileSystemResource outputDirectory;
-
-	public void setJobParameterName(String jobParameterName) {
-		this.jobParameterName = jobParameterName;
-	}
-
-	public void setOutputDirectory(FileSystemResource outputDirectory) {
-		this.outputDirectory = outputDirectory;
-	}
 
 	@Override
 	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
@@ -84,7 +77,7 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 	}
 
 	private void setExecutionContext(ExecutionContext executionContext, JobParameters jobParameters, String fileName, String downloadType, String extension) {
-		logger.debug(jobParameterName + " Setting download.fields to " + jobParameters.getString(jobParameterName));
+		log.debug(jobParameterName + " Setting download.fields to " + jobParameters.getString(jobParameterName));
 		executionContext.put("download.fields", jobParameters.getString(jobParameterName));
 		File workDirectory = new File(outputDirectory.getFile(), jobParameters.getString("download.file"));
 

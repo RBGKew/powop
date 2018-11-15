@@ -28,6 +28,9 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.FileSystemResource;
 
+import lombok.Setter;
+
+@Setter
 public class ArchivePackager implements Tasklet {
 
 	private String archiveFile;
@@ -49,46 +52,6 @@ public class ArchivePackager implements Tasklet {
 	private String[] referenceFields;
 
 	private String[] typeAndSpecimenFields;
-
-	public void setArchiveFile(String archiveFile) {
-		this.archiveFile = archiveFile;
-	}
-
-	public void setOutputDirectory(FileSystemResource outputDirectory) {
-		this.outputDirectory = outputDirectory;
-	}
-
-	public void setDescriptionFields(String[] descriptionFields) {
-		this.descriptionFields = descriptionFields;
-	}
-
-	public void setDistributionFields(String[] distributionFields) {
-		this.distributionFields = distributionFields;
-	}
-
-	public void setMeasurementOrFactFields(String[] measurementOrFactFields) {
-		this.measurementOrFactFields = measurementOrFactFields;
-	}
-
-	public void setVernacularNameFields(String[] vernacularNameFields) {
-		this.vernacularNameFields = vernacularNameFields;
-	}
-
-	public void setImageFields(String[] imageFields) {
-		this.imageFields = imageFields;
-	}
-
-	public void setIdentifierFields(String[] identifierFields) {
-		this.identifierFields = identifierFields;
-	}
-
-	public void setReferenceFields(String[] referenceFields) {
-		this.referenceFields = referenceFields;
-	}
-
-	public void setTypeAndSpecimenFields(String[] typeAndSpecimenFields) {
-		this.typeAndSpecimenFields = typeAndSpecimenFields;
-	}
 
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
 		File archive = new File(outputDirectory.getFile(), archiveFile + ".zip");
