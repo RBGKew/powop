@@ -49,24 +49,33 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 		if (jobExecution.getJobParameters().getString(jobParameterName) != null) {
 			ExecutionContext executionContext = jobExecution.getExecutionContext();
 			JobParameters jobParameters = jobExecution.getJobParameters();
-			if(jobParameterName.equals("download.taxon")) {
-				setExecutionContext(executionContext,jobParameters,"taxon.txt","org.powo.model.Taxon", "http://rs.tdwg.org/dwc/terms/Taxon");
-			} else if(jobParameterName.equals("download.description")) {
-				setExecutionContext(executionContext,jobParameters,"description.txt","org.powo.model.Description", "http://rs.gbif.org/terms/1.0/Description");
-			} else if(jobParameterName.equals("download.distribution")) {
-				setExecutionContext(executionContext,jobParameters,"distribution.txt","org.powo.model.Distribution", "http://rs.gbif.org/terms/1.0/Distribution");
-			} else if(jobParameterName.equals("download.image")) {
-				setExecutionContext(executionContext,jobParameters,"image.txt","org.powo.model.Image", "http://rs.gbif.org/terms/1.0/Image");
-			} else if(jobParameterName.equals("download.reference")) {
-				setExecutionContext(executionContext,jobParameters,"reference.txt","org.powo.model.Reference", "http://rs.gbif.org/terms/1.0/Reference");
-			} else if(jobParameterName.equals("download.typeAndSpecimen")) {
-				setExecutionContext(executionContext,jobParameters,"typeAndSpecimen.txt","org.powo.model.TypeAndSpecimen", "http://rs.gbif.org/terms/1.0/TypesAndSpecimen");
-			} else if(jobParameterName.equals("download.measurementOrFact")) {
-				setExecutionContext(executionContext,jobParameters,"measurementOrFact.txt","org.powo.model.MeasurementOrFact", "http://rs.tdwg.org/dwc/terms/MeasurementOrFact");
-			} else if(jobParameterName.equals("download.vernacularName")) {
-				setExecutionContext(executionContext,jobParameters,"vernacularName.txt","org.powo.model.VernacularName","http://rs.gbif.org/terms/1.0/VernacularName");
-			} else if(jobParameterName.equals("download.identifier")) {
-				setExecutionContext(executionContext,jobParameters,"identifier.txt","org.powo.model.Identifier", "http://rs.gbif.org/terms/1.0/Identifier");
+			if (jobParameterName.equals("download.taxon")) {
+				setExecutionContext(executionContext, jobParameters, "taxon.txt", "org.powo.model.Taxon",
+						"http://rs.tdwg.org/dwc/terms/Taxon");
+			} else if (jobParameterName.equals("download.description")) {
+				setExecutionContext(executionContext, jobParameters, "description.txt", "org.powo.model.Description",
+						"http://rs.gbif.org/terms/1.0/Description");
+			} else if (jobParameterName.equals("download.distribution")) {
+				setExecutionContext(executionContext, jobParameters, "distribution.txt", "org.powo.model.Distribution",
+						"http://rs.gbif.org/terms/1.0/Distribution");
+			} else if (jobParameterName.equals("download.image")) {
+				setExecutionContext(executionContext, jobParameters, "image.txt", "org.powo.model.Image",
+						"http://rs.gbif.org/terms/1.0/Image");
+			} else if (jobParameterName.equals("download.reference")) {
+				setExecutionContext(executionContext, jobParameters, "reference.txt", "org.powo.model.Reference",
+						"http://rs.gbif.org/terms/1.0/Reference");
+			} else if (jobParameterName.equals("download.typeAndSpecimen")) {
+				setExecutionContext(executionContext, jobParameters, "typeAndSpecimen.txt",
+						"org.powo.model.TypeAndSpecimen", "http://rs.gbif.org/terms/1.0/TypesAndSpecimen");
+			} else if (jobParameterName.equals("download.measurementOrFact")) {
+				setExecutionContext(executionContext, jobParameters, "measurementOrFact.txt",
+						"org.powo.model.MeasurementOrFact", "http://rs.tdwg.org/dwc/terms/MeasurementOrFact");
+			} else if (jobParameterName.equals("download.vernacularName")) {
+				setExecutionContext(executionContext, jobParameters, "vernacularName.txt",
+						"org.powo.model.VernacularName", "http://rs.gbif.org/terms/1.0/VernacularName");
+			} else if (jobParameterName.equals("download.identifier")) {
+				setExecutionContext(executionContext, jobParameters, "identifier.txt", "org.powo.model.Identifier",
+						"http://rs.gbif.org/terms/1.0/Identifier");
 			}
 			return new FlowExecutionStatus("true");
 		} else {
@@ -74,15 +83,17 @@ public class ExposeParametersDecider implements JobExecutionDecider {
 		}
 	}
 
-	private void setExecutionContext(ExecutionContext executionContext, JobParameters jobParameters, String fileName,String downloadType, String extension) {
+	private void setExecutionContext(ExecutionContext executionContext, JobParameters jobParameters, String fileName, String downloadType, String extension) {
 		logger.debug(jobParameterName + " Setting download.fields to " + jobParameters.getString(jobParameterName));
 		executionContext.put("download.fields", jobParameters.getString(jobParameterName));
-		File workDirectory = new File(outputDirectory.getFile(),jobParameters.getString("download.file"));
-		if(!workDirectory.exists()) {
+		File workDirectory = new File(outputDirectory.getFile(), jobParameters.getString("download.file"));
+
+		if (!workDirectory.exists()) {
 			workDirectory.mkdir();
 			executionContext.put("working.directory", workDirectory.getAbsolutePath());
 		}
-		File downloadFile =  new File(workDirectory,fileName);
+
+		File downloadFile = new File(workDirectory, fileName);
 		executionContext.put("download.file", downloadFile.getAbsolutePath());
 		executionContext.put("download.type", downloadType);
 		executionContext.put("download.extension", extension);

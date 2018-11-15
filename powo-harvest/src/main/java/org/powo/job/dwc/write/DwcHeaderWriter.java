@@ -35,7 +35,6 @@ public class DwcHeaderWriter implements FlatFileHeaderCallback {
 		this.delimiter = delimiter;
 	}
 
-
 	@Override
 	public void writeHeader(Writer writer) throws IOException {
 		writer.write(header.replace(",", delimiter));

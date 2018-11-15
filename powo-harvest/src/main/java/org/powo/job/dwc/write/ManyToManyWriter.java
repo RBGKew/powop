@@ -39,26 +39,26 @@ public class ManyToManyWriter extends FlatFileItemWriter<Taxon> {
 	public void write(List<? extends Taxon> taxa) throws Exception {
 		List items = new ArrayList();
 
-		for(Taxon t : taxa) {
+		for (Taxon t : taxa) {
 			Set<Taxon> taxaList = new HashSet<Taxon>();
 			taxaList.add(t);
-			if(type.equals(Reference.class)) {
-				for(Reference r : t.getReferences()) {
-					if(r.getLicense() != null && !r.getLicense().isEmpty()) {
+			if (type.equals(Reference.class)) {
+				for (Reference r : t.getReferences()) {
+					if (r.getLicense() != null && !r.getLicense().isEmpty()) {
 						r.setTaxa(taxaList);
 						items.add(r);
 					}
 				}
-			} else if(type.equals(Image.class)) {
-				for(Image i : t.getImages()) {
-					if(i.getLicense() != null && !i.getLicense().isEmpty()) {
+			} else if (type.equals(Image.class)) {
+				for (Image i : t.getImages()) {
+					if (i.getLicense() != null && !i.getLicense().isEmpty()) {
 						i.setTaxa(taxaList);
 						items.add(i);
 					}
 				}
-			} else if(type.equals(TypeAndSpecimen.class)) {
-				for(TypeAndSpecimen o : t.getTypesAndSpecimens()) {
-					if(o.getLicense() != null && !o.getLicense().isEmpty()) {
+			} else if (type.equals(TypeAndSpecimen.class)) {
+				for (TypeAndSpecimen o : t.getTypesAndSpecimens()) {
+					if (o.getLicense() != null && !o.getLicense().isEmpty()) {
 						o.setTaxa(taxaList);
 						items.add(o);
 					}
@@ -68,6 +68,5 @@ public class ManyToManyWriter extends FlatFileItemWriter<Taxon> {
 
 		super.write(items);
 	}
-
 
 }

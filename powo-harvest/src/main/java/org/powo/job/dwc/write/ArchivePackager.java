@@ -28,7 +28,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.FileSystemResource;
 
-
 public class ArchivePackager implements Tasklet {
 
 	private String archiveFile;
@@ -92,10 +91,10 @@ public class ArchivePackager implements Tasklet {
 	}
 
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
-		File archive = new File(outputDirectory.getFile(),archiveFile  + ".zip");
+		File archive = new File(outputDirectory.getFile(), archiveFile + ".zip");
 		ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(archive));
-		File workDirectory = new File(outputDirectory.getFile(),archiveFile);
-		if(!workDirectory.exists()) {
+		File workDirectory = new File(outputDirectory.getFile(), archiveFile);
+		if (!workDirectory.exists()) {
 			workDirectory.mkdir();
 		}
 
@@ -103,28 +102,28 @@ public class ArchivePackager implements Tasklet {
 		addFile(workDirectory, "eml.xml", zipOutputStream);
 		addFile(workDirectory, "meta.xml", zipOutputStream);
 
-		if(descriptionFields != null) {
+		if (descriptionFields != null) {
 			addFile(workDirectory, "description.txt", zipOutputStream);
 		}
-		if(distributionFields != null) {
+		if (distributionFields != null) {
 			addFile(workDirectory, "distribution.txt", zipOutputStream);
 		}
-		if(referenceFields != null) {
+		if (referenceFields != null) {
 			addFile(workDirectory, "reference.txt", zipOutputStream);
 		}
-		if(imageFields != null) {
+		if (imageFields != null) {
 			addFile(workDirectory, "image.txt", zipOutputStream);
 		}
-		if(identifierFields != null) {
+		if (identifierFields != null) {
 			addFile(workDirectory, "identifier.txt", zipOutputStream);
 		}
-		if(vernacularNameFields != null) {
+		if (vernacularNameFields != null) {
 			addFile(workDirectory, "vernacularName.txt", zipOutputStream);
 		}
-		if(typeAndSpecimenFields != null) {
+		if (typeAndSpecimenFields != null) {
 			addFile(workDirectory, "typeAndSpecimen.txt", zipOutputStream);
 		}
-		if(measurementOrFactFields != null) {
+		if (measurementOrFactFields != null) {
 			addFile(workDirectory, "measurementOrFact.txt", zipOutputStream);
 		}
 

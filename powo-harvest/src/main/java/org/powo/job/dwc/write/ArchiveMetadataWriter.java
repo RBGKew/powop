@@ -47,12 +47,9 @@ import org.springframework.core.io.FileSystemResource;
 
 import freemarker.template.TemplateException;
 
-
 public class ArchiveMetadataWriter implements Tasklet {
 
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYYY");
-
-	private TermFactory termFactory = new TermFactory();
 
 	private Pattern defaultValuesPattern = Pattern.compile("((?:[^\\\\,]|\\\\.)*)(?:,|$)");
 
@@ -60,39 +57,39 @@ public class ArchiveMetadataWriter implements Tasklet {
 
 	private String[] taxonFields;
 
-	private Map<String,String> taxonDefaultValues = new HashMap<String,String>();
+	private Map<String, String> taxonDefaultValues = new HashMap<>();
 
 	private String[] descriptionFields;
 
-	private Map<String,String> descriptionDefaultValues = new HashMap<String,String>();
+	private Map<String, String> descriptionDefaultValues = new HashMap<>();
 
 	private String[] distributionFields;
 
-	private Map<String,String> distributionDefaultValues = new HashMap<String,String>();
+	private Map<String, String> distributionDefaultValues = new HashMap<>();
 
 	private String[] referenceFields;
 
-	private Map<String,String> referenceDefaultValues = new HashMap<String,String>();
+	private Map<String, String> referenceDefaultValues = new HashMap<>();
 
 	private String[] imageFields;
 
-	private Map<String,String> imageDefaultValues = new HashMap<String,String>();
+	private Map<String, String> imageDefaultValues = new HashMap<>();
 
 	private String[] typeAndSpecimenFields;
 
-	private Map<String,String> typeAndSpecimenDefaultValues = new HashMap<String,String>();
+	private Map<String, String> typeAndSpecimenDefaultValues = new HashMap<>();
 
 	private String[] measurementOrFactFields;
 
-	private Map<String,String> measurementOrFactDefaultValues = new HashMap<String,String>();
+	private Map<String, String> measurementOrFactDefaultValues = new HashMap<>();
 
 	private String[] vernacularNameFields;
 
-	private Map<String,String> vernacularNameDefaultValues = new HashMap<String,String>();
+	private Map<String, String> vernacularNameDefaultValues = new HashMap<>();
 
 	private String[] identifierFields;
 
-	private Map<String,String> identifierDefaultValues = new HashMap<String,String>();
+	private Map<String, String> identifierDefaultValues = new HashMap<>();
 
 	private Character quoteCharacter;
 
@@ -270,9 +267,8 @@ public class ArchiveMetadataWriter implements Tasklet {
 		this.outputDirectory = outputDirectory;
 	}
 
-	Map<String,String> toDefaultValues(String defaultValueList) {
-
-		Map<String,String> defaultValues = new HashMap<String,String>();
+	Map<String, String> toDefaultValues(String defaultValueList) {
+		Map<String, String> defaultValues = new HashMap<String, String>();
 		if (defaultValueList != null && !defaultValueList.isEmpty()) {
 			Matcher matcher = defaultValuesPattern.matcher(defaultValueList);
 			while (matcher.find()) {
@@ -292,46 +288,59 @@ public class ArchiveMetadataWriter implements Tasklet {
 	public RepeatStatus execute(StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
 		Archive archive = new Archive();
 
-		archive.setCore(buildArchiveFile(taxonFields,taxonDefaultValues,DwcTerm.Taxon, DwcTerm.taxonID,"taxon.txt",ignoreHeaderLines ,"UTF-8",quoteCharacter,delimiter));
+		archive.setCore(buildArchiveFile(taxonFields, taxonDefaultValues, DwcTerm.Taxon, DwcTerm.taxonID, "taxon.txt",
+				ignoreHeaderLines, "UTF-8", quoteCharacter, delimiter));
 
-		if(descriptionFields != null) {
-			archive.addExtension(buildArchiveFile(descriptionFields,descriptionDefaultValues,GbifTerm.Description, DwcTerm.taxonID,"description.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (descriptionFields != null) {
+			archive.addExtension(buildArchiveFile(descriptionFields, descriptionDefaultValues, GbifTerm.Description,
+					DwcTerm.taxonID, "description.txt", ignoreHeaderLines, "UTF-8", quoteCharacter, delimiter));
 		}
-		if(distributionFields != null) {
-			archive.addExtension(buildArchiveFile(distributionFields,distributionDefaultValues,GbifTerm.Distribution, DwcTerm.taxonID,"distribution.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (distributionFields != null) {
+			archive.addExtension(buildArchiveFile(distributionFields, distributionDefaultValues, GbifTerm.Distribution,
+					DwcTerm.taxonID, "distribution.txt", ignoreHeaderLines, "UTF-8", quoteCharacter, delimiter));
 		}
-		if(referenceFields != null) {
-			archive.addExtension(buildArchiveFile(referenceFields,referenceDefaultValues,GbifTerm.Reference, DwcTerm.taxonID,"reference.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (referenceFields != null) {
+			archive.addExtension(buildArchiveFile(referenceFields, referenceDefaultValues, GbifTerm.Reference,
+					DwcTerm.taxonID, "reference.txt", ignoreHeaderLines, "UTF-8", quoteCharacter, delimiter));
 		}
-		if(imageFields != null) {
-			archive.addExtension(buildArchiveFile(imageFields,imageDefaultValues,ExtendedAcTerm.Multimedia, DwcTerm.taxonID,"image.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (imageFields != null) {
+			archive.addExtension(buildArchiveFile(imageFields, imageDefaultValues, ExtendedAcTerm.Multimedia,
+					DwcTerm.taxonID, "image.txt", ignoreHeaderLines, "UTF-8", quoteCharacter, delimiter));
 		}
-		if(typeAndSpecimenFields != null) {
-			archive.addExtension(buildArchiveFile(typeAndSpecimenFields,typeAndSpecimenDefaultValues,GbifTerm.TypesAndSpecimen, DwcTerm.taxonID,"typeAndSpecimen.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (typeAndSpecimenFields != null) {
+			archive.addExtension(buildArchiveFile(typeAndSpecimenFields, typeAndSpecimenDefaultValues,
+					GbifTerm.TypesAndSpecimen, DwcTerm.taxonID, "typeAndSpecimen.txt", ignoreHeaderLines, "UTF-8",
+					quoteCharacter, delimiter));
 		}
-		if(measurementOrFactFields != null) {
-			archive.addExtension(buildArchiveFile(measurementOrFactFields,measurementOrFactDefaultValues,DwcTerm.MeasurementOrFact, DwcTerm.taxonID,"measurementOrFact.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (measurementOrFactFields != null) {
+			archive.addExtension(buildArchiveFile(measurementOrFactFields, measurementOrFactDefaultValues,
+					DwcTerm.MeasurementOrFact, DwcTerm.taxonID, "measurementOrFact.txt", ignoreHeaderLines, "UTF-8",
+					quoteCharacter, delimiter));
 		}
-		if(vernacularNameFields != null) {
-			archive.addExtension(buildArchiveFile(vernacularNameFields,vernacularNameDefaultValues,GbifTerm.VernacularName, DwcTerm.taxonID,"vernacularName.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (vernacularNameFields != null) {
+			archive.addExtension(buildArchiveFile(vernacularNameFields, vernacularNameDefaultValues,
+					GbifTerm.VernacularName, DwcTerm.taxonID, "vernacularName.txt", ignoreHeaderLines, "UTF-8",
+					quoteCharacter, delimiter));
 		}
-		if(identifierFields != null) {
-			archive.addExtension(buildArchiveFile(identifierFields,identifierDefaultValues,GbifTerm.Identifier, DwcTerm.taxonID,"identifier.txt",ignoreHeaderLines,"UTF-8",quoteCharacter,delimiter));
+		if (identifierFields != null) {
+			archive.addExtension(buildArchiveFile(identifierFields, identifierDefaultValues, GbifTerm.Identifier,
+					DwcTerm.taxonID, "identifier.txt", ignoreHeaderLines, "UTF-8", quoteCharacter, delimiter));
 		}
 
 		archive.setMetadataLocation("eml.xml");
-		File workDirectory = new File(outputDirectory.getFile(),archiveFile);
-		if(!workDirectory.exists()) {
+		File workDirectory = new File(outputDirectory.getFile(), archiveFile);
+		if (!workDirectory.exists()) {
 			workDirectory.mkdir();
 		}
-		File metaFile = new File(workDirectory,"meta.xml");
+
+		File metaFile = new File(workDirectory, "meta.xml");
 		try {
 			MetaDescriptorWriter.writeMetaFile(metaFile, archive);
 		} catch (TemplateException te) {
 			throw new IOException("Exception writing meta.xml", te);
 		}
 
-		File emlFile = new File(workDirectory,"eml.xml");
+		File emlFile = new File(workDirectory, "eml.xml");
 		Eml eml = getEml();
 		try {
 			EmlWriter.writeEmlFile(emlFile, eml);
@@ -344,12 +353,13 @@ public class ArchiveMetadataWriter implements Tasklet {
 
 	private Eml getEml() {
 		Eml eml = new Eml();
-		if(citationString != null) {
+		if (citationString != null) {
 			DateTime now = new DateTime();
 			Integer year = new Integer(now.getYear());
 			citationString = citationString.replace("{0}", year.toString()).replace("{1}", dateTimeFormatter.print(now));
 		}
-		eml.setCitation(citationString,identifier);
+
+		eml.setCitation(citationString, identifier);
 		Agent resourceCreator = new Agent();
 		resourceCreator.setEmail(creatorEmail);
 		resourceCreator.setFirstName(creatorName);
@@ -365,35 +375,39 @@ public class ArchiveMetadataWriter implements Tasklet {
 		metadataProvider.setFirstName(publisherName);
 		eml.setMetadataProvider(metadataProvider);
 		eml.setIntellectualRights(rights);
+
 		return eml;
 	}
 
-	private ArchiveFile buildArchiveFile(String[] fieldNames, Map<String,String> defaultValues, Term rowType, Term idTerm, String location,
-			Integer ignoreHeaderLines, String encoding, Character fieldsEnclosedBy, String fieldsTerminatedBy) {
+	private ArchiveFile buildArchiveFile(String[] fieldNames, Map<String, String> defaultValues, Term rowType,
+			Term idTerm, String location, Integer ignoreHeaderLines, String encoding, Character fieldsEnclosedBy,
+			String fieldsTerminatedBy) {
 		ArchiveFile archiveFile = new ArchiveFile();
 		ArchiveField idField = new ArchiveField();
 		idField.setIndex(0);
 		idField.setTerm(idTerm);
 		archiveFile.setId(idField);
 
-		for(int i = 1; i < fieldNames.length; i++) {
-			Term term = termFactory.findTerm(fieldNames[i]);
+		for (int i = 1; i < fieldNames.length; i++) {
+			Term term = TermFactory.findTerm(fieldNames[i]);
 			ArchiveField archiveField = new ArchiveField();
 			archiveField.setTerm(term);
 			archiveField.setIndex(i);
-			if(defaultValues.containsKey(fieldNames[i])) {
+			if (defaultValues.containsKey(fieldNames[i])) {
 				archiveField.setDefaultValue(defaultValues.get(fieldNames[i]));
 				defaultValues.remove(fieldNames[i]);
 			}
 			archiveFile.addField(archiveField);
 		}
-		for(String fieldName : defaultValues.keySet()) {
-			Term term = termFactory.findTerm(fieldName);
+
+		for (String fieldName : defaultValues.keySet()) {
+			Term term = TermFactory.findTerm(fieldName);
 			ArchiveField archiveField = new ArchiveField();
 			archiveField.setTerm(term);
 			archiveField.setDefaultValue(defaultValues.get(fieldName));
 			archiveFile.addField(archiveField);
 		}
+
 		archiveFile.setRowType(rowType.qualifiedName());
 		archiveFile.setIgnoreHeaderLines(ignoreHeaderLines);
 		archiveFile.setEncoding(encoding);
