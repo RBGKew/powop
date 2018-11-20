@@ -11,7 +11,6 @@
 * Plugin Requires
 */
 var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
 
 /*
 * Load all the plugins into the variable $
@@ -27,20 +26,7 @@ var $ = require('gulp-load-plugins')({
 * Pass the plugins along so that your tasks can use them
 * Will load all xxx.tasks.js files
 */
-$.loadSubtasks('src/tasks/', $, browserSync);
-
-/*
-* Static browser sync server
-*/
-gulp.task('browser-sync', function() {
-    browserSync.init({
-        server: {
-            baseDir: "./dist"
-        }
-    });
-    gulp.watch('src/sass/**/*.scss',['css']);
-    gulp.watch('src/js/search/**/*.js',['precompile', 'js']);
-});
+$.loadSubtasks('src/tasks/', $);
 
 /*
 * Combination tasks
@@ -80,4 +66,3 @@ gulp.task('styles', function(cb) {
 gulp.task('scripts', function(cb) {
   $.runSequence('precompile', 'js', 'rev', cb)
 });
-gulp.task('serve', ['browser-sync']);
