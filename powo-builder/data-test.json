@@ -456,7 +456,7 @@
         "authority.name":"CATE-Araceae",
         "authority.uri":"https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip",
         "resource.identifier":"CATE-Araceae",
-        "skip.indexing":"false"
+        "skip.indexing":"true"
       }
     },
     {
@@ -467,7 +467,29 @@
         "authority.name":"Herbarium-Catalogue-Specimens",
         "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/herbcat_images.zip",
         "resource.identifier":"Herbcat-Images",
-        "skip.indexing":"false"
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest Useful plants of Boyaca - updated",
+      "identifier":"Harvest-Useful-plants-of-Boyaca-updated",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Useful-Plants-of-Boyaca",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB_19112018_2.zip.zip",
+        "resource.identifier":"Useful-plants-of-Boyaca-updated",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest CATE Araceae Images",
+      "identifier":"Harvest-CATE-Araceae-Images",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CATE-Araceae",
+        "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/media.araceae.e-monocot.org.zip",
+        "resource.identifier":"CATE-Araceae-Images",
+        "skip.indexing":"true"
       }
     }
   ],
@@ -516,6 +538,8 @@
         "Harvest-Colplanta",
         "Harvest-ILDIS",
         "Harvest-CATE-Araceae",
+        "Harvest-Useful-plants-of-Boyaca-updated",
+        "Harvest-CATE-Araceae-Images",
         "reindex"
       ]
     }
@@ -767,7 +791,7 @@
           "uri":"https://storage.googleapis.com/powop-content/multimedia/herbcat_images.zip"
         }
       ],
-      "subject":"Science; Herbarium; Digifolia; Royal Botanic Gardens, Kew",
+      "subject":"Kew; Herbarium; Determination",
       "title":"Herbarium Catalogue Specimens"
     },
     {
@@ -1010,6 +1034,13 @@
           "resourceType":"DwC_Archive",
           "title":"Useful plants of Boyaca",
           "uri":"https://storage.googleapis.com/powop-content/UPB/UPB.zip"
+        },
+        {
+          "identifier":"Useful-plants-of-Boyaca-updated",
+          "organisation":"Useful-Plants-of-Boyaca",
+          "resourceType":"DwC_Archive",
+          "title":"Useful plants of Boyaca - updated",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB_19112018_2.zip.zip"
         }
       ],
       "subject":"; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
@@ -1064,6 +1095,13 @@
           "resourceType":"DwC_Archive",
           "title":"CATE Araceae",
           "uri":"https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip"
+        },
+        {
+          "identifier":"CATE-Araceae-Images",
+          "organisation":"CATE-Araceae",
+          "resourceType":"DwC_Archive",
+          "title":"CATE Araceae Images",
+          "uri":"https://storage.googleapis.com/powop-content/multimedia/media.araceae.e-monocot.org.zip"
         }
       ],
       "subject":"emonocot; Araceae; CATE",
