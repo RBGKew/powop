@@ -5,11 +5,17 @@
         <h1>{{ jobList.newInstance ? 'New' : 'Edit' }} Job List</h1>
       </v-card-title>
       <v-card-text>
-        <v-text-field
-          v-model="jobList.description"
-          label="Description"
-          required>
-        </v-text-field>
+        <v-container>
+          <v-layout wrap>
+            <v-flex xs2>
+              <v-text-field v-model="jobList.identifier" label="Identifier" required></v-text-field>
+            </v-flex>
+            <v-flex xs10>
+              <v-text-field v-model="jobList.description" label="Description" required></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+
         <v-data-table
           :items="jobList.jobConfigurations"
           :headers="headers"
@@ -158,7 +164,12 @@ export default {
     },
 
     update () {
-      this.$store.dispatch('updateJobList', this.jobList)
+      if (this.jobList.newInstance) {
+        this.$store.dispatch('createJobList', this.jobList)
+      } else {
+        this.$store.dispatch('updateJobList', this.jobList)
+      }
+
       this.editing = false
     }
   },

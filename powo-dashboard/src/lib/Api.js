@@ -74,6 +74,10 @@ const joblist = function(identifier) {
   return api.get('job/list/' + identifier)
 }
 
+const createJobList = function(job, credentials) {
+  return api.post('job/list', job, credentials)
+}
+
 const updateJobList = function(jobList, credentials) {
   return api.post('job/list/' + jobList.identifier, jobList, credentials)
 }
@@ -117,6 +121,7 @@ export default {
   run,
   joblists,
   joblist,
+  createJobList,
   updateJobList,
   deleteJobList,
   runJobList,

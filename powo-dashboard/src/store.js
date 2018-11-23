@@ -83,6 +83,10 @@ export default new Vuex.Store({
       state.lists = lists
     },
 
+    createJobList (state, list) {
+      state.lists.push(list)
+    },
+
     updateJobList (state, list) {
       var index = _.findIndex(state.lists, {'identifier': list.identifier})
       if(index > -1) {
@@ -267,6 +271,23 @@ export default new Vuex.Store({
         .then(function(result) {
           context.commit('loadJobLists', result.data.results)
           return result
+        })
+    },
+
+    createJobList (context, list) {
+      return api.createJobList(list, context.state.credentials)
+        .then(function(result) {
+          context.commit('createJobList', result.data)
+          context.commit('successMessage', 'Created job list ' + list.description)
+          return result
+        })
+        .catch(function(error) {
+            if(error.status === 401) {
+              context.commit('errorMessage', 'Unauthorised. Please check your username and password.')
+            } else {
+              context.commit('errorMessage', 'Error creating ' + list.description + '. ' + error.message)
+              throw error
+            }
         })
     },
 

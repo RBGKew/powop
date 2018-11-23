@@ -12,7 +12,7 @@
           <tr>
             <td width="5%">{{ props.item.identifier }}</td>
             <td>{{ props.item.description }}</td>
-            <td>{{ props.item.jobConfigurations[props.item.currentJob].description }}</td>
+            <td>{{ currentJob(props.item) }}</td>
             <td>{{ props.item.status }}</td>
             <td width="20%">
               <v-btn class="py-0" icon :disabled=!isAuthenticated @click="run(props.item)">
@@ -47,6 +47,7 @@
 import JobListForm from '@/views/JobListForm'
 import DeleteDialog from '@/views/DeleteDialog'
 import api from '@/lib/Api'
+import _ from 'lodash'
 
 export default {
   name: 'JobLists',
@@ -112,6 +113,10 @@ export default {
 
     newJobList () {
       this.$refs.jobListForm.show()
+    },
+
+    currentJob (jobList) {
+      return _.get(jobList.jobConfigurations[jobList.currentJob], 'description')
     }
   }
 }
