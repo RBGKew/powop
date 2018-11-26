@@ -33,7 +33,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	public Taxon doProcess(Taxon t) throws Exception {
-		logger.debug("Processing " + t.getIdentifier());
+		logger.debug("Processing {}", t.getIdentifier());
 
 		if (t.getIdentifier() == null) {
 			throw new NoIdentifierException(t);
@@ -47,7 +47,13 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			chunkAnnotations.add(createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info));
 			t.setAuthority(getSource());
 			t.setResource(getResource());
-			logger.debug("Adding taxon " + t);
+
+			// don't try saving any linked taxa. This must be done by the linking processor
+			t.setParentNameUsage(null);
+			t.setAcceptedNameUsage(null);
+			t.setOriginalNameUsage(null);
+
+			logger.debug("Adding taxon {}", t);
 			return t;
 		} else {
 			checkAuthority(RecordType.Taxon, t, persisted.getAuthority());
@@ -92,7 +98,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 			}
 
-			logger.debug("Overwriting taxon " + persisted);
+			logger.debug("Overwriting taxon {}", persisted);
 			return persisted;
 
 		}
