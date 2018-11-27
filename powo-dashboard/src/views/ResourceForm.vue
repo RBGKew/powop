@@ -23,8 +23,14 @@
                 <v-radio label="Harvest taxonomy" value="IMPORT_TAXONOMY"></v-radio>
               </v-radio-group>
             </v-flex>
-            <v-btn color="success" @click="update()">Save <v-icon right dark>save</v-icon></v-btn>
-            <v-btn color="warning" @click="editing = false">Cancel <v-icon right dark>cancel</v-icon></v-btn>
+            <v-flex xs12>
+              <v-autocomplete label="Skip Resources" chips deletable-chips multiple :items="resourceTypes" v-model="skipped">
+              </v-autocomplete>
+            </v-flex>
+            <v-flex>
+              <v-btn color="success" @click="update()">Save <v-icon right dark>save</v-icon></v-btn>
+              <v-btn color="warning" @click="editing = false">Cancel <v-icon right dark>cancel</v-icon></v-btn>
+            </v-flex>
           </v-layout>
         </v-container>
       </v-card-text>
@@ -42,46 +48,78 @@ export default {
       resource: {
         newInstance: true,
         jobConfiguration: {
-          parameters: {
-            'prefix': null
-          }
+          parameters: { }
         }
       },
+
       resourceTypes: [
-        { text: 'Standard', value: 'Harvest' },
-        { text: 'Harvest Names', value: 'HarvestNames' },
-        { text: 'Harvest Taxonomy', value: 'HarvestTaxonomy' }
-      ]
+        'Common Names',
+        'Descriptions',
+        'Distributions',
+        'Images',
+        'References',
+      ],
+
+      skipParameters: {
+        'Common Names': ['vernacularName.processing.mode', 'SKIP_VERNACULAR_NAME'],
+        'Descriptions': ['description.processing.mode', 'SKIP_DESCRIPTIONS'],
+        'Distributions': ['distribution.processing.mode', 'SKIP_DISTRIBUTION'],
+        'Images': ['image.processing.mode', 'SKIP_IMAGES'],
+        'References': ['reference.processing.mode', 'SKIP_REFERENCES'],
+      },
     }
   },
 
   computed: {
+    skipped: {
+      // should only show the resourceType associated with any SKIP_* parameters set
+      get: function() {
+        var vm = this
+        return _.keys(
+          _.pickBy(vm.skipParameters, function(param) {
+            return param[0] in vm.resource.jobConfiguration.parameters
+          })
+        )
+      },
+
+      // sets the processing mode job configuration param associated with a given resourceType
+      set: function (skip) {
+        var vm = this
+        _.map(this.skipParameters, function(param, key) {
+          if (_.find(skip, function(item) { return item == key })) {
+            vm.$set(vm.resource.jobConfiguration.parameters, param[0], param[1])
+          } else {
+            vm.$delete(vm.resource.jobConfiguration.parameters, param[0])
+          }
+        })
+      }
+    },
 
     prefix: {
       get: function() {
         return this.resource.jobConfiguration.parameters.prefix
       },
       set: function(prefix) {
-        this.resource.jobConfiguration.parameters.prefix = prefix
+        this.$set(this.resource.jobConfiguration.parameters, 'prefix', prefix)
       }
     },
 
     url: {
       get: function() {
-        return this.resource.uri
+        return this.resource.jobConfiguration.parameters['authority.uri']
       },
       set: function(url) {
-        this.resource.uri = url
-        this.resource.jobConfiguration.parameters['authority.uri'] = url
+        this.$set(this.resource, 'uri', url)
+        this.$set(this.resource.jobConfiguration.parameters, 'authority.uri', url)
       }
     },
 
     skipIndex: {
       get: function() {
-        return this.resource.jobConfiguration.parameters['skip.indexing']
+        return this.resource.jobConfiguration.parameters['skip.indexing'] == 'true'
       },
       set: function(val) {
-        this.resource.jobConfiguration.parameters['skip.indexing'] = val
+        this.$set(this.resource.jobConfiguration.parameters, 'skip.indexing', val)
       }
     },
 
@@ -90,7 +128,7 @@ export default {
         return this.resource.jobConfiguration.parameters['taxon.processing.mode']
       },
       set: function (val) {
-        this.resource.jobConfiguration.parameters['taxon.processing.mode'] = val
+        this.$set(this.resource.jobConfiguration.parameters, 'taxon.processing.mode', val)
       }
     },
   },
