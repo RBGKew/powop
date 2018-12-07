@@ -493,6 +493,17 @@
         "resource.identifier":"CATE-Araceae-Images",
         "skip.indexing":"true"
       }
+    },
+    {
+      "description":"Harvest Leistner Stelitzia",
+      "identifier":"Harvest-Leistner-Stelitzia",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"South-African-National-Bioinformatics-Institute",
+        "authority.uri":"https://storage.googleapis.com/powop-content/SANBI/LeistnerStrelitzia10",
+        "resource.identifier":"Leistner-Stelitzia",
+        "skip.indexing":"false"
+      }
     }
   ],
   "jobLists":[
@@ -536,12 +547,12 @@
         "Harvest-LOWO-Images",
         "Harvest-EDGE-gymnosperms",
         "Harvest-Kew-Bulletin",
-        "Harvest-Useful-plants-of-Boyaca",
         "Harvest-Colplanta",
         "Harvest-ILDIS",
         "Harvest-CATE-Araceae",
-        "Harvest-Useful-plants-of-Boyaca-updated",
         "Harvest-CATE-Araceae-Images",
+        "Harvest-Useful-plants-of-Boyaca-updated",
+        "Harvest-Leistner-Stelitzia",
         "reindex"
       ]
     }
@@ -1031,18 +1042,11 @@
       "publisherName":"POWOP content",
       "resources":[
         {
-          "identifier":"Useful-plants-of-Boyaca",
-          "organisation":"Useful-Plants-of-Boyaca",
-          "resourceType":"DwC_Archive",
-          "title":"Useful plants of Boyaca",
-          "uri":"https://storage.googleapis.com/powop-content/UPB/UPB.zip"
-        },
-        {
           "identifier":"Useful-plants-of-Boyaca-updated",
           "organisation":"Useful-Plants-of-Boyaca",
           "resourceType":"DwC_Archive",
           "title":"Useful plants of Boyaca - updated",
-          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB_19112018_2.zip.zip"
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB_21112018_JC.zip"
         }
       ],
       "subject":"; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
@@ -1108,6 +1112,25 @@
       ],
       "subject":"emonocot; Araceae; CATE",
       "title":"CATE Araceae"
+    },
+    {
+      "abbreviation":"SANBI",
+      "bibliographicCitation":"Leistner, O.A. 2000. Seed plants of southern Africa: Families and genera. Strelitzia 10.",
+      "creator":"POWOP content",
+      "description":"Seed plants of southern Africa: Families and genera. Strelitzia 10.",
+      "identifier":"South-African-National-Bioinformatics-Institute",
+      "publisherName":"POWOP content",
+      "resources":[
+        {
+          "identifier":"Leistner-Stelitzia",
+          "organisation":"South-African-National-Bioinformatics-Institute",
+          "resourceType":"DwC_Archive",
+          "title":"Leistner Stelitzia",
+          "uri":"https://storage.googleapis.com/powop-content/SANBI/LeistnerStrelitzia10"
+        }
+      ],
+      "subject":"; Seed Plants; Dicotyledons; Monocotyledons; Angiosperms; Gymnosperms",
+      "title":"South African National Bioinformatics Institute"
     }
   ]
 }
