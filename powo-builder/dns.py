@@ -3,6 +3,7 @@ from google.cloud import dns
 import os
 import time
 import yaml
+import logging as log
 
 def update(namespace):
     with open('/config/dns-mappings.yaml', 'r') as yamlfile:
@@ -41,8 +42,8 @@ class Swapper:
         current = self.current_dns_record()
         updated = self.new_dns_record(current)
 
-        print('Current dns: %s' % [current.name, current.record_type, current.ttl, current.rrdatas[0]])
-        print('Updating to: %s' % [updated.name, updated.record_type, updated.ttl, updated.rrdatas[0]])
+        log.info('Current dns: %s' % [current.name, current.record_type, current.ttl, current.rrdatas[0]])
+        log.info('Updating to: %s' % [updated.name, updated.record_type, updated.ttl, updated.rrdatas[0]])
 
         changes = self.zone.changes()
         changes.add_record_set(updated)
@@ -50,11 +51,11 @@ class Swapper:
         changes.create()
 
         while changes.status != 'done':
-            print('Waiting for dns changes to complete')
+            log.info('Waiting for dns changes to complete')
             time.sleep(10)
             changes.reload()
 
-        print('Changes complete, waiting for TTL (x 2, just to be safe)')
+        log.info('Changes complete, waiting for TTL (x 2, just to be safe)')
         time.sleep(updated.ttl * 2)
 
         return True

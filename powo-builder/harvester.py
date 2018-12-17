@@ -1,11 +1,10 @@
 import datetime
-import functools
 import requests
 import time
 import os
 import os.path
 
-print = functools.partial(print, flush=True)
+import logging as log
 
 API_PREFIX = os.getenv('API_PREFIX', 'http://localhost:10080')
 API_URL = os.getenv('API_URL', '/harvester/api/1')
@@ -21,7 +20,7 @@ def _data_file():
     if os.path.isfile(path):
         return path
     else:
-        print('Could not find %s. Defaulting to data-test.json' % path)
+        log.info('Could not find %s. Defaulting to data-test.json' % path)
         return 'data-test.json'
 
 def load_data_config():
@@ -29,7 +28,7 @@ def load_data_config():
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     r = requests.post(_api('/data'), data=config, headers=headers, auth=(API_USERNAME, API_PASSWORD))
     r.raise_for_status()
-    print("Data configuration loaded")
+    log.info("Data configuration loaded")
     return r.json()
 
 def get_data_config():
@@ -39,7 +38,7 @@ def get_data_config():
 
 def run_joblist(identifier):
     r = requests.post(_api('/job/list/' + identifier + '/run'), auth=(API_USERNAME, API_PASSWORD))
-    print("Running job list with identifier %s" % identifier)
+    log.info("Running job list with identifier %s" % identifier)
     r.raise_for_status()
     return r.json()
 
@@ -59,13 +58,13 @@ def wait_until_data_loded(joblist, timeout=None):
     wait = 60
     start = datetime.datetime.now()
     while joblist_running(joblist):
-        print("Waiting for job list %s to complete" % joblist)
+        log.info("Waiting for job list %s to complete" % joblist)
         time.sleep(wait)
 
         delta = datetime.datetime.now() - start
         if timeout is not None and delta > timeout:
-            print("Not ready after %ds. Timed out" % delta.seconds)
+            log.error("Not ready after %ds. Timed out" % delta.seconds)
             return False
 
-    print("Job list %s complete" % joblist)
+    log.warn("Job list %s complete" % joblist)
     return True
