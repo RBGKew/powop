@@ -16,92 +16,18 @@
  */
 package org.powo.job.dwc.image;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.powo.api.ImageService;
 import org.powo.job.dwc.read.NonOwnedProcessor;
 import org.powo.model.Image;
-import org.powo.model.Taxon;
-import org.powo.model.compare.RankBasedTaxonComparator;
 import org.powo.model.constants.RecordType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * This is slightly different from the description validator because we believe
- * (or at least, I believe) that descriptive content is somehow "owned" or
- * "contained in" the taxon i.e. that if the taxon does not exist, the
- * descriptive content doesn't either. There is a one-to-many relationship
- * between taxa and descriptive content because there can be many facts about
- * each taxon, but each fact is only about one taxon.
- *
- * Images, on the other hand, have an inherently many-to-many relationship with
- * taxa as one image can appear on several different taxon pages (especially the
- * family page, type genus page, type species page etc). Equally a taxon page
- * can have many images on it. So Images don't belong to any one taxon page
- * especially. If we delete the taxon, the image can hang around - it might have
- * value on its own.
- *
- * @author ben
- *
- */
 public class Processor extends NonOwnedProcessor<Image, ImageService> implements ItemWriteListener<Image> {
-
-	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Autowired
 	public final void setImageService(ImageService imageService) {
 		super.service = imageService;
-	}
-	
-	/**
-	 * @param images the list of images written
-	 */
-	public void afterWrite(List<? extends Image> images) {
-
-	}
-
-	/**
-	 * @param images the list of images to write
-	 */
-	public final void beforeWrite(final List<? extends Image> images) {
-		logger.debug("Before Write");
-
-		Comparator<Taxon> comparator = new RankBasedTaxonComparator();
-		for (Image image : images) {
-			Taxon taxonCoverage = null;
-			if(image.getTaxonCoverage() != null){
-				taxonCoverage = super.getTaxonService().find(image.getTaxonCoverage().getIdentifier());
-			}
-			image.setTaxonCoverage(taxonCoverage);
-			if (!image.getTaxa().isEmpty()) {
-				for(Taxon taxon : image.getTaxa()) {
-					if(!taxon.getImages().contains(image)) {
-						taxon.getImages().add(image);
-					}
-				}
-				if (image.getTaxa().size() == 1) {
-					image.setTaxon(image.getTaxa().iterator().next());
-				} else {
-					List<Taxon> sorted = new ArrayList<Taxon>(image.getTaxa());
-					Collections.sort(sorted, comparator);
-					image.setTaxon(sorted.get(0));
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param exception the exception thrown
-	 * @param images the list of images
-	 */
-	public final void onWriteError(final Exception exception, final List<? extends Image> images) {
-
 	}
 
 	@Override
@@ -141,9 +67,9 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 	}
 
 	@Override
-	protected void doPersist(Image t) {
-		if(!t.getTaxa().isEmpty()) {
-			t.setTaxon(t.getTaxa().iterator().next());
+	protected void doPersist(Image image) {
+		if(!image.getTaxa().isEmpty()) {
+			image.setTaxon(image.getTaxa().iterator().next());
 		}
 	}
 
@@ -153,32 +79,31 @@ public class Processor extends NonOwnedProcessor<Image, ImageService> implements
 	}
 
 	@Override
-	protected void bind(Image t) {
-		boundObjects.put(t.getIdentifier(), t);
+	protected void bind(Image image) {
+		boundObjects.put(image.getIdentifier(), image);
 	}
 
 	@Override
-	protected Image retrieveBound(Image t) {
-		return service.find(t.getIdentifier());
+	protected Image retrieveBound(Image image) {
+		return service.find(image.getIdentifier());
 	}
 
 	@Override
-	protected Image lookupBound(Image t) {
-		return boundObjects.get(t.getIdentifier());
+	protected Image lookupBound(Image image) {
+		return boundObjects.get(image.getIdentifier());
 	}
 
 	@Override
-	protected void doValidate(Image t) throws Exception {
+	protected void doValidate(Image image) throws Exception {
 
 	}
 
 	@Override
-	protected boolean doFilter(Image t) {
-		if(t.getFormat() != null && !t.getFormat().isImage()) {
+	protected boolean doFilter(Image image) {
+		if(image.getFormat() != null && !image.getFormat().isImage()) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
 }
