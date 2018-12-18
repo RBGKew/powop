@@ -48,11 +48,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			t.setAuthority(getSource());
 			t.setResource(getResource());
 
-			// don't try saving any linked taxa. This must be done by the linking processor
-			t.setParentNameUsage(null);
-			t.setAcceptedNameUsage(null);
-			t.setOriginalNameUsage(null);
-
 			logger.debug("Adding taxon {}", t);
 			return t;
 		} else {
