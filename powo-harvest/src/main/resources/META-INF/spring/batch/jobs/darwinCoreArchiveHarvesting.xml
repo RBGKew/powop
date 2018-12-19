@@ -83,7 +83,6 @@
         <batch:chunk reader="taxonReader" processor="taxonSkippingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -104,7 +103,6 @@
         <batch:chunk reader="taxonReader" processor="taxonImportingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -125,7 +123,6 @@
         <batch:chunk reader="taxonReader" processor="taxonLinkingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -192,7 +189,6 @@
         <batch:chunk reader="descriptionReader" processor="descriptionProcessor" writer="itemWriter" commit-interval="100" skip-limit="50000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -257,7 +253,6 @@
         <batch:chunk reader="termReader" processor="termProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include  class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -322,7 +317,6 @@
         <batch:chunk reader="imageReader" processor="imageProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include  class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include  class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -386,7 +380,6 @@
         <batch:chunk reader="referenceReader" processor="referenceProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -442,7 +435,6 @@
         <batch:chunk reader="identifierReader" processor="identifierProcessor"  writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -502,7 +494,6 @@
             skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -557,7 +548,6 @@
         <batch:chunk reader="distributionReader" processor="distributionProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -613,7 +603,6 @@
         <batch:chunk reader="measurementOrFactReader" processor="measurementOrFactProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -669,7 +658,6 @@
         <batch:chunk reader="vernacularNameReader" processor="vernacularNameProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
@@ -737,7 +725,6 @@
         <batch:chunk reader="typeAndSpecimenReader" processor="typeAndSpecimenProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
           <batch:skippable-exception-classes>
             <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include  class="org.powo.job.dwc.exception.CannotFindRecordException" />
             <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
           </batch:skippable-exception-classes>
         </batch:chunk>
