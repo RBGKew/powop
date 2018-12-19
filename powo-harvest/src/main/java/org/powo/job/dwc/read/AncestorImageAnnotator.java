@@ -32,6 +32,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
@@ -98,20 +99,22 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
 		// Annotate any parent taxa for re-indexing due to image 'bubble-up'
 		String queryString = "INSERT INTO Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, resource_id, type, code, recordType) VALUES ";
-		StringBuilder values = new StringBuilder();
 		List<Long> relatedTaxa = getAssociatedFamilyIds(resourceId);
 		relatedTaxa.addAll(getAssociatedGeneraIds(resourceId));
 
-		for(Long id : relatedTaxa) {
-			values.append(String.format("(%s, 'Taxon', :jobId, now(), :authorityId, :resourceId, 'Info', 'Index', 'Taxon'),", id));
-		}
+		for(List<Long> partition : Lists.partition(relatedTaxa, 1000)) {
+			StringBuilder values = new StringBuilder();
+			for(Long id : partition) {
+				values.append(String.format("(%s, 'Taxon', :jobId, now(), :authorityId, :resourceId, 'Info', 'Index', 'Taxon'),", id));
+			}
 
-		if(values.length() > 0) {
-			values.setCharAt(values.length()-1, ';');
-			queryString += values.toString();
+			if(values.length() > 0) {
+				values.setCharAt(values.length()-1, ';');
+				String q = queryString + values.toString();
 
-			logger.info("Annotating: {} with params {}", queryString, queryParameters);
-			jdbcTemplate.update(queryString, queryParameters);
+				logger.debug("Annotating: {} with params {}", q, queryParameters);
+				jdbcTemplate.update(q, queryParameters);
+			}
 		}
 
 		return RepeatStatus.FINISHED;
