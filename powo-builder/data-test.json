@@ -418,17 +418,6 @@
       }
     },
     {
-      "description":"Harvest Useful plants of Boyaca",
-      "identifier":"Harvest-Useful-plants-of-Boyaca",
-      "jobName":"DarwinCoreArchiveHarvesting",
-      "parameters":{
-        "authority.name":"Useful-Plants-of-Boyaca",
-        "authority.uri":"https://storage.googleapis.com/powop-content/UPB/UPB.zip",
-        "resource.identifier":"Useful-plants-of-Boyaca",
-        "skip.indexing":"true"
-      }
-    },
-    {
       "description":"Harvest Colplanta",
       "identifier":"Harvest-Colplanta",
       "jobName":"DarwinCoreArchiveHarvesting",
@@ -473,13 +462,13 @@
       }
     },
     {
-      "description":"Harvest Useful plants of Boyaca - updated",
-      "identifier":"Harvest-Useful-plants-of-Boyaca-updated",
+      "description":"Harvest Useful plants of Boyaca",
+      "identifier":"Harvest-Useful-plants-of-Boyaca",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
         "authority.name":"Useful-Plants-of-Boyaca",
-        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB_19112018_2.zip.zip",
-        "resource.identifier":"Useful-plants-of-Boyaca-updated",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB14122.zip",
+        "resource.identifier":"Useful-plants-of-Boyaca",
         "skip.indexing":"true"
       }
     },
@@ -551,7 +540,7 @@
         "Harvest-ILDIS",
         "Harvest-CATE-Araceae",
         "Harvest-CATE-Araceae-Images",
-        "Harvest-Useful-plants-of-Boyaca-updated",
+        "Harvest-Useful-plants-of-Boyaca",
         "Harvest-Leistner-Stelitzia",
         "reindex"
       ]
@@ -1042,11 +1031,11 @@
       "publisherName":"POWOP content",
       "resources":[
         {
-          "identifier":"Useful-plants-of-Boyaca-updated",
+          "identifier":"Useful-plants-of-Boyaca",
           "organisation":"Useful-Plants-of-Boyaca",
           "resourceType":"DwC_Archive",
-          "title":"Useful plants of Boyaca - updated",
-          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB_21112018_JC.zip"
+          "title":"Useful plants of Boyaca",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB14122.zip"
         }
       ],
       "subject":"; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
