@@ -92,7 +92,7 @@
       <batch:listeners>
         <batch:listener ref="taxonSkippingProcessor" />
         <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="taxonSkippingFieldSetMapper" />
+        <batch:listener ref="taxonFieldSetMapper" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
@@ -131,7 +131,7 @@
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="taxonLinkingFieldSetMapper" />
+        <batch:listener ref="taxonFieldSetMapper" />
         <batch:listener ref="stepStatusListener" />
       </batch:listeners>
     </batch:step>
@@ -965,16 +965,6 @@
   </bean>
 
   <bean id="taxonFieldSetMapper" class="org.powo.job.dwc.taxon.FieldSetMapper" scope="step">
-    <property name="fieldNames" value="#{jobExecutionContext['dwca.core.fieldNames']}" />
-    <property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
-  </bean>
-
-  <bean id="taxonSkippingFieldSetMapper" class="org.powo.job.dwc.taxon.SkippingFieldSetMapper" scope="step">
-    <property name="fieldNames" value="#{jobExecutionContext['dwca.core.fieldNames']}" />
-    <property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
-  </bean>
-
-  <bean id="taxonLinkingFieldSetMapper" class="org.powo.job.dwc.taxon.LinkingFieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.core.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
   </bean>

@@ -76,6 +76,24 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 		if (term instanceof DwcTerm) {
 			DwcTerm dwcTerm = (DwcTerm) term;
 			switch (dwcTerm) {
+			case acceptedNameUsageID:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getAcceptedNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setAcceptedNameUsage(taxon);
+					}
+					object.getAcceptedNameUsage().setIdentifier(value);
+				}
+				break;
+			case acceptedNameUsage:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getAcceptedNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setAcceptedNameUsage(taxon);
+					}
+					object.getAcceptedNameUsage().setScientificName(value);
+				}
+				break;
 			case class_:
 				object.setClazz(value);
 				break;
@@ -111,6 +129,43 @@ public class FieldSetMapper extends BaseDataFieldSetMapper<Taxon> {
 				break;
 			case order:
 				object.setOrder(value);
+				break;
+			case originalNameUsageID:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getOriginalNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setOriginalNameUsage(taxon);
+					}
+					object.getOriginalNameUsage().setIdentifier(value);
+
+				}
+				break;
+			case originalNameUsage:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getOriginalNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setOriginalNameUsage(taxon);
+					}
+					object.getOriginalNameUsage().setScientificName(value);
+				}
+				break;
+			case parentNameUsageID:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getParentNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setParentNameUsage(taxon);
+					}
+					object.getParentNameUsage().setIdentifier(value);
+				}
+				break;
+			case parentNameUsage:
+				if (value != null && value.trim().length() != 0) {
+					if(object.getParentNameUsage() == null) {
+						Taxon taxon = new Taxon();
+						object.setParentNameUsage(taxon);
+					}
+					object.getParentNameUsage().setScientificName(value);
+				}
 				break;
 			case phylum:
 				object.setPhylum(value);

@@ -67,7 +67,6 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 		if (taxon.getIdentifier() == null) {
 			throw new NoIdentifierException(taxon);
 		}
-
 		Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
