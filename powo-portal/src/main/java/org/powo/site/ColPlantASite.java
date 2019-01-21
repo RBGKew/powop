@@ -43,7 +43,7 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public String suggesterFilter() {
-		return "Colombian-Plants-Made-Accessible";
+		return "ColombianPlantsMadeAccessible";
 	}
 
 	@Override

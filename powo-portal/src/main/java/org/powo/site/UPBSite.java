@@ -43,7 +43,7 @@ public class UPBSite extends PowoSite {
 
 	@Override
 	public String suggesterFilter() {
-		return "Useful-Plants-of-Boyaca";
+		return "UsefulPlantsofBoyaca";
 	}
 
 	@Override

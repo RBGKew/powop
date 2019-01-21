@@ -1301,8 +1301,7 @@
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="field">taxon.scientific_name_s_lower</str>
       <str name="indexPath">scientific_name_suggest</str>
-      <str name="contextField">searchable.sources_ss</str>
-      <str name="weightField">suggest.weight_i</str>
+      <str name="contextField">searchable.context_ss</str>
       <str name="suggestAnalyzerFieldType">lowercase</str>
       <str name="highlight">false</str>
     </lst>
