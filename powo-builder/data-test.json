@@ -462,7 +462,7 @@
       }
     },
     {
-      "description":"Harvest Useful plants of Boyaca",
+      "description":"Useful Plants of Boyacá database",
       "identifier":"Harvest-Useful-plants-of-Boyaca",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
@@ -1035,7 +1035,7 @@
           "organisation":"Useful-Plants-of-Boyaca",
           "resourceType":"DwC_Archive",
           "title":"Useful plants of Boyaca",
-          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB14122.zip"
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/ready.zip"
         }
       ],
       "subject":"; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
@@ -1055,7 +1055,7 @@
         }
       ],
       "subject":"Science; ColPlantA; Colombia; Royal Botanic Gardens, Kew",
-      "title":"Colombian Plants Made Accessible"
+      "title":"Catálogo de Plantas y Líquenes de Colombia"
     },
     {
       "abbreviation":"ILDIS",
