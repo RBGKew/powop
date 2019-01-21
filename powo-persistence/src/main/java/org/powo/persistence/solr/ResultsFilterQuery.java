@@ -47,7 +47,7 @@ public class ResultsFilterQuery extends BaseQueryOption {
 		}
 
 		if(!selectedRanks.isEmpty()){
-			selectedFacets.add(String.format("taxon.rank_s_lower: (%s)", Joiner.on(" ").join(selectedRanks)));
+			selectedFacets.add(String.format("taxon.rank_s_lower: (%s)", Joiner.on(" OR ").join(selectedRanks)));
 		}
 
 		if(!selectedFacets.isEmpty()){
