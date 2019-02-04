@@ -150,7 +150,7 @@ Ascension	2	ASC
 St.Helena	2	STH
 Madagascar	2	MDG
 Seychelles	2	SEY
-Gambia, The	2	GAM
+Gambia	2	GAM
 Ivory Coast	2	IVO
 Mozambique	2	MOZ
 Sierra Leone	2	SIE
