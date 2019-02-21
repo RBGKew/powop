@@ -8,9 +8,14 @@ import org.powo.portal.view.Distributions;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 import lombok.Getter;
 
+import org.powo.model.Distribution;
 import org.powo.model.Taxon;
 import org.powo.model.constants.TaxonField;
 import static org.powo.model.constants.TaxonField.*;
@@ -52,12 +57,28 @@ public class TaxonResponse {
 		case distribution:
 			if (!taxon.getDistribution().isEmpty()) {
 				output.put(distribution.toString(), new Distributions(taxon));
+				output.put("distributionEnvelope", getDistributionEnvelope());
 			}
 			break;
 		default:
 			break;
 		}
 	}
+
+	public Coordinate[] getDistributionEnvelope() {
+		if (taxon == null) {
+			return null;
+		}
+
+		List<Geometry> list = new ArrayList<Geometry>(taxon.getDistribution().size());
+		for (Distribution d : taxon.getDistribution()) {
+			list.add(d.getLocation().getEnvelope());
+		}
+
+		GeometryCollection geometryCollection = new GeometryCollection(list.toArray(new Geometry[list.size()]), new GeometryFactory());
+		return geometryCollection.getEnvelope().getCoordinates();
+	}
+
 
 	public String toString() {
 		return Joiner.on("\r").withKeyValueSeparator("=").join(output);
