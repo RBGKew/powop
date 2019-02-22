@@ -467,7 +467,7 @@
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
         "authority.name":"Useful-Plants-of-Boyaca",
-        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/ready.zip",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/NewPUB1902.zip",
         "resource.identifier":"Useful-plants-of-Boyaca",
         "skip.indexing":"true"
       }
@@ -1035,7 +1035,7 @@
           "organisation":"Useful-Plants-of-Boyaca",
           "resourceType":"DwC_Archive",
           "title":"Useful plants of Boyaca",
-          "uri":"https://storage.googleapis.com/powop-content/colPlantA/ready.zip"
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/NewPUB1902.zip"
         }
       ],
       "subject":"; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
