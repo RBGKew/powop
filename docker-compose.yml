@@ -49,8 +49,8 @@ services:
       - ./powo-harvest/target/powo-harvest.war:/usr/local/tomcat/webapps/harvester.war
     mem_limit: 2G
 
-  apache:
-    image: eu.gcr.io/powop-1349/apache:latest
+  ingress:
+    image: eu.gcr.io/powop-1349/ingress:latest
     env_file:
       - src/main/resources/docker/env/common.env
     environment:
@@ -63,8 +63,8 @@ services:
       - "10080:80"
     mem_limit: 50M
 
-#  apache_col:
-#    image: eu.gcr.io/powop-1349/apache:latest
+#  ingress_col:
+#    image: eu.gcr.io/powop-1349/ingress:latest
 #    env_file:
 #      - src/main/resources/docker/env/common.env
 #    environment:

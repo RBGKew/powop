@@ -1,14 +1,19 @@
-FROM httpd:2.4-alpine
+FROM nginx:1.15-alpine
 
-COPY conf/tomcat.conf conf.d/
-COPY conf/httpd.conf conf/
-COPY src/google4faeb6962aa9d560.html htdocs/
-COPY target/static/img/ htdocs/img
-COPY target/static/fonts/ htdocs/fonts
-COPY target/static/css/ htdocs/css
-COPY target/static/js/ htdocs/js
-RUN  mkdir htdocs/admin
-COPY target/admin/index.html htdocs/admin/index.html
-COPY apache.sh ./
-RUN chmod +x ./apache.sh
-CMD [ "./apache.sh" ]
+ADD default.conf /etc/nginx/conf.d/default.conf
+ADD nginx.conf /etc/nginx/nginx.conf
+
+WORKDIR /www/data
+
+COPY src/google4faeb6962aa9d560.html .
+COPY target/static/img/ img
+COPY target/static/fonts/ fonts
+COPY target/static/css/ css
+COPY target/static/js/ js
+
+RUN  mkdir admin
+COPY target/admin/index.html admin/index.html
+
+COPY run.sh .
+
+CMD ["./run.sh"]

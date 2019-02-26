@@ -112,7 +112,7 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>${dockerfile.maven.version}</version>
 				<configuration>
-					<repository>${docker.registry}apache</repository>
+					<repository>${docker.registry}ingress</repository>
 					<tag>${project.version}-${buildNumber}</tag>
 				</configuration>
 				<executions>
