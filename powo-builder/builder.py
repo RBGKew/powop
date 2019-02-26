@@ -30,7 +30,7 @@ if not deployer.wait_until_ready(build, timeout=datetime.timedelta(minutes=20)):
     log.error("Error while waiting for %s to be ready. Exiting" % build)
     sys.exit(1)
 
-harvester.API_PREFIX = "http://apache.%s.svc.cluster.local" % build
+harvester.API_PREFIX = "http://ingress.%s.svc.cluster.local" % build
 if not harvester.load_data():
     log.error("Error loading data. Exiting")
     sys.exit(1)
