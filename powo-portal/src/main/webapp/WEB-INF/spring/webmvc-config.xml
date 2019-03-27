@@ -72,6 +72,7 @@
 				<bean class="org.powo.portal.view.helpers.TextHelper" />
 			</list>
 		</property>
+		<property name="bindI18nToMessageSource" value="true"/>
 	</bean>
 
 	<mvc:interceptors>
