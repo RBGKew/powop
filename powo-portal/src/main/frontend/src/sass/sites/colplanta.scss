@@ -8,13 +8,15 @@
 
   &.s-page--home,
   &.s-page--error {
-    #colplanta-logo-svg {
-      width: 200px;
-      height: 60px;
-      fill: #232323;
+    &.s-search__fullpage {
+      .site-logo {
+        fill: #fff;
+      }
     }
 
     .site-logo {
+      height: 70px;
+      width: 300px;
       fill: #232323;
     }
     
