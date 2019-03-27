@@ -1,6 +1,7 @@
 package org.powo.site;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -24,4 +25,5 @@ public interface Site {
 	public DefaultQueryOption defaultQuery();
 	public List<String> getSuggesters();
 	public String suggesterFilter();
+	public Locale defaultLocale();
 }

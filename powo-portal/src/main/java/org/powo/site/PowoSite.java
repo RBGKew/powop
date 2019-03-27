@@ -148,4 +148,9 @@ public class PowoSite implements Site {
 		return suggesters;
 	}
 
+	@Override
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "powo");
+	}
+
 }
