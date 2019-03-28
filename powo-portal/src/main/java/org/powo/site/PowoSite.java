@@ -111,8 +111,6 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateStaticModel(Model model) {
-		model.addAttribute("date", new DateTime().toString("d MMMM y"));
-		model.addAttribute("year", new DateTime().getYear());
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
