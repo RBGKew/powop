@@ -1,4 +1,4 @@
-FROM tomcat:9-jre11
+FROM tomcat:9-jre11-slim
 
 COPY docker/bin/ bin/
 COPY docker/conf/ conf/
