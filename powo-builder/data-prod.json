@@ -449,6 +449,50 @@
         "resource.identifier":"Herbcat-Images",
         "skip.indexing":"true"
       }
+    },
+    {
+      "description":"Harvest Useful plants of Boyaca",
+      "identifier":"Harvest-Useful-plants-of-Boyaca",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Useful-Plants-of-Boyaca-Project",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB.zip",
+        "resource.identifier":"Useful-plants-of-Boyaca",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest UPB Common Names",
+      "identifier":"Harvest-UPB-Common-Names",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Useful-Plants-of-Boyaca-Project",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUBcommonNames.zip",
+        "resource.identifier":"UPB-Common-Names",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest Colombian Catalog",
+      "identifier":"Harvest-Colombian-Catalog",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Catalogo-de-Plantas-y-Liquenes-de-Colombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/colplanta.zip",
+        "resource.identifier":"Colombian-Catalog",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest Colplanta Images",
+      "identifier":"Harvest-Colplanta-Images",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Colombian-resources-for-Plants-made-Accessible",
+        "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/colplanta_images.zip",
+        "resource.identifier":"Colplanta-Images",
+        "skip.indexing":"true"
+      }
     }
   ],
   "jobLists":[
@@ -494,6 +538,10 @@
         "Harvest-Kew-Bulletin",
         "Harvest-ILDIS",
         "Harvest-CATE-Araceae",
+        "Harvest-Useful-plants-of-Boyaca",
+        "Harvest-UPB-Common-Names",
+        "Harvest-Colombian-Catalog",
+        "Harvest-Colplanta-Images",
         "reindex"
       ]
     }
@@ -1001,6 +1049,55 @@
         }
       ],
       "title":"CATE Araceae"
+    },
+    {
+      "abbreviation":"UPB",
+      "identifier":"Useful-Plants-of-Boyaca-Project",
+      "resources":[
+        {
+          "identifier":"Useful-plants-of-Boyaca",
+          "organisation":"Useful-Plants-of-Boyaca-Project",
+          "resourceType":"DwC_Archive",
+          "title":"Useful plants of Boyaca",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB.zip"
+        },
+        {
+          "identifier":"UPB-Common-Names",
+          "organisation":"Useful-Plants-of-Boyaca-Project",
+          "resourceType":"DwC_Archive",
+          "title":"UPB Common Names",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUBcommonNames.zip"
+        }
+      ],
+      "title":"Useful Plants of Boyacá Project"
+    },
+    {
+      "abbreviation":"CPLC",
+      "identifier":"Catalogo-de-Plantas-y-Liquenes-de-Colombia",
+      "resources":[
+        {
+          "identifier":"Colombian-Catalog",
+          "organisation":"Catalogo-de-Plantas-y-Liquenes-de-Colombia",
+          "resourceType":"DwC_Archive",
+          "title":"Colombian Catalog",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/colplanta.zip"
+        }
+      ],
+      "title":"Catálogo de Plantas y Líquenes de Colombia"
+    },
+    {
+      "abbreviation":"ColPlantA",
+      "identifier":"Colombian-resources-for-Plants-made-Accessible",
+      "resources":[
+        {
+          "identifier":"Colplanta-Images",
+          "organisation":"Colombian-resources-for-Plants-made-Accessible",
+          "resourceType":"DwC_Archive",
+          "title":"Colplanta Images",
+          "uri":"https://storage.googleapis.com/powop-content/multimedia/colplanta_images.zip"
+        }
+      ],
+      "title":"Colombian resources for Plants made Accessible"
     }
   ]
 }

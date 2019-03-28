@@ -38,7 +38,7 @@ public class UPBSite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("Useful-Plants-of-Boyaca");
+		return new SourceFilter("Useful-Plants-of-Boyaca-Project");
 	}
 
 	@Override

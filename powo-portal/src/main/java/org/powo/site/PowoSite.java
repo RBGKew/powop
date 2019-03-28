@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.joda.time.DateTime;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
