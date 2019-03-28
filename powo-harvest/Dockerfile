@@ -1,4 +1,4 @@
-FROM tomcat:8.0-jre8-alpine
+FROM tomcat:9-jre11
 
 COPY docker/bin/ bin/
 COPY docker/conf/ conf/

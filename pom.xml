@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.powo</groupId>
@@ -43,13 +44,14 @@
 
 	<properties>
 		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
-		<dockerfile.maven.version>1.3.7</dockerfile.maven.version>
+		<dockerfile.maven.version>1.4.7</dockerfile.maven.version>
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
-		<handlebars.version>4.1.0</handlebars.version>
-		<hibernate.version>5.2.2.Final</hibernate.version>
+		<handlebars.version>4.1.2</handlebars.version>
+		<hibernate.version>5.3.9.Final</hibernate.version>
+		<hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
 		<jackson.version>2.9.6</jackson.version>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<liquibase.version>3.6.1</liquibase.version>
 		<logback.version>1.2.2</logback.version>
 		<lucene.version>7.5.0</lucene.version>
@@ -309,7 +311,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernate.validator.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -662,13 +664,23 @@
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>1.16.16</version>
+				<version>1.18.6</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.jayway.jsonpath</groupId>
 				<artifactId>json-path</artifactId>
 				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>2.3.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -711,10 +723,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.0</version>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<release>${java.version}</release>
 					<fork>true</fork>
 					<meminitial>512m</meminitial>
 					<maxmem>2048m</maxmem>
@@ -756,31 +767,6 @@
 					<preparationGoals>clean install</preparationGoals>
 					<goals>deploy</goals>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<id>enforce-compatibility</id>
-						<configuration>
-							<rules>
-								<requireJavaVersion>
-									<version>1.7.0</version>
-								</requireJavaVersion>
-								<requireMavenVersion>
-									<version>3.0</version>
-								</requireMavenVersion>
-							</rules>
-						</configuration>
-						<phase>validate</phase>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
