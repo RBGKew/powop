@@ -2,6 +2,7 @@ package org.powo.site;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -49,5 +50,10 @@ public class ColPlantASite extends PowoSite {
 	@Override
 	public List<String> getSuggesters() {
 		return suggesters;
+	}
+
+	@Override
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "colplanta");
 	}
 }
