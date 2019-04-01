@@ -418,17 +418,6 @@
       }
     },
     {
-      "description":"Harvest Colplanta",
-      "identifier":"Harvest-Colplanta",
-      "jobName":"DarwinCoreArchiveHarvesting",
-      "parameters":{
-        "authority.name":"Colombian-Plants-Made-Accessible",
-        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/col_plant_a.zip",
-        "resource.identifier":"Colplanta",
-        "skip.indexing":"true"
-      }
-    },
-    {
       "description":"Harvest ILDIS",
       "identifier":"Harvest-ILDIS",
       "jobName":"DarwinCoreArchiveHarvesting",
@@ -462,36 +451,47 @@
       }
     },
     {
-      "description":"Useful Plants of Boyacá database",
+      "description":"Harvest Useful plants of Boyaca",
       "identifier":"Harvest-Useful-plants-of-Boyaca",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
-        "authority.name":"Useful-Plants-of-Boyaca",
-        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/NewPUB1902.zip",
+        "authority.name":"Useful-Plants-of-Boyaca-Project",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB.zip",
         "resource.identifier":"Useful-plants-of-Boyaca",
         "skip.indexing":"true"
       }
     },
     {
-      "description":"Harvest CATE Araceae Images",
-      "identifier":"Harvest-CATE-Araceae-Images",
+      "description":"Harvest UPB Common Names",
+      "identifier":"Harvest-UPB-Common-Names",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
-        "authority.name":"CATE-Araceae",
-        "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/media.araceae.e-monocot.org.zip",
-        "resource.identifier":"CATE-Araceae-Images",
+        "authority.name":"Useful-Plants-of-Boyaca-Project",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUBcommonNames.zip",
+        "resource.identifier":"UPB-Common-Names",
         "skip.indexing":"true"
       }
     },
     {
-      "description":"Harvest Leistner Stelitzia",
-      "identifier":"Harvest-Leistner-Stelitzia",
+      "description":"Harvest Colombian Catalog",
+      "identifier":"Harvest-Colombian-Catalog",
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
-        "authority.name":"South-African-National-Bioinformatics-Institute",
-        "authority.uri":"https://storage.googleapis.com/powop-content/SANBI/LeistnerStrelitzia10",
-        "resource.identifier":"Leistner-Stelitzia",
-        "skip.indexing":"false"
+        "authority.name":"Catalogo-de-Plantas-y-Liquenes-de-Colombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/colplanta.zip",
+        "resource.identifier":"Colombian-Catalog",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest Colplanta Images",
+      "identifier":"Harvest-Colplanta-Images",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Colombian-resources-for-Plants-made-Accessible",
+        "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/colplanta_images.zip",
+        "resource.identifier":"Colplanta-Images",
+        "skip.indexing":"true"
       }
     }
   ],
@@ -518,8 +518,8 @@
         "Harvest-Malesian-Key-Images",
         "Harvest-Botswana-Images",
         "Harvest-Botswana-Common-Names",
-        "Harvest-Herbcat-Images",
         "Harvest-Herbcat-Dets",
+        "Harvest-Herbcat-Images",
         "Harvest-Herbcat-Autonym-Dets",
         "Harvest-Library-Art-and-Archives",
         "Harvest-Colombian-Illustrations",
@@ -536,12 +536,12 @@
         "Harvest-LOWO-Images",
         "Harvest-EDGE-gymnosperms",
         "Harvest-Kew-Bulletin",
-        "Harvest-Colplanta",
         "Harvest-ILDIS",
         "Harvest-CATE-Araceae",
-        "Harvest-CATE-Araceae-Images",
         "Harvest-Useful-plants-of-Boyaca",
-        "Harvest-Leistner-Stelitzia",
+        "Harvest-UPB-Common-Names",
+        "Harvest-Colombian-Catalog",
+        "Harvest-Colplanta-Images",
         "reindex"
       ]
     }
@@ -1023,47 +1023,8 @@
       "title":"Kew Bulletin"
     },
     {
-      "abbreviation":"UPB",
-      "bibliographicCitation":"Useful Plants of Boyacá Project",
-      "creator":"POWOP content",
-      "description":"Useful Plants of Boyacá Project",
-      "identifier":"Useful-Plants-of-Boyaca",
-      "publisherName":"POWOP content",
-      "resources":[
-        {
-          "identifier":"Useful-plants-of-Boyaca",
-          "organisation":"Useful-Plants-of-Boyaca",
-          "resourceType":"DwC_Archive",
-          "title":"Useful plants of Boyaca",
-          "uri":"https://storage.googleapis.com/powop-content/colPlantA/NewPUB1902.zip"
-        }
-      ],
-      "subject":"; Taxonomy; Typification; nomenclature; Angiosperms; Gymnosperms; Colombia; Boyacá; Uses",
-      "title":"Useful Plants of Boyacá Project"
-    },
-    {
-      "abbreviation":"ColPlantA",
-      "description":"ColPlantA Data",
-      "identifier":"Colombian-Plants-Made-Accessible",
-      "resources":[
-        {
-          "identifier":"Colplanta",
-          "organisation":"Colombian-Plants-Made-Accessible",
-          "resourceType":"DwC_Archive",
-          "title":"Colplanta",
-          "uri":"https://storage.googleapis.com/powop-content/colPlantA/col_plant_a.zip"
-        }
-      ],
-      "subject":"Science; ColPlantA; Colombia; Royal Botanic Gardens, Kew",
-      "title":"Catálogo de Plantas y Líquenes de Colombia"
-    },
-    {
       "abbreviation":"ILDIS",
-      "bibliographicCitation":"International Legume Database and Information Service (ILDIS) V10.39 Nov 2011",
-      "creator":"POWOP content",
-      "description":"ILDIS",
       "identifier":"International-Legume-Database-and-Information-Service",
-      "publisherName":"POWOP content",
       "resources":[
         {
           "identifier":"ILDIS",
@@ -1073,16 +1034,11 @@
           "uri":"https://storage.googleapis.com/powop-content/ILDIS/ildis.zip"
         }
       ],
-      "subject":"; Legumes; ILDIS; Uses",
       "title":"International Legume Database and Information Service"
     },
     {
       "abbreviation":"CATE",
-      "bibliographicCitation":"Haigh, A., Clark, B., Reynolds, L., Mayo, S.J., Croat, T.B., Lay, L., Boyce, P.C., Mora, M., Bogner, J., Sellaro, M., Wong, S.Y., Kostelac, C., Grayum, M.H., Keating, R.C., Ruckert, G., Naylor, M.F. and Hay, A., CATE Araceae, 17 Dec 2011.",
-      "creator":"araceae.e-monocot.org",
-      "description":"An open-access taxonomic web-revision of the Araceae",
       "identifier":"CATE-Araceae",
-      "publisherName":"araceae.e-monocot.org",
       "resources":[
         {
           "identifier":"CATE-Araceae",
@@ -1090,36 +1046,58 @@
           "resourceType":"DwC_Archive",
           "title":"CATE Araceae",
           "uri":"https://storage.googleapis.com/powop-content/emonocot/araceae.e-monocot.org.zip"
-        },
-        {
-          "identifier":"CATE-Araceae-Images",
-          "organisation":"CATE-Araceae",
-          "resourceType":"DwC_Archive",
-          "title":"CATE Araceae Images",
-          "uri":"https://storage.googleapis.com/powop-content/multimedia/media.araceae.e-monocot.org.zip"
         }
       ],
-      "subject":"emonocot; Araceae; CATE",
       "title":"CATE Araceae"
     },
     {
-      "abbreviation":"SANBI",
-      "bibliographicCitation":"Leistner, O.A. 2000. Seed plants of southern Africa: Families and genera. Strelitzia 10.",
-      "creator":"POWOP content",
-      "description":"Seed plants of southern Africa: Families and genera. Strelitzia 10.",
-      "identifier":"South-African-National-Bioinformatics-Institute",
-      "publisherName":"POWOP content",
+      "abbreviation":"UPB",
+      "identifier":"Useful-Plants-of-Boyaca-Project",
       "resources":[
         {
-          "identifier":"Leistner-Stelitzia",
-          "organisation":"South-African-National-Bioinformatics-Institute",
+          "identifier":"Useful-plants-of-Boyaca",
+          "organisation":"Useful-Plants-of-Boyaca-Project",
           "resourceType":"DwC_Archive",
-          "title":"Leistner Stelitzia",
-          "uri":"https://storage.googleapis.com/powop-content/SANBI/LeistnerStrelitzia10"
+          "title":"Useful plants of Boyaca",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB.zip"
+        },
+        {
+          "identifier":"UPB-Common-Names",
+          "organisation":"Useful-Plants-of-Boyaca-Project",
+          "resourceType":"DwC_Archive",
+          "title":"UPB Common Names",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUBcommonNames.zip"
         }
       ],
-      "subject":"; Seed Plants; Dicotyledons; Monocotyledons; Angiosperms; Gymnosperms",
-      "title":"South African National Bioinformatics Institute"
+      "title":"Useful Plants of Boyacá Project"
+    },
+    {
+      "abbreviation":"CPLC",
+      "identifier":"Catalogo-de-Plantas-y-Liquenes-de-Colombia",
+      "resources":[
+        {
+          "identifier":"Colombian-Catalog",
+          "organisation":"Catalogo-de-Plantas-y-Liquenes-de-Colombia",
+          "resourceType":"DwC_Archive",
+          "title":"Colombian Catalog",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/colplanta.zip"
+        }
+      ],
+      "title":"Catálogo de Plantas y Líquenes de Colombia"
+    },
+    {
+      "abbreviation":"ColPlantA",
+      "identifier":"Colombian-resources-for-Plants-made-Accessible",
+      "resources":[
+        {
+          "identifier":"Colplanta-Images",
+          "organisation":"Colombian-resources-for-Plants-made-Accessible",
+          "resourceType":"DwC_Archive",
+          "title":"Colplanta Images",
+          "uri":"https://storage.googleapis.com/powop-content/multimedia/colplanta_images.zip"
+        }
+      ],
+      "title":"Colombian resources for Plants made Accessible"
     }
   ]
 }
