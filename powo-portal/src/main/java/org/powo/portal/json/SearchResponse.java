@@ -22,6 +22,7 @@ public class SearchResponse {
 	private Integer perPage;
 	private String sort;
 	private String cursor;
+	private String message;
 	@Singular
 	private List<SearchResult> results;
 }

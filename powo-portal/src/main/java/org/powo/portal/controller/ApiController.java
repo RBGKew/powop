@@ -57,9 +57,12 @@ public class ApiController {
 		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery(), params);
 		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
-		SearchResponse jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse);
+		SearchResponse searchResponse = new ResponseBuilder().buildJsonResponse(queryResponse);
+		searchResponse.setMessage("Due to abuse of the API we have had to disable paging using the 'page' parameter. "
+				+ "If you would like to download  and use the POWO data in a conciencious way, "
+				+ "please use our official library pykew [https://github.com/RBGKew/pykew].");
 
-		return new ResponseEntity<SearchResponse>(jsonBuilder, HttpStatus.OK);
+		return new ResponseEntity<SearchResponse>(searchResponse, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = {"/1/suggest", "/2/suggest"}, method = RequestMethod.GET, produces={"application/json"})
