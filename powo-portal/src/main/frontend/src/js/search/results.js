@@ -4,7 +4,7 @@ define(function(require) {
   var _ = require('libs/lodash');
   var Cookies = require('libs/js.cookie.js');
   var Handlebars = require('handlebars');
-  var pagination = require('libs/pagination');
+  var History = require('libs/native.history');
   var filters = require('./filters');
   var events = require('./events');
 
@@ -27,17 +27,6 @@ define(function(require) {
   Handlebars.registerPartial('results-header', headerTmpl);
   Handlebars.registerPartial('results-items', itemsTmpl);
   Handlebars.registerPartial('results-pagination', paginationTmpl);
-
-  $(document).on('keydown', function (event) {
-    if($(event.target).is('input')) return;
-
-    var pag = $('.c-pagination');
-    if(event.which === events.LEFT_ARROW) {
-      pag.pagination('prevPage');
-    } else if (event.which === events.RIGHT_ARROW) {
-      pag.pagination('nextPage');
-    }
-  });
 
   var prepare = function() {
     if(_.isEmpty($('.c-results-outer'))) {
@@ -65,6 +54,7 @@ define(function(require) {
       $('.loading').addClass('hidden');
       $('#search-filters').html(filtersTmpl(json));
       $('.results-count').replaceWith(countTmpl(json));
+      $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
       filters.refresh();
     });
@@ -94,21 +84,40 @@ define(function(require) {
     $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
   }
 
+  function setCursor(e) {
+    if(e) {
+      e.preventDefault();
+      var cursor = $(e.target).data("cursor");
+      var page = $(e.target).data("page");
+      filters.setCursor(cursor, page);
+      $('html, body').animate({scrollTop: '0px'}, 100);
+    }
+  }
+
   function paginate(results) {
     if(results.totalPages > 1) {
-      $('.c-pagination').pagination({
-        items: results.totalResults,
-        itemsOnPage: results.perPage,
-        pages: results.totalPages,
-        listStyle: 'pagination',
-        hrefTextPrefix: '',
-        currentPage: Number(filters.getParam('page'))+1,
-        onPageClick: function(page, e) {
-          filters.setPage(page-1);
-          $('html, body').animate({scrollTop: '0px'}, 100);
-          if(e) e.preventDefault();
-        }
+      $('#paginate-first a')
+        .attr("href", "/?" + filters.serialize({cursor: "*", p: 0}))
+        .click(setCursor);
+
+      if(results.page === 1) {
+        $('#paginate-prev').addClass('disabled');
+      }
+
+      if(results.page < results.totalPages) {
+        $('#paginate-next a')
+          .attr("href", "/?" + filters.serialize({cursor: results.cursor, p: results.page}))
+          .click(setCursor);
+      } else {
+        $('#paginate-next').addClass('disabled');
+      }
+
+      $('#paginate-prev a').click(function(e) {
+        if(e) e.preventDefault();
+        window.history.back();
+        $('html, body').animate({scrollTop: '0px'}, 100);
       });
+
       $('.c-results-footer').removeClass('hidden');
     }
 

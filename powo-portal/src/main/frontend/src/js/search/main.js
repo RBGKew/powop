@@ -38,6 +38,14 @@ define(function(require) {
     }
   }
 
+  window.addEventListener('popstate', syncWithUrl);
+
+  function syncWithUrl() {
+    filters.deserialize(window.location.search, false);
+    filters.refresh();
+    results.update(filters.serialize());
+  }
+
   var initialize = function() {
     if ($(window).width() > 992) {
       $("input[type=search]").attr('placeholder', "Search by species, genus or family name, or any words describing the plant");

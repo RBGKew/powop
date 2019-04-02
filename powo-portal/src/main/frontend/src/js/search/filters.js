@@ -132,7 +132,8 @@ define(function(require) {
       facets.push(facet);
     }
 
-    params = params.delete('page');
+    params = params.delete('cursor');
+    params = params.delete('p');
     params = params.set('f', _.join(facets, ','));
     publishUpdated();
   }
@@ -142,8 +143,9 @@ define(function(require) {
     publishUpdated();
   }
 
-  var setPage = function(page) {
-    params = params.set('page', page);
+  var setCursor = function(cursor, page) {
+    params = params.set('cursor', cursor);
+    params = params.set('p', page);
     publishUpdated();
   }
 
@@ -152,8 +154,12 @@ define(function(require) {
     publishUpdated();
   }
 
-  var serialize = function() {
+  var serialize = function(override) {
     var q = params.toObject();
+
+    if(!_.isEmpty(override)) {
+      _.merge(q, override);
+    }
 
     if(!_.isEmpty(this.filters())) {
       $.extend(q, {'q': _.map(this.filters(), 'value').join(',')});
@@ -201,7 +207,7 @@ define(function(require) {
     serialize: serialize,
     toggleFacet: toggleFacet,
     setSort: setSort,
-    setPage: setPage,
+    setCursor: setCursor,
     setPageSize: setPageSize,
     tokenfield: getTokenfield,
   }

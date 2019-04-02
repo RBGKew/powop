@@ -50,12 +50,10 @@ public class ResponseBuilder {
 	private void setPageInfo(QueryResponse queryResponse) {
 		@SuppressWarnings("unchecked")
 		SimpleOrderedMap<String> params = (SimpleOrderedMap<String>) queryResponse.getResponseHeader().get("params");
-		Integer start = Integer.parseInt(params.get("start"));
 		Integer rows = Integer.parseInt(params.get("rows"));
 		int totalResults = (int)queryResponse.getResults().getNumFound();
 
 		response.perPage(rows);
-		response.page(IntMath.divide(start, rows, RoundingMode.CEILING));
 		response.totalPages(IntMath.divide(totalResults, rows, RoundingMode.CEILING));
 		response.totalResults(totalResults);
 		response.cursor(queryResponse.getNextCursorMark());

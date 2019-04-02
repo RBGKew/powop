@@ -54,13 +54,17 @@ public class ApiController {
 
 	@RequestMapping(value = {"/1/search", "/2/search"}, method = RequestMethod.GET, produces= {"application/json", "application/xml"})
 	public ResponseEntity<SearchResponse> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
+		String p = params.containsKey("p") ? params.remove("p") : "0";
 		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery(), params);
 		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
 		SearchResponse searchResponse = new ResponseBuilder().buildJsonResponse(queryResponse);
-		searchResponse.setMessage("Due to abuse of the API we have had to disable paging using the 'page' parameter. "
-				+ "If you would like to download  and use the POWO data in a conciencious way, "
+		searchResponse.setMessage("If you would like to download and use the POWO data in a conciencious way, "
 				+ "please use our official library pykew [https://github.com/RBGKew/pykew].");
+
+		try {
+			searchResponse.setPage(Integer.parseInt(p) + 1);
+		} catch (NumberFormatException e) { }
 
 		return new ResponseEntity<SearchResponse>(searchResponse, HttpStatus.OK);
 	}

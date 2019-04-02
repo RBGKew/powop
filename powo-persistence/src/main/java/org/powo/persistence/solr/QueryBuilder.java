@@ -53,7 +53,6 @@ public class QueryBuilder {
 			.put("cursor", new CursorQuery())
 			.put("f", new ResultsFilterQuery())
 			.put("names", new MultiFieldQuery(allNamesQueryFields))
-			.put("page", new PageNumberQuery())
 			.put("page.size", new PageSizeQuery())
 			.put("perPage", new PageSizeQuery())
 			.put("sort", new SortQuery())
@@ -70,6 +69,9 @@ public class QueryBuilder {
 	public QueryBuilder(DefaultQueryOption defaultQuery, Map<String, String> params){
 		this();
 		defaultQuery.add(query);
+
+		// Default to cursor start
+		addParam("cursor", "*");
 
 		for(Entry<String, String> entry : params.entrySet()){
 			addParam(entry.getKey(), entry.getValue());
