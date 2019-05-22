@@ -7,6 +7,7 @@ services:
       - src/main/resources/docker/env/portal.env
     volumes:
       - portal_data:/var/lib/mysql
+#      - /tmp/powo-uat-2018-06-04.sql.gz:/docker-entrypoint-initdb.d/00-powo.sql.gz # uncomment and point to powo dump to load existing database
     ports:
       - "13306:3306"
     mem_limit: 2800M
