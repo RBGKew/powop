@@ -44,7 +44,7 @@
 
 	<properties>
 		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
-		<dockerfile.maven.version>1.4.7</dockerfile.maven.version>
+		<dockerfile.maven.version>1.4.10</dockerfile.maven.version>
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
 		<handlebars.version>4.1.2</handlebars.version>
