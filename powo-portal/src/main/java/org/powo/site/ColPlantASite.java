@@ -39,12 +39,12 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("Catalogo-de-Plantas-y-Liquenes-de-Colombia");
+		return new SourceFilter("CatalogodePlantasyLiquenesdeColombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "ColombianPlantsMadeAccessible";
+		return "CatalogodePlantasyLiquenesdeColombia";
 	}
 
 	@Override

@@ -7,7 +7,6 @@ RUN apk --no-cache add python3 \
   && pip3 install -r requirements.txt
 
 ADD *.py /
-ADD data*.json /
 
 ENV ENVIRONMENT test
 ENV DEPLOY_TAG master

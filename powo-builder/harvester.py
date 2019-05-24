@@ -12,22 +12,23 @@ API_USERNAME = os.getenv('API_USERNAME', 'admin')
 API_PASSWORD = os.getenv('API_PASSWORD', 'password')
 ENV = os.getenv('ENVIRONMENT', 'test')
 STRICT_ERROR_CHECKING = os.getenv('STRICT_ERROR_CHECKING', False)
+DATA_CONFIG_PATH = os.getenv('DATA_CONFIG_PATH')
 
 def _api(method):
     return API_PREFIX + API_URL + method
 
-def _data_file():
-    path = 'data-%s.json' % ENV
-    if os.path.isfile(path):
-        return path
+def _get_data_file():
+    if DATA_CONFIG_PATH:
+        r = requests.get(DATA_CONFIG_PATH)
+        r.raise_for_status()
+        return r.json()
     else:
-        log.info('Could not find %s. Defaulting to data-test.json' % path)
-        return 'data-test.json'
+        raise RuntimeError("DATA_CONFIG_PATH must be set")
 
 def load_data_config():
-    config = open(_data_file(), 'br')
+    config = _get_data_file()
     headers = {'Content-Type': 'application/json; charset=utf-8'}
-    r = requests.post(_api('/data'), data=config, headers=headers, auth=(API_USERNAME, API_PASSWORD))
+    r = requests.post(_api('/data'), json=config, headers=headers, auth=(API_USERNAME, API_PASSWORD))
     r.raise_for_status()
     log.info("Data configuration loaded")
     return r.json()
