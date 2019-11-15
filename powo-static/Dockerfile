@@ -15,5 +15,6 @@ RUN  mkdir admin
 COPY target/admin/index.html admin/index.html
 
 COPY run.sh .
+RUN chmod 775 run.sh
 
 CMD ["./run.sh"]
