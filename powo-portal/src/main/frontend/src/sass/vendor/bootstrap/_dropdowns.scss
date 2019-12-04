@@ -23,9 +23,9 @@
 }
 
 // Prevent the focus on the dropdown toggle when closing dropdowns
-.dropdown-toggle:focus {
-  outline: 0;
-}
+// .dropdown-toggle:focus {
+//   outline: 0;
+// }
 
 // The dropdown menu (ul)
 .dropdown-menu {
@@ -90,7 +90,7 @@
   &:focus {
     color: $dropdown-link-active-color;
     text-decoration: none;
-    outline: 0;
+    //outline: 0;
     background-color: $dropdown-link-active-bg;
   }
 }

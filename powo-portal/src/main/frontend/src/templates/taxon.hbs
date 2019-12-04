@@ -154,7 +154,7 @@
                  data-target="#uses-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </a><small>{{bracketedSourceLink source}}</small>
+              </a><small>{{bracketedSourceLink}}</small>
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
                   <dt>{{message type}}</dt>
