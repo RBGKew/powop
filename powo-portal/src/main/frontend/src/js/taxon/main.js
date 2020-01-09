@@ -12,8 +12,6 @@ define(function(require) {
 
   var initialize = function() {
 
-    $('[rel=tooltip]').tooltip('disable')
-
     // setup search box
     filters.initialize();
     filters.tokenfield().on('tokenfield:createtoken', function(e) {
@@ -95,7 +93,6 @@ define(function(require) {
     }
 
     // enable tooltips
-    $('.description a[title]').tooltip();
 
     // bibliography sorting
     $('#sort-bibliography-by-citation').click(function(e) {
