@@ -37,8 +37,26 @@ define(function(require) {
       filters.refresh();
     }
   }
+  
+  var is_hashed = false;
 
-  window.addEventListener('popstate', syncWithUrl);
+  $(window).on('hashchange', function() {
+      is_hashed = true;
+  });
+
+
+  // window.addEventListener('popstate', syncWithUrl);
+  
+  window.addEventListener('popstate', function(e){
+    // if hashchange
+    if (is_hashed) {
+        e.preventDefault();
+        // reset
+        is_hashed = false;
+        return false;
+    }
+    syncWithUrl
+});
 
   function syncWithUrl() {
     filters.deserialize(window.location.search, false);
@@ -69,8 +87,6 @@ define(function(require) {
         filters.add(input.val());
         input.val('');
       });
-
-
     $('.s-page').removeClass('invisible');
   };
 
