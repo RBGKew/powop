@@ -34,6 +34,8 @@ define(function(require) {
       results.initialize();
       $('.s-page').removeClass('s-search__fullpage');
       $('#search_box').detach().appendTo('.c-header .container');
+      $( ".front-page" ).remove();
+      $(".search-results").attr('id', 'main');
       filters.refresh();
     }
   }
@@ -45,7 +47,6 @@ define(function(require) {
   });
 
 
-  // window.addEventListener('popstate', syncWithUrl);
   
   window.addEventListener('popstate', function(e){
     // if hashchange
