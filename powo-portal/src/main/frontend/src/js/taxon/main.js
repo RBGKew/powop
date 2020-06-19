@@ -117,14 +117,7 @@ define(function(require) {
     if($('#c-map').length) {
       map.initialize();
     }
-    
-    if ($('div.s-page--taxon').length) {      
-      var frontMainDiv = $(".front-page");
-      var tmp = frontMainDiv.children().clone();
-      var parent = frontMainDiv.parent();
-      frontMainDiv.remove();
-      tmp.appendTo(parent);
-    }
+    $(".s-page--taxon .form-inline--search").unwrap()
   }
 
   function sortBibliography(e, fields, order) {
