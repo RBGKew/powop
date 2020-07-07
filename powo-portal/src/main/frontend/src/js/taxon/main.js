@@ -33,13 +33,13 @@ define(function(require) {
           .removeClass('focused');
       })
 
-    // collapse all sections if screen size is less than 768px
-    if ($(window).width() < 768) {
-      $(".c-article-section").map(function(__, section) {
-        $(section).find('.container').removeClass("in");
-        $(section).find('a.collapser').first().addClass('collapsed');
-      });
-    }
+     // collapse all sections if screen size is less than 768px
+//    if ($(window).width() < 768) {
+//      $(".c-article-section").map(function(__, section) {
+//        $(section).find('.container').removeClass("in");
+//        $(section).find('a.collapser').first().addClass('collapsed');
+//      });
+//    }
 
     // initialize popup for header image
     $('.c-gallery-header').click(function(e) {
@@ -54,11 +54,11 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
-    if($('#content-navbar').length > 0) {
-      $('#content-navbar').affix({
-          offset: { top: $('#content-navbar').offset().top }
-      });
-    }
+//    if($('.navbar--article').length > 0) {
+//      $('.navbar--article').affix({
+//          offset: { top: $('.navbar--article').offset().top }
+//      });
+//    }
 
 
     // Accomodate fixed header when jumping to anchor links
@@ -71,6 +71,13 @@ define(function(require) {
           scrollTop: target.offset().top - headerHeight + 5
         }, 'fast', 'swing');
       }
+//      if ($(window).width() < 768) {
+//        
+//      }
+    });
+    
+    $('.navbar-nav>li>a').on('click', function(){
+      $('.navbar-collapse').collapse('hide');
     });
 
     // enable scrollspy on navbar
@@ -79,10 +86,10 @@ define(function(require) {
       offset: 75
     });
 
-    // open collapsed sections when navbar link clicked
-    $('.c-article-nav a').click(function() {
-      $($(this).attr('href') + ' .container').collapse('show');
-    });
+     // open collapsed sections when navbar link clicked
+//    $('.c-article-nav a').click(function() {
+//      $($(this).attr('href') + ' .container').collapse('show');
+//    });
 
     // enable popovers
     $('[data-toggle="popover"]').popover();
