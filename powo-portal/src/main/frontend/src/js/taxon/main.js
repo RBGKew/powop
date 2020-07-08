@@ -33,14 +33,6 @@ define(function(require) {
           .removeClass('focused');
       })
 
-     // collapse all sections if screen size is less than 768px
-//    if ($(window).width() < 768) {
-//      $(".c-article-section").map(function(__, section) {
-//        $(section).find('.container').removeClass("in");
-//        $(section).find('a.collapser').first().addClass('collapsed');
-//      });
-//    }
-
     // initialize popup for header image
     $('.c-gallery-header').click(function(e) {
       $('.c-gallery').magnificPopup('open');
@@ -54,12 +46,6 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
-//    if($('.navbar--article').length > 0) {
-//      $('.navbar--article').affix({
-//          offset: { top: $('.navbar--article').offset().top }
-//      });
-//    }
-
 
     // Accomodate fixed header when jumping to anchor links
     $('nav a').click(function() {
@@ -71,9 +57,6 @@ define(function(require) {
           scrollTop: target.offset().top - headerHeight + 5
         }, 'fast', 'swing');
       }
-//      if ($(window).width() < 768) {
-//        
-//      }
     });
     
     $('.navbar-nav>li>a').on('click', function(){
@@ -86,11 +69,6 @@ define(function(require) {
       offset: 75
     });
 
-     // open collapsed sections when navbar link clicked
-//    $('.c-article-nav a').click(function() {
-//      $($(this).attr('href') + ' .container').collapse('show');
-//    });
-
     // enable popovers
     $('[data-toggle="popover"]').popover();
 
@@ -98,8 +76,6 @@ define(function(require) {
     if(location.hash.length > 0) {
       $(location.hash + ' .container').addClass('in');
     }
-
-    // enable tooltips
 
     // bibliography sorting
     $('#sort-bibliography-by-citation').click(function(e) {
