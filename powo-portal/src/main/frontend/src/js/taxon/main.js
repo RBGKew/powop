@@ -22,7 +22,7 @@ define(function(require) {
     $(document).on('click', '#search-button', function(e) {
       window.location = '/?q=' + $('.token-input').val();
     })
-
+    
     $('.tokenfield input')
       .on('focus', function() {
         $('#search_box')
@@ -59,9 +59,22 @@ define(function(require) {
       }
     });
     
+      // opens taxon nav when rteurn key is pressed
+     $(".mobile-menu").keypress(function (e) {
+        if (e.keyCode == 13) {
+           $('.navbar-collapse').collapse('toggle')
+        }
+     });
+    
+    // hides taxon nav when clicked and when keyboard retun is used
     $('.navbar-nav>li>a').on('click', function(){
       $('.navbar-collapse').collapse('hide');
     });
+//    $(".navbar-nav>li>a").keypress(function (e) {
+//      if (e.keyCode == 13) {
+//          $('.navbar-collapse').collapse('hide');
+//      }
+//    });
 
     // enable scrollspy on navbar
     $('body').scrollspy({
