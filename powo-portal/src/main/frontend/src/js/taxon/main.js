@@ -66,15 +66,10 @@ define(function(require) {
         }
      });
     
-    // hides taxon nav when clicked and when keyboard retun is used
+    // hides taxon nav when clicked
     $('.navbar-nav>li>a').on('click', function(){
       $('.navbar-collapse').collapse('hide');
     });
-//    $(".navbar-nav>li>a").keypress(function (e) {
-//      if (e.keyCode == 13) {
-//          $('.navbar-collapse').collapse('hide');
-//      }
-//    });
 
     // enable scrollspy on navbar
     $('body').scrollspy({
