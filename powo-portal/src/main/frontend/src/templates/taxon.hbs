@@ -102,7 +102,7 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
+              <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse in">
                 {{#if conceptSource}}<p>{{conceptSource}}</p>{{/if}}
                 <dl class="c-article-desc-table">
                   {{#each byType}}
@@ -240,7 +240,7 @@
                aria-expanded="false">
               Full Distribution Listing
             </a>
-            <div id="distribution-listing" class="collapse">
+            <div id="distribution-listing" class="collapse in">
               {{#if doubtful}}
               <h4>Doubtfully present in:</h4>
               <p>
@@ -440,7 +440,7 @@
                  data-target="#determinations"
                  aria-expanded="false">
                 <h4>Herbarium Catalogue ({{count}} records)</h4></a>
-              <div id="determinations" class="table-responsive collapse">
+              <div id="determinations" class="table-responsive collapse in">
                 <table class="table table-hover">
                   <thead>
                     <tr>

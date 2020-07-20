@@ -99,15 +99,6 @@ body {
   background-color: $body-bg;
   border-bottom: 2px solid #CCCCCC;
   padding: 0;
-//  &.affix {
-//    top: 0;
-//    width: 100%;
-//    background-color: #FFFFFF;
-//    // z-index: $zindex-navbar;
-//    position: sticky;
-//    margin-left: -15px;
-//    padding: 0 15px;
-//  }
 }
 
 
@@ -130,7 +121,7 @@ body {
   @include make-lg-column(9);
 
   margin-top: 2em;
-
+  overflow-wrap: break-word;
   @media (min-width: $screen-md-min) {
     float: right!important;
   }
@@ -183,7 +174,7 @@ body {
 
   tbody {
     overflow-y: auto;
-    height: 300px;
+    // height: 300px;
   }
 
   tr {
