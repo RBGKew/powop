@@ -46,7 +46,6 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
-
     // Accomodate fixed header when jumping to anchor links
     $('nav a').click(function() {
       var target = $(this.hash);
