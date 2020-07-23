@@ -6,7 +6,9 @@
   margin: 0;
   border-radius: 0;
   .disabled {
-    color: #595959;
+    a {
+      color: #595959;
+    }
   }
 }
 
