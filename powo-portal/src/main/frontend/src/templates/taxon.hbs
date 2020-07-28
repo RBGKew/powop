@@ -155,7 +155,7 @@
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
-              <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
+              <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse in">
                 {{#each byType}}
                   <dt>{{message type}}</dt>
                   <dd>
