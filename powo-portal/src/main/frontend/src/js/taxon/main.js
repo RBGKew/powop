@@ -22,6 +22,24 @@ define(function(require) {
     $(document).on('click', '#search-button', function(e) {
       window.location = '/?q=' + $('.token-input').val();
     })
+  
+    
+    if ($(window).width() < 767) {
+       $(".to-top").css("display", "none");
+    }
+    else {
+      $(window).scroll(function() {
+        if ($(this).scrollTop() >= $('.navbar--article').position().top) {
+          $(".to-top").css("display", "block");
+        } else {
+          $(".to-top").css("display", "none");
+        }
+      });
+    }
+    
+    $('.to-top').on('click', function(){
+      $("html, body").animate({ scrollTop: 0 }, 500);
+    });
     
     $('.tokenfield input')
       .on('focus', function() {

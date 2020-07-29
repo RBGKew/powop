@@ -3,3 +3,65 @@
     border-left-color: #000;
   }
 }
+button.collapser {
+  white-space: inherit;
+  text-align: left; 
+  background: #fff;
+  display: inline-flex;
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    }
+}
+//  button.collapser h1, a.collapser h2, a.collapser h3, a.collapser h4 {
+//    display: inline; }
+//  button.collapser::before {
+//    font-family: 'Glyphicons Halflings';
+//    font-size: 0.8em;
+//    padding-right: 1em;
+//    content: "\e114";
+//    color: #333333; 
+//    margin-top: 2px;}
+//  button.collapser.collapsed::before {
+//    content: "\e080"; }
+//  button.collapser:active {
+//    box-shadow: none; }
+
+button {
+  &.collapser {
+    h2 {
+      display: inline;
+    }
+    h3 {
+      display: inline;
+    }
+    &::before {
+      font-family: 'Glyphicons Halflings';
+      font-size: 0.8em;
+      padding-right: 1em;
+      content: "\e114";
+      color: #333333; 
+      margin-top: 2px;}
+    }
+    .collapsed {
+      &::before {
+        content: "\e080"; 
+      }
+    }
+    &:active {
+      box-shadow: none; 
+    }
+}
+
+.to-top {
+  display: none;
+  top: 19px;
+  right: 12px;
+  z-index: 99;
+  cursor: pointer;
+  position: absolute;
+}
