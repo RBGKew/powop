@@ -47,7 +47,7 @@ button {
       color: #333333; 
       margin-top: 2px;}
     }
-    .collapsed {
+    &.collapsed {
       &::before {
         content: "\e080"; 
       }
