@@ -36,6 +36,7 @@ define(function(require) {
       $('#search_box').detach().appendTo('.c-header .container');
       $( ".front-page" ).remove();
       $(".search-results").attr('id', 'main');
+      $(".search-results").attr('role', 'main');
       filters.refresh();
     }
   }
