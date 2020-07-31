@@ -6,6 +6,7 @@
   margin: 0;
   border-radius: 0;
   .disabled {
+    pointer-events: none;
     a {
       color: #595959;
     }

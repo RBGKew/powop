@@ -23,7 +23,9 @@ define(function(require) {
       window.location = '/?q=' + $('.token-input').val();
     })
   
-    
+    $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
+      e.preventDefault();
+    });
     if ($(window).width() < 767) {
        $(".to-top").css("display", "none");
     }
