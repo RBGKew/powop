@@ -38,6 +38,11 @@ define(function(require) {
         }
       });
     }
+    $('canvas').attr('aria-label', 'Distribution Map');
+  $('.navbar--article').click(function(e) {
+    e.preventDefault();
+	$('body').css('overflow', 'auto');
+  });
     
     $('.to-top').on('click', function(){
       $("html, body").animate({ scrollTop: 0 }, 500);

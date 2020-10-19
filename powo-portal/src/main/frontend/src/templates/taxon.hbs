@@ -94,6 +94,16 @@
       </button>
       <div id="descriptions-main" class="container collapse in">
         <div class="row">
+          <aside role="complementary" class="c-article-section__aside">
+            {{#with synonymsIncluded}}
+            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
+            <ul class="c-plain-list includes_data">
+              {{#each synonymsIncluded}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+            {{/with}}
+          </aside>
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
@@ -120,17 +130,6 @@
             </div>
             {{/each}}
           </div>
-
-          <aside role="complementary" class="c-article-section__aside">
-            {{#with synonymsIncluded}}
-            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
-            <ul class="c-plain-list includes_data">
-              {{#each synonymsIncluded}}
-              <li>{{taxonLink this}}</li>
-              {{/each}}
-            </ul>
-            {{/with}}
-          </aside>
         </div>
       </div>
     </section>
@@ -147,6 +146,16 @@
       </button>
       <div id="uses-main" class="container collapse in">
         <div class="row">
+          <aside role="complementary" class="c-article-section__aside">
+            {{#with synonymsIncluded}}
+            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
+            <ul class="c-plain-list includes_data">
+              {{#each synonymsIncluded}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+            {{/with}}
+          </aside>
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
@@ -171,17 +180,6 @@
             </div>
             {{/each}}
           </div>
-
-          <aside role="complementary" class="c-article-section__aside">
-            {{#with synonymsIncluded}}
-            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
-            <ul class="c-plain-list includes_data">
-              {{#each synonymsIncluded}}
-              <li>{{taxonLink this}}</li>
-              {{/each}}
-            </ul>
-            {{/with}}
-          </aside>
         </div>
       </div>
     </section>
@@ -199,6 +197,14 @@
       </button>
       <div id="gallery-main" class="container collapse in">
         <div class="row">
+          <aside role="complementary" class="c-article-section__aside">
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
+          </aside>
           <div class="c-article-section__content">
 
             <div class="c-gallery clearfix">
@@ -208,15 +214,6 @@
             </div>
 
           </div>
-
-          <aside role="complementary" class="c-article-section__aside">
-            <ul class="c-reference-list">
-              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
-              {{#each sources}}
-              <li>{{sourceLink this}}</li>
-              {{/each}}
-            </ul>
-          </aside>
         </div>
       </div>
     </section>
@@ -234,6 +231,14 @@
       </button>
       <div id="distribution-main" class="container collapse in">
         <div class="row">
+          <aside role="complementary" class="c-article-section__aside">
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
+          </aside>
           <div class="c-article-section__content">
             <div id="c-map">
             </div>
@@ -247,7 +252,7 @@
             </button>
             <div id="distribution-listing" class="collapse in">
               {{#if doubtful}}
-              <h4>Doubtfully present in:</h4>
+              <h3>Doubtfully present in:</h3>
               <p>
               {{#each doubtful}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -256,7 +261,7 @@
               {{/if}}
 
               {{#if natives}}
-              <h4>Native to:</h4>
+              <h3>Native to:</h3>
               <p>
               {{#each natives}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -265,7 +270,7 @@
               {{/if}}
 
               {{#if extinct}}
-              <h4>Extinct in:</h4>
+              <h3>Extinct in:</h3>
               <p>
               {{#each extinct}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -274,7 +279,7 @@
               {{/if}}
 
               {{#if introduced}}
-              <h4>Introduced into:</h4>
+              <h3>Introduced into:</h3>
               <p>
               {{#each introduced}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -283,7 +288,7 @@
               {{/if}}
 
               {{#if absent}}
-              <h4>Recorded in error in:</h4>
+              <h3>Recorded in error in:</h3>
               <p>
               {{#each absent}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -292,14 +297,6 @@
               {{/if}}
             </div>
           </div>
-          <aside role="complementary" class="c-article-section__aside">
-            <ul class="c-reference-list">
-              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
-              {{#each sources}}
-              <li>{{sourceLink this}}</li>
-              {{/each}}
-            </ul>
-          </aside>
         </div>
       </div>
     </section>
@@ -317,13 +314,6 @@
       </button>
       <div id="children-main" class="container collapse in">
         <div class="row">
-          <div class="c-article-section__content">
-            <ul class="c-synonym-list two-col">
-              {{#each sorted}}
-              <li>{{taxonLink this}}</li>
-              {{/each}}
-            </ul>
-          </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
             <p>Includes {{nonHybridCount}} Accepted {{childRank taxon}}</p>
@@ -335,6 +325,13 @@
             </ul>
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            <ul class="c-synonym-list two-col">
+              {{#each sorted}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -352,13 +349,6 @@
       </button>
       <div id="synonyms-main" class="container collapse in">
         <div class="row">
-          <div class="c-article-section__content">
-            <ul class="c-synonym-list two-col">
-              {{#each sorted}}
-              <li>{{taxonLink this}}</li>
-              {{/each}}
-            </ul>
-          </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
             <p>Has {{count}} Synonyms</p>
@@ -370,6 +360,13 @@
             </ul>
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            <ul class="c-synonym-list two-col">
+              {{#each sorted}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -387,18 +384,6 @@
       </button>
       <div id="venacular-names-main" class="container collapse in">
         <div class="row">
-          <div class="c-article-section__content">
-            <dl class="dl-horizontal">
-              {{#each sortedByLanguage as |names language|}}
-              <dt>{{language}}</dt>
-              <dd>
-              {{#each names as |commonName|}}
-                {{commonName}}{{#unless @last}}, {{/unless}}
-              {{/each}}
-              </dd>
-              {{/each}}
-            </dl>
-          </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
             <ul class="c-reference-list">
@@ -417,6 +402,18 @@
             {{/with}}
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            <dl class="dl-horizontal">
+              {{#each sortedByLanguage as |names language|}}
+              <dt>{{language}}</dt>
+              <dd>
+              {{#each names as |commonName|}}
+                {{commonName}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </dd>
+              {{/each}}
+            </dl>
+          </div>
         </div>
       </div>
     </section>
@@ -508,13 +505,6 @@
           }
         </script>
         <div class="row">
-          <div class="c-article-section__content">
-            {{#if taxon.namePublishedInString}}
-              <h3>First published in {{taxon.namePublishedInString}}</h3>
-            {{/if}}
-            {{> partials/taxon/bibliography }}
-          </div>
-
           {{#if bibliography.hasReferences}}
           <aside role="complementary" class="c-article-section__aside">
             <div class="bibliography-dropdown">
@@ -530,6 +520,12 @@
             </div>
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            {{#if taxon.namePublishedInString}}
+              <h3>First published in {{taxon.namePublishedInString}}</h3>
+            {{/if}}
+            {{> partials/taxon/bibliography }}
+          </div>
         </div>
       </div>
     </section>
@@ -548,14 +544,14 @@
         <div class="row">
           <div class="c-article-section__content">
             {{#each sources.sorted}}
-            <p id="source-{{organisation.abbreviation}}">
+            <p class="source-{{organisation.abbreviation}}">
             <strong>{{organisation.title}}</strong><br/>
             {{#if organisation.bibliographicCitation}}
             {{organisation.bibliographicCitation}}<br/>
             {{/if}}
             {{#each licenses}}
               {{#if notBlank}}
-                <small id="source-{{organisation.abbreviation}}" class="text-muted offset">{{{rights}}} {{license}}</small><br/>
+                <small class="source-{{organisation.abbreviation}} text-muted offset">{{{rights}}} {{license}}</small><br/>
               {{/if}}
             {{/each}}
             </p>

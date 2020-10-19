@@ -116,7 +116,12 @@
   border-top-right-radius: 4px;
   border-bottom: 1px solid #ccc;
   @media(max-width: $screen-xs-max) { display: none; }
-
+  // .facet {
+  //   &.selected {
+  //     background-color: #757575!important;
+  //     color: white!important;
+  //   }
+  // }
   li {
     list-style-type: none;
 
@@ -175,4 +180,9 @@
 .chevron {
   width: 11px;
   height: 11px;
+}
+
+.grid--lines {
+  border-top: 1px solid #757575;
+  border-right: 1px solid #757575;
 }

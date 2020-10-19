@@ -65,3 +65,8 @@ button {
   cursor: pointer;
   position: absolute;
 }
+
+.navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:focus, .navbar-default .navbar-nav .active a:hover {
+  background-color: #757575;
+  color: white
+}
