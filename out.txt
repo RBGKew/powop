@@ -1,0 +1,406 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] POWO
+[INFO] powo data model
+[INFO] powo persistence layer
+[INFO] powo service layer
+[INFO] powo harvesting
+[INFO] powo portal
+[INFO] powo dashboard
+[INFO] powo static files
+[INFO] powo geodb
+[INFO] powo geoserver
+[INFO] powo db
+[INFO] powo solr
+[INFO] powo builder
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building POWO 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206162952
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo data model 2.0.0
+[INFO] ------------------------------------------------------------------------
+[WARNING] The artifact org.hibernate:hibernate-validator:jar:6.0.16.Final has been relocated to org.hibernate.validator:hibernate-validator:jar:6.0.16.Final
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-model ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-model' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-model
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206164593
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-model ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 9 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-model ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 199 source files to /Users/db72kg/Documents/web/powop/powo-model/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-model ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-model ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-model ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo persistence layer 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-persistence ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-persistence' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-persistence
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206176918
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-persistence ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 11 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-persistence ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 61 source files to /Users/db72kg/Documents/web/powop/powo-persistence/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-persistence ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-persistence ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-persistence ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo service layer 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-service ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-service' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-service
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206181962
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-service ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/db72kg/Documents/web/powop/powo-service/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-service ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 21 source files to /Users/db72kg/Documents/web/powop/powo-service/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-service ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-service ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo harvesting 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-harvest ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-harvest' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-harvest
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206185531
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-harvest ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 15 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-harvest ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-harvest ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] Copying 20 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-harvest ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-harvest ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo portal 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-portal ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-portal' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-portal
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206186087
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.0:install-node-and-npm (install node and npm) @ powo-portal ---
+[INFO] Node v10.15.3 is already installed.
+[INFO] NPM 6.4.1 is already installed.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.0:npm (npm install) @ powo-portal ---
+[INFO] Running 'npm install' in /Users/db72kg/Documents/web/powop/powo-portal/src/main/frontend
+[WARNING] npm WARN frontend-framework-gulp@1.0.0 No repository field.
+[ERROR] 
+[INFO] audited 1458 packages in 13.501s
+[INFO] found 484 vulnerabilities (314 low, 21 moderate, 146 high, 3 critical)
+[INFO]   run `npm audit fix` to fix them, or `npm audit` for details
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.0:gulp (gulp build) @ powo-portal ---
+[INFO] Running 'gulp.js ' in /Users/db72kg/Documents/web/powop/powo-portal/src/main/frontend
+[INFO] [16:03:21] Using gulpfile ~/Documents/web/powop/powo-portal/src/main/frontend/gulpfile.js
+[INFO] [16:03:21] Starting 'default'...
+[INFO] [16:03:21] Starting 'clean:css'...
+[INFO] [16:03:21] Starting 'clean:js'...
+[INFO] [16:03:21] Starting 'clean:templates'...
+[INFO] [16:03:21] Finished 'clean:css' after 21 ms
+[INFO] [16:03:21] Finished 'clean:js' after 3.38 ms
+[INFO] [16:03:21] Finished 'clean:templates' after 88 ms
+[INFO] [16:03:21] Starting 'clean'...
+[INFO] [16:03:21] Finished 'clean' after 49 μs
+[INFO] [16:03:21] Starting 'copy:fonts'...
+[INFO] [16:03:21] Starting 'copy:svgs'...
+[INFO] [16:03:21] Finished 'copy:svgs' after 62 ms
+[INFO] [16:03:21] Finished 'copy:fonts' after 89 ms
+[INFO] [16:03:21] Starting 'copy'...
+[INFO] [16:03:21] Finished 'copy' after 2.95 μs
+[INFO] [16:03:21] Starting 'images:minify'...
+[INFO] [16:03:22] gulp-imagemin: Minified 2 images (saved 16.1 kB - 5%)
+[INFO] [16:03:24] gulp-imagemin: Minified 3 images (saved 12.2 kB - 32%)
+[INFO] [16:03:24] Finished 'images:minify' after 2.51 s
+[INFO] [16:03:24] Starting 'images'...
+[INFO] [16:03:24] Finished 'images' after 3.91 μs
+[INFO] [16:03:24] Starting 'precompile'...
+[INFO] [16:03:24] Finished 'precompile' after 314 ms
+[INFO] [16:03:24] Starting 'js'...
+[INFO] [16:03:24] Finished 'js' after 184 ms
+[INFO] [16:03:24] Starting 'css'...
+[INFO] [16:03:40] Finished 'css' after 16 s
+[INFO] [16:03:40] Starting 'rev'...
+[INFO] [16:03:40] Finished 'rev' after 70 ms
+[INFO] [16:03:40] Finished 'default' after 19 s
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-portal ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 8 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-portal ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 47 source files to /Users/db72kg/Documents/web/powop/powo-portal/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-portal ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 6 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-portal ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 32 source files to /Users/db72kg/Documents/web/powop/powo-portal/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-portal ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo dashboard 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ dashboard ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-dashboard' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-dashboard
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206236874
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.6:install-node-and-yarn (install node and yarn) @ dashboard ---
+[INFO] Node v10.6.0 is already installed.
+[INFO] Yarn 1.7.0 is already installed.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.6:yarn (yarn install) @ dashboard ---
+[INFO] Running 'yarn ' in /Users/db72kg/Documents/web/powop/powo-dashboard
+[INFO] yarn install v1.7.0
+[INFO] [1/4] Resolving packages...
+[INFO] success Already up-to-date.
+[INFO] Done in 0.92s.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.6:yarn (yarn build) @ dashboard ---
+[INFO] Running 'yarn build' in /Users/db72kg/Documents/web/powop/powo-dashboard
+[INFO] yarn run v1.7.0
+[INFO] $ vue-cli-service build
+[INFO] 
+[ERROR] Browserslist: caniuse-lite is outdated. Please run next command `yarn upgrade caniuse-lite browserslist`
+[INFO]  WARNING  Compiled with 3 warnings4:04:12 PM
+[INFO] 
+[INFO]  warning  
+[INFO] 
+[INFO] asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+[INFO] This can impact web performance.
+[INFO] Assets: 
+[INFO]   js/chunk-vendors.ff5213eb.js (662 KiB)
+[INFO] 
+[INFO]  warning  
+[INFO] 
+[INFO] entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+[INFO] Entrypoints:
+[INFO]   app (925 KiB)
+[INFO]       css/chunk-vendors.4dabbfc8.css
+[INFO]       js/chunk-vendors.ff5213eb.js
+[INFO]       css/app.f9f80880.css
+[INFO]       js/app.f849b411.js
+[INFO] 
+[INFO] 
+[INFO]  warning  
+[INFO] 
+[INFO] webpack performance recommendations: 
+[INFO] You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+[INFO] For more info visit https://webpack.js.org/guides/code-splitting/
+[INFO] 
+[INFO]   File                                   Size              Gzipped
+[INFO] 
+[INFO]   dist/js/chunk-vendors.ff5213eb.js      661.83 kb         171.93 kb
+[INFO]   dist/js/app.f849b411.js                42.57 kb          9.48 kb
+[INFO]   dist/css/chunk-vendors.4dabbfc8.css    220.66 kb         28.15 kb
+[INFO]   dist/css/app.f9f80880.css              0.14 kb           0.13 kb
+[INFO] 
+[INFO]   Images and other types of assets omitted.
+[INFO] 
+[INFO]  DONE  Build complete. The dist directory is ready to be deployed.
+[INFO]  INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+[INFO]       
+[INFO] Done in 14.20s.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo static files 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-static ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-static' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-static
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206253858
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-static ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/db72kg/Documents/web/powop/powo-static/src/main/resources
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.3:run (assemble-static-assets) @ powo-static ---
+[INFO] Executing tasks
+    [mkdir] Created dir: /Users/db72kg/Documents/web/powop/powo-static/target/static/js
+    [mkdir] Created dir: /Users/db72kg/Documents/web/powop/powo-static/target/static/css
+     [copy] Copying 13 files to /Users/db72kg/Documents/web/powop/powo-static/target/static/img
+     [copy] Copying 4 files to /Users/db72kg/Documents/web/powop/powo-static/target/static/js
+     [copy] Copying 5 files to /Users/db72kg/Documents/web/powop/powo-static/target/static/fonts
+     [copy] Copying 2 files to /Users/db72kg/Documents/web/powop/powo-static/target/static/css
+     [copy] Copying 1 file to /Users/db72kg/Documents/web/powop/powo-static/target/admin
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-static ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-static ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/db72kg/Documents/web/powop/powo-static/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-static ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-static ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo geodb 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ geodb ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-geodb' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-geodb
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206254329
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo geoserver 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ geoserver ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-geoserver' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-geoserver
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206254439
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo db 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ db ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-db' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-db
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206254489
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo solr 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ solr ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-solr' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-solr
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206254517
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo builder 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ builder ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-builder' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-builder
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206254551
+[INFO] Storing buildScmBranch: deployment
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] POWO ............................................... SUCCESS [  1.053 s]
+[INFO] powo data model .................................... SUCCESS [ 13.674 s]
+[INFO] powo persistence layer ............................. SUCCESS [  5.148 s]
+[INFO] powo service layer ................................. SUCCESS [  3.300 s]
+[INFO] powo harvesting .................................... SUCCESS [  0.558 s]
+[INFO] powo portal ........................................ SUCCESS [ 51.132 s]
+[INFO] powo dashboard ..................................... SUCCESS [ 16.959 s]
+[INFO] powo static files .................................. SUCCESS [  0.507 s]
+[INFO] powo geodb ......................................... SUCCESS [  0.108 s]
+[INFO] powo geoserver ..................................... SUCCESS [  0.052 s]
+[INFO] powo db ............................................ SUCCESS [  0.027 s]
+[INFO] powo solr .......................................... SUCCESS [  0.034 s]
+[INFO] powo builder ....................................... SUCCESS [  0.025 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 01:33 min
+[INFO] Finished at: 2020-10-20T16:04:14+01:00
+[INFO] Final Memory: 25M/87M
+[INFO] ------------------------------------------------------------------------

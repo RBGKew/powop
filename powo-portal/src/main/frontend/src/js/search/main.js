@@ -68,7 +68,7 @@ define(function(require) {
 
   var initialize = function() {
     if ($(window).width() > 992) {
-      $("input[type=search]").attr('placeholder', "Search by species, genus or family name, or any words describing the plant");
+      $("input[type=search]").attr('placeholder', "Please enter a search term");
     }
 
     filters.initialize();

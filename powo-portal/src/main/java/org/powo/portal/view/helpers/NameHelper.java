@@ -154,7 +154,7 @@ public class NameHelper {
 
 	private String classificationLine(List<Taxon> classification, int index, Options options) {
 		if(index == classification.size()-1) {
-			return String.format("<ol><li><h1 lang=”la” class=\"c-summary__heading\">%s</h1></li></ol>",
+			return String.format("<ul><li><h1 lang=”la” class=\"c-summary__heading\">%s</h1></li></ul>",
 					taxonNameAndAuthor(classification.get(index), options));
 		} else {
 			if(classification.get(index).getTaxonRank() == null) {

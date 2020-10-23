@@ -1,0 +1,142 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Building powo portal 2.0.0
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- buildnumber-maven-plugin:1.4:create (default) @ powo-portal ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: /bin/sh -c cd '/Users/db72kg/Documents/web/powop/powo-portal' && 'git' 'rev-parse' '--verify' '--short=7' 'HEAD'
+[INFO] Working directory: /Users/db72kg/Documents/web/powop/powo-portal
+[INFO] Storing buildNumber: 115df61 at timestamp: 1603206011425
+[INFO] Storing buildScmBranch: deployment
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.0:install-node-and-npm (install node and npm) @ powo-portal ---
+[INFO] Node v10.15.3 is already installed.
+[INFO] NPM 6.4.1 is already installed.
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.0:npm (npm install) @ powo-portal ---
+[INFO] Running 'npm install' in /Users/db72kg/Documents/web/powop/powo-portal/src/main/frontend
+[WARNING] npm WARN frontend-framework-gulp@1.0.0 No repository field.
+[ERROR] 
+[INFO] audited 1458 packages in 11.5s
+[INFO] found 484 vulnerabilities (314 low, 21 moderate, 146 high, 3 critical)
+[INFO]   run `npm audit fix` to fix them, or `npm audit` for details
+[INFO] 
+[INFO] --- frontend-maven-plugin:1.0:gulp (gulp build) @ powo-portal ---
+[INFO] Running 'gulp.js ' in /Users/db72kg/Documents/web/powop/powo-portal/src/main/frontend
+[INFO] [16:00:25] Using gulpfile ~/Documents/web/powop/powo-portal/src/main/frontend/gulpfile.js
+[INFO] [16:00:25] Starting 'default'...
+[INFO] [16:00:25] Starting 'clean:css'...
+[INFO] [16:00:25] Starting 'clean:js'...
+[INFO] [16:00:25] Starting 'clean:templates'...
+[INFO] [16:00:25] Finished 'clean:css' after 31 ms
+[INFO] [16:00:25] Finished 'clean:js' after 34 ms
+[INFO] [16:00:25] Finished 'clean:templates' after 49 ms
+[INFO] [16:00:25] Starting 'clean'...
+[INFO] [16:00:25] Finished 'clean' after 38 μs
+[INFO] [16:00:25] Starting 'copy:fonts'...
+[INFO] [16:00:25] Starting 'copy:svgs'...
+[INFO] [16:00:25] Finished 'copy:svgs' after 37 ms
+[INFO] [16:00:25] Finished 'copy:fonts' after 54 ms
+[INFO] [16:00:25] Starting 'copy'...
+[INFO] [16:00:25] Finished 'copy' after 2.5 μs
+[INFO] [16:00:25] Starting 'images:minify'...
+[INFO] [16:00:26] gulp-imagemin: Minified 2 images (saved 16.1 kB - 5%)
+[INFO] [16:00:27] gulp-imagemin: Minified 3 images (saved 12.2 kB - 32%)
+[INFO] [16:00:27] Finished 'images:minify' after 2.63 s
+[INFO] [16:00:27] Starting 'images'...
+[INFO] [16:00:27] Finished 'images' after 4.72 μs
+[INFO] [16:00:27] Starting 'precompile'...
+[INFO] [16:00:28] Finished 'precompile' after 591 ms
+[INFO] [16:00:28] Starting 'js'...
+[INFO] [16:00:29] Finished 'js' after 515 ms
+[INFO] [16:00:29] Starting 'css'...
+[INFO] [16:00:43] Finished 'css' after 15 s
+[INFO] [16:00:43] Starting 'rev'...
+[INFO] [16:00:43] Finished 'rev' after 115 ms
+[INFO] [16:00:43] Finished 'default' after 19 s
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ powo-portal ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 8 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ powo-portal ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 47 source files to /Users/db72kg/Documents/web/powop/powo-portal/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ powo-portal ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 6 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ powo-portal ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 32 source files to /Users/db72kg/Documents/web/powop/powo-portal/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.8.1:test (default-test) @ powo-portal ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- maven-war-plugin:3.2.0:war (default-war) @ powo-portal ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [powo-portal] in [/Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal]
+[INFO] Processing war project
+[INFO] Copying webapp webResources [/Users/db72kg/Documents/web/powop/powo-portal/src/main/frontend/src/templates] to [/Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal]
+[INFO] Copying webapp webResources [/Users/db72kg/Documents/web/powop/powo-portal/src/main/resources] to [/Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal]
+[INFO] Copying webapp resources [/Users/db72kg/Documents/web/powop/powo-portal/src/main/webapp]
+[INFO] Webapp assembled in [2098 msecs]
+[INFO] Building war: /Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal.war
+[INFO] 
+[INFO] --- maven-jar-plugin:2.2:test-jar (default) @ powo-portal ---
+[INFO] Building jar: /Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal-tests.jar
+[INFO] 
+[INFO] --- dockerfile-maven-plugin:1.4.10:build (default) @ powo-portal ---
+[INFO] Using Google application default credentials
+[INFO] loaded credentials for user account with clientId=764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+[INFO] dockerfile: null
+[INFO] contextDirectory: /Users/db72kg/Documents/web/powop/powo-portal
+[INFO] Building Docker context /Users/db72kg/Documents/web/powop/powo-portal
+[INFO] Path(dockerfile): null
+[INFO] Path(contextDirectory): /Users/db72kg/Documents/web/powop/powo-portal
+[INFO] 
+[INFO] Image will be built as eu.gcr.io/powop-1349/portal:2.0.0-115df61
+[INFO] 
+[INFO] Step 1/5 : FROM tomcat:9-jre11-slim
+[INFO] 
+[INFO] Pulling from library/tomcat
+[INFO] Digest: sha256:f01ee4f53b271b7fb8d2b25f5ff4cc8260a0c0c8335f7dd8daee2175b0092558
+[INFO] Status: Image is up to date for tomcat:9-jre11-slim
+[INFO]  ---> d3e5622c9bef
+[INFO] Step 2/5 : COPY docker/bin/ bin/
+[INFO] 
+[INFO]  ---> Using cache
+[INFO]  ---> ac26d02c4bdc
+[INFO] Step 3/5 : COPY docker/conf/ conf/
+[INFO] 
+[INFO]  ---> Using cache
+[INFO]  ---> 3b663fe3fb14
+[INFO] Step 4/5 : RUN rm -rf webapps/*
+[INFO] 
+[INFO]  ---> Using cache
+[INFO]  ---> 7d8f02a8449b
+[INFO] Step 5/5 : ADD target/powo-portal.war webapps/ROOT.war
+[INFO] 
+[INFO]  ---> 5459c8e537ee
+[INFO] Successfully built 5459c8e537ee
+[INFO] Successfully tagged eu.gcr.io/powop-1349/portal:2.0.0-115df61
+[INFO] 
+[INFO] Detected build of image with id 5459c8e537ee
+[INFO] Building jar: /Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal-docker-info.jar
+[INFO] Successfully built eu.gcr.io/powop-1349/portal:2.0.0-115df61
+[INFO] 
+[INFO] --- dockerfile-maven-plugin:1.4.10:tag (tag-image-latest) @ powo-portal ---
+[INFO] Using Google application default credentials
+[INFO] loaded credentials for user account with clientId=764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+[INFO] Tagging image 5459c8e537ee as eu.gcr.io/powop-1349/portal:latest
+[INFO] Building jar: /Users/db72kg/Documents/web/powop/powo-portal/target/powo-portal-docker-info.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 01:24 min
+[INFO] Finished at: 2020-10-20T16:01:32+01:00
+[INFO] Final Memory: 40M/140M
+[INFO] ------------------------------------------------------------------------

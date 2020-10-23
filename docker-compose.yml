@@ -99,7 +99,8 @@ services:
     ports:
       - "18080:8080"
     mem_limit: 1500M
-
+    volumes:
+      - ./powo-portal/src/main/frontend/dist:/www/data
   geodb:
     image: eu.gcr.io/powop-1349/geodb:latest
     env_file:
