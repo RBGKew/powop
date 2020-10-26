@@ -140,8 +140,8 @@
       @media(min-width: $screen-sm) and (max-width: $screen-sm-max) { display: none; }
     } 
     a:hover {
-      background: #008285;
-      color: white;
+      color: #008285;
+      background: white;
     }
   }
 
@@ -165,9 +165,10 @@
     }
   }
 
-  .facet.selected, .facet.selected:hover {
-    background-color: #008285;
-    color: white;
+  .facet.selected, .facet.selected:hover, .facet.selected svg {
+    color: #008285;
+    fill: #008285;
+    background-color: white;
   }
 
   a:link {
@@ -209,16 +210,16 @@
 .sort-menu {
   &.open {
     background-color: #008285!important;
-    color: white!important;
+    background-color: white!important;
     .dropdown-toggle {
-      background-color: #008285!important;
-      color: white!important;
+      color: #008285!important;
+      background-color: white!important;
     }
   }
   a {
     &:hover {
-      background-color: #008285!important;
-      color: white!important;
+      background-color: #fff!important;
+      color: #008285!important;
     }   
   }
 }
