@@ -54,7 +54,7 @@ def load_data():
     load_data_config()
     # assume the job list that loads everything has identifier 1
     run_joblist("1")
-    return wait_until_data_loded("1", timeout=datetime.timedelta(hours=23))
+    return wait_until_data_loded("1", timeout=datetime.timedelta(hours=30))
 
 # Checks for any jobs in the given joblist for ERROR exit codes.
 # If any job failed and STRICT_ERROR_CHECKING environment variable is
