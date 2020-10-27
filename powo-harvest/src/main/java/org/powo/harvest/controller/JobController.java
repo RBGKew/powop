@@ -88,7 +88,7 @@ public class JobController {
 
 	@GetMapping(path = "/configuration/{id}")
 	public ResponseEntity<JobConfiguration> getJobConfiguration(@PathVariable Long id) {
-		return new ResponseEntity<>(jobConfigurationService.get(id), HttpStatus.OK);
+		return new ResponseEntity<>(jobConfigurationService.find(id), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/configuration/byType/{name}")
@@ -103,7 +103,7 @@ public class JobController {
 	 */
 	@GetMapping(path = "/configuration/{id}/execution")
 	public ResponseEntity<String> getJobExecution(@PathVariable Long id) throws JsonProcessingException {
-		JobConfiguration job = jobConfigurationService.get(id);
+		JobConfiguration job = jobConfigurationService.find(id);
 		String response;
 		if(job.getLastJobExecution() != null) {
 			response = jobExecutionMapper.writeValueAsString(jobExplorer.getJobExecution(job.getLastJobExecution()));
@@ -116,7 +116,7 @@ public class JobController {
 
 	@PostMapping(path = "/configuration/{id}/run")
 	public ResponseEntity<JobConfiguration> runJobConfiguration(@PathVariable Long id) throws JobExecutionException {
-		JobConfiguration jobConfiguration = jobConfigurationService.get(id);
+		JobConfiguration jobConfiguration = jobConfigurationService.find(id);
 		jobLauncher.launch(new JobLaunchRequest(jobConfiguration));
 		logger.info("Running {}", jobConfiguration);
 		jobConfiguration.setJobStatus(BatchStatus.STARTING);

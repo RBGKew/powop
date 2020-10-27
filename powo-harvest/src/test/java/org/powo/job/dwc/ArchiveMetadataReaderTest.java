@@ -19,18 +19,9 @@ package org.powo.job.dwc;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import java.util.HashSet;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
-import org.easymock.EasyMock;
-import org.joda.time.DateTime;
 import org.junit.Test;
-import org.powo.api.OrganisationService;
 import org.powo.job.dwc.read.ArchiveMetadataReader;
 import org.powo.model.registry.Organisation;
 import org.springframework.batch.core.JobExecution;
@@ -41,7 +32,7 @@ import org.springframework.core.io.Resource;
 
 public class ArchiveMetadataReaderTest {
 
-	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/test");
+	private Resource content = new ClassPathResource("/__files/dwc");
 
 	private ArchiveMetadataReader archiveMetadataReader = new ArchiveMetadataReader();
 
@@ -97,7 +88,7 @@ public class ArchiveMetadataReaderTest {
 				"http://purl.org/dc/terms/created",
 				"http://purl.org/dc/terms/modified",
 				"http://purl.org/dc/terms/description",
-				"http://purl.org/dc/terms/type",
+				"http://purl.org/dc/terms/type publication",
 				"http://purl.org/dc/terms/references"
 		};
 
@@ -137,7 +128,7 @@ public class ArchiveMetadataReaderTest {
 				"http://rs.tdwg.org/dwc/terms/taxonID",
 				"http://purl.org/dc/terms/created",
 				"http://purl.org/dc/terms/modified",
-				"http://rs.tdwg.org/dwc/terms/occurrenceStatus",
+				"http://rs.tdwg.org/dwc/terms/occurrenceStatus present",
 				"http://rs.tdwg.org/dwc/terms/locationID"
 		};
 

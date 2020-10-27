@@ -1,4 +1,99 @@
 define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
+  var ranks = [
+    "[infrafam.unranked]",
+    "[infragen.unranked]",
+    "[infrasp.unranked]",
+    "[infragen.grex]",
+    "c.[infragen.]",
+    "infragen.grex",
+    "nothosubsect.",
+    "nothosubtrib.",
+    "supersubtrib.",
+    "nothosubgen.",
+    "[infragen.]",
+    "nothosubsp.",
+    "subsubforma",
+    "grex_sect.",
+    "[infragen]",
+    "nothosect.",
+    "subgenitor",
+    "subsubvar.",
+    "supersect.",
+    "supertrib.",
+    "suprasect.",
+    "agamovar.",
+    "[epsilon]",
+    "gen. ser.",
+    "microgen.",
+    "nothogrex",
+    "nothoser.",
+    "nothovar.",
+    "superser.",
+    "agamosp.",
+    "[alpha].",
+    "[gamma].",
+    "subhybr.",
+    "subsect.",
+    "subspec.",
+    "subtrib.",
+    "agglom.",
+    "[beta].",
+    "convar.",
+    "genitor",
+    "monstr.",
+    "nothof.",
+    "subfam.",
+    "subgen.",
+    "sublus.",
+    "subser.",
+    "subvar.",
+    "f.juv.",
+    "Gruppe",
+    "modif.",
+    "proles",
+    "stirps",
+    "subsp.",
+    "cycl.",
+    "forma",
+    "group",
+    "linea",
+    "prol.",
+    "sect.",
+    "spec.",
+    "subf.",
+    "trib.",
+    "fam.",
+    "gen.",
+    "grex",
+    "lus.",
+    "mut.",
+    "oec.",
+    "psp.",
+    "race",
+    "ser.",
+    "var.",
+    "ap.",
+    "II.",
+    "nm.",
+    "f.",
+  ];
+
+  var taxonName = function(taxon) {
+    var formatted = '<i>' + taxon.name + '</i>';
+    _.each(ranks, function(rank) {
+      if(formatted.indexOf(rank) !== -1) {
+        formatted = formatted.replace(rank + ' ', '</i> ' + rank + ' <i>');
+        formatted = formatted.replace('<i></i>', '');
+        formatted = _.trimStart(formatted);
+
+        // break out of loop so ranks that are substrings of others won't be replaced
+        return false;
+      }
+    });
+
+    return formatted;
+  };
+
   Handlebars.registerHelper('color-theme', function(taxon) {
     if(taxon.accepted) {
       switch(_.toLower(taxon.rank)) {
@@ -23,7 +118,7 @@ define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
   });
 
   Handlebars.registerHelper('taxonLink', function(taxon) {
-    var str = '<a href="' + taxon.url + '">' + taxon.name;
+    var str = '<a href="' + taxon.url + '">' + taxonName(taxon);
     if(taxon.author) {
       str += ' <cite>' + taxon.author + '</cite></a>';
     }
@@ -32,7 +127,7 @@ define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
   });
 
   Handlebars.registerHelper('nameAndAuthor', function(taxon) {
-    var str = taxon.name;
+    var str = taxonName(taxon);
     if(taxon.author) {
       str += ' <cite>' + taxon.author + '</cite>';
     }

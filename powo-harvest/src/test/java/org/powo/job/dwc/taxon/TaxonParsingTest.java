@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.easymock.EasyMock;
-import org.gbif.ecat.voc.NomenclaturalStatus;
+import org.gbif.ecat.voc.Rank;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.api.TaxonService;
@@ -43,14 +43,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-/**
- *
- * @author ben
- *
- */
 public class TaxonParsingTest {
 
-	private Resource content = new ClassPathResource("/org/emonocot/job/dwc/test/taxa.txt");
+	private Resource content = new ClassPathResource("/__files/dwc/taxa.txt");
 
 	private TaxonService taxonService = null;
 
@@ -71,16 +66,17 @@ public class TaxonParsingTest {
 				"http://rs.tdwg.org/dwc/terms/subgenus",
 				"http://rs.tdwg.org/dwc/terms/specificEpithet",
 				"http://rs.tdwg.org/dwc/terms/infraspecificEpithet",
-				"http://rs.tdwg.org/dwc/terms/nomenclaturalStatus",
-				"http://purl.org/dc/terms/modified",
-				"http://purl.org/dc/terms/source"
+				"http://purl.org/dc/elements/1.1/identifier",
+				"http://purl.org/dc/elements/1.1/modified",
+				"http://purl.org/dc/elements/1.1/source",
 		};
 		DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
 		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		tokenizer.setNames(names);
 
 		taxonService = EasyMock.createMock(TaxonService.class);
-		Set<Converter> converters = new HashSet<Converter>();
+		@SuppressWarnings("rawtypes")
+		Set<Converter> converters = new HashSet<>();
 		converters.add(new StringToIsoDateTimeConverter());
 		converters.add(new TaxonomicStatusConverter());
 		converters.add(new RankConverter());
@@ -95,8 +91,7 @@ public class TaxonParsingTest {
 		fieldSetMapper.setFieldNames(names);
 		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
 		fieldSetMapper.setConversionService(conversionService);
-		DefaultLineMapper<Taxon> lineMapper
-		= new DefaultLineMapper<Taxon>();
+		DefaultLineMapper<Taxon> lineMapper = new DefaultLineMapper<Taxon>();
 		lineMapper.setFieldSetMapper(fieldSetMapper);
 		lineMapper.setLineTokenizer(tokenizer);
 
@@ -117,9 +112,6 @@ public class TaxonParsingTest {
 		flatFileItemReader.open(new ExecutionContext());
 		Taxon taxon = flatFileItemReader.read();
 		assertEquals("Acontias conspurcatus",taxon.getScientificName());
-		assertEquals(NomenclaturalStatus.Available,taxon.getNomenclaturalStatus());
-
-
+		assertEquals(Rank.SPECIES,taxon.getTaxonRank());
 	}
-
 }

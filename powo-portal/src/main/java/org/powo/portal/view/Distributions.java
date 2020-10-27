@@ -17,17 +17,26 @@ import org.powo.model.Distribution;
 import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Getter;
 
+@JsonInclude(Include.NON_EMPTY)
 public class Distributions {
 
 	private Set<Distribution> distributions;
+
 	@Getter(lazy = true) private final List<Distribution> natives = filterBy(d -> Native.equals(d.getEstablishment()));
 	@Getter(lazy = true) private final List<Distribution> introduced = filterBy(d -> Introduced.equals(d.getEstablishment()));
 	@Getter(lazy = true) private final List<Distribution> doubtful = filterBy(d -> Doubtful.equals(d.getOccurrenceStatus()));
 	@Getter(lazy = true) private final List<Distribution> extinct = filterBy(d -> Extinct.equals(d.getThreatStatus()));
 	@Getter(lazy = true) private final List<Distribution> absent = filterBy(d -> Absent.equals(d.getOccurrenceStatus()));
-	@Getter private final Set<Organisation> sources;
+
+	@Getter
+	@JsonIgnore
+	private final Set<Organisation> sources;
 
 	private Comparator<Distribution> byLocality = (left, right) -> left.getLocality().compareToIgnoreCase(right.getLocality());
 

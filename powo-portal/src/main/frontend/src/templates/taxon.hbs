@@ -75,6 +75,7 @@
 
             <li><a href="#sources">Sources</a></li>
           </ul>
+          <span class="glyphicon glyphicon-arrow-up to-top" style="display:none"></span>
         </div>
       </div><!-- /.navbar-collapse -->
     </nav>
@@ -120,10 +121,10 @@
 
           <aside role="complementary" class="c-article-section__aside">
             {{#with synonymsIncluded}}
-            <p class="includes_data"><b>Includes data from the synoyms: </b></p>
+            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
             <ul class="c-plain-list includes_data">
               {{#each synonymsIncluded}}
-              <li>{{taxonLinkWithoutAuthor this}}</li>
+              <li>{{taxonLink this}}</li>
               {{/each}}
             </ul>
             {{/with}}
@@ -152,7 +153,7 @@
                  data-toggle="collapse"
                  data-target="#uses-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
-                <h3>According to {{source.title}}{{#if isFromSynonym}} as {{asTaxon.scientificName}}{{/if}}</h3>
+                <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
               </a><small>{{bracketedSourceLink source}}</small>
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
                 {{#each byType}}
@@ -170,7 +171,7 @@
 
           <aside role="complementary" class="c-article-section__aside">
             {{#with synonymsIncluded}}
-            <p class="includes_data"><b>Includes data from the synoyms: </b></p>
+            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
             <ul class="c-plain-list includes_data">
               {{#each synonymsIncluded}}
               <li>{{taxonLink this}}</li>
@@ -198,7 +199,7 @@
 
             <div class="c-gallery clearfix">
               {{#each all}}
-              {{thumbnailImage this figure-class="c-gallery__img"}}
+              {{thumbnailImage this @root.taxon figure-class="c-gallery__img"}}
               {{/each}}
             </div>
 
@@ -319,7 +320,7 @@
           </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
-            <p>Includes {{count}} Accepted {{childRank taxon}}</p>
+            <p>Includes {{nonHybridCount}} Accepted {{childRank taxon}}</p>
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
@@ -398,6 +399,14 @@
               <li>{{sourceLink this}}</li>
               {{/each}}
             </ul>
+            {{#with synonymsIncluded}}
+            <p class="includes_data"><b>Includes vernacular names for the synonyms: </b></p>
+            <ul class="c-plain-list includes_data">
+              {{#each synonymsIncluded}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+            {{/with}}
           </aside>
           {{/if}}
         </div>
@@ -435,9 +444,10 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Date Identified</th>
+                      <th>Date</th>
                       <th>Reference</th>
-                      <th>Herbarium Specimen</th>
+                      <th>Identified As</th>
+                      <th>Barcode</th>
                       <th>Type Status</th>
                     </tr>
                   </thead>
@@ -454,6 +464,7 @@
                       >
                       <td>{{date}}</td>
                       <td>{{notes}}</td>
+                      <td>{{{ identifiedAs }}}</td>
                       <td><a href="{{url}}" target="_blank">{{barcode}}</a></td>
                       <td>{{typeStatus}}</td>
                     </tr>
@@ -531,7 +542,9 @@
             {{organisation.bibliographicCitation}}<br/>
             {{/if}}
             {{#each licenses}}
-            <small id="source-{{organisation.abbreviation}}{{key}}" class="text-muted offset">[{{key}}] {{{rights}}} {{license}}</small><br/>
+              {{#if notBlank}}
+                <small id="source-{{organisation.abbreviation}}" class="text-muted offset">{{{rights}}} {{license}}</small><br/>
+              {{/if}}
             {{/each}}
             </p>
             {{/each}}

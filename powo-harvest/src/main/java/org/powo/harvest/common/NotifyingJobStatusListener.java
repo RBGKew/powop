@@ -43,7 +43,7 @@ public class NotifyingJobStatusListener extends JobExecutionListenerSupport {
 		StringBuffer exitDescription = new StringBuffer();
 
 		if (jobExecution.getJobParameters().getString("job.configuration.id") != null) {
-			JobConfiguration jobConfiguration = jobConfigurationService.get(Long.parseLong(jobExecution.getJobParameters().getString("job.configuration.id")));
+			JobConfiguration jobConfiguration = jobConfigurationService.find(Long.parseLong(jobExecution.getJobParameters().getString("job.configuration.id")));
 			exitDescription.append(jobConfiguration.getDescription() + " " + jobExecution.getExitStatus().getExitCode());
 			exitDescription.append(". " + jobExecution.getStepExecutions().size() + " Steps Completed.");
 			jobExecution.setExitStatus(jobExecution.getExitStatus().addExitDescription(exitDescription.toString()));

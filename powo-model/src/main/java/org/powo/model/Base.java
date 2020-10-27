@@ -23,11 +23,14 @@ import javax.persistence.MappedSuperclass;
 
 import org.hibernate.proxy.HibernateProxyHelper;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @MappedSuperclass
 public abstract class Base implements Serializable, Identifiable, SecuredObject {
 
 	private static final long serialVersionUID = 4778611345983453363L;
 
+	@JsonIgnore
 	protected String identifier;
 
 	@Override

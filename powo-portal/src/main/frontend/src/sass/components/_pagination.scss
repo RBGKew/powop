@@ -5,11 +5,16 @@
   padding: 1em 0;
   margin: 0;
   border-radius: 0;
+
 }
 
 .c-pagination {
   color: $btn-default-color;
   float: left;
+
+  p {
+    color: #fff;
+  }
 }
 
 .c-per-page {

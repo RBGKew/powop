@@ -1,5 +1,6 @@
 .agignore
 .classpath
+.factorypath
 .gitignore
 .project
 .settings
@@ -8,6 +9,7 @@ target
 activemq-data
 !tags
 node_modules
+node
 dist
 **/js/templates
 powo-portal/src/main/resources/rev-manifest.json

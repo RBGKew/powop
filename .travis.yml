@@ -1,7 +1,7 @@
 sudo: required
 language: java
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 git:
   depth: 1
 before_install:
@@ -11,7 +11,6 @@ before_script:
   - docker-compose -p test up -d solr db
 script:
   - mvn test -Punit -q -DskipDockerBuild -DskipDockerTag
-  - mvn verify -Pintegration -q -DskipDockerBuild -DskipDockerTag
 services:
   - docker
 cache:

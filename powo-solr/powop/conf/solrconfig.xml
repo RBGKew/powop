@@ -35,7 +35,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
   -->
-  <luceneMatchVersion>6.6.0</luceneMatchVersion>
+  <luceneMatchVersion>7.5.0</luceneMatchVersion>
 
   <!-- <lib/> directives can be used to instruct Solr to load any Jars
        identified and use them to resolve any "plugins" specified in
@@ -852,7 +852,7 @@
       <str name="defType">edismax</str>
       <str name="qf">taxon.scientific_name_s_lower</str>
       <str name="fq">base.class_searchable_b:true AND -taxon.kingdom_s_lower:Fungi</str>
-      <str name="sort">score desc,taxon.rank_s_lower asc,sortable asc</str>
+      <str name="sort">score desc, sortable asc, id asc</str>
       <str name="facet">true</str>
       <str name="hl">true</str>
       <str name="hl.fl">*</str>
@@ -1301,8 +1301,7 @@
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="field">taxon.scientific_name_s_lower</str>
       <str name="indexPath">scientific_name_suggest</str>
-      <str name="contextField">searchable.sources_ss</str>
-      <str name="weightField">suggest.weight_i</str>
+      <str name="contextField">searchable.context_ss</str>
       <str name="suggestAnalyzerFieldType">lowercase</str>
       <str name="highlight">false</str>
     </lst>

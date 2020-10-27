@@ -3,7 +3,7 @@
 * -----------------
 * css - Run sass and create the css files via autoprefixer and minification
 */
-module.exports = function (gulp, $, browserSync) {
+module.exports = function (gulp, $) {
 
   gulp.task('lint', function() {
     return gulp.src('src/sass/**/*.s+(a|c)ss')
@@ -31,7 +31,6 @@ module.exports = function (gulp, $, browserSync) {
         'safe':true,
         'autoprefixer': false
       }))
-      .pipe(browserSync.stream())
       .pipe($.rename({extname: '.min.css'}))
       .pipe(gulp.dest('dist/css'));
     

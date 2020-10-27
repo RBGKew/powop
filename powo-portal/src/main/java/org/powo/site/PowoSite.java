@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.joda.time.DateTime;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
@@ -59,6 +58,8 @@ public class PowoSite implements Site {
 		Descriptions descriptions = new Descriptions(taxon);
 		Descriptions uses = new Descriptions(taxon, true);
 		Images images = new Images(taxon, imageService);
+		Identifications identifications = new Identifications(taxon);
+		VernacularNames vernacularNames = new VernacularNames(taxon);
 		if (!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}
@@ -80,11 +81,11 @@ public class PowoSite implements Site {
 		if (!taxon.getDistribution().isEmpty()) {
 			model.addAttribute(new Distributions(taxon));
 		}
-		if (!taxon.getVernacularNames().isEmpty()) {
-			model.addAttribute(new VernacularNames(taxon));
+		if (!vernacularNames.getNames().isEmpty()) {
+			model.addAttribute(vernacularNames);
 		}
-		if (!taxon.getIdentifications().isEmpty()) {
-			model.addAttribute(new Identifications(taxon));
+		if (!identifications.getIdentifications().isEmpty()) {
+			model.addAttribute(identifications);
 		}
 		if (!images.getAll().isEmpty()) {
 			model.addAttribute(images);
@@ -109,8 +110,6 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateStaticModel(Model model) {
-		model.addAttribute("date", new DateTime().toString("d MMMM y"));
-		model.addAttribute("year", new DateTime().getYear());
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
@@ -144,6 +143,11 @@ public class PowoSite implements Site {
 	@Override
 	public List<String> getSuggesters() {
 		return suggesters;
+	}
+
+	@Override
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "powo");
 	}
 
 }

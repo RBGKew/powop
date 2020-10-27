@@ -100,13 +100,19 @@ define(function(require) {
       sortBibliography(e, ['bibliographicCitation'], ['asc']);
       $(this).addClass('selected_background');
     });
+
     $('#sort-bibliography-by-newest-first').click(function(e) {
       sortBibliography(e, ['date', 'bibliographicCitation'], ['desc', 'asc']);
       $(this).addClass('selected_background');
     });
+
     $('#sort-bibliography-by-oldest-first').click(function(e) {
       sortBibliography(e, ['date', 'bibliographicCitation'], ['asc', 'asc']);
       $(this).addClass('selected_background');
+    });
+
+    $('.to-top').click(function(e) {
+        $('html,body').animate({ scrollTop: 0 }, 'fast', 'swing');
     });
 
     if($('#c-map').length) {

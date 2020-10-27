@@ -23,7 +23,7 @@ public class NullLicenseTaxonFilter implements ItemProcessor<Taxon, Taxon> {
 
 	@Override
 	public Taxon process(Taxon item) throws Exception {
-		if(item.getLicense() != null && !item.getLicense().isEmpty()) {
+		if (item.getLicense() != null && !item.getLicense().isEmpty()) {
 			return item;
 		} else {
 			return null;

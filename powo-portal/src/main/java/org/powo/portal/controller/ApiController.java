@@ -1,10 +1,9 @@
 package org.powo.portal.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -12,15 +11,15 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SolrResponseBase;
 import org.apache.solr.client.solrj.response.SuggesterResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.common.util.NamedList;
 import org.powo.api.SearchableObjectService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
+import org.powo.model.constants.TaxonField;
 import org.powo.persistence.solr.AutoCompleteBuilder;
 import org.powo.persistence.solr.QueryBuilder;
-import org.powo.portal.json.MainSearchBuilder;
-import org.powo.portal.json.ResponseBuilder;
+import org.powo.portal.json.SearchResponse;
 import org.powo.portal.json.TaxonResponse;
+import org.powo.portal.json.ResponseBuilder;
 import org.powo.site.Site;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +33,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.collect.ImmutableMap;
+
 @Controller
-@RequestMapping("/api/1/")
+@RequestMapping("/api")
 public class ApiController {
 
 	@SuppressWarnings("unused")
@@ -51,21 +52,24 @@ public class ApiController {
 	@Autowired
 	private TaxonService taxonService;
 
-	@RequestMapping(value = "/search", method = RequestMethod.GET, produces={"application/json"})
-	public ResponseEntity<MainSearchBuilder> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
-		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery());
-		for(Entry<String, String> entry : params.entrySet()){
-			queryBuilder.addParam(entry.getKey(), entry.getValue());
-		}
-
+	@RequestMapping(value = {"/1/search", "/2/search"}, method = RequestMethod.GET, produces= {"application/json", "application/xml"})
+	public ResponseEntity<SearchResponse> search(@RequestParam Map<String,String> params) throws SolrServerException, IOException {
+		String p = params.containsKey("p") ? params.remove("p") : "0";
+		QueryBuilder queryBuilder = new QueryBuilder(site.defaultQuery(), params);
 		SolrQuery query = queryBuilder.build();
 		QueryResponse queryResponse = searchableObjectService.search(query);
-		MainSearchBuilder jsonBuilder = new ResponseBuilder().buildJsonResponse(queryResponse);
+		SearchResponse searchResponse = new ResponseBuilder().buildJsonResponse(queryResponse);
+		searchResponse.setMessage("If you would like to download and use the POWO data in a conciencious way, "
+				+ "please use our official library pykew [https://github.com/RBGKew/pykew].");
 
-		return new ResponseEntity<MainSearchBuilder>(jsonBuilder, HttpStatus.OK);
+		try {
+			searchResponse.setPage(Integer.parseInt(p) + 1);
+		} catch (NumberFormatException e) { }
+
+		return new ResponseEntity<SearchResponse>(searchResponse, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/suggest", method = RequestMethod.GET, produces={"application/json"})
+	@RequestMapping(value = {"/1/suggest", "/2/suggest"}, method = RequestMethod.GET, produces={"application/json"})
 	public ResponseEntity<SuggesterResponse> suggest(
 			@RequestParam(value = "query", required = true) String queryString,
 			@RequestParam(value = "page.size", required = false, defaultValue = "5") Integer pageSize
@@ -93,28 +97,42 @@ public class ApiController {
 	 */
 	@SuppressWarnings("unchecked")
 	private List<String> checkSuggesters(List<String> suggesters){
-		List<String> workingSuggesters = new ArrayList<String>();
 		ModifiableSolrParams params = new ModifiableSolrParams()
 				.add("key", "suggest")
 				.add("stats", "true");
 		SolrQuery query = new SolrQuery().setRequestHandler("/admin/mbeans");
 		query.add(params);
-		SolrResponseBase response = searchableObjectService.search(query);
-		NamedList<Object> responseStats = (NamedList<Object>) response.getResponse().findRecursive("solr-mbeans","OTHER","suggest","stats");
-		for(Entry<String, Object> suggester : responseStats){
-			if(!suggester.getKey().equals("totalSizeInBytes") 
-					&& !(((String) suggester.getValue()).contains("sizeInBytes=0"))
-					&& suggesters.contains(suggester.getKey())){
-				workingSuggesters.add(suggester.getKey());
-			}
-		}
 
-		return workingSuggesters;
+		SolrResponseBase response = searchableObjectService.search(query);
+		Map<String, Object> responseStats = (Map<String, Object>) response.getResponse().findRecursive("solr-mbeans","OTHER","suggest","stats");
+
+		return responseStats.entrySet().stream()
+				.filter(entry -> entry.getKey().contains("suggesters"))
+				.filter(entry -> entry.getValue().toString().matches(".*sizeInBytes=[1-9]+.*"))
+				.map(entry -> entry.getKey().replaceFirst(".*\\.", ""))
+				.filter(suggester -> suggesters.contains(suggester))
+				.collect(Collectors.toList());
 	}
 
-	@RequestMapping(value = "/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
+	@RequestMapping(value = "/1/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
 	public ResponseEntity<TaxonResponse> taxon(@PathVariable String identifier) {
 		Taxon taxon = taxonService.find(identifier);
-		return new ResponseEntity<TaxonResponse>(new TaxonResponse(taxon), HttpStatus.OK);
+		return new ResponseEntity<TaxonResponse>(new TaxonResponse(taxon), taxon == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/2/taxon/{identifier}", method = RequestMethod.GET, produces = {"application/json"})
+	public ResponseEntity<Map<String,Object>> taxa(@PathVariable String identifier,
+			@RequestParam(required=false) List<TaxonField> fields) {
+		Taxon taxon = taxonService.find(identifier);
+		Map<String, Object> response = null;
+		HttpStatus status = HttpStatus.OK;
+		if (taxon != null) {
+			response = new org.powo.portal.json.v2.TaxonResponse(taxon, fields).getOutput();
+		} else {
+			response = ImmutableMap.<String, Object>of("error", "Not Found");
+			status = HttpStatus.NOT_FOUND;
+		}
+
+		return new ResponseEntity<Map<String,Object>>(response, status);
 	}
 }

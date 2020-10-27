@@ -17,9 +17,6 @@
 package org.powo.harvest.common;
 
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.request.CoreAdminRequest;
-import org.apache.solr.client.solrj.response.CoreAdminResponse;
-import org.apache.solr.common.util.NamedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -33,40 +30,22 @@ public class SolrOptimizingTasklet implements Tasklet {
 
 	private String core;
 
-	private Integer maxSegments;
-
 	private SolrClient solrClient;
 
 	public void setCore(String core) {
 		this.core = core;
 	}
 
-	public void setMaxSegments(Integer maxSegments) {
-		this.maxSegments = maxSegments;
-	}
-
 	public void setSolrClient(SolrClient solrClient) {
 		this.solrClient = solrClient;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public RepeatStatus execute(StepContribution contribution,
-			ChunkContext chunkContext) throws Exception {
-
-		CoreAdminResponse coreAdminResponse = CoreAdminRequest.getStatus(core, solrClient);
-		NamedList<Object> index = (NamedList<Object>)coreAdminResponse.getCoreStatus(core).get("index");
-		Integer segmentCount = (Integer)index.get("segmentCount");
-
-		if(segmentCount < maxSegments) {
-			logger.debug("Core " + core + " only has " + segmentCount + " segments, skipping optimization");
-		} else {
-			logger.debug("Core " + core + " has " + segmentCount + " segments, starting optimization");
-			solrClient.optimize(true, true);
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+			logger.debug("Starting optimization on core " + core);
+			solrClient.optimize();
 			logger.debug("Core " + core + " optimized");
-		}
 
 		return RepeatStatus.FINISHED;
 	}
-
 }

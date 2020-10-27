@@ -1,4 +1,4 @@
-FROM solr:6.6-alpine
+FROM solr:7.5-alpine
 
 ENV CORE_DIR /opt/solr/server/solr/powop
 ENV DATA_DIR /opt/solr/server/solr/powop/data

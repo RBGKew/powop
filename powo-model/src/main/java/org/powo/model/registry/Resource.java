@@ -30,6 +30,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
@@ -40,6 +42,7 @@ import org.powo.model.marshall.json.OrganisationDeserialiser;
 import org.powo.model.marshall.json.OrganisationSerializer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -54,7 +57,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @JsonInclude(Include.NON_NULL)
-@ToString(exclude="organisation")
+@JsonPropertyOrder(alphabetic=true)
+@ToString(exclude = "organisation")
 @Builder
 @AllArgsConstructor
 public class Resource extends Base {
@@ -76,8 +80,7 @@ public class Resource extends Base {
 
 	@JsonSerialize(using = OrganisationSerializer.class)
 	@JsonDeserialize(using = OrganisationDeserialiser.class)
-	@ManyToOne(fetch = FetchType.EAGER)
-	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Organisation organisation;
 
 	@NotEmpty
@@ -86,10 +89,11 @@ public class Resource extends Base {
 	private Long jobId;
 
 	@OneToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private JobConfiguration jobConfiguration;
 
-	@NaturalId
 	@NotEmpty
+	@NaturalId
 	protected String identifier;
 
 	public Resource() {

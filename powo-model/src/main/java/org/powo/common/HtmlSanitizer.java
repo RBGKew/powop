@@ -23,7 +23,7 @@ import com.google.common.base.Strings;
 public class HtmlSanitizer {
 
 	private static final Whitelist html = Whitelist.basic()
-			.addAttributes("a", "title")
+			.addAttributes("a", "title", "target")
 			.addTags("table", "caption", "thead", "tbody", "tr", "td")
 			.removeTags("span");
 

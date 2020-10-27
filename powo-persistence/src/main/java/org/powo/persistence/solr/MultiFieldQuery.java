@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.solr.client.solrj.SolrQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
 public class MultiFieldQuery extends BaseQueryOption {
 
-	private static final Logger logger = LoggerFactory.getLogger(MultiFieldQuery.class);
 	private ArrayList<String> searchFields;
 
 	public MultiFieldQuery(Set<String> fields) {

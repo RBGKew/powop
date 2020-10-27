@@ -4,7 +4,8 @@ public class IdUtil {
 
 	enum Type { Names }
 
-	public static final String urnPrefix = "urn:lsid:ipni.org";
+	public static final String urnPrefix = "urn:lsid:";
+	public static final String ipniPrefix = urnPrefix + "ipni.org";
 
 	public static String fqName(String id) {
 		return fq(id, Type.Names);
@@ -12,7 +13,7 @@ public class IdUtil {
 
 	public static String idPart(String id) {
 		if(id == null) return null;
-		return id.startsWith(urnPrefix) ? id.replaceAll(".*:", "") : id;
+		return id.startsWith(ipniPrefix) ? id.replaceAll(".*:", "") : id;
 	}
 
 	public static boolean isNameId(String id) {
@@ -25,7 +26,7 @@ public class IdUtil {
 		}
 
 		return String.format("%s:%s:%s", 
-				urnPrefix,
+				ipniPrefix,
 				type.toString().toLowerCase(),
 				id);
 	}

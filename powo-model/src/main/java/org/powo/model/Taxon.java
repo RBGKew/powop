@@ -43,49 +43,51 @@ import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
 import org.powo.model.constants.TaxonomicStatus;
+import org.powo.model.marshall.json.TaxonSerializer;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
-import org.powo.model.marshall.json.ConceptDeserializer;
-import org.powo.model.marshall.json.ConceptSerializer;
-import org.powo.model.marshall.json.ImageSerializer;
-import org.powo.model.marshall.json.NullDeserializer;
-import org.powo.model.marshall.json.ReferenceDeserializer;
-import org.powo.model.marshall.json.ReferenceSerializer;
-import org.powo.model.marshall.json.TaxonDeserializer;
-import org.powo.model.marshall.json.TaxonSerializer;
 import org.powo.model.solr.TaxonSolrInputDocument;
 import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Schema definition: http://tdwg.github.io/dwc/terms/index.htm#Taxon
  */
 @Entity
+@JsonInclude(Include.NON_EMPTY)
 public class Taxon extends SearchableObject {
 
 	private static final long serialVersionUID = -3511287213090466877L;
 
+	@JsonIgnore
 	private Long id;
 
 	private String bibliographicCitation;
 
+	@JsonProperty("name")
 	private String scientificName;
 
+	@JsonProperty("authors")
 	private String scientificNameAuthorship;
 
 	private String genus;
 
+	@JsonProperty("infragenus")
 	private String subgenus;
 
+	@JsonProperty("species")
 	private String specificEpithet;
 
+	@JsonProperty("infraspecies")
 	private String infraspecificEpithet;
 
+	@JsonProperty("rank")
 	private Rank taxonRank;
 
 	private TaxonomicStatus taxonomicStatus;
@@ -100,6 +102,7 @@ public class Taxon extends SearchableObject {
 
 	private String family;
 
+	@JsonProperty("infrafamily")
 	private String subfamily;
 
 	private String tribe;
@@ -114,61 +117,86 @@ public class Taxon extends SearchableObject {
 
 	private Integer namePublishedInYear;
 
+	@JsonIgnore
 	private String verbatimTaxonRank;
 
 	private String taxonRemarks;
 
+	@JsonProperty("reference")
 	private String namePublishedInString;
 
 	private NomenclaturalStatus nomenclaturalStatus;
 
+	@JsonIgnore
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
+	@JsonIgnore
 	private Reference namePublishedIn;
 
+	@JsonIgnore
 	private Reference nameAccordingTo;
 
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JsonProperty("classification")
 	private List<Taxon> higherClassification = null;
 
+	@JsonSerialize(using = TaxonSerializer.class)
+	@JsonProperty("basionym")
 	private Taxon originalNameUsage;
 
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JsonProperty("basionymOf")
 	private Set<Taxon> subsequentNameUsages = new HashSet<Taxon>();
 
+	@JsonIgnore
 	private Taxon parentNameUsage;
 
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
 	private Set<Taxon> childNameUsages = new HashSet<Taxon>();
 
+	@JsonSerialize(using = TaxonSerializer.class)
+	@JsonProperty("accepted")
 	private Taxon acceptedNameUsage;
 
+	@JsonSerialize(contentUsing = TaxonSerializer.class)
+	@JsonProperty("synonyms")
 	private Set<Taxon> synonymNameUsages = new HashSet<Taxon>();
 
+	@JsonIgnore
 	private List<Image> images = new ArrayList<Image>();
 
+	@JsonIgnore
 	private Set<Reference> references = new HashSet<Reference>();
 
+	@JsonIgnore
 	private Set<Description> descriptions = new HashSet<Description>();
 
+	@JsonIgnore
 	private Set<Distribution> distribution = new HashSet<Distribution>();
 
+	@JsonIgnore
 	private Set<Identifier> identifiers = new HashSet<Identifier>();
 
+	@JsonIgnore
 	private Set<TypeAndSpecimen> typesAndSpecimens = new HashSet<TypeAndSpecimen>();
 
+	@JsonIgnore
 	private Set<VernacularName> vernacularNames = new HashSet<VernacularName>();
 
+	@JsonIgnore
 	private Set<MeasurementOrFact> measurementsOrFacts = new HashSet<MeasurementOrFact>();
 
+	@JsonIgnore
 	private Set<Concept> concepts = new HashSet<Concept>();
 
+	@JsonIgnore
 	private Set<Identification> identifications = new HashSet<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonSerialize(contentUsing = ConceptSerializer.class)
 	public Set<Concept> getConcepts() {
 		return concepts;
 	}
 
-	@JsonDeserialize(contentUsing = ConceptDeserializer.class)
 	public void setConcepts(Set<Concept> concepts) {
 		this.concepts = concepts;
 	}
@@ -191,11 +219,16 @@ public class Taxon extends SearchableObject {
 		return id;
 	}
 
+	@Override
+	@JsonProperty("fqId")
+	public String getIdentifier() {
+		return super.getIdentifier();
+	}
+
 	/**
 	 * @return a list of images of the taxon
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonSerialize(contentUsing = ImageSerializer.class)
 	@OrderBy("rating DESC")
 	public List<Image> getImages() {
 		return images;
@@ -205,7 +238,6 @@ public class Taxon extends SearchableObject {
 	 * @return a list of references about the taxon
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonSerialize(contentUsing = ReferenceSerializer.class)
 	public Set<Reference> getReferences() {
 		return references;
 	}
@@ -215,7 +247,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	@JsonManagedReference("descriptions-taxon")
 	public Set<Description> getDescriptions() {
 		return descriptions;
 	}
@@ -224,7 +255,6 @@ public class Taxon extends SearchableObject {
 	 * @param newDescriptions
 	 *            Set the descriptions associated with this taxon
 	 */
-	@JsonManagedReference("descriptions-taxon")
 	public void setDescriptions(Set<Description> newDescriptions) {
 		this.descriptions = newDescriptions;
 	}
@@ -233,7 +263,6 @@ public class Taxon extends SearchableObject {
 	 * @param newImages
 	 *            Set the images associated with this taxon
 	 */
-	@JsonDeserialize(contentUsing = NullDeserializer.class)
 	public void setImages(List<Image> newImages) {
 		this.images = newImages;
 	}
@@ -242,7 +271,6 @@ public class Taxon extends SearchableObject {
 	 * @param newReferences
 	 *            Set the references associated with this taxon
 	 */
-	@JsonDeserialize(contentUsing = NullDeserializer.class)
 	public void setReferences(Set<Reference> newReferences) {
 		this.references = newReferences;
 	}
@@ -284,7 +312,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	@JsonSerialize(using = TaxonSerializer.class)
 	public Taxon getParentNameUsage() {
 		return parentNameUsage;
 	}
@@ -293,7 +320,6 @@ public class Taxon extends SearchableObject {
 	 * @param newParent
 	 *            Set the taxonomic parent
 	 */
-	@JsonDeserialize(using = TaxonDeserializer.class)
 	public void setParentNameUsage(Taxon newParent) {
 		this.parentNameUsage = newParent;
 	}
@@ -302,7 +328,6 @@ public class Taxon extends SearchableObject {
 	 * @return Get the immediate taxonomic children
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentNameUsage")
-	@JsonIgnore
 	public Set<Taxon> getChildNameUsages() {
 		return childNameUsages;
 	}
@@ -319,7 +344,6 @@ public class Taxon extends SearchableObject {
 	 * @return Get the subsequent usages of this name
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "originalNameUsage")
-	@JsonIgnore
 	public Set<Taxon> getSubsequentNameUsages() {
 		return subsequentNameUsages;
 	}
@@ -337,7 +361,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	@JsonSerialize(using = TaxonSerializer.class)
 	public Taxon getAcceptedNameUsage() {
 		return acceptedNameUsage;
 	}
@@ -346,7 +369,6 @@ public class Taxon extends SearchableObject {
 	 * @param newAccepted
 	 *            Set the accepted name
 	 */
-	@JsonDeserialize(using = TaxonDeserializer.class)
 	public void setAcceptedNameUsage(Taxon newAccepted) {
 		this.acceptedNameUsage = newAccepted;
 	}
@@ -355,7 +377,6 @@ public class Taxon extends SearchableObject {
 	 * @return the synonyms of this taxon
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "acceptedNameUsage")
-	@JsonIgnore
 	public Set<Taxon> getSynonymNameUsages() {
 		return synonymNameUsages;
 	}
@@ -373,7 +394,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	@JsonManagedReference("distribution-taxon")
 	public Set<Distribution> getDistribution() {
 		return distribution;
 	}
@@ -382,7 +402,6 @@ public class Taxon extends SearchableObject {
 	 * @param newDistribution
 	 *            Set the distribution associated with this taxon
 	 */
-	@JsonManagedReference("distribution-taxon")
 	public void setDistribution(Set<Distribution> newDistribution) {
 		this.distribution = newDistribution;
 	}
@@ -500,7 +519,6 @@ public class Taxon extends SearchableObject {
 	 * @param newAccordingTo
 	 *            Set the according to
 	 */
-	@JsonDeserialize(using = ReferenceDeserializer.class)
 	public void setNameAccordingTo(Reference newNameAccordingTo) {
 		this.nameAccordingTo = newNameAccordingTo;
 	}
@@ -510,7 +528,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	@JsonSerialize(using = ReferenceSerializer.class)
 	public Reference getNameAccordingTo() {
 		return nameAccordingTo;
 	}
@@ -683,7 +700,6 @@ public class Taxon extends SearchableObject {
 	@JoinColumn(name = "annotatedObjId")
 	@Where(clause = "annotatedObjType = 'Taxon'")
 	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
 	public Set<Annotation> getAnnotations() {
 		return annotations;
 	}
@@ -700,7 +716,6 @@ public class Taxon extends SearchableObject {
 	 * @param reference
 	 *            set the protologue
 	 */
-	@JsonDeserialize(using = ReferenceDeserializer.class)
 	public void setNamePublishedIn(Reference reference) {
 		this.namePublishedIn = reference;
 	}
@@ -710,7 +725,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	@JsonSerialize(using = ReferenceSerializer.class)
 	public Reference getNamePublishedIn() {
 		return namePublishedIn;
 	}
@@ -718,8 +732,8 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the ancestors of the taxon
 	 */
-	@JsonIgnore
 	@Transient
+	@JsonProperty("classification")
 	public List<Taxon> getHigherClassification() {
 		if(higherClassification == null) {
 			List<Taxon> ancestors = new ArrayList<Taxon>();
@@ -740,7 +754,6 @@ public class Taxon extends SearchableObject {
 	 * @param ancestors
 	 *            Set the ancestors of the taxon
 	 */
-	@JsonIgnore
 	public void setHigherClassification(List<Taxon> newHigherClassification) {
 		this.higherClassification = newHigherClassification;
 	}
@@ -767,7 +780,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	@JsonManagedReference("identifier-taxon")
 	public Set<Identifier> getIdentifiers() {
 		return identifiers;
 	}
@@ -776,7 +788,6 @@ public class Taxon extends SearchableObject {
 	 * @param newIdentifiers
 	 *            Set the identifiers associated with this taxon
 	 */
-	@JsonManagedReference("identifier-taxon")
 	public void setIdentifiers(Set<Identifier> newIdentifiers) {
 		this.identifiers = newIdentifiers;
 	}
@@ -865,7 +876,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
-	@JsonSerialize(using = TaxonSerializer.class)
 	public Taxon getOriginalNameUsage() {
 		return originalNameUsage;
 	}
@@ -874,7 +884,6 @@ public class Taxon extends SearchableObject {
 	 * @param originalNameUsage
 	 *            the originalNameUsage to set
 	 */
-	@JsonDeserialize(using = TaxonDeserializer.class)
 	public void setOriginalNameUsage(Taxon originalNameUsage) {
 		this.originalNameUsage = originalNameUsage;
 	}
@@ -883,7 +892,6 @@ public class Taxon extends SearchableObject {
 	 * @return a list of types and specimens
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
-	@JsonIgnore
 	public Set<TypeAndSpecimen> getTypesAndSpecimens() {
 		return typesAndSpecimens;
 	}
@@ -892,7 +900,6 @@ public class Taxon extends SearchableObject {
 	 *
 	 * @param typesAndSpecimens
 	 */
-	@JsonIgnore
 	public void setTypesAndSpecimens(Set<TypeAndSpecimen> typesAndSpecimens) {
 		this.typesAndSpecimens = typesAndSpecimens;
 	}
@@ -902,7 +909,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	@JsonManagedReference("vernacularNames-taxon")
 	public Set<VernacularName> getVernacularNames() {
 		return vernacularNames;
 	}
@@ -911,7 +917,6 @@ public class Taxon extends SearchableObject {
 	 * @param newVernacularNames
 	 *            Set the vernacular names for this taxon
 	 */
-	@JsonManagedReference("vernacularNames-taxon")
 	public void setVernacularNames(Set<VernacularName> newVernacularNames) {
 		this.vernacularNames = newVernacularNames;
 	}
@@ -921,7 +926,6 @@ public class Taxon extends SearchableObject {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "taxon", orphanRemoval = true)
 	@Cascade({ CascadeType.ALL })
-	@JsonManagedReference("measurementsOrFacts-taxon")
 	public Set<MeasurementOrFact> getMeasurementsOrFacts() {
 		return measurementsOrFacts;
 	}
@@ -930,9 +934,7 @@ public class Taxon extends SearchableObject {
 	 * @param newMeasurementsOrFacts
 	 *            Set the measurements or facts about this taxon
 	 */
-	@JsonManagedReference("measurementsOrFacts-taxon")
-	public void setMeasurementsOrFacts(
-			Set<MeasurementOrFact> newMeasurementsOrFacts) {
+	public void setMeasurementsOrFacts(Set<MeasurementOrFact> newMeasurementsOrFacts) {
 		this.measurementsOrFacts = newMeasurementsOrFacts;
 	}
 
@@ -969,7 +971,7 @@ public class Taxon extends SearchableObject {
 			}
 		}
 	}
-	
+
 	@Transient
 	public boolean isAccepted() {
 		//we want doubtful names to look like an accepted name, 
@@ -1010,7 +1012,7 @@ public class Taxon extends SearchableObject {
 			case Proparte_Synonym:
 				return true;
 			case Accepted:
-			case Artifical_Hybrid:
+			case Artificial_Hybrid:
 			case Doubtful:
 			case Misapplied:
 			default:

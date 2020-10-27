@@ -32,6 +32,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
@@ -43,7 +44,7 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
 	private String authorityName;
 
-	private Long resourceId;
+	private String resourceIdentifier;
 
 	public void setAuthorityName(String authorityName) {
 		this.authorityName = authorityName;
@@ -53,13 +54,18 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	public void setResourceId(Long resourceId) {
-		this.resourceId = resourceId;
+	public void setResourceIdentifier(String resourceIdentifier) {
+		this.resourceIdentifier = resourceIdentifier;
 	}
 
 	protected Long getAuthorityId() {
-		String authorityQuerySQL = "SELECT id FROM Organisation WHERE identifier = :authorityName";
-		return jdbcTemplate.queryForObject(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName), Long.class);
+		String sql = "SELECT id FROM Organisation WHERE identifier = :authorityName";
+		return jdbcTemplate.queryForObject(sql, ImmutableMap.of("authorityName", authorityName), Long.class);
+	}
+
+	protected Long getResourceId() {
+		String sql = "Select id from Resource where identifier = :resourceIdentifier";
+		return jdbcTemplate.queryForObject(sql, ImmutableMap.of("resourceIdentifier", resourceIdentifier), Long.class);
 	}
 
 	private List<Long> getAssociatedFamilyIds(Long resourceId) {
@@ -85,6 +91,7 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		Long resourceId = getResourceId();
 		Map<String, ? extends Object> queryParameters = ImmutableMap.<String, Object>of(
 				"authorityId", getAuthorityId(),
 				"resourceId", resourceId,
@@ -92,20 +99,22 @@ public class AncestorImageAnnotator implements StepExecutionListener, Tasklet {
 
 		// Annotate any parent taxa for re-indexing due to image 'bubble-up'
 		String queryString = "INSERT INTO Annotation (annotatedObjId, annotatedObjType, jobId, dateTime, authority_id, resource_id, type, code, recordType) VALUES ";
-		StringBuilder values = new StringBuilder();
 		List<Long> relatedTaxa = getAssociatedFamilyIds(resourceId);
 		relatedTaxa.addAll(getAssociatedGeneraIds(resourceId));
 
-		for(Long id : relatedTaxa) {
-			values.append(String.format("(%s, 'Taxon', :jobId, now(), :authorityId, :resourceId, 'Info', 'Index', 'Taxon'),", id));
-		}
+		for(List<Long> partition : Lists.partition(relatedTaxa, 1000)) {
+			StringBuilder values = new StringBuilder();
+			for(Long id : partition) {
+				values.append(String.format("(%s, 'Taxon', :jobId, now(), :authorityId, :resourceId, 'Info', 'Index', 'Taxon'),", id));
+			}
 
-		if(values.length() > 0) {
-			values.setCharAt(values.length()-1, ';');
-			queryString += values.toString();
+			if(values.length() > 0) {
+				values.setCharAt(values.length()-1, ';');
+				String q = queryString + values.toString();
 
-			logger.info("Annotating: {} with params {}", queryString, queryParameters);
-			jdbcTemplate.update(queryString, queryParameters);
+				logger.debug("Annotating: {} with params {}", q, queryParameters);
+				jdbcTemplate.update(q, queryParameters);
+			}
 		}
 
 		return RepeatStatus.FINISHED;

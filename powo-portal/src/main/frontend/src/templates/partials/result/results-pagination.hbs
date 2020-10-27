@@ -1,5 +1,18 @@
 <div class="container c-results-footer hidden">
-  <div class="c-pagination"></div>
+  <div class="c-pagination">
+    <ul class="pagination">
+      <li id="paginate-first">
+        <a data-cursor="*" data-page="0">First page</a>
+      </li>
+      <li id="paginate-prev">
+        <a href="#">Previous</a>
+      </li>
+      <li id="paginate-next">
+        <a data-cursor="{{ cursor }}" data-page="{{ page }}">Next</a>
+      </li>
+    </ul>
+    <p class="small">Page {{ page }} of {{ totalPages }}</p>
+  </div>
   <select class="c-per-page form-control hidden">
     <option value="24" {{selected perPage 24}} >24 results per page</option>
     <option value="120" {{selected perPage 120}}>120 results per page</option>

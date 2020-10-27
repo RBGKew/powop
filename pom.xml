@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.powo</groupId>
@@ -32,6 +33,7 @@
 		<module>powo-persistence</module>
 		<module>powo-harvest</module>
 		<module>powo-portal</module>
+		<module>powo-dashboard</module>
 		<module>powo-static</module>
 		<module>powo-geodb</module>
 		<module>powo-geoserver</module>
@@ -42,16 +44,17 @@
 
 	<properties>
 		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
-		<dockerfile.maven.version>1.3.7</dockerfile.maven.version>
+		<dockerfile.maven.version>1.4.10</dockerfile.maven.version>
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
-		<handlebars.version>4.0.7-SNAPSHOT</handlebars.version>
-		<hibernate.version>5.2.2.Final</hibernate.version>
-		<jackson.version>2.9.4</jackson.version>
-		<java.version>1.8</java.version>
+		<handlebars.version>4.1.2</handlebars.version>
+		<hibernate.version>5.3.9.Final</hibernate.version>
+		<hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
+		<jackson.version>2.9.6</jackson.version>
+		<java.version>11</java.version>
 		<liquibase.version>3.6.1</liquibase.version>
 		<logback.version>1.2.2</logback.version>
-		<lucene.version>6.6.0</lucene.version>
+		<lucene.version>7.5.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skip.global.tests>true</skip.global.tests>
@@ -60,7 +63,7 @@
 		<spring.batch.admin.version>1.3.1.RELEASE</spring.batch.admin.version>
 		<spring.batch.version>4.0.0.RELEASE</spring.batch.version>
 		<spring.security.version>5.0.1.RELEASE</spring.security.version>
-		<spring.version>5.0.3.RELEASE</spring.version>
+		<spring.version>5.1.2.RELEASE</spring.version>
 	</properties>
 
 	<inceptionYear>2010</inceptionYear>
@@ -308,7 +311,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernate.validator.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -570,6 +573,11 @@
 				<version>${jackson.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.fasterxml.jackson.dataformat</groupId>
+				<artifactId>jackson-dataformat-xml</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
 				<version>2.2</version>
@@ -635,7 +643,7 @@
 			<dependency>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>1.6</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -656,13 +664,23 @@
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>1.16.16</version>
+				<version>1.18.6</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.jayway.jsonpath</groupId>
 				<artifactId>json-path</artifactId>
 				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>2.3.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -705,10 +723,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.0</version>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<release>${java.version}</release>
 					<fork>true</fork>
 					<meminitial>512m</meminitial>
 					<maxmem>2048m</maxmem>
@@ -750,31 +767,6 @@
 					<preparationGoals>clean install</preparationGoals>
 					<goals>deploy</goals>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<id>enforce-compatibility</id>
-						<configuration>
-							<rules>
-								<requireJavaVersion>
-									<version>1.7.0</version>
-								</requireJavaVersion>
-								<requireMavenVersion>
-									<version>3.0</version>
-								</requireMavenVersion>
-							</rules>
-						</configuration>
-						<phase>validate</phase>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -833,21 +825,6 @@
 			</snapshots>
 		</repository>
 
-		<!-- Snapshot repo added for handlebars.java v 4.0.7-SNAPSHOT. Remove when 
-			real release happens -->
-		<repository>
-			<id>snapshots-repo</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-		<!-- Milestones Repo for spring batch 4.0.0 pre-release. Remove when 4.0 
-			is released -->
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>

@@ -24,6 +24,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.powo.api.AnnotationService;
+import org.powo.api.ResourceService;
 import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
@@ -71,8 +72,13 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	@Autowired
 	private AnnotationService annotationService;
 
-	@Value("#{jobParameters['resource.id']}")
-	private Long resourceId;
+	@Autowired
+	private ResourceService resourceService;
+
+	@Value("#{jobParameters['resource.identifier']}")
+	private String resourceIdentifier;
+
+	private Resource resource;
 
 	@Autowired
 	public void setValidator(Validator validator) {
@@ -116,6 +122,15 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 		return itemsRead;
 	}
 
+	protected Resource getResource() {
+		if (resource == null && resourceService != null) {
+			resource = resourceService.find(resourceIdentifier);
+			logger.debug("Found resource: {}", resource);
+		}
+
+		return resource;
+	}
+
 	protected Annotation createAnnotation(final BaseData object, RecordType recordType, AnnotationCode code, AnnotationType annotationType) {
 		Annotation annotation = super.createAnnotation(object, recordType, code, annotationType);
 		annotation.setResource(object.getResource());
@@ -156,13 +171,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	}
 
 	public T process(T t) throws Exception {
-		logger.debug("resourceId is" + resourceId);
-		logger.debug("object identifer is" + t.getIdentifier());
-		if(resourceId != null) {
-			Resource resource = new Resource();
-			resource.setId(resourceId);
-			t.setResource(resource);
-		}
 		this.itemsRead++;
 		return doProcess(t);
 	}

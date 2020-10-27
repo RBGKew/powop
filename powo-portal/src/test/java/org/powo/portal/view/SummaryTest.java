@@ -17,11 +17,10 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 public class SummaryTest {
 
 	MessageSource messageSource = new ReloadableResourceBundleMessageSource();
-	
-	
+
 	private Set<Distribution> oneDistribution = new HashSet<Distribution>(Arrays.asList(createDist(Location.ABT)));
-	
-	private Set<Distribution> manyDistributions(){
+
+	private Set<Distribution> manyDistributions() {
 		Set<Distribution> distributions = new HashSet<Distribution>();
 
 		distributions.addAll(Arrays.asList(
@@ -30,43 +29,46 @@ public class SummaryTest {
 				createDist(Location.SOUTHWESTERN_EUROPE),
 				createDist(Location.SOUTHERN_AFRICA),
 				createDist(Location.NORTHERN_AFRICA),
-				createDist(Location.ABT)	
-				));
+				createDist(Location.ABT)));
 		return distributions;
-		
 	}
-	
-	//private Set<Uses
-	
-	private Distribution createDist(Location location){
+
+	private Distribution createDist(Location location) {
 		Distribution dist = new Distribution();
 		dist.setLocation(location);
 		return dist;
 	}
-	
+
 	@Test
-	public void taxonAcceptedSummary(){
+	public void taxonAcceptedSummary() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
 		assertEquals("This plant is accepted.", new Summary(tax, messageSource).build());
 	}
-	
+
 	@Test
-	public void taxonSynonoymSummary(){
+	public void taxonSynonoymSummary() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Synonym);
 		assertEquals("This is a synonym", new Summary(tax, messageSource).build());
 	}
-	
+
 	@Test
-	public void taxonArtificialHybridSummary(){
+	public void taxonArtificialHybridSummary() {
 		Taxon tax = new Taxon();
-		tax.setTaxonomicStatus(TaxonomicStatus.Artifical_Hybrid);
+		tax.setTaxonomicStatus(TaxonomicStatus.Artificial_Hybrid);
 		assertEquals("This plant is an artifical hybrid.", new Summary(tax, messageSource).build());
 	}
-	
+
 	@Test
-	public void taxonAcceptedSummaryWithDistribution(){
+	public void taxonUnplacedSummary() {
+		Taxon tax = new Taxon();
+		tax.setTaxonomicStatus(TaxonomicStatus.Unplaced);
+		assertEquals("This is an unplaced name.", new Summary(tax, messageSource).build());
+	}
+
+	@Test
+	public void taxonAcceptedSummaryWithDistribution() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
 		tax.setDistribution(oneDistribution);
@@ -74,45 +76,44 @@ public class SummaryTest {
 		tax.setDistribution(manyDistributions());
 		System.out.println(new Summary(tax, messageSource).build());
 	}
-	
+
 	@Test
-	public void taxonAcceptedSummaryWithUses(){
-		Taxon tax = new Taxon();
-		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		//tax.setDescriptions(newDescriptions);
-		System.out.println(new Summary(tax, messageSource).build());
-	}
-	
-	@Test
-	public void taxonAcceptedSummaryWithGeographicArea(){
-		Taxon tax = new Taxon();
-		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		//tax.setTaxonRemarks();
-		System.out.println(new Summary(tax, messageSource).build());
-	}
-	
-	
-	@Test
-	public void taxonAcceptedSummaryWithGeographicAreaDistributionAndUses(){
+	public void taxonAcceptedSummaryWithUses() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
 		System.out.println(new Summary(tax, messageSource).build());
 	}
-	
+
 	@Test
-	public void taxonWCSDistribution(){
+	public void taxonAcceptedSummaryWithGeographicArea() {
+		Taxon tax = new Taxon();
+		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		System.out.println(new Summary(tax, messageSource).build());
+	}
+
+	@Test
+	public void taxonAcceptedSummaryWithGeographicAreaDistributionAndUses() {
+		Taxon tax = new Taxon();
+		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		System.out.println(new Summary(tax, messageSource).build());
+	}
+
+	@Test
+	public void taxonWCSDistribution() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
 		tax.setTaxonRemarks("Andaman Is., Thailand to W. Malesia.");
-		assertEquals("This plant is accepted, and its native range is Andaman Islands, Thailand to W. Malesia." ,new Summary(tax, messageSource).build());
+		assertEquals("This plant is accepted, and its native range is Andaman Islands, Thailand to W. Malesia.",
+				new Summary(tax, messageSource).build());
 	}
-	
+
 	@Test
-	public void taxonWCSUncertainDistribution(){
+	public void taxonWCSUncertainDistribution() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		tax.setTaxonRemarks("(Guatamala?) ? (?)");
-		assertEquals("This plant is accepted, and its native range is likely to be (Guatamala?).", new Summary(tax, messageSource).build());
+		tax.setTaxonRemarks("(Guatamala) ? (?)");
+		assertEquals("This plant is accepted, and its native range is likely to be (Guatamala) ?.",
+				new Summary(tax, messageSource).build());
 	}
 
 }

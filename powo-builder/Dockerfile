@@ -1,12 +1,12 @@
-FROM rbgkew/gke-helm-deployer:0.1.2
+FROM rbgkew/gke-helm-deployer:0.1.6
 
 ADD requirements.txt /
 
 RUN apk --no-cache add python3 \
+  && pip3 install --upgrade pip \
   && pip3 install -r requirements.txt
 
-ADD builder.py /
-ADD deployer.py /
+ADD *.py /
 
 ENV ENVIRONMENT test
 ENV DEPLOY_TAG master

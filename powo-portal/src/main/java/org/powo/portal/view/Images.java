@@ -9,12 +9,8 @@ import org.powo.api.ImageService;
 import org.powo.model.Image;
 import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Images {
-
-	private static final Logger logger = LoggerFactory.getLogger(Images.class);
 
 	Taxon taxon;
 	List<Image> images;

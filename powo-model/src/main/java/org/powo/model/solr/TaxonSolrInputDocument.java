@@ -124,9 +124,34 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 		for(String source : sources) {
 			sid.addField("searchable.sources_ss", source);
+			sid.addField("searchable.context_ss", normalized(source));
 		}
 
+		buildSortField();
+
 		return sid;
+	}
+
+	private Object normalized(String source) {
+		if (source != null) {
+			return source.replaceAll("-", "");
+		} else {
+			return source;
+		}
+	}
+
+	private void buildSortField() {
+		StringBuilder sortable = new StringBuilder();
+		if(taxon.getTaxonRank() != null) {
+			sortable.append(taxon.getTaxonRank().termID());
+		}
+		if (!Rank.FAMILY.equals(taxon.getTaxonRank()) && taxon.getFamily() != null) {
+			sortable.append(taxon.getFamily());
+		}
+		if(taxon.getScientificName() != null) {
+			sortable.append(taxon.getScientificName().replaceAll("\\s", ""));
+		}
+		sid.addField("sortable", sortable.toString());
 	}
 
 	private void addSuggestionWeight() {
@@ -166,7 +191,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				} else {
 					sid.addField("taxon.image_" + index + "_thumbnail_s", cdn.getThumbnailUrl(img));
 					sid.addField("taxon.image_" + index + "_fullsize_s", cdn.getFullsizeUrl(img));
-					sid.addField("taxon.image_" + index + "_caption_s", img.getCaption());
+					sid.addField("taxon.image_" + index + "_caption_s", img.getTitle());
 				}
 			}
 		}

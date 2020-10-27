@@ -16,19 +16,10 @@
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     <context:exclude-filter type="assignable" expression="org.powo.api.JobListService" />
     <context:exclude-filter type="assignable" expression="org.powo.api.JobConfigurationService" />
-    <context:exclude-filter type="assignable" expression="org.powo.api.ResourceWithJobService" />
     <context:exclude-filter type="assignable" expression="org.powo.model.validators.JobListValidator" />
-    <context:exclude-filter type="assignable" expression="org.powo.model.validators.ResourceWithJobValidator" />
   </context:component-scan>
 
   <tx:annotation-driven />
-
-  <bean name="customObjectMapper" class="org.powo.model.marshall.json.CustomObjectMapperFactory">
-    <property name="referenceService" ref="referenceServiceImpl" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-    <property name="imageService" ref="imageServiceImpl" />
-    <property name="organisationService" ref="organisationServiceImpl" />
-  </bean>
 
   <bean name="transactionManager"
     class="org.springframework.orm.hibernate5.HibernateTransactionManager">
