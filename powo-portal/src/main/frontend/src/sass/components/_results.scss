@@ -120,12 +120,6 @@
   border-top-right-radius: 4px;
   border-bottom: 1px solid #ccc;
   @media(max-width: $screen-xs-max) { display: none; }
-  // .facet {
-  //   &.selected {
-  //     background-color: #757575!important;
-  //     color: white!important;
-  //   }
-  // }
   li {
     list-style-type: none;
 
