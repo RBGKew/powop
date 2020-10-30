@@ -108,12 +108,6 @@ define(function(require) {
         $('#paginate-next').addClass('disabled');
       }
 
-//      $('#paginate-prev a').click(function(e) {
-//        if(e) e.preventDefault();
-//        window.history.back();
-//        $('html, body').animate({scrollTop: '0px'}, 100);
-//      });
-
       $('.c-results-footer').removeClass('hidden');
     }
 

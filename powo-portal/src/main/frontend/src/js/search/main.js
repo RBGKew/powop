@@ -34,6 +34,7 @@ define(function(require) {
       results.initialize();
       $('.s-page').removeClass('s-search__fullpage');
       $('#search_box').detach().appendTo('.c-header .container');
+      // below three lines are needed because the front page and the search page are the same page and we need to change which is main on both "pages" for accessibility
       $( ".front-page" ).remove();
       $(".search-results").attr('id', 'main');
       $(".search-results").attr('role', 'main');
