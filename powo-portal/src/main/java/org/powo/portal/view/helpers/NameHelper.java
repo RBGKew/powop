@@ -93,12 +93,12 @@ public class NameHelper {
 
 	public CharSequence taxonName(Taxon taxon) {
 		if(taxon != null && taxon.getScientificName() != null) {
-			String formatted = "<em>" + taxon.getScientificName() + "</em>";
+			String formatted = "<em lang='la'>" + taxon.getScientificName() + "</em>";
 			// look for the rank part of a name string and de-italicise it
 			for(String rank : ranks) {
 				if(formatted.contains(rank)) {
 					formatted = formatted.replace(rank + " ", "</em> " + rank + " <em>");
-					formatted = formatted.replace("<em></em>", "");
+					formatted = formatted.replace("<em lang='la'></em>", "");
 					break;
 				}
 			}
@@ -154,7 +154,7 @@ public class NameHelper {
 
 	private String classificationLine(List<Taxon> classification, int index, Options options) {
 		if(index == classification.size()-1) {
-			return String.format("<ul><li><h1 lang=\"la\" class=\"c-summary__heading\">%s</h1></li></ul>",
+			return String.format("<ul><li><h1 class=\"c-summary__heading\">%s</h1></li></ul>",
 					taxonNameAndAuthor(classification.get(index), options));
 		} else {
 			if(classification.get(index).getTaxonRank() == null) {

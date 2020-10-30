@@ -10,7 +10,3 @@ The POWO code powers:
 * [**Plants of the World Online**](http://powo.science.kew.org)
 * [**World Flora Online** (in development)](http://worldfloraonline.org/)
 
-## Deployment
-
-Raw assets -> Compiled assets -> Dockerised assets
-          Gulp           Maven + Docker

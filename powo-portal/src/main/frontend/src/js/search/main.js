@@ -47,19 +47,8 @@ define(function(require) {
       is_hashed = true;
   });
 
-
+  window.addEventListener('popstate', syncWithUrl);
   
-  window.addEventListener('popstate', function(e){
-    // if hashchange
-    if (is_hashed) {
-        e.preventDefault();
-        // reset
-        is_hashed = false;
-        return false;
-    }
-    syncWithUrl
-});
-
   function syncWithUrl() {
     filters.deserialize(window.location.search, false);
     filters.refresh();
@@ -67,10 +56,6 @@ define(function(require) {
   }
 
   var initialize = function() {
-    if ($(window).width() > 992) {
-      $("input[type=search]").attr('placeholder', "Please enter a search term");
-    }
-
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {

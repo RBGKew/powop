@@ -100,10 +100,6 @@ define(function(require) {
         .attr("href", "/?" + filters.serialize({cursor: "*", p: 0}))
         .click(setCursor);
 
-//      if(results.page === 1) {
-//        $('#paginate-prev').addClass('disabled');
-//      }
-
       if(results.page < results.totalPages) {
         $('#paginate-next a')
           .attr("href", "/?" + filters.serialize({cursor: results.cursor, p: results.page}))

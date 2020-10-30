@@ -17,19 +17,6 @@ button.collapser {
     margin-bottom: 0;
     }
 }
-//  button.collapser h1, a.collapser h2, a.collapser h3, a.collapser h4 {
-//    display: inline; }
-//  button.collapser::before {
-//    font-family: 'Glyphicons Halflings';
-//    font-size: 0.8em;
-//    padding-right: 1em;
-//    content: "\e114";
-//    color: #333333; 
-//    margin-top: 2px;}
-//  button.collapser.collapsed::before {
-//    content: "\e080"; }
-//  button.collapser:active {
-//    box-shadow: none; }
 
 button {
   &.collapser {
@@ -58,12 +45,18 @@ button {
 }
 
 .to-top {
-  display: none;
+  display: block;
   top: 19px;
   right: 12px;
   z-index: 99;
   cursor: pointer;
   position: absolute;
+  @media (max-width: $screen-xs-max) {
+    position: unset;
+    top:unset;
+    right: unset;
+    text-align: center;
+  }
 }
 
 .navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:focus, .navbar-default .navbar-nav .active a:hover {

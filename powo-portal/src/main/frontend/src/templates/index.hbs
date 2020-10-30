@@ -15,8 +15,9 @@
         <div class="c-intro">
           {{> (lookup '.' 'intro') }}
         </div>
-
-        {{> partials/search/search-box }}
+        <main id="main" class="front-page" tabindex="-1">
+          {{> partials/search/search-box }}
+        </main>
         <nav class="form-inline--search form-links"><a href="/about">{{{message "footer_about"}}}</a> | <a href="/search-help">{{{message "footer_help"}}}</a></nav>
         <div class="search-results">
           <div id="search-filters"></div>

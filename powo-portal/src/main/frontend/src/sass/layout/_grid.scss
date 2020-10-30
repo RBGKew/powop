@@ -45,21 +45,3 @@
 
 }
 
-.skip-main {
-  left:-999px;
-  position:absolute;
-  top:auto;
-  width:1px;
-  height:1px;
-  overflow:hidden;
-  z-index:-999;
-  -webkit-clip: rect(1px 1px 1px 1px);
-}
-.skip-main:focus {
-  background-color: #fff;
-  position: static;
-}
-.skip-main:active {
-  background-color: #fff;
-  position: static;
-}

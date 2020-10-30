@@ -43,22 +43,6 @@
   }
 }
 
-.grid--rows {
-  #list_view {
-    background-color: #e7e7e7 !important;
-  }
-}
-
-.grid--columns {
-  #grid_view {
-    background-color: #e7e7e7 !important;
-  }
-}
-
-.selected_background {
-  background-color: #e7e7e7;
-}
-
 .results-count {
   color: $navbar-default-color;
   float: left;
@@ -191,7 +175,7 @@
   border-right: 1px solid #757575;
 }
 
-.grid--columns #grid_view, .grid--rows #list_view {
+.grid--columns, .grid--rows {
   background-color: white!important;
   color: #008285;
 }
@@ -200,6 +184,8 @@
   background-color: transparent;
   border-color: transparent;
 }
+/* Important is used here because important is used within the bootstrap, so need to be 
+override */
 
 .sort-menu {
   &.open {
