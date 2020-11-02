@@ -22,7 +22,8 @@ public class AnalyticsHelper {
 
 	public CharSequence gaTracking() {
 		if(Strings.isNullOrEmpty(code)) {
-			return "";
+			return  new Handlebars.SafeString(
+              "<meta name='robots' content='noindex'>");
 		} else {
 			return new Handlebars.SafeString(
 					"<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':" +

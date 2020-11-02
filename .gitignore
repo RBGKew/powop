@@ -13,3 +13,5 @@ node
 dist
 **/js/templates
 powo-portal/src/main/resources/rev-manifest.json
+.DS_Store
+out.txt

@@ -7,7 +7,7 @@
 <div id="{{taxon.identifier}}" class="s-page s-page--taxon">
   {{> partials/page-header withSearchBox="true" }}
 
-  <article class="c-article">
+  <article class="c-article" id="main" role=”main”>
     <header class="c-article-header">
       <div class="container">
         <div class="c-summary">
@@ -25,84 +25,96 @@
         {{/with}}
       </div>
     </header>
+    
+  <nav class="navbar navbar-default navbar--article navbar-expand-lg" role=”navigation”>
+    <div class="navbar-toggler mobile-menu" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" tabindex="0">
+      On this page
+      <svg class="pull-right" width="14px" height="8px" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Iconography/16x16/Arrow/Down/Black</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Module-World-location" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Iconography/16x16/Arrow/Down/Black" transform="translate(-1.000000, -4.000000)" fill="#262626">
+            <path d="M1,5.04434791 C1,4.77632278 1.10299816,4.50929775 1.3079945,4.30527862 C1.71798718,3.89824046 2.38397529,3.89824046 2.79496795,4.30527862 L7.999875,9.47776354 L13.2047821,4.30527862 C13.6157747,3.89824046 14.2807628,3.89824046 14.6917555,4.30527862 C15.1027482,4.71331687 15.1027482,5.37537894 14.6917555,5.7824171 L8.74386172,11.6939713 C8.33286906,12.1020096 7.66688095,12.1020096 7.25688827,11.6939713 L1.3079945,5.7824171 C1.10299816,5.57939807 1,5.31237303 1,5.04434791 Z"></path>
+        </g>
+    </g>
+</svg>
+    </div>
+    <div class="c-article-nav collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav navbar-nav navbar-nav--article nav-item">
+        {{#if descriptions}}
+        <li><a href="#descriptions">Descriptions</a></li>
+        {{/if}}
 
-    <nav class="navbar navbar-default navbar--article">
+        {{#if uses}}
+        <li><a href="#uses">Uses</a></li>
+        {{/if}}
 
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
+        {{#if images}}
+        <li><a href="#image-gallery">Images</a></li>
+        {{/if}}
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="c-article-nav collapse navbar-collapse" id="content-navbar">
-        <div class="container">
-          <ul class="nav navbar-nav navbar-nav--article">
-            {{#if descriptions}}
-            <li><a href="#descriptions">Descriptions</a></li>
-            {{/if}}
+        {{#if distributions}}
+        <li><a href="#distribution-map">Distribution</a></li>
+        {{/if}}
 
-            {{#if uses}}
-            <li><a href="#uses">Uses</a></li>
-            {{/if}}
+        {{#if children}}
+        <li><a href="#children">Accepted {{childRank taxon}}</a></li>
+        {{/if}}
 
-            {{#if images}}
-            <li><a href="#image-gallery">Images</a></li>
-            {{/if}}
+        {{#if synonyms}}
+        <li><a href="#synonyms">Synonyms</a></li>
+        {{/if}}
 
-            {{#if distributions}}
-            <li><a href="#distribution-map">Distribution</a></li>
-            {{/if}}
+        {{#if vernacularNames}}
+        <li><a href="#vernacular-names">Common Names</a></li>
+        {{/if}}
 
-            {{#if children}}
-            <li><a href="#children">Accepted {{childRank taxon}}</a></li>
-            {{/if}}
+        <li><a href="#other-data">Other Data</a></li>
 
-            {{#if synonyms}}
-            <li><a href="#synonyms">Synonyms</a></li>
-            {{/if}}
+        {{#if bibliography}}
+        <li><a href="#bibliography">Bibliography</a></li>
+        {{/if}}
 
-            {{#if vernacularNames}}
-            <li><a href="#vernacular-names">Common Names</a></li>
-            {{/if}}
-
-            <li><a href="#other-data">Other Data</a></li>
-
-            {{#if bibliography}}
-            <li><a href="#bibliography">Bibliography</a></li>
-            {{/if}}
-
-            <li><a href="#sources">Sources</a></li>
-          </ul>
-          <span class="glyphicon glyphicon-arrow-up to-top" style="display:none"></span>
-        </div>
-      </div><!-- /.navbar-collapse -->
-    </nav>
-
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+      <span class="glyphicon glyphicon-arrow-up to-top"></span>
+    </div>
+  </nav>
     <div class="container">
     {{#with descriptions}}
     <section id="descriptions" class="c-article-section">
-      <a class="btn collapser c-article-section__title"
+      <button class="btn collapser c-article-section__title"
          role="button"
          data-toggle="collapse"
          data-target="#descriptions-main"
-         aria-expanded="false">
+         aria-expanded="false"
+         >
         <h2>Descriptions</h2>
-      </a>
+      </button>
       <div id="descriptions-main" class="container collapse in">
         <div class="row">
+          <aside role="complementary" class="c-article-section__aside">
+            {{#with synonymsIncluded}}
+            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
+            <ul class="c-plain-list includes_data">
+              {{#each synonymsIncluded}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+            {{/with}}
+          </aside>
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
-              <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
+              <button class="btn collapser{{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </a><small>{{bracketedSourceLink source}}</small>
-              <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
+              </button><small>{{bracketedSourceLink source}}</small>
+              <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#if conceptSource}}<p>{{conceptSource}}</p>{{/if}}
                 <dl class="c-article-desc-table">
                   {{#each byType}}
@@ -118,7 +130,22 @@
             </div>
             {{/each}}
           </div>
+        </div>
+      </div>
+    </section>
+    {{/with}}
 
+    {{#with uses}}
+    <section id="uses" class="c-article-section">
+      <button class="btn collapser c-article-section__title"
+         role="button"
+         data-toggle="collapse"
+         data-target="#uses-main"
+         aria-expanded="false">
+        <h2>Uses</h2>
+      </button>
+      <div id="uses-main" class="container collapse in">
+        <div class="row">
           <aside role="complementary" class="c-article-section__aside">
             {{#with synonymsIncluded}}
             <p class="includes_data"><b>Includes data from the synonyms: </b></p>
@@ -129,33 +156,18 @@
             </ul>
             {{/with}}
           </aside>
-        </div>
-      </div>
-    </section>
-    {{/with}}
-
-    {{#with uses}}
-    <section id="uses" class="c-article-section">
-      <a class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#uses-main"
-         aria-expanded="false">
-        <h2>Uses</h2>
-      </a>
-      <div id="uses-main" class="container collapse in">
-        <div class="row">
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
-              <a class="btn collapser{{#unless @first}} collapsed{{/unless}}"
+              <button class="btn collapser{{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#uses-{{source.abbreviation}}-{{@index}}"
-                 aria-expanded="false">
+                 aria-expanded="false"
+                 >
                 <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </a><small>{{bracketedSourceLink source}}</small>
-              <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse{{#if @first}} in{{/if}}">
+              </button><small>{{bracketedSourceLink source}}</small>
+              <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#each byType}}
                   <dt>{{message type}}</dt>
                   <dd>
@@ -168,17 +180,6 @@
             </div>
             {{/each}}
           </div>
-
-          <aside role="complementary" class="c-article-section__aside">
-            {{#with synonymsIncluded}}
-            <p class="includes_data"><b>Includes data from the synonyms: </b></p>
-            <ul class="c-plain-list includes_data">
-              {{#each synonymsIncluded}}
-              <li>{{taxonLink this}}</li>
-              {{/each}}
-            </ul>
-            {{/with}}
-          </aside>
         </div>
       </div>
     </section>
@@ -186,15 +187,24 @@
 
     {{#with images}}
     <section id="image-gallery" class="c-article-section">
-      <a class="btn collapser c-article-section__title"
+      <button class="btn collapser c-article-section__title"
          role="button"
          data-toggle="collapse"
          data-target="#gallery-main"
-         aria-expanded="true">
+         aria-expanded="true"
+         >
         <h2>Images</h2>
-      </a>
+      </button>
       <div id="gallery-main" class="container collapse in">
         <div class="row">
+          <aside role="complementary" class="c-article-section__aside">
+            <ul class="c-reference-list">
+              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
+              {{#each sources}}
+              <li>{{sourceLink this}}</li>
+              {{/each}}
+            </ul>
+          </aside>
           <div class="c-article-section__content">
 
             <div class="c-gallery clearfix">
@@ -204,7 +214,23 @@
             </div>
 
           </div>
+        </div>
+      </div>
+    </section>
+    {{/with}}
 
+    {{#with distributions}}
+    <section id="distribution-map" class="c-article-section">
+      <button class="btn collapser c-article-section__title"
+         role="button"
+         data-toggle="collapse"
+         data-target="#distribution-main"
+         aria-expanded="true"
+         >
+        <h2>Distribution</h2>
+      </button>
+      <div id="distribution-main" class="container collapse in">
+        <div class="row">
           <aside role="complementary" class="c-article-section__aside">
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
@@ -213,36 +239,20 @@
               {{/each}}
             </ul>
           </aside>
-        </div>
-      </div>
-    </section>
-    {{/with}}
-
-    {{#with distributions}}
-    <section id="distribution-map" class="c-article-section">
-      <a class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#distribution-main"
-         aria-expanded="true">
-        <h2>Distribution</h2>
-      </a>
-      <div id="distribution-main" class="container collapse in">
-        <div class="row">
           <div class="c-article-section__content">
             <div id="c-map">
             </div>
 
-            <a class="btn collapser collapsed"
+            <button class="btn collapser"
                role="button"
                data-toggle="collapse"
                data-target="#distribution-listing"
                aria-expanded="false">
               Full Distribution Listing
-            </a>
-            <div id="distribution-listing" class="collapse">
+            </button>
+            <div id="distribution-listing" class="collapse in">
               {{#if doubtful}}
-              <h4>Doubtfully present in:</h4>
+              <h3>Doubtfully present in:</h3>
               <p>
               {{#each doubtful}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -251,7 +261,7 @@
               {{/if}}
 
               {{#if natives}}
-              <h4>Native to:</h4>
+              <h3>Native to:</h3>
               <p>
               {{#each natives}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -260,7 +270,7 @@
               {{/if}}
 
               {{#if extinct}}
-              <h4>Extinct in:</h4>
+              <h3>Extinct in:</h3>
               <p>
               {{#each extinct}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -269,7 +279,7 @@
               {{/if}}
 
               {{#if introduced}}
-              <h4>Introduced into:</h4>
+              <h3>Introduced into:</h3>
               <p>
               {{#each introduced}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -278,7 +288,7 @@
               {{/if}}
 
               {{#if absent}}
-              <h4>Recorded in error in:</h4>
+              <h3>Recorded in error in:</h3>
               <p>
               {{#each absent}}
               {{locality}}{{#unless @last}}, {{/unless}}
@@ -287,14 +297,6 @@
               {{/if}}
             </div>
           </div>
-          <aside role="complementary" class="c-article-section__aside">
-            <ul class="c-reference-list">
-              <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
-              {{#each sources}}
-              <li>{{sourceLink this}}</li>
-              {{/each}}
-            </ul>
-          </aside>
         </div>
       </div>
     </section>
@@ -302,22 +304,16 @@
 
     {{#with children}}
     <section id="children" class="c-article-section">
-      <a class="btn c-article-section__title collapser collapsed"
+      <button class="btn c-article-section__title collapser"
          role="button"
          data-toggle="collapse"
          data-target="#children-main"
-         aria-expanded="true">
+         aria-expanded="true"
+         >
         <h2>Accepted {{childRank taxon}}</h2>
-      </a>
-      <div id="children-main" class="container collapse">
+      </button>
+      <div id="children-main" class="container collapse in">
         <div class="row">
-          <div class="c-article-section__content">
-            <ul class="c-synonym-list two-col">
-              {{#each sorted}}
-              <li>{{taxonLink this}}</li>
-              {{/each}}
-            </ul>
-          </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
             <p>Includes {{nonHybridCount}} Accepted {{childRank taxon}}</p>
@@ -329,22 +325,6 @@
             </ul>
           </aside>
           {{/if}}
-        </div>
-      </div>
-    </section>
-    {{/with}}
-
-    {{#with synonyms}}
-    <section id="synonyms" class="c-article-section">
-      <a class="btn c-article-section__title collapser collapsed"
-         role="button"
-         data-toggle="collapse"
-         data-target="#synonyms-main"
-         aria-expanded="true">
-        <h2>Synonyms</h2>
-      </a>
-      <div id="synonyms-main" class="container collapse">
-        <div class="row">
           <div class="c-article-section__content">
             <ul class="c-synonym-list two-col">
               {{#each sorted}}
@@ -352,6 +332,23 @@
               {{/each}}
             </ul>
           </div>
+        </div>
+      </div>
+    </section>
+    {{/with}}
+
+    {{#with synonyms}}
+    <section id="synonyms" class="c-article-section">
+      <button class="btn c-article-section__title collapser"
+         role="button"
+         data-toggle="collapse"
+         data-target="#synonyms-main"
+         aria-expanded="true"
+         >
+        <h2>Synonyms</h2>
+      </button>
+      <div id="synonyms-main" class="container collapse in">
+        <div class="row">
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
             <p>Has {{count}} Synonyms</p>
@@ -363,6 +360,13 @@
             </ul>
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            <ul class="c-synonym-list two-col">
+              {{#each sorted}}
+              <li>{{taxonLink this}}</li>
+              {{/each}}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -370,27 +374,16 @@
 
     {{#with vernacularNames}}
     <section id="vernacular-names" class="c-article-section">
-      <a class="btn c-article-section__title collapser"
+      <button class="btn c-article-section__title collapser"
          role="button"
          data-toggle="collapse"
          data-target="#venacular-names-main"
-         aria-expanded="true">
+         aria-expanded="true"
+         >
         <h2>Common Names</h2>
-      </a>
+      </button>
       <div id="venacular-names-main" class="container collapse in">
         <div class="row">
-          <div class="c-article-section__content">
-            <dl class="dl-horizontal">
-              {{#each sortedByLanguage as |names language|}}
-              <dt>{{language}}</dt>
-              <dd>
-              {{#each names as |commonName|}}
-                {{commonName}}{{#unless @last}}, {{/unless}}
-              {{/each}}
-              </dd>
-              {{/each}}
-            </dl>
-          </div>
           {{#if sources}}
           <aside role="complementary" class="c-article-section__aside">
             <ul class="c-reference-list">
@@ -409,20 +402,33 @@
             {{/with}}
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            <dl class="dl-horizontal">
+              {{#each sortedByLanguage as |names language|}}
+              <dt>{{language}}</dt>
+              <dd>
+              {{#each names as |commonName|}}
+                {{commonName}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </dd>
+              {{/each}}
+            </dl>
+          </div>
         </div>
       </div>
     </section>
     {{/with}}
 
     <section id="other-data" class="c-article-section offset">
-      <a class="btn c-article-section__title collapser collapsed"
+      <button class="btn c-article-section__title collapser"
          role="button"
          data-toggle="collapse"
          data-target="#other-data-main"
-         aria-expanded="true">
+         aria-expanded="true"
+         >
         <h2>Other Data</h2>
-      </a>
-      <div id="other-data-main" class="container collapse">
+      </button>
+      <div id="other-data-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
             <h3>{{nameAndAuthor taxon}} appears in other Kew resources:</h3>
@@ -434,13 +440,14 @@
             {{/if}}
             {{#with identifications}}
             <div>
-              <a class="btn collapser collapsed"
+              <button class="btn collapser"
                  role="button"
                  data-toggle="collapse"
                  data-target="#determinations"
-                 aria-expanded="false">
-                <h4>Herbarium Catalogue ({{count}} records)</h4></a>
-              <div id="determinations" class="table-responsive collapse">
+                 aria-expanded="false"
+                 >
+                <h4>Herbarium Catalogue ({{count}} records)</h4></button>
+              <div id="determinations" class="table-responsive collapse in">
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -481,14 +488,15 @@
 
     {{#if bibliography}}
     <section id="bibliography" class="c-article-section">
-      <a class="btn c-article-section__title collapser collapsed"
+      <button class="btn c-article-section__title collapser"
          role="button"
          data-toggle="collapse"
          data-target="#bibliography-main"
-         aria-expanded="true">
+         aria-expanded="true"
+         >
         <h2>Bibliography</h2>
-      </a>
-      <div id="bibliography-main" class="container collapse">
+      </button>
+      <div id="bibliography-main" class="container collapse in">
         <script type="text/javascript">
           var bibliography = {
             {{#if bibliography.accepted}}accepted: {{{bibliography.acceptedJSON}}},{{/if}}
@@ -497,13 +505,6 @@
           }
         </script>
         <div class="row">
-          <div class="c-article-section__content">
-            {{#if taxon.namePublishedInString}}
-              <h3>First published in {{taxon.namePublishedInString}}</h3>
-            {{/if}}
-            {{> partials/taxon/bibliography }}
-          </div>
-
           {{#if bibliography.hasReferences}}
           <aside role="complementary" class="c-article-section__aside">
             <div class="bibliography-dropdown">
@@ -519,31 +520,38 @@
             </div>
           </aside>
           {{/if}}
+          <div class="c-article-section__content">
+            {{#if taxon.namePublishedInString}}
+              <h3>First published in {{taxon.namePublishedInString}}</h3>
+            {{/if}}
+            {{> partials/taxon/bibliography }}
+          </div>
         </div>
       </div>
     </section>
     {{/if}}
 
     <section id="sources" class="c-article-section">
-      <a class="btn c-article-section__title collapser"
+      <button class="btn c-article-section__title collapser"
          role="button"
          data-toggle="collapse"
          data-target="#sources-main"
-         aria-expanded="true">
+         aria-expanded="true"
+         >
         <h2>Sources</h2>
-      </a>
+      </button>
       <div id="sources-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
             {{#each sources.sorted}}
-            <p id="source-{{organisation.abbreviation}}">
+            <p class="source-{{organisation.abbreviation}}">
             <strong>{{organisation.title}}</strong><br/>
             {{#if organisation.bibliographicCitation}}
             {{organisation.bibliographicCitation}}<br/>
             {{/if}}
             {{#each licenses}}
               {{#if notBlank}}
-                <small id="source-{{organisation.abbreviation}}" class="text-muted offset">{{{rights}}} {{license}}</small><br/>
+                <small class="source-{{organisation.abbreviation}} text-muted offset">{{{rights}}} {{license}}</small><br/>
               {{/if}}
             {{/each}}
             </p>

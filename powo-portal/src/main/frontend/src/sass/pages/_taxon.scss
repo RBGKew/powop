@@ -2,17 +2,75 @@
   .c-header .site-logo {
     border-left-color: #000;
   }
-
-  .affix-top .to-top {
-    display: none;
+}
+button.collapser {
+  white-space: inherit;
+  text-align: left; 
+  background: #fff;
+  display: inline-flex;
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0;
   }
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    }
+}
 
-  .affix .to-top {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    display: block !important;
-    padding: 10px;
-    cursor: pointer;
+button {
+  &.collapser {
+    h2 {
+      display: inline;
+    }
+    h3 {
+      display: inline;
+    }
+    &::before {
+      font-family: 'Glyphicons Halflings';
+      font-size: 0.8em;
+      padding-right: 1em;
+      content: "\e114";
+      color: #333333; 
+      margin-top: 2px;}
+    }
+    &.collapsed {
+      &::before {
+        content: "\e080"; 
+      }
+    }
+    &:active {
+      box-shadow: none; 
+    }
+}
+
+.to-top {
+  display: block;
+  top: 19px;
+  right: 12px;
+  z-index: 99;
+  cursor: pointer;
+  position: absolute;
+  @media (max-width: $screen-xs-max) {
+    position: unset;
+    top:unset;
+    right: unset;
+    text-align: center;
   }
+}
+
+.navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:focus, .navbar-default .navbar-nav .active a:hover {
+  color: #008285;
+  background-color: white;
+}
+
+.navbar-nav--article li:hover {
+  color: #008285;
+}
+.navbar-default .navbar-nav li a:hover {
+  color: #008285;
+}
+.navbar {
+  border-bottom: 1px solid #949494;
+  border-top:none;
 }

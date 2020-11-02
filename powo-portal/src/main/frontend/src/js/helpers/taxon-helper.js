@@ -79,7 +79,7 @@ define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
   ];
 
   var taxonName = function(taxon) {
-    var formatted = '<i>' + taxon.name + '</i>';
+    var formatted = '<i lang="la">' + taxon.name + '</i>';
     _.each(ranks, function(rank) {
       if(formatted.indexOf(rank) !== -1) {
         formatted = formatted.replace(rank + ' ', '</i> ' + rank + ' <i>');

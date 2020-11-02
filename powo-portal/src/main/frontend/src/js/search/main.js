@@ -34,12 +34,22 @@ define(function(require) {
       results.initialize();
       $('.s-page').removeClass('s-search__fullpage');
       $('#search_box').detach().appendTo('.c-header .container');
+      // below three lines are needed because the front page and the search page are the same page and we need to change which is main on both "pages" for accessibility
+      $( ".front-page" ).remove();
+      $(".search-results").attr('id', 'main');
+      $(".search-results").attr('role', 'main');
       filters.refresh();
     }
   }
+  
+  var is_hashed = false;
+
+  $(window).on('hashchange', function() {
+      is_hashed = true;
+  });
 
   window.addEventListener('popstate', syncWithUrl);
-
+  
   function syncWithUrl() {
     filters.deserialize(window.location.search, false);
     filters.refresh();
@@ -47,10 +57,6 @@ define(function(require) {
   }
 
   var initialize = function() {
-    if ($(window).width() > 992) {
-      $("input[type=search]").attr('placeholder', "Search by species, genus or family name, or any words describing the plant");
-    }
-
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {
@@ -69,8 +75,6 @@ define(function(require) {
         filters.add(input.val());
         input.val('');
       });
-
-
     $('.s-page').removeClass('invisible');
   };
 

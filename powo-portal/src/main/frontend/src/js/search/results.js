@@ -100,10 +100,6 @@ define(function(require) {
         .attr("href", "/?" + filters.serialize({cursor: "*", p: 0}))
         .click(setCursor);
 
-      if(results.page === 1) {
-        $('#paginate-prev').addClass('disabled');
-      }
-
       if(results.page < results.totalPages) {
         $('#paginate-next a')
           .attr("href", "/?" + filters.serialize({cursor: results.cursor, p: results.page}))
@@ -111,12 +107,6 @@ define(function(require) {
       } else {
         $('#paginate-next').addClass('disabled');
       }
-
-      $('#paginate-prev a').click(function(e) {
-        if(e) e.preventDefault();
-        window.history.back();
-        $('html, body').animate({scrollTop: '0px'}, 100);
-      });
 
       $('.c-results-footer').removeClass('hidden');
     }

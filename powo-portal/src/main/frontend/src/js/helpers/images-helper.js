@@ -7,11 +7,11 @@ define(['handlebars'], function(Handlebars) {
   }
 
   Handlebars.registerHelper('thumbnailImage', function(image, options) {
-    return new Handlebars.SafeString('<img src="' + image.thumbnail + '" title="'+ clean(image.caption) + '" itemprop="thumbnail"/>');
+    return new Handlebars.SafeString('<img src="' + image.thumbnail + '" alt="'+ clean(image.caption) + '" itemprop="thumbnail"/>');
   });
 
   Handlebars.registerHelper('fullsizeImage', function(image, options) {
-    return new Handlebars.SafeString('<img src="' + image.fullsize + '" title="'+ clean(image.caption) + '" />');
+    return new Handlebars.SafeString('<img src="' + image.fullsize + '" alt="'+ clean(image.caption) + '" />');
   });
 
   Handlebars.registerHelper('firstThree', function(images, options) {
