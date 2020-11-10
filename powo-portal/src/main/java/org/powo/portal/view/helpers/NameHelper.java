@@ -158,11 +158,11 @@ public class NameHelper {
 					taxonNameAndAuthor(classification.get(index), options));
 		} else {
 			if(classification.get(index).getTaxonRank() == null) {
-				return String.format("<ol><li>%s%s</li></ol>",
+				return String.format("<ul><li>%s%s</li></ul>",
 						taxonLink(classification.get(index), options),
 						classificationLine(classification, index+1, options));
 			} else {
-				return String.format("<ol><li>%s: %s%s</li></ol>",
+				return String.format("<ul><li>%s: %s%s</li></ul>",
 						WordUtils.capitalize(classification.get(index).getTaxonRank().toString().toLowerCase()),
 						taxonLink(classification.get(index), options),
 						classificationLine(classification, index+1, options));
