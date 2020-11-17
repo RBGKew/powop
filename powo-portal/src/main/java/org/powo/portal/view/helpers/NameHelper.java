@@ -97,8 +97,8 @@ public class NameHelper {
 			// look for the rank part of a name string and de-italicise it
 			for(String rank : ranks) {
 				if(formatted.contains(rank)) {
-					formatted = formatted.replace(rank + " ", "</em> " + rank + " <em>");
-					formatted = formatted.replace("<em lang='la'></em>", "");
+					formatted = formatted.replace(rank + " ", "</em> <span lang='la'>" + rank + "</span> <em lang='la'>");
+					formatted = formatted.replace("<em></em>", "");
 					break;
 				}
 			}

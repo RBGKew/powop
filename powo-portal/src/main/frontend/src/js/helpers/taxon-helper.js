@@ -82,7 +82,7 @@ define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
     var formatted = '<i lang="la">' + taxon.name + '</i>';
     _.each(ranks, function(rank) {
       if(formatted.indexOf(rank) !== -1) {
-        formatted = formatted.replace(rank + ' ', '</i> ' + rank + ' <i>');
+        formatted = formatted.replace(rank + ' ', '</i> <span lang="la">' + rank + ' </span><i lang="la">');
         formatted = formatted.replace('<i></i>', '');
         formatted = _.trimStart(formatted);
 
