@@ -19,6 +19,8 @@ body {
     border: 1px solid #008285;
     border-width: 1px 0;
     overflow-y: scroll;
+    width:100%;
+    text-align: left;
     svg {
         right: 29px;
         top: 17px;
@@ -26,7 +28,9 @@ body {
     }
   }
 }
-
+.mobile-menu:before {
+  content: "";
+}
 // Component - Article Header
 .c-article-header {
   border-top: 2px solid #e7e7e7;

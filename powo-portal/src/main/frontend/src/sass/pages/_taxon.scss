@@ -73,4 +73,10 @@ button {
 .navbar {
   border-bottom: 1px solid #949494;
   border-top:none;
+  @media (max-width: $screen-xs-max) {
+    border-bottom: none;
+  }
+}
+button.mobile-menu.collapsed:before {
+  content: none;
 }
