@@ -85,14 +85,17 @@
     <div class="container">
     {{#with descriptions}}
     <section id="descriptions" class="c-article-section">
+      <h2>
+
       <button class="btn collapser c-article-section__title"
          role="button"
          data-toggle="collapse"
          data-target="#descriptions-main"
          aria-expanded="false"
          >
-        <h2>Descriptions</h2>
+        Descriptions
       </button>
+      </h2>
       <div id="descriptions-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -108,13 +111,16 @@
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
-              <button class="btn collapser{{#unless @first}} {{/unless}}"
+              <h3>
+                <button class="btn collapser{{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
-                <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </button><small>{{bracketedSourceLink source}}</small>
+                According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
+                </button>
+              </h3>
+              <small>{{bracketedSourceLink source}}</small>
               <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#if conceptSource}}<p>{{conceptSource}}</p>{{/if}}
                 <dl class="c-article-desc-table">
@@ -138,13 +144,15 @@
 
     {{#with uses}}
     <section id="uses" class="c-article-section">
-      <button class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#uses-main"
-         aria-expanded="false">
-        <h2>Uses</h2>
-      </button>
+      <h2>
+        <button class="btn collapser c-article-section__title"
+           role="button"
+           data-toggle="collapse"
+           data-target="#uses-main"
+           aria-expanded="false">
+          Uses
+        </button>>
+      </h2>
       <div id="uses-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -160,14 +168,16 @@
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
-              <button class="btn collapser{{#unless @first}} {{/unless}}"
-                 role="button"
-                 data-toggle="collapse"
-                 data-target="#uses-{{source.abbreviation}}-{{@index}}"
-                 aria-expanded="false"
-                 >
-                <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </button><small>{{bracketedSourceLink source}}</small>
+              <h3>
+                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                   role="button"
+                   data-toggle="collapse"
+                   data-target="#uses-{{source.abbreviation}}-{{@index}}"
+                   aria-expanded="false"
+                   >
+                   According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
+                </button>
+              </h3><small>{{bracketedSourceLink source}}</small>
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#each byType}}
                   <dt>{{message type}}</dt>
@@ -188,14 +198,16 @@
 
     {{#with images}}
     <section id="image-gallery" class="c-article-section">
-      <button class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#gallery-main"
-         aria-expanded="true"
-         >
-        <h2>Images</h2>
-      </button>
+      <h2>
+        <button class="btn collapser c-article-section__title"
+           role="button"
+           data-toggle="collapse"
+           data-target="#gallery-main"
+           aria-expanded="true"
+           >
+          Images
+        </button>
+      </h2>
       <div id="gallery-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -222,14 +234,16 @@
 
     {{#with distributions}}
     <section id="distribution-map" class="c-article-section">
-      <button class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#distribution-main"
-         aria-expanded="true"
-         >
-        <h2>Distribution</h2>
-      </button>
+      <h2>
+        <button class="btn collapser c-article-section__title"
+           role="button"
+           data-toggle="collapse"
+           data-target="#distribution-main"
+           aria-expanded="true"
+           >
+          Distribution
+        </button>
+      </h2>
       <div id="distribution-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -305,14 +319,16 @@
 
     {{#with children}}
     <section id="children" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#children-main"
-         aria-expanded="true"
-         >
-        <h2>Accepted {{childRank taxon}}</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#children-main"
+           aria-expanded="true"
+           >
+           Accepted {{childRank taxon}}
+        </button>
+      </h2>
       <div id="children-main" class="container collapse in">
         <div class="row">
           {{#if sources}}
@@ -340,14 +356,16 @@
 
     {{#with synonyms}}
     <section id="synonyms" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#synonyms-main"
-         aria-expanded="true"
-         >
-        <h2>Synonyms</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#synonyms-main"
+           aria-expanded="true"
+           >
+           Synonyms
+        </button>
+      </h2>
       <div id="synonyms-main" class="container collapse in">
         <div class="row">
           {{#if sources}}
@@ -375,14 +393,16 @@
 
     {{#with vernacularNames}}
     <section id="vernacular-names" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#venacular-names-main"
-         aria-expanded="true"
-         >
-        <h2>Common Names</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#venacular-names-main"
+           aria-expanded="true"
+           >
+          Common Names
+        </button>
+      </h2>
       <div id="venacular-names-main" class="container collapse in">
         <div class="row">
           {{#if sources}}
@@ -421,14 +441,16 @@
     {{/with}}
 
     <section id="other-data" class="c-article-section offset">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#other-data-main"
-         aria-expanded="true"
-         >
-        <h2>Other Data</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#other-data-main"
+           aria-expanded="true"
+           >
+          Other Data
+        </button>
+      </h2>
       <div id="other-data-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
@@ -441,13 +463,15 @@
             {{/if}}
             {{#with identifications}}
             <div>
-              <button class="btn collapser"
-                 role="button"
-                 data-toggle="collapse"
-                 data-target="#determinations"
-                 aria-expanded="false"
-                 >
-                <h4>Herbarium Catalogue ({{count}} records)</h4></button>
+              <h4>
+                <button class="btn collapser"
+                   role="button"
+                   data-toggle="collapse"
+                   data-target="#determinations"
+                   aria-expanded="false"
+                   >
+                  Herbarium Catalogue ({{count}} records)</button>
+              </h4>
               <div id="determinations" class="table-responsive collapse in">
                 <table class="table table-hover">
                   <thead>
@@ -489,14 +513,16 @@
 
     {{#if bibliography}}
     <section id="bibliography" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#bibliography-main"
-         aria-expanded="true"
-         >
-        <h2>Bibliography</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#bibliography-main"
+           aria-expanded="true"
+           >
+          Bibliography
+        </button>
+      </h2>
       <div id="bibliography-main" class="container collapse in">
         <script type="text/javascript">
           var bibliography = {
@@ -533,14 +559,16 @@
     {{/if}}
 
     <section id="sources" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#sources-main"
-         aria-expanded="true"
-         >
-        <h2>Sources</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#sources-main"
+           aria-expanded="true"
+           >
+          Sources
+        </button>
+      </h2>
       <div id="sources-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
