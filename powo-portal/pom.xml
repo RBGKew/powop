@@ -203,7 +203,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>1.6</version>
 
 				<configuration>
 					<workingDirectory>src/main/frontend</workingDirectory>
@@ -213,31 +213,37 @@
 				<executions>
 					<execution>
 						<id>install node and npm</id>
+						<phase>generate-resources</phase>
 						<goals>
-							<goal>install-node-and-npm</goal>
+							<goal>install-node-and-yarn</goal>
 						</goals>
 						<configuration>
 							<nodeVersion>v10.15.3</nodeVersion>
-							<npmVersion>6.4.1</npmVersion>
+							<yarnVersion>v1.17.3</yarnVersion>
 						</configuration>
 					</execution>
 
 					<execution>
-						<id>npm install</id>
+						<id>install yarn dependencies</id>
+						<phase>generate-resources</phase>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
+						<configuration>
+							<!-- YARN_INSTALL_ARGS are used during CI to configure caching etc -->
+							<arguments>${env.YARN_INSTALL_ARGS}</arguments>
+						</configuration>
 					</execution>
-					
+
 					<execution>
-							<id>run js tests</id>
-							<phase>test</phase>
-							<goals>
-									<goal>npm</goal>
-							</goals>
-							<configuration>
-									<arguments>test</arguments>
-							</configuration>
+						<id>run js tests</id>
+						<phase>test</phase>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<arguments>test</arguments>
+						</configuration>
 					</execution>
 
 					<execution>
