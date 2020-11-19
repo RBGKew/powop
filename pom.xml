@@ -750,7 +750,6 @@
 				<version>2.8.1</version>
 				<configuration>
 					<skip>${skip.global.tests}</skip>
-					<argLine>-XX:-UseSplitVerifier</argLine>
 					<excludes>
 						<exclude>**/*IntegrationTest.java</exclude>
 						<exclude>**/*FunctionalTest.java</exclude>
