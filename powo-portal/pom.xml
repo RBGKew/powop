@@ -228,9 +228,10 @@
 							<goal>npm</goal>
 						</goals>
 					</execution>
-
+					
 					<execution>
 						<id>gulp build</id>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>gulp</goal>
 						</goals>

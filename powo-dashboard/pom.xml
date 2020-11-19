@@ -49,8 +49,8 @@
             <goals>
               <goal>install-node-and-yarn</goal>
             </goals>
-            <phase>generate-resources</phase>
           </execution>
+
           <execution>
             <id>yarn install</id>
             <goals>
@@ -60,6 +60,7 @@
 
           <execution>
             <id>yarn build</id>
+            <phase>prepare-package</phase>
             <goals>
               <goal>yarn</goal>
             </goals>
