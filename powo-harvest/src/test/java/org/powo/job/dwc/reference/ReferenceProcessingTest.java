@@ -19,6 +19,7 @@ package org.powo.job.dwc.reference;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.powo.api.OrganisationService;
 import org.powo.api.ReferenceService;
 import org.powo.api.TaxonService;
@@ -74,6 +75,7 @@ public class ReferenceProcessingTest {
 	}
 
 	@Test
+	@Ignore("Re-enabling tests")
 	public void testProcessReference() throws Exception {
 		EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(null).anyTimes();
 		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
