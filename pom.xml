@@ -57,8 +57,7 @@
 		<lucene.version>7.5.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<skip.global.tests>true</skip.global.tests>
-		<skip.global.tests>true</skip.global.tests>
+		<skip.global.tests>false</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
 		<spring.batch.admin.version>1.3.1.RELEASE</spring.batch.admin.version>
 		<spring.batch.version>4.0.0.RELEASE</spring.batch.version>
