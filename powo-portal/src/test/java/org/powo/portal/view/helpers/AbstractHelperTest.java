@@ -129,6 +129,19 @@ public class AbstractHelperTest {
 		org.junit.Assert.assertEquals("'" + expected + "' should === '" + result + "': " + message, expected, result);
 	}
 
+
+	/**
+	 * Helper to execute the given template with the provided data, returning the rendered content
+	 * @param template
+	 * @param data
+	 * @return
+	 * @throws IOException
+	 */
+	public String renderTemplate(final String template, final Object data) throws IOException {
+		Template t = compile(template, new Hash(), new Hash());
+		return t.apply(data);
+	}
+
 	protected Object configureContext(final Object context) {
 		return context;
 	}
