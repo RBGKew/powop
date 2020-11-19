@@ -230,6 +230,17 @@
 					</execution>
 					
 					<execution>
+							<id>run js tests</id>
+							<phase>test</phase>
+							<goals>
+									<goal>npm</goal>
+							</goals>
+							<configuration>
+									<arguments>test</arguments>
+							</configuration>
+					</execution>
+
+					<execution>
 						<id>gulp build</id>
 						<phase>prepare-package</phase>
 						<goals>
