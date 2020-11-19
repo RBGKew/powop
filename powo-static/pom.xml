@@ -12,6 +12,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<powo.dashboard.frontendDistDir>../powo-dashboard/dist</powo.dashboard.frontendDistDir>
+		<powo.portal.frontendDistDir>../powo-portal/src/main/frontend/dist/</powo.portal.frontendDistDir>
 	</properties>
 
 	<build>
@@ -79,25 +81,29 @@
 								<mkdir dir="${project.build.directory}/static/css/" />
 								<mkdir dir="${project.build.directory}/admin/" />
 
+								<!-- Portal files -->
 								<copy todir="${project.build.directory}/static/img">
-									<fileset dir="${basedir}/src/frontend/img" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/img" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/js">
-									<fileset dir="${basedir}/src/frontend/js" includes="**/*" />
-								</copy>
-								<copy todir="${project.build.directory}/static/js">
-									<fileset dir="${basedir}/src/admin/js" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/js" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/fonts">
-									<fileset dir="${basedir}/src/frontend/fonts" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/fonts" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/css">
-									<fileset dir="${basedir}/src/frontend/css" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/css" includes="**/*" />
+								</copy>
+
+								<!-- Dashboard files -->
+								<copy todir="${project.build.directory}/static/js">
+									<fileset dir="${powo.dashboard.frontendDistDir}/js" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/css">
-									<fileset dir="${basedir}/src/admin/css" includes="**/*" />
+									<fileset dir="${powo.dashboard.frontendDistDir}/css" includes="**/*" />
 								</copy>
-								<copy file="${basedir}/src/admin/index.html" todir="${project.build.directory}/admin/"/>
+								<copy file="${powo.dashboard.frontendDistDir}/index.html" todir="${project.build.directory}/admin/"/>
+
 							</tasks>
 						</configuration>
 						<goals>
