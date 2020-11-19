@@ -37,7 +37,8 @@ public class NameHelperTest extends AbstractHelperTest {
 
 	@Test
 	public void testLink() throws IOException {
-		shouldCompileTo("{{taxonLink this}}", taxon, "<a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em lang='la'>Aralidiaceae</em> Philipson & B.C.Stone</a>");
+		shouldCompileTo("{{taxonLink this}}", taxon,
+				"<a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em lang='la'>Aralidiaceae</em> Philipson & B.C.Stone</a>");
 		shouldCompileTo("{{taxonLink this \"Blarg\"}}", taxon, "<a href=\"/taxon/urn:lsid:ipni.org:names:1-1\">Blarg</a>");
 	}
 
@@ -53,7 +54,7 @@ public class NameHelperTest extends AbstractHelperTest {
 
 		shouldCompileTo("{{classification this}}", child,
 				"<ul><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-1\"><em lang='la'>Aralidiaceae</em> Philipson & B.C.Stone</a>"
-				+ "<ul><li><h1 class=\"c-summary__heading\"><em lang='la'>aaa</em> <small>L.</small></h1></li>"
-				+ "</ul></li></ul>");
+						+ "<ul><li><h1 class=\"c-summary__heading\"><em lang='la'>aaa</em> <small>L.</small></h1></li>"
+						+ "</ul></li></ul>");
 	}
 }
