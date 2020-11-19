@@ -68,7 +68,7 @@
 				<executions>
 					<execution>
 						<id>assemble-static-assets</id>
-						<phase>process-resources</phase>
+						<phase>prepare-package</phase>
 						<configuration>
 							<tasks>
 								<delete includeEmptyDirs="true" quiet="true">
