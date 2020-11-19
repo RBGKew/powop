@@ -63,6 +63,8 @@
 		<spring.batch.version>4.0.0.RELEASE</spring.batch.version>
 		<spring.security.version>5.0.1.RELEASE</spring.security.version>
 		<spring.version>5.1.2.RELEASE</spring.version>
+		<node.version>v10.15.3</node.version>
+		<yarn.version>v1.17.3</yarn.version>
 	</properties>
 
 	<inceptionYear>2010</inceptionYear>
@@ -714,6 +716,12 @@
 						<username>powo</username>
 						<password>powo</password>
 					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>1.6</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
