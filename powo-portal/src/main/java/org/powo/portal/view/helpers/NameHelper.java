@@ -91,14 +91,19 @@ public class NameHelper {
 			"f."
 	};
 
+// expected:
+// <...a'>Bromus alopecuros[</em> subsp. <em lang='la'>caroli-henrici</em] <small>(Greuter) P....>
+// <...a'>Bromus alopecuros[ </em> subsp. <em lang='la'> caroli-henrici</em>] <small>(Greuter) P....>
+// but was:
+// 
+
 	public CharSequence taxonName(Taxon taxon) {
-		if(taxon != null && taxon.getScientificName() != null) {
+		if (taxon != null && taxon.getScientificName() != null) {
 			String formatted = "<em lang='la'>" + taxon.getScientificName() + "</em>";
 			// look for the rank part of a name string and de-italicise it
-			for(String rank : ranks) {
-				if(formatted.contains(rank)) {
-					formatted = formatted.replace(rank + " ", "</em> <span lang='la'>" + rank + "</span> <em lang='la'>");
-					formatted = formatted.replace("<em></em>", "");
+			for (String rank : ranks) {
+				if (formatted.contains(rank)) {
+					formatted = formatted.replace(" " + rank + " ", "</em> " + rank + " <em lang='la'>");
 					break;
 				}
 			}

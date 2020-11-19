@@ -62,8 +62,8 @@ public class NameHelperTest extends AbstractHelperTest {
 
 		subspecies = new Taxon();
 		subspecies.setIdentifier("urn:lsid:ipni.org:names:1-3");
-		subspecies.setScientificName("Bromus alopecuros");
-		subspecies.setScientificNameAuthorship("Poir.");
+		subspecies.setScientificName("Bromus alopecuros subsp. caroli-henrici");
+		subspecies.setScientificNameAuthorship("(Greuter) P.M.Sm.");
 		subspecies.setTaxonRank(Rank.SUBSPECIES);
 		subspecies.setParentNameUsage(genus);
 	}
@@ -106,6 +106,19 @@ public class NameHelperTest extends AbstractHelperTest {
 				"<ul><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-2\"><em lang='la'>Poaceae</em> Barnhart</a>"
 						+ "<ul><li>Genus: <a href=\"/taxon/urn:lsid:ipni.org:names:1-3\"><em lang='la'>Bromus</em> L.</a>"
 						+ "<ul><li><h1 class=\"c-summary__heading\"><em lang='la'>Bromus alopecuros</em> <small>Poir.</small></h1>"
+						+ "</li></ul></li></ul></li></ul>",
+				result);
+	}
+
+	@Test
+	public void testClassificationSubspeciesRendersParentLinksAndHeadingWithRankNotItalic() throws IOException {
+		var result = renderTemplate("{{ classification this }}", subspecies);
+
+		assertEquals(
+				"<ul><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-2\"><em lang='la'>Poaceae</em> Barnhart</a>"
+						+ "<ul><li>Genus: <a href=\"/taxon/urn:lsid:ipni.org:names:1-3\"><em lang='la'>Bromus</em> L.</a>"
+						// Bromus alopecuros subsp. caroli-henrici (Greuter) P.M.Sm.
+						+ "<ul><li><h1 class=\"c-summary__heading\"><em lang='la'>Bromus alopecuros</em> subsp. <em lang='la'>caroli-henrici</em> <small>(Greuter) P.M.Sm.</small></h1>"
 						+ "</li></ul></li></ul></li></ul>",
 				result);
 	}
