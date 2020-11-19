@@ -43,7 +43,13 @@ public class NameHelperTest extends AbstractHelperTest {
 	}
 
 	@Test
-	public void testClassification() throws IOException {
+	public void testClassificationFamilyRendersHeading() throws IOException {
+		shouldCompileTo("{{classification this}}", taxon,
+				"<ul><li><h1 class=\"c-summary__heading\"><em lang='la'>Aralidiaceae</em> <small>Philipson & B.C.Stone</small></h1></li></ul>");
+	}
+	
+	@Test
+	public void testClassificationGenusRendersFamilyLinkAndGenusHeading() throws IOException {
 		Taxon child = new Taxon();
 
 		child.setIdentifier("111");
