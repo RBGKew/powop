@@ -91,12 +91,6 @@ public class NameHelper {
 			"f."
 	};
 
-// expected:
-// <...a'>Bromus alopecuros[</em> subsp. <em lang='la'>caroli-henrici</em] <small>(Greuter) P....>
-// <...a'>Bromus alopecuros[ </em> subsp. <em lang='la'> caroli-henrici</em>] <small>(Greuter) P....>
-// but was:
-// 
-
 	public CharSequence taxonName(Taxon taxon) {
 		if (taxon != null && taxon.getScientificName() != null) {
 			String formatted = "<em lang='la'>" + taxon.getScientificName() + "</em>";
