@@ -98,7 +98,6 @@ public class NameHelper {
 			for (String rank : ranks) {
 				if (formatted.contains(rank)) {
 					formatted = formatted.replace(" " + rank + " ", "</em> " + rank + " <em lang='la'>");
-					break;
 				}
 			}
 

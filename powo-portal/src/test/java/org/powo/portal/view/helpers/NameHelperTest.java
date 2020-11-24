@@ -122,4 +122,25 @@ public class NameHelperTest extends AbstractHelperTest {
 						+ "</li></ul></li></ul></li></ul>",
 				result);
 	}
+
+	@Test
+	public void testClassificationMultipleRanks() throws IOException {
+		var multiRankTaxon = new Taxon();
+		multiRankTaxon.setIdentifier("urn:lsid:ipni.org:names:1-3");
+		multiRankTaxon.setScientificName("Bromus hordeaceus subsp. bicuspis var. leiostachys");
+		multiRankTaxon.setScientificNameAuthorship("(Greuter) P.M.Sm.");
+		multiRankTaxon.setTaxonRank(Rank.SUBSPECIES);
+		multiRankTaxon.setParentNameUsage(genus);
+		var result = renderTemplate("{{ classification this }}", multiRankTaxon);
+
+		assertEquals(
+				"<ul><li>Family: <a href=\"/taxon/urn:lsid:ipni.org:names:1-2\"><em lang='la'>Poaceae</em> Barnhart</a>"
+						+ "<ul><li>Genus: <a href=\"/taxon/urn:lsid:ipni.org:names:1-3\"><em lang='la'>Bromus</em> L.</a>"
+						// Bromus hordeaceus subsp. bicuspis var. leiostachys (Greuter) P.M.Sm.
+						+ "<ul><li><h1 class=\"c-summary__heading\">"
+						+ "<em lang='la'>Bromus hordeaceus</em> subsp. <em lang='la'>bicuspis</em>"
+						+ " var. <em lang='la'>leiostachys</em> <small>(Greuter) P.M.Sm.</small></h1>"
+						+ "</li></ul></li></ul></li></ul>",
+				result);
+	}
 }
