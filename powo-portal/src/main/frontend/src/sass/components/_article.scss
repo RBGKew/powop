@@ -19,6 +19,8 @@ body {
     border: 1px solid #008285;
     border-width: 1px 0;
     overflow-y: scroll;
+    width:100%;
+    text-align: left;
     svg {
         right: 29px;
         top: 17px;
@@ -26,7 +28,9 @@ body {
     }
   }
 }
-
+.mobile-menu:before {
+  content: "";
+}
 // Component - Article Header
 .c-article-header {
   border-top: 2px solid #e7e7e7;
@@ -112,6 +116,58 @@ body {
 .c-article-section {
   padding: 0 2em 0;
   border-bottom: 1px solid #EEEEEE;
+  h2 {
+    display: inline;
+    .btn {
+      font-size: 26px;
+      font-weight: 700;
+    }
+    button {
+      &.collapser {
+        &::before {
+          margin-top: 7px;
+        }
+      }
+    }
+  }
+  h3 {
+    display: inline;
+    .btn {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    button {
+      &.collapser {
+        &::before {
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+  button {
+    &.collapser {
+      white-space: inherit;
+      text-align: left; 
+      background: #fff;
+      display: inline-flex;
+        &::before {
+          font-family: 'Glyphicons Halflings';
+          font-size: 16px;
+          padding-right: 1em;
+          content: "\e114";
+          color: #333333; 
+          margin-top: 4px;
+        }
+      }
+      &.collapsed {
+        &::before {
+          content: "\e080"; 
+        }
+      }
+      &:active {
+        box-shadow: none; 
+      }
+  }
   @media (min-width: $screen-md-min) {
     padding: 2em 0;
   }

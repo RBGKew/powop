@@ -7,17 +7,18 @@
 <div id="{{taxon.identifier}}" class="s-page s-page--taxon">
   {{> partials/page-header withSearchBox="true" }}
 
-  <article class="c-article" id="main" role=”main”>
+  <main class="c-article" id="main">
     <header class="c-article-header">
       <div class="container">
         <div class="c-summary">
           {{classification taxon}}
           {{#with summary}}
-            <p> {{{this}}}
-              {{#with taxon.acceptedNameUsage }}
-                {{taxonLink this}}
-              {{/with}}
+            <p> 
+              {{{this}}}
             </p>
+            {{#with taxon.acceptedNameUsage }}
+              {{taxonLink this}}
+            {{/with}}
           {{/with}}
         </div>
         {{#with images.headerImage }}
@@ -26,20 +27,20 @@
       </div>
     </header>
     
-  <nav class="navbar navbar-default navbar--article navbar-expand-lg" role=”navigation”>
-    <div class="navbar-toggler mobile-menu" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" tabindex="0">
+  <nav class="navbar navbar-default navbar--article navbar-expand-lg">
+    <button class="navbar-toggler mobile-menu" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       On this page
       <svg class="pull-right" width="14px" height="8px" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
-    <title>Iconography/16x16/Arrow/Down/Black</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Module-World-location" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Iconography/16x16/Arrow/Down/Black" transform="translate(-1.000000, -4.000000)" fill="#262626">
-            <path d="M1,5.04434791 C1,4.77632278 1.10299816,4.50929775 1.3079945,4.30527862 C1.71798718,3.89824046 2.38397529,3.89824046 2.79496795,4.30527862 L7.999875,9.47776354 L13.2047821,4.30527862 C13.6157747,3.89824046 14.2807628,3.89824046 14.6917555,4.30527862 C15.1027482,4.71331687 15.1027482,5.37537894 14.6917555,5.7824171 L8.74386172,11.6939713 C8.33286906,12.1020096 7.66688095,12.1020096 7.25688827,11.6939713 L1.3079945,5.7824171 C1.10299816,5.57939807 1,5.31237303 1,5.04434791 Z"></path>
-        </g>
-    </g>
-</svg>
-    </div>
+          <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+          <title>Iconography/16x16/Arrow/Down/Black</title>
+          <desc>Created with Sketch.</desc>
+          <g id="Module-World-location" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <g transform="translate(-1.000000, -4.000000)" fill="#262626">
+                  <path d="M1,5.04434791 C1,4.77632278 1.10299816,4.50929775 1.3079945,4.30527862 C1.71798718,3.89824046 2.38397529,3.89824046 2.79496795,4.30527862 L7.999875,9.47776354 L13.2047821,4.30527862 C13.6157747,3.89824046 14.2807628,3.89824046 14.6917555,4.30527862 C15.1027482,4.71331687 15.1027482,5.37537894 14.6917555,5.7824171 L8.74386172,11.6939713 C8.33286906,12.1020096 7.66688095,12.1020096 7.25688827,11.6939713 L1.3079945,5.7824171 C1.10299816,5.57939807 1,5.31237303 1,5.04434791 Z"></path>
+              </g>
+          </g>
+      </svg>
+    </button>
     <div class="c-article-nav collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav navbar-nav--article nav-item">
         {{#if descriptions}}
@@ -84,14 +85,17 @@
     <div class="container">
     {{#with descriptions}}
     <section id="descriptions" class="c-article-section">
+      <h2>
+
       <button class="btn collapser c-article-section__title"
          role="button"
          data-toggle="collapse"
          data-target="#descriptions-main"
          aria-expanded="false"
          >
-        <h2>Descriptions</h2>
+        Descriptions
       </button>
+      </h2>
       <div id="descriptions-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -107,13 +111,16 @@
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
-              <button class="btn collapser{{#unless @first}} {{/unless}}"
+              <h3>
+                <button class="btn collapser{{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
-                <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </button><small>{{bracketedSourceLink source}}</small>
+                According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
+                </button>
+              </h3>
+              <small>{{bracketedSourceLink source}}</small>
               <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#if conceptSource}}<p>{{conceptSource}}</p>{{/if}}
                 <dl class="c-article-desc-table">
@@ -137,13 +144,15 @@
 
     {{#with uses}}
     <section id="uses" class="c-article-section">
-      <button class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#uses-main"
-         aria-expanded="false">
-        <h2>Uses</h2>
-      </button>
+      <h2>
+        <button class="btn collapser c-article-section__title"
+           role="button"
+           data-toggle="collapse"
+           data-target="#uses-main"
+           aria-expanded="false">
+          Uses
+        </button>>
+      </h2>
       <div id="uses-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -159,14 +168,16 @@
           <div class="c-article-section__content">
             {{#each bySource}}
             <div class="description">
-              <button class="btn collapser{{#unless @first}} {{/unless}}"
-                 role="button"
-                 data-toggle="collapse"
-                 data-target="#uses-{{source.abbreviation}}-{{@index}}"
-                 aria-expanded="false"
-                 >
-                <h3>According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}</h3>
-              </button><small>{{bracketedSourceLink source}}</small>
+              <h3>
+                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                   role="button"
+                   data-toggle="collapse"
+                   data-target="#uses-{{source.abbreviation}}-{{@index}}"
+                   aria-expanded="false"
+                   >
+                   According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
+                </button>
+              </h3><small>{{bracketedSourceLink source}}</small>
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#each byType}}
                   <dt>{{message type}}</dt>
@@ -187,14 +198,16 @@
 
     {{#with images}}
     <section id="image-gallery" class="c-article-section">
-      <button class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#gallery-main"
-         aria-expanded="true"
-         >
-        <h2>Images</h2>
-      </button>
+      <h2>
+        <button class="btn collapser c-article-section__title"
+           role="button"
+           data-toggle="collapse"
+           data-target="#gallery-main"
+           aria-expanded="true"
+           >
+          Images
+        </button>
+      </h2>
       <div id="gallery-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -221,14 +234,16 @@
 
     {{#with distributions}}
     <section id="distribution-map" class="c-article-section">
-      <button class="btn collapser c-article-section__title"
-         role="button"
-         data-toggle="collapse"
-         data-target="#distribution-main"
-         aria-expanded="true"
-         >
-        <h2>Distribution</h2>
-      </button>
+      <h2>
+        <button class="btn collapser c-article-section__title"
+           role="button"
+           data-toggle="collapse"
+           data-target="#distribution-main"
+           aria-expanded="true"
+           >
+          Distribution
+        </button>
+      </h2>
       <div id="distribution-main" class="container collapse in">
         <div class="row">
           <aside role="complementary" class="c-article-section__aside">
@@ -304,14 +319,16 @@
 
     {{#with children}}
     <section id="children" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#children-main"
-         aria-expanded="true"
-         >
-        <h2>Accepted {{childRank taxon}}</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#children-main"
+           aria-expanded="true"
+           >
+           Accepted {{childRank taxon}}
+        </button>
+      </h2>
       <div id="children-main" class="container collapse in">
         <div class="row">
           {{#if sources}}
@@ -339,14 +356,16 @@
 
     {{#with synonyms}}
     <section id="synonyms" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#synonyms-main"
-         aria-expanded="true"
-         >
-        <h2>Synonyms</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#synonyms-main"
+           aria-expanded="true"
+           >
+           Synonyms
+        </button>
+      </h2>
       <div id="synonyms-main" class="container collapse in">
         <div class="row">
           {{#if sources}}
@@ -374,14 +393,16 @@
 
     {{#with vernacularNames}}
     <section id="vernacular-names" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#venacular-names-main"
-         aria-expanded="true"
-         >
-        <h2>Common Names</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#venacular-names-main"
+           aria-expanded="true"
+           >
+          Common Names
+        </button>
+      </h2>
       <div id="venacular-names-main" class="container collapse in">
         <div class="row">
           {{#if sources}}
@@ -420,14 +441,16 @@
     {{/with}}
 
     <section id="other-data" class="c-article-section offset">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#other-data-main"
-         aria-expanded="true"
-         >
-        <h2>Other Data</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#other-data-main"
+           aria-expanded="true"
+           >
+          Other Data
+        </button>
+      </h2>
       <div id="other-data-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
@@ -440,13 +463,15 @@
             {{/if}}
             {{#with identifications}}
             <div>
-              <button class="btn collapser"
-                 role="button"
-                 data-toggle="collapse"
-                 data-target="#determinations"
-                 aria-expanded="false"
-                 >
-                <h4>Herbarium Catalogue ({{count}} records)</h4></button>
+              <h4>
+                <button class="btn collapser"
+                   role="button"
+                   data-toggle="collapse"
+                   data-target="#determinations"
+                   aria-expanded="false"
+                   >
+                  Herbarium Catalogue ({{count}} records)</button>
+              </h4>
               <div id="determinations" class="table-responsive collapse in">
                 <table class="table table-hover">
                   <thead>
@@ -488,14 +513,16 @@
 
     {{#if bibliography}}
     <section id="bibliography" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#bibliography-main"
-         aria-expanded="true"
-         >
-        <h2>Bibliography</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#bibliography-main"
+           aria-expanded="true"
+           >
+          Bibliography
+        </button>
+      </h2>
       <div id="bibliography-main" class="container collapse in">
         <script type="text/javascript">
           var bibliography = {
@@ -532,14 +559,16 @@
     {{/if}}
 
     <section id="sources" class="c-article-section">
-      <button class="btn c-article-section__title collapser"
-         role="button"
-         data-toggle="collapse"
-         data-target="#sources-main"
-         aria-expanded="true"
-         >
-        <h2>Sources</h2>
-      </button>
+      <h2>
+        <button class="btn c-article-section__title collapser"
+           role="button"
+           data-toggle="collapse"
+           data-target="#sources-main"
+           aria-expanded="true"
+           >
+          Sources
+        </button>
+      </h2>
       <div id="sources-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
@@ -561,7 +590,7 @@
       </div>
     </section>
     </div>
-  </article>
+  </main>
 
   {{> partials/footer-links}}
 </div>

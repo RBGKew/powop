@@ -3,47 +3,6 @@
     border-left-color: #000;
   }
 }
-button.collapser {
-  white-space: inherit;
-  text-align: left; 
-  background: #fff;
-  display: inline-flex;
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    }
-}
-
-button {
-  &.collapser {
-    h2 {
-      display: inline;
-    }
-    h3 {
-      display: inline;
-    }
-    &::before {
-      font-family: 'Glyphicons Halflings';
-      font-size: 0.8em;
-      padding-right: 1em;
-      content: "\e114";
-      color: #333333; 
-      margin-top: 2px;}
-    }
-    &.collapsed {
-      &::before {
-        content: "\e080"; 
-      }
-    }
-    &:active {
-      box-shadow: none; 
-    }
-}
-
 .to-top {
   display: block;
   top: 19px;
@@ -73,4 +32,10 @@ button {
 .navbar {
   border-bottom: 1px solid #949494;
   border-top:none;
+  @media (max-width: $screen-xs-max) {
+    border-bottom: none;
+  }
+}
+button.mobile-menu.collapsed:before {
+  content: none;
 }
