@@ -57,13 +57,14 @@
 		<lucene.version>7.5.0</lucene.version>
 		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<skip.global.tests>true</skip.global.tests>
-		<skip.global.tests>true</skip.global.tests>
+		<skip.global.tests>false</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
 		<spring.batch.admin.version>1.3.1.RELEASE</spring.batch.admin.version>
 		<spring.batch.version>4.0.0.RELEASE</spring.batch.version>
 		<spring.security.version>5.0.1.RELEASE</spring.security.version>
 		<spring.version>5.1.2.RELEASE</spring.version>
+		<node.version>v10.15.3</node.version>
+		<yarn.version>v1.17.3</yarn.version>
 	</properties>
 
 	<inceptionYear>2010</inceptionYear>
@@ -716,6 +717,12 @@
 						<password>powo</password>
 					</configuration>
 				</plugin>
+
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>1.6</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -751,7 +758,6 @@
 				<version>2.8.1</version>
 				<configuration>
 					<skip>${skip.global.tests}</skip>
-					<argLine>-XX:-UseSplitVerifier</argLine>
 					<excludes>
 						<exclude>**/*IntegrationTest.java</exclude>
 						<exclude>**/*FunctionalTest.java</exclude>
