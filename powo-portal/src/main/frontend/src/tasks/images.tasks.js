@@ -20,7 +20,7 @@ module.exports = function (gulp, $) {
       .pipe($.imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
+            use: [$.imagemin.optipng({optimizationLevel: 5})]
         }))
       .pipe(gulp.dest('dist/img/raster'))
       .pipe(rasterFilter.restore)
