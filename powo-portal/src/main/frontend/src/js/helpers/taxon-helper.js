@@ -134,9 +134,4 @@ define(['handlebars', '../libs/lodash'], function(Handlebars, _) {
 
     return new Handlebars.SafeString(str);
   });
-
-  return {
-    taxonName: taxonName,
-  }
-
 });

@@ -1,9 +1,35 @@
-const taxonHelper = require('./taxon-helper');
+const Handlebars = require("handlebars");
+require("./taxon-helper");
 
-const taxon = {
-  name:"Bromus alopecuros subsp. caroli-henrici"
-};
+describe("nameAndAuthor", () => {
+  test.todo("handles simple name");
 
-test('Expect taxonName to arrange in the correct manner', () => {
-  expect(taxonHelper.taxonName(taxon)).toBe('<i lang="la">Bromus alopecuros </i> <span lang="la">subsp. </span><i lang="la">caroli-henrici</i>');
+  test("handles name with single rank", () => {
+    const taxon = {
+      name: "Bromus alopecuros subsp. caroli-henrici",
+    };
+    const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
+
+    expect(template({ taxon })).toEqual(
+      '<em lang="la">Bromus alopecuros</em> subsp. <em lang="la">caroli-henrici</em>'
+    );
+  });
+
+  test.todo("handles name with multiple ranks");
+
+  test.todo("handles author");
+});
+
+describe("taxonLink", () => {
+  test.todo("handles simple name");
+
+  test.todo("handles author");
+});
+
+describe("color-theme", () => {
+  test.todo("handles accepted taxon");
+
+  test.todo("handles accepted taxon with rank");
+
+  test.todo("handles not accepted taxon");
 });
