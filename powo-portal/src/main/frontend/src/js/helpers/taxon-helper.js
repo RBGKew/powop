@@ -1,4 +1,4 @@
-define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
+define(['handlebars', '../libs/lodash'], function(Handlebars, _) {
   var ranks = [
     "[infrafam.unranked]",
     "[infragen.unranked]",
@@ -135,8 +135,8 @@ define(['handlebars', 'libs/lodash'], function(Handlebars, _) {
     return new Handlebars.SafeString(str);
   });
 
-  // return {
-  //   taxonName: taxonName,
-  // }
+  return {
+    taxonName: taxonName,
+  }
 
 });
