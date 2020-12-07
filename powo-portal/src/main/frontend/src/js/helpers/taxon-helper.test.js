@@ -9,13 +9,21 @@ describe("nameAndAuthor", () => {
       name: "Bromus alopecuros subsp. caroli-henrici",
     };
     const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
-
+    console.log(template({ taxon }));
     expect(template({ taxon })).toEqual(
       '<em lang="la">Bromus alopecuros</em> subsp. <em lang="la">caroli-henrici</em>'
     );
   });
 
-  test.todo("handles name with multiple ranks");
+  test("handles name with multiple ranks", () => {
+    const taxon = {
+      name: "Bromus hordeaceus subsp. bicuspis var. leiostachys",
+    };
+    const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
+    expect(template({ taxon })).toEqual(
+      '<em lang="la">Bromus hordeaceus</em> subsp. <em lang="la">bicuspis</em> var. <em lang="la">leiostachys</em>'
+    );
+  });
 
   test.todo("handles author");
 });

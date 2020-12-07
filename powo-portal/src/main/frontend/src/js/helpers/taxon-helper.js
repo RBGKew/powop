@@ -79,15 +79,13 @@ define(['handlebars', '../libs/lodash'], function(Handlebars, _) {
   ];
 
   var taxonName = function(taxon) {
-    var formatted = '<i lang="la">' + taxon.name + '</i>';
+    var formatted = '<em lang="la">' + taxon.name + '</em>';
     _.each(ranks, function(rank) {
-      if(formatted.indexOf(rank) !== -1) {
-        formatted = formatted.replace(rank + ' ', '</i> <span lang="la">' + rank + ' </span><i lang="la">');
-        formatted = formatted.replace('<i></i>', '');
+      if(formatted.indexOf(rank) > -1) {
+        console.log(rank)
+        formatted = formatted.replace(rank + ' ', '</em> ' + rank + ' <em lang="la">');
+        formatted = formatted.replace('<em></em>', '');
         formatted = _.trimStart(formatted);
-
-        // break out of loop so ranks that are substrings of others won't be replaced
-        return false;
       }
     });
 
