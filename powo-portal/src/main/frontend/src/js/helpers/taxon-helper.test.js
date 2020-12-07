@@ -4,7 +4,7 @@ require("./taxon-helper");
 describe("nameAndAuthor", () => {
   test.todo("handles simple name");
 
-  test("handles name with single rank", () => {
+  test.skip("handles name with single rank", () => {
     const taxon = {
       name: "Bromus alopecuros subsp. caroli-henrici",
     };
@@ -15,7 +15,7 @@ describe("nameAndAuthor", () => {
     );
   });
 
-  test("handles name with multiple ranks", () => {
+  test.skip("handles name with multiple ranks", () => {
     const taxon = {
       name: "Bromus hordeaceus subsp. bicuspis var. leiostachys",
     };
@@ -29,15 +29,66 @@ describe("nameAndAuthor", () => {
 });
 
 describe("taxonLink", () => {
-  test.todo("handles simple name");
+  test.skip("handles simple name", () => {
+    const taxon = {
+      name: "Bromus alopecuros subsp. caroli-henrici",
+      url: "urn:lsid:ipni.org:names:1-1",
+    };
+    const template = Handlebars.compile("{{ taxonLink taxon }}");
+    console.log(template({ taxon }));
+    expect(template({ taxon })).toEqual(
+      '<a href="urn:lsid:ipni.org:names:1-1"><em lang="la">Bromus alopecuros</em> subsp. <em lang="la">caroli-henrici</em>'
+    );
+  });
 
-  test.todo("handles author");
+  test.skip("handles author", () => {
+    const taxon = {
+      name: "Bromus alopecuros subsp. caroli-henrici",
+      url: "urn:lsid:ipni.org:names:1-1",
+      author: "Philipson & B.C.Stone"
+    };
+    const template = Handlebars.compile("{{ taxonLink taxon }}");
+    console.log(template({ taxon }));
+    expect(template({ taxon })).toEqual(
+      '<a href="urn:lsid:ipni.org:names:1-1"><em lang="la">Bromus alopecuros</em> subsp. <em lang="la">caroli-henrici</em> <cite>Philipson & B.C.Stone</cite></a>'
+    );
+  });
 });
 
 describe("color-theme", () => {
-  test.todo("handles accepted taxon");
+  test("handles accepted taxon", () => {
+    const taxon = {
+      accepted: true,
+      rank: "subspecies",
+    };
+    const template = Handlebars.compile("{{ color-theme taxon }}");
+    console.log(template({ taxon }));
+    expect(template({ taxon })).toEqual(
+      's-theme-Infraspecific'
+    );
+  });
 
-  test.todo("handles accepted taxon with rank");
+  test("handles accepted taxon with rank", () => {
+    const taxon = {
+      accepted: true,
+      rank: "family",
+    };
+    const template = Handlebars.compile("{{ color-theme taxon }}");
+    console.log(template({ taxon }));
+    expect(template({ taxon })).toEqual(
+      's-theme-family'
+    );
+  });
 
-  test.todo("handles not accepted taxon");
+  test("handles not accepted taxon", () => {
+    const taxon = {
+      accepted: false,
+      rank: "subspecies",
+    };
+    const template = Handlebars.compile("{{ color-theme taxon }}");
+    console.log(template({ taxon }));
+    expect(template({ taxon })).toEqual(
+      's-theme-Synonym'
+    );
+  });
 });
