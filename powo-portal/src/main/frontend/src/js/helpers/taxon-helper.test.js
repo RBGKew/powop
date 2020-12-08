@@ -26,7 +26,7 @@ describe("nameAndAuthor", () => {
     const taxon = {
       name: "Bromus hordeaceus subsp. bicuspis var. leiostachys"
     };
-    const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
+    const template = Handlebars.compile("{{nameAndAuthor taxon}}");
     expect(template({ taxon })).toEqual(
       '<em lang="la">Bromus hordeaceus</em> subsp. <em lang="la">bicuspis</em> var. <em lang="la">leiostachys</em>'
     );
@@ -39,7 +39,7 @@ describe("nameAndAuthor", () => {
     };
     const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
     expect(template({ taxon })).toEqual(
-      '<em lang="la">Bromus hordeaceus </em> subsp. <em lang="la">bicuspis </em> var. <em lang="la">leiostachys</em> <cite>Philipson & B.C.Stone</cite>'
+      '<em lang="la">Bromus hordeaceus</em> subsp. <em lang="la">bicuspis</em> var. <em lang="la">leiostachys</em> <cite>Philipson & B.C.Stone</cite>'
     );
   });
 });
