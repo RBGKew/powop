@@ -1,12 +1,13 @@
 package org.powo.portal.view.helpers;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 
 import org.powo.model.Image;
 import org.powo.model.Taxon;
 import org.powo.model.helpers.CDNImageHelper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powo.portal.view.helpers.ImageHelper;
 
@@ -51,22 +52,27 @@ public class ImageHelperTest extends AbstractHelperTest {
 
 	@Test
 	public void basicThumbnailImage() throws IOException {
-		shouldCompileTo("{{thumbnailImage image taxon lightbox=false}}", context,
-				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/>");
+		var result = renderTemplate("{{thumbnailImage image taxon lightbox=false}}", context);
+		assertEquals("<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/>", result);
 	}
 
 	@Test
 	public void thumbnailWithLightbox() throws IOException {
-		shouldCompileTo("{{thumbnailImage image taxon}}", context,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small>Some dude</small>\">" +
-				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>");
+		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
+		assertEquals(
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small>Some dude</small>\">"
+						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>",
+				result);
 	}
 
 	@Test
 	public void thumbnailInFigureWithLightbox() throws IOException {
-		shouldCompileTo("{{thumbnailImage image taxon figure-class=\"woo\"}}", context,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small>Some dude</small>\">" +
-				"<figure class=\"woo\"><img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></figure></a>");
+		var result = renderTemplate("{{thumbnailImage image taxon figure-class=\"woo\"}}", context);
+
+		assertEquals(
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small>Some dude</small>\">"
+						+ "<figure class=\"woo\"><img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></figure></a>",
+				result);
 	}
 
 	@Test
@@ -74,9 +80,11 @@ public class ImageHelperTest extends AbstractHelperTest {
 		Image image = new Image();
 		image.setIdentifier("urn:kew.org:dam:654");
 		context.setImage(image);
-		shouldCompileTo("{{thumbnailImage image taxon}}", context,
-				"<a href=\"https://cdn.com/13a994141177e43d57feb31d29f1e9b7.jpg\" alt=\"<small></small>\">" +
-				"<img src=\"https://cdn.com/936cd5acff71ed403b5b6e1b0fa0b127.jpg\" alt=\"\"/></a>");
+
+		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
+
+		assertEquals("<a href=\"https://cdn.com/13a994141177e43d57feb31d29f1e9b7.jpg\" alt=\"<small></small>\">"
+				+ "<img src=\"https://cdn.com/936cd5acff71ed403b5b6e1b0fa0b127.jpg\" alt=\"\"/></a>", result);
 	}
 
 	@Test
@@ -86,24 +94,35 @@ public class ImageHelperTest extends AbstractHelperTest {
 		taxon.setScientificName("Poa annua");
 		context.getImage().setTaxon(taxon);
 
-		shouldCompileTo("{{thumbnailImage image taxon}}", context,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small><a href='/taxon/456'><em lang='la'>Poa annua</em></a> | Some dude</small>\">" +
-				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>");
+		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
+
+		assertEquals(
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small><a href='/taxon/456'><em lang='la'>Poa annua</em></a> | Some dude</small>\">"
+						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>",
+				result);
 	}
 
 	@Test
 	public void imageWithQuotesInCaption() throws IOException {
 		context.getImage().setCaption("<a href=\"google.com\">a link</a>");
-		shouldCompileTo("{{thumbnailImage image taxon}}", context,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - <a href='google.com'>a link</a><small>Some dude</small>\">" +
-				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>");
+
+		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
+
+		assertEquals(
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - <a href='google.com'>a link</a><small>Some dude</small>\">"
+						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>",
+				result);
 	}
 
 	@Test
 	public void imageWithQuotesInTitle() throws IOException {
 		context.getImage().setTitle("\"some title\"");
-		shouldCompileTo("{{thumbnailImage image taxon}}", context,
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"'some title' - Coolio<small>Some dude</small>\">" +
-				"<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"'some title'\"/></a>");
+
+		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
+
+		assertEquals(
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"'some title' - Coolio<small>Some dude</small>\">"
+						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"'some title'\"/></a>",
+				result);
 	}
 }
