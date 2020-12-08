@@ -57,7 +57,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * Schema definition: http://tdwg.github.io/dwc/terms/index.htm#Taxon
+ * Schema definition: http://tdwg.github.io/dwc/terms/index.html#Taxon
  */
 @Entity
 @JsonInclude(Include.NON_EMPTY)

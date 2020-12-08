@@ -92,14 +92,12 @@ public class NameHelper {
 	};
 
 	public CharSequence taxonName(Taxon taxon) {
-		if(taxon != null && taxon.getScientificName() != null) {
+		if (taxon != null && taxon.getScientificName() != null) {
 			String formatted = "<em lang='la'>" + taxon.getScientificName() + "</em>";
 			// look for the rank part of a name string and de-italicise it
-			for(String rank : ranks) {
-				if(formatted.contains(rank)) {
-					formatted = formatted.replace(rank + " ", "</em> " + rank + " <em>");
-					formatted = formatted.replace("<em lang='la'></em>", "");
-					break;
+			for (String rank : ranks) {
+				if (formatted.contains(rank)) {
+					formatted = formatted.replace(" " + rank + " ", "</em> " + rank + " <em lang='la'>");
 				}
 			}
 

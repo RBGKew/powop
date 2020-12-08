@@ -4,11 +4,16 @@
   "description": "Numiko frontend framework using Gulp as build tool",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "gulp"
+    "test": "jest --passWithNoTests",
+    "build": "gulp"
   },
   "author": "Adam Robinson",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-transform-amd-to-commonjs": "^1.4.0",
     "del": "^2.0.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
@@ -32,8 +37,9 @@
     "gulp-svg-sprite": "^1.2.11",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.6",
-    "handlebars": "^4.0.11",
-    "imagemin-pngquant": "^5.0.1",
+    "handlebars": "4.0.6",
+    "imagemin-pngquant": "^9.0.1",
+    "jest": "^26.6.3",
     "openlayers": "^4.6.5",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4"
