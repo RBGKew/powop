@@ -18,7 +18,6 @@ body {
     padding: .75rem 1.25rem;
     border: 1px solid #008285;
     border-width: 1px 0;
-    overflow-y: scroll;
     width:100%;
     text-align: left;
     svg {
@@ -301,7 +300,8 @@ li {
   z-index: 1;
   position: sticky;
   top: 0;
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 100vh;
   @media (min-width: $screen-md-min) {
     display: block;
   }
