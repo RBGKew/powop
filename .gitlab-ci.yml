@@ -24,6 +24,4 @@ cache:
 build_and_test:
   stage: test
   script:
-    - echo $YARN_CACHE_DIR
-    - echo $YARN_INSTALL_ARGS
     - mvn test
