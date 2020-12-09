@@ -60,7 +60,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 	public void thumbnailWithLightbox() throws IOException {
 		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
 		assertEquals(
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small>Some dude</small>\">"
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small>Some dude</small>\">"
 						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>",
 				result);
 	}
@@ -70,7 +70,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 		var result = renderTemplate("{{thumbnailImage image taxon figure-class=\"woo\"}}", context);
 
 		assertEquals(
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small>Some dude</small>\">"
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small>Some dude</small>\">"
 						+ "<figure class=\"woo\"><img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></figure></a>",
 				result);
 	}
@@ -83,7 +83,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 
 		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
 
-		assertEquals("<a href=\"https://cdn.com/13a994141177e43d57feb31d29f1e9b7.jpg\" alt=\"<small></small>\">"
+		assertEquals("<a href=\"https://cdn.com/13a994141177e43d57feb31d29f1e9b7.jpg\" title=\"<small></small>\">"
 				+ "<img src=\"https://cdn.com/936cd5acff71ed403b5b6e1b0fa0b127.jpg\" alt=\"\"/></a>", result);
 	}
 
@@ -97,7 +97,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
 
 		assertEquals(
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - Coolio<small><a href='/taxon/456'><em lang='la'>Poa annua</em></a> | Some dude</small>\">"
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - Coolio<small><a href='/taxon/456'><em lang='la'>Poa annua</em></a> | Some dude</small>\">"
 						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>",
 				result);
 	}
@@ -109,7 +109,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
 
 		assertEquals(
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"Cool brah - <a href='google.com'>a link</a><small>Some dude</small>\">"
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"Cool brah - <a href='google.com'>a link</a><small>Some dude</small>\">"
 						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"Cool brah\"/></a>",
 				result);
 	}
@@ -121,7 +121,7 @@ public class ImageHelperTest extends AbstractHelperTest {
 		var result = renderTemplate("{{thumbnailImage image taxon}}", context);
 
 		assertEquals(
-				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" alt=\"'some title' - Coolio<small>Some dude</small>\">"
+				"<a href=\"http://assets.blah.com/cool-img_fullsize.jpg\" title=\"'some title' - Coolio<small>Some dude</small>\">"
 						+ "<img src=\"http://assets.blah.com/cool-img_thumbnail.jpg\" alt=\"'some title'\"/></a>",
 				result);
 	}
