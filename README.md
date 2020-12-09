@@ -11,18 +11,25 @@ The POWO code powers:
 * [**World Flora Online** (in development)](http://worldfloraonline.org/)
 
 Deploy to UAT
+---
  
 * Update ‘powo-infrastructure/powo/values.yaml’ with your new portal image tag from google cloud container registry.
-
 * Push the change to Github and Gitlab.
+* Make sure google cloud context is `powo-dev`
 
-* Make sure google cloud context is 'powo-dev'
+`kubectl create job deploy-manual --from=cronjob/builder --namespace=builder-uat`
 
-* Run this build command in root
+### Cancelling a job
 
-kubectl create job deploy-manual --from=cronjob/builder --namespace=builder-uat
+If you want to stop a build job that has started (for example if it is not using the correct images) you can do the following:
+
+1. Get the job name using `kubectl get jobs -n builder-uat` - you will probably be looking for the youngest job
+2. Delete the job using `kubectl delete jobs/<job_name> -n builder-uat`
+
+This will delete the job and any pods it has started.
  
 Deploy to live
+---
  
 * Run deploy in root
 
