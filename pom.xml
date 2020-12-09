@@ -44,7 +44,6 @@
 
 	<properties>
 		<docker.registry>eu.gcr.io/powop-1349/</docker.registry>
-		<dockerfile.maven.version>1.4.10</dockerfile.maven.version>
 		<geotools.version>17.1</geotools.version>
 		<guava.version>23.5-jre</guava.version>
 		<handlebars.version>4.1.2</handlebars.version>
@@ -627,11 +626,6 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>${dockerfile.maven.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.github.jknack</groupId>
 				<artifactId>handlebars</artifactId>
 				<version>${handlebars.version}</version>
@@ -802,7 +796,22 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.2</version>
+				<dependencies>
+					<dependency>
+						<groupId>javax.activation</groupId>
+						<artifactId>activation</artifactId>
+						<version>1.1.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
 		</plugins>
+
 	</build>
 
 	<repositories>
