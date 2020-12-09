@@ -4,13 +4,11 @@ variables:
   # configure Maven to:
   #   - use a cache directory inside the build directory so it works with Gitlab caching
   #   - print the datetime with each command so it's easier to slow steps in the CI
-  MAVEN_CACHE_DIR: $CI_PROJECT_DIR/.cache/maven
-  MAVEN_OPTS: "-Dmaven.repo.local=$MAVEN_CACHE_DIR -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss"
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss"
   # configure Yarn to:
   #   - use a cache directory inside the build directory so it works with Gitlab caching
   #   - throw an error if there is a difference between the yarn.lock on CI and in the repo
-  YARN_CACHE_DIR: $CI_PROJECT_DIR/.cache/yarn
-  YARN_INSTALL_ARGS: "install --cache-folder $YARN_CACHE_DIR --pure-lockfile"
+  YARN_INSTALL_ARGS: "install --cache-folder $CI_PROJECT_DIR/.cache/yarn --pure-lockfile"
 
 cache:
   # This cache key is shared across projects and determines the cache that is loaded before the job starts
@@ -19,9 +17,9 @@ cache:
   key: v1
   paths:
     # Maven dependencies
-    - $MAVEN_CACHE_DIR
+    - .m2/repository
     # Yarn dependencies - using node_modules/ does not work well with Gitlab
-    - $YARN_CACHE_DIR
+    - .cache/yarn
 
 build_and_test:
   stage: test

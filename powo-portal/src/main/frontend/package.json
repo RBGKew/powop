@@ -4,7 +4,7 @@
   "description": "Numiko frontend framework using Gulp as build tool",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "build": "gulp"
   },
   "author": "Adam Robinson",
