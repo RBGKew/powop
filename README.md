@@ -21,12 +21,30 @@ Deploy to UAT
 
 ### Cancelling a job
 
-If you want to stop a build job that has started (for example if it is not using the correct images) you can do the following:
+To cancel a job we need to:
+
+1. Stop the job and any pods it has created
+2. Remove the Helm deployment created as part of the job
+3. Remove the namespace created as part of the job.
+
+**Cancel the job**
 
 1. Get the job name using `kubectl get jobs -n builder-uat` - you will probably be looking for the youngest job
 2. Delete the job using `kubectl delete jobs/<job_name> -n builder-uat`
 
-This will delete the job and any pods it has started.
+**Remove Helm deployment**
+
+1. Get the name of the Helm release using `helm ls` - you want the release which was created later
+2. Delete the helm release using `helm delete --purge <release_name>`
+
+The release name is also the name of the namespace - you will need it in the following step.
+
+**Remove the namespace**
+
+1. Get the namespace name based on the previous step, or run `kubectl get ns` and use the youngest namespace 
+2. Delete the old namespace using `kubectl delete ns <namespace_name>`
+
+This step is required since the builder raises an error if there would be more than 3 namespaces at one time.
  
 Deploy to live
 ---
