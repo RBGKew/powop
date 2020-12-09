@@ -4,7 +4,7 @@ variables:
   # configure Maven to:
   #   - use a cache directory inside the build directory so it works with Gitlab caching
   #   - print the datetime with each command so it's easier to slow steps in the CI
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss"
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss"
   # configure Yarn to:
   #   - use a cache directory inside the build directory so it works with Gitlab caching
   #   - throw an error if there is a difference between the yarn.lock on CI and in the repo
