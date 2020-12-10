@@ -88,7 +88,7 @@ define(function(require) {
     navToggle();
 
     function navToggle() {
-        // opens taxon nav when rteurn key is pressed
+        // opens taxon nav when return key is pressed
       $(".mobile-menu").keypress(function (e) {
           if (e.keyCode === 13) {
             $('.navbar-collapse').collapse('toggle')

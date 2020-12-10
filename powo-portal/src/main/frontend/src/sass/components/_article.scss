@@ -300,8 +300,7 @@ li {
   z-index: 1;
   position: sticky;
   top: 0;
-  overflow-y: scroll;
-  height: 100vh;
+  overflow-y: auto;
   @media (min-width: $screen-md-min) {
     display: block;
   }
