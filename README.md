@@ -1,13 +1,61 @@
-<image src="https://rawgit.com/RBGKew/powop/master/powo-portal/src/main/frontend/src/img/svg/powo-logo.svg" width="350px"/>
+Plants of the World Online
+===
 
-
-Plants of the World Online Portal is a global, online, biodiversity information
-resource.  This repository contains the code for the data model, harvester 
-and web portal.
+Plants of the World Online Portal is a global, online, biodiversity information resource. This repository contains the code for the data model, harvester and web portal.
 
 The POWO code powers:
 * [**Plants of the World Online**](http://powo.science.kew.org)
 * [**World Flora Online** (in development)](http://worldfloraonline.org/)
+
+Developing
+===
+
+The easiest way to run the POWO app is using `docker-compose`. In order to do this you need to run the following to build images for the different modules:
+
+```
+mvn package
+```
+
+Once this is done you can run the following to start the application
+
+```
+docker-compose up
+```
+
+### Initial setup
+
+Once you have the application up and running you will need to load some data to interact with.
+
+### Making changes
+
+After making changes to a specific module you can rebuild just that module using the following command (using the relevant Maven module e.g. `powo-portal`):
+
+```
+mvn package -pl powo-portal
+```
+
+Then you can restart that service using the following command (using the relevant service name defined in `docker-compose.yaml` e.g. `portal`):
+
+```
+docker-compose up portal
+```
+
+You can run services that change infrequently in the background to simplify this process and make startup easier:
+
+```
+docker-compose up -d db harvester solr geoserver geodb
+```
+
+Then restarting only the services you need:
+
+```
+docker-compose up portal ingress
+```
+
+> If you make changes to the frontend code e.g. JS / CSS you will need to rebuild both `powo-portal` and `powo-static`
+
+Deployment
+===
 
 Deploy to UAT
 ---
