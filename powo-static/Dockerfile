@@ -17,8 +17,7 @@ COPY target/static/js/ js
 RUN  mkdir admin
 COPY target/admin/index.html admin/index.html
 
-RUN find /www/data -type d -exec chmod 755 {} +
-RUN find /www/data -type f -exec chmod 644 {} +
-RUN find /www/data -type f \( -name '*.js' -o -name '*.css' \) -exec chmod 740 {} +
+# update permissions so that Nginx worker can serve static files
+RUN chmod -R +rwx /www/data
 
 CMD ["/run.sh"]
