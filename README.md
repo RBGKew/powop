@@ -8,7 +8,7 @@ The POWO code powers:
 * [**World Flora Online** (in development)](http://worldfloraonline.org/)
 
 Developing
-===
+---
 
 The easiest way to run the POWO app is using `docker-compose`. In order to do this you need to run the following to build images for the different modules:
 
@@ -53,6 +53,18 @@ docker-compose up portal ingress
 ```
 
 > If you make changes to the frontend code e.g. JS / CSS you will need to rebuild both `powo-portal` and `powo-static`
+
+
+### Issues with services hanging
+
+If the `portal` and `harvester` services are hanging and failing to startup, it can be an issue with an unreleased lock on a Liquibase managed table. This can happen when services are stopped and don't properly release the locks. To fix this you can run:
+
+```
+docker exec <your_db_container_id> mysql --user=powo --password=powo powo -e "UPDATE DATABASECHANGELOGLOCK SET LOCKED=0, LOCKGRANTED=null, LOCKEDBY=null where ID=1;"
+```
+
+This will reset the lock on the db, after that you can stop and restart your containers and they should be OK.
+
 
 Deployment
 ===
