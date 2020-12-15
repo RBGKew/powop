@@ -24,7 +24,14 @@ docker-compose up
 
 ### Initial setup
 
-Once you have the application up and running you will need to load some data to interact with.
+Once you have the application up and running you will need to load some data to interact with. To do this:
+
+1. Go to `http://localhost:10080/admin/#/organisations`
+2. Click the cog in the top right and login with username `admin` and password `password`
+3. Click the cog in the top right and click import - select the `powo-harvest/local-development-data-configuration.json` as the file
+4. Go to `http://localhost:10080/admin/#/lists` and click the play icon next to the `Load everything` job
+
+This loads a subset of the full data onto your development machine. It can take several hours to complete.
 
 ### Making changes
 
