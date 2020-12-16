@@ -20,8 +20,6 @@ services:
       - db
       - geoserver
       - solr
-    volumes:
-      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
     mem_limit: 500M
 
   # portal-col:
@@ -46,8 +44,6 @@ services:
       - db
       - geoserver
       - solr
-    volumes:
-      - ./powo-harvest/target/powo-harvest.war:/usr/local/tomcat/webapps/harvester.war
     mem_limit: 2G
 
   ingress:

@@ -1,5 +1,8 @@
 FROM nginx:1.15-alpine
 
+COPY run.sh /
+RUN chmod 775 /run.sh
+
 ADD default.conf /etc/nginx/conf.d/default.conf
 ADD nginx.conf /etc/nginx/nginx.conf
 
@@ -14,6 +17,7 @@ COPY target/static/js/ js
 RUN  mkdir admin
 COPY target/admin/index.html admin/index.html
 
-COPY run.sh .
+# update permissions so that Nginx worker can serve static files
+RUN chmod -R +rwx /www/data
 
-CMD ["./run.sh"]
+CMD ["/run.sh"]

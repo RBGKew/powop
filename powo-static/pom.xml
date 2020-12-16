@@ -9,6 +9,7 @@
 	</parent>
 	<artifactId>powo-static</artifactId>
 	<name>powo static files</name>
+	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -116,7 +117,6 @@
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>${dockerfile.maven.version}</version>
 				<configuration>
 					<repository>${docker.registry}ingress</repository>
 					<tag>${project.version}-${buildNumber}</tag>

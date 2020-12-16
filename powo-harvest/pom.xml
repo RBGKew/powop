@@ -229,7 +229,6 @@
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>${dockerfile.maven.version}</version>
 				<configuration>
 					<repository>${docker.registry}harvester</repository>
 					<tag>${project.version}-${buildNumber}</tag>

@@ -1,0 +1,299 @@
+{
+  "jobConfigurations":[
+    {
+      "description":"Harvest IF Species Names",
+      "identifier":"Harvest-IF-Species-Names",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri":"http://storage.googleapis.com/powop-content/backbone/if_species_name.zip",
+        "resource.identifier":"IF-Species-Names",
+        "skip.indexing":"true",
+        "taxon.processing.mode":"IMPORT_NAMES"
+      }
+    },
+    {
+      "description":"Harvest Family and Genus Names",
+      "identifier":"Harvest-Family-and-Genus-Names",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri":"https://storage.googleapis.com/powop-content/backbone/powoPlantFamilies.zip",
+        "reference.processing.mode":"SKIP_REFERENCES",
+        "resource.identifier":"Family-and-Genus-Names",
+        "skip.indexing":"true",
+        "taxon.processing.mode":"IMPORT_NAMES"
+      }
+    },
+    {
+      "description":"Harvest Species Names",
+      "identifier":"Harvest-Species-Names",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri":"https://storage.googleapis.com/powop-content/backbone/powoNames.zip",
+        "reference.processing.mode":"SKIP_REFERENCES",
+        "resource.identifier":"Species-Names",
+        "skip.indexing":"true",
+        "taxon.processing.mode":"IMPORT_NAMES"
+      }
+    },
+    {
+      "description":"Harvest Family and Genus Taxonomy",
+      "identifier":"Harvest-Family-and-Genus-Taxonomy",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri":"https://storage.googleapis.com/powop-content/backbone/powoPlantFamilies.zip",
+        "resource.identifier":"Family-and-Genus-Taxonomy",
+        "skip.indexing":"true",
+        "taxon.processing.mode":"IMPORT_TAXONOMY"
+      }
+    },
+    {
+      "description":"Harvest Species Taxonomy",
+      "identifier":"Harvest-Species-Taxonomy",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Kew-Names-and-Taxonomic-Backbone",
+        "authority.uri":"https://storage.googleapis.com/powop-content/backbone/powoNames.zip",
+        "resource.identifier":"Species-Taxonomy",
+        "skip.indexing":"true",
+        "taxon.processing.mode":"IMPORT_TAXONOMY"
+      }
+    },
+    {
+      "description":"Harvest WCS Distributions",
+      "identifier":"Harvest-WCS-Distributions",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Kew-Backbone-Distributions",
+        "authority.uri":"https://storage.googleapis.com/powop-content/backbone/powoDistribution.zip",
+        "resource.identifier":"WCS-Distributions",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest FTEA all descriptions",
+      "identifier":"Harvest-FTEA-all-descriptions",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Flora-of-Tropical-East-Africa",
+        "authority.uri":"https://storage.googleapis.com/powop-content/FTEA/FTEA.zip",
+        "resource.identifier":"FTEA-all-descriptions",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Re index all taxa",
+      "identifier":"reindex",
+      "jobName":"ReIndex",
+      "parameters":{
+        "query.string":"select t.id from Taxon t",
+        "query.type":"org.powo.model.Taxon",
+        "resource.identifier":"reindex",
+        "solr.selectedFacets":"base.class_s=org.powo.model.Taxon"
+      }
+    },
+    {
+      "description":"Harvest Useful plants of Boyaca",
+      "identifier":"Harvest-Useful-plants-of-Boyaca",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"UsefulPlantsofBoyacaProject",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB.zip",
+        "resource.identifier":"Useful-plants-of-Boyaca",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest UPB Common Names",
+      "identifier":"Harvest-UPB-Common-Names",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"UsefulPlantsofBoyacaProject",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/PUBcommonNames.zip",
+        "resource.identifier":"UPB-Common-Names",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest Colombian Catalog",
+      "identifier":"Harvest-Colombian-Catalog",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CatalogodePlantasyLiquenesdeColombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/colPlantA/colplanta.zip",
+        "resource.identifier":"Colombian-Catalog",
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest Colplanta Images",
+      "identifier":"Harvest-Colplanta-Images",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"Colombian-resources-for-Plants-made-Accessible",
+        "authority.uri":"https://storage.googleapis.com/powop-content/multimedia/colplanta_images.zip",
+        "resource.identifier":"Colplanta-Images",
+        "skip.indexing":"true"
+      }
+    }
+  ],
+  "jobLists":[
+    {
+      "description":"Load everything",
+      "identifier":"1",
+      "jobConfigurations":[
+        "Harvest-IF-Species-Names",
+        "Harvest-Family-and-Genus-Names",
+        "Harvest-Species-Names",
+        "Harvest-Family-and-Genus-Taxonomy",
+        "Harvest-Species-Taxonomy",
+        "Harvest-WCS-Distributions",
+        "Harvest-FTEA-all-descriptions",
+        "Harvest-Useful-plants-of-Boyaca",
+        "Harvest-UPB-Common-Names",
+        "Harvest-Colombian-Catalog",
+        "Harvest-Colplanta-Images",
+        "reindex"
+      ]
+    }
+  ],
+  "organisations":[
+    {
+      "abbreviation":"KB",
+      "bibliographicCitation":"The International Plant Names Index and World Checklist of Selected Plant Families 2019. Published on the Internet at http://www.ipni.org and http://apps.kew.org/wcsp/",
+      "description":"See <a href=\"http://apps.kew.org/wcsp/about.do\">http://apps.kew.org/wcsp/about.do</a>",
+      "identifier":"Kew-Names-and-Taxonomic-Backbone",
+      "resources":[
+        {
+          "identifier":"IF-Species-Names",
+          "organisation":"Kew-Names-and-Taxonomic-Backbone",
+          "resourceType":"DwC_Archive",
+          "title":"IF Species Names",
+          "uri":"http://storage.googleapis.com/powop-content/backbone/if_species_name.zip"
+        },
+        {
+          "identifier":"Family-and-Genus-Names",
+          "organisation":"Kew-Names-and-Taxonomic-Backbone",
+          "resourceType":"DwC_Archive",
+          "title":"Family and Genus Names",
+          "uri":"https://storage.googleapis.com/powop-content/backbone/powoPlantFamilies.zip"
+        },
+        {
+          "identifier":"Species-Names",
+          "organisation":"Kew-Names-and-Taxonomic-Backbone",
+          "resourceType":"DwC_Archive",
+          "title":"Species Names",
+          "uri":"https://storage.googleapis.com/powop-content/backbone/powoNames.zip"
+        },
+        {
+          "identifier":"Family-and-Genus-Taxonomy",
+          "organisation":"Kew-Names-and-Taxonomic-Backbone",
+          "resourceType":"DwC_Archive",
+          "title":"Family and Genus Taxonomy",
+          "uri":"https://storage.googleapis.com/powop-content/backbone/powoPlantFamilies.zip"
+        },
+        {
+          "identifier":"Species-Taxonomy",
+          "organisation":"Kew-Names-and-Taxonomic-Backbone",
+          "resourceType":"DwC_Archive",
+          "title":"Species Taxonomy",
+          "uri":"https://storage.googleapis.com/powop-content/backbone/powoNames.zip"
+        }
+      ],
+      "subject":"WCSP; World Checklist of Selected Plant families; Royal Botanic Gardens, Kew",
+      "title":"Kew Names and Taxonomic Backbone"
+    },
+    {
+      "abbreviation":"KBD",
+      "bibliographicCitation":"The International Plant Names Index and World Checklist of Selected Plant Families 2019. Published on the Internet at http://www.ipni.org and http://apps.kew.org/wcsp/",
+      "description":"See <a href=\"http://apps.kew.org/wcsp/about.do\">http://apps.kew.org/wcsp/about.do</a>",
+      "identifier":"Kew-Backbone-Distributions",
+      "resources":[
+        {
+          "identifier":"WCS-Distributions",
+          "organisation":"Kew-Backbone-Distributions",
+          "resourceType":"DwC_Archive",
+          "title":"WCS Distributions",
+          "uri":"https://storage.googleapis.com/powop-content/backbone/powoDistribution.zip"
+        }
+      ],
+      "subject":"WCSP; World Checklist of Selected Plant families; Royal Botanic Gardens, Kew",
+      "title":"Kew Backbone Distributions"
+    },
+    {
+      "abbreviation":"FTEA",
+      "bibliographicCitation":"Flora of Tropical East Africa",
+      "description":"Flora of Tropical East Africa",
+      "identifier":"Flora-of-Tropical-East-Africa",
+      "resources":[
+        {
+          "identifier":"FTEA-all-descriptions",
+          "organisation":"Flora-of-Tropical-East-Africa",
+          "resourceType":"DwC_Archive",
+          "title":"FTEA all descriptions",
+          "uri":"https://storage.googleapis.com/powop-content/FTEA/FTEA.zip"
+        }
+      ],
+      "title":"Flora of Tropical East Africa"
+    },
+    {
+      "abbreviation":"UPB",
+      "bibliographicCitation":"ColPlantA database",
+      "description":"ColPlantA database",
+      "identifier":"UsefulPlantsofBoyacaProject",
+      "resources":[
+        {
+          "identifier":"Useful-plants-of-Boyaca",
+          "organisation":"UsefulPlantsofBoyacaProject",
+          "resourceType":"DwC_Archive",
+          "title":"Useful plants of Boyaca",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUB.zip"
+        },
+        {
+          "identifier":"UPB-Common-Names",
+          "organisation":"UsefulPlantsofBoyacaProject",
+          "resourceType":"DwC_Archive",
+          "title":"UPB Common Names",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/PUBcommonNames.zip"
+        }
+      ],
+      "subject":"",
+      "title":"Useful Plants of Boyaca Project"
+    },
+    {
+      "abbreviation":"CPLC",
+      "description":"ColPlantA Data",
+      "identifier":"CatalogodePlantasyLiquenesdeColombia",
+      "resources":[
+        {
+          "identifier":"Colombian-Catalog",
+          "organisation":"CatalogodePlantasyLiquenesdeColombia",
+          "resourceType":"DwC_Archive",
+          "title":"Colombian Catalog",
+          "uri":"https://storage.googleapis.com/powop-content/colPlantA/colplanta.zip"
+        }
+      ],
+      "subject":"Science; ColPlantA; Colombia; Royal Botanic Gardens, Kew",
+      "title":"Catalogo de Plantas y Liquenes de Colombia"
+    },
+    {
+      "abbreviation":"ColPlantA",
+      "description":"ColPlantA Photographs",
+      "identifier":"Colombian-resources-for-Plants-made-Accessible",
+      "resources":[
+        {
+          "identifier":"Colplanta-Images",
+          "organisation":"Colombian-resources-for-Plants-made-Accessible",
+          "resourceType":"DwC_Archive",
+          "title":"Colplanta Images",
+          "uri":"https://storage.googleapis.com/powop-content/multimedia/colplanta_images.zip"
+        }
+      ],
+      "subject":"ColPlantA; Photographs; Digifolia; Royal Botanic Gardens, Kew",
+      "title":"Colombian resources for Plants made Accessible"
+    }
+  ]
+}
