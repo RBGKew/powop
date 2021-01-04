@@ -52,7 +52,7 @@ define(function(require) {
       $('.c-results .container--lines').replaceWith(itemsTmpl(json));
       $('.total-results').removeClass('hidden');
       $('.loading').addClass('hidden');
-      $('#search-filters').html(filtersTmpl(json));
+      $('.filters').replaceWith(filtersTmpl(json));
       $('.results-count').replaceWith(countTmpl(json));
       $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
