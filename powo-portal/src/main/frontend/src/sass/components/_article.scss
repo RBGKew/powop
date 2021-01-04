@@ -158,11 +158,6 @@ body {
           margin-top: 4px;
         }
       }
-      &.collapsed {
-        &::before {
-          content: "\e080"; 
-        }
-      }
       &:active {
         box-shadow: none; 
       }
