@@ -55,8 +55,7 @@
   @include clearfix;
   -webkit-overflow-scrolling: touch;
   &.in {
-    overflow-y: scroll;
-    height: calc(100vh - 35px)
+    overflow-y: auto;
   }
 
   @media (min-width: $grid-float-breakpoint) {
