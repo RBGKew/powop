@@ -97,7 +97,7 @@
 
 .filters {
   color: $navbar-default-color;
-  padding: 19px;
+  padding: 7px 20px;
   background-color: #fff;
   margin: 10px 0 0 0;
   border-top-left-radius: 4px;
@@ -108,9 +108,7 @@
     list-style-type: none;
 
     @media(min-width: $screen-sm) {
-      float: left;
-      margin-top: -12px;
-      width: auto;
+      display: inline-block;
     }
 
     &:first-child {
