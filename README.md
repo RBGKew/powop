@@ -38,7 +38,8 @@ This loads a subset of the full data onto your development machine. It can take 
 After making changes to a specific module you can rebuild just that module using the following command (using the relevant Maven module e.g. `powo-portal`):
 
 ```
-mvn package -pl powo-portal
+mvn prepare-package -pl  powo-portal
+mvn package -pl  powo-static
 ```
 
 Then you can restart that service using the following command (using the relevant service name defined in `docker-compose.yaml` e.g. `portal`):
