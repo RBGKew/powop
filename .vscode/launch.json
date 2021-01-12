@@ -16,6 +16,14 @@
             "request": "attach",
             "hostName": "localhost",
             "port": 8001
+        },
+        {
+            "type": "java",
+            "name": "Debug Portal-Col (Attach)",
+            "projectName": "powo-portal",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 8002
         }
     ]
 }

@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
+import org.powo.portal.view.components.Link;
 import org.springframework.ui.Model;
 
 /*
@@ -29,4 +30,5 @@ public interface Site {
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
+	Link crossSiteLink();
 }

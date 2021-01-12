@@ -851,7 +851,7 @@
       <int name="start">0</int>
       <str name="defType">edismax</str>
       <str name="qf">taxon.scientific_name_s_lower</str>
-      <str name="fq">base.class_searchable_b:true AND -taxon.kingdom_s_lower:Fungi</str>
+      <str name="fq">base.class_searchable_b:true</str>
       <str name="sort">score desc, sortable asc, id asc</str>
       <str name="facet">true</str>
       <str name="hl">true</str>
@@ -1290,7 +1290,6 @@
       <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
       <str name="dictionaryImpl">FileDictionaryFactory</str>
       <str name="sourceLocation">tdwg.txt</str>
-      <str name="contextField">searchable.sources_ss</str>
       <str name="suggestAnalyzerFieldType">lowercase</str>
       <str name="highlight">false</str>
     </lst>
@@ -1312,7 +1311,7 @@
       <str name="dictionaryImpl">DocumentDictionaryFactory</str>
       <str name="field">taxon.vernacular_names_t</str>
       <str name="indexPath">common_name_suggest</str>
-      <str name="contextField">searchable.sources_ss</str>
+      <str name="contextField">searchable.context_ss</str>
       <str name="suggestAnalyzerFieldType">text_general</str>
       <str name="highlight">false</str>
     </lst>

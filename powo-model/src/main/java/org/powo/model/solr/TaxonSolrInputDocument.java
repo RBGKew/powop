@@ -126,18 +126,11 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			sid.addField("searchable.sources_ss", source);
 			sid.addField("searchable.context_ss", normalized(source));
 		}
+		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
 
 		buildSortField();
 
 		return sid;
-	}
-
-	private Object normalized(String source) {
-		if (source != null) {
-			return source.replaceAll("-", "");
-		} else {
-			return source;
-		}
 	}
 
 	private void buildSortField() {

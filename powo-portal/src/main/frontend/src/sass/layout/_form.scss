@@ -16,7 +16,7 @@
 }
 
 /*
- * Form - Inline form, results page.
+ * Form - Inline form, home and results page.
  */
 .form-inline--search {
   margin: 0;
@@ -27,60 +27,31 @@
   input {
     width: 100%;
   }
-  &.form-links {
-    text-align: right;
-  }
-}
-
-#uses {
-
-  .form-group {
-    padding-left: 15px;
-  }
-
-  form {
-    padding-top: 15px;
-  }
-
-  label {
-    font-weight: normal;
-    cursor: pointer;
-    cursor: hand;
-  }
-
-  input[type="checkbox"] {
-    cursor: pointer;
-    cursor: hand;
-    margin-right: 10px;
-  }
-
-  .checkbox-group {
-    width: 200px;
-    float: left;
-  }
 }
 
 /*
- * Form - Inline form, homepage.
+ * Links below the search box. Home overrides below.
  */
-.form-inline--home {
+.form-links {
+  display: flex;
+  justify-content: flex-end;
 
-  .form-group {
-    margin: 0;
-    select,
-    input {
-      width: 100%;
-      border-radius: $home-radius;
+  a {
+    border-bottom: 2px solid white;
+    padding-bottom: 1px;
+    text-decoration: none !important; /* override default interaction states */
+
+    &:focus,&:hover {
+      border-bottom-width: 3px;
+      padding-bottom: 0;
     }
   }
 
-  .form-inline__input {
-    width: 100%;
-    position: relative;
+  /* divider ( | ) */
+  span {
+    margin: 0 0.75rem;
   }
-
 }
-
 
 /*
  * Form - Inline form, advanced modal.
@@ -141,5 +112,32 @@
       width: 25%;
     }
   }
+}
 
+#uses {
+
+  .form-group {
+    padding-left: 15px;
+  }
+
+  form {
+    padding-top: 15px;
+  }
+
+  label {
+    font-weight: normal;
+    cursor: pointer;
+    cursor: hand;
+  }
+
+  input[type="checkbox"] {
+    cursor: pointer;
+    cursor: hand;
+    margin-right: 10px;
+  }
+
+  .checkbox-group {
+    width: 200px;
+    float: left;
+  }
 }

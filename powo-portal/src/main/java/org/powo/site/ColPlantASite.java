@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -71,5 +72,10 @@ public class ColPlantASite extends PowoSite {
 	@Override
 	public String favicon() {
 		return null;
+	}
+
+	@Override
+	public Link crossSiteLink() {
+		return new Link("http://colfungi.org", "Looking for Columbian fungi?");
 	}
 }

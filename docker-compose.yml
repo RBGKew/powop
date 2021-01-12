@@ -85,12 +85,52 @@ services:
     ports:
       - "18080:8080"
     mem_limit: 1500M
+
   geodb:
     image: eu.gcr.io/powop-1349/geodb:latest
     env_file:
       - src/main/resources/docker/env/common.env
       - src/main/resources/docker/env/geoserver.env
     mem_limit: 200M
+
+  portal-col:
+    image: eu.gcr.io/powop-1349/portal:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    environment:
+      - CDN_KEY
+      - JPDA_OPTS=-agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
+      - SITE_VARIANT=ColFungiSite
+    command:
+      - catalina.sh
+      - jpda
+      - run
+    links:
+      - db
+      - geoserver
+      - solr
+    mem_limit: 500M
+    ports:
+      - 8002:8000
+    volumes:
+      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
+
+  ingress-col:
+    image: eu.gcr.io/powop-1349/ingress:latest
+    env_file:
+      - src/main/resources/docker/env/common.env
+    environment:
+      PORTAL: portal-col
+    links:
+      - geoserver
+      - harvester
+      - portal-col
+    ports:
+      - "20080:80"
+    mem_limit: 50M
+    volumes:
+      - ./powo-portal/src/main/frontend/dist/css:/www/data/css
+      - ./powo-portal/src/main/frontend/dist/js:/www/data/js
 
 volumes:
   portal_data: {}
@@ -99,39 +139,4 @@ volumes:
 
 # Configuration for testing site variants
 
-  # portal-col:
-  #   image: eu.gcr.io/powop-1349/portal:latest
-  #   env_file:
-  #     - src/main/resources/docker/env/common.env
-  #   environment:
-  #     SITE_VARIANT: 'ColPlantASite'
-  #   links:
-  #     - db
-  #     - geoserver
-  #     - solr
-  #   volumes:
-  #     - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
-  #   mem_limit: 500M
-
-  # ingress-col:
-  #   image: eu.gcr.io/powop-1349/ingress:latest
-  #   env_file:
-  #     - src/main/resources/docker/env/common.env
-  #   environment:
-  #     PORTAL: portal-col
-  #   links:
-  #     - geoserver
-  #     - harvester
-  #     - portal-col
-  #   volumes:
-  #     - ./powo-static/target/static/css:/usr/local/apache2/htdocs/css
-  #     - ./powo-static/target/static/fonts:/usr/local/apache2/htdocs/fonts
-  #     - ./powo-static/target/static/img:/usr/local/apache2/htdocs/img
-  #     - ./powo-static/target/static/js:/usr/local/apache2/htdocs/js
-  #   ports:
-  #     - "20080:80"
-  #   mem_limit: 50M
-  #     - "18983:8983"
-  #   volumes:
-  #     - solr_data:/opt/solr/server/solr/powop/data
-  #   mem_limit: 800M
+ 

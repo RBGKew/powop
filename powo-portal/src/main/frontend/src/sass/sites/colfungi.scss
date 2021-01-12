@@ -1,28 +1,27 @@
-.s-colplanta {
+.s-colfungi {
 
   .featured { display: none; }
 
+  #kew-logo-svg {
+    path {
+      fill: #fff;
+    } 
+  }
+
+  .site-logo {
+    fill: #fff;
+  }
+
   &.s-page {
-    background-image: url('/img/raster/ColPlantA.jpg') !important;
+    background-image: url('/img/raster/ColFungi.jpg') !important;
   }
 
   &.s-page--home,
   &.s-page--error {
-    &.s-search__fullpage {
-      .site-logo {
-        fill: #fff;
-      }
-    }
-    
-    #kew-logo-svg {
-      fill: #000; 
-    }
-
-     /* logo alignment */
+    /* logo alignment */
     .site-logo {
       height: 50px;
       width: 300px;
-      fill: #232323;
 
       svg {
         height: 55px;

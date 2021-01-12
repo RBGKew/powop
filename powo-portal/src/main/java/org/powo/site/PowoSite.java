@@ -22,6 +22,7 @@ import org.powo.portal.view.ScientificNames;
 import org.powo.portal.view.Sources;
 import org.powo.portal.view.Summary;
 import org.powo.portal.view.VernacularNames;
+import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -43,11 +44,6 @@ public class PowoSite implements Site {
 	DescriptionService descriptionService;
 
 	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
-
-	@Override
-	public String suggesterFilter() {
-		return null;
-	}
 
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
@@ -118,6 +114,16 @@ public class PowoSite implements Site {
 		return new PowoDefaultQuery();
 	}
 
+	@Override
+	public String suggesterFilter() {
+		return "Plantae";
+	}
+
+	@Override
+	public List<String> getSuggesters() {
+		return suggesters;
+	}
+
 	private String pageTitle(Taxon taxon) {
 		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
@@ -140,11 +146,6 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public List<String> getSuggesters() {
-		return suggesters;
-	}
-
-	@Override
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "powo");
 	}
@@ -164,4 +165,10 @@ public class PowoSite implements Site {
 	public String favicon() {
 		return "powo-favicon.ico";
 	}
+
+	@Override
+	public Link crossSiteLink() {
+		return null;
+	}
+
 }
