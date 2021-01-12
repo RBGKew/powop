@@ -13,7 +13,7 @@ Developing
 The easiest way to run the POWO app is using `docker-compose`. In order to do this you need to run the following to build images for the different modules:
 
 ```
-mvn package
+mvn install
 ```
 
 Once this is done you can run the following to start the application
@@ -35,11 +35,17 @@ This loads a subset of the full data onto your development machine. It can take 
 
 ### Making changes
 
-After making changes to a specific module you can rebuild just that module using the following command (using the relevant Maven module e.g. `powo-portal`):
+If any module dependencies have been updated (e.g. after running `git pull`) rebuild your local modules using:
 
 ```
-mvn prepare-package -pl  powo-portal
-mvn package -pl  powo-static
+mvn install
+```
+
+After making changes to a specific module you can rebuild just that module using the following commands (using the relevant Maven module e.g. `powo-portal`):
+
+```
+mvn prepare-package -pl powo-portal
+mvn package -pl powo-static
 ```
 
 Then you can restart that service using the following command (using the relevant service name defined in `docker-compose.yaml` e.g. `portal`):
