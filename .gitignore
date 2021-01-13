@@ -16,3 +16,4 @@ powo-portal/src/main/resources/rev-manifest.json
 .DS_Store
 out.txt
 .vscode/settings.json
+.env
