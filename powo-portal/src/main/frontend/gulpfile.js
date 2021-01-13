@@ -51,13 +51,22 @@ gulp.task('default', gulp.series(
 *  Aliases
 */
 gulp.task('styles', gulp.series('css', 'rev'));
-gulp.task('scripts', gulp.series('precompile', 'js', 'rev'));
+gulp.task('scripts', gulp.series('js', 'rev'));
 
 /*
 * Watch Task
 */
-gulp.task('dev', gulp.series('default', function watch() {
+gulp.task('watch', function() {
   gulp.watch('src/sass/**/*.scss', gulp.series('styles'));
-  gulp.watch('src/js/**/*.js', gulp.series('scripts'));
-  console.log("Watching 'src/sass' and 'src/js'...");
-}));
+  gulp.watch([
+    'src/js/**/*.js',
+    'src/templates/**/*.hbs',
+    '!src/js/templates/**/*.js'
+  ], gulp.series('scripts'));
+  console.log("Watching 'src/sass', 'src/js' and 'src/templates'...");
+});
+
+/*
+* Dev Task
+*/
+gulp.task('dev', gulp.series('default', 'watch'));
