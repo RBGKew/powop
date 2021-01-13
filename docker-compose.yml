@@ -21,6 +21,8 @@ services:
       - geoserver
       - solr
     mem_limit: 500M
+    environment:
+      - CDN_KEY
 
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
@@ -31,6 +33,8 @@ services:
       - geoserver
       - solr
     mem_limit: 2G
+    environment:
+      - CDN_KEY
 
   ingress:
     image: eu.gcr.io/powop-1349/ingress:latest

@@ -29,7 +29,7 @@ Once you have the application up and running you will need to load some data to 
 1. Go to `http://localhost:10080/admin/#/organisations`
 2. Click the cog in the top right and login with username `admin` and password `password`
 3. Click the cog in the top right and click import - select the `powo-harvest/local-development-data-configuration.json` as the file
-4. Go to `http://localhost:10080/admin/#/lists` and click the play icon next to the `Load everything` job
+4. Go to `http://localhost:10080/admin/#/lists` and click the play icon next to the `Load everything` job [Note: if you want images in search results, first follow the Images instructions below]
 
 This loads a subset of the full data onto your development machine. It can take several hours to complete.
 
@@ -73,6 +73,18 @@ docker exec <your_db_container_id> mysql --user=powo --password=powo powo -e "UP
 
 This will reset the lock on the db, after that you can stop and restart your containers and they should be OK.
 
+
+### Images
+
+In order for the app to load images correctly, it needs a CDN key. The steps to do this locally are:
+
+1. Get the CDN key from the POWO team
+2. Create a file called `.env` in the root of the project
+3. Add the following line, replacing `your_cdn_key` with the actual key:
+
+```
+CDN_KEY=your_cdn_key
+```
 
 Deployment
 ===
