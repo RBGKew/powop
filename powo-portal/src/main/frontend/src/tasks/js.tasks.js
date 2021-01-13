@@ -15,7 +15,7 @@ module.exports = function (gulp, $) {
       .pipe(gulp.dest('src/js/templates/'));
   });
 
-  gulp.task('js', ['precompile'], function(cb) {
+  gulp.task('js', gulp.series('precompile', function compile(cb) {
     $.requirejs({
       baseUrl: 'src/js/',
       name: 'main',
@@ -30,5 +30,5 @@ module.exports = function (gulp, $) {
     .pipe(gulp.dest('dist/js'));
 
     cb();
-  });
+  }));
 };

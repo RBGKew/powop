@@ -66,8 +66,21 @@ Then restarting only the services you need:
 docker-compose up portal ingress
 ```
 
-> If you make changes to the frontend code e.g. JS / CSS you will need to rebuild both `powo-portal` and `powo-static`
 
+#### Making changes to the frontend
+
+If you make changes to the frontend handlebars templates you will need to rebuild `powo-portal`.
+
+If you are working mainly on the frontend JS or CSS, you can use the following command:
+
+```
+# If yarn not installed globally
+npm i -g yarn
+
+# Then start automatic asset compilation
+cd powo-portal/src/main/frontend
+yarn dev
+```
 
 ### Issues with services hanging
 

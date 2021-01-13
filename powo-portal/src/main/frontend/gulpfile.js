@@ -31,38 +31,33 @@ $.loadSubtasks('src/tasks/', $);
 /*
 * Combination tasks
 */
-gulp.task('copy', ['copy:fonts', 'copy:svgs']);
-gulp.task('images', ['images:minify']);
-gulp.task('clean', ['clean:css', 'clean:js', 'clean:templates']);
-
-/*
-* Watch Task
-*/
-gulp.task('dev', function() {
-  gulp.watch('src/sass/**/*.scss',['css']);
-  gulp.watch('src/js/**/*.js',['scripts']);
-});
+gulp.task('copy', gulp.series('copy:fonts', 'copy:svgs'));
+gulp.task('images', gulp.series('images:minify'));
+gulp.task('clean', gulp.series('clean:css', 'clean:js', 'clean:templates'));
 
 /*
 *  Full build
 */
-gulp.task('default', function(cb) {
-  $.runSequence(
-    'clean',
-    'copy',
-    'images',
-    'js',
-    'css',
-    'rev',
-    cb);
-});
+gulp.task('default', gulp.series(
+  'clean',
+  'copy',
+  'images',
+  'js',
+  'css',
+  'rev'
+));
 
 /*
 *  Aliases
 */
-gulp.task('styles', function(cb) {
-  $.runSequence('css', 'rev', cb)
-});
-gulp.task('scripts', function(cb) {
-  $.runSequence('precompile', 'js', 'rev', cb)
-});
+gulp.task('styles', gulp.series('css', 'rev'));
+gulp.task('scripts', gulp.series('precompile', 'js', 'rev'));
+
+/*
+* Watch Task
+*/
+gulp.task('dev', gulp.series('default', function watch() {
+  gulp.watch('src/sass/**/*.scss', gulp.series('styles'));
+  gulp.watch('src/js/**/*.js', gulp.series('scripts'));
+  console.log("Watching 'src/sass' and 'src/js'...");
+}));

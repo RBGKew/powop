@@ -62,8 +62,8 @@
 		<spring.batch.version>4.0.0.RELEASE</spring.batch.version>
 		<spring.security.version>5.0.1.RELEASE</spring.security.version>
 		<spring.version>5.1.2.RELEASE</spring.version>
-		<node.version>v10.15.3</node.version>
-		<yarn.version>v1.17.3</yarn.version>
+		<node.version>v14.15.3</node.version>
+		<yarn.version>v1.22.10</yarn.version>
 	</properties>
 
 	<inceptionYear>2010</inceptionYear>

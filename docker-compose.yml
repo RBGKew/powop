@@ -63,6 +63,9 @@ services:
     ports:
       - "10080:80"
     mem_limit: 50M
+    volumes:
+      - ./powo-portal/src/main/frontend/dist/css:/www/data/css
+      - ./powo-portal/src/main/frontend/dist/js:/www/data/js
 
   solr:
     image: eu.gcr.io/powop-1349/solr:latest

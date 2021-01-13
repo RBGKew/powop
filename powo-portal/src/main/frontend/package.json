@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "jest",
+    "dev": "gulp dev",
     "build": "gulp"
   },
   "author": "Adam Robinson",
@@ -15,7 +16,7 @@
     "babel-jest": "^26.6.3",
     "babel-plugin-transform-amd-to-commonjs": "^1.4.0",
     "del": "^2.0.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cssnano": "^2.1.0",
     "gulp-define-module": "^0.1.4",
