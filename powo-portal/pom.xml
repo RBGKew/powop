@@ -222,17 +222,6 @@
 					</execution>
 
 					<execution>
-						<id>clear yarn cache</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>yarn</goal>
-						</goals>
-						<configuration>
-							<arguments>cache clean</arguments>
-						</configuration>
-					</execution>
-
-					<execution>
 						<id>install yarn dependencies</id>
 						<phase>generate-resources</phase>
 						<goals>
