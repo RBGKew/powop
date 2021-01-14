@@ -69,9 +69,15 @@ docker-compose up portal ingress
 
 #### Making changes to the frontend
 
-If you make changes to the frontend handlebars templates you will need to rebuild `powo-portal`.
+First, start all the docker services with `docker-compose up -d`.
 
-If you are working mainly on the frontend JS or CSS, you can use the following command:
+If you make changes to the frontend handlebars templates you will need to rebuild `powo-portal`:
+
+```
+mvn package -pl powo-portal -Ddockerfile.skip
+```
+
+If you are working mainly on the frontend JS or CSS, you can use the following command to start automatic asset recompilation:
 
 ```
 # If yarn not installed globally

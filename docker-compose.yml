@@ -30,6 +30,8 @@ services:
     mem_limit: 500M
     ports:
       - 8000:8000
+    volumes:
+      - ./powo-portal/target/powo-portal.war:/usr/local/tomcat/webapps/ROOT.war
 
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
