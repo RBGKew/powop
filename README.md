@@ -86,6 +86,9 @@ npm i -g yarn
 # Then start automatic asset compilation
 cd powo-portal/src/main/frontend
 yarn dev
+
+# Connect to a different backend, for developing an alternative POWO site
+yarn dev --backend-port=20080
 ```
 
 ### Issues with services hanging

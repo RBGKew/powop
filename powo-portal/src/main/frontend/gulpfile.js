@@ -7,6 +7,11 @@
 *
 */
 
+/**
+ * Command Line Arguments
+ */
+var argv = require('yargs').argv;
+
 /*
 * Plugin Requires
 */
@@ -57,9 +62,10 @@ gulp.task('scripts', gulp.series('js', 'rev'));
 /*
 * Watch Task
 */
+const PORT = argv.backendPort || 10080
 gulp.task('browsersync', function() {
   browserSync.init({
-    proxy: "localhost:10080"
+    proxy: "localhost:" + PORT
   });
 })
 
