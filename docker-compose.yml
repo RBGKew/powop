@@ -16,6 +16,12 @@ services:
     image: eu.gcr.io/powop-1349/portal:latest
     env_file:
       - src/main/resources/docker/env/common.env
+    environment:
+      JPDA_OPTS: -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
+    command:
+      - catalina.sh
+      - jpda
+      - run
     links:
       - db
       - geoserver
@@ -23,11 +29,19 @@ services:
     mem_limit: 500M
     environment:
       - CDN_KEY
+    ports:
+      - 8000:8000
 
   harvester:
     image: eu.gcr.io/powop-1349/harvester:latest
     env_file:
       - src/main/resources/docker/env/common.env
+    environment:
+      JPDA_OPTS: -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
+    command:
+      - catalina.sh
+      - jpda
+      - run
     links:
       - db
       - geoserver
@@ -35,6 +49,8 @@ services:
     mem_limit: 2G
     environment:
       - CDN_KEY
+    ports:
+      - 8001:8000
 
   ingress:
     image: eu.gcr.io/powop-1349/ingress:latest
