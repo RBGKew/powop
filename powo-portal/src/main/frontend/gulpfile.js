@@ -11,6 +11,7 @@
 * Plugin Requires
 */
 var gulp = require('gulp');
+var browserSync = require('browser-sync');
 
 /*
 * Load all the plugins into the variable $
@@ -56,15 +57,26 @@ gulp.task('scripts', gulp.series('js', 'rev'));
 /*
 * Watch Task
 */
-gulp.task('watch', function() {
-  gulp.watch('src/sass/**/*.scss', gulp.series('styles'));
+gulp.task('browsersync', function() {
+  browserSync.init({
+    proxy: "localhost:10080"
+  });
+})
+
+const reload = (done) => {
+  browserSync.reload()
+  done()
+}
+
+gulp.task('watch', gulp.parallel('browsersync', function() {
+  gulp.watch('src/sass/**/*.scss', gulp.series('css', reload));
   gulp.watch([
     'src/js/**/*.js',
     'src/templates/**/*.hbs',
     '!src/js/templates/**/*.js'
-  ], gulp.series('scripts'));
+  ], gulp.series('js', reload));
   console.log("Watching 'src/sass', 'src/js' and 'src/templates'...");
-});
+}));
 
 /*
 * Dev Task

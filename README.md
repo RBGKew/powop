@@ -77,7 +77,7 @@ If you make changes to the frontend handlebars templates you will need to rebuil
 mvn package -pl powo-portal -Ddockerfile.skip
 ```
 
-If you are working mainly on the frontend JS or CSS, you can use the following command to start automatic asset recompilation:
+If you are working mainly on the frontend JS or CSS, you can use the following command to start automatic asset recompilation and browser reload:
 
 ```
 # If yarn not installed globally

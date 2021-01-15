@@ -33,7 +33,10 @@ public class AssetHelper {
 	}
 
 	public CharSequence asset(String name, Options options) {
-		if(manifest.isPresent() && !developmentMode) {
+		if (developmentMode) {
+			return name + "?t=" + System.currentTimeMillis();
+		}
+		if(manifest.isPresent()) {
 			return manifest.get().getString(name, name);
 		}
 
