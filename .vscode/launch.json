@@ -12,7 +12,7 @@
         {
             "type": "java",
             "name": "Debug Harvester (Attach)",
-            "projectName": "powo-harvester",
+            "projectName": "powo-harvest",
             "request": "attach",
             "hostName": "localhost",
             "port": 8001
