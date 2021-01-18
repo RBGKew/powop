@@ -1,6 +1,7 @@
 package org.powo.portal.view.helpers;
 
 import java.io.IOException;
+import java.time.Clock;
 
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class AssetHelperTest extends AbstractHelperTest {
 	@Override
 	protected Handlebars newHandlebars() {
 		Handlebars handlebars = super.newHandlebars();
-		handlebars.registerHelpers(new AssetHelper());
+		handlebars.registerHelpers(new AssetHelper(false, Clock.systemDefaultZone()));
 		return handlebars;
 	}
 

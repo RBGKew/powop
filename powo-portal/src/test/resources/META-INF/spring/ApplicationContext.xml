@@ -12,6 +12,4 @@
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
 
-	<bean id="assetHelper" class="org.powo.portal.view.helpers.AssetHelper" />
-
 </beans>
