@@ -81,6 +81,8 @@
 								<mkdir dir="${project.build.directory}/static/js/" />
 								<mkdir dir="${project.build.directory}/static/css/" />
 								<mkdir dir="${project.build.directory}/admin/" />
+								<mkdir dir="${project.build.directory}/admin/js/" />
+								<mkdir dir="${project.build.directory}/admin/css/" />
 
 								<!-- Portal files -->
 								<copy todir="${project.build.directory}/static/img">
@@ -97,10 +99,10 @@
 								</copy>
 
 								<!-- Dashboard files -->
-								<copy todir="${project.build.directory}/static/js">
+								<copy todir="${project.build.directory}/admin/js">
 									<fileset dir="${powo.dashboard.frontendDistDir}/js" includes="**/*" />
 								</copy>
-								<copy todir="${project.build.directory}/static/css">
+								<copy todir="${project.build.directory}/admin/css">
 									<fileset dir="${powo.dashboard.frontendDistDir}/css" includes="**/*" />
 								</copy>
 								<copy file="${powo.dashboard.frontendDistDir}/index.html" todir="${project.build.directory}/admin/"/>
