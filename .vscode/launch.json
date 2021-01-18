@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug Portal (Attach)",
+            "projectName": "powo-portal",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 8000
+        },
+        {
+            "type": "java",
+            "name": "Debug Harvester (Attach)",
+            "projectName": "powo-harvest",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 8001
+        }
+    ]
+}
