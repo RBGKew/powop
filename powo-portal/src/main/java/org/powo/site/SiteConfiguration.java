@@ -1,5 +1,7 @@
 package org.powo.site;
 
+import java.time.Clock;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,10 @@ public class SiteConfiguration {
 		log.info("Using locale: {}", current.defaultLocale());
 
 		return new FixedLocaleResolver(current.defaultLocale());
+	}
+
+	@Bean
+	public Clock clock() {
+		return Clock.systemDefaultZone();
 	}
 }

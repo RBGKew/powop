@@ -17,7 +17,6 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('css', function() {
-
     return gulp.src(['src/sass/style.scss'])
       .pipe($.sass()
             .on('error', $.sass.logError)
@@ -33,7 +32,6 @@ module.exports = function (gulp, $) {
       }))
       .pipe($.rename({extname: '.min.css'}))
       .pipe(gulp.dest('dist/css'));
-    
     });
    
 };

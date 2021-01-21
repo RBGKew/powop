@@ -16,6 +16,8 @@ COPY target/static/js/ js
 
 RUN  mkdir admin
 COPY target/admin/index.html admin/index.html
+COPY target/admin/css/ admin/css
+COPY target/admin/js/ admin/js
 
 # update permissions so that Nginx worker can serve static files
 RUN chmod -R 755 /www/data
