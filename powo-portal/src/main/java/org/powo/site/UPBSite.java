@@ -37,7 +37,7 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
-	public String title() {
+	public String indexPageTitle() {
 		return "Useful Plants of Boyacá";
 	}
 

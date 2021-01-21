@@ -22,7 +22,6 @@ import org.powo.portal.view.ScientificNames;
 import org.powo.portal.view.Sources;
 import org.powo.portal.view.Summary;
 import org.powo.portal.view.VernacularNames;
-import org.powo.site.Site;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -99,7 +98,7 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public String title() {
+	public String indexPageTitle() {
 		return "Plants of the World Online | Kew Science";
 	}
 

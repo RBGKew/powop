@@ -58,7 +58,7 @@ public class ColPlantASite extends PowoSite {
 	}
 
 	@Override
-	public String title() {
+	public String indexPageTitle() {
 		return "Columbian Plants made Accessible";
 	}
 }
