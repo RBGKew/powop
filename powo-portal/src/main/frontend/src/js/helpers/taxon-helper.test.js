@@ -4,17 +4,15 @@ require("./taxon-helper");
 describe("nameAndAuthor", () => {
   test("handles simple name", () => {
     const taxon = {
-      name: "Bromus alopecuros",
+      name: "Bromus alopecuros"
     };
     const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
-    expect(template({ taxon })).toEqual(
-      '<em lang="la">Bromus alopecuros</em>'
-    );
+    expect(template({ taxon })).toEqual('<em lang="la">Bromus alopecuros</em>');
   });
 
   test("handles name with single rank", () => {
     const taxon = {
-      name: "Bromus alopecuros subsp. caroli-henrici",
+      name: "Bromus alopecuros subsp. caroli-henrici"
     };
     const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
     expect(template({ taxon })).toEqual(
@@ -59,7 +57,7 @@ describe("taxonLink", () => {
   test("handles simple name", () => {
     const taxon = {
       name: "Bromus alopecuros subsp. caroli-henrici",
-      url: "urn:lsid:ipni.org:names:1-1",
+      url: "urn:lsid:ipni.org:names:1-1"
     };
     const template = Handlebars.compile("{{ taxonLink taxon }}");
     expect(template({ taxon })).toEqual(
@@ -71,7 +69,7 @@ describe("taxonLink", () => {
     const taxon = {
       name: "Bromus alopecuros subsp. caroli-henrici",
       url: "urn:lsid:ipni.org:names:1-1",
-      author: "Philipson & B.C.Stone",
+      author: "Philipson & B.C.Stone"
     };
     const template = Handlebars.compile("{{ taxonLink taxon }}");
     expect(template({ taxon })).toEqual(
@@ -84,7 +82,7 @@ describe("color-theme", () => {
   test("handles accepted taxon", () => {
     const taxon = {
       accepted: true,
-      rank: "subspecies",
+      rank: "subspecies"
     };
     const template = Handlebars.compile("{{ color-theme taxon }}");
     expect(template({ taxon })).toEqual("s-theme-Infraspecific");
@@ -93,7 +91,7 @@ describe("color-theme", () => {
   test("handles accepted taxon with rank", () => {
     const taxon = {
       accepted: true,
-      rank: "family",
+      rank: "family"
     };
     const template = Handlebars.compile("{{ color-theme taxon }}");
     expect(template({ taxon })).toEqual("s-theme-family");
@@ -102,7 +100,7 @@ describe("color-theme", () => {
   test("handles not accepted taxon", () => {
     const taxon = {
       accepted: false,
-      rank: "subspecies",
+      rank: "subspecies"
     };
     const template = Handlebars.compile("{{ color-theme taxon }}");
     expect(template({ taxon })).toEqual("s-theme-Synonym");
