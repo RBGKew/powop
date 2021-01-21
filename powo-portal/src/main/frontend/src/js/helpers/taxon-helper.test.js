@@ -44,6 +44,7 @@ describe("nameAndAuthor", () => {
   test("name with rank which contains another rank", () => {
     const taxon = {
       name: "Senna artemisioides nothosubsp. sturtii",
+      author: "(R.Br.) Randell"
     };
 
     const template = Handlebars.compile("{{ nameAndAuthor taxon }}");
