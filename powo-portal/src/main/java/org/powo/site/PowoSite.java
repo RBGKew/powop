@@ -99,6 +99,11 @@ public class PowoSite implements Site {
 	}
 
 	@Override
+	public String title() {
+		return "Plants of the World Online | Kew Science";
+	}
+
+	@Override
 	public void populateIndexModel(Model model) {
 		model.addAttribute("names", format(taxonService.count(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));

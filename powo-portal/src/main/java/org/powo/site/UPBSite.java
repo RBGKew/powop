@@ -37,6 +37,11 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
+	public String title() {
+		return "Useful Plants of Boyacá";
+	}
+
+	@Override
 	public DefaultQueryOption defaultQuery() {
 		return new SourceFilter("UsefulPlantsofBoyacaProject");
 	}

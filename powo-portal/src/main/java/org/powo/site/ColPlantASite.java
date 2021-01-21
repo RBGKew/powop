@@ -56,4 +56,9 @@ public class ColPlantASite extends PowoSite {
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "colplanta");
 	}
+
+	@Override
+	public String title() {
+		return "Columbian Plants made Accessible";
+	}
 }
