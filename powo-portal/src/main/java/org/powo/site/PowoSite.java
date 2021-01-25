@@ -98,11 +98,6 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Plants of the World Online | Kew Science";
-	}
-
-	@Override
 	public void populateIndexModel(Model model) {
 		model.addAttribute("names", format(taxonService.count(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));
@@ -152,6 +147,11 @@ public class PowoSite implements Site {
 	@Override
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "powo");
+	}
+
+	@Override
+	public String indexPageTitle() {
+		return "Plants of the World Online | Kew Science";
 	}
 
 	@Override

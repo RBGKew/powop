@@ -35,12 +35,6 @@ public class UPBSite extends PowoSite {
 		model.addAttribute("site-logo", "partials/logo/upb");
 		model.addAttribute("siteClass", "s-upb");
 	}
-
-	@Override
-	public String indexPageTitle() {
-		return "Useful Plants of Boyacá";
-	}
-
 	@Override
 	public DefaultQueryOption defaultQuery() {
 		return new SourceFilter("UsefulPlantsofBoyacaProject");
@@ -54,6 +48,11 @@ public class UPBSite extends PowoSite {
 	@Override
 	public List<String> getSuggesters() {
 		return suggesters;
+	}
+
+	@Override
+	public String indexPageTitle() {
+		return "Useful Plants of Boyacá";
 	}
 
 	@Override
