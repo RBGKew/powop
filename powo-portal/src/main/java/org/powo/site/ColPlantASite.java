@@ -67,4 +67,9 @@ public class ColPlantASite extends PowoSite {
 		return String.format("%s %s | Columbian Plants made Accessible", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
 	}
+	
+	@Override
+	public String favicon() {
+		return null;
+	}
 }

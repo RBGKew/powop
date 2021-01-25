@@ -28,4 +28,5 @@ public interface Site {
 	public Locale defaultLocale();
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
+	String favicon();
 }

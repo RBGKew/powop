@@ -159,4 +159,9 @@ public class PowoSite implements Site {
 		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
 	}
+
+	@Override
+	public String favicon() {
+		return "powo-favicon.ico";
+	}
 }
