@@ -98,12 +98,12 @@ define(function(require) {
     if(results.totalPages > 1) {
       $('#paginate-first a')
         .attr("href", "/?" + filters.serialize({cursor: "*", p: 0}))
-        .click(setCursor);
+        .on("click", setCursor);
 
       if(results.page < results.totalPages) {
         $('#paginate-next a')
           .attr("href", "/?" + filters.serialize({cursor: results.cursor, p: results.page}))
-          .click(setCursor);
+          .on("click", setCursor);
       } else {
         $('#paginate-next').addClass('disabled');
       }
