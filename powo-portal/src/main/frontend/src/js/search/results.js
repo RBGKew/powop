@@ -34,6 +34,20 @@ define(function(require) {
     }
   }
 
+  function updatePageTitle(siteData, filterData) {
+    if (filterData.length > 0) {
+      var title = filterData
+        .map(function (f) {
+          return f.value;
+        })
+        .join(", ");
+
+      document.title = title + " | " + siteData.basePageTitle;
+    } else {
+      document.title = siteData.basePageTitle;
+    }
+  }
+
   var update = function(state) {
     prepare();
 
@@ -56,6 +70,7 @@ define(function(require) {
       $('.results-count').replaceWith(countTmpl(json));
       $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
+      updatePageTitle(window.siteData, filters.filters());
       filters.refresh();
     });
   };
