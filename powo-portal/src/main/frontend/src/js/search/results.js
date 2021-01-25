@@ -4,7 +4,6 @@ define(function(require) {
   var _ = require('libs/lodash');
   var Cookies = require('libs/js.cookie.js');
   var Handlebars = require('handlebars');
-  var History = require('libs/native.history');
   var filters = require('./filters');
   var events = require('./events');
   var pageTitle = require("./page-title");
