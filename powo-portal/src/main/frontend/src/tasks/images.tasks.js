@@ -34,4 +34,8 @@ module.exports = function (gulp, $) {
         }))
       .pipe(gulp.dest('dist/img/raster'))
   });
+
+  gulp.task("images:icons", function () {
+    return gulp.src(["src/img/*.ico"]).pipe(gulp.dest("dist/img"));
+  });
 };
