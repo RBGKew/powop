@@ -61,4 +61,10 @@ public class ColPlantASite extends PowoSite {
 	public String indexPageTitle() {
 		return "Columbian Plants made Accessible";
 	}
+
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Columbian Plants made Accessible", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
 }

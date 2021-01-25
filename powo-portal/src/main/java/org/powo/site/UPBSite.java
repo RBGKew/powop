@@ -55,4 +55,10 @@ public class UPBSite extends PowoSite {
 	public List<String> getSuggesters() {
 		return suggesters;
 	}
+
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Useful Plants of Boyacá", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
 }

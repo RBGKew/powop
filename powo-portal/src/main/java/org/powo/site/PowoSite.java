@@ -154,4 +154,9 @@ public class PowoSite implements Site {
 		return new Locale("en", "uk", "powo");
 	}
 
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
 }

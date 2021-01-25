@@ -48,6 +48,7 @@ public class TaxonController {
 	public String show(@PathVariable String identifier, Model model) {
 		Taxon taxon = service.load(IdUtil.fqName(identifier), "object-page");
 		site.populateTaxonModel(taxon, model);
+		model.addAttribute("title", site.taxonPageTitle(taxon));
 		return "taxon";
 	}
 }
