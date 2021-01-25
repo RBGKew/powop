@@ -7,6 +7,7 @@ define(function(require) {
   var History = require('libs/native.history');
   var filters = require('./filters');
   var events = require('./events');
+  var pageTitle = require("./page-title");
 
   var resultsContainerTmpl = require('templates/partials/result/results-container.js');
   var resultsTmpl = require('templates/partials/result/results.js');
@@ -34,20 +35,6 @@ define(function(require) {
     }
   }
 
-  function updatePageTitle(siteData, filterData) {
-    if (filterData.length > 0) {
-      var title = filterData
-        .map(function (f) {
-          return f.value;
-        })
-        .join(", ");
-
-      document.title = title + " | " + siteData.basePageTitle;
-    } else {
-      document.title = siteData.basePageTitle;
-    }
-  }
-
   var update = function(state) {
     prepare();
 
@@ -70,7 +57,7 @@ define(function(require) {
       $('.results-count').replaceWith(countTmpl(json));
       $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
-      updatePageTitle(window.siteData, filters.filters());
+      pageTitle.updatePageTitle(window.siteData, filters.filters());
       filters.refresh();
     });
   };
