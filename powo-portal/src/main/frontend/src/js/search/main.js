@@ -3,7 +3,6 @@ define(function(require) {
   var _ = require('libs/lodash');
   var bootstrap = require('libs/bootstrap');
   var Cookies = require('libs/js.cookie.js');
-  var History = require('libs/native.history');
   var pubsub = require('libs/pubsub');
 
   var events = require('./events');
@@ -83,7 +82,7 @@ define(function(require) {
     transformToSearchLayout();
 
     results.update(filters.serialize());
-    this.History.pushState(null, null, '?' + filters.serialize());
+    history.pushState(null, null, '?' + filters.serialize());
   });
 
   return {

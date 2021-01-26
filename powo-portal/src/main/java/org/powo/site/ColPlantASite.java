@@ -56,4 +56,20 @@ public class ColPlantASite extends PowoSite {
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "colplanta");
 	}
+
+	@Override
+	public String indexPageTitle() {
+		return "Columbian Plants made Accessible";
+	}
+
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Columbian Plants made Accessible", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
+	
+	@Override
+	public String favicon() {
+		return null;
+	}
 }

@@ -26,4 +26,7 @@ public interface Site {
 	public List<String> getSuggesters();
 	public String suggesterFilter();
 	public Locale defaultLocale();
+	String indexPageTitle();
+	String taxonPageTitle(Taxon taxon);
+	String favicon();
 }

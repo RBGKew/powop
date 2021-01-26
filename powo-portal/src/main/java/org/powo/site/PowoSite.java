@@ -22,7 +22,6 @@ import org.powo.portal.view.ScientificNames;
 import org.powo.portal.view.Sources;
 import org.powo.portal.view.Summary;
 import org.powo.portal.view.VernacularNames;
-import org.powo.site.Site;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -150,4 +149,19 @@ public class PowoSite implements Site {
 		return new Locale("en", "uk", "powo");
 	}
 
+	@Override
+	public String indexPageTitle() {
+		return "Plants of the World Online | Kew Science";
+	}
+
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
+
+	@Override
+	public String favicon() {
+		return "powo-favicon.ico";
+	}
 }

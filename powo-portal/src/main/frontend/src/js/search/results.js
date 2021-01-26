@@ -4,9 +4,9 @@ define(function(require) {
   var _ = require('libs/lodash');
   var Cookies = require('libs/js.cookie.js');
   var Handlebars = require('handlebars');
-  var History = require('libs/native.history');
   var filters = require('./filters');
   var events = require('./events');
+  var pageTitle = require("./page-title");
 
   var resultsContainerTmpl = require('templates/partials/result/results-container.js');
   var resultsTmpl = require('templates/partials/result/results.js');
@@ -56,6 +56,7 @@ define(function(require) {
       $('.results-count').replaceWith(countTmpl(json));
       $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
+      pageTitle.updatePageTitle(window.siteData, filters.filters());
       filters.refresh();
     });
   };
@@ -98,12 +99,12 @@ define(function(require) {
     if(results.totalPages > 1) {
       $('#paginate-first a')
         .attr("href", "/?" + filters.serialize({cursor: "*", p: 0}))
-        .click(setCursor);
+        .on("click", setCursor);
 
       if(results.page < results.totalPages) {
         $('#paginate-next a')
           .attr("href", "/?" + filters.serialize({cursor: results.cursor, p: results.page}))
-          .click(setCursor);
+          .on("click", setCursor);
       } else {
         $('#paginate-next').addClass('disabled');
       }

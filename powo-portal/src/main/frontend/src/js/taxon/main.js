@@ -2,7 +2,6 @@ define(function(require) {
 
   var $ = require('jquery');
   var map = require('./map');
-  var History = require('libs/native.history');
   var filters = require('../search/filters');
   var pubsub = require('libs/pubsub');
   require('libs/bootstrap');

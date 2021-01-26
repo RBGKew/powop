@@ -35,6 +35,8 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String index(Model model) {
 		site.populateIndexModel(model);
+		model.addAttribute("title", site.indexPageTitle());
+		model.addAttribute("favicon", site.favicon());
 		return "index";
 	}
 }

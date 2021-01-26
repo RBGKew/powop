@@ -38,7 +38,7 @@ $.loadSubtasks('src/tasks/', $);
 * Combination tasks
 */
 gulp.task('copy', gulp.series('copy:fonts', 'copy:svgs'));
-gulp.task('images', gulp.series('images:minify'));
+gulp.task('images', gulp.series('images:minify', "images:icons"));
 gulp.task('clean', gulp.series('clean:css', 'clean:js', 'clean:templates'));
 
 /*
