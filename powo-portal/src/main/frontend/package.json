@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
     "dev": "gulp dev",
     "build": "gulp"
   },
