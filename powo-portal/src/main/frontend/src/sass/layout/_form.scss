@@ -27,30 +27,30 @@
   input {
     width: 100%;
   }
-}
 
-/*
- * Links below the search box. Home overrides below.
- */
-.form-links {
-  display: flex;
-  justify-content: flex-end;
+  /*
+  * Links below the search box.
+  */
+  &.form-links {
+   display: flex;
+   justify-content: flex-end;
 
-  a {
-    border-bottom: 2px solid white;
-    padding-bottom: 1px;
-    text-decoration: none !important; /* override default interaction states */
+   a {
+     border-bottom: 2px solid white;
+     padding-bottom: 1px;
+     text-decoration: none !important; /* override default interaction states */
 
-    &:focus,&:hover {
-      border-bottom-width: 3px;
-      padding-bottom: 0;
-    }
-  }
+     &:focus,&:hover {
+       border-bottom-width: 3px;
+       padding-bottom: 0;
+     }
+   }
 
-  /* divider ( | ) */
-  span {
-    margin: 0 0.75rem;
-  }
+   /* divider ( | ) */
+   span {
+     margin: 0 0.75rem;
+   }
+ }
 }
 
 /*
