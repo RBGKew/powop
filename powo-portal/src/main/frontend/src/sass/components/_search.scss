@@ -101,3 +101,12 @@
   padding: 5px 0 0 10px;
   float: left;
 }
+
+#search-button {
+  background-color: $btn-search-color;
+  color: white;
+
+  &:hover,&:focus {
+    background-color: scale-color($btn-search-color, $lightness: -25%);
+  }
+}
