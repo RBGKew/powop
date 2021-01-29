@@ -103,10 +103,10 @@
 }
 
 #search-button {
-  background-color: $btn-search-color;
+  background-color: $kew-teal;
   color: white;
 
   &:hover,&:focus {
-    background-color: scale-color($btn-search-color, $lightness: -25%);
+    background-color: scale-color($kew-teal, $lightness: -25%);
   }
 }

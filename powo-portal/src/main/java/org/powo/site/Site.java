@@ -2,6 +2,7 @@ package org.powo.site;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -30,5 +31,5 @@ public interface Site {
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
-	Link crossSiteLink();
+	Optional<Link> crossSiteLink();
 }

@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.powo.api.DescriptionService;
@@ -167,8 +168,8 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public Link crossSiteLink() {
-		return null;
+	public Optional<Link> crossSiteLink() {
+		return Optional.empty();
 	}
 
 }

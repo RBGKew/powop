@@ -19,13 +19,13 @@
           {{> partials/search/search-box }}
         </main>
         <nav class="form-inline--search form-links">
-          {{#if cross-site-link}}
-          <a href="{{cross-site-link.href}}">{{cross-site-link.text}}</a>
-          <span>|</span>
+          {{#if cross-site-link.present}}
+          <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a>
+          <span class="divider">|</span>
           {{/if}}
-          <a href="/about">{{{message "footer_about"}}}</a>
-          <span>|</span>
-          <a href="/search-help">{{{message "footer_help"}}}</a>
+          <a class="form-link" href="/about">{{{message "footer_about"}}}</a>
+          <span class="divider">|</span>
+          <a class="form-link" href="/search-help">{{{message "footer_help"}}}</a>
         </nav>
       </div><!-- End Container -->
     </div>

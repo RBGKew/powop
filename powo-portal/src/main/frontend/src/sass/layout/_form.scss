@@ -35,7 +35,7 @@
    display: flex;
    justify-content: flex-end;
 
-   a {
+   .form-link {
      border-bottom: 2px solid white;
      padding-bottom: 1px;
      text-decoration: none !important; /* override default interaction states */
@@ -46,8 +46,7 @@
      }
    }
 
-   /* divider ( | ) */
-   span {
+   .divider {
      margin: 0 0.75rem;
    }
  }

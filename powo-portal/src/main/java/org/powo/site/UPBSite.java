@@ -2,6 +2,7 @@ package org.powo.site;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -68,7 +69,7 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
-	public Link crossSiteLink() {
-		return null;
+	public Optional<Link> crossSiteLink() {
+		return Optional.empty();
 	}
 }

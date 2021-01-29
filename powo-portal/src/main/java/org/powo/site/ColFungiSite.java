@@ -3,6 +3,7 @@ package org.powo.site;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -75,7 +76,8 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	@Override
-	public Link crossSiteLink() {
-		return new Link("http://colplanta.org", "Looking for a Columbian plant?");
+	public Optional<Link> crossSiteLink() {
+		Link link = new Link("http://colplanta.org", "Looking for a Columbian plant?");
+		return Optional.of(link);
 	}
 }
