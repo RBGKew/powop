@@ -61,12 +61,12 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public String indexPageTitle() {
-		return "Columbian Plants made Accessible";
+		return "Colombian Plants made Accessible";
 	}
 
 	@Override
 	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Columbian Plants made Accessible", taxon.getScientificName(),
+		return String.format("%s %s | Colombian Plants made Accessible", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
 	}
 	
@@ -77,7 +77,7 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public Optional<Link> crossSiteLink() {
-		Link link = new Link("http://colfungi.org", "Looking for Columbian fungi?");
+		Link link = new Link("http://colfungi.org", "Looking for Colombian fungi?");
 		return Optional.of(link);
 	}
 }

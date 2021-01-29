@@ -112,31 +112,3 @@
     }
   }
 }
-
-#uses {
-
-  .form-group {
-    padding-left: 15px;
-  }
-
-  form {
-    padding-top: 15px;
-  }
-
-  label {
-    font-weight: normal;
-    cursor: pointer;
-    cursor: hand;
-  }
-
-  input[type="checkbox"] {
-    cursor: pointer;
-    cursor: hand;
-    margin-right: 10px;
-  }
-
-  .checkbox-group {
-    width: 200px;
-    float: left;
-  }
-}
