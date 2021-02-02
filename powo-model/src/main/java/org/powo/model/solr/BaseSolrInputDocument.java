@@ -36,6 +36,7 @@ public class BaseSolrInputDocument {
 		if(obj.getAuthority() != null) {
 			sid.addField("base.authority_s", obj.getAuthority().getIdentifier());
 			sid.addField("searchable.sources_ss", obj.getAuthority().getIdentifier());
+			sid.addField("searchable.context_ss", normalized(obj.getAuthority().getIdentifier()));
 		}
 		return sid;
 	}
@@ -43,6 +44,20 @@ public class BaseSolrInputDocument {
 	protected void addField(SolrInputDocument sid, String name, Serializable value) {
 		if(value != null && !value.toString().isEmpty()) {
 			sid.addField(name, value);
+		}
+	}
+
+	/**
+	 * Normalize values that will go into the suggester context, e.g. source identifiers
+	 * 
+	 * @param value
+	 * @return
+	 */
+	protected String normalized(String value) {
+		if (value != null) {
+			return value.replaceAll("-", "");
+		} else {
+			return value;
 		}
 	}
 }

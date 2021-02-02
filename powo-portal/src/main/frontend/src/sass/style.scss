@@ -1,6 +1,7 @@
 // Colors
 $article-theme-color: #339999;
 $brand-primary: #000000;
+$kew-teal: #008285;
 
 // Font defaults
 $font-family-sans-serif: 'Roboto', sans-serif;
@@ -27,7 +28,7 @@ $container-huge-desktop: 1600px;
 $screen-huge-min: 1700px;
 
 
-// Radius for pill buttons
+// Colors for pill buttons
 $btn-default-color: #333333;
 $btn-default-bg: #FFFFFF;
 $btn-default-border: transparent;
@@ -128,4 +129,5 @@ $border-grey: 1px solid #CCCCCC;
 @import "pages/static";
 
 @import "sites/colplanta";
+@import "sites/colfungi";
 @import "sites/upb";

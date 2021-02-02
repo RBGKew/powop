@@ -37,6 +37,7 @@ public class IndexController {
 		site.populateIndexModel(model);
 		model.addAttribute("title", site.indexPageTitle());
 		model.addAttribute("favicon", site.favicon());
+		model.addAttribute("cross-site-link", site.crossSiteLink());
 		return "index";
 	}
 }

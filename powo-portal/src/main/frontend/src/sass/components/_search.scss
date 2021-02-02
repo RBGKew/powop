@@ -101,3 +101,12 @@
   padding: 5px 0 0 10px;
   float: left;
 }
+
+#search-button {
+  background-color: $kew-teal;
+  color: white;
+
+  &:hover,&:focus {
+    background-color: scale-color($kew-teal, $lightness: -25%);
+  }
+}

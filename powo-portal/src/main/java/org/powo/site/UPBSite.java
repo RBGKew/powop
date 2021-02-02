@@ -2,10 +2,12 @@ package org.powo.site;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -64,5 +66,10 @@ public class UPBSite extends PowoSite {
 	@Override
 	public String favicon() {
 		return null;
+	}
+
+	@Override
+	public Optional<Link> crossSiteLink() {
+		return Optional.empty();
 	}
 }
