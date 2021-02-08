@@ -15,10 +15,11 @@
           {{#with summary}}
             <p> 
               {{{this}}}
-            </p>
+            
             {{#with taxon.acceptedNameUsage }}
               {{taxonLink this}}
             {{/with}}
+            </p>
           {{/with}}
         </div>
         {{#with images.headerImage }}
