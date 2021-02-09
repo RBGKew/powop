@@ -449,7 +449,7 @@ public class Taxon extends SearchableObject {
 	/**
 	 * @return the authorship
 	 */
-	@Size(max = 128)
+	@Size(max = 255)
 	public String getScientificNameAuthorship() {
 		return scientificNameAuthorship;
 	}
