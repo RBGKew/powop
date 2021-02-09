@@ -2,6 +2,7 @@
 $article-theme-color: #339999;
 $brand-primary: #000000;
 $kew-teal: #008285;
+$border-color: #949494;
 
 // Font defaults
 $font-family-sans-serif: 'Roboto', sans-serif;
@@ -35,7 +36,7 @@ $btn-default-border: transparent;
 
 // Pagination
 $pagination-bg: #fff;
-$pagination-border: #949494;
+$pagination-border: $border-color;
 
 $pagination-hover-color: #000;
 $pagination-hover-bg: #ccc;

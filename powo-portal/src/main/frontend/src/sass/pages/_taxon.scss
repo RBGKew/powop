@@ -30,7 +30,7 @@
   color: #008285;
 }
 .navbar {
-  border-bottom: 1px solid #949494;
+  border-bottom: 1px solid $border-color;
   border-top:none;
   @media (max-width: $screen-xs-max) {
     border-bottom: none;
