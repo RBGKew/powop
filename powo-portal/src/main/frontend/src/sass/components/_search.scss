@@ -110,3 +110,12 @@
     background-color: scale-color($kew-teal, $lightness: -25%);
   }
 }
+
+.s-page--taxon {
+  #search_box {
+    .tokenfield {
+      border: 1px solid $kew-medium-grey;
+      padding: 6px 0 7px 12px;
+    }
+  }
+}
