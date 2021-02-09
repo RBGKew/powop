@@ -5,24 +5,27 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
+
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.gbif.ecat.voc.Rank;
 import org.powo.model.constants.TaxonomicStatus;
+import org.powo.model.registry.Organisation;
 import org.junit.Test;
 import org.powo.api.job.WCSPTerm;
 import org.powo.model.Description;
 import org.powo.model.Distribution;
 import org.powo.model.Image;
 import org.powo.model.MeasurementOrFact;
+import org.powo.model.Reference;
 import org.powo.model.Taxon;
 import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.Location;
 import org.powo.model.constants.MeasurementUnit;
-import org.powo.model.solr.TaxonSolrInputDocument;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
@@ -346,6 +349,60 @@ public class TaxonSolrInputDocumentTest {
 		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
 
 		assertEquals("750AsteraceaeHieraciumsabaudumf.bladonii", doc.getFieldValue("sortable"));
+	}
+
+	@Test
+	public void testMultipleSources() {
+		Organisation taxonAuthority = new Organisation();
+		taxonAuthority.setIdentifier("WorldChecklist");
+
+		Organisation referenceAuthority = new Organisation();
+		referenceAuthority.setIdentifier("ColPlantA");
+
+		Reference reference = new Reference();
+		reference.setAuthority(referenceAuthority);
+
+		HashSet<Reference> references = new HashSet<>();
+		references.add(reference);
+
+		Taxon taxon = new Taxon();
+		taxon.setAuthority(taxonAuthority);
+		taxon.setReferences(references);
+		taxon.setKingdom("Plantae");
+		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+
+		String[] expectedSources = {"WorldChecklist", "ColPlantA"};
+		String[] expectedContext = {"WorldChecklist", "ColPlantA", "Plantae"};
+
+		assertEquals(new HashSet<String>(Arrays.asList(expectedSources)), doc.getField("searchable.sources_ss").getValue());
+		assertEquals(new HashSet<String>(Arrays.asList(expectedContext)), doc.getField("searchable.context_ss").getValue());
+	}
+
+	@Test
+	public void testDuplicateSources() {
+		Organisation taxonAuthority = new Organisation();
+		taxonAuthority.setIdentifier("ColPlantA");
+
+		Organisation referenceAuthority = new Organisation();
+		referenceAuthority.setIdentifier("ColPlantA");
+
+		Reference reference = new Reference();
+		reference.setAuthority(referenceAuthority);
+
+		HashSet<Reference> references = new HashSet<>();
+		references.add(reference);
+
+		Taxon taxon = new Taxon();
+		taxon.setAuthority(taxonAuthority);
+		taxon.setReferences(references);
+		taxon.setKingdom("Plantae");
+		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+
+		String[] expectedSources = {"ColPlantA"};
+		String[] expectedContext = {"ColPlantA", "Plantae"};
+
+		assertEquals(new HashSet<String>(Arrays.asList(expectedSources)), doc.getField("searchable.sources_ss").getValue());
+		assertEquals(new HashSet<String>(Arrays.asList(expectedContext)), doc.getField("searchable.context_ss").getValue());
 	}
 
 	private Description buildDescription(String description, DescriptionType... types) {

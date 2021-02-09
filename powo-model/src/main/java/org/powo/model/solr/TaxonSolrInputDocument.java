@@ -128,6 +128,10 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		}
 		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
 
+		// Deduplicate sources and context
+		deduplicateField(sid, "searchable.sources_ss");
+		deduplicateField(sid, "searchable.context_ss");
+
 		buildSortField();
 
 		return sid;
