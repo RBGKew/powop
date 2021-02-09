@@ -109,7 +109,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 					persisted.setRightsHolder(t.getRightsHolder());
 					doUpdate(persisted, t);
 
-					((NonOwned)persisted).getTaxa().clear();
 					if(taxon != null) {
 						((NonOwned)persisted).getTaxa().add(taxon);
 					}
