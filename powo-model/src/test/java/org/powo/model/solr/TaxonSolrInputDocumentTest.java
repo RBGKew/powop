@@ -28,6 +28,7 @@ import org.powo.model.constants.Location;
 import org.powo.model.constants.MeasurementUnit;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 public class TaxonSolrInputDocumentTest {
 
@@ -353,56 +354,56 @@ public class TaxonSolrInputDocumentTest {
 
 	@Test
 	public void testMultipleSources() {
-		Organisation taxonAuthority = new Organisation();
+		var taxonAuthority = new Organisation();
 		taxonAuthority.setIdentifier("WorldChecklist");
 
-		Organisation referenceAuthority = new Organisation();
+		var referenceAuthority = new Organisation();
 		referenceAuthority.setIdentifier("ColPlantA");
 
-		Reference reference = new Reference();
+		var reference = new Reference();
 		reference.setAuthority(referenceAuthority);
 
-		HashSet<Reference> references = new HashSet<>();
+		var references = new HashSet<Reference>();
 		references.add(reference);
 
-		Taxon taxon = new Taxon();
+		var taxon = new Taxon();
 		taxon.setAuthority(taxonAuthority);
 		taxon.setReferences(references);
 		taxon.setKingdom("Plantae");
-		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+		var doc = new TaxonSolrInputDocument(taxon).build();
 
-		String[] expectedSources = {"WorldChecklist", "ColPlantA"};
-		String[] expectedContext = {"WorldChecklist", "ColPlantA", "Plantae"};
+		var expectedSources = Sets.newHashSet("WorldChecklist", "ColPlantA");
+		var expectedContext = Sets.newHashSet("WorldChecklist", "ColPlantA", "Plantae");
 
-		assertEquals(new HashSet<String>(Arrays.asList(expectedSources)), doc.getField("searchable.sources_ss").getValue());
-		assertEquals(new HashSet<String>(Arrays.asList(expectedContext)), doc.getField("searchable.context_ss").getValue());
+		assertEquals(expectedSources, doc.getFieldValues("searchable.sources_ss"));
+		assertEquals(expectedContext, doc.getFieldValues("searchable.context_ss"));
 	}
 
 	@Test
 	public void testDuplicateSources() {
-		Organisation taxonAuthority = new Organisation();
+		var taxonAuthority = new Organisation();
 		taxonAuthority.setIdentifier("ColPlantA");
 
-		Organisation referenceAuthority = new Organisation();
+		var referenceAuthority = new Organisation();
 		referenceAuthority.setIdentifier("ColPlantA");
 
-		Reference reference = new Reference();
+		var reference = new Reference();
 		reference.setAuthority(referenceAuthority);
 
-		HashSet<Reference> references = new HashSet<>();
+		var references = new HashSet<Reference>();
 		references.add(reference);
 
-		Taxon taxon = new Taxon();
+		var taxon = new Taxon();
 		taxon.setAuthority(taxonAuthority);
 		taxon.setReferences(references);
 		taxon.setKingdom("Plantae");
-		SolrInputDocument doc = new TaxonSolrInputDocument(taxon).build();
+		var doc = new TaxonSolrInputDocument(taxon).build();
 
-		String[] expectedSources = {"ColPlantA"};
-		String[] expectedContext = {"ColPlantA", "Plantae"};
+		var expectedSources = Sets.newHashSet("ColPlantA");
+		var expectedContext = Sets.newHashSet("ColPlantA", "Plantae");
 
-		assertEquals(new HashSet<String>(Arrays.asList(expectedSources)), doc.getField("searchable.sources_ss").getValue());
-		assertEquals(new HashSet<String>(Arrays.asList(expectedContext)), doc.getField("searchable.context_ss").getValue());
+		assertEquals(expectedSources, doc.getFieldValues("searchable.sources_ss"));
+		assertEquals(expectedContext, doc.getFieldValues("searchable.context_ss"));
 	}
 
 	private Description buildDescription(String description, DescriptionType... types) {

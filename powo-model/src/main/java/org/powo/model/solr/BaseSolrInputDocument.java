@@ -56,7 +56,7 @@ public class BaseSolrInputDocument {
 	 * @param name The name of the field to deduplicate
 	 */
 	protected void deduplicateField(SolrInputDocument sid, String name) {
-		Collection<Object> values = sid.getFieldValues(name);
+		var values = sid.getFieldValues(name);
 		if (values != null) {
 			sid.setField(name, new HashSet<>(sid.getFieldValues(name)));
 		}
