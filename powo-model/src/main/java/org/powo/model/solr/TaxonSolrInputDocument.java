@@ -117,20 +117,37 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexMeasurementOrFacts();
 		indexImages();
 		addSuggestionWeight();
-
-		for(Reference r : taxon.getReferences()) {
-			addSource(r);
-		}
-
-		for(String source : sources) {
-			sid.addField("searchable.sources_ss", source);
-			sid.addField("searchable.context_ss", normalized(source));
-		}
-		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
+		
+		addReferencesToSources();
+		indexSources();
+		indexContext();
 
 		buildSortField();
 
 		return sid;
+	}
+
+	private void indexContext() {
+		for (String source : sources) {
+			sid.addField("searchable.context_ss", normalized(source));
+		}
+		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
+
+		deduplicateField(sid, "searchable.context_ss");
+	}
+
+	private void indexSources() {
+		for (String source : sources) {
+			sid.addField("searchable.sources_ss", source);
+		}
+
+		deduplicateField(sid, "searchable.sources_ss");
+	}
+
+	private void addReferencesToSources() {
+		for (var r : taxon.getReferences()) {
+			addSource(r);
+		}
 	}
 
 	private void buildSortField() {

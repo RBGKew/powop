@@ -1,6 +1,8 @@
 package org.powo.model.solr;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.format.DateTimeFormat;
@@ -44,6 +46,19 @@ public class BaseSolrInputDocument {
 	protected void addField(SolrInputDocument sid, String name, Serializable value) {
 		if(value != null && !value.toString().isEmpty()) {
 			sid.addField(name, value);
+		}
+	}
+
+	/**
+	 * Deduplicate a field that may have multiple values in it (e.g. context_ss)
+	 *
+	 * @param sid The SolrInputDocument being wrapped by this class
+	 * @param name The name of the field to deduplicate
+	 */
+	protected void deduplicateField(SolrInputDocument sid, String name) {
+		var values = sid.getFieldValues(name);
+		if (values != null) {
+			sid.setField(name, new HashSet<>(sid.getFieldValues(name)));
 		}
 	}
 
