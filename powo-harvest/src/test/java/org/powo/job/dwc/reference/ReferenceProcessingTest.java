@@ -16,14 +16,15 @@
  */
 package org.powo.job.dwc.reference;
 
+import static org.junit.Assert.assertEquals;
+
+import com.google.common.collect.Sets;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.powo.api.OrganisationService;
 import org.powo.api.ReferenceService;
 import org.powo.api.TaxonService;
-import org.powo.job.dwc.reference.Processor;
 import org.powo.model.Reference;
 import org.powo.model.Taxon;
 import org.powo.model.constants.ReferenceType;
@@ -34,15 +35,11 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 public class ReferenceProcessingTest {
 
-	private Reference reference;
-
 	private ReferenceService referenceService;
 
 	private TaxonService taxonService;
 
 	private OrganisationService sourceService;
-
-	private Taxon taxon;
 
 	private Organisation source = new Organisation();
 
@@ -50,14 +47,6 @@ public class ReferenceProcessingTest {
 
 	@Before
 	public void setUp() {
-		reference = new Reference();
-		taxon = new Taxon();
-		taxon.setId(0L);
-		taxon.setIdentifier("identifier");
-		taxon.setFamily("Araceae");
-		reference.getTaxa().add(taxon);
-		reference.setType(ReferenceType.publication);
-		reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
 		referenceService = EasyMock.createMock(ReferenceService.class);
 		taxonService = EasyMock.createMock(TaxonService.class);
 		sourceService = EasyMock.createMock(OrganisationService.class);
@@ -72,17 +61,64 @@ public class ReferenceProcessingTest {
 		referenceValidator.setTaxonService(taxonService);
 		referenceValidator.setSourceName("test source");
 		referenceValidator.beforeStep(new StepExecution("teststep", new JobExecution(1L)));
+
+		source.setIdentifier("test source");
 	}
 
 	@Test
-	@Ignore("Re-enabling tests")
-	public void testProcessReference() throws Exception {
+	public void testProcessNewReference() throws Exception {
+		var reference = new Reference();
+
+		var taxon = new Taxon();
+		taxon.setId(0L);
+		taxon.setIdentifier("identifier");
+		taxon.setFamily("Araceae");
+
+		reference.getTaxa().add(taxon);
+		reference.setType(ReferenceType.publication);
+		reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
+
 		EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(null).anyTimes();
 		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
 		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
 		EasyMock.replay(referenceService, sourceService, taxonService);
 		referenceValidator.process(reference);
 		EasyMock.verify(referenceService, sourceService, taxonService);
+	}
+
+	@Test
+	public void testProcessExistingReferenceWithNewTaxon() throws Exception {
+		var existingReference = new Reference();
+
+		var taxon = new Taxon();
+		taxon.setId(0L);
+		taxon.setIdentifier("identifier");
+		taxon.setFamily("Araceae");
+
+		existingReference.getTaxa().add(taxon);
+		existingReference.setType(ReferenceType.publication);
+		existingReference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
+		existingReference.setAuthority(source);
+
+		var newReference = new Reference();
+
+		var newTaxon = new Taxon();
+		newTaxon.setId(1L);
+		newTaxon.setIdentifier("newidentifier");
+		newTaxon.setFamily("Araceae");
+
+		newReference.getTaxa().add(newTaxon);
+		newReference.setType(ReferenceType.publication);
+		newReference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
+
+		EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(existingReference).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
+		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
+		EasyMock.replay(referenceService, sourceService, taxonService);
+		referenceValidator.process(newReference);
+		EasyMock.verify(referenceService, sourceService, taxonService);
+		assertEquals(Sets.newHashSet(taxon, newTaxon), existingReference.getTaxa());
 	}
 
 }
