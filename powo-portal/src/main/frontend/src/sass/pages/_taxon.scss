@@ -5,11 +5,12 @@
 }
 .to-top {
   display: block;
-  top: 34px;
+  top: 32px;
   right: 0;
   z-index: 99;
   cursor: pointer;
   position: absolute;
+  font-size: 20px;
   @media (max-width: $screen-xs-max) {
     position: unset;
     top:unset;
