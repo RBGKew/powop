@@ -13,12 +13,12 @@
         <div class="c-summary">
           {{classification taxon}}
           {{#with summary}}
-            <p> 
+            <div class="details">
               {{{this}}}
-            </p>
-            {{#with taxon.acceptedNameUsage }}
-              {{taxonLink this}}
-            {{/with}}
+              {{#with taxon.acceptedNameUsage }}
+                {{taxonLink this}}
+              {{/with}}
+            </div>
           {{/with}}
         </div>
         {{#with images.headerImage }}
