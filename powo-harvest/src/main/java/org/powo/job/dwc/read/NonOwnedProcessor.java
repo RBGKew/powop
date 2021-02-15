@@ -125,12 +125,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 			// update it with this taxon but that's it, assuming that it
 			// isn't a more up to date version
 			if(taxon != null) {
-				if (((NonOwned)bound).getTaxa().contains(taxon)) {
-					// do nothing
-				} else {
-					// Add the taxon to the list of taxa
-					((NonOwned)bound).getTaxa().add(taxon);
-				}
+				((NonOwned)bound).getTaxa().add(taxon);
 			}
 			// We've already returned this object once
 			logger.debug("Skipping object " + t.getIdentifier());

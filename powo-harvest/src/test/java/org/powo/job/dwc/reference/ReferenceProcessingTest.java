@@ -65,6 +65,10 @@ public class ReferenceProcessingTest {
 		source.setIdentifier("test source");
 	}
 
+	/**
+	 * Test that the reference processor links a new reference to its associated taxon, and stores the reference in
+	 * its bound objects.
+	 */
 	@Test
 	public void testProcessNewReference() throws Exception {
 		var reference = new Reference();
@@ -84,10 +88,54 @@ public class ReferenceProcessingTest {
 		EasyMock.replay(referenceService, sourceService, taxonService);
 		referenceValidator.process(reference);
 		EasyMock.verify(referenceService, sourceService, taxonService);
+		assertEquals(Sets.newHashSet(taxon), reference.getTaxa());
+		assertEquals(referenceValidator.lookupBound(reference), reference);
 	}
 
+	/**
+	 * Test that the reference processor adds additional taxa to a reference that is "bound", i.e. has already appeared in the current
+	 * batch of records being processed.
+	 */
 	@Test
-	public void testProcessExistingReferenceWithNewTaxon() throws Exception {
+	public void testProcessBoundReferenceWithNewTaxon() throws Exception {
+		var existingReference = new Reference();
+
+		var taxon = new Taxon();
+		taxon.setId(0L);
+		taxon.setIdentifier("identifier");
+		taxon.setFamily("Araceae");
+
+		existingReference.getTaxa().add(taxon);
+		existingReference.setType(ReferenceType.publication);
+		existingReference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
+		existingReference.setAuthority(source);
+
+		var newReference = new Reference();
+
+		var newTaxon = new Taxon();
+		newTaxon.setId(1L);
+		newTaxon.setIdentifier("newidentifier");
+		newTaxon.setFamily("Araceae");
+
+		newReference.getTaxa().add(newTaxon);
+		newReference.setType(ReferenceType.publication);
+		newReference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
+
+		referenceValidator.bind(existingReference);
+
+		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
+		EasyMock.replay(referenceService, sourceService, taxonService);
+		referenceValidator.process(newReference);
+		EasyMock.verify(referenceService, sourceService, taxonService);
+		assertEquals(Sets.newHashSet(taxon, newTaxon), existingReference.getTaxa());
+	}
+
+	/**
+	 * Test that the reference processor adds additional taxa to a reference that is "persisted", i.e. already exists in the database.
+	 */
+	@Test
+	public void testProcessPersistedReferenceWithNewTaxon() throws Exception {
 		var existingReference = new Reference();
 
 		var taxon = new Taxon();
