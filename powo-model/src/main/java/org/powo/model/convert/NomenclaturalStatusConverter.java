@@ -91,8 +91,6 @@ public class NomenclaturalStatusConverter implements Converter<String, Nomenclat
 				return NomenclaturalStatus.Superfluous;
 			case "valid":
 				return NomenclaturalStatus.Valid;
-			case "not available":
-				return NomenclaturalStatus.Denied;
 			default:
 				return NomenclaturalStatus.valueOf(source);
 			}
