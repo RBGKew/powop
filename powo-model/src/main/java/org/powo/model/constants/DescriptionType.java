@@ -291,10 +291,14 @@ public enum DescriptionType {
 	useEnvironmentalUseSoilImprovers("use:environmentalUse:soilImprovers"),
 	useEnvironmentalUseUnspecifiedEnvironmentalUses("use:environmentalUse:unspecifiedEnvironmentalUses"),
 	useFood("use:food"),
+	// Simplified TDWG Category: Food > Preparations Used In > Beverages
+	useFoodBeverages("use:food:beverages"),
 	useFoodCereals("use:food:cereals"),
 	useFoodFoodAdditives("use:food:foodAdditives"),
 	useFoodFruitsDessertFruits("use:food:fruitsDessertFruits"),
 	useFoodGumsMucilagesResins("use:food:gumsMucilagesResins"),
+	// New TDWG Category for Fungi: Food > Mushrooms
+	useFoodMushrooms("use:food:mushrooms"),
 	useFoodNuts("use:food:nuts"),
 	useFoodOilsFats("use:food:oilsFats"),
 	useFoodOtherFoodType("use:food:otherFoodType"),
