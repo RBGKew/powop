@@ -159,7 +159,7 @@
         "authority.name":"CatalogodeHongosUtilesdeColombia",
         "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_names_uat.zip",
         "resource.identifier":"ColFungi-Taxonomy",
-        "skip.indexing":"true",
+        "skip.indexing":"false",
         "taxon.processing.mode":"IMPORT_TAXONOMY"
       }
     },
@@ -171,10 +171,10 @@
         "authority.name":"CatalogodeHongosUtilesdeColombia",
         "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_distribution_uat.zip",
         "resource.identifier":"ColFungi-Distribution",
-        "skip.indexing":"true"
+        "skip.indexing":"false"
       }
     },
-    {
+	{
       "description":"Harvest ColFungi Description",
       "identifier":"Harvest-ColFungi-Description",
       "jobName":"DarwinCoreArchiveHarvesting",

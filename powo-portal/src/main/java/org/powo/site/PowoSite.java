@@ -2,17 +2,22 @@ package org.powo.site;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
+import org.powo.api.SearchableObjectService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
+import org.powo.persistence.solr.QueryBuilder;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
@@ -43,6 +48,9 @@ public class PowoSite implements Site {
 
 	@Autowired
 	DescriptionService descriptionService;
+
+	@Autowired
+	SearchableObjectService searchableObjectService;
 
 	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
@@ -96,12 +104,20 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateIndexModel(Model model) {
-		model.addAttribute("names", format(taxonService.count(), 1000));
+		model.addAttribute("names", format(taxaCount(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		model.addAttribute("intro", "partials/intro/powo");
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
+	}
+
+	@Override
+	public Long taxaCount() {
+		QueryBuilder queryBuilder = new QueryBuilder(defaultQuery(), Collections.emptyMap());
+		SolrQuery query = queryBuilder.build();
+		QueryResponse queryResponse = searchableObjectService.search(query);
+		return queryResponse.getResults().getNumFound();
 	}
 
 	@Override
@@ -142,7 +158,7 @@ public class PowoSite implements Site {
 		}
 	}
 
-	private String format(long n, int ceilTo) {
+	protected String format(long n, int ceilTo) {
 		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo - 1)) / ceilTo) * ceilTo);
 	}
 

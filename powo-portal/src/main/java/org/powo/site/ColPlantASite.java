@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.powo.api.SearchableObjectService;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.components.Link;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -28,6 +30,7 @@ public class ColPlantASite extends PowoSite {
 	public void populateIndexModel(Model model) {
 		model.addAttribute("siteClass", "s-colplanta");
 		model.addAttribute("intro", "partials/intro/colplanta");
+		model.addAttribute("names", format(taxaCount(), 100));
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 	}

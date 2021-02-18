@@ -28,6 +28,7 @@ public class ColFungiSite extends PowoSite {
 	public void populateIndexModel(Model model) {
 		model.addAttribute("siteClass", "s-colfungi");
 		model.addAttribute("intro", "partials/intro/colfungi");
+		model.addAttribute("names", format(taxaCount(), 100));
 		model.addAttribute("site-logo", "partials/logo/colfungi");
 		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
 	}
