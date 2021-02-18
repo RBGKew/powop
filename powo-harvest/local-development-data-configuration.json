@@ -159,7 +159,7 @@
         "authority.name":"CatalogodeHongosUtilesdeColombia",
         "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_names_uat.zip",
         "resource.identifier":"ColFungi-Taxonomy",
-        "skip.indexing":"false",
+        "skip.indexing":"true",
         "taxon.processing.mode":"IMPORT_TAXONOMY"
       }
     },
@@ -171,7 +171,7 @@
         "authority.name":"CatalogodeHongosUtilesdeColombia",
         "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_distribution_uat.zip",
         "resource.identifier":"ColFungi-Distribution",
-        "skip.indexing":"false"
+        "skip.indexing":"true"
       }
     },
     {
@@ -182,7 +182,18 @@
         "authority.name":"CatalogodeHongosUtilesdeColombia",
         "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat_20210218.zip",
         "resource.identifier":"ColFungi-Description",
-        "skip.indexing":"false"
+        "skip.indexing":"true"
+      }
+    },
+    {
+      "description":"Harvest ColFungi Images",
+      "identifier":"Harvest-ColFungi-Images",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CatalogodeHongosUtilesdeColombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_images_uat.zip",
+        "resource.identifier":"ColFungi-Images",
+        "skip.indexing":"true"
       }
     }
   ],
@@ -206,6 +217,7 @@
         "Harvest-ColFungi-Taxonomy",
         "Harvest-ColFungi-Distribution",
         "Harvest-ColFungi-Description",
+        "Harvest-ColFungi-Images",
         "reindex"
       ]
     }
@@ -378,6 +390,13 @@
           "resourceType":"DwC_Archive",
           "title":"ColFungi Description",
           "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat_20210218.zip"
+        },
+        {
+          "identifier":"ColFungi-Images",
+          "organisation":"CatalogodeHongosUtilesdeColombia",
+          "resourceType":"DwC_Archive",
+          "title":"ColFungi Images",
+          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_images_uat.zip"
         }
       ],
       "subject":"ColFungi; UPFC; Royal Botanic Gardens, Kew; Instituto Humboldt",
