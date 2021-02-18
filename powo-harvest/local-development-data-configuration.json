@@ -138,6 +138,52 @@
         "resource.identifier":"Colplanta-Images",
         "skip.indexing":"true"
       }
+    },
+    {
+      "description":"Harvest ColFungi Names",
+      "identifier":"Harvest-ColFungi-Names",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CatalogodeHongosUtilesdeColombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_names_uat.zip",
+        "resource.identifier":"ColFungi-Names",
+        "skip.indexing":"true",
+        "taxon.processing.mode":"IMPORT_NAMES"
+      }
+    },
+    {
+      "description":"Harvest ColFungi Taxonomy",
+      "identifier":"Harvest-ColFungi-Taxonomy",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CatalogodeHongosUtilesdeColombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_names_uat.zip",
+        "resource.identifier":"ColFungi-Taxonomy",
+        "skip.indexing":"false",
+        "taxon.processing.mode":"IMPORT_TAXONOMY"
+      }
+    },
+    {
+      "description":"Harvest ColFungi Distribution",
+      "identifier":"Harvest-ColFungi-Distribution",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CatalogodeHongosUtilesdeColombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_distribution_uat.zip",
+        "resource.identifier":"ColFungi-Distribution",
+        "skip.indexing":"false"
+      }
+    },
+    {
+      "description":"Harvest ColFungi Description",
+      "identifier":"Harvest-ColFungi-Description",
+      "jobName":"DarwinCoreArchiveHarvesting",
+      "parameters":{
+        "authority.name":"CatalogodeHongosUtilesdeColombia",
+        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat_20210218.zip",
+        "resource.identifier":"ColFungi-Description",
+        "skip.indexing":"false"
+      }
     }
   ],
   "jobLists":[
@@ -156,6 +202,10 @@
         "Harvest-UPB-Common-Names",
         "Harvest-Colombian-Catalog",
         "Harvest-Colplanta-Images",
+        "Harvest-ColFungi-Names",
+        "Harvest-ColFungi-Taxonomy",
+        "Harvest-ColFungi-Distribution",
+        "Harvest-ColFungi-Description",
         "reindex"
       ]
     }
@@ -294,6 +344,44 @@
       ],
       "subject":"ColPlantA; Photographs; Digifolia; Royal Botanic Gardens, Kew",
       "title":"Colombian resources for Plants made Accessible"
+    },
+    {
+      "abbreviation":"CHUC",
+      "bibliographicCitation":"ColFungi 2021. Published on the Internet at http://colfungi.org",
+      "description":"See <a href=\"http://colfungi.org/about\">http://colfungi.org/about</a>",
+      "identifier":"CatalogodeHongosUtilesdeColombia",
+      "resources":[
+        {
+          "identifier":"ColFungi-Names",
+          "organisation":"CatalogodeHongosUtilesdeColombia",
+          "resourceType":"DwC_Archive",
+          "title":"ColFungi Names",
+          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_names_uat.zip"
+        },
+        {
+          "identifier":"ColFungi-Taxonomy",
+          "organisation":"CatalogodeHongosUtilesdeColombia",
+          "resourceType":"DwC_Archive",
+          "title":"ColFungi Taxonomy",
+          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_names_uat.zip"
+        },
+        {
+          "identifier":"ColFungi-Distribution",
+          "organisation":"CatalogodeHongosUtilesdeColombia",
+          "resourceType":"DwC_Archive",
+          "title":"ColFungi Distribution",
+          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_distribution_uat.zip"
+        },
+        {
+          "identifier":"ColFungi-Description",
+          "organisation":"CatalogodeHongosUtilesdeColombia",
+          "resourceType":"DwC_Archive",
+          "title":"ColFungi Description",
+          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat_20210218.zip"
+        }
+      ],
+      "subject":"ColFungi; UPFC; Royal Botanic Gardens, Kew; Instituto Humboldt",
+      "title":"Catalogo de Hongos Utiles de Colombia"
     }
   ]
 }
