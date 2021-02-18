@@ -3,6 +3,7 @@ package org.powo.portal.view;
 import static java.util.stream.Collectors.toList;
 import static org.gbif.ecat.voc.EstablishmentMeans.Introduced;
 import static org.gbif.ecat.voc.EstablishmentMeans.Native;
+import static org.gbif.ecat.voc.OccurrenceStatus.Present;
 import static org.gbif.ecat.voc.OccurrenceStatus.Doubtful;
 import static org.gbif.ecat.voc.OccurrenceStatus.Absent;
 import static org.gbif.ecat.voc.ThreatStatus.Extinct;
@@ -29,6 +30,7 @@ public class Distributions {
 	private Set<Distribution> distributions;
 
 	@Getter(lazy = true) private final List<Distribution> natives = filterBy(d -> Native.equals(d.getEstablishment()));
+	@Getter(lazy = true) private final List<Distribution> present = filterBy(d -> Present.equals(d.getEstablishment()));
 	@Getter(lazy = true) private final List<Distribution> introduced = filterBy(d -> Introduced.equals(d.getEstablishment()));
 	@Getter(lazy = true) private final List<Distribution> doubtful = filterBy(d -> Doubtful.equals(d.getOccurrenceStatus()));
 	@Getter(lazy = true) private final List<Distribution> extinct = filterBy(d -> Extinct.equals(d.getThreatStatus()));

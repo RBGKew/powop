@@ -284,6 +284,15 @@
               </p>
               {{/if}}
 
+              {{#if present}}
+              <h3>Present in:</h3>
+              <p>
+              {{#each present}}
+              {{locality}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+              </p>
+              {{/if}}
+
               {{#if extinct}}
               <h3>Extinct in:</h3>
               <p>

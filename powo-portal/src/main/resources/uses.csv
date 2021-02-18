@@ -27,10 +27,12 @@ use:environmentalUse:shadeShelter,Shade Shelter,to %s,provide Shade Shelter
 use:environmentalUse:soilImprovers,Soil Improvers,as %s,a soil improver
 use:environmentalUse:unspecifiedEnvironmentalUses,Unspecified Environmental Uses,has %s,Environmental Uses
 use:food,Food,for %s,food
+use:food:beverages,Beverages,for %s, food
 use:food:cereals,Cereals,for %s,Cereals
 use:food:foodAdditives,Food Additives,as %s,a Food Additive
 use:food:fruitsDessertFruits,Fruits Dessert Fruits,for %s,dessert
 use:food:gumsMucilagesResins,Gums Mucilages Resins,as %s,a gum or resin
+use:food:mushrooms,Mushrooms,for %s,food
 use:food:nuts,Nuts,for %s,food
 use:food:oilsFats,Oils Fats,for %s,food
 use:food:otherFoodType,Other Food Type,for %s,food

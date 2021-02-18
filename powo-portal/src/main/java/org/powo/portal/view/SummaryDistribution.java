@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import org.gbif.ecat.voc.EstablishmentMeans;
+import org.gbif.ecat.voc.KnownTerm;
+import org.gbif.ecat.voc.OccurrenceStatus;
 import org.powo.model.Distribution;
 import org.powo.model.Taxon;
 import org.powo.portal.naturalLanguage.PhraseUtilities;
@@ -64,9 +67,11 @@ public class SummaryDistribution {
 	private String tdwgDistribution() {
 		Map<String, List<String>> distributionsByContinent = new HashMap<String, List<String>>();
 		List<String> distributionList = new ArrayList<String>();
+		boolean onlyNativeData = true;
 		if (!taxon.getDistribution().isEmpty()) {
 			for (Distribution distribution : taxon.getDistribution()) {
 				if (distribution.getEstablishmentMeans() == null) {
+					onlyNativeData = onlyNativeData && distribution.getEstablishment() == EstablishmentMeans.Native;
 					String key = distribution.getLocation().getContinent().toString();
 					if (distributionsByContinent.containsKey(key)) {
 						List<String> locations = distributionsByContinent.get(key);
@@ -86,7 +91,10 @@ public class SummaryDistribution {
 		}
 		String distribution = phraseUtils.constructList(distributionList);
 		if (distribution != null && !distribution.isEmpty()) {
-			return String.format("is native to %s.", distribution);
+			if (onlyNativeData) {
+				return String.format("is native to %s", distribution);
+			}
+			return String.format("is found in %s", distribution);
 		}
 		return null;
 	}
