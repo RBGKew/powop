@@ -86,7 +86,7 @@ public class ReferenceProcessingTest {
 		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
 		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
 		EasyMock.replay(referenceService, sourceService, taxonService);
-		referenceValidator.doProcess(reference);
+		referenceValidator.process(reference);
 		EasyMock.verify(referenceService, sourceService, taxonService);
 		assertEquals(Sets.newHashSet(taxon), reference.getTaxa());
 		assertEquals(referenceValidator.lookupBound(reference), reference);
@@ -126,7 +126,7 @@ public class ReferenceProcessingTest {
 		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
 		EasyMock.expect(taxonService.find(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
 		EasyMock.replay(referenceService, sourceService, taxonService);
-		referenceValidator.doProcess(newReference);
+		referenceValidator.process(newReference);
 		EasyMock.verify(referenceService, sourceService, taxonService);
 		assertEquals(Sets.newHashSet(taxon, newTaxon), existingReference.getTaxa());
 	}
@@ -164,7 +164,7 @@ public class ReferenceProcessingTest {
 		EasyMock.expect(taxonService.find(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
 		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
 		EasyMock.replay(referenceService, sourceService, taxonService);
-		referenceValidator.doProcess(newReference);
+		referenceValidator.process(newReference);
 		EasyMock.verify(referenceService, sourceService, taxonService);
 		assertEquals(Sets.newHashSet(taxon, newTaxon), existingReference.getTaxa());
 	}
