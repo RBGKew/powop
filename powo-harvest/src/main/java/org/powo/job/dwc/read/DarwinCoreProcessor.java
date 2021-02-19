@@ -112,7 +112,9 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	public void afterChunk(ChunkContext context) { }
 
 	@Override
-	public void beforeChunk(ChunkContext context) { }
+	public void beforeChunk(ChunkContext context) {
+		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
+	}
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }
