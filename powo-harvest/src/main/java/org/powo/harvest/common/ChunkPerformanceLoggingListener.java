@@ -17,11 +17,14 @@
 package org.powo.harvest.common;
 
 import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChunkPerformanceLoggingListener implements ChunkListener {
+public class ChunkPerformanceLoggingListener implements ChunkListener, StepExecutionListener {
 
 	private int chunkCount = 0;
 	private long startMillis;
@@ -44,5 +47,15 @@ public class ChunkPerformanceLoggingListener implements ChunkListener {
 		chunkCount++;
 		var millis = System.currentTimeMillis() - startMillis;
 		logger.info("Chunk " + chunkCount + " errored after " + millis + "ms");
+	}
+
+	@Override
+	public void beforeStep(StepExecution stepExecution) {
+		chunkCount = 0;
+	}
+
+	@Override
+	public ExitStatus afterStep(StepExecution stepExecution) {
+		return null;
 	}
 }
