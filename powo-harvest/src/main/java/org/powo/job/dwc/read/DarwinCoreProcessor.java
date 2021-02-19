@@ -109,18 +109,10 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	}
 
 	@Override
-	public void afterChunk(ChunkContext context) {
-		chunkCount++;
-		var millis = System.currentTimeMillis() - chunkStart;
-		logger.info("Chunk " + chunkCount + " took " + millis + " millis");
-	}
+	public void afterChunk(ChunkContext context) { }
 
 	@Override
-	public void beforeChunk(ChunkContext context) {
-		logger.debug("Before Chunk");
-		chunkStart = System.currentTimeMillis();
-		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
-	}
+	public void beforeChunk(ChunkContext context) { }
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }

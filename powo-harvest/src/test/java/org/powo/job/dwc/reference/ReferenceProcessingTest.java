@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powo.api.OrganisationService;
 import org.powo.api.ReferenceService;
-import org.powo.api.TaxonService;
+import org.powo.harvest.service.PersistedTaxonService;
 import org.powo.model.Reference;
 import org.powo.model.Taxon;
 import org.powo.model.constants.ReferenceType;
@@ -37,7 +37,7 @@ public class ReferenceProcessingTest {
 
 	private ReferenceService referenceService;
 
-	private TaxonService taxonService;
+	private PersistedTaxonService taxonService;
 
 	private OrganisationService sourceService;
 
@@ -48,7 +48,7 @@ public class ReferenceProcessingTest {
 	@Before
 	public void setUp() {
 		referenceService = EasyMock.createMock(ReferenceService.class);
-		taxonService = EasyMock.createMock(TaxonService.class);
+		taxonService = EasyMock.createMock(PersistedTaxonService.class);
 		sourceService = EasyMock.createMock(OrganisationService.class);
 
 		LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
@@ -58,7 +58,7 @@ public class ReferenceProcessingTest {
 		referenceValidator.setValidator(validatorFactory.getValidator());
 		referenceValidator.setReferenceService(referenceService);
 		referenceValidator.setOrganisationService(sourceService);
-		referenceValidator.setTaxonService(taxonService);
+		referenceValidator.setPersistedTaxonService(taxonService);
 		referenceValidator.setSourceName("test source");
 		referenceValidator.beforeStep(new StepExecution("teststep", new JobExecution(1L)));
 
@@ -83,7 +83,7 @@ public class ReferenceProcessingTest {
 		reference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
 
 		EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(null).anyTimes();
-		EasyMock.expect(taxonService.findPersisted(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
 		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
 		EasyMock.replay(referenceService, sourceService, taxonService);
 		referenceValidator.doProcess(reference);
@@ -123,8 +123,8 @@ public class ReferenceProcessingTest {
 
 		referenceValidator.bind(existingReference);
 
-		EasyMock.expect(taxonService.findPersisted(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
-		EasyMock.expect(taxonService.findPersisted(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
 		EasyMock.replay(referenceService, sourceService, taxonService);
 		referenceValidator.doProcess(newReference);
 		EasyMock.verify(referenceService, sourceService, taxonService);
@@ -160,8 +160,8 @@ public class ReferenceProcessingTest {
 		newReference.setIdentifier("http://build.e-monocot.org/test/test.pdf");
 
 		EasyMock.expect(referenceService.find(EasyMock.isA(String.class))).andReturn(existingReference).anyTimes();
-		EasyMock.expect(taxonService.findPersisted(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
-		EasyMock.expect(taxonService.findPersisted(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("identifier"))).andReturn(taxon).anyTimes();
+		EasyMock.expect(taxonService.find(EasyMock.eq("newidentifier"))).andReturn(newTaxon).anyTimes();
 		EasyMock.expect(sourceService.load(EasyMock.eq("test source"))).andReturn(source);
 		EasyMock.replay(referenceService, sourceService, taxonService);
 		referenceValidator.doProcess(newReference);

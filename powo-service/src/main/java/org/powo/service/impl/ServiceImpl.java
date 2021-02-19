@@ -148,23 +148,6 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
 	}
 
 	/**
-	 * Run the query using FetchMode=COMMIT. This means that pending changes aren't
-	 * checked and flushed to disk. Should only be used when we can be sure that
-	 * there are no pending updates that are relevant to the entity being found.
-	 * 
-	 * E.G. this is used by the non-owned processor to find Taxons, as Taxons are 
-	 * not created or modified by that processor.
-	 * 
-	 * @param identifier
-	 *            the primary key of the object
-	 * @return the object, or null if the object does not exist
-	 */
-	@Transactional(readOnly = true)
-	public T findPersisted(String identifier) {
-		return dao.findPersisted(identifier);
-	}
-
-	/**
 	 * @param t
 	 *            the object to save
 	 * @return the identifier of the object

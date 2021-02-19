@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.powo.api.Service;
+import org.powo.harvest.service.PersistedTaxonService;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -30,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
 	private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
@@ -37,6 +39,9 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected Map<String, T> boundObjects = new HashMap<String, T>();
 
 	protected SERVICE service;
+
+	@Autowired
+	private PersistedTaxonService persistedTaxonService;
 
 	/**
 	 * @param t an object
@@ -53,7 +58,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 		Taxon taxon = null;
 		if(!((NonOwned)t).getTaxa().isEmpty()) {
-			taxon = super.getTaxonService().findPersisted(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
+			taxon = persistedTaxonService.find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
 
 			((NonOwned)t).getTaxa().clear();
 			((NonOwned)t).getTaxa().add(taxon);
@@ -148,6 +153,10 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected abstract T lookupBound(T t);
 
 	protected abstract void doValidate(T t) throws Exception;
+
+	public void setPersistedTaxonService(PersistedTaxonService persistedTaxonService) {
+		this.persistedTaxonService = persistedTaxonService;
+	}
 
 	@Override
 	public void afterChunk(ChunkContext context) {

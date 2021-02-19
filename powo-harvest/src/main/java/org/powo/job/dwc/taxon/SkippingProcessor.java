@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.powo.api.AnnotationService;
-import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
+import org.powo.harvest.service.PersistedTaxonService;
 import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.NoIdentifierException;
 import org.powo.job.dwc.exception.TaxonAlreadyProcessedException;
@@ -41,20 +41,12 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 
 	private Logger logger = LoggerFactory.getLogger(SkippingProcessor.class);
 
-	private TaxonService taxonService;
+	@Autowired
+	private PersistedTaxonService taxonService;
 
 	private AnnotationService annotationService;
 
 	private Map<String, Annotation> boundAnnotations = new HashMap<String,Annotation>();
-
-	private int chunkCount = 0;
-
-	private long chunkStart;
-
-	@Autowired
-	public void setTaxonService(TaxonService taxonService) {
-		this.taxonService = taxonService;
-	}
 
 	@Autowired
 	public void setAnnotationService(AnnotationService annotationService) {
@@ -71,7 +63,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 		if (taxon.getIdentifier() == null) {
 			throw new NoIdentifierException(taxon);
 		}
-		Taxon persistedTaxon = taxonService.findPersisted(taxon.getIdentifier());
+		Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
 		}
@@ -111,15 +103,10 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		boundAnnotations = new HashMap<String,Annotation>();
-		chunkStart = System.currentTimeMillis();
 	}
 
 	@Override
-	public void afterChunk(ChunkContext context) {
-		chunkCount++;
-		var millis = System.currentTimeMillis() - chunkStart;
-		logger.info("Chunk " + chunkCount + " took " + millis + " millis");
-	}
+	public void afterChunk(ChunkContext context) {}
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }

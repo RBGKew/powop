@@ -304,29 +304,6 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 	}
 
 	/**
-	 * 
-	 * Run the query using FetchMode=COMMIT. This means that pending changes aren't
-	 * checked and flushed to disk. Should only be used when we can be sure that
-	 * there are no pending updates that are relevant to the entity being found.
-	 * 
-	 * E.G. this is used by the non-owned processor (via TaxonService) to find Taxons, 
-	 * as Taxons are not created or modified by that processor.
-	 * 
-	 * @param identifier
-	 *            Set the identifer
-	 * @param fetch
-	 *            Set the fetch profile
-	 * @return the object or null if it cannot be found
-	 */
-	public T findPersisted(final String identifier) {
-		Criteria criteria = getSession().createCriteria(type).add(
-				Restrictions.eq("identifier", identifier));
-		T t = (T) criteria.setFlushMode(FlushMode.COMMIT).uniqueResult();
-
-		return t;
-	}
-
-	/**
 	 * @param id
 	 *            Set the id
 	 * @param fetch
