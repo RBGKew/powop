@@ -67,6 +67,20 @@ public interface Dao<T extends Base> {
 	T find(String identifier);
 
 	/**
+	 * Run the query using FetchMode=COMMIT. This means that pending changes aren't
+	 * checked and flushed to disk. Should only be used when we can be sure that
+	 * there are no pending updates that are relevant to the entity being found.
+	 * 
+	 * E.G. this is used by the non-owned processor (via TaxonService) to find Taxons, 
+	 * as Taxons are not created or modified by that processor.
+	 * 
+	 * @param identifier
+	 *            Set the identifier of the object you would like to retrieve
+	 * @return the object or null if that object does not exist
+	 */
+	T findPersisted(String identifier);
+
+	/**
 	 *
 	 * @param id
 	 *            the primary key of the object you would like to retrieve

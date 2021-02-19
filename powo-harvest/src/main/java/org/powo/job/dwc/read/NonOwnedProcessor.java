@@ -53,7 +53,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 		Taxon taxon = null;
 		if(!((NonOwned)t).getTaxa().isEmpty()) {
-			taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
+			taxon = super.getTaxonService().findPersisted(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
 
 			((NonOwned)t).getTaxa().clear();
 			((NonOwned)t).getTaxa().add(taxon);

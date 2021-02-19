@@ -67,6 +67,8 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private int itemsRead;
 
+	private long chunkStart;
+
 	protected List<Annotation> chunkAnnotations = new ArrayList<>();
 
 	@Autowired
@@ -79,6 +81,8 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	private String resourceIdentifier;
 
 	private Resource resource;
+
+	private int chunkCount = 0;
 
 	@Autowired
 	public void setValidator(Validator validator) {
@@ -106,12 +110,15 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	@Override
 	public void afterChunk(ChunkContext context) {
-		logger.debug("After Chunk");
+		chunkCount++;
+		var millis = System.currentTimeMillis() - chunkStart;
+		logger.info("Chunk " + chunkCount + " took " + millis + " millis");
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		logger.debug("Before Chunk");
+		chunkStart = System.currentTimeMillis();
 		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
 	}
 

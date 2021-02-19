@@ -47,6 +47,10 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 
 	private Map<String, Annotation> boundAnnotations = new HashMap<String,Annotation>();
 
+	private int chunkCount = 0;
+
+	private long chunkStart;
+
 	@Autowired
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
@@ -67,7 +71,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 		if (taxon.getIdentifier() == null) {
 			throw new NoIdentifierException(taxon);
 		}
-		Taxon persistedTaxon = taxonService.find(taxon.getIdentifier());
+		Taxon persistedTaxon = taxonService.findPersisted(taxon.getIdentifier());
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
 		}
@@ -107,10 +111,15 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	@Override
 	public void beforeChunk(ChunkContext context) {
 		boundAnnotations = new HashMap<String,Annotation>();
+		chunkStart = System.currentTimeMillis();
 	}
 
 	@Override
-	public void afterChunk(ChunkContext context) { }
+	public void afterChunk(ChunkContext context) {
+		chunkCount++;
+		var millis = System.currentTimeMillis() - chunkStart;
+		logger.info("Chunk " + chunkCount + " took " + millis + " millis");
+	}
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }

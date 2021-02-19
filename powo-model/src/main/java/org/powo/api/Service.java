@@ -112,6 +112,20 @@ public interface Service<T extends Base> {
 	T find(Long id, String fetch);
 
 	/**
+	 * Run the query using FetchMode=COMMIT. This means that pending changes aren't
+	 * checked and flushed to disk. Should only be used when we can be sure that
+	 * there are no pending updates that are relevant to the entity being found.
+	 * 
+	 * E.G. this is used by the non-owned processor to find Taxons, as Taxons are 
+	 * not created or modified by that processor.
+	 * 
+	 * @param id
+	 *            primary key of the object you would like to retrieve
+	 * @return the object or null if that object does not exist
+	 */
+	T findPersisted(String identifier);
+
+	/**
 	 *
 	 * @param t The object to save.
 	 * @return the object
