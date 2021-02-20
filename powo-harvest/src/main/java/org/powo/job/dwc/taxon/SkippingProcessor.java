@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.powo.api.AnnotationService;
 import org.powo.harvest.common.AuthorityAware;
-import org.powo.harvest.service.PersistedTaxonService;
+import org.powo.harvest.service.PersistedService;
 import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.NoIdentifierException;
 import org.powo.job.dwc.exception.TaxonAlreadyProcessedException;
@@ -42,7 +42,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	private Logger logger = LoggerFactory.getLogger(SkippingProcessor.class);
 
 	@Autowired
-	private PersistedTaxonService taxonService;
+	private PersistedService<Taxon> taxonService;
 
 	private AnnotationService annotationService;
 

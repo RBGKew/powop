@@ -23,8 +23,8 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.api.OrganisationService;
-import org.powo.api.ReferenceService;
-import org.powo.harvest.service.PersistedTaxonService;
+import org.powo.harvest.service.ReferencePersistedService;
+import org.powo.harvest.service.TaxonPersistedService;
 import org.powo.model.Reference;
 import org.powo.model.Taxon;
 import org.powo.model.constants.ReferenceType;
@@ -35,9 +35,8 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 public class ReferenceProcessingTest {
 
-	private ReferenceService referenceService;
-
-	private PersistedTaxonService taxonService;
+	private TaxonPersistedService taxonService;
+	private ReferencePersistedService referenceService;
 
 	private OrganisationService sourceService;
 
@@ -47,8 +46,8 @@ public class ReferenceProcessingTest {
 
 	@Before
 	public void setUp() {
-		referenceService = EasyMock.createMock(ReferenceService.class);
-		taxonService = EasyMock.createMock(PersistedTaxonService.class);
+		taxonService = EasyMock.createMock(TaxonPersistedService.class);
+		referenceService = EasyMock.createMock(ReferencePersistedService.class);
 		sourceService = EasyMock.createMock(OrganisationService.class);
 
 		LocalValidatorFactoryBean validatorFactory = new LocalValidatorFactoryBean();
@@ -56,9 +55,9 @@ public class ReferenceProcessingTest {
 
 		referenceValidator = new Processor();
 		referenceValidator.setValidator(validatorFactory.getValidator());
-		referenceValidator.setReferenceService(referenceService);
 		referenceValidator.setOrganisationService(sourceService);
-		referenceValidator.setPersistedTaxonService(taxonService);
+		referenceValidator.setTaxonPersistedService(taxonService);
+		referenceValidator.setReferencePersistedService(referenceService);
 		referenceValidator.setSourceName("test source");
 		referenceValidator.beforeStep(new StepExecution("teststep", new JobExecution(1L)));
 

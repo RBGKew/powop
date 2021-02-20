@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.powo.api.Service;
-import org.powo.harvest.service.PersistedTaxonService;
+import org.powo.harvest.service.TaxonPersistedService;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -41,7 +41,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected SERVICE service;
 
 	@Autowired
-	private PersistedTaxonService persistedTaxonService;
+	private TaxonPersistedService taxonService;
 
 	/**
 	 * @param t an object
@@ -58,7 +58,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 		Taxon taxon = null;
 		if(!((NonOwned)t).getTaxa().isEmpty()) {
-			taxon = persistedTaxonService.find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
+			taxon = taxonService.find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
 
 			((NonOwned)t).getTaxa().clear();
 			((NonOwned)t).getTaxa().add(taxon);
@@ -154,8 +154,8 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 	protected abstract void doValidate(T t) throws Exception;
 
-	public void setPersistedTaxonService(PersistedTaxonService persistedTaxonService) {
-		this.persistedTaxonService = persistedTaxonService;
+	public void setTaxonPersistedService(TaxonPersistedService taxonPersistedService) {
+		this.taxonService = taxonPersistedService;
 	}
 
 	@Override
