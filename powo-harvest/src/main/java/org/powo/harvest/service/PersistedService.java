@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * for queued updates and flushing them. This gets slow when the cache has a lot
  * of entities in it.
  * 
+ * This can be used safely when either:
+ *
+ * a) The entity is not being modified by the current import step (e.g. Taxon in reference.Processor)
+ * b) The entity is being managed by an application level cache (e.g. Reference in reference.Processor)
+ *
  */
 public class PersistedService<T> {
 
