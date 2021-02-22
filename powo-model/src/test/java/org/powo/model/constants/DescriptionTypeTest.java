@@ -55,11 +55,11 @@ public class DescriptionTypeTest {
 	}
 
 	@Test
-	public void testGetTypeHeirarchy() {
+	public void testGetTypeHierarchy() {
 		assertTrue(morphologyReproductiveFlower.isA(morphology));
 		assertTrue(useAnimalFoodGrainsCereals.isA(use));
 		assertTrue(use.isA(use));
 
-		assertEquals(Lists.newArrayList(use, useAnimalFood, useAnimalFoodGrainsCereals), useAnimalFoodGrainsCereals.getTypeHeirarchy());
+		assertEquals(Lists.newArrayList(use, useAnimalFood, useAnimalFoodGrainsCereals), useAnimalFoodGrainsCereals.getTypeHierarchy());
 	}
 }

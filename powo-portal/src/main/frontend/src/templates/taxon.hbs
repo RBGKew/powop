@@ -126,7 +126,7 @@
                 <dl class="c-article-desc-table">
                   {{#each byType}}
                     <dt>
-                    {{#each type.typeHeirarchy}}
+                    {{#each type.typeHierarchy}}
                       <span class="description-type-list-item">{{message name}}</span>
                     {{/each}}
                     </dt>
@@ -185,7 +185,7 @@
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#each byType}}
                   <dt>
-                  {{#each type.typeHeirarchy}}
+                  {{#each type.typeHierarchy}}
                     <span class="description-type-list-item">{{message name}}</span>
                   {{/each}}
                   </dt>

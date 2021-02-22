@@ -28,6 +28,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @see http://rs.gbif.org/vocabulary/gbif/description_type.xml
  */
@@ -430,6 +433,8 @@ public enum DescriptionType {
 	statusSterile("status:sterile"),
 	sex("sex");
 
+	private static final Logger logger = LoggerFactory.getLogger(DescriptionType.class);
+
 	public static final DescriptionType generalDescriptionType = habit;
 
 	public static final ImmutableMap<String, Set<DescriptionType>> searchCategories = ImmutableMap.<String, Set<DescriptionType>>builder()
@@ -667,23 +672,25 @@ public enum DescriptionType {
 	}
 
 	/**
-	 * Return a the full description heirarchy as a list.
+	 * Return a the full description hierarchy as a list.
 	 * 
 	 * E.G. "use:food:mushrooms" => ["use", "use:food", "use:food:mushrooms"]
 	 */
-	public List<DescriptionType> getTypeHeirarchy() {
-		var heirarchy = new ArrayList<DescriptionType>();
+	public List<DescriptionType> getTypeHierarchy() {
+		var hierarchy = new ArrayList<DescriptionType>();
 		var parts = term.split(":");
 		var currentTerm = "";
 		for (var part : parts) {
 			currentTerm += part;
 			try {
 				var type = lookup(currentTerm);
-				heirarchy.add(type);
-			} catch (IllegalArgumentException e) {}
+				hierarchy.add(type);
+			} catch (IllegalArgumentException e) {
+				logger.warn("Parent type not found: " + currentTerm);
+			}
 			currentTerm += ":";
 		}
-		return heirarchy;
+		return hierarchy;
 	}
 
 	public String getSearchCategory() {
