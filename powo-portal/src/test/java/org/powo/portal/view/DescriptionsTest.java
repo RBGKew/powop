@@ -105,7 +105,7 @@ public class DescriptionsTest {
 		Descriptions uses = new Descriptions(taxon, true);
 		for(DescriptionsBySource dbs : uses.getBySource()) {
 			for(DescriptionsByType dbt : dbs.byType) {
-				assertEquals("useAnimalFoodBees", dbt.type);
+				assertEquals(DescriptionType.useAnimalFoodBees, dbt.type);
 			}
 		}
 
@@ -167,9 +167,9 @@ public class DescriptionsTest {
 		print(ds);
 
 		DescriptionsBySource dbs = Iterators.getOnlyElement(ds.getBySource().iterator());
-		assertEquals(d1.getType().toString(), dbs.byType.get(0).type);
-		assertEquals(d3.getType().toString(), dbs.byType.get(1).type);
-		assertEquals(d2.getType().toString(), dbs.byType.get(2).type);
+		assertEquals(d1.getType(), dbs.byType.get(0).type);
+		assertEquals(d3.getType(), dbs.byType.get(1).type);
+		assertEquals(d2.getType(), dbs.byType.get(2).type);
 	}
 
 	private void print(Descriptions descriptions) {

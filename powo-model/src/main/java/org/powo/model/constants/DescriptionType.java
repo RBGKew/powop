@@ -17,7 +17,9 @@
 package org.powo.model.constants;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -25,6 +27,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @see http://rs.gbif.org/vocabulary/gbif/description_type.xml
@@ -428,6 +433,8 @@ public enum DescriptionType {
 	statusSterile("status:sterile"),
 	sex("sex");
 
+	private static final Logger logger = LoggerFactory.getLogger(DescriptionType.class);
+
 	public static final DescriptionType generalDescriptionType = habit;
 
 	public static final ImmutableMap<String, Set<DescriptionType>> searchCategories = ImmutableMap.<String, Set<DescriptionType>>builder()
@@ -664,6 +671,28 @@ public enum DescriptionType {
 		return getAll(type).contains(this);
 	}
 
+	/**
+	 * Return a the full description hierarchy as a list.
+	 * 
+	 * E.G. "use:food:mushrooms" => ["use", "use:food", "use:food:mushrooms"]
+	 */
+	public List<DescriptionType> getTypeHierarchy() {
+		var hierarchy = new ArrayList<DescriptionType>();
+		var parts = term.split(":");
+		var currentTerm = "";
+		for (var part : parts) {
+			currentTerm += part;
+			try {
+				var type = lookup(currentTerm);
+				hierarchy.add(type);
+			} catch (IllegalArgumentException e) {
+				logger.warn("Parent type not found: " + currentTerm);
+			}
+			currentTerm += ":";
+		}
+		return hierarchy;
+	}
+
 	public String getSearchCategory() {
 		for(String category : searchCategories.keySet()) {
 			if(searchCategories.get(category).contains(this)) {
@@ -672,6 +701,10 @@ public enum DescriptionType {
 		}
 
 		return null;
+	}
+
+	public String getTerm() {
+		return term;
 	}
 
 	private static Set<DescriptionType> AllTypes = ImmutableSet.copyOf(values());

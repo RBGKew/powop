@@ -40,3 +40,11 @@
 button.mobile-menu.collapsed:before {
   content: none;
 }
+
+.description-type-list-item {
+  &:not(:last-child) {
+    &:after {
+      content: ' > ';
+    }
+  }
+}
