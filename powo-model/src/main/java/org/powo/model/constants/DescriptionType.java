@@ -17,7 +17,9 @@
 package org.powo.model.constants;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -664,6 +666,21 @@ public enum DescriptionType {
 		return getAll(type).contains(this);
 	}
 
+	public List<DescriptionType> getTypeHeirarchy() {
+		var heirarchy = new ArrayList<DescriptionType>();
+		var parts = term.split(":");
+		var currentTerm = "";
+		for (var part : parts) {
+			currentTerm += part;
+			try {
+				var type = lookup(currentTerm);
+				heirarchy.add(type);
+			} catch (IllegalArgumentException e) {}
+			currentTerm += ":";
+		}
+		return heirarchy;
+	}
+
 	public String getSearchCategory() {
 		for(String category : searchCategories.keySet()) {
 			if(searchCategories.get(category).contains(this)) {
@@ -672,6 +689,10 @@ public enum DescriptionType {
 		}
 
 		return null;
+	}
+
+	public String getTerm() {
+		return term;
 	}
 
 	private static Set<DescriptionType> AllTypes = ImmutableSet.copyOf(values());

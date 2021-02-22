@@ -40,10 +40,10 @@ public class Descriptions {
 
 	@Getter
 	public class DescriptionsByType {
-		public String type;
+		public DescriptionType type;
 		public List<Description> descriptions;
 
-		public DescriptionsByType(String type) {
+		public DescriptionsByType(DescriptionType type) {
 			this.type = type;
 			this.descriptions = new ArrayList<>();
 		}
@@ -225,7 +225,7 @@ public class Descriptions {
 		for(DescriptionType type : description.getTypes()) {
 			if(descriptionTypes.contains(type)) {
 				if(!byType.containsKey(type)) {
-					byType.put(type, new DescriptionsByType(type.toString()));
+					byType.put(type, new DescriptionsByType(type));
 				}
 				byType.get(type).descriptions.add(description);
 			}
