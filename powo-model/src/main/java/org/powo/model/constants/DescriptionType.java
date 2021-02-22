@@ -666,6 +666,11 @@ public enum DescriptionType {
 		return getAll(type).contains(this);
 	}
 
+	/**
+	 * Return a the full description heirarchy as a list.
+	 * 
+	 * E.G. "use:food:mushrooms" => ["use", "use:food", "use:food:mushrooms"]
+	 */
 	public List<DescriptionType> getTypeHeirarchy() {
 		var heirarchy = new ArrayList<DescriptionType>();
 		var parts = term.split(":");
