@@ -284,6 +284,7 @@ public enum DescriptionType {
 	useEnvironmentalUse("use:environmentalUse"),
 	useEnvironmentalUseAgroforestry("use:environmentalUse:agroforestry"),
 	useEnvironmentalUseBoundaryBarrierSupportPlants("use:environmentalUse:boundaryBarrierSupportPlants"),
+	useEnvironmentalUseBioindicator("use:environmentalUse:bioindicator"),
 	useEnvironmentalUseCompanionPlants("use:environmentalUse:companionPlants"),
 	useEnvironmentalUseErosionControl("use:environmentalUse:erosionControl"),
 	useEnvironmentalUseFirebreaks("use:environmentalUse:firebreaks"),

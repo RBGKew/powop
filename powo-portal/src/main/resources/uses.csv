@@ -14,6 +14,7 @@ use:animalFood:unspecifiedAnimal,Unspecified Animal,as %s,Animal food
 use:animalFood:unspecifiedAnimalFoodType,Unspecified Animal Food Type,as %s,Animal food
 use:environmentalUse,Environmental,has %s,Environmental Uses
 use:environmentalUse:agroforestry,Agroforestry,for %s,Agroforestry
+use:environmentalUse:bioindicator,Bioindicator,as %s,a bioindicator
 use:environmentalUse:boundaryBarrierSupportPlants,Boundary Barrier Support Plants,as %s,Boundry Barrier Support
 use:environmentalUse:companionPlants,Companion Plants,as %s,a companion plant
 use:environmentalUse:erosionControl,Erosion Control,for  %s,Erosion control
