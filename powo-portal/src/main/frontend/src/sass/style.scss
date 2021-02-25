@@ -3,6 +3,7 @@ $article-theme-color: #339999;
 $brand-primary: #000000;
 $kew-teal: #008285;
 $kew-medium-grey: #949494;
+$upfc-green: #3b9e3a;
 
 // Font defaults
 $font-family-sans-serif: 'Roboto', sans-serif;
@@ -129,6 +130,7 @@ $border-grey: 1px solid #CCCCCC;
 @import "pages/taxon";
 @import "pages/static";
 
+@import "sites/upfc";
 @import "sites/colplanta";
 @import "sites/colfungi";
 @import "sites/upb";

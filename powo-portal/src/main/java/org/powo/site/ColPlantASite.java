@@ -22,6 +22,9 @@ public class ColPlantASite extends PowoSite {
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
 		super.populateTaxonModel(taxon, model);
+		model.addAttribute("siteClass", "s-colplanta");
+		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
+		model.addAttribute("kew-logo-link", "/");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 	}
@@ -31,15 +34,19 @@ public class ColPlantASite extends PowoSite {
 		model.addAttribute("siteClass", "s-colplanta");
 		model.addAttribute("intro", "partials/intro/colplanta");
 		model.addAttribute("names", format(taxaCount(), 100));
+		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
+		model.addAttribute("kew-logo-link", "/");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 	}
 
 	@Override
 	public void populateStaticModel(Model model) {
+		model.addAttribute("siteClass", "s-colplanta");
+		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
+		model.addAttribute("kew-logo-link", "/");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("siteClass", "s-colplanta");
 	}
 
 	@Override

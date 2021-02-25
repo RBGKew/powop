@@ -1,0 +1,21 @@
+/**
+ * Shared styles for UPFC sites
+ */
+
+#kew-upfc-logo-svg {
+  margin-top: 15px;
+
+  path,
+  text {
+    fill: #000;
+  }
+  #Bar {
+    fill: #000;
+  }
+  #Map {
+    fill: #fff;
+  }
+  #Background {
+    fill: $upfc-green;
+  }
+}

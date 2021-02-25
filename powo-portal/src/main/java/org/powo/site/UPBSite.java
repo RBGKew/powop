@@ -19,6 +19,9 @@ public class UPBSite extends PowoSite {
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
 		super.populateTaxonModel(taxon, model);
+		model.addAttribute("siteClass", "s-upb");
+		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
+		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/upb");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 	}
@@ -27,15 +30,19 @@ public class UPBSite extends PowoSite {
 	public void populateIndexModel(Model model) {
 		model.addAttribute("siteClass", "s-upb");
 		model.addAttribute("intro", "partials/intro/upb");
+		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
+		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/upb");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 	}
 
 	@Override
 	public void populateStaticModel(Model model) {
+		model.addAttribute("siteClass", "s-upb");
+		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
+		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 		model.addAttribute("site-logo", "partials/logo/upb");
-		model.addAttribute("siteClass", "s-upb");
 	}
 	@Override
 	public DefaultQueryOption defaultQuery() {

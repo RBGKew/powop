@@ -98,6 +98,8 @@ public class PowoSite implements Site {
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("title", pageTitle(taxon));
 		model.addAttribute("summary", new Summary(taxon, messageSource).build());
+		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
+		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
@@ -108,6 +110,8 @@ public class PowoSite implements Site {
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		model.addAttribute("intro", "partials/intro/powo");
+		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
+		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
@@ -122,6 +126,8 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateStaticModel(Model model) {
+		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
+		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
