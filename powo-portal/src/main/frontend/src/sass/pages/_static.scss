@@ -35,6 +35,15 @@
     font-size: inherit;
   }
 
+  .partner-image {
+    display: inline-block;
+    margin-right: 1rem;
+    img {
+      max-height: 100px;
+      max-width: 300px;
+    }
+  }
+
   .partners-image-block {
     display: block;
     max-width: 1000px;
