@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.powo.model.constants.DescriptionType.*;
 
+import com.google.common.collect.Lists;
+
 import org.junit.Test;
 
 public class DescriptionTypeTest {
@@ -50,5 +52,14 @@ public class DescriptionTypeTest {
 		assertTrue(morphologyReproductiveFlower.isA(morphology));
 		assertTrue(useAnimalFoodGrainsCereals.isA(use));
 		assertTrue(use.isA(use));
+	}
+
+	@Test
+	public void testGetTypeHierarchy() {
+		assertTrue(morphologyReproductiveFlower.isA(morphology));
+		assertTrue(useAnimalFoodGrainsCereals.isA(use));
+		assertTrue(use.isA(use));
+
+		assertEquals(Lists.newArrayList(use, useAnimalFood, useAnimalFoodGrainsCereals), useAnimalFoodGrainsCereals.getTypeHierarchy());
 	}
 }

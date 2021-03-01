@@ -42,7 +42,7 @@ public class QueryBuilderTest {
 				"taxon.scientific_name_s_lower:\"blarg\"",
 				"taxon.family_s_lower:\"blarg\"",
 				"taxon.genus_s_lower:\"blarg\"",
-				"taxon.species_s_lower:\"blarg\"",
+				"taxon.specific_epithet_s_lower:\"blarg\"",
 				"taxon.vernacular_names_t:\"blarg\"~10",
 				"taxon.name_published_in_s_lower:\"blarg\"",
 				"taxon.scientific_name_authorship_t:\"blarg\"",

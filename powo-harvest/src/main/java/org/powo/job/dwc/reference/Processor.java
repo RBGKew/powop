@@ -17,6 +17,7 @@
 package org.powo.job.dwc.reference;
 
 import org.powo.api.ReferenceService;
+import org.powo.harvest.service.ReferencePersistedService;
 import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.job.dwc.read.NonOwnedProcessor;
 import org.powo.model.Reference;
@@ -27,12 +28,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
 
+	@Autowired
+	private ReferencePersistedService persistedService;
+
 	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Processor.class);
 
 	@Autowired
 	public void setReferenceService(ReferenceService service) {
 		super.service = service;
+	}
+
+	public void setReferencePersistedService(ReferencePersistedService service) {
+		persistedService = service;
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class Processor extends NonOwnedProcessor<Reference, ReferenceService> {
 	@Override
 	protected Reference retrieveBound(Reference t) {
 		if (t.getIdentifier() != null) {
-			return service.find(t.getIdentifier());
+			return persistedService.find(t.getIdentifier());
 		} else if (t.getBibliographicCitation() != null) {
 			return service.findByBibliographicCitation(t.getBibliographicCitation());
 		}

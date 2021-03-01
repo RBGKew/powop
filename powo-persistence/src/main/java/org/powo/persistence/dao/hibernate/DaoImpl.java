@@ -22,9 +22,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.collection.spi.PersistentCollection;
@@ -358,26 +363,38 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 	 * @return the total number of objects
 	 */
 	public final Long count() {
-		Criteria criteria = getSession().createCriteria(type);
-		criteria.setProjection(Projections.rowCount());
-		return (Long) criteria.uniqueResult();
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+		criteria.select(builder.count(criteria.from(type)));
+
+		return getSession().createQuery(criteria).getSingleResult();
 	}
 
 	/**
 	 * @param page Set the offset (in size chunks, 0-based), optional
 	 * @param size Set the page size
-	 * @param fetch Set the fetch profile to which relations are fetched
 	 * @return A list of results
 	 */
-	public final List<T> list(final Integer page, final Integer size, final String fetch) {
-		Criteria criteria = getSession().createCriteria(type);
+	public final List<T> list(final Integer page, final Integer size) {
+		CriteriaQuery<T> criteria = getSession().getCriteriaBuilder().createQuery(type);
+		criteria.select(criteria.from(type));
 
+		TypedQuery<T> query = getSession().createQuery(criteria);
 		if (size != null) {
-			criteria.setMaxResults(size);
+			query.setMaxResults(size);
 			if (page != null) {
-				criteria.setFirstResult(page * size);
+				query.setFirstResult(page * size);
 			}
 		}
-		return (List<T>) criteria.list();
+
+		return query.getResultList();
+	}
+
+	public final List<T> list() {
+		return list(null, null);
+	}
+
+	public void refresh(T t) {
+		getSession().refresh(t);
 	}
 }

@@ -15,14 +15,15 @@ public class AnalyticsHelper {
 			return "";
 		} else {
 			return new Handlebars.SafeString(
-					"<noscript><iframe src='//www.googletagmanager.com/ns.html?id=" + code + "'" +
+					"<noscript><iframe src='//www.googletagmanager.com/ns.html?id=" + code + "' " +
 					"height='0' width='0' style='display:none;visibility:hidden'></iframe></noscript>");
 		}
 	}
 
 	public CharSequence gaTracking() {
 		if(Strings.isNullOrEmpty(code)) {
-			return "";
+			return  new Handlebars.SafeString(
+              "<meta name='robots' content='noindex'>");
 		} else {
 			return new Handlebars.SafeString(
 					"<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':" +

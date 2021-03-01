@@ -13,13 +13,18 @@ import java.util.Set;
 import org.powo.model.Description;
 import org.powo.model.Taxon;
 import org.powo.model.constants.DescriptionType;
+import org.powo.model.marshall.json.BaseSerializer;
 import org.powo.model.registry.Organisation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Longs;
+
+import lombok.Getter;
 
 /**
  * Transforms list of descriptions into nested structure for display grouped by
@@ -33,21 +38,30 @@ import com.google.common.primitives.Longs;
  */
 public class Descriptions {
 
+	@Getter
 	public class DescriptionsByType {
-		public String type;
+		public DescriptionType type;
 		public List<Description> descriptions;
 
-		public DescriptionsByType(String type) {
+		public DescriptionsByType(DescriptionType type) {
 			this.type = type;
 			this.descriptions = new ArrayList<>();
 		}
 	}
 
+	@Getter
 	public class DescriptionsBySource implements Comparable<DescriptionsBySource> {
 		public List<DescriptionsByType> byType;
+
+		@JsonIgnore
 		public final Organisation source;
+
+		@JsonSerialize(using = BaseSerializer.class)
 		public final Taxon asTaxon;
+
+		@JsonIgnore
 		public boolean isFromSynonym;
+
 		public String conceptSource;
 
 		public DescriptionsBySource(Organisation source, Taxon asTaxon) {
@@ -74,7 +88,11 @@ public class Descriptions {
 
 		@Override
 		public int hashCode() {
-			return Objects.hash( source.getTitle(), asTaxon.getScientificName(), isFromSynonym);
+			return Objects.hash(source.getTitle(), asTaxon.getScientificName(), isFromSynonym);
+		}
+
+		public String getSourceTitle() {
+			return source.getTitle();
 		}
 	}
 
@@ -97,6 +115,7 @@ public class Descriptions {
 		}
 	}
 
+	@JsonSerialize(contentUsing = BaseSerializer.class)
 	public List<Taxon> getSynonymsIncluded() {
 		List<Taxon> synonymsIncluded = new ArrayList<>();
 		if(descriptionsBySource == null) {
@@ -105,13 +124,13 @@ public class Descriptions {
 		for(DescriptionsBySource desc : descriptionsBySource){
 			if(desc.isFromSynonym){
 				if(!synonymsIncluded.contains(desc.asTaxon)){
-				synonymsIncluded.add(desc.asTaxon);
+					synonymsIncluded.add(desc.asTaxon);
 				}
 			}
 		}
 		return synonymsIncluded;
 	}
-	
+
 	public Collection<DescriptionsBySource> getBySource() {
 		if(descriptionsBySource == null) {
 			descriptionsBySource = new ArrayList<>();
@@ -166,10 +185,10 @@ public class Descriptions {
 	// Descriptions with multiple types (e.g., morphology:general:flower|sex:female) should come
 	// after ones with a single type
 	private static final Comparator<Description> generalDescriptionsFirst = new Comparator<Description>() {
-			public int compare(Description d1, Description d2) {
-				return d1.getTypes().size() - d2.getTypes().size();
-			}
-		};
+		public int compare(Description d1, Description d2) {
+			return d1.getTypes().size() - d2.getTypes().size();
+		}
+	};
 
 	private static final Ordering<DescriptionsByType> documentOrder = new Ordering<DescriptionsByType>() {
 		public int compare(DescriptionsByType left, DescriptionsByType right) {
@@ -206,7 +225,7 @@ public class Descriptions {
 		for(DescriptionType type : description.getTypes()) {
 			if(descriptionTypes.contains(type)) {
 				if(!byType.containsKey(type)) {
-					byType.put(type, new DescriptionsByType(type.toString()));
+					byType.put(type, new DescriptionsByType(type));
 				}
 				byType.get(type).descriptions.add(description);
 			}

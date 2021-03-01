@@ -42,7 +42,7 @@ public class RecordAnnotator implements StepExecutionListener, Tasklet {
 	protected NamedParameterJdbcTemplate jdbcTemplate;
 
 	private String authorityName;
-	private Long resourceId;
+	private String resourceIdentifier;
 	private String annotatedObjType;
 
 	public void setAnnotatedObjectType(String objectType) {
@@ -57,13 +57,18 @@ public class RecordAnnotator implements StepExecutionListener, Tasklet {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	public void setResourceId(Long resourceId) {
-		this.resourceId = resourceId;
+	public void setResourceIdentifier(String resourceIdentifier) {
+		this.resourceIdentifier = resourceIdentifier;
 	}
 
 	protected Long getAuthorityId() {
 		String authorityQuerySQL = "Select id from Organisation where identifier = :authorityName";
 		return jdbcTemplate.queryForObject(authorityQuerySQL, ImmutableMap.of("authorityName", authorityName), Long.class);
+	}
+
+	protected Long getResourceId() {
+		String resourceQuerySQL = "Select id from Resource where identifier = :resourceIdentifier";
+		return jdbcTemplate.queryForObject(resourceQuerySQL, ImmutableMap.of("resourceIdentifier", resourceIdentifier), Long.class);
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class RecordAnnotator implements StepExecutionListener, Tasklet {
 
 		Map<String, ? extends Object> queryParameters = ImmutableMap.of(
 				"authorityId", getAuthorityId(),
-				"resourceId", resourceId,
+				"resourceId", getResourceId(),
 				"jobId", stepExecution.getJobExecutionId(),
 				"annotatedObjType", annotatedObjType);
 

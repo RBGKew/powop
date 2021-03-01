@@ -24,6 +24,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.powo.api.AnnotationService;
+import org.powo.api.ResourceService;
 import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
@@ -66,13 +67,22 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private int itemsRead;
 
+	private long chunkStart;
+
 	protected List<Annotation> chunkAnnotations = new ArrayList<>();
 
 	@Autowired
 	private AnnotationService annotationService;
 
-	@Value("#{jobParameters['resource.id']}")
-	private Long resourceId;
+	@Autowired
+	private ResourceService resourceService;
+
+	@Value("#{jobParameters['resource.identifier']}")
+	private String resourceIdentifier;
+
+	private Resource resource;
+
+	private int chunkCount = 0;
 
 	@Autowired
 	public void setValidator(Validator validator) {
@@ -99,13 +109,10 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	}
 
 	@Override
-	public void afterChunk(ChunkContext context) {
-		logger.debug("After Chunk");
-	}
+	public void afterChunk(ChunkContext context) { }
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
-		logger.debug("Before Chunk");
 		itemsRead = super.getStepExecution().getReadCount() + super.getStepExecution().getReadSkipCount();
 	}
 
@@ -114,6 +121,15 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	protected int getLineNumber() {
 		return itemsRead;
+	}
+
+	protected Resource getResource() {
+		if (resource == null && resourceService != null) {
+			resource = resourceService.find(resourceIdentifier);
+			logger.debug("Found resource: {}", resource);
+		}
+
+		return resource;
 	}
 
 	protected Annotation createAnnotation(final BaseData object, RecordType recordType, AnnotationCode code, AnnotationType annotationType) {
@@ -156,13 +172,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	}
 
 	public T process(T t) throws Exception {
-		logger.debug("resourceId is" + resourceId);
-		logger.debug("object identifer is" + t.getIdentifier());
-		if(resourceId != null) {
-			Resource resource = new Resource();
-			resource.setId(resourceId);
-			t.setResource(resource);
-		}
 		this.itemsRead++;
 		return doProcess(t);
 	}

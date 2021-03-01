@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.powo.api.AnnotationService;
-import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
+import org.powo.harvest.service.PersistedService;
 import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.NoIdentifierException;
 import org.powo.job.dwc.exception.TaxonAlreadyProcessedException;
@@ -41,16 +41,12 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 
 	private Logger logger = LoggerFactory.getLogger(SkippingProcessor.class);
 
-	private TaxonService taxonService;
+	@Autowired
+	private PersistedService<Taxon> taxonService;
 
 	private AnnotationService annotationService;
 
 	private Map<String, Annotation> boundAnnotations = new HashMap<String,Annotation>();
-
-	@Autowired
-	public void setTaxonService(TaxonService taxonService) {
-		this.taxonService = taxonService;
-	}
 
 	@Autowired
 	public void setAnnotationService(AnnotationService annotationService) {
@@ -110,7 +106,7 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	}
 
 	@Override
-	public void afterChunk(ChunkContext context) { }
+	public void afterChunk(ChunkContext context) {}
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }

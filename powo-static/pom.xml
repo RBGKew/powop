@@ -9,9 +9,12 @@
 	</parent>
 	<artifactId>powo-static</artifactId>
 	<name>powo static files</name>
+	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<powo.dashboard.frontendDistDir>../powo-dashboard/dist</powo.dashboard.frontendDistDir>
+		<powo.portal.frontendDistDir>../powo-portal/src/main/frontend/dist/</powo.portal.frontendDistDir>
 	</properties>
 
 	<build>
@@ -67,8 +70,8 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>static.output.dir</id>
-						<phase>process-resources</phase>
+						<id>assemble-static-assets</id>
+						<phase>prepare-package</phase>
 						<configuration>
 							<tasks>
 								<delete includeEmptyDirs="true" quiet="true">
@@ -77,19 +80,33 @@
 
 								<mkdir dir="${project.build.directory}/static/js/" />
 								<mkdir dir="${project.build.directory}/static/css/" />
+								<mkdir dir="${project.build.directory}/admin/" />
+								<mkdir dir="${project.build.directory}/admin/js/" />
+								<mkdir dir="${project.build.directory}/admin/css/" />
 
+								<!-- Portal files -->
 								<copy todir="${project.build.directory}/static/img">
-									<fileset dir="${basedir}/src/frontend/img" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/img" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/js">
-									<fileset dir="${basedir}/src/frontend/js" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/js" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/fonts">
-									<fileset dir="${basedir}/src/frontend/fonts" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/fonts" includes="**/*" />
 								</copy>
 								<copy todir="${project.build.directory}/static/css">
-									<fileset dir="${basedir}/src/frontend/css" includes="**/*" />
+									<fileset dir="${powo.portal.frontendDistDir}/css" includes="**/*" />
 								</copy>
+
+								<!-- Dashboard files -->
+								<copy todir="${project.build.directory}/admin/js">
+									<fileset dir="${powo.dashboard.frontendDistDir}/js" includes="**/*" />
+								</copy>
+								<copy todir="${project.build.directory}/admin/css">
+									<fileset dir="${powo.dashboard.frontendDistDir}/css" includes="**/*" />
+								</copy>
+								<copy file="${powo.dashboard.frontendDistDir}/index.html" todir="${project.build.directory}/admin/"/>
+
 							</tasks>
 						</configuration>
 						<goals>
@@ -102,9 +119,8 @@
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>${dockerfile.maven.version}</version>
 				<configuration>
-					<repository>${docker.registry}apache</repository>
+					<repository>${docker.registry}ingress</repository>
 					<tag>${project.version}-${buildNumber}</tag>
 				</configuration>
 				<executions>

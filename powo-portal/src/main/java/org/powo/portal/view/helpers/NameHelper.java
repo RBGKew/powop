@@ -12,13 +12,108 @@ import com.github.jknack.handlebars.Options;
 
 public class NameHelper {
 
+	private static final String[] ranks = {
+			"[infrafam.unranked]",
+			"[infragen.unranked]",
+			"[infrasp.unranked]",
+			"[infragen.grex]",
+			"c.[infragen.]",
+			"infragen.grex",
+			"nothosubsect.",
+			"nothosubtrib.",
+			"supersubtrib.",
+			"nothosubgen.",
+			"[infragen.]",
+			"nothosubsp.",
+			"subsubforma",
+			"grex_sect.",
+			"[infragen]",
+			"nothosect.",
+			"subgenitor",
+			"subsubvar.",
+			"supersect.",
+			"supertrib.",
+			"suprasect.",
+			"agamovar.",
+			"[epsilon]",
+			"gen. ser.",
+			"microgen.",
+			"nothogrex",
+			"nothoser.",
+			"nothovar.",
+			"superser.",
+			"agamosp.",
+			"[alpha].",
+			"[gamma].",
+			"subhybr.",
+			"subsect.",
+			"subspec.",
+			"subtrib.",
+			"agglom.",
+			"[beta].",
+			"convar.",
+			"genitor",
+			"monstr.",
+			"nothof.",
+			"subfam.",
+			"subgen.",
+			"sublus.",
+			"subser.",
+			"subvar.",
+			"f.juv.",
+			"Gruppe",
+			"modif.",
+			"proles",
+			"stirps",
+			"subsp.",
+			"cycl.",
+			"forma",
+			"group",
+			"linea",
+			"prol.",
+			"sect.",
+			"spec.",
+			"subf.",
+			"trib.",
+			"fam.",
+			"gen.",
+			"grex",
+			"lus.",
+			"mut.",
+			"oec.",
+			"psp.",
+			"race",
+			"ser.",
+			"var.",
+			"ap.",
+			"II.",
+			"nm.",
+			"f."
+	};
+
+	public CharSequence taxonName(Taxon taxon) {
+		if (taxon != null && taxon.getScientificName() != null) {
+			String formatted = "<em lang='la'>" + taxon.getScientificName() + "</em>";
+			// look for the rank part of a name string and de-italicise it
+			for (String rank : ranks) {
+				if (formatted.contains(rank)) {
+					formatted = formatted.replace(" " + rank + " ", "</em> " + rank + " <em lang='la'>");
+				}
+			}
+
+			return formatted;
+		} else {
+			return "";
+		}
+	}
+
 	public CharSequence nameAndAuthor(final Taxon taxon, final Options options) {
-		String result = String.format("<em>%s</em> %s", taxon.getScientificName(), taxon.getScientificNameAuthorship());
+		String result = String.format("%s %s", taxonName(taxon), taxon.getScientificNameAuthorship());
 		return new Handlebars.SafeString(result);
 	}
 	
 	public CharSequence taxonNameAndAuthor(final Taxon taxon, final Options options) {
-		String result = String.format("<em>%s</em> <small>%s</small>", taxon.getScientificName(), taxon.getScientificNameAuthorship());
+		String result = String.format("%s <small>%s</small>", taxonName(taxon), taxon.getScientificNameAuthorship());
 		return new Handlebars.SafeString(result);
 	}
 
@@ -32,7 +127,7 @@ public class NameHelper {
 	public CharSequence taxonLinkWithoutAuthor(final Taxon taxon, final Options options) {
 		String result = String.format("<a href=\"/taxon/%s\">%s</a>",
 				taxon.getIdentifier(),
-				taxon.getScientificName());
+				taxonName(taxon));
 		return new Handlebars.SafeString(result);
 	}
 
@@ -57,15 +152,15 @@ public class NameHelper {
 
 	private String classificationLine(List<Taxon> classification, int index, Options options) {
 		if(index == classification.size()-1) {
-			return String.format("<ol><li><h1 class=\"c-summary__heading\">%s</h1></li><ol>",
+			return String.format("<ul><li><h1 class=\"c-summary__heading\">%s</h1></li></ul>",
 					taxonNameAndAuthor(classification.get(index), options));
 		} else {
 			if(classification.get(index).getTaxonRank() == null) {
-				return String.format("<ol><li>%s%s</li></ol>",
+				return String.format("<ul><li>%s%s</li></ul>",
 						taxonLink(classification.get(index), options),
 						classificationLine(classification, index+1, options));
 			} else {
-				return String.format("<ol><li>%s: %s%s</li></ol>",
+				return String.format("<ul><li>%s: %s%s</li></ul>",
 						WordUtils.capitalize(classification.get(index).getTaxonRank().toString().toLowerCase()),
 						taxonLink(classification.get(index), options),
 						classificationLine(classification, index+1, options));

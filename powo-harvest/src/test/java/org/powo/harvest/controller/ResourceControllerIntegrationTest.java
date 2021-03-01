@@ -11,9 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powo.factories.JobConfigurationFactory;
 import org.powo.model.JobConfiguration;
-import org.powo.model.constants.JobType;
 import org.powo.model.constants.ResourceType;
-import org.powo.model.marshall.json.ResourceWithJob;
 import org.powo.model.registry.Organisation;
 import org.powo.model.registry.Resource;
 import org.slf4j.Logger;
@@ -97,14 +95,9 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 				.organisation(org)
 				.build();
 
-		ResourceWithJob rwj = ResourceWithJob.builder()
-				.resource(resource)
-				.jobType(JobType.Harvest)
-				.build();
-
 		mvc.perform(post("/api/1/resource")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectToJsonString(rwj)))
+				.content(objectToJsonString(resource)))
 		.andExpect(status().isCreated())
 		.andExpect(jsonPath("$.uri").value(resource.getUri()))
 		.andExpect(jsonPath("$.jobConfiguration.parameters['authority.uri']").value(resource.getUri()));
@@ -119,15 +112,10 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 				.organisation(org)
 				.build();
 
-		ResourceWithJob rwj = ResourceWithJob.builder()
-				.resource(resource)
-				.jobType(JobType.Harvest)
-				.build();
-
 		// No URI
 		mvc.perform(post("/api/1/resource")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectToJsonString(rwj)))
+				.content(objectToJsonString(resource)))
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.validationErrors['resource.uri']").value("may not be empty"));
 
@@ -137,7 +125,7 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 
 		mvc.perform(post("/api/1/resource")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectToJsonString(rwj)))
+				.content(objectToJsonString(resource)))
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.validationErrors['resource.organisation']").value("may not be null"));
 
@@ -146,7 +134,7 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 		resource.setOrganisation(missing);
 		mvc.perform(post("/api/1/resource")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectToJsonString(rwj)))
+				.content(objectToJsonString(resource)))
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.validationErrors['resource.organisation']").value("Organisation[" + missing.getIdentifier() + "] not found"));
 	}
@@ -164,14 +152,10 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 		.andExpect(jsonPath("$.jobConfiguration.parameters['authority.uri']").value(resource.getUri()));
 
 		resource.setUri("http://foogleboogle.org/blargedy.zip");
-		ResourceWithJob rwj = ResourceWithJob.builder()
-				.resource(resource)
-				.jobType(JobType.Harvest)
-				.build();
 
 		mvc.perform(post("/api/1/resource/" + resource.getId())
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectToJsonString(rwj)))
+				.content(objectToJsonString(resource)))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.uri").value(resource.getUri()))
 		.andExpect(jsonPath("$.jobConfiguration.id").value(jc.getId()))

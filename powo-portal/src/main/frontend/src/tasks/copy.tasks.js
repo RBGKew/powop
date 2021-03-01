@@ -14,7 +14,6 @@ module.exports = function (gulp, $) {
 	gulp.task('copy:fonts', function() {
 	 return gulp.src( 'src/fonts/**/*.{ttf,woff,woff2,eot,svg}')
        .pipe(gulp.dest('dist/fonts/'));
-
   });
 
   /*

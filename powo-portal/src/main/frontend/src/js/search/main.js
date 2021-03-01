@@ -3,7 +3,6 @@ define(function(require) {
   var _ = require('libs/lodash');
   var bootstrap = require('libs/bootstrap');
   var Cookies = require('libs/js.cookie.js');
-  var History = require('libs/native.history');
   var pubsub = require('libs/pubsub');
 
   var events = require('./events');
@@ -34,15 +33,29 @@ define(function(require) {
       results.initialize();
       $('.s-page').removeClass('s-search__fullpage');
       $('#search_box').detach().appendTo('.c-header .container');
+      // below three lines are needed because the front page and the search page are the same page and we need to change which is main on both "pages" for accessibility
+      $( ".front-page" ).remove();
+      $(".search-results").attr('id', 'main');
+      $(".search-results").attr('role', 'main');
       filters.refresh();
     }
   }
+  
+  var is_hashed = false;
+
+  $(window).on('hashchange', function() {
+      is_hashed = true;
+  });
+
+  window.addEventListener('popstate', syncWithUrl);
+  
+  function syncWithUrl() {
+    filters.deserialize(window.location.search, false);
+    filters.refresh();
+    results.update(filters.serialize());
+  }
 
   var initialize = function() {
-    if ($(window).width() > 992) {
-      $("input[type=search]").attr('placeholder', "Search by species, genus or family name, or any words describing the plant");
-    }
-
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {
@@ -61,8 +74,6 @@ define(function(require) {
         filters.add(input.val());
         input.val('');
       });
-
-
     $('.s-page').removeClass('invisible');
   };
 
@@ -71,7 +82,7 @@ define(function(require) {
     transformToSearchLayout();
 
     results.update(filters.serialize());
-    this.History.pushState(null, null, '?' + filters.serialize());
+    history.pushState(null, null, '?' + filters.serialize());
   });
 
   return {

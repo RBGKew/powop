@@ -1,5 +1,7 @@
 package org.powo.site;
 
+import java.time.Clock;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 @Configuration
 public class SiteConfiguration {
@@ -19,7 +23,20 @@ public class SiteConfiguration {
 	@Bean
 	public Site currentSite(@Value("${site.variant}") String siteVariant) {
 		log.info("Running site as {} variant", siteVariant);
-		return (Site) ctx.getBean(siteVariant);
+		Site current = (Site) ctx.getBean(siteVariant);
+
+		return current;
 	}
 
+	@Bean LocaleResolver localeResolver(@Value("${site.variant}") String siteVariant) {
+		Site current = (Site) ctx.getBean(siteVariant);
+		log.info("Using locale: {}", current.defaultLocale());
+
+		return new FixedLocaleResolver(current.defaultLocale());
+	}
+
+	@Bean
+	public Clock clock() {
+		return Clock.systemDefaultZone();
+	}
 }

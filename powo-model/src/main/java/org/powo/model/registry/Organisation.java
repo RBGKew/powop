@@ -42,6 +42,7 @@ import org.powo.model.Base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Ordering;
 
@@ -61,11 +62,12 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"resources", "annotations"})
+@ToString(exclude = { "resources", "annotations" })
 @JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder(alphabetic=true)
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Organisation extends Base implements Comparable<Organisation> {
 
 	private static final long serialVersionUID = -2463044801110563816L;
@@ -73,6 +75,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organisationSequenceGenerator")
 	@SequenceGenerator(name = "organisationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_organisation")
+	@JsonIgnore
 	private Long id;
 
 	@Lob
@@ -98,7 +101,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	protected String identifier;
 
 	@OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
-	@Cascade(CascadeType.DELETE)
+	@Cascade({ CascadeType.ALL })
 	@Fetch(FetchMode.SELECT)
 	private List<Resource> resources;
 
@@ -106,6 +109,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@JoinColumn(name = "annotatedObjId")
 	@Where(clause = "annotatedObjType = 'Organisation'")
 	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
+	@JsonIgnore
 	private Set<Annotation> annotations;
 
 	@JsonIgnore

@@ -1,16 +1,14 @@
 package org.powo.persistence.solr;
 
 import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.model.solr.QueryOption;
 import org.powo.model.solr.SolrFieldNameMappings;
-import org.powo.site.Site;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -27,7 +25,7 @@ public class QueryBuilder {
 			"taxon.synonyms_ss_lower",
 			"taxon.family_s_lower",
 			"taxon.genus_s_lower",
-			"taxon.species_s_lower",
+			"taxon.specific_epithet_s_lower",
 			"taxon.vernacular_names_t");
 
 	private static final ImmutableSet<String> allCharacteristicFields = ImmutableSet.<String>of(
@@ -51,28 +49,37 @@ public class QueryBuilder {
 
 	private static final Map<String, QueryOption> queryMappings = new ImmutableMap.Builder<String, QueryOption>()
 			.put("any", new MultiFieldQuery(mainQueryFields))
+			.put("base.class_searchable_b", new searchableFilterQuery())
+			.put("cursor", new CursorQuery())
+			.put("f", new ResultsFilterQuery())
 			.put("names", new MultiFieldQuery(allNamesQueryFields))
+			.put("page.size", new PageSizeQuery())
+			.put("perPage", new PageSizeQuery())
+			.put("sort", new SortQuery())
 			.put("taxon.description_t", new MultiFieldQuery(allCharacteristicFields))
 			.put("taxon.name_published_in_year_i", new RangeFilterQuery())
-			.put("sort", new SortQuery())
-			.put("page", new PageNumberQuery())
-			.put("page.size", new PageSizeQuery())
-			.put("base.class_searchable_b", new searchableFilterQuery())
-			.put("f", new ResultsFilterQuery())
 			.build();
-	
+
 	private static final QueryOption basicMapper = new SingleFieldFilterQuery();
-	
+
 	public QueryBuilder(){
 		query = new SolrQuery().setRequestHandler("/powop_search");
 	}
-	
-	public QueryBuilder(DefaultQueryOption defaultQuery){
-		query = new SolrQuery().setRequestHandler("/powop_search");
+
+	public QueryBuilder(DefaultQueryOption defaultQuery, Map<String, String> params){
+		this();
 		defaultQuery.add(query);
+
+		// Default to cursor start
+		addParam("cursor", "*");
+
+		for(Entry<String, String> entry : params.entrySet()){
+			addParam(entry.getKey(), entry.getValue());
+		}
 	}
-	
+
 	public QueryBuilder addParam(String key, String value) {
+		if(key.equals("format")) return this;
 		if(key.equals("q")) {
 			parseQuery(value);
 		} else {

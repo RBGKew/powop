@@ -20,6 +20,7 @@
       <batch:next on="COMPLETED" to="getDWCArchive" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -31,6 +32,7 @@
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -40,6 +42,7 @@
       <batch:end on="COMPLETED" exit-code="NOT_MODIFIED" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -49,6 +52,7 @@
       <batch:next on="COMPLETED" to="readArchiveMetadata" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -59,6 +63,7 @@
       <batch:listeners>
         <batch:listener ref="dwcArchiveMetadataReader" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -94,6 +99,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="taxonFieldSetMapper" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -114,6 +120,7 @@
         <batch:listener ref="taxonFieldSetMapper" />
         <batch:listener ref="taxonImportingProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -133,6 +140,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="taxonFieldSetMapper" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -141,12 +149,19 @@
       <batch:tasklet>
         <batch:chunk reader="deleteTaxaReader"  writer="taxonDeletingWriter" commit-interval="100"/>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexNamesSuggester" />
+      <batch:next on="COMPLETED" to="indexNamesSuggesterDecision" />
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexNamesSuggesterDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexNamesSuggester" />
+      <batch:next on="true" to="checkDescriptionProcessingMode" />
+    </batch:decision>
 
     <batch:step id="indexNamesSuggester">
       <batch:description>Build the scientific-names suggester index</batch:description>
@@ -169,6 +184,7 @@
       <batch:listeners>
         <batch:listener ref="markDescriptionRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -194,6 +210,7 @@
         <batch:listener ref="descriptionProcessor" />
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -202,12 +219,19 @@
       <batch:tasklet>
         <batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"  commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexDescriptionsSuggester" />
+      <batch:next on="COMPLETED" to="indexDescriptionsSuggesterDecision" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexDescriptionsSuggesterDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexDescriptionsSuggester" />
+      <batch:next on="true" to="checkTermProcessingMode" />
+    </batch:decision>
 
     <batch:step id="indexDescriptionsSuggester">
       <batch:description>Build the characteristic suggester index</batch:description>
@@ -229,6 +253,7 @@
       <batch:listeners>
         <batch:listener ref="markTermRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
     <batch:decision decider="processTermsDecider" id="processTermsDecision">
@@ -252,6 +277,7 @@
         <batch:listener ref="termFieldSetMapper" />
         <batch:listener ref="termProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
     <batch:step id="deleteAbsentTerms">
@@ -263,6 +289,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
     <batch:step id="indexTerms">
@@ -273,6 +300,7 @@
       <batch:next on="COMPLETED" to="checkImageProcessingMode" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -291,6 +319,7 @@
       <batch:listeners>
         <batch:listener ref="markImageRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -309,15 +338,22 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="markAssociatedTaxaForIndexing" />
+      <batch:next on="COMPLETED" to="indexAssociatedImagesDecision" />
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="imageFieldSetMapper" />
         <batch:listener ref="imageProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexAssociatedImagesDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="markAssociatedTaxaForIndexing" />
+      <batch:next on="true" to="deleteAbsentImages" />
+    </batch:decision>
 
     <batch:step id="markAssociatedTaxaForIndexing">
       <batch:description>Mark the taxa who need to be re-indexed due to image 'bubble-up'</batch:description>
@@ -326,6 +362,7 @@
       <batch:listeners>
         <batch:listener ref="markAssociatedTaxaForIndexingTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -338,6 +375,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -354,6 +392,7 @@
       <batch:listeners>
         <batch:listener ref="markReferenceRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -379,6 +418,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="referenceProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -391,6 +431,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -409,6 +450,7 @@
       <batch:listeners>
         <batch:listener ref="markIdentifierRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -434,6 +476,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="identifierProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -446,6 +489,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -463,6 +507,7 @@
       <batch:listeners>
         <batch:listener ref="markIdentificationRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -493,6 +538,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="identificationProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -505,6 +551,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -522,6 +569,7 @@
       <batch:listeners>
         <batch:listener ref="markDistributionRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -547,6 +595,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="distributionProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -559,6 +608,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -577,6 +627,7 @@
       <batch:listeners>
         <batch:listener ref="markMeasurementOrFactRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -602,6 +653,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="measurementOrFactProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -614,6 +666,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -632,6 +685,7 @@
       <batch:listeners>
         <batch:listener ref="markVernacularNameRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -657,6 +711,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="vernacularNameProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -665,12 +720,19 @@
       <batch:tasklet>
         <batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexCommonNameSuggester" />
+      <batch:next on="COMPLETED" to="indexCommonNameSuggesterDecision" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
+
+    <batch:decision decider="skipIndexDecider" id="indexCommonNameSuggesterDecision">
+      <!-- Defaults to false -->
+      <batch:next on="false" to="indexCommonNameSuggester" />
+      <batch:next on="true" to="checkTypeAndSpecimenProcessingMode" />
+    </batch:decision>
 
     <batch:step id="indexCommonNameSuggester">
       <batch:description>Build the common-name suggester index</batch:description>
@@ -693,6 +755,7 @@
       <batch:listeners>
         <batch:listener ref="markTypeAndSpecimenRecordsTasklet" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -718,6 +781,7 @@
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="typeAndSpecimenProcessor" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -730,6 +794,7 @@
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -741,10 +806,11 @@
       <batch:next on="COMPLETED" to="indexTaxaDecision" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
-    <batch:decision decider="skipIndexTaxaDecider" id="indexTaxaDecision">
+    <batch:decision decider="skipIndexDecider" id="indexTaxaDecision">
       <!-- Defaults to false -->
       <batch:next on="false" to="indexTaxa" />
       <batch:next on="true" to="deleteOldAnnotations" />
@@ -758,6 +824,7 @@
       <batch:next on="COMPLETED" to="deleteOldAnnotations" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -769,6 +836,7 @@
       <batch:next on="COMPLETED" to="cleanupResources" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -778,6 +846,7 @@
       <batch:end on="COMPLETED" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -789,6 +858,7 @@
       <batch:next on="COMPLETED" to="cleanupResourcesFailed" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -798,6 +868,7 @@
       <batch:end on="COMPLETED" exit-code="FAILED" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -883,7 +954,7 @@
   <bean id="markTaxonRecordsByResourceTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Taxon"/>
   </bean>
 
@@ -1007,7 +1078,7 @@
   <bean id="markDescriptionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Description" />
   </bean>
 
@@ -1084,14 +1155,14 @@
   <bean id="markImageRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Image"/>
   </bean>
 
   <bean id="markAssociatedTaxaForIndexingTasklet" class="org.powo.job.dwc.read.AncestorImageAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
   </bean>
 
   <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1114,10 +1185,6 @@
   <bean id="imageProcessor" class="org.powo.job.dwc.image.Processor" scope="step">
     <property name="skipUnmodified" value="#{jobParameters['skip.unmodified']}"/>
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
-    <property name="family" value="#{jobParameters['family']}" />
-    <property name="subfamily" value="#{jobParameters['subfamily']}" />
-    <property name="tribe" value="#{jobParameters['tribe']}" />
-    <property name="subtribe" value="#{jobParameters['subtribe']}" />
   </bean>
 
   <bean id="imageRecordSeparatorPolicy" class="org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy"
@@ -1199,7 +1266,7 @@
   <bean id="markTermRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Concept"/>
   </bean>
 
@@ -1296,7 +1363,7 @@
   <bean id="markReferenceRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Reference"/>
   </bean>
 
@@ -1385,7 +1452,7 @@
   <bean id="markIdentifierRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Identifier" />
   </bean>
 
@@ -1474,7 +1541,7 @@
   <bean id="markDistributionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Distribution" />
   </bean>
 
@@ -1560,7 +1627,7 @@
   <bean id="markMeasurementOrFactRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="MeasurementOrFact" />
   </bean>
 
@@ -1648,7 +1715,7 @@
   <bean id="markVernacularNameRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="VernacularName" />
   </bean>
 
@@ -1742,7 +1809,7 @@
   <bean id="markTypeAndSpecimenRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="TypeAndSpecimen"/>
   </bean>
 
@@ -1847,7 +1914,7 @@
   <bean id="markIdentificationRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
     <property name="dataSource" ref="dataSource" />
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceId" value="#{jobParameters['resource.id']}"/>
+    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Identification" />
   </bean>
 
@@ -1917,8 +1984,6 @@
     class="org.powo.job.dwc.DwCProcessingExceptionProcessListener"
     scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="transactionManager" ref="transactionManager" />
   </bean>
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
@@ -1933,7 +1998,7 @@
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 
-  <bean id="skipIndexTaxaDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
+  <bean id="skipIndexDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="skip.indexing" />
     <property name="defaultProcessingMode" value="false" />
   </bean>

@@ -7,11 +7,16 @@
 *
 */
 
+/**
+ * Command Line Arguments
+ */
+var argv = require('yargs').argv;
+
 /*
 * Plugin Requires
 */
 var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
+var browserSync = require('browser-sync');
 
 /*
 * Load all the plugins into the variable $
@@ -27,57 +32,59 @@ var $ = require('gulp-load-plugins')({
 * Pass the plugins along so that your tasks can use them
 * Will load all xxx.tasks.js files
 */
-$.loadSubtasks('src/tasks/', $, browserSync);
-
-/*
-* Static browser sync server
-*/
-gulp.task('browser-sync', function() {
-    browserSync.init({
-        server: {
-            baseDir: "./dist"
-        }
-    });
-    gulp.watch('src/sass/**/*.scss',['css']);
-    gulp.watch('src/js/search/**/*.js',['precompile', 'js']);
-});
+$.loadSubtasks('src/tasks/', $);
 
 /*
 * Combination tasks
 */
-gulp.task('copy', ['copy:fonts', 'copy:svgs']);
-gulp.task('images', ['images:minify']);
-gulp.task('clean', ['clean:css', 'clean:js', 'clean:templates']);
-
-/*
-* Watch Task
-*/
-gulp.task('dev', function() {
-  gulp.watch('src/sass/**/*.scss',['css']);
-  gulp.watch('src/js/**/*.js',['scripts']);
-});
+gulp.task('copy', gulp.series('copy:fonts', 'copy:svgs'));
+gulp.task('images', gulp.series('images:minify', "images:icons"));
+gulp.task('clean', gulp.series('clean:css', 'clean:js', 'clean:templates'));
 
 /*
 *  Full build
 */
-gulp.task('default', function(cb) {
-  $.runSequence(
-    'clean',
-    'copy',
-    'images',
-    'js',
-    'css',
-    'rev',
-    cb);
-});
+gulp.task('default', gulp.series(
+  'clean',
+  'copy',
+  'images',
+  'js',
+  'css',
+  'rev'
+));
 
 /*
 *  Aliases
 */
-gulp.task('styles', function(cb) {
-  $.runSequence('css', 'rev', cb)
-});
-gulp.task('scripts', function(cb) {
-  $.runSequence('precompile', 'js', 'rev', cb)
-});
-gulp.task('serve', ['browser-sync']);
+gulp.task('styles', gulp.series('css', 'rev'));
+gulp.task('scripts', gulp.series('js', 'rev'));
+
+/*
+* Watch Task
+*/
+const PORT = argv.backendPort || 10080
+gulp.task('browsersync', function() {
+  browserSync.init({
+    proxy: "localhost:" + PORT
+  });
+})
+
+const reload = (done) => {
+  browserSync.reload()
+  done()
+}
+
+gulp.task('watch', gulp.parallel('browsersync', function() {
+  gulp.watch('src/sass/**/*.scss', gulp.series('css', reload));
+  gulp.watch([
+    'src/js/**/*.js',
+    'src/templates/**/*.hbs',
+    '!src/js/templates/**/*.js'
+  ], gulp.series('js', reload));
+  console.log("Watching 'src/sass', 'src/js' and 'src/templates'...");
+}));
+
+/*
+* Dev Task
+*/
+gulp.task('dev', gulp.series('default', 'watch'));

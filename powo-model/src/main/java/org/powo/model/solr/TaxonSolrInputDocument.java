@@ -117,16 +117,51 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexMeasurementOrFacts();
 		indexImages();
 		addSuggestionWeight();
+		
+		addReferencesToSources();
+		indexSources();
+		indexContext();
 
-		for(Reference r : taxon.getReferences()) {
-			addSource(r);
+		buildSortField();
+
+		return sid;
+	}
+
+	private void indexContext() {
+		for (String source : sources) {
+			sid.addField("searchable.context_ss", normalized(source));
 		}
+		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
 
-		for(String source : sources) {
+		deduplicateField(sid, "searchable.context_ss");
+	}
+
+	private void indexSources() {
+		for (String source : sources) {
 			sid.addField("searchable.sources_ss", source);
 		}
 
-		return sid;
+		deduplicateField(sid, "searchable.sources_ss");
+	}
+
+	private void addReferencesToSources() {
+		for (var r : taxon.getReferences()) {
+			addSource(r);
+		}
+	}
+
+	private void buildSortField() {
+		StringBuilder sortable = new StringBuilder();
+		if(taxon.getTaxonRank() != null) {
+			sortable.append(taxon.getTaxonRank().termID());
+		}
+		if (!Rank.FAMILY.equals(taxon.getTaxonRank()) && taxon.getFamily() != null) {
+			sortable.append(taxon.getFamily());
+		}
+		if(taxon.getScientificName() != null) {
+			sortable.append(taxon.getScientificName().replaceAll("\\s", ""));
+		}
+		sid.addField("sortable", sortable.toString());
 	}
 
 	private void addSuggestionWeight() {
@@ -166,7 +201,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				} else {
 					sid.addField("taxon.image_" + index + "_thumbnail_s", cdn.getThumbnailUrl(img));
 					sid.addField("taxon.image_" + index + "_fullsize_s", cdn.getFullsizeUrl(img));
-					sid.addField("taxon.image_" + index + "_caption_s", img.getCaption());
+					sid.addField("taxon.image_" + index + "_caption_s", img.getTitle());
 				}
 			}
 		}

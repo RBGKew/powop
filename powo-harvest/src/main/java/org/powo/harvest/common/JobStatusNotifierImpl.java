@@ -38,7 +38,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 	public final void notify(final JobExecutionInfo jobExecutionInfo) {
 		logger.debug("In notify: job {}, jobconfiguration id: {}", jobExecutionInfo.getId(), jobExecutionInfo.getJobConfigurationId());
 
-		JobConfiguration job = service.get(Long.parseLong(jobExecutionInfo.getJobConfigurationId()));
+		JobConfiguration job = service.find(Long.parseLong(jobExecutionInfo.getJobConfigurationId()));
 		if (job != null) {
 			logger.debug("updating jobconfiguration: " + job.getId());
 			job.setJobStatus(jobExecutionInfo.getStatus());
@@ -53,7 +53,7 @@ public class JobStatusNotifierImpl implements JobStatusNotifier {
 		if(jobConfigurationId != null) {
 			logger.error(jobExecutionException.getMessage());
 			jobExecutionException.printStackTrace();
-			JobConfiguration job = service.get(Long.parseLong(jobConfigurationId));
+			JobConfiguration job = service.find(Long.parseLong(jobConfigurationId));
 			job.setJobStatus(BatchStatus.FAILED);
 			service.saveOrUpdate(job);
 		}

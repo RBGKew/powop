@@ -18,13 +18,14 @@ public class JobConfigurationsSerializer extends JsonSerializer<List<JobConfigur
 	@AllArgsConstructor
 	private class Summary {
 		private Long id;
+		private String identifier;
 		private String description;
 	}
 
 	@Override
 	public void serialize(List<JobConfiguration> jobConfigurations, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
 		Summary[] summaries = jobConfigurations.stream()
-				.map(jc -> new Summary(jc.getId(), jc.getDescription()))
+				.map(jc -> new Summary(jc.getId(), jc.getIdentifier(), jc.getDescription()))
 				.toArray(Summary[]::new);
 
 		gen.writeStartArray();

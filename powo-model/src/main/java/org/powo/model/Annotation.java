@@ -30,7 +30,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.solr.common.SolrInputDocument;
@@ -86,8 +85,7 @@ public class Annotation extends Base implements Searchable {
 	private Resource resource;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "annotationSequenceGenerator")
-	@SequenceGenerator(name = "annotationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_annotation")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}

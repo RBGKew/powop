@@ -2,7 +2,6 @@ define(function(require) {
 
   var $ = require('jquery');
   var map = require('./map');
-  var History = require('libs/native.history');
   var filters = require('../search/filters');
   var pubsub = require('libs/pubsub');
   require('libs/bootstrap');
@@ -12,37 +11,57 @@ define(function(require) {
 
   var initialize = function() {
 
-    // setup search box
-    filters.initialize();
-    filters.tokenfield().on('tokenfield:createtoken', function(e) {
-      e.preventDefault();
-      window.location = '/?q=' + e.attrs.value;
-    });
+  // setup search box
+  filters.initialize();
+  filters.tokenfield().on('tokenfield:createtoken', function(e) {
+    e.preventDefault();
+    window.location = '/?q=' + e.attrs.value;
+  });
 
-    $(document).on('click', '#search-button', function(e) {
-      window.location = '/?q=' + $('.token-input').val();
+  $(document).on('click', '#search-button', function(e) {
+    window.location = '/?q=' + $('.token-input').val();
+  })
+
+  $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
+    e.preventDefault();
+  });
+
+  initToTopBehaviour();
+
+  function initToTopBehaviour() {
+    $(window).scroll(function() {
+      if ($(this).scrollTop() >= $('.navbar--article').position().top) {
+        $(".to-top").css("display", "block");
+      } else {
+        $(".to-top").css("display", "none");
+      }
+    });
+    $('.to-top').on('click', function(e) {
+      $('html,body').animate({ scrollTop: 0 }, 'fast', 'swing');
+    });
+  }
+
+  // this targets the Map on the taxon page that is created with open layers
+  $('.ol-unselectable').attr('aria-label', 'Distribution Map');
+
+  $('.navbar--article').on('click', function(e) {
+    e.preventDefault();
+	$('body').css('overflow', 'auto');
+  });
+    
+    
+  $('.tokenfield input')
+    .on('focus', function() {
+      $('#search_box')
+        .addClass('focused');
+    })
+    .on('blur', function() {
+      $('#search_box')
+        .removeClass('focused');
     })
 
-    $('.tokenfield input')
-      .on('focus', function() {
-        $('#search_box')
-          .addClass('focused');
-      })
-      .on('blur', function() {
-        $('#search_box')
-          .removeClass('focused');
-      })
-
-    // collapse all sections if screen size is less than 768px
-    if ($(window).width() < 768) {
-      $(".c-article-section").map(function(__, section) {
-        $(section).find('.container').removeClass("in");
-        $(section).find('a.collapser').first().addClass('collapsed');
-      });
-    }
-
     // initialize popup for header image
-    $('.c-gallery-header').click(function(e) {
+    $('.c-gallery-header').on('click', function(e) {
       $('.c-gallery').magnificPopup('open');
       e.preventDefault();
     });
@@ -54,15 +73,8 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
-    if($('#content-navbar').length > 0) {
-      $('#content-navbar').affix({
-          offset: { top: $('#content-navbar').offset().top }
-      });
-    }
-
-
     // Accomodate fixed header when jumping to anchor links
-    $('nav a').click(function() {
+    $('nav a').on('click', function() {
       var target = $(this.hash);
       var headerHeight = $(".c-article-nav").height(); // Get fixed header height
 
@@ -72,16 +84,26 @@ define(function(require) {
         }, 'fast', 'swing');
       }
     });
+    navToggle();
+
+    function navToggle() {
+        // opens taxon nav when return  key is pressed
+      $(".mobile-menu").keypress(function (e) {
+          if (e.keyCode === 13) {
+            $('.navbar-collapse').collapse('toggle')
+          }
+      });
+      
+      // hides taxon nav when clicked
+      $('.navbar-nav>li>a').on('click', function(){
+        $('.navbar-collapse').collapse('hide');
+      });
+    }
 
     // enable scrollspy on navbar
     $('body').scrollspy({
       target: '.navbar',
       offset: 75
-    });
-
-    // open collapsed sections when navbar link clicked
-    $('.c-article-nav a').click(function() {
-      $($(this).attr('href') + ' .container').collapse('show');
     });
 
     // enable popovers
@@ -92,19 +114,18 @@ define(function(require) {
       $(location.hash + ' .container').addClass('in');
     }
 
-    // enable tooltips
-    $('.description a[title]').tooltip();
-
     // bibliography sorting
-    $('#sort-bibliography-by-citation').click(function(e) {
+    $('#sort-bibliography-by-citation').on('click', function(e) {
       sortBibliography(e, ['bibliographicCitation'], ['asc']);
       $(this).addClass('selected_background');
     });
-    $('#sort-bibliography-by-newest-first').click(function(e) {
+
+    $('#sort-bibliography-by-newest-first').on('click', function(e) {
       sortBibliography(e, ['date', 'bibliographicCitation'], ['desc', 'asc']);
       $(this).addClass('selected_background');
     });
-    $('#sort-bibliography-by-oldest-first').click(function(e) {
+
+    $('#sort-bibliography-by-oldest-first').on('click', function(e) {
       sortBibliography(e, ['date', 'bibliographicCitation'], ['asc', 'asc']);
       $(this).addClass('selected_background');
     });

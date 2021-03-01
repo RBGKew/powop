@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.powo.api.Service;
+import org.powo.harvest.service.TaxonPersistedService;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -30,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
 	private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
@@ -37,6 +39,9 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected Map<String, T> boundObjects = new HashMap<String, T>();
 
 	protected SERVICE service;
+
+	@Autowired
+	private TaxonPersistedService taxonService;
 
 	/**
 	 * @param t an object
@@ -53,7 +58,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 		Taxon taxon = null;
 		if(!((NonOwned)t).getTaxa().isEmpty()) {
-			taxon = super.getTaxonService().find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
+			taxon = taxonService.find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
 
 			((NonOwned)t).getTaxa().clear();
 			((NonOwned)t).getTaxa().add(taxon);
@@ -73,6 +78,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				validate(t);
 				bind(t);
 				t.setAuthority(getSource());
+				t.setResource(getResource());
 				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
 				logger.debug("Adding object " + t.getIdentifier());
 				return t;
@@ -108,7 +114,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 					persisted.setRightsHolder(t.getRightsHolder());
 					doUpdate(persisted, t);
 
-					((NonOwned)persisted).getTaxa().clear();
 					if(taxon != null) {
 						((NonOwned)persisted).getTaxa().add(taxon);
 					}
@@ -125,12 +130,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 			// update it with this taxon but that's it, assuming that it
 			// isn't a more up to date version
 			if(taxon != null) {
-				if (((NonOwned)bound).getTaxa().contains(taxon)) {
-					// do nothing
-				} else {
-					// Add the taxon to the list of taxa
-					((NonOwned)bound).getTaxa().add(taxon);
-				}
+				((NonOwned)bound).getTaxa().add(taxon);
 			}
 			// We've already returned this object once
 			logger.debug("Skipping object " + t.getIdentifier());
@@ -153,6 +153,10 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	protected abstract T lookupBound(T t);
 
 	protected abstract void doValidate(T t) throws Exception;
+
+	public void setTaxonPersistedService(TaxonPersistedService taxonPersistedService) {
+		this.taxonService = taxonPersistedService;
+	}
 
 	@Override
 	public void afterChunk(ChunkContext context) {

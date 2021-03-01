@@ -2,17 +2,22 @@ package org.powo.site;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.joda.time.DateTime;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
+import org.powo.api.SearchableObjectService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
+import org.powo.persistence.solr.QueryBuilder;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
@@ -23,7 +28,7 @@ import org.powo.portal.view.ScientificNames;
 import org.powo.portal.view.Sources;
 import org.powo.portal.view.Summary;
 import org.powo.portal.view.VernacularNames;
-import org.powo.site.Site;
+import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -44,12 +49,10 @@ public class PowoSite implements Site {
 	@Autowired
 	DescriptionService descriptionService;
 
-	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
+	@Autowired
+	SearchableObjectService searchableObjectService;
 
-	@Override
-	public String suggesterFilter() {
-		return null;
-	}
+	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
@@ -59,6 +62,8 @@ public class PowoSite implements Site {
 		Descriptions descriptions = new Descriptions(taxon);
 		Descriptions uses = new Descriptions(taxon, true);
 		Images images = new Images(taxon, imageService);
+		Identifications identifications = new Identifications(taxon);
+		VernacularNames vernacularNames = new VernacularNames(taxon);
 		if (!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}
@@ -80,11 +85,11 @@ public class PowoSite implements Site {
 		if (!taxon.getDistribution().isEmpty()) {
 			model.addAttribute(new Distributions(taxon));
 		}
-		if (!taxon.getVernacularNames().isEmpty()) {
-			model.addAttribute(new VernacularNames(taxon));
+		if (!vernacularNames.getNames().isEmpty()) {
+			model.addAttribute(vernacularNames);
 		}
-		if (!taxon.getIdentifications().isEmpty()) {
-			model.addAttribute(new Identifications(taxon));
+		if (!identifications.getIdentifications().isEmpty()) {
+			model.addAttribute(identifications);
 		}
 		if (!images.getAll().isEmpty()) {
 			model.addAttribute(images);
@@ -99,7 +104,7 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateIndexModel(Model model) {
-		model.addAttribute("names", format(taxonService.count(), 1000));
+		model.addAttribute("names", format(taxaCount(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		model.addAttribute("intro", "partials/intro/powo");
@@ -108,9 +113,15 @@ public class PowoSite implements Site {
 	}
 
 	@Override
+	public Long taxaCount() {
+		QueryBuilder queryBuilder = new QueryBuilder(defaultQuery(), Collections.emptyMap());
+		SolrQuery query = queryBuilder.build();
+		QueryResponse queryResponse = searchableObjectService.search(query);
+		return queryResponse.getResults().getNumFound();
+	}
+
+	@Override
 	public void populateStaticModel(Model model) {
-		model.addAttribute("date", new DateTime().toString("d MMMM y"));
-		model.addAttribute("year", new DateTime().getYear());
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
 	}
@@ -118,6 +129,16 @@ public class PowoSite implements Site {
 	@Override
 	public DefaultQueryOption defaultQuery() {
 		return new PowoDefaultQuery();
+	}
+
+	@Override
+	public String suggesterFilter() {
+		return "Plantae";
+	}
+
+	@Override
+	public List<String> getSuggesters() {
+		return suggesters;
 	}
 
 	private String pageTitle(Taxon taxon) {
@@ -137,13 +158,34 @@ public class PowoSite implements Site {
 		}
 	}
 
-	private String format(long n, int ceilTo) {
+	protected String format(long n, int ceilTo) {
 		return NumberFormat.getNumberInstance(Locale.UK).format(((n + (ceilTo - 1)) / ceilTo) * ceilTo);
 	}
 
 	@Override
-	public List<String> getSuggesters() {
-		return suggesters;
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "powo");
+	}
+
+	@Override
+	public String indexPageTitle() {
+		return "Plants of the World Online | Kew Science";
+	}
+
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
+
+	@Override
+	public String favicon() {
+		return "powo-favicon.ico";
+	}
+
+	@Override
+	public Optional<Link> crossSiteLink() {
+		return Optional.empty();
 	}
 
 }

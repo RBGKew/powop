@@ -191,21 +191,26 @@ public abstract class ServiceImpl<T extends Base, DAO extends Dao<T>> implements
 	 * @return A page of results
 	 */
 	@Transactional
-	public final Page<T> list(final Integer page, final Integer size, final String fetch) {
+	public final Page<T> list(final Integer page, final Integer size) {
 		Long numberOfResults = dao.count();
 		if (numberOfResults == 0) {
 			return new DefaultPageImpl<T>(new ArrayList<T>(), 0, 0);
 		} else {
-			return new DefaultPageImpl<T>(dao.list(page, size, fetch), page, size);
+			return new DefaultPageImpl<T>(dao.list(page, size), page, size);
 		}
 	}
 
 	@Transactional
-	public final List<T> list(String fetch) {
-		return dao.list(null, null, fetch);
+	public final List<T> list() {
+		return dao.list(null, null);
 	}
 
 	public long count() {
 		return dao.count();
+	}
+
+	@Transactional
+	public void refresh(T t) {
+		dao.refresh(t);
 	}
 }

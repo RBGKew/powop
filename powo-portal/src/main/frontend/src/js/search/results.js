@@ -4,9 +4,9 @@ define(function(require) {
   var _ = require('libs/lodash');
   var Cookies = require('libs/js.cookie.js');
   var Handlebars = require('handlebars');
-  var pagination = require('libs/pagination');
   var filters = require('./filters');
   var events = require('./events');
+  var pageTitle = require("./page-title");
 
   var resultsContainerTmpl = require('templates/partials/result/results-container.js');
   var resultsTmpl = require('templates/partials/result/results.js');
@@ -28,17 +28,6 @@ define(function(require) {
   Handlebars.registerPartial('results-items', itemsTmpl);
   Handlebars.registerPartial('results-pagination', paginationTmpl);
 
-  $(document).on('keydown', function (event) {
-    if($(event.target).is('input')) return;
-
-    var pag = $('.c-pagination');
-    if(event.which === events.LEFT_ARROW) {
-      pag.pagination('prevPage');
-    } else if (event.which === events.RIGHT_ARROW) {
-      pag.pagination('nextPage');
-    }
-  });
-
   var prepare = function() {
     if(_.isEmpty($('.c-results-outer'))) {
       $('.c-search').append(resultsContainerTmpl());
@@ -47,15 +36,27 @@ define(function(require) {
 
   var update = function(state) {
     prepare();
+
+    var indicateProgress = _.debounce(function() {
+      $('.total-results').addClass('hidden');
+      $('.loading').removeClass('hidden');
+    }, 100);
+    indicateProgress();
+
     $.getJSON("/api/1/search?" + state, function(json) {
+      indicateProgress.cancel();
       json['f'] = filters.getParam('f');
       json['sort'] = filters.getParam('sort') || 'relevance';
       json['layout'] = Cookies.get('powop');
       $('.c-results').replaceWith(resultsTmpl(json));
       $('.c-results .container--lines').replaceWith(itemsTmpl(json));
-      $('#search-filters').html(filtersTmpl(json));
+      $('.total-results').removeClass('hidden');
+      $('.loading').addClass('hidden');
+      $('.filters').replaceWith(filtersTmpl(json));
       $('.results-count').replaceWith(countTmpl(json));
+      $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
+      pageTitle.updatePageTitle(window.siteData, filters.filters());
       filters.refresh();
     });
   };
@@ -84,21 +85,30 @@ define(function(require) {
     $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
   }
 
+  function setCursor(e) {
+    if(e) {
+      e.preventDefault();
+      var cursor = $(e.target).data("cursor");
+      var page = $(e.target).data("page");
+      filters.setCursor(cursor, page);
+      $('html, body').animate({scrollTop: '0px'}, 100);
+    }
+  }
+
   function paginate(results) {
     if(results.totalPages > 1) {
-      $('.c-pagination').pagination({
-        items: results.totalResults,
-        itemsOnPage: results.perPage,
-        pages: results.totalPages,
-        listStyle: 'pagination',
-        hrefTextPrefix: '',
-        currentPage: Number(filters.getParam('page'))+1,
-        onPageClick: function(page, e) {
-          filters.setPage(page-1);
-          $('html, body').animate({scrollTop: '0px'}, 100);
-          if(e) e.preventDefault();
-        }
-      });
+      $('#paginate-first a')
+        .attr("href", "/?" + filters.serialize({cursor: "*", p: 0}))
+        .on("click", setCursor);
+
+      if(results.page < results.totalPages) {
+        $('#paginate-next a')
+          .attr("href", "/?" + filters.serialize({cursor: results.cursor, p: results.page}))
+          .on("click", setCursor);
+      } else {
+        $('#paginate-next').addClass('disabled');
+      }
+
       $('.c-results-footer').removeClass('hidden');
     }
 

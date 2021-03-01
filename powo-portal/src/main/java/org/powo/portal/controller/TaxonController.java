@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/taxon")
-public class TaxonController extends GenericController<Taxon, TaxonService> {
+public class TaxonController {
 
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
@@ -41,19 +41,15 @@ public class TaxonController extends GenericController<Taxon, TaxonService> {
 	@Qualifier("currentSite")
 	Site site;
 
-	public TaxonController() {
-		super("taxon", Taxon.class);
-	}
-
 	@Autowired
-	public void setTaxonService(TaxonService taxonService) {
-		super.setService(taxonService);
-	}
+	TaxonService service;
 
 	@RequestMapping(path = {"/urn:lsid:ipni.org:names:{identifier}", "/{identifier}"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String show(@PathVariable String identifier, Model model) {
-		Taxon taxon = getService().load(IdUtil.fqName(identifier), "object-page");
+		Taxon taxon = service.load(IdUtil.fqName(identifier), "object-page");
 		site.populateTaxonModel(taxon, model);
+		model.addAttribute("title", site.taxonPageTitle(taxon));
+		model.addAttribute("favicon", site.favicon());
 		return "taxon";
 	}
 }

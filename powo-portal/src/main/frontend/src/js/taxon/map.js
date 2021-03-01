@@ -31,9 +31,9 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
     })
   });
 
-  function featureIds(distributions, establishment) {
+  function featureIds(distributions, layer) {
     return _.chain(distributions)
-      .filter({'establishment': establishment})
+      .filter({establishment: layer.establishment, tdwgLevel: layer.level})
       .map('featureId')
       .value()
       .join();
@@ -48,7 +48,7 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
   }
 
   function addLegend(overlays) {
-    var acceptable = ['Doubtful', 'Native', 'Extinct', 'Introduced'];
+    var acceptable = ['Doubtful', 'Native', 'Present', 'Extinct', 'Introduced'];
     var legend = '<div class="legend"><p>'
     _.forEach(acceptable, function(layer) {
       if(overlays[layer]) {
@@ -66,7 +66,7 @@ define(['jquery', 'libs/lodash', 'libs/openlayers'], function($, _, ol) {
       params: {
         LAYERS: 'tdwg:level' + layer.level,
         STYLES: 'tdwg_level' + layer.level + '_' + layer.establishment.toLowerCase(),
-        FEATUREID: featureIds(distributions, layer.establishment),
+        FEATUREID: featureIds(distributions, layer),
       }
     };
 

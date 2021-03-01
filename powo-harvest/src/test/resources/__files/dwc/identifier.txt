@@ -1,0 +1,4 @@
+urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5	2010-02-15T19:32:11Z	2010-02-15T19:32:11Z	http://media.e-taxonomy.eu/palmae/protologe/palm_tc_100446_P.pdf	Protolog	application/pdf	Howea Becc. Protolog
+urn:lsid:cate-araceae.org:taxon:5cd5a6aa-6bfb-1014-a918-dc439151c9e5	2010-02-15T19:32:11Z	2010-02-15T19:32:11Z	http://media.e-taxonomy.eu/palmae/protologe/palm_tc_100447_P.pdf	Protolog	application/pdf	Howea belmoreana (C.Moore & F.Muell.) Becc. Protolog
+urn:lsid:cate-araceae.org:taxon:5cd6a8b2-6bfb-1014-a918-dc439151c9e5	2010-02-15T19:32:11Z	2010-02-15T19:32:11Z	http://media.e-taxonomy.eu/palmae/protologe/palm_tc_100448_P.pdf	Protolog	application/pdf	Howea forsteriana (C.Moore & F.Muell.) Becc. Protolog
+urn:kew.org:wcs:taxon:101020	2010-02-15T19:32:11Z	2010-02-15T19:32:11Z	http://media.e-taxonomy.eu/palmae/protologe/palm_tc_101020_P.pdf	Protolog	application/pdf	Hydriastele affinis (Becc.) W.J.Baker & Loo Protolog

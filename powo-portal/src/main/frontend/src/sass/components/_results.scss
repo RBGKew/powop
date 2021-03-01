@@ -22,6 +22,10 @@
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     overflow: hidden;
+    .c-card {
+      border-left: 1px solid $kew-medium-grey;
+      border-bottom: 1px solid $kew-medium-grey;
+    }
   }
 
   .container--lines {
@@ -37,22 +41,6 @@
   .navbar-right {
     margin-right: 0;
   }
-}
-
-.grid--rows {
-  #list_view {
-    background-color: #e7e7e7 !important;
-  }
-}
-
-.grid--columns {
-  #grid_view {
-    background-color: #e7e7e7 !important;
-  }
-}
-
-.selected_background {
-  background-color: #e7e7e7;
 }
 
 .results-count {
@@ -109,34 +97,35 @@
 
 .filters {
   color: $navbar-default-color;
-  padding: 19px;
+  padding: 7px 20px;
   background-color: #fff;
   margin: 10px 0 0 0;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   border-bottom: 1px solid #ccc;
   @media(max-width: $screen-xs-max) { display: none; }
-
   li {
     list-style-type: none;
 
     @media(min-width: $screen-sm) {
-      float: left;
-      margin-top: -12px;
-      width: auto;
+      display: inline-block;
     }
 
     &:first-child {
       padding-right: 10px;
       @media(min-width: $screen-sm) and (max-width: $screen-sm-max) { display: none; }
     } 
+    a:hover {
+      color: #008285;
+      background: white;
+    }
   }
 
-  .Family { fill: #336699; }
-  .Genus { fill: #339999; }
-  .Species { fill: #669933; }
-  .Infraspecific { fill: #993399; }
-  .Synonym { fill: #c7c7c7; }
+  .Family { fill: #2F5989; }
+  .Genus { fill: #256060; }
+  .Species { fill: #3f6025; }
+  .Infraspecific { fill: #8D308D; }
+  .Synonym { fill: #595959; }
 
   a {
     color: $navbar-default-color;
@@ -152,8 +141,10 @@
     }
   }
 
-  .facet.selected {
-    background-color: rgba(0, 0, 0, 0.1);
+  .facet.selected, .facet.selected:hover, .facet.selected svg {
+    color: #008285;
+    fill: #008285;
+    background-color: white;
   }
 
   a:link {
@@ -175,4 +166,37 @@
 .chevron {
   width: 11px;
   height: 11px;
+}
+
+.grid--lines {
+  border-top: 1px solid #757575;
+  border-right: 1px solid #757575;
+}
+
+.grid--columns, .grid--rows {
+  color: #008285;
+}
+.layout-toggle .btn-default:hover, .layout-toggle .btn-default:active, .layout-toggle .btn-default:focus {
+  color: #008285;
+  background-color: transparent;
+  border-color: transparent;
+}
+/* Important is used here because important is used within the bootstrap, so need to be 
+override */
+
+.sort-menu {
+  &.open {
+    background-color: #008285!important;
+    background-color: white!important;
+    .dropdown-toggle {
+      color: #008285!important;
+      background-color: white!important;
+    }
+  }
+  a {
+    &:hover {
+      background-color: #fff!important;
+      color: #008285!important;
+    }   
+  }
 }

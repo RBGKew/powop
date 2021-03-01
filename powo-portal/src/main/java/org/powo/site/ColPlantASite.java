@@ -2,10 +2,15 @@ package org.powo.site;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
+import org.powo.api.SearchableObjectService;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.portal.view.components.Link;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -25,6 +30,7 @@ public class ColPlantASite extends PowoSite {
 	public void populateIndexModel(Model model) {
 		model.addAttribute("siteClass", "s-colplanta");
 		model.addAttribute("intro", "partials/intro/colplanta");
+		model.addAttribute("names", format(taxaCount(), 100));
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 	}
@@ -38,16 +44,43 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("ColPlantA");
+		return new SourceFilter("CatalogodePlantasyLiquenesdeColombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "ColPlantA";
+		return "CatalogodePlantasyLiquenesdeColombia";
 	}
 
 	@Override
 	public List<String> getSuggesters() {
 		return suggesters;
+	}
+
+	@Override
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "colplanta");
+	}
+
+	@Override
+	public String indexPageTitle() {
+		return "Colombian Plants made Accessible";
+	}
+
+	@Override
+	public String taxonPageTitle(Taxon taxon) {
+		return String.format("%s %s | Colombian Plants made Accessible", taxon.getScientificName(),
+				taxon.getScientificNameAuthorship());
+	}
+	
+	@Override
+	public String favicon() {
+		return null;
+	}
+
+	@Override
+	public Optional<Link> crossSiteLink() {
+		Link link = new Link("http://colfungi.org", "Looking for Colombian fungi?");
+		return Optional.of(link);
 	}
 }

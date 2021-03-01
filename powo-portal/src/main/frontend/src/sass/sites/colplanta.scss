@@ -8,18 +8,31 @@
 
   &.s-page--home,
   &.s-page--error {
-    #colplanta-logo-svg {
-      width: 200px;
-      height: 60px;
-      fill: #232323;
-    }
-
-    .site-logo {
-      fill: #232323;
+    &.s-search__fullpage {
+      .site-logo {
+        fill: #fff;
+      }
     }
     
     #kew-logo-svg {
       fill: #000; 
+    }
+
+     /* logo alignment */
+    .site-logo {
+      height: 50px;
+      width: 300px;
+      fill: #232323;
+
+      svg {
+        height: 55px;
+      }
+    }
+
+    &.s-search__fullpage {
+      .site-logo {
+        height: 70px;
+      }
     }
   }
 }

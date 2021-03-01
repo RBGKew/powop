@@ -1,0 +1,37 @@
+.s-colfungi {
+
+  .featured { display: none; }
+
+  #kew-logo-svg {
+    path {
+      fill: #fff;
+    } 
+  }
+
+  .site-logo {
+    fill: #fff;
+  }
+
+  &.s-page {
+    background-image: url('/img/raster/ColFungi.jpg') !important;
+  }
+
+  &.s-page--home,
+  &.s-page--error {
+    /* logo alignment */
+    .site-logo {
+      height: 50px;
+      width: 300px;
+
+      svg {
+        height: 55px;
+      }
+    }
+
+    &.s-search__fullpage {
+      .site-logo {
+        height: 70px;
+      }
+    }
+  }
+}

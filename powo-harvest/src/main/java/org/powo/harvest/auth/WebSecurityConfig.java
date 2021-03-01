@@ -3,10 +3,10 @@ package org.powo.harvest.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,8 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private RestAuthenticationEntryPoint entryPoint;
 
-	@Autowired
-	private RestSavedRequestAwareAuthenticationSuccessHandler successHandler;
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -39,20 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.exceptionHandling()
 		.authenticationEntryPoint(entryPoint)
 		.and().authorizeRequests()
-		.antMatchers("/api/1/**").authenticated()
-		.and().formLogin()
-		.successHandler(successHandler)
-		.failureHandler(new SimpleUrlAuthenticationFailureHandler())
+		.antMatchers(HttpMethod.POST, "/api/1/**").authenticated()
+		.antMatchers(HttpMethod.DELETE, "/api/1/**").authenticated()
+		.and().httpBasic()
 		.and().logout();
 	}
-
-	@Bean
-	public RestSavedRequestAwareAuthenticationSuccessHandler apiSuccessHandler() {
-		return new RestSavedRequestAwareAuthenticationSuccessHandler();
-	}
-
-	@Bean
-	public SimpleUrlAuthenticationFailureHandler apiFailuerHandler() {
-		return new SimpleUrlAuthenticationFailureHandler();
-	}
+	
 }

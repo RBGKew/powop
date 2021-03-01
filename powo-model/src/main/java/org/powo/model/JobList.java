@@ -21,34 +21,42 @@ import org.powo.model.constants.SchedulingPeriod;
 import org.powo.model.marshall.json.DateTimeDeserializer;
 import org.powo.model.marshall.json.DateTimeSerializer;
 import org.powo.model.marshall.json.JobConfigurationsDeserializer;
-import org.powo.model.marshall.json.JobConfigurationsSerializer;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder(alphabetic=true)
 @Slf4j
-public class JobList {
+public class JobList extends Base {
+
+	private static final long serialVersionUID = 7081744961069520535L;
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	private String identifier;
 
 	@NotBlank
 	private String description;
@@ -81,12 +89,11 @@ public class JobList {
 	@Fetch(FetchMode.SELECT)
 	@OrderColumn
 	@JsonDeserialize(using = JobConfigurationsDeserializer.class)
-	@JsonSerialize(using = JobConfigurationsSerializer.class)
 	private List<JobConfiguration> jobConfigurations;
 
+	@JsonProperty(access = Access.READ_ONLY)
 	public boolean hasNextJob() {
 		log.debug("currentJob: {}, num jobConfigurations: {}", currentJob, getJobConfigurations().size());
-		log.debug("jobConfigurations: {}", getJobConfigurations());
 		return currentJob < (getJobConfigurations().size() - 1);
 	}
 
@@ -108,7 +115,7 @@ public class JobList {
 	public void scheduleNextJob() {
 		log.debug("Setting currentJob from {} to {}", currentJob, currentJob + 1);
 		currentJob += 1;
-		setStatus(JobListStatus.Completed);
+		setStatus(JobListStatus.Scheduled);
 	}
 
 	public void updateNextAvailableDate() {

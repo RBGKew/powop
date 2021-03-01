@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.Ignore;
 import org.powo.model.constants.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +62,7 @@ public class LocationTest {
 	}
 
 	@Test
+	@Ignore("Re-enabling tests")
 	public final void testGetEnvelopeForSolr() throws Exception {
 		String paraguayWKT = "POLYGON ((-62.64372600000005 -27.588293504882838, -54.24392600000006 -27.588293504882838, -54.24392600000006 -19.296693504882825, -62.64372600000005 -19.296693504882825, -62.64372600000005 -27.588293504882838))";
 		Polygon paraguay = (Polygon)(new WKTReader().read(paraguayWKT));

@@ -16,7 +16,7 @@
 }
 
 /*
- * Form - Inline form, results page.
+ * Form - Inline form, home and results page.
  */
 .form-inline--search {
   margin: 0;
@@ -27,57 +27,30 @@
   input {
     width: 100%;
   }
+
+  /*
+  * Links below the search box.
+  */
+  &.form-links {
+   display: flex;
+   justify-content: flex-end;
+
+   .form-link {
+     border-bottom: 2px solid white;
+     padding-bottom: 1px;
+     text-decoration: none !important; /* override default interaction states */
+
+     &:focus,&:hover {
+       border-bottom-width: 3px;
+       padding-bottom: 0;
+     }
+   }
+
+   .divider {
+     margin: 0 0.75rem;
+   }
+ }
 }
-
-#uses {
-
-  .form-group {
-    padding-left: 15px;
-  }
-
-  form {
-    padding-top: 15px;
-  }
-
-  label {
-    font-weight: normal;
-    cursor: pointer;
-    cursor: hand;
-  }
-
-  input[type="checkbox"] {
-    cursor: pointer;
-    cursor: hand;
-    margin-right: 10px;
-  }
-
-  .checkbox-group {
-    width: 200px;
-    float: left;
-  }
-}
-
-/*
- * Form - Inline form, homepage.
- */
-.form-inline--home {
-
-  .form-group {
-    margin: 0;
-    select,
-    input {
-      width: 100%;
-      border-radius: $home-radius;
-    }
-  }
-
-  .form-inline__input {
-    width: 100%;
-    position: relative;
-  }
-
-}
-
 
 /*
  * Form - Inline form, advanced modal.
@@ -138,5 +111,4 @@
       width: 25%;
     }
   }
-
 }

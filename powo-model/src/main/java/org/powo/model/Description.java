@@ -21,8 +21,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -43,17 +41,10 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
+import org.hibernate.annotations.SortNatural;
 import org.hibernate.annotations.Where;
 import org.powo.model.constants.DescriptionType;
-import org.powo.model.marshall.json.ReferenceDeserializer;
-import org.powo.model.marshall.json.ReferenceSerializer;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @see http://rs.gbif.org/extension/gbif/1.0/description.xml
@@ -65,8 +56,10 @@ public class Description extends OwnedEntity {
 
 	private String description;
 
+	@JsonIgnore
 	private Taxon taxon;
 
+	@JsonIgnore
 	private SortedSet<DescriptionType> types;
 
 	private String creator;
@@ -79,10 +72,13 @@ public class Description extends OwnedEntity {
 
 	private String source;
 
+	@JsonIgnore
 	private Long id;
 
+	@JsonIgnore
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
+	@JsonIgnore
 	private Set<Reference> references = new HashSet<Reference>();
 
 	/**
@@ -109,7 +105,6 @@ public class Description extends OwnedEntity {
 	 * @param newTaxon
 	 *            Set the taxon that this content is about.
 	 */
-	@JsonBackReference("descriptions-taxon")
 	public void setTaxon(Taxon newTaxon) {
 		this.taxon = newTaxon;
 	}
@@ -121,7 +116,7 @@ public class Description extends OwnedEntity {
 	@ElementCollection
 	@Column(name = "type")
 	@Enumerated(EnumType.STRING)
-	@Sort(type = SortType.NATURAL)
+	@SortNatural
 	public SortedSet<DescriptionType> getTypes() {
 		return types;
 	}
@@ -133,6 +128,7 @@ public class Description extends OwnedEntity {
 	 * @return The first description type associated with this description
 	 */
 	@Transient
+	@JsonIgnore
 	public DescriptionType getType() {
 		if(types != null && !types.isEmpty()) {
 			return types.first();
@@ -171,7 +167,6 @@ public class Description extends OwnedEntity {
 	 * @return Get the taxon that this content is about.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonBackReference("descriptions-taxon")
 	public Taxon getTaxon() {
 		return taxon;
 	}
@@ -237,7 +232,6 @@ public class Description extends OwnedEntity {
 	@JoinColumn(name = "annotatedObjId")
 	@Where(clause = "annotatedObjType = 'Description'")
 	@Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE })
-	@JsonIgnore
 	public Set<Annotation> getAnnotations() {
 		return annotations;
 	}
@@ -256,7 +250,6 @@ public class Description extends OwnedEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinTable(name = "Description_Reference", joinColumns = { @JoinColumn(name = "Description_id") }, inverseJoinColumns = { @JoinColumn(name = "references_id") })
-	@JsonSerialize(contentUsing = ReferenceSerializer.class)
 	public Set<Reference> getReferences() {
 		return references;
 	}
@@ -264,7 +257,6 @@ public class Description extends OwnedEntity {
 	/**
 	 * @param newReferences the references to set
 	 */
-	@JsonDeserialize(contentUsing = ReferenceDeserializer.class)
 	public void setReferences(Set<Reference> newReferences) {
 		this.references = newReferences;
 	}

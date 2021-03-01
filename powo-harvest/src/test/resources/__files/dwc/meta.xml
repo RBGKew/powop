@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<archive xmlns="http://rs.tdwg.org/dwc/text/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://rs.tdwg.org/dwc/text/   http://rs.tdwg.org/dwc/text/tdwg_dwc_text.xsd"
+	metadata="eml.xml">
+
+	<core encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/dwc/terms/Taxon">
+		<files>
+			<location>taxa.txt</location>
+		</files>
+		<id index="0" />
+		<field index="0" term="http://rs.tdwg.org/dwc/terms/taxonID" />
+		<field index="1" term="http://rs.tdwg.org/dwc/terms/scientificName" />
+		<field index="2" term="http://rs.tdwg.org/dwc/terms/scientificNameID" />
+		<field index="3" term="http://rs.tdwg.org/dwc/terms/scientificNameAuthorship" />
+		<field index="4" term="http://rs.tdwg.org/dwc/terms/taxonRank" />
+		<field index="5" term="http://rs.tdwg.org/dwc/terms/taxonomicStatus" />
+		<field index="6" term="http://rs.tdwg.org/dwc/terms/parentNameUsageID" />
+		<field index="7" term="http://rs.tdwg.org/dwc/terms/acceptedNameUsageID" />
+		<field index="8" term="http://rs.tdwg.org/dwc/terms/genus" />
+		<field index="9" term="http://rs.tdwg.org/dwc/terms/subgenus" />
+		<field index="10" term="http://rs.tdwg.org/dwc/terms/specificEpithet" />
+		<field index="11" term="http://rs.tdwg.org/dwc/terms/infraspecificEpithet" />
+		<field index="12" term="http://purl.org/dc/elements/1.1/identifier" />
+		<field index="13" term="http://purl.org/dc/elements/1.1/modified" />
+		<field index="14" term="http://purl.org/dc/elements/1.1/source" />
+		<field default="CATE Araceae" term="http://rs.tdwg.org/dwc/terms/nameAccordingTo" />
+		<field default="Plantae" term="http://rs.tdwg.org/dwc/terms/kingdom" />
+		<field default="Magnoliophyta" term="http://rs.tdwg.org/dwc/terms/phylum" />
+		<field default="Liliopsida" term="http://rs.tdwg.org/dwc/terms/class" />
+		<field default="Alismatales" term="http://rs.tdwg.org/dwc/terms/order" />
+		<field default="Araceae" term="http://rs.tdwg.org/dwc/terms/family" />
+		<field default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode" />
+		<field default="Taxon" term="http://rs.tdwg.org/dwc/terms/type" />
+	</core>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Distribution">
+		<files>
+			<location>distribution.txt</location>
+		</files>
+		<coreId index="0" />
+		<field index="1" term="http://purl.org/dc/terms/created" />
+		<field index="2" term="http://purl.org/dc/terms/modified" />
+		<field index="3" term="http://rs.tdwg.org/dwc/terms/occurrenceStatus" default="present" />
+		<field index="4" term="http://rs.tdwg.org/dwc/terms/locationID" />
+		<field index="5" term="http://purl.org/dc/terms/identifier" />
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Description">
+		<files>
+			<location>description.txt</location>
+		</files>
+		<coreId index="0" />
+		<field index="1" term="http://purl.org/dc/terms/created" />
+		<field index="2" term="http://purl.org/dc/terms/modified" />
+		<field index="3" term="http://purl.org/dc/terms/description" />
+		<field index="4" term="http://purl.org/dc/terms/type" default="publication" />
+		<field index="5" term="http://purl.org/dc/terms/references" />
+		<field index="6" term="http://purl.org/dc/terms/identifier" />
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/ac/terms/Multimedia">
+		<files>
+			<location>images.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/identifier" />
+		<field index="2" term="http://purl.org/dc/terms/title" />
+		<field index="3" term="http://purl.org/dc/terms/creator" />
+		<field index="4" term="http://purl.org/dc/terms/modified" />
+		<field index="5" term="http://purl.org/dc/terms/created" />
+		<field index="6" term="http://purl.org/dc/terms/format" default="jpg" />
+		<field default="Artwork may be subject to copyright agreements between the artist and original publisher and may not be re-used without consent" term="http://purl.org/dc/terms/rights" />
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Reference">
+		<files>
+			<location>reference.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/modified" />
+		<field index="2" term="http://purl.org/dc/terms/created" />
+		<field index="3" term="http://purl.org/dc/terms/identifier" />
+		<field index="4" term="http://purl.org/dc/terms/bibliographicCitation" />
+		<field index="5" term="http://purl.org/dc/terms/type" />
+		<field index="6" term="http://purl.org/dc/terms/title" />
+		<field index="7" term="http://purl.org/dc/terms/description" />
+		<field index="8" term="http://purl.org/dc/terms/date" />
+		<field index="9" term="http://purl.org/dc/terms/creator" />
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Identifier">
+		<files>
+			<location>identifier.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/modified" />
+		<field index="2" term="http://purl.org/dc/terms/created" />
+		<field index="3" term="http://purl.org/dc/terms/identifier" />
+		<field index="4" term="http://purl.org/dc/terms/subject" />
+		<field index="5" term="http://purl.org/dc/terms/format" />
+		<field index="6" term="http://purl.org/dc/terms/title" />
+	</extension>
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\r\n" ignoreHeaderLines="0" rowType="http://rs.gbif.org/terms/1.0/Multimedia">
+		<files>
+			<location>multimedia.txt</location>
+		</files>
+		<coreid index="0" />
+		<field index="1" term="http://purl.org/dc/terms/identifier" />
+		<field index="2" term="http://purl.org/dc/terms/title" />
+		<field index="3" term="http://purl.org/dc/terms/creator" />
+		<field index="4" term="http://purl.org/dc/terms/modified" />
+		<field index="5" term="http://purl.org/dc/terms/created" />
+		<field index="6" term="http://purl.org/dc/terms/format" />
+		<field index="7" term="http://purl.org/dc/terms/type" />
+		<field index="8" term="http://purl.org/dc/terms/description" />
+	</extension>
+</archive>

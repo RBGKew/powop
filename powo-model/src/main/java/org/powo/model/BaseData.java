@@ -29,13 +29,12 @@ import org.hibernate.validator.constraints.URL;
 import org.joda.time.DateTime;
 import org.powo.model.marshall.json.DateTimeDeserializer;
 import org.powo.model.marshall.json.DateTimeSerializer;
-import org.powo.model.marshall.json.OrganisationDeserialiser;
-import org.powo.model.marshall.json.OrganisationSerializer;
-import org.powo.model.marshall.json.ResourceDeserializer;
-import org.powo.model.marshall.json.ResourceSerializer;
 import org.powo.model.registry.Organisation;
 import org.powo.model.registry.Resource;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -45,26 +44,34 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  */
 @MappedSuperclass
+@JsonInclude(Include.NON_EMPTY)
 public abstract class BaseData extends Base implements Annotated {
 
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	private String license;
 
 	private DateTime created;
 
 	private DateTime modified;
 
+	@JsonIgnore
 	private String rights;
 
+	@JsonIgnore
 	private String rightsHolder;
 
+	@JsonIgnore
 	private String accessRights;
 
+	@JsonIgnore
 	private Organisation authority;
 
+	@JsonIgnore
 	private String uri;
 
+	@JsonIgnore
 	private Resource resource;
 
 	/**
@@ -90,7 +97,6 @@ public abstract class BaseData extends Base implements Annotated {
 	 * @return the primary authority
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonSerialize(using = OrganisationSerializer.class)
 	public Organisation getAuthority() {
 		return authority;
 	}
@@ -99,7 +105,6 @@ public abstract class BaseData extends Base implements Annotated {
 	 *
 	 * @param authority Set the authority
 	 */
-	@JsonDeserialize(using = OrganisationDeserialiser.class)
 	public void setAuthority(Organisation authority) {
 		this.authority = authority;
 	}
@@ -214,12 +219,10 @@ public abstract class BaseData extends Base implements Annotated {
 		this.uri = uri;
 	}
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonSerialize(using = ResourceSerializer.class)
 	public Resource getResource(){
 		return resource;
 	}
 
-	@JsonDeserialize(using = ResourceDeserializer.class)
 	public void setResource(Resource resource){
 		this.resource = resource;
 	}

@@ -55,6 +55,8 @@
 
   <bean id="stepStatusListener" class="org.powo.harvest.common.StepStatusListener"/>
 
+  <bean id="chunkPerformanceLoggingListener" class="org.powo.harvest.common.ChunkPerformanceLoggingListener"/>
+
   <bean id="compositeJobListener" class="org.powo.harvest.common.CompositeJobStatusListener">
     <property name="jobListeners">
       <list>

@@ -1,22 +1,18 @@
 package org.powo.portal.view;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import org.powo.model.BaseData;
-import org.powo.model.Description;
-import org.powo.model.Distribution;
-import org.powo.model.Identifier;
-import org.powo.model.Image;
-import org.powo.model.MeasurementOrFact;
 import org.powo.model.Taxon;
-import org.powo.model.TypeAndSpecimen;
-import org.powo.model.VernacularName;
 import org.powo.model.registry.Organisation;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Streams;
 
 public class Sources {
 
@@ -42,6 +38,10 @@ public class Sources {
 
 		public int hashCode() {
 			return Objects.hash(license, rights);
+		}
+
+		public boolean isNotBlank() {
+			return !(isNullOrEmpty(license) && isNullOrEmpty(rights));
 		}
 	}
 
@@ -83,38 +83,21 @@ public class Sources {
 
 	public Sources(Taxon taxon) {
 		addSource(taxon);
-		for (Distribution distribution : taxon.getDistribution()) {
-			addSource(distribution);
-		}
-		for (Taxon childNameUsages : taxon.getChildNameUsages()) {
-			addSource(childNameUsages);
-		}
-		for (Taxon synonymNameUsages : taxon.getSynonymNameUsages()) {
-			addSource(synonymNameUsages);
-		}
-		for(Identifier identifier : taxon.getIdentifiers()) {
-			addSource(identifier);
-		}
-		for (TypeAndSpecimen typesAndSpecimens : taxon.getTypesAndSpecimens()) {
-			addSource(typesAndSpecimens);
-		}
-		for (VernacularName vernacularName : taxon.getVernacularNames()) {
-			addSource(vernacularName);
-		}
-		for (Taxon higherClassification : taxon.getHigherClassification()) {
-			addSource(higherClassification);
-		}
-		for (MeasurementOrFact measurementOrFact : taxon.getMeasurementsOrFacts()) {
-			addSource(measurementOrFact);
-		}
+		Streams.concat(
+				taxon.getDistribution().stream(),
+				taxon.getChildNameUsages().stream(),
+				taxon.getSynonymNameUsages().stream(),
+				taxon.getIdentifiers().stream(),
+				taxon.getTypesAndSpecimens().stream(),
+				taxon.getHigherClassification().stream(),
+				taxon.getMeasurementsOrFacts().stream())
+		.forEach(bd -> addSource(bd));
 
-		// images and descriptions are not shown on synonym pages
+		// some data is pulled from synonyms onto accepted pages
 		if(taxon.looksAccepted()) {
-			for (Image images : taxon.getImages()) {
-				addSource(images);
-			}
-			for (Description description : taxon.getDescriptions()) {
-				addSource(description);
+			handleSources(taxon);
+			for (Taxon synonym : taxon.getSynonymNameUsages()) {
+				handleSources(synonym);
 			}
 		}
 
@@ -124,6 +107,15 @@ public class Sources {
 				license.key = new String(Character.toChars(65 + i++));
 			}
 		}
+	}
+
+	private void handleSources(Taxon taxon) {
+		Streams.concat(
+				taxon.getImages().stream(),
+				taxon.getDescriptions().stream(),
+				taxon.getIdentifications().stream(),
+				taxon.getVernacularNames().stream())
+		.forEach(bd -> addSource(bd));
 	}
 
 	private void addSource(BaseData data) {

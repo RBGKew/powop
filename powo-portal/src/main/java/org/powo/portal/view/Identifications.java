@@ -2,11 +2,19 @@ package org.powo.portal.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.powo.model.Taxon;
+import org.powo.model.registry.Organisation;
+import org.powo.portal.view.helpers.NameHelper;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.joda.time.format.DateTimeFormat;
 
+@Slf4j
 public class Identifications {
 
 	class Identification {
@@ -16,40 +24,64 @@ public class Identifications {
 		public String thumbnail;
 		public String typeStatus;
 		public String url;
+		public String identifiedAs;
 	}
 
 	List<Identification> identifications;
+	Set<Organisation> sources;
 
 	private Taxon taxon;
+	private NameHelper helper;
 
-	public Identifications(Taxon taxon)  {
+	public Identifications(Taxon taxon) {
 		this.taxon = taxon;
+		this.helper = new NameHelper();
+		this.identifications = new ArrayList<>();
+		if (taxon.looksAccepted()) {
+			populateIdentifications(taxon.getIdentifications());
+			for (Taxon synonym : taxon.getSynonymNameUsages()) {
+				populateIdentifications(synonym.getIdentifications());
+			}
+		}
 	}
 
 	public Collection<Identification> getIdentifications() {
-		if(identifications == null) {
-			this.identifications = new ArrayList<>();
-			for(org.powo.model.Identification identification : taxon.getIdentifications()) {
-				Identification id = new Identification();
-				id.url = identification.getIdentifiedBy();
-				id.notes = identification.getIdentificationReferences();
-				id.thumbnail = identification.getIdentificationRemarks();
-				id.typeStatus = identification.getTypeStatus();
-
-				if(identification.getDateIdentified() != null) {
-					id.date = identification.getDateIdentified().toString(DateTimeFormat.mediumDate());
-				}
-				if(id.url != null && id.url.lastIndexOf('/') != -1) {
-					id.barcode = id.url.substring(id.url.lastIndexOf('/') + 1);
-				}
-
-				identifications.add(id);
-			}
-		}
 		return identifications;
 	}
-	
+
 	public int getCount() {
-		return taxon.getIdentifications().size();
+		return identifications.size();
+	}
+
+	public Set<Organisation> getSources() {
+		if (sources == null) {
+			sources = new HashSet<>();
+		}
+		return sources;
+	}
+
+	private void populateIdentifications(Collection<org.powo.model.Identification> idents) {
+		for (org.powo.model.Identification identification : idents) {
+			Identification id = new Identification();
+			id.url = identification.getIdentifiedBy();
+			id.notes = identification.getIdentificationReferences();
+			id.thumbnail = identification.getIdentificationRemarks();
+			id.typeStatus = identification.getTypeStatus();
+
+			if (identification.getDateIdentified() != null) {
+				id.date = identification.getDateIdentified().toString(DateTimeFormat.mediumDate());
+			}
+
+			if (id.url != null && id.url.lastIndexOf('/') != -1) {
+				id.barcode = id.url.substring(id.url.lastIndexOf('/') + 1);
+			}
+
+			if (!taxon.equals(identification.getTaxon())) {
+				id.identifiedAs = helper.taxonLinkWithoutAuthor(identification.getTaxon(), null).toString();
+			}
+
+			log.debug("Adding {} from {}", id.barcode, identification.getTaxon().getIdentifier());
+			identifications.add(id);
+		}
 	}
 }

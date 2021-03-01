@@ -34,53 +34,19 @@
 		<property name="order" value="1"/>
 	</bean>
 
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="webBindingInitializer">
-			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-				<property name="conversionService" ref="conversionService" />
-				<property name="validator" ref="validator" />
-			</bean>
-		</property>
-		<property name="messageConverters">
-			<list>
-				<ref bean="jsonConverter" />
-				<ref bean="stringConverter" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json,application/javascript" />
-		<property name="objectMapper" ref="customObjectMapper" />
-	</bean>
-
-	<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-		<property name="supportedMediaTypes" value="text/plain,application/xml" />
-		<property name="writeAcceptCharset" value="false"/>
-	</bean>
-
-	<mvc:view-controller path="/contribute" view-name="contribute"/>
-	<mvc:view-controller path="/tour" view-name="tour"/>
-	<mvc:view-controller path="/termsOfUse" view-name="termsOfUse"/>
-
-	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<property name="converters">
-			<set>
-				<bean class="org.powo.model.convert.StringToPermissionConverter" />
-				<bean class="org.powo.model.convert.PermissionToStringConverter" />
-				<bean class="org.powo.model.convert.StringToIsoDateTimeConverter" />
-				<bean class="org.powo.model.convert.IsoDateTimeToStringConverter" />
-				<bean class="org.powo.model.convert.StringToDurationConverter" />
-				<bean class="org.powo.model.convert.DurationToStringConverter" />
-				<bean class="org.powo.model.convert.StringToClassConverter" />
-				<bean class="org.powo.model.convert.ClassToStringConverter" />
-				<bean class="org.powo.model.convert.OrganisationToStringConverter" />
-				<bean class="org.powo.model.convert.StringToOrganisationConverter" />
-			</set>
+	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+		<property name="favorParameter" value="true" />
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="application/json" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+			</map>
 		</property>
 	</bean>
-
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<bean class="com.github.jknack.handlebars.springmvc.HandlebarsViewResolver" id="handlebarsViewResolver">
 		<property name="order" value="1" />
@@ -104,6 +70,7 @@
 				<bean class="org.powo.portal.view.helpers.TextHelper" />
 			</list>
 		</property>
+		<property name="bindI18nToMessageSource" value="true"/>
 	</bean>
 
 	<mvc:interceptors>
@@ -113,9 +80,4 @@
 			<bean class="org.powo.portal.RequestLoggingInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	<beans profile="local.tests">
-		<mvc:resources mapping="/css/**" location="classpath:/static/css/"/>
-		<mvc:resources mapping="/js/**" location="classpath:/static/js/"/>
-	</beans>
 </beans>

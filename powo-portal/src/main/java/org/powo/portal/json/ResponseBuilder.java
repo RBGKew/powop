@@ -21,8 +21,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.math.IntMath;
 
 import org.powo.model.solr.SolrFieldNameMappings;
-import org.powo.portal.json.MainSearchBuilder;
-import org.powo.portal.json.SearchResultBuilder;
+import org.powo.portal.json.SearchResponse;
+import org.powo.portal.json.SearchResponse.SearchResponseBuilder;
+import org.powo.portal.json.SearchResult;
+import org.powo.portal.json.SearchResult.SearchResultBuilder;
 
 @Component
 public class ResponseBuilder {
@@ -30,48 +32,52 @@ public class ResponseBuilder {
 	private static Logger logger = LoggerFactory.getLogger(ResponseBuilder.class);
 
 	private static final BiMap<String, String> fieldNames = SolrFieldNameMappings.map.inverse();
+	private SearchResponseBuilder response = SearchResponse.builder();
+	private Map<String, Map<String, List<String>>> highlights = new HashMap<>();
 
-	private MainSearchBuilder jsonBuilder = new MainSearchBuilder();
-
-	Map<String, Map<String, List<String>>> highlights = new HashMap<String, Map<String, List<String>>>();
-
-	@SuppressWarnings("unchecked")
-	public MainSearchBuilder buildJsonResponse(QueryResponse queryResponse) {
-		jsonBuilder.totalResults((int)queryResponse.getResults().getNumFound());
+	public SearchResponse buildJsonResponse(QueryResponse queryResponse) {
 		highlights = queryResponse.getHighlighting();
 		if(queryResponse.getResults() != null && !queryResponse.getResults().isEmpty()) {
 			for(SolrDocument document : queryResponse.getResults()) {
 				addResult(document);
 			}
 		}
-		SimpleOrderedMap<String> params = (SimpleOrderedMap<String>) queryResponse.getResponseHeader().get("params");
-		setParams(params);
-		return jsonBuilder;
+		setPageInfo(queryResponse);
+
+		return response.build();
 	}
 
-	private void setParams(SimpleOrderedMap<String> params) {
-		Integer start = Integer.parseInt(params.get("start"));
+	private void setPageInfo(QueryResponse queryResponse) {
+		@SuppressWarnings("unchecked")
+		SimpleOrderedMap<String> params = (SimpleOrderedMap<String>) queryResponse.getResponseHeader().get("params");
 		Integer rows = Integer.parseInt(params.get("rows"));
-		jsonBuilder.perPage(rows);
-		jsonBuilder.page(IntMath.divide(start, rows, RoundingMode.CEILING));
-		jsonBuilder.totalPages(IntMath.divide(jsonBuilder.getTotalResults(), rows, RoundingMode.CEILING));
+		int totalResults = (int)queryResponse.getResults().getNumFound();
+
+		response.perPage(rows);
+		response.totalPages(IntMath.divide(totalResults, rows, RoundingMode.CEILING));
+		response.totalResults(totalResults);
+		response.cursor(queryResponse.getNextCursorMark());
 	}
 
 	private void addResult(SolrDocument document) {
-		SearchResultBuilder result = new SearchResultBuilder()
+		SearchResultBuilder result = SearchResult.builder()
+				.fqId(getStr(document, "taxon.identifier_s"))
 				.url("/taxon/" + getStr(document, "taxon.identifier_s"))
 				.name(getStr(document, "taxon.scientific_name_s_lower"))
+				.family(getStr(document, "taxon.family_s_lower"))
 				.accepted(getBool(document, "taxon.looks_accepted_b"))
 				.author(getFirst(document, "taxon.scientific_name_authorship_t"))
 				.kingdom(getStr(document, "taxon.kingdom_s_lower"));
 
 		if(!getBool(document, "taxon.is_accepted_b") && document.containsKey("taxon.accepted.identifier_s")) {
-			SearchResultBuilder synonym = new SearchResultBuilder()
+			SearchResult synonym = SearchResult.builder()
+					.fqId(getStr(document, "taxon.identifier_s"))
 					.url("/taxon/" + document.get("taxon.accepted.identifier_s"))
 					.name(getStr(document, "taxon.accepted.scientific_name_s_lower"))
 					.accepted(true)
 					.author(getFirst(document, "taxon.accepted.scientific_name_authorship_t"))
-					.kingdom(getStr(document, "taxon.accepted.kingdom_s_lower"));
+					.kingdom(getStr(document, "taxon.accepted.kingdom_s_lower"))
+					.build();
 			result.synonymOf(synonym);
 		}
 
@@ -93,7 +99,7 @@ public class ResponseBuilder {
 
 		addSnippets(result, document);
 
-		jsonBuilder.addResult(result);
+		response.result(result.build());
 	}
 
 	private static final ImmutableSet<String> blacklist = ImmutableSet.<String>of(

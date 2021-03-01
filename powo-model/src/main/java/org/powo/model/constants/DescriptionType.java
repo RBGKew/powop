@@ -17,7 +17,9 @@
 package org.powo.model.constants;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -25,6 +27,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @see http://rs.gbif.org/vocabulary/gbif/description_type.xml
@@ -279,6 +284,7 @@ public enum DescriptionType {
 	useEnvironmentalUse("use:environmentalUse"),
 	useEnvironmentalUseAgroforestry("use:environmentalUse:agroforestry"),
 	useEnvironmentalUseBoundaryBarrierSupportPlants("use:environmentalUse:boundaryBarrierSupportPlants"),
+	useEnvironmentalUseBioindicator("use:environmentalUse:bioindicator"),
 	useEnvironmentalUseCompanionPlants("use:environmentalUse:companionPlants"),
 	useEnvironmentalUseErosionControl("use:environmentalUse:erosionControl"),
 	useEnvironmentalUseFirebreaks("use:environmentalUse:firebreaks"),
@@ -291,10 +297,14 @@ public enum DescriptionType {
 	useEnvironmentalUseSoilImprovers("use:environmentalUse:soilImprovers"),
 	useEnvironmentalUseUnspecifiedEnvironmentalUses("use:environmentalUse:unspecifiedEnvironmentalUses"),
 	useFood("use:food"),
+	// Simplified TDWG Category: Food > Preparations Used In > Beverages
+	useFoodBeverages("use:food:beverages"),
 	useFoodCereals("use:food:cereals"),
 	useFoodFoodAdditives("use:food:foodAdditives"),
 	useFoodFruitsDessertFruits("use:food:fruitsDessertFruits"),
 	useFoodGumsMucilagesResins("use:food:gumsMucilagesResins"),
+	// New TDWG Category for Fungi: Food > Mushrooms
+	useFoodMushrooms("use:food:mushrooms"),
 	useFoodNuts("use:food:nuts"),
 	useFoodOilsFats("use:food:oilsFats"),
 	useFoodOtherFoodType("use:food:otherFoodType"),
@@ -313,6 +323,7 @@ public enum DescriptionType {
 	useFuelPetroleumSubstitutesAlcoholsEtc("use:fuel:petroleumSubstitutesAlcoholsEtc"),
 	useFuelTinder("use:fuel:tinder"),
 	useFuelUnspecifiedFuelType("use:fuel:unspecifiedFuelType"),
+	useGeneSources("use:geneSources"),
 	useMaterials("use:materials"),
 	useMaterialsAlcohols("use:materials:alcohols"),
 	useMaterialsCaneRattanBambooReedWickerEtc("use:materials:caneRattanBambooReedWickerEtc"),
@@ -422,6 +433,8 @@ public enum DescriptionType {
 	statusFertile("status:fertile"),
 	statusSterile("status:sterile"),
 	sex("sex");
+
+	private static final Logger logger = LoggerFactory.getLogger(DescriptionType.class);
 
 	public static final DescriptionType generalDescriptionType = habit;
 
@@ -659,6 +672,28 @@ public enum DescriptionType {
 		return getAll(type).contains(this);
 	}
 
+	/**
+	 * Return a the full description hierarchy as a list.
+	 * 
+	 * E.G. "use:food:mushrooms" => ["use", "use:food", "use:food:mushrooms"]
+	 */
+	public List<DescriptionType> getTypeHierarchy() {
+		var hierarchy = new ArrayList<DescriptionType>();
+		var parts = term.split(":");
+		var currentTerm = "";
+		for (var part : parts) {
+			currentTerm += part;
+			try {
+				var type = lookup(currentTerm);
+				hierarchy.add(type);
+			} catch (IllegalArgumentException e) {
+				logger.warn("Parent type not found: " + currentTerm);
+			}
+			currentTerm += ":";
+		}
+		return hierarchy;
+	}
+
 	public String getSearchCategory() {
 		for(String category : searchCategories.keySet()) {
 			if(searchCategories.get(category).contains(this)) {
@@ -667,6 +702,10 @@ public enum DescriptionType {
 		}
 
 		return null;
+	}
+
+	public String getTerm() {
+		return term;
 	}
 
 	private static Set<DescriptionType> AllTypes = ImmutableSet.copyOf(values());
