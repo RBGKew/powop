@@ -21,7 +21,6 @@ public class UPBSite extends PowoSite {
 		super.populateTaxonModel(taxon, model);
 		model.addAttribute("siteClass", "s-upb");
 		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/upb");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 	}
@@ -31,7 +30,6 @@ public class UPBSite extends PowoSite {
 		model.addAttribute("siteClass", "s-upb");
 		model.addAttribute("intro", "partials/intro/upb");
 		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo", "partials/logo/upb");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 	}
@@ -40,7 +38,6 @@ public class UPBSite extends PowoSite {
 	public void populateStaticModel(Model model) {
 		model.addAttribute("siteClass", "s-upb");
 		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("kew-logo-link", "http://www.kew.org/science-conservation");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 		model.addAttribute("site-logo", "partials/logo/upb");
 	}
@@ -72,7 +69,7 @@ public class UPBSite extends PowoSite {
 
 	@Override
 	public String favicon() {
-		return null;
+		return "upfc-favicon.ico";
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.components.Link;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -24,7 +23,6 @@ public class ColPlantASite extends PowoSite {
 		super.populateTaxonModel(taxon, model);
 		model.addAttribute("siteClass", "s-colplanta");
 		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
-		model.addAttribute("kew-logo-link", "/");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 	}
@@ -35,7 +33,6 @@ public class ColPlantASite extends PowoSite {
 		model.addAttribute("intro", "partials/intro/colplanta");
 		model.addAttribute("names", format(taxaCount(), 100));
 		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
-		model.addAttribute("kew-logo-link", "/");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 	}
@@ -44,7 +41,6 @@ public class ColPlantASite extends PowoSite {
 	public void populateStaticModel(Model model) {
 		model.addAttribute("siteClass", "s-colplanta");
 		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
-		model.addAttribute("kew-logo-link", "/");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 	}
@@ -82,7 +78,7 @@ public class ColPlantASite extends PowoSite {
 	
 	@Override
 	public String favicon() {
-		return null;
+		return "upfc-favicon.ico";
 	}
 
 	@Override

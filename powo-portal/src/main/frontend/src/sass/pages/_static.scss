@@ -38,7 +38,7 @@
   .partner-image {
     display: inline-block;
     margin-right: 1rem;
-    img {
+    > img {
       max-height: 100px;
       max-width: 300px;
     }
