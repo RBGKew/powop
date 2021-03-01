@@ -1287,7 +1287,7 @@
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
       <str name="name">location</str>
-      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="lookupImpl">AnalyzingLookupFactory</str>
       <str name="dictionaryImpl">FileDictionaryFactory</str>
       <str name="sourceLocation">tdwg.txt</str>
       <str name="suggestAnalyzerFieldType">lowercase</str>
