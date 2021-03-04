@@ -1,30 +1,31 @@
 .s-colfungi {
-
-  .featured { display: none; }
-
-  #kew-logo-svg {
-    path {
-      fill: #fff;
-    } 
+  .featured {
+    display: none;
   }
 
-  .site-logo {
-    fill: #fff;
-  }
-
-  &.s-page {
-    background-image: url('/img/raster/ColFungi.jpg') !important;
+  .c-header {
+    .site-logo {
+      display: none;
+    }
   }
 
   &.s-page--home,
   &.s-page--error {
-    /* logo alignment */
-    .site-logo {
-      height: 50px;
-      width: 300px;
+    background-image: url("/img/raster/ColFungi.jpg") !important;
 
-      svg {
-        height: 55px;
+    #kew-upfc-logo-svg {
+      path,
+      text {
+        fill: #fff;
+      }
+      #Bar {
+        fill: #fff;
+      }
+      #Map {
+        fill: $upfc-green;
+      }
+      #Background {
+        fill: #fff;
       }
     }
 
