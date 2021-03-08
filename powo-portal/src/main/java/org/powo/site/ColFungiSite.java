@@ -20,6 +20,8 @@ public class ColFungiSite extends PowoSite {
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
 		super.populateTaxonModel(taxon, model);
+		model.addAttribute("siteClass", "s-colfungi");
+		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
 		model.addAttribute("site-logo", "partials/logo/colfungi");
 		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
 	}
@@ -29,15 +31,17 @@ public class ColFungiSite extends PowoSite {
 		model.addAttribute("siteClass", "s-colfungi");
 		model.addAttribute("intro", "partials/intro/colfungi");
 		model.addAttribute("names", format(taxaCount(), 100));
+		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
 		model.addAttribute("site-logo", "partials/logo/colfungi");
 		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
 	}
 
 	@Override
 	public void populateStaticModel(Model model) {
+		model.addAttribute("siteClass", "s-colfungi");
+		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
 		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
 		model.addAttribute("site-logo", "partials/logo/colfungi");
-		model.addAttribute("siteClass", "s-colfungi");
 	}
 
 	@Override
@@ -73,7 +77,7 @@ public class ColFungiSite extends PowoSite {
 	
 	@Override
 	public String favicon() {
-		return null;
+		return "upfc-favicon.ico";
 	}
 
 	@Override

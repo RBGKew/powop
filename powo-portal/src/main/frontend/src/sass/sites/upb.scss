@@ -1,12 +1,10 @@
 .s-upb {
   .featured { display: none; }
 
-  &.s-page {
-    background-image: url('/img/raster/upb.jpg');
-  }
-
   &.s-page--home,
   &.s-page--error {
+    background-image: url('/img/raster/upb.jpg');
+
     #upb-logo-svg {
       width: 200px;
       height: 60px;
@@ -14,6 +12,7 @@
     }
 
     .site-logo {
+      border-left-color: #000;
       fill: #232323;
     }
 

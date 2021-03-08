@@ -2,35 +2,19 @@
 
   .featured { display: none; }
 
-  &.s-page {
-    background-image: url('/img/raster/ColPlantA.jpg') !important;
+  .c-header {
+    .site-logo {
+      display: none;
+    }
   }
 
   &.s-page--home,
   &.s-page--error {
+    background-image: url('/img/raster/ColPlantA.jpg') !important;
+    
     &.s-search__fullpage {
       .site-logo {
         fill: #fff;
-      }
-    }
-    
-    #kew-logo-svg {
-      fill: #000; 
-    }
-
-     /* logo alignment */
-    .site-logo {
-      height: 50px;
-      width: 300px;
-      fill: #232323;
-
-      svg {
-        height: 55px;
-      }
-    }
-
-    &.s-search__fullpage {
-      .site-logo {
         height: 70px;
       }
     }
