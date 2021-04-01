@@ -180,7 +180,7 @@
       "jobName":"DarwinCoreArchiveHarvesting",
       "parameters":{
         "authority.name":"CatalogodeHongosUtilesdeColombia",
-        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat_20210218.zip",
+        "authority.uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat.zip",
         "resource.identifier":"ColFungi-Description",
         "skip.indexing":"true"
       }
@@ -389,7 +389,7 @@
           "organisation":"CatalogodeHongosUtilesdeColombia",
           "resourceType":"DwC_Archive",
           "title":"ColFungi Description",
-          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat_20210218.zip"
+          "uri":"https://storage.googleapis.com/powop-content/test-data/colfungi_descriptions_uat.zip"
         },
         {
           "identifier":"ColFungi-Images",
