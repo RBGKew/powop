@@ -15,8 +15,8 @@ public class ResultsFilterQuery extends BaseQueryOption {
 		List<String> selectedFacets = new ArrayList<String>();
 		List<Rank> selectedRanks = new ArrayList<Rank>();
 		for(String facet: facets){
-			case "accepted_names":
 			switch(facet){
+			case "accepted_names":
 				selectedFacets.add("taxon.is_accepted_b:true AND taxon.is_unplaced_b:false");
 				break;
 			case "has_images":
