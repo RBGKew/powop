@@ -2,22 +2,20 @@ package org.powo.site;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.SearchableObjectService;
+import org.powo.api.TaxonCountsService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
+import org.powo.model.TaxonCounts;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
-import org.powo.persistence.solr.QueryBuilder;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
@@ -45,6 +43,9 @@ public class PowoSite implements Site {
 
 	@Autowired
 	TaxonService taxonService;
+
+	@Autowired
+	TaxonCountsService taxonCountsService;
 
 	@Autowired
 	DescriptionService descriptionService;
@@ -105,7 +106,7 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateIndexModel(Model model) {
-		model.addAttribute("names", format(taxaCount(), 1000));
+		model.addAttribute("names", format(taxonCounts().getTotalCount(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		model.addAttribute("intro", "partials/intro/powo");
@@ -115,11 +116,8 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public Long taxaCount() {
-		QueryBuilder queryBuilder = new QueryBuilder(defaultQuery(), Collections.emptyMap());
-		SolrQuery query = queryBuilder.build();
-		QueryResponse queryResponse = searchableObjectService.search(query);
-		return queryResponse.getResults().getNumFound();
+	public TaxonCounts taxonCounts() {
+		return taxonCountsService.get(defaultQuery());
 	}
 
 	@Override

@@ -30,7 +30,10 @@ public class ColFungiSite extends PowoSite {
 	public void populateIndexModel(Model model) {
 		model.addAttribute("siteClass", "s-colfungi");
 		model.addAttribute("intro", "partials/intro/colfungi");
-		model.addAttribute("names", format(taxaCount(), 100));
+		model.addAttribute("taxon-counts-total", format(taxonCounts().getTotalCount(), 100));
+		model.addAttribute("taxon-counts-species", format(taxonCounts().getSpeciesCount(), 1));
+		model.addAttribute("taxon-counts-genus", format(taxonCounts().getGenusCount(), 1));
+		model.addAttribute("taxon-counts-family", format(taxonCounts().getFamilyCount(), 1));
 		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
 		model.addAttribute("site-logo", "partials/logo/colfungi");
 		model.addAttribute("site-logo-svg", "svg/colfungi.svg");

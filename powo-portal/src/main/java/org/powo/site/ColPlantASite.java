@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.powo.api.SearchableObjectService;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
@@ -31,7 +30,10 @@ public class ColPlantASite extends PowoSite {
 	public void populateIndexModel(Model model) {
 		model.addAttribute("siteClass", "s-colplanta");
 		model.addAttribute("intro", "partials/intro/colplanta");
-		model.addAttribute("names", format(taxaCount(), 100));
+		model.addAttribute("taxon-counts-total", format(taxonCounts().getTotalCount(), 100));
+		model.addAttribute("taxon-counts-species", format(taxonCounts().getSpeciesCount(), 1));
+		model.addAttribute("taxon-counts-genus", format(taxonCounts().getGenusCount(), 1));
+		model.addAttribute("taxon-counts-family", format(taxonCounts().getFamilyCount(), 1));
 		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");

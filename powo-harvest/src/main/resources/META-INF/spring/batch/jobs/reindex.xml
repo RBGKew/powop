@@ -21,6 +21,7 @@
       <batch:next on="COMPLETED" to="optimizeIndex"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
+        <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
 
@@ -28,24 +29,36 @@
       <batch:description>Optimize the solr index</batch:description>
       <batch:tasklet ref="solrOptimizingTasklet" />
       <batch:next on="COMPLETED" to="indexNamesSuggester" />
+      <batch:listeners>
+        <batch:listener ref="chunkPerformanceLoggingListener" />
+      </batch:listeners>
     </batch:step>
 
     <batch:step id="indexNamesSuggester">
       <batch:description>Build the scientific-name suggester index</batch:description>
       <batch:tasklet ref="nameSuggesterIndexingTasklet" />
       <batch:next on="COMPLETED" to="indexCommonNamesSuggester" />
+      <batch:listeners>
+        <batch:listener ref="chunkPerformanceLoggingListener" />
+      </batch:listeners>
     </batch:step>
 
     <batch:step id="indexCommonNamesSuggester">
       <batch:description>Build the common-name suggester index</batch:description>
       <batch:tasklet ref="commonNameSuggesterIndexingTasklet" />
       <batch:next on="COMPLETED" to="indexDescriptionSuggester" />
+      <batch:listeners>
+        <batch:listener ref="chunkPerformanceLoggingListener" />
+      </batch:listeners>
     </batch:step>
 
     <batch:step id="indexDescriptionSuggester">
       <batch:description>Build the characteristic suggester index</batch:description>
       <batch:tasklet ref="descriptionSuggesterIndexingTasklet" />
       <batch:end on="COMPLETED"/>
+      <batch:listeners>
+        <batch:listener ref="chunkPerformanceLoggingListener" />
+      </batch:listeners>
     </batch:step>
 
     <batch:listeners>

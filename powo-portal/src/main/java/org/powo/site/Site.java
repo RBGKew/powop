@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.powo.model.Taxon;
+import org.powo.model.TaxonCounts;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.portal.view.components.Link;
 import org.springframework.ui.Model;
@@ -32,5 +33,5 @@ public interface Site {
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	Optional<Link> crossSiteLink();
-	Long taxaCount();
+	TaxonCounts taxonCounts();
 }
