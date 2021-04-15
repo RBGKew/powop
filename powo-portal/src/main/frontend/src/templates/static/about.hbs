@@ -10,7 +10,7 @@
   <section class="c-results">
     <main class="container static_text" id="main">
       <h1>{{{message "about_heading"}}}</h1>
-      {{{message "about_body"}}}
+      {{> (lookup '.' 'about') }}
     </main>
   </section>
   {{> partials/footer-links}}

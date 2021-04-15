@@ -42,6 +42,7 @@ public class ColFungiSite extends PowoSite {
 		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
 		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
 		model.addAttribute("site-logo", "partials/logo/colfungi");
+		model.addAttribute("about", "partials/about/colfungi");
 	}
 
 	@Override

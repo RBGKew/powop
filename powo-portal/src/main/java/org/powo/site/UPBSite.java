@@ -40,6 +40,7 @@ public class UPBSite extends PowoSite {
 		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
 		model.addAttribute("site-logo-svg", "svg/upb.svg");
 		model.addAttribute("site-logo", "partials/logo/upb");
+		model.addAttribute("about", "partials/about/powo");
 	}
 	@Override
 	public DefaultQueryOption defaultQuery() {

@@ -35,12 +35,23 @@
     font-size: inherit;
   }
 
-  .partner-image {
+  .main-partner-image {
     display: inline-block;
-    margin-right: 1rem;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
     > img {
       max-height: 100px;
       max-width: 300px;
+    }
+  }
+
+  .partner-images {
+    > img {
+      display: inline-block;
+      margin-bottom: 2rem;
+      margin-right: 2rem;
+      max-height: 100px;
+      max-width: 100px;
     }
   }
 
@@ -48,5 +59,10 @@
     display: block;
     max-width: 1000px;
     width: 100%;
+
+    > img {
+      max-height: 100px;
+      max-width: 300px;
+    }
   }
 }

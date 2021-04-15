@@ -10,21 +10,18 @@ module.exports = function (gulp, $) {
 	/*
   * Minify images
   */ 
-  gulp.task('images:minify', function() {
-
-    const rasterFilter = $.filter('src/img/raster/*.{png,gif,jpg,jpeg}', {restore: true});
-    const svgFilter = $.filter('src/img/svg/*.svg', {restore: true});
-
-		return gulp.src(['src/img/raster/*.{png,gif,jpg,jpeg}', 'src/img/svg/*.svg'])
-      .pipe(rasterFilter)
+  gulp.task('images:minify:raster', function() {
+    return gulp.src('src/img/raster/**/*.{png,gif,jpg,jpeg}')
       .pipe($.imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [$.imagemin.optipng({optimizationLevel: 5})]
         }))
       .pipe(gulp.dest('dist/img/raster'))
-      .pipe(rasterFilter.restore)
-      .pipe(svgFilter)
+  })
+
+  gulp.task('images:minify:svg', function() {
+    return gulp.src('src/img/svg/*.svg')
       .pipe($.raster())
       .pipe($.rename({extname: '.png'}))
       .pipe($.imagemin({
@@ -33,7 +30,9 @@ module.exports = function (gulp, $) {
             use: [pngquant()]
         }))
       .pipe(gulp.dest('dist/img/raster'))
-  });
+  })
+
+  gulp.task('images:minify', gulp.series('images:minify:raster', 'images:minify:svg'));
 
   gulp.task("images:icons", function () {
     return gulp.src(["src/img/*.ico"]).pipe(gulp.dest("dist/img"));
