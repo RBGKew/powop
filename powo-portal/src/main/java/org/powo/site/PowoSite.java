@@ -55,8 +55,6 @@ public class PowoSite implements Site {
 
 	private List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
-	private TaxonCounts taxonCounts;
-
 	@Override
 	public void populateTaxonModel(Taxon taxon, Model model) {
 		model.addAttribute(taxon);
