@@ -14,17 +14,11 @@
  * The complete text of the GNU Affero General Public License is in the source repository as the file
  * ‘COPYING’.  It is also available from <http://www.gnu.org/licenses/>.
  */
-package org.powo.service.impl;
+package org.powo.portal.service;
 
 import java.util.Collections;
-import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
-
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.powo.api.SearchableObjectService;
-import org.powo.api.TaxonCountsService;
 import org.powo.model.TaxonCounts;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.QueryBuilder;
@@ -37,29 +31,26 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class TaxonCountsServiceImpl implements TaxonCountsService {
-
-	private static final Map<String, String> facetQueries = new ImmutableMap.Builder<String, String>()
-			.put("species", "taxon.is_accepted_b:true AND taxon.rank_s_lower:species")
-			.put("genus", "taxon.is_accepted_b:true AND taxon.rank_s_lower:genus")
-			.put("family", "taxon.is_accepted_b:true AND taxon.rank_s_lower:family").build();
+public class TaxonCountsService {
+  private static final String speciesQuery = "taxon.is_accepted_b:true AND taxon.rank_s_lower:species";
+  private static final String genusQuery = "taxon.is_accepted_b:true AND taxon.rank_s_lower:genus";
+  private static final String familyQuery = "taxon.is_accepted_b:true AND taxon.rank_s_lower:family";
 
 	@Autowired
 	private SearchableObjectService searchableObjectService;
 
-	@Override
 	public TaxonCounts get(DefaultQueryOption defaultQuery) {
-		SolrQuery query = new QueryBuilder(defaultQuery, Collections.emptyMap()).build();
-		query.addFacetQuery(facetQueries.get("species"));
-		query.addFacetQuery(facetQueries.get("genus"));
-		query.addFacetQuery(facetQueries.get("family"));
-		QueryResponse queryResponse = searchableObjectService.search(query);
-		Map<String, Integer> facetCounts = queryResponse.getFacetQuery();
+		var query = new QueryBuilder(defaultQuery, Collections.emptyMap()).build();
+		query.addFacetQuery(speciesQuery);
+		query.addFacetQuery(genusQuery);
+		query.addFacetQuery(familyQuery);
+		var queryResponse = searchableObjectService.search(query);
+		var facetCounts = queryResponse.getFacetQuery();
 
-		Long totalCount = queryResponse.getResults().getNumFound();
-		Integer speciesCount = facetCounts.get(facetQueries.get("species"));
-		Integer genusCount = facetCounts.get(facetQueries.get("genus"));
-		Integer familyCount = facetCounts.get(facetQueries.get("family"));
+		var totalCount = queryResponse.getResults().getNumFound();
+		var speciesCount = facetCounts.get(speciesQuery);
+		var genusCount = facetCounts.get(genusQuery);
+		var familyCount = facetCounts.get(familyQuery);
 
 		return new TaxonCounts(totalCount, speciesCount, genusCount, familyCount);
 	}

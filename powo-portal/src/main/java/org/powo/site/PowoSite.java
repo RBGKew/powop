@@ -10,12 +10,12 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.SearchableObjectService;
-import org.powo.api.TaxonCountsService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
 import org.powo.model.TaxonCounts;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
+import org.powo.portal.service.TaxonCountsService;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
@@ -108,21 +108,14 @@ public class PowoSite implements Site {
 
 	@Override
 	public void populateIndexModel(Model model) {
-		model.addAttribute("names", format(taxonCounts().getTotalCount(), 1000));
+		var taxonCounts = taxonCountsService.get(defaultQuery());
+		model.addAttribute("names", format(taxonCounts.getTotalCount(), 1000));
 		model.addAttribute("images", format(imageService.count(), 100));
 		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
 		model.addAttribute("intro", "partials/intro/powo");
 		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
-	}
-
-	@Override
-	public TaxonCounts taxonCounts() {
-		if (taxonCounts == null) {
-			taxonCounts = taxonCountsService.get(defaultQuery());
-		}
-		return taxonCounts;
 	}
 
 	@Override
