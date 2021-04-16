@@ -14,7 +14,6 @@ module.exports = function (gulp, $) {
     return gulp.src('src/img/raster/**/*.{png,gif,jpg,jpeg}')
       .pipe($.imagemin({
             progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
             use: [$.imagemin.optipng({optimizationLevel: 5})]
         }))
       .pipe(gulp.dest('dist/img/raster'))
