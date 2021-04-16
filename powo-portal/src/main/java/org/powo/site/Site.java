@@ -32,5 +32,4 @@ public interface Site {
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	Optional<Link> crossSiteLink();
-	Long taxaCount();
 }
