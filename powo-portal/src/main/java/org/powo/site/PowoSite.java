@@ -127,6 +127,7 @@ public class PowoSite implements Site {
 		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
 		model.addAttribute("site-logo", "partials/logo/powo");
 		model.addAttribute("site-logo-svg", "svg/powo-logo.svg");
+		model.addAttribute("aboutTemplate", "partials/about/powo");
 	}
 
 	@Override

@@ -43,6 +43,7 @@ public class ColPlantASite extends PowoSite {
 		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
 		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
 		model.addAttribute("site-logo", "partials/logo/colplanta");
+		model.addAttribute("aboutTemplate", "partials/about/colplanta");
 	}
 
 	@Override
