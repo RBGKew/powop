@@ -23,14 +23,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/")
-public class IndexController extends HtmlController {
+public class IndexController extends LayoutController {
 
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String index(Model model) {
-		initialiseModel(model);
 		model.addAttribute("title", site.indexPageTitle());
 		model.addAttribute("cross-site-link", site.crossSiteLink());
-		site.addTaxonCountsToModel(model);
+		var taxonCounts = site.getFormattedTaxonCounts();
+		for (var key : taxonCounts.keySet()) {
+			model.addAttribute(key, taxonCounts.get(key));
+		}
 		return "index";
 	}
 }

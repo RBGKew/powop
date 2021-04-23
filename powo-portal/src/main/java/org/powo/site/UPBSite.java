@@ -1,7 +1,9 @@
 package org.powo.site;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.powo.model.Taxon;
@@ -9,7 +11,6 @@ import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 @Component("UPBSite")
 public class UPBSite extends PowoSite {
@@ -17,7 +18,9 @@ public class UPBSite extends PowoSite {
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
 	@Override
-	public void addTaxonCountsToModel(Model model) {}
+	public Map<String, String> getFormattedTaxonCounts() {
+		return new HashMap<>();
+	}
 
 	@Override
 	public String siteId() {

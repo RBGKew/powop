@@ -1,7 +1,7 @@
 {{> partials/header}}
 
 <div id="svgs" style="display:none">
-{{> (concat "svg/" (lookup '.' 'siteId') ".svg")}}
+{{> (concat "svg/" siteId ".svg")}}
 </div>
 
 <div id="{{taxon.identifier}}" class="s-page s-page--taxon {{concat "s-" siteId}}">

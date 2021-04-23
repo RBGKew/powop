@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class StaticController extends HtmlController {
+public class StaticController extends LayoutController {
 
 	@Autowired
 	@Qualifier("currentSite")
@@ -17,25 +17,21 @@ public class StaticController extends HtmlController {
 
 	@RequestMapping(value = "/privacy", method = RequestMethod.GET, produces = {"text/html"})
 	public String privacyPolicy(Model model) {
-		initialiseModel(model);
 		return "static/privacy";
 	}
 
 	@RequestMapping(value = "/terms-and-conditions", method = RequestMethod.GET, produces = {"text/html"})
 	public String termsAndConditions(Model model) {
-		initialiseModel(model);
 		return "static/terms_and_conditions";
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
 	public String about(Model model) {
-		initialiseModel(model);
 		return "static/about";
 	}
 
 	@RequestMapping(value = "/search-help", method = RequestMethod.GET, produces = {"text/html"})
 	public String searchHelp(Model model) {
-		initialiseModel(model);
 		return "static/search_help";
 	}
 

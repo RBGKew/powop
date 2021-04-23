@@ -1,9 +1,9 @@
 <header class="c-header" role="banner">
   <div class="container">
-    <a id="kew-logo" href="/" aria-label="Go to the homepage">{{> (lookup '.' 'kew-logo') }}</a>
+    <a id="kew-logo" href="/" aria-label="Go to the homepage">{{> (str kewLogo) }}</a>
 
     <a class="site-logo" href="/" aria-label="Go to homepage">
-      {{> (concat "partials/logo/" (lookup '.' 'siteId')) }}
+      {{> (concat "partials/logo/" siteId) }}
     </a>
 
     <p class="featured">

@@ -1,7 +1,7 @@
 {{> partials/header title="Plants of the World Online | Kew Science"}}
 
 <div id="svgs" style="display:none">
-{{> (concat "svg/" (lookup '.' 'siteId') ".svg")}}
+{{> (concat "svg/" siteId ".svg")}}
 </div>
 
 <div class="s-page s-page--home s-theme-home {{concat "s-" siteId}}">
@@ -9,7 +9,7 @@
 
   <section class="c-results">
     <main class="container static_text" id="main">
-      {{> (concat "partials/about/" (lookup '.' 'siteId')) }}
+      {{> (concat "partials/about/" siteId) }}
     </main>
   </section>
   {{> partials/footer-links}}

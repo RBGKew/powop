@@ -4,7 +4,10 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableMap;
 
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
@@ -15,7 +18,6 @@ import org.powo.portal.service.TaxonCountsService;
 import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 @Component("PowoSite")
 public class PowoSite implements Site {
@@ -32,11 +34,13 @@ public class PowoSite implements Site {
 	private static final List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
 	@Override
-	public void addTaxonCountsToModel(Model model) {
+	public Map<String, String> getFormattedTaxonCounts() {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
-		model.addAttribute("names", format(taxonCounts.getTotalCount(), 1000));
-		model.addAttribute("images", format(imageService.count(), 100));
-		model.addAttribute("descriptions", format(descriptionService.countAccounts(), 100));
+		return new ImmutableMap.Builder<String, String>()
+			.put("names", format(taxonCounts.getTotalCount(), 1000))
+			.put("images", format(imageService.count(), 100))
+			.put("descriptions", format(descriptionService.countAccounts(), 100))
+			.build();
 	}
 
 	@Override

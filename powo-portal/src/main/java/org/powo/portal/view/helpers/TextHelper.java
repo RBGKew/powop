@@ -12,6 +12,10 @@ public class TextHelper {
 		return HtmlSanitizer.strip(text);
 	}
 
+	public String str(Object value) {
+		return value.toString();
+	}
+
 	public String concat(String prefix, Options options) {
 		String[] params = Arrays.copyOf(options.params, options.params.length, String[].class);
 		return prefix + String.join("", params);

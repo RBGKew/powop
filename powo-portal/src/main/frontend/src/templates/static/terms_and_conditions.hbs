@@ -1,16 +1,47 @@
 {{> partials/header title="Plants of the World Online | Kew Science"}}
 
 <div id="svgs" style="display:none">
-{{> (concat "svg/" (lookup '.' 'siteId') ".svg")}}
+  {{> (concat "svg/" siteId ".svg")}}
 </div>
 
-<div class="s-page s-page--home s-theme-home {{concat "s-" siteId}}">
+<div class="s-page s-page--home s-theme-home {{concat " s-" siteId}}">
   {{> partials/page-header}}
 
   <section class="c-results">
     <main class="container static_text" id="main">
-      <h1>{{{ message "terms_and_conditions_header"}}}</h1>
-      {{{message "terms_and_conditions_body"}}}
+      <h1>Terms and conditions - Kew Science Data &amp; Resources</h1>
+      <p>The data and information available through the Plants of the World Online (POWO) portal are available under
+        terms described in the licence field of individual dataset records (metadata).</p>
+      <p>Almost all dataset metadata published on plantsoftheworldonline.org and kew.org is licensed under <a
+          href="http://www.opendefinition.org/licenses/cc-by">Creative Commons Attribution CC BY.</a> In POWO users must
+        check under terms described in the licence field of individual dataset records (metadata).</p>
+      <p>Multimedia assets including images within datasets are subject to additional licence restrictions - by default
+        this will be <a href="http://www.opendefinition.org/licenses/cc-by">Creative Commons Attribution CC BY.</a>, and
+        &copy; copyright The Trustees of the Royal Botanic Gardens, Kew.</p>
+      <h2 id="data-usage">Data usage</h2>
+      <p>You may write papers or create software applications, visualisations, etc., that make use of data on this site.
+        If you do use any of the data, please email the Biodiversity Informatics team at <a
+          href="mailto:BI@kew.org">BI@kew.org</a> so that we can provide any appropriate assistance. For programatic
+        access please use the official Python client <a href="https://pypi.org/project/pykew/">pykew</a> or the rOpenSci
+        package <a href="https://github.com/ropensci/taxize/">taxize</a>.</p>
+      <p>If you extract and re-use any data from this site you should explicitly state that RBG, Kew cannot warrant the
+        quality or accuracy of the data.</p>
+      <p>You must not in any way imply or explicitly state that a third-party use or service created using data from
+        this site has the endorsement, affiliation, support or approval of RBG, Kew.</p>
+      <h2 id="traffic-limits">Traffic limits</h2>
+      <p>To maintain a good service for all, API users must not exceed a certain number of requests per second,
+        dependent on the current server load. We reserve the right to suspend API access for users that exceed these
+        limits.</p>
+      <h2 id="citation">Citation and attribution</h2>
+      <p>If you use our data, we strongly encourage you to cite or reference this work as you would any other scientific
+        research (even if the license does not explicitly require you to).</p>
+      <p>Many of the datasets are the result of a huge amount of time and effort invested by Kew staff and
+        collaborators. Some represent an individual's work over many decades. Citing this data allows us to measure the
+        impact of the research and encourages others to deposit their data into the portal.</p>
+      <h3 id="cite-powo">Citing PoWO</h3>
+      <blockquote>POWO (2019). "Plants of the World Online. Facilitated by the Royal Botanic Gardens, Kew. Published on
+        the Internet; http://www.plantsoftheworldonline.org/ Retrieved dd month yyyy."</blockquote>
+      <p>Update accordingly to include the date you accessed the site.</p>
     </main><!-- End Container -->
   </section>
   {{> partials/footer-links}}

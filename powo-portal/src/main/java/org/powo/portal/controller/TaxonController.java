@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/taxon")
-public class TaxonController extends HtmlController {
+public class TaxonController extends LayoutController {
 
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
@@ -65,8 +65,6 @@ public class TaxonController extends HtmlController {
 
 	@RequestMapping(path = {"/urn:lsid:ipni.org:names:{identifier}", "/{identifier}"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String show(@PathVariable String identifier, Model model) {
-		initialiseModel(model);
-		
 		var taxon = service.load(IdUtil.fqName(identifier), "object-page");
 
 		model.addAttribute(taxon);
