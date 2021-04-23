@@ -1,10 +1,10 @@
 {{> partials/header title="Plants of the World Online | Kew Science"}}
 
 <div id="svgs" style="display:none">
-{{> (lookup '.' 'site-logo-svg') }}
+{{> (concat "svg/" (lookup '.' 'siteId') ".svg")}}
 </div>
 
-<div class="s-page s-page--home s-theme-home {{ siteClass }}">
+<div class="s-page s-page--home s-theme-home {{concat "s-" siteId}}">
   {{> partials/page-header}}
     <section class="c-results">
       <main class="container static_text" id="main">

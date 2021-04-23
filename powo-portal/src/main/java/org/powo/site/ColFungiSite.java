@@ -18,35 +18,22 @@ public class ColFungiSite extends PowoSite {
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
 	@Override
-	public void populateTaxonModel(Taxon taxon, Model model) {
-		super.populateTaxonModel(taxon, model);
-		model.addAttribute("siteClass", "s-colfungi");
-		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/colfungi");
-		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
-	}
-
-	@Override
-	public void populateIndexModel(Model model) {
+	public void addTaxonCountsToModel(Model model) {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
-		model.addAttribute("siteClass", "s-colfungi");
-		model.addAttribute("intro", "partials/intro/colfungi");
 		model.addAttribute("taxon-counts-total", format(taxonCounts.getTotalCount(), 100));
 		model.addAttribute("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 1));
 		model.addAttribute("taxon-counts-genus", format(taxonCounts.getGenusCount(), 1));
 		model.addAttribute("taxon-counts-family", format(taxonCounts.getFamilyCount(), 1));
-		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/colfungi");
-		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
 	}
 
 	@Override
-	public void populateStaticModel(Model model) {
-		model.addAttribute("siteClass", "s-colfungi");
-		model.addAttribute("kew-logo", "svg/kew-colfungi-logo.svg");
-		model.addAttribute("site-logo-svg", "svg/colfungi.svg");
-		model.addAttribute("site-logo", "partials/logo/colfungi");
-		model.addAttribute("aboutTemplate", "partials/about/colfungi");
+	public String siteId() {
+		return "colfungi";
+	}
+
+	@Override
+	public String kewLogoPath() {
+		return "svg/kew-colfungi-logo.svg";
 	}
 
 	@Override

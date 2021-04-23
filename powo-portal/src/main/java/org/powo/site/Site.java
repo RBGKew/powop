@@ -21,13 +21,13 @@ import org.springframework.ui.Model;
  *  - Available suggesters
  */
 public interface Site {
-	public void populateTaxonModel(Taxon taxon, Model model);
-	public void populateIndexModel(Model model);
-	public void populateStaticModel(Model model);
+	public void addTaxonCountsToModel(Model model);
 	public DefaultQueryOption defaultQuery();
 	public List<String> getSuggesters();
 	public String suggesterFilter();
 	public Locale defaultLocale();
+	String siteId();
+	String kewLogoPath();
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();

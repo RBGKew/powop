@@ -17,31 +17,13 @@ public class UPBSite extends PowoSite {
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
 	@Override
-	public void populateTaxonModel(Taxon taxon, Model model) {
-		super.populateTaxonModel(taxon, model);
-		model.addAttribute("siteClass", "s-upb");
-		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/upb");
-		model.addAttribute("site-logo-svg", "svg/upb.svg");
-	}
+	public void addTaxonCountsToModel(Model model) {}
 
 	@Override
-	public void populateIndexModel(Model model) {
-		model.addAttribute("siteClass", "s-upb");
-		model.addAttribute("intro", "partials/intro/upb");
-		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/upb");
-		model.addAttribute("site-logo-svg", "svg/upb.svg");
+	public String siteId() {
+		return "upb";
 	}
 
-	@Override
-	public void populateStaticModel(Model model) {
-		model.addAttribute("siteClass", "s-upb");
-		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("site-logo-svg", "svg/upb.svg");
-		model.addAttribute("site-logo", "partials/logo/upb");
-		model.addAttribute("aboutTemplate", "partials/about/powo");
-	}
 	@Override
 	public DefaultQueryOption defaultQuery() {
 		return new SourceFilter("UsefulPlantsofBoyacaProject");
