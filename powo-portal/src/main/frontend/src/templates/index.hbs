@@ -1,11 +1,11 @@
 {{> partials/header }}
 <div id="svgs" style="display:none">
-{{> svg/leaf.svg }}
-{{> svg/mushroom.svg }}
-{{> svg/chevron.svg }}
-{{> (concat "svg/" siteId ".svg")}}
+  {{> svg/leaf.svg }}
+  {{> svg/mushroom.svg }}
+  {{> svg/chevron.svg }}
+  {{> (concat "svg/" siteId ".svg")}}
 </div>
-<div class="s-page s-page--home s-search__fullpage s-theme-home {{concat "s-" siteId}} invisible">
+<div class="s-page s-page--home s-search__fullpage s-theme-home {{concat " s-" siteId}} invisible">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
 
@@ -27,6 +27,18 @@
           <span class="divider">|</span>
           <a class="form-link" href="/search-help">{{{message "footer_help"}}}</a>
         </nav>
+        <div class="featured-taxa">
+          {{#each featured-taxa}}
+          <h2>{{@key}}</h2>
+          <div class="row">
+            {{#each this}}
+            <div class="col-12 col-md-4">
+              {{> partials/featured-taxon }}
+            </div>
+            {{/each}}
+          </div>
+          {{/each}}
+        </div>
       </div><!-- End Container -->
     </div>
     {{> partials/footer-links}}

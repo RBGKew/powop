@@ -112,3 +112,13 @@
     transform: translateY(-50%);
   }
 }
+
+// Hide featured taxa on search results page
+.featured-taxa {
+  display: none;
+}
+.s-search__fullpage {
+  .featured-taxa {
+    display: block;
+  }
+}

@@ -29,6 +29,7 @@ public class IndexController extends LayoutController {
 	public String index(Model model) {
 		model.addAttribute("title", site.indexPageTitle());
 		model.addAttribute("cross-site-link", site.crossSiteLink());
+		model.addAttribute("featured-taxa", site.featuredTaxaBySection());
 		var taxonCounts = site.getFormattedTaxonCounts();
 		for (var key : taxonCounts.keySet()) {
 			model.addAttribute(key, taxonCounts.get(key));

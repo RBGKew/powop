@@ -11,10 +11,12 @@ import com.google.common.collect.ImmutableMap;
 
 import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
+import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
 import org.powo.portal.service.TaxonCountsService;
+import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +32,9 @@ public class PowoSite implements Site {
 
 	@Autowired
 	TaxonCountsService taxonCountsService;
+
+	@Autowired
+	TaxonService taxonService;
 
 	private static final List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
@@ -96,6 +101,16 @@ public class PowoSite implements Site {
 	@Override
 	public Optional<Link> crossSiteLink() {
 		return Optional.empty();
+	}
+
+	@Override
+	public Map<String, List<FeaturedTaxon>> featuredTaxaBySection() {
+		var basellaAlba = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:164286-1"));
+		var ipomoeaAlba = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:129128-2"));
+		var sonneratiaAlba = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:554265-1"));
+	  return new ImmutableMap.Builder<String, List<FeaturedTaxon>>()
+			.put("Featured plants", Arrays.asList(basellaAlba, ipomoeaAlba, sonneratiaAlba))
+			.build();
 	}
 
 }

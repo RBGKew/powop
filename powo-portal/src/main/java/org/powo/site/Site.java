@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
+import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 
 /*
@@ -21,15 +22,16 @@ import org.powo.portal.view.components.Link;
  *  - Available suggesters
  */
 public interface Site {
-	public Map<String,String> getFormattedTaxonCounts();
-	public DefaultQueryOption defaultQuery();
-	public List<String> getSuggesters();
-	public String suggesterFilter();
-	public Locale defaultLocale();
+	Map<String,String> getFormattedTaxonCounts();
+	DefaultQueryOption defaultQuery();
+	List<String> getSuggesters();
+	String suggesterFilter();
+	Locale defaultLocale();
 	String siteId();
 	String kewLogoPath();
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	Optional<Link> crossSiteLink();
+	Map<String, List<FeaturedTaxon>> featuredTaxaBySection();
 }

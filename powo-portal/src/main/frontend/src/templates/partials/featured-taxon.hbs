@@ -1,0 +1,23 @@
+<a class="featured-taxon" href="/taxon/{{ taxon.identifier }}">
+  {{#if featuredImage}}
+  <div class="featured-taxon__image">
+    <img src={{imageUrl featuredImage "thumbnail" }}>
+  </div>
+  {{/if}}
+  <span class="featured-taxon__rank">{{taxon.taxonRank}}</span>
+  <span class="featured-taxon__name">{{taxon.scientificName}} {{taxon.scientificNameAuthorship}}</span>
+  <div class="featured-taxon__descriptions">
+    {{#each taxon.descriptions}}
+    <div class="featured-taxon__description">
+      {{#if types}}
+      <strong>
+        {{#each types}}
+        <span class="featured-taxon__description-type">{{message name}}</span>
+        {{/each}}
+      </strong>
+      {{/if}}
+      <span class="featured-taxon__description-content">{{{description}}}</span>
+    </div>
+    {{/each}}
+  </div>
+</a>
