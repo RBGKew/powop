@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
+import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 
@@ -33,5 +34,5 @@ public interface Site {
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	Optional<Link> crossSiteLink();
-	Map<String, List<FeaturedTaxon>> featuredTaxaBySection();
+	List<FeaturedTaxaSection> featuredTaxaSections();
 }

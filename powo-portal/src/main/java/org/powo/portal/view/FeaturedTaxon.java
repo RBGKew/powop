@@ -14,6 +14,9 @@ public class FeaturedTaxon {
 
   public Image getFeaturedImage() {
     var images = taxon.getImages();
+    if (images == null) {
+      return null;
+    }
     if (images.size() == 0) {
       return null;
     }

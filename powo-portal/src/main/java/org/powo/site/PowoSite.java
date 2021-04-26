@@ -16,6 +16,7 @@ import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
 import org.powo.portal.service.TaxonCountsService;
+import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,13 +105,13 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public Map<String, List<FeaturedTaxon>> featuredTaxaBySection() {
+	public List<FeaturedTaxaSection> featuredTaxaSections() {
+		// TODO: move this into application.properties when we have Spring profiles per site
 		var basellaAlba = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:164286-1"));
 		var ipomoeaAlba = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:129128-2"));
 		var sonneratiaAlba = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:554265-1"));
-	  return new ImmutableMap.Builder<String, List<FeaturedTaxon>>()
-			.put("Featured plants", Arrays.asList(basellaAlba, ipomoeaAlba, sonneratiaAlba))
-			.build();
+
+		return List.of(new FeaturedTaxaSection("Featured plants", List.of(basellaAlba, ipomoeaAlba, sonneratiaAlba)));
 	}
 
 }

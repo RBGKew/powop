@@ -27,11 +27,11 @@
           <span class="divider">|</span>
           <a class="form-link" href="/search-help">{{{message "footer_help"}}}</a>
         </nav>
-        <div class="featured-taxa">
-          {{#each featured-taxa}}
-          <h2>{{@key}}</h2>
+        <div class="featured-taxa-sections">
+          {{#each featured-taxa-sections}}
+          <h2>{{title}}</h2>
           <div class="row">
-            {{#each this}}
+            {{#each featuredTaxa}}
             <div class="col-12 col-md-4">
               {{> partials/featured-taxon }}
             </div>
