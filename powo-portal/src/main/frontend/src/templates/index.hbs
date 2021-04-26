@@ -3,9 +3,9 @@
 {{> svg/leaf.svg }}
 {{> svg/mushroom.svg }}
 {{> svg/chevron.svg }}
-{{> (lookup '.' 'site-logo-svg') }}
+{{> (concat "svg/" siteId ".svg")}}
 </div>
-<div class="s-page s-page--home s-search__fullpage s-theme-home {{ siteClass }} invisible">
+<div class="s-page s-page--home s-search__fullpage s-theme-home {{concat "s-" siteId}} invisible">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
 
@@ -13,7 +13,7 @@
       <div class="container">
 
         <div class="c-intro">
-          {{> (lookup '.' 'intro') }}
+          {{> (concat "partials/intro/" siteId) }}
         </div>
         <main id="main" class="front-page" tabindex="-1">
           {{> partials/search/search-box }}

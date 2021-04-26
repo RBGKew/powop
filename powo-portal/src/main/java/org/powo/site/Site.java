@@ -2,12 +2,12 @@ package org.powo.site;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.portal.view.components.Link;
-import org.springframework.ui.Model;
 
 /*
  * Allow running the portal in one of a predefined set of configurations
@@ -21,13 +21,13 @@ import org.springframework.ui.Model;
  *  - Available suggesters
  */
 public interface Site {
-	public void populateTaxonModel(Taxon taxon, Model model);
-	public void populateIndexModel(Model model);
-	public void populateStaticModel(Model model);
+	public Map<String,String> getFormattedTaxonCounts();
 	public DefaultQueryOption defaultQuery();
 	public List<String> getSuggesters();
 	public String suggesterFilter();
 	public Locale defaultLocale();
+	String siteId();
+	String kewLogoPath();
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();

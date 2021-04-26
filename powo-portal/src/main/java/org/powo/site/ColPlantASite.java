@@ -3,14 +3,16 @@ package org.powo.site;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableMap;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 @Component("ColPlantASite")
 public class ColPlantASite extends PowoSite {
@@ -18,33 +20,22 @@ public class ColPlantASite extends PowoSite {
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
 	@Override
-	public void populateTaxonModel(Taxon taxon, Model model) {
-		super.populateTaxonModel(taxon, model);
-		model.addAttribute("siteClass", "s-colplanta");
-		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
-	}
-
-	@Override
-	public void populateIndexModel(Model model) {
+	public Map<String, String> getFormattedTaxonCounts() {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
-		model.addAttribute("siteClass", "s-colplanta");
-		model.addAttribute("intro", "partials/intro/colplanta");
-		model.addAttribute("taxon-counts-total", format(taxonCounts.getTotalCount(), 100));
-		model.addAttribute("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 1));
-		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
+		return new ImmutableMap.Builder<String, String>()
+			.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 1000))
+			.put("taxon-counts-species", format(imageService.count(), 100))
+			.build();
 	}
 
 	@Override
-	public void populateStaticModel(Model model) {
-		model.addAttribute("siteClass", "s-colplanta");
-		model.addAttribute("kew-logo", "svg/kew-colplanta-logo.svg");
-		model.addAttribute("site-logo-svg", "svg/colplanta.svg");
-		model.addAttribute("site-logo", "partials/logo/colplanta");
-		model.addAttribute("aboutTemplate", "partials/about/colplanta");
+	public String siteId() {
+		return "colplanta";
+	}
+
+	@Override
+	public String kewLogoPath() {
+		return "svg/kew-colplanta-logo.svg";
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 {{> partials/header}}
 
 <div id="svgs" style="display:none">
-{{> (lookup '.' 'site-logo-svg') }}
+{{> (concat "svg/" siteId ".svg")}}
 </div>
 
-<div id="{{taxon.identifier}}" class="s-page s-page--taxon {{ siteClass }}">
+<div id="{{taxon.identifier}}" class="s-page s-page--taxon {{concat "s-" siteId}}">
   {{> partials/page-header withSearchBox="true" }}
 
   <main class="c-article" id="main">
