@@ -13,8 +13,11 @@ public class FeaturedTaxonTest {
 
   @Test
   public void testFeaturedImage() {
+    var featuredTaxon = new FeaturedTaxon(null);
+    assertNull(featuredTaxon.getFeaturedImage());
+
     var taxon = new Taxon();
-    var featuredTaxon = new FeaturedTaxon(taxon);
+    featuredTaxon.setTaxon(taxon);
     assertNull(featuredTaxon.getFeaturedImage());
 
     var images = new ArrayList<Image>();
