@@ -62,9 +62,11 @@ gulp.task('scripts', gulp.series('js', 'rev'));
 /*
 * Watch Task
 */
-const PORT = argv.backendPort || 10080
+const PORT = argv.port || 3000
+const BACKEND_PORT = argv.backendPort || 10080
 gulp.task('browsersync', function() {
   browserSync.init({
+    port: PORT,
     proxy: "localhost:" + PORT
   });
 })
