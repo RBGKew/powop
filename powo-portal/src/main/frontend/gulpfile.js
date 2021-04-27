@@ -67,7 +67,8 @@ const BACKEND_PORT = argv.backendPort || 10080
 gulp.task('browsersync', function() {
   browserSync.init({
     port: PORT,
-    proxy: "localhost:" + PORT
+    proxy: "localhost:" + BACKEND_PORT,
+    logLevel: "debug"
   });
 })
 
