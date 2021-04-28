@@ -11,21 +11,22 @@
 
   &.s-page--home,
   &.s-page--error {
-    background-image: url("/img/raster/ColFungi.jpg") !important;
-
+    .c-search {
+      background-image: url("/img/raster/ColFungi.jpg") !important;
+    }
     #kew-upfc-logo-svg {
       path,
       text {
-        fill: #fff;
+        fill: $kew-black;
       }
       #Bar {
-        fill: #fff;
+        fill: $kew-black;
       }
       #Map {
-        fill: $upfc-green;
+        fill: $White;
       }
       #Background {
-        fill: #fff;
+        fill: $upfc-green;
       }
     }
 

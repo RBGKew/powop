@@ -1,5 +1,23 @@
 .c-header {
-  a:link { text-decoration: none }
+  background-color: $White;
+  height: 70px;
+  .container {
+    .top-right-nav {
+      float: right;
+      margin-top: 25px;
+      .top-link {
+        margin-right: 43px;
+        text-transform: uppercase;
+      }
+    }
+  }
+  a.top-link { 
+    text-decoration: none;
+    color: $kew-black;
+    &:hover {
+      color:$kew-teal;
+    }
+  }
   h1 {
     font-weight: 700;
     font-size: $font-size-h2;
@@ -28,11 +46,22 @@
 
 #kew-logo {
   display: inline;
+  float: left;
+  #kew-powo-logo-svg {
+    margin-top: 12px;
+    text {
+      fill: $kew-teal;
+    }
+    rect, g {
+      fill: $kew-black;
+    }
+  }
+  
 
   @media (min-width: $screen-sm-min) {
   #kew-logo-svg {
     width: 200px;
-    margin-top: 15px;
+    margin-top: 14px;
     height: 60px;
     }
   }

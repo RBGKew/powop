@@ -17,9 +17,9 @@
   .tokenfield {
     font-size: 16px;
     background-color: #fff;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-
+    border-top-left-radius: 26px;
+    border-bottom-left-radius: 26px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
     .token {
       color: #000;
       height: auto;
@@ -65,7 +65,7 @@
 .c-header .form-inline--search {
   margin-top: 6px;
   width: 100%;
-  float: right;
+  float: left;
 
   .form-control {
     box-shadow: none;
@@ -94,7 +94,9 @@
 #search-button {
   background-color: $kew-teal;
   color: white;
-
+  border-top-right-radius: 26px;
+  border-bottom-right-radius: 26px;
+  width: 57px;
   &:hover,&:focus {
     background-color: scale-color($kew-teal, $lightness: -25%);
   }
@@ -102,6 +104,9 @@
 
 .s-page--taxon {
   #search_box {
+    float: right;
+    border: none;
+    padding: 0 10px;
     .tokenfield {
       border: 1px solid $kew-medium-grey;
       padding: 6px 0 7px 12px;
