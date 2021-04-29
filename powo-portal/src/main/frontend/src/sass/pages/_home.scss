@@ -77,15 +77,19 @@
     display: block;
   }
   .front-page-container {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     height: 80vh;
+    .central {
+      flex-direction: column;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
     .featured {
       @media (min-width: $screen-sm-min) {
         display: block;
         color: $White;
-        position: absolute;
-        bottom: 0;
-        right: 0;
+        align-self: flex-end;
       }
       display: none;
       a {

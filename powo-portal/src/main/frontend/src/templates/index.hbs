@@ -11,13 +11,14 @@
 
     <div class="c-search autocomplete-form">
       <div class="container front-page-container">
-
-        <div class="c-intro">
-          {{> (concat "partials/intro/" siteId) }}
+        <div class="central">
+          <div class="c-intro">
+            {{> (concat "partials/intro/" siteId) }}
+          </div>
+          <main id="main" class="front-page" tabindex="-1">
+            {{> partials/search/search-box }}
+          </main>
         </div>
-        <main id="main" class="front-page" tabindex="-1">
-          {{> partials/search/search-box }}
-        </main>
         <aside class="featured">
           {{> partials/featured}}
         </aside>
