@@ -63,16 +63,15 @@
 }
 
 .c-header .form-inline--search {
-  margin-top: 6px;
-  width: 100%;
-  float: left;
-
+    width: 100%;
+    display: flex;
+    order: 2;
   .form-control {
     box-shadow: none;
   }
 
-  @media (min-width: $screen-hg-min) { width: 850px; }
-  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 670px; }
+  @media (min-width: $screen-hg-min) { width: 650px; }
+  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 500px; }
 }
 
 .s-page--taxon .c-header .form-inline--search {
