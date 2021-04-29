@@ -32,7 +32,6 @@ define(function(require) {
     if($('.s-page').hasClass('s-search__fullpage')) {
       results.initialize();
       $('.s-page').removeClass('s-search__fullpage');
-      $('.s-page').removeClass('front-page-container');
       $('#search_box').detach().appendTo('.c-header .container');
       // below three lines are needed because the front page and the search page are the same page and we need to change which is main on both "pages" for accessibility
       $( ".front-page" ).remove();
