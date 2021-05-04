@@ -35,6 +35,10 @@
       font-size: 100%;
       color: $White;
       line-height: 1.43;
+      font-weight: 300;
+      @media (min-width: $screen-md-min) {
+        font-weight: 400;
+      }
     }
   }
   .footer-layer-two {
