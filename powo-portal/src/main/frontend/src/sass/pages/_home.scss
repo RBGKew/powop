@@ -5,18 +5,18 @@
 
 .s-page--home,
 .s-page--error {
-
-  border-color: #FFFFFF;
-  background-image: url('/img/raster/Anagallis_arvensis_06.jpg');
-  background-size: cover;
-  background-attachment: fixed;
-  background-position-x: 25%;
-  background-position-y: 10%;
-  min-height: 100vh;
-  @media (max-width: $screen-sm-min) {
-    min-height: 120vh;
+  .c-search {
+    border-color: #FFFFFF;
+    background-image: url('/img/raster/Anagallis_arvensis_06.jpg');
+    background-size: cover;
+    background-position-x: 25%;
+    background-position-y: 25%;
+    min-height: 80vh;
+    background-repeat: no-repeat;
+    @media (max-width: $screen-sm-min) {
+      min-height: 120vh;
+    }
   }
-
   .s-page-wrapper {
     position: relative;
     min-height: calc(100vh - 30px);
@@ -27,13 +27,13 @@
   }
 
   #kew-logo-svg {
-    width: 200px;
+    width: 400px;
     height: 60px;
-    fill: #fff;
+    fill: $kew-black;
   }
 
   .site-logo {
-    fill: #fff;
+    fill: $kew-black;
   }
 }
 
@@ -46,7 +46,9 @@
     right: 0;
   }
 }
-
+.featured {
+  display: none;
+}
 .c-intro {
   display: none;
 
@@ -68,12 +70,32 @@
   .c-header .container,
   .c-footer .container {
     max-width: 100%;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 99px;
+    padding-right: 99px;
   }
-
   .c-intro {
     display: block;
+  }
+  .front-page-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    .central {
+      flex-direction: column;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+    .featured {
+      @media (min-width: $screen-sm-min) {
+        display: block;
+        color: $White;
+        align-self: flex-end;
+      }
+      display: none;
+      a {
+        color: $White
+      }
+    };
   }
 
   .form-inline--search {

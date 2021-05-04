@@ -48,6 +48,9 @@
 */
 .s-page {
   border: 15px solid #CCCCCC;
+  &.s-page--home {
+    border: none;
+  }
 }
 
 @media (max-width: $screen-sm-min) {

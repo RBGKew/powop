@@ -1,5 +1,31 @@
 .c-header {
-  a:link { text-decoration: none }
+  background-color: $White;
+  padding: 9px 0;
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
+  .container {
+    display: flex;
+    align-items: center;
+    .top-right-nav {
+      display: flex;
+      margin-left: auto;
+      order: 3;
+      .top-link {
+        margin-right: 43px;
+        text-transform: uppercase;
+        &.last {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  a.top-link { 
+    text-decoration: none;
+    color: $kew-black;
+    font-weight: 500;
+    &:hover {
+      color:$kew-teal;
+    }
+  }
   h1 {
     font-weight: 700;
     font-size: $font-size-h2;
@@ -27,12 +53,20 @@
 }
 
 #kew-logo {
-  display: inline;
+  display: flex;
+  #kew-powo-logo-svg {
+    text {
+      fill: $kew-teal;
+    }
+    rect, g {
+      fill: $kew-black;
+    }
+  }
+  
 
   @media (min-width: $screen-sm-min) {
   #kew-logo-svg {
     width: 200px;
-    margin-top: 15px;
     height: 60px;
     }
   }
@@ -52,7 +86,6 @@
 
 .c-header .site-logo {
   height: 60px;
-  margin-top: 15px;
   border-left: 1px solid #fff;
   padding-left: 15px;
   margin-left: 15px;
@@ -66,7 +99,6 @@
   @media (max-width: $screen-sm-min) {
     height: 45px;
     padding-left: 10px;
-    margin-top: 10px;
     margin-left: 5px;
 
     svg {

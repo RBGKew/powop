@@ -10,11 +10,12 @@
 
   &.s-page--home,
   &.s-page--error {
-    background-image: url('/img/raster/ColPlantA.jpg') !important;
-    
+    .c-search {
+      background-image: url('/img/raster/ColPlantA.jpg') !important;
+    }
     &.s-search__fullpage {
       .site-logo {
-        fill: #fff;
+        fill: $kew-black;
         height: 70px;
       }
     }

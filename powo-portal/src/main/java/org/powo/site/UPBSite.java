@@ -26,6 +26,11 @@ public class UPBSite extends PowoSite {
 	public String siteId() {
 		return "upb";
 	}
+	
+	@Override
+	public String kewLogoPath() {
+		return "svg/kew-upb-logo.svg";
+	}
 
 	@Override
 	public DefaultQueryOption defaultQuery() {

@@ -3,7 +3,9 @@
 
   &.s-page--home,
   &.s-page--error {
-    background-image: url('/img/raster/upb.jpg');
+    .c-search {
+      background-image: url('/img/raster/upb.jpg');
+    }
 
     #upb-logo-svg {
       width: 200px;
