@@ -1,0 +1,13 @@
+{{#each featured-taxa-sections}}
+  <header>
+  <h2>{{title}}</h2>
+  <div class="view-all">
+    <a href="/?q=">View All</a>
+  </div>
+  </header>
+  {{#each featuredTaxa}}
+    <div class="col-12 col-md-4 {{#if @first}}first{{/if}} {{#if @last}} last{{/if}}">
+      {{> partials/featured/featured-taxon }}
+    </div>
+  {{/each}}
+{{/each}}
