@@ -1,9 +1,11 @@
 <a class="featured-taxon" href="/taxon/{{ taxon.identifier }}">
-  {{#if featuredImage}}
   <div class="featured-taxon__image">
-    <img src={{imageUrl featuredImage "thumbnail" }}>
+    {{#if featuredImage}}
+      <img src={{imageUrl featuredImage "thumbnail" }}>
+    {{else}}
+      <div class="photo-placeholder"></div>
+    {{/if}}
   </div>
-  {{/if}}
   <span class="featured-taxon__rank">{{taxon.taxonRank}}</span>
   <span class="featured-taxon__name">{{taxon.scientificName}} {{taxon.scientificNameAuthorship}}</span>
   <div class="featured-taxon__descriptions">

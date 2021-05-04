@@ -141,6 +141,9 @@
 }
 .s-search__fullpage {
   .featured-taxa-sections {
-    display: block;
+    display: none;
+    @media (min-width: $screen-md-min) {
+      display: block;
+    }
   }
 }
