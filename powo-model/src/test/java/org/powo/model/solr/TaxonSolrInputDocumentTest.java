@@ -295,6 +295,7 @@ public class TaxonSolrInputDocumentTest {
 		synonym.setDescriptions(ImmutableSet.<Description>of(description));
 		synonym.setImages(ImmutableList.<Image>of(image));
 		synonym.setTaxonomicStatus(TaxonomicStatus.Synonym);
+		synonym.setAcceptedNameUsage(taxon);
 		taxon.setSynonymNameUsages(ImmutableSet.<Taxon>of(synonym));
 
 		SolrInputDocument taxonDoc = new TaxonSolrInputDocument(taxon).build();
