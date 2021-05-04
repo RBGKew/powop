@@ -9,9 +9,20 @@
 
 .static_text {
   min-height: 80vh;
-  background-color: #fff;
   color: #000;
-
+  width: 100%;
+  font-size: 16px;
+  @media (min-width: $screen-md-min) {
+    width: 33%;
+  }
+  h1 {
+    text-align: center;
+    color: $kew-teal;
+    font-size: 50px;
+    font-weight: 300;
+    line-height: 1.16;
+    margin-bottom: 63px;
+  }
   a {
     color: #0645AD;
     text-decoration: underline;
