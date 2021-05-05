@@ -80,10 +80,17 @@
     display: flex;
     flex-direction: column;
     height: 80vh;
+    padding: 0 40px;
+    @media (min-width: $screen-sm-min) {
+      padding: 0 100px;
+    }
     .central {
       flex-direction: column;
-      margin-top: auto;
-      margin-bottom: auto;
+      max-width: 718px;
+      margin: auto;
+      p {
+        padding-bottom: 40px;
+      }
     }
     .featured {
       @media (min-width: $screen-sm-min) {
@@ -142,7 +149,7 @@
 .s-search__fullpage {
   .featured-taxa-sections {
     display: none;
-    @media (min-width: $screen-md-min) {
+    @media (min-width: $screen-sm-min) {
       display: block;
     }
   }

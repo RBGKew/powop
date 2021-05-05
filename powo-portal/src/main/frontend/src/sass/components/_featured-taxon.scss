@@ -1,5 +1,6 @@
 .featured-taxa-sections {
   margin-bottom: 40px;
+  padding: 0 100px;
   header {
     display: flex;
     justify-content: space-between;
@@ -12,18 +13,21 @@
       margin: 0;
     }
   }
-  .first {
-    padding-left: 0
-  }
-  .last {
-    padding-right: 0
-  }
-  .featured-taxon {
+  .featured-taxa {
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
-
-    &:hover,&:focus {
+    @media (min-width: $screen-md-min) {
+      flex-direction: row;
+    }
+    a:hover,a:focus {
       text-decoration: none;
+    }
+    .taxa {
+      @media (min-width: $screen-md-min) {
+        width: 30%;
+      }
+      width: 100%;
     }
   }
 
