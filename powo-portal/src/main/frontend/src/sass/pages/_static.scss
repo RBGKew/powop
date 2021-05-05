@@ -34,14 +34,11 @@
   .static_text {
     min-height: 80vh;
     color: $kew-black;
-    width: 100%;
+    max-width: 650px;
     font-size: 16px;
     line-height: 24px;
     font-weight: 300;
     margin-bottom: 63px;
-    @media (min-width: $screen-md-min) {
-      width: 33%;
-    }
     h1 {
       text-align: center;
       color: $kew-teal;
