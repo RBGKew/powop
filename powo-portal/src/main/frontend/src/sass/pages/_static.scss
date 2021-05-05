@@ -6,69 +6,96 @@
   padding-top: 20vh;
   text-align: center;
 }
-
-.static_text {
-  min-height: 80vh;
-  color: #000;
-  width: 100%;
-  font-size: 16px;
-  @media (min-width: $screen-md-min) {
-    width: 33%;
-  }
-  h1 {
+.s-page {
+  .static-links {
+    @media (min-width: $screen-sm-min) {
+      display: flex;
+    }
+    display: none;
+    background-color: $kew-teal;
     text-align: center;
-    color: $kew-teal;
-    font-size: 50px;
-    font-weight: 300;
-    line-height: 1.16;
-    margin-bottom: 63px;
-  }
-  a {
-    color: #0645AD;
-    text-decoration: underline;
-  }
-
-  .column_list li:first-child {
-    font-weight: bold;
-  }
-
-  ul.column_list {
-    list-style-type: none;
-    display:inline-block;
-    vertical-align:top;
-  }
-
-  p {
-    padding-left: 20px;
-  }
-
-  blockquote {
-    font-size: inherit;
-  }
-
-  .main-partner-image {
-    display: inline-block;
-    margin-bottom: 2rem;
-    margin-right: 2rem;
-    > img {
-      max-height: 100px;
-      max-width: 300px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        display: inline-block;
+        width: 167px;
+        padding: 18px;
+        &.active {
+          background-color: $kew-medium-teal;
+        }
+      }
     }
   }
+  .static_text {
+    min-height: 80vh;
+    color: $kew-black;
+    width: 100%;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 300;
+    margin-bottom: 63px;
+    @media (min-width: $screen-md-min) {
+      width: 33%;
+    }
+    h1 {
+      text-align: center;
+      color: $kew-teal;
+      font-size: 50px;
+      font-weight: 300;
+      line-height: 1.16;
+      margin: 63px 0;
+    }
+    h2 {
+      margin-top: 32px;
+    }
+    a {
+      color: #0645AD;
+      text-decoration: underline;
+    }
 
-  .partner-images {
-    > img {
+    .column_list li:first-child {
+      font-weight: bold;
+    }
+
+    ul.column_list {
+      list-style-type: none;
+      display:inline-block;
+      vertical-align:top;
+    }
+
+    blockquote {
+      font-size: inherit;
+    }
+
+    .main-partner-image {
       display: inline-block;
       margin-bottom: 2rem;
       margin-right: 2rem;
-      max-height: 100px;
-      max-width: 100px;
+      > img {
+        max-height: 100px;
+        max-width: 300px;
+      }
     }
-  }
 
-  .partners-image-block {
-    display: block;
-    max-width: 1000px;
-    width: 100%;
+    .partner-images {
+      > img {
+        display: inline-block;
+        margin-bottom: 2rem;
+        margin-right: 2rem;
+        max-height: 100px;
+        max-width: 100px;
+      }
+    }
+
+    .partners-image-block {
+      display: block;
+      max-width: 1000px;
+      width: 100%;
+    }
   }
 }

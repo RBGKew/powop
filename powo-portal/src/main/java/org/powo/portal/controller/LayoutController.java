@@ -22,6 +22,11 @@ public class LayoutController {
     return site.siteId();
   }
 
+  @ModelAttribute("siteIdCapitlized")
+  protected String siteIdCapitlized() {
+    return site.siteIdCapitlized();
+  }
+
   @ModelAttribute("favicon")
   protected String favicon() {
     return site.favicon();
