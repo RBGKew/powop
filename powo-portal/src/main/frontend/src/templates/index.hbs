@@ -10,7 +10,7 @@
     {{> partials/page-header}}
 
     <div class="c-search autocomplete-form">
-      <div class="container front-page-container">
+      <div class="front-page-container">
         <div class="central">
           <div class="c-intro">
             {{> (concat "partials/intro/" siteId) }}
@@ -20,21 +20,12 @@
           </main>
         </div>
         <aside class="featured">
-          {{> partials/featured}}
+          {{> partials/featured/featured}}
         </aside>
       </div><!-- End Container -->
     </div>
-    <div class="featured-taxa-sections">
-      {{#each featured-taxa-sections}}
-      <h2>{{title}}</h2>
-      <div class="container">
-        {{#each featuredTaxa}}
-        <div class="col-12 col-md-4">
-          {{> partials/featured-taxon }}
-        </div>
-        {{/each}}
-      </div>
-      {{/each}}
+    <aside class="featured-taxa-sections">
+      {{> partials/featured/featured-taxa-sections}}
     </div>
     {{> partials/footer-links}}
   </div>
