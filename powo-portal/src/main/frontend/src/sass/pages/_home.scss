@@ -80,10 +80,18 @@
     display: flex;
     flex-direction: column;
     height: 80vh;
+    padding: 0 16px;
+    @media (min-width: $screen-sm-min) {
+      padding: 0 100px;
+    }
     .central {
       flex-direction: column;
-      margin-top: auto;
-      margin-bottom: auto;
+      max-width: 718px;
+      margin: auto;
+      p {
+        padding-bottom: 40px;
+        margin: 0
+      }
     }
     .featured {
       @media (min-width: $screen-sm-min) {
@@ -99,9 +107,8 @@
   }
 
   .form-inline--search {
-    width: 90%;
     @media (min-width: $screen-lg) { width: 740px; }
-    margin: 0 auto;
+      margin: 0 auto;
   }
 
   .site-logo {
@@ -141,6 +148,9 @@
 }
 .s-search__fullpage {
   .featured-taxa-sections {
-    display: block;
+    display: none;
+    @media (min-width: $screen-sm-min) {
+      display: block;
+    }
   }
 }
