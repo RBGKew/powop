@@ -11,6 +11,7 @@
     @media (min-width: $screen-sm-min) {
       display: flex;
     }
+    display: none;
     background-color: $kew-teal;
     text-align: center;
     height: 60px;
