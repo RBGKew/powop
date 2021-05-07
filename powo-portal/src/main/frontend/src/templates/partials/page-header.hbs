@@ -2,12 +2,17 @@
   <div class="container">
     <a id="kew-logo" href="/" aria-label="Go to the homepage">{{> (str kewLogo) }}</a>
     <nav class="top-right-nav">
-      {{#if cross-site-link.present}}
-        <a class="top-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a>
-      {{/if}}
-      <a class="top-link" href="/">{{{message "header_home"}}}</a>
-      <a class="top-link" href="/about">{{{message "footer_about"}}}</a>
-      <a class="top-link last" href="/search-help">{{{message "footer_help"}}}</a>
+      <ul class="active">
+        {{#if cross-site-link.present}}
+          <li><a class="top-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a></li>
+        {{/if}}
+        <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>
+        <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+        <li><a class="top-link last" href="/search-help">{{{message "footer_help"}}}</a></li>
+      </ul>
+      <a class="toggle-nav" href="#">
+        {{> svg/burger-icon }}
+      </a>
     </nav>
     {{#if withSearchBox }}
       {{> partials/search/search-box }}
