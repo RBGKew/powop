@@ -172,15 +172,13 @@
 
 #kew-logo {
   display: flex;
+  width: 261px;
   #kew-powo-logo-svg {
     text {
       fill: $kew-teal;
     }
     rect, g {
       fill: $kew-black;
-    }
-    @media (max-width: $screen-sm-min) {
-      width: 261px;
     }
   }
   
