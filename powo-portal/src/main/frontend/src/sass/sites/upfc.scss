@@ -16,4 +16,7 @@
   #Background {
     fill: $upfc-green;
   }
+  @media (max-width: $screen-sm-min) {
+    width: 261px;
+  }
 }

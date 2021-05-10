@@ -7,6 +7,14 @@
     .site-logo {
       display: none;
     }
+    .container {
+    padding-left: 16px;
+    padding-right: 16px;
+      @media (min-width: $screen-md-min) {
+        padding-left: 100px;
+        padding-right: 100px;
+      }
+    }
   }
 
   &.s-page--home,
@@ -28,6 +36,7 @@
       #Background {
         fill: $upfc-green;
       }
+      width: 261px;
     }
 
     &.s-search__fullpage {
