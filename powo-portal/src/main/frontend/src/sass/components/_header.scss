@@ -39,6 +39,51 @@
             float:none;
             display:block;
           }
+          &.desktop {
+            display: block;
+            @media (max-width: $screen-sm-min) {
+              display: none;
+            }
+          }
+          &.mobile {
+            display: none;
+            @media (max-width: $screen-sm-min) {
+              display: block;
+            }
+            .children 
+            {
+              &.active {
+                display: none;
+                background: $kew-medium-teal;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                z-index: 100000;
+                padding: 0;
+                &.open {
+                  display: block;
+                  -webkit-animation: slide 0.5s forwards;
+                  -webkit-animation-delay: 2s;
+                  animation: slide 0.5s forwards;
+                  animation-delay: 2s;
+                  .about-toggle {
+                    background-color: $kew-teal;
+                    margin-right: 0;
+                    font-size: 20px;
+                    margin-bottom: 11px;
+                  }
+                }
+              }
+              li {
+                
+              }
+            }
+          }
+
         }
       }
       .top-link {
@@ -74,7 +119,7 @@
       font-size: 24px;
       font-weight: 300;
       line-height: 1.25;
-      padding: 11px 0 12px 20px;
+      padding: 17px 0 12px 20px;
       text-decoration: none;
       min-height: 52px;
       -webkit-transition: background-color .35s ease;
@@ -82,6 +127,9 @@
     }
     &:hover {
       color:$kew-teal;
+      @media (max-width: $screen-sm-min) {
+        color:$White;
+      }
     }
   }
   h1 {

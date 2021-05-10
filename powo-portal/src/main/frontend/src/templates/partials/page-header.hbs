@@ -7,7 +7,17 @@
           <li><a class="top-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a></li>
         {{/if}}
         <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>
-        <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+        <li class="desktop"><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+        <li class="mobile">
+          <a class="top-link about-toggle" href="#">
+            About {{> svg/more }}
+          </a>
+          <ul class="children">
+             <a class="top-link about-toggle" href="#">{{> svg/back }} Back</a>
+            <li><a class="top-link" href="/what-we-do">{{{message "header_what_we_do"}}}</a></li>
+            <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+          </ul>
+        </li>
         <li><a class="top-link last" href="/search-help">{{{message "footer_help"}}}</a></li>
       </ul>
       <a class="toggle-nav" href="#">
