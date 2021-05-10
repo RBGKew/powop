@@ -5,12 +5,21 @@
   .container {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    @media (max-width: $screen-md-min) {
+      .container::after {
+        content: '';
+        width: 100%;
+      }
+      .containerlast-child { /* or `:nth-child(n + 4)` */
+        order: 1;
+      }
+    }
     .top-right-nav {
       margin-left: auto;
       order: 3;
       @media (max-width: $screen-sm-min) {
         content:'';
-        
       }
       ul {
         @media (max-width: $screen-sm-min) {

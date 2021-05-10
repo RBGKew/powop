@@ -64,26 +64,21 @@
 }
 
 .c-header .form-inline--search {
-    width: 100%;
     display: flex;
     order: 2;
+    @media (max-width: $screen-lg-min) {
+      order: 3;
+      margin-top: 16px;
+      .input-group-btn {
+        width: 54px;
+      }
+    }
   .form-control {
     box-shadow: none;
   }
 
   @media (min-width: $screen-hg-min) { width: 650px; }
   @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 500px; }
-}
-
-.s-page--taxon .c-header .form-inline--search {
-  width: 300px;
-  margin-top: 13px;
-  border: 0px solid #e7e7e7;
-  border-bottom-width: 5px;
-  display: none;
-
-  @media (min-width: $screen-sm-min) { display: table; }
-  @media (min-width: $screen-lg-min) { width: 400px; }
 }
 
 .loading {
@@ -99,17 +94,5 @@
   width: 57px;
   &:hover,&:focus {
     background-color: scale-color($kew-teal, $lightness: -25%);
-  }
-}
-
-.s-page--taxon {
-  #search_box {
-    float: right;
-    border: none;
-    padding: 0 10px;
-    .tokenfield {
-      border: 1px solid $kew-medium-grey;
-      padding: 6px 0 7px 12px;
-    }
   }
 }
