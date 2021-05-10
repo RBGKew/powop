@@ -12,6 +12,7 @@ define(function(require) {
       }
       $(this).toggleClass('active');
       $('.top-right-nav ul').toggleClass('active');
+      $('html').toggleClass('html--overflow-hidden');
 
       e.preventDefault();
     });

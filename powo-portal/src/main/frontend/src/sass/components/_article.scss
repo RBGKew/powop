@@ -1,7 +1,11 @@
 //
 // Article
 // --------------------------------------------------
-
+.html--overflow-hidden {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
 body {
   position: relative;
   font-size: 14px;
