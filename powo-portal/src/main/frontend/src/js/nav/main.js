@@ -1,6 +1,5 @@
 define(function(require) {
   var $ = require('jquery');
-  var _ = require('libs/lodash');
   burgerIcon = false
   $(document).ready(function() {
     $('.toggle-nav').click(function(e) {
