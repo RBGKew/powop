@@ -8,8 +8,9 @@
 }
 .s-page {
   .static-links {
+    display: none;
     @media (min-width: $screen-sm-min) {
-      display: flex;
+      display: flex; 
     }
     background-color: $kew-teal;
     text-align: center;
