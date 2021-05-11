@@ -28,6 +28,7 @@
         width: 100%;
         height: 100vh;
         padding: 6px 0;
+        z-index: 3;
         @media (min-width: $screen-sm-min) {
           position: unset;
           height: auto;
@@ -70,6 +71,7 @@
                 width: 100%;
                 height: 100vh;
                 padding: 0;
+                z-index: 4;
                 &.open {
                   display: block;
                   -webkit-animation: slide 0.5s forwards;
