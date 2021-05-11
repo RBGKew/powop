@@ -70,12 +70,6 @@
   .c-header .container,
   .c-footer .container {
     max-width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
-    @media (min-width: $screen-sm-min) {
-      padding-left: 100px;
-      padding-right: 100px;
-    }
     
   }
   .c-intro {
