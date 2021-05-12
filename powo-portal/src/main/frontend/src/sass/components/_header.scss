@@ -140,6 +140,9 @@
       font-size: 14px;
       min-height: auto;
       padding: 0;
+      &.current {
+        color: $kew-teal;
+      }
     }
     &:hover {
       color:$White;
