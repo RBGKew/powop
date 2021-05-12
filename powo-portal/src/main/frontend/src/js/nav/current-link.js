@@ -7,7 +7,6 @@ define(function(require) {
     $('.top-right-nav li a').each(function(){
         var $this = $(this);
         if($this.attr('href') === currentUrl ){
-          console.log($this.attr('href'))
             $this.addClass('current');
         }
     })

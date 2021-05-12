@@ -85,6 +85,10 @@
                     margin-bottom: 11px;
                     padding: 11px 0 11px 20px;
                     min-height: 25px;
+                    width: 100%;
+                    text-align: left;
+                    color: $White;
+                    border: none;
                   }
                 }
               }
@@ -110,7 +114,12 @@
         }
       }
       .toggle-nav {
+        background-color: $White;
+        border: none;
         display: block;
+        &.svg {
+          vertical-align: middle;   
+        }
         @media (min-width: $screen-sm-min) {
           display: none;
           height: 24px;
@@ -122,7 +131,7 @@
       }
     }
   }
-  a.top-link, a:focus.top-link, a.top-link { 
+  a.top-link, a.top-link { 
     color: $White;
     display: block;
     font-size: 24px;

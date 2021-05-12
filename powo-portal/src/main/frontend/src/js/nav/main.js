@@ -7,6 +7,7 @@ define(function(require) {
   burgerIcon = false
   $(document).ready(function() {
     $('.toggle-nav').click(function(e) {
+      e.preventDefault();
       if (burgerIcon) {
         $(this).find("use").attr("xlink:href", "#burgericon");
         burgerIcon = false;
@@ -16,9 +17,8 @@ define(function(require) {
       }
       $(this).toggleClass('active');
       $('.top-right-nav ul').toggleClass('active');
+      $(this).find('.top-right-nav ul').focus();
       $('html').toggleClass('html--overflow-hidden');
-
-      e.preventDefault();
     });
     $('.about-toggle').click(function(e) {
       $('.children').toggleClass('open');
