@@ -48,6 +48,8 @@ public class Summary {
 				return "synonym";
 			case Accepted:
 				return "accepted";
+			case Unresolved:
+				return "unresolved";
 			case Artificial_Hybrid:
 				return "an artifical hybrid";
 			case Doubtful:

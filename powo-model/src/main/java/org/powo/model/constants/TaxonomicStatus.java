@@ -18,12 +18,18 @@ public enum TaxonomicStatus implements KnownTerm {
 	 */
 	Doubtful,
 	Artificial_Hybrid,
-	Unplaced;
+	Unplaced,
+	/*
+	 * Treated as accepted, as the plant/fungi community has not yet
+	 * come to an agreement on taxonomy. Some authorities consider
+	 * it accepted, some do not (yet).
+	 */
+	Unresolved;
 
 	private static final int ID_BASE = 9000; // reserved upto 9999
 
 	public boolean isSynonym() {
-		return !(this.equals(Accepted) || this.equals(Doubtful));
+		return !(this.equals(Accepted) || this.equals(Doubtful) || this.equals(Unresolved));
 	}
 
 	@Override

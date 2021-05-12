@@ -89,6 +89,7 @@ public class TaxonController extends LayoutController {
 			model.addAttribute("uses", uses);
 		}
 		if (!taxon.getSynonymNameUsages().isEmpty()) {
+			var synonyms = taxon.getSynonymNameUsages();
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
 		}
 		if (!taxon.getChildNameUsages().isEmpty()) {
