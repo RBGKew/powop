@@ -1,13 +1,9 @@
 define(function(require) {
   var $ = require('jquery');
-  var current = location.pathname;
-  console.log(current)
-  $('.top-right-nav li a').each(function(){
-      var $this = $(this);
-      if($this.attr('href').indexOf(current) !== -1){
-          $this.addClass('current');
-      }
-  })
+  var currentLink = require('./current-link');
+
+  currentLink.setCurrentLink();
+
   burgerIcon = false
   $(document).ready(function() {
     $('.toggle-nav').click(function(e) {
