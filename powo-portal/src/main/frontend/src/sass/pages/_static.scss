@@ -52,8 +52,12 @@
       margin-top: 32px;
     }
     a {
-      color: #0645AD;
-      text-decoration: underline;
+      color: $kew-black;
+      border-bottom: 1px solid #262626;
+      text-decoration: none;
+      &:hover {
+        border-bottom-width: 2px;
+      }
     }
 
     .column_list li:first-child {
