@@ -966,7 +966,7 @@ public class Taxon extends SearchableObject {
 				return false;
 			case Accepted:
 			case Doubtful:
-			case Unresolved:
+			case PartiallyAccepted:
 			default:
 				return true;
 			}
@@ -977,14 +977,12 @@ public class Taxon extends SearchableObject {
 	public boolean isAccepted() {
 		//we want doubtful names to look like an accepted name, 
 		//but not show up in an accepted names search, or say that the name is accepted.
-		//
-		//we want unresolved names to behave like accepted names
 		if (getTaxonomicStatus() == null) {
 			return false;
 		} else {
 			switch (getTaxonomicStatus()) {
 			case Accepted:
-			case Unresolved:
+			case PartiallyAccepted:
 				return true;
 			case Synonym:
 			case Heterotypic_Synonym:
@@ -1019,7 +1017,7 @@ public class Taxon extends SearchableObject {
 			case Artificial_Hybrid:
 			case Doubtful:
 			case Misapplied:
-			case Unresolved:
+			case PartiallyAccepted:
 			default:
 				return false;
 			}

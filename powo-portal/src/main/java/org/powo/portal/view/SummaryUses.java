@@ -59,7 +59,7 @@ public class SummaryUses {
 	
 	public String build(Taxon taxon, MessageSource messageSource){
 		this.phraseUtils = new PhraseUtilities( messageSource);
-		Set<Taxon> taxonAndSynonyms = taxon.getSynonymNameUsages();
+		var taxonAndSynonyms = new HashSet<>(taxon.getSynonymNameUsages());
 		taxonAndSynonyms.add(taxon);
 		for(Taxon item : taxonAndSynonyms){
 			for(Description description : item.getDescriptions()){

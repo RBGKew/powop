@@ -29,8 +29,8 @@ public class TaxonomicStatusToStringConverter implements Converter<TaxonomicStat
 			switch(value) {
 			case Accepted:
 				return "accepted";
-			case Unresolved:
-				return "unresolved";
+			case PartiallyAccepted:
+				return "partiallyAccepted";
 			case DeterminationSynonym:
 				return "determinationSynonym";
 			case Doubtful:
