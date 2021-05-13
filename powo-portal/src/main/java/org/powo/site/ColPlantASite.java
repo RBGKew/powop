@@ -26,7 +26,7 @@ public class ColPlantASite extends PowoSite {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
 		return new ImmutableMap.Builder<String, String>()
 				.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 1000))
-				.put("taxon-counts-species", format(imageService.count(), 100)).build();
+				.put("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 100)).build();
 	}
 
 	@Override
