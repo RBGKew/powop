@@ -26,6 +26,11 @@ public class UPBSite extends PowoSite {
 	public String siteId() {
 		return "upb";
 	}
+
+	@Override
+	public String siteIdCapitlized() {
+		return "UPB";
+	}
 	
 	@Override
 	public String kewLogoPath() {
