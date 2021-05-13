@@ -17,7 +17,6 @@ define(function(require) {
       }
       $(this).toggleClass('active');
       $('.top-right-nav ul').toggleClass('active');
-      $(this).find('.top-right-nav ul').focus();
       $('html').toggleClass('html--overflow-hidden');
     });
     $('.about-toggle').click(function(e) {
