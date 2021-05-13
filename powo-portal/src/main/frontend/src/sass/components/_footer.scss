@@ -5,12 +5,11 @@
     @media (min-width: $screen-md-min) {
       flex-direction: row;
       padding: 0 100px;   
-      height: 56px;
     }
     flex-direction: column;
     display: flex;
     justify-content: space-between;
-    height: unset;
+    min-height: 56px;
     padding: 21px;
     nav {
       align-self: center;
@@ -36,6 +35,10 @@
       font-size: 100%;
       color: $White;
       line-height: 1.43;
+      font-weight: 300;
+      @media (min-width: $screen-md-min) {
+        font-weight: 400;
+      }
     }
   }
   .footer-layer-two {
