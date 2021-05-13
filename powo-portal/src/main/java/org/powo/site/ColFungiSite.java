@@ -94,7 +94,7 @@ public class ColFungiSite extends PowoSite {
 		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"));
 		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"));
 
-		return List.of(new FeaturedTaxaSection("Featured plants",
+		return List.of(new FeaturedTaxaSection("Featured fungi",
 				List.of(auriculariaAuriculaJudae, auriculariaFuscosuccinea, macrolepiotaColombiana)));
 	}
 }
