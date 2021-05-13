@@ -25,6 +25,11 @@ public class StaticController extends LayoutController {
 		return "static/terms_and_conditions";
 	}
 
+	@RequestMapping(value = "/what-we-do", method = RequestMethod.GET, produces = {"text/html"})
+  public String whatWeDo(Model model) {
+    return "static/what_we_do";
+  }
+
 	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
 	public String about(Model model) {
 		return "static/about";

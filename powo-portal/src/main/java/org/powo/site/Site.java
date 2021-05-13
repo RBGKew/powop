@@ -29,6 +29,7 @@ public interface Site {
 	String suggesterFilter();
 	Locale defaultLocale();
 	String siteId();
+	String siteIdCapitlized();
 	String kewLogoPath();
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
