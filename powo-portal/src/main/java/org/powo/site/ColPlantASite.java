@@ -89,10 +89,10 @@ public class ColPlantASite extends PowoSite {
 	@Override
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
 		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"));
-		var passifloraLindeniana = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:675145-1"));
+		var passifloraEdulis = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:321964-2"));
 		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"));
 
 		return List.of(new FeaturedTaxaSection("Featured plants",
-				List.of(cochlospermumOrinocense, passifloraLindeniana, epidendrumRadicans)));
+				List.of(cochlospermumOrinocense, passifloraEdulis, epidendrumRadicans)));
 	}
 }
