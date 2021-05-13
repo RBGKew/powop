@@ -53,7 +53,7 @@
     }
     a {
       color: $kew-black;
-      border-bottom: 1px solid #262626;
+      border-bottom: 1px solid $kew-black;
       text-decoration: none;
       &:hover {
         border-bottom-width: 2px;
