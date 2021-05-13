@@ -11,6 +11,8 @@ import com.google.common.collect.ImmutableMap;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.portal.view.FeaturedTaxaSection;
+import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +25,10 @@ public class ColFungiSite extends PowoSite {
 	public Map<String, String> getFormattedTaxonCounts() {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
 		return new ImmutableMap.Builder<String, String>()
-			.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 100))
-			.put("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 1))
-			.put("taxon-counts-genus", format(taxonCounts.getGenusCount(), 1))
-			.put("taxon-counts-family", format(taxonCounts.getFamilyCount(), 1))
-			.build();
+				.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 100))
+				.put("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 1))
+				.put("taxon-counts-genus", format(taxonCounts.getGenusCount(), 1))
+				.put("taxon-counts-family", format(taxonCounts.getFamilyCount(), 1)).build();
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class ColFungiSite extends PowoSite {
 		return String.format("%s %s | Colombian Fungi made accessible", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
 	}
-	
+
 	@Override
 	public String favicon() {
 		return "upfc-favicon.ico";
@@ -85,5 +86,15 @@ public class ColFungiSite extends PowoSite {
 	public Optional<Link> crossSiteLink() {
 		Link link = new Link("http://colplanta.org", "ColPlantA");
 		return Optional.of(link);
+	}
+
+	@Override
+	public List<FeaturedTaxaSection> featuredTaxaSections() {
+		var auriculariaAuriculaJudae = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:102281"));
+		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"));
+		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"));
+
+		return List.of(new FeaturedTaxaSection("Featured plants",
+				List.of(auriculariaAuriculaJudae, auriculariaFuscosuccinea, macrolepiotaColombiana)));
 	}
 }
