@@ -5,24 +5,157 @@
   .container {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    .container::after {
+      content: '';
+      width: 100%;
+    }
+    .containerlast-child {
+      order: 1;
+    }
     .top-right-nav {
+      content: '';
       margin-left: auto;
       order: 3;
+      ul {
+        background: $kew-teal;
+        display: block;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        padding: 6px 0;
+        z-index: 3;
+        @media (min-width: $screen-sm-min) {
+          position: unset;
+          height: auto;
+          background: transparent;
+        }
+        &.active {
+          display:none;
+          @media (min-width: $screen-sm-min) {
+            display: block;
+          }
+        }
+        li {
+          float:none;
+          display:block;
+          @media (min-width: $screen-sm-min) {
+            float:left;
+            list-style:none;
+          }
+          &.desktop {
+            display: none;
+            @media (min-width: $screen-sm-min) {
+              display: block;
+            }
+          }
+          &.mobile {
+            display: block;
+            @media (min-width: $screen-sm-min) {
+              display: none;
+            }
+            .children 
+            {
+              &.active {
+                display: none;
+                background: $kew-medium-teal;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                padding: 0;
+                z-index: 4;
+                &.open {
+                  display: block;
+                  -webkit-animation: slide 0.5s forwards;
+                  -webkit-animation-delay: 2s;
+                  animation: slide 0.5s forwards;
+                  animation-delay: 2s;
+                  .about-toggle {
+                    background-color: $kew-teal;
+                    margin-right: 0;
+                    font-size: 20px;
+                    margin-bottom: 11px;
+                    padding: 11px 0 11px 20px;
+                    min-height: 25px;
+                    width: 100%;
+                    text-align: left;
+                    color: $White;
+                    border: none;     
+                  }
+                }
+              }
+            }
+          }
+
+        }
+      }
       .top-link {
-        margin-right: 43px;
-        text-transform: uppercase;
+        text-transform: none;
+        &.cross-site-link {
+          display: none;
+        }
+        @media (min-width: $screen-sm-min) {
+          margin-right: 33px;
+          text-transform: uppercase;
+        }
         &.last {
           margin-right: 0;
         }
       }
+      .toggle-nav {
+        background-color: $White;
+        border: none;
+        display: block;
+        height: 29px;
+        &.svg {
+          vertical-align: middle;   
+        }
+        @media (min-width: $screen-sm-min) {
+          display: none;
+          height: 24px;
+        }
+        transition:color linear 0.15s;
+        .hide-svg {
+          display: none;
+        }
+      }
     }
   }
-  a.top-link { 
+  a.top-link, a.top-link { 
+    color: $White;
+    display: block;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.25;
+    padding: 22px 0 22px 20px;
     text-decoration: none;
-    color: $kew-black;
-    font-weight: 500;
+    min-height: 52px;
+    -webkit-transition: background-color .35s ease;
+    transition: background-color .35s ease;
+    @media (min-width: $screen-sm-min) {
+      text-decoration: none;
+      color: $kew-black;
+      font-weight: 500;
+      font-size: 14px;
+      min-height: auto;
+      padding: 0;
+      &.current {
+        color: $kew-teal;
+      }
+    }
     &:hover {
-      color:$kew-teal;
+      color:$White;
+      @media (min-width: $screen-sm-min) {
+        color:$kew-teal;
+      }
     }
   }
   h1 {
@@ -35,8 +168,7 @@
   }
 
   .container {
-    @media (max-width: $screen-sm-min) { margin: 0; }
-
+    // margin: 0;
     small {
       display: block;
       font-size: 60%
@@ -53,6 +185,7 @@
 
 #kew-logo {
   display: flex;
+  width: 252px;
   #kew-powo-logo-svg {
     text {
       fill: $kew-teal;
@@ -77,36 +210,45 @@
   }
 }
 
-.s-search__fullpage .featured {
-  @media (min-width: $screen-sm-min) {
+.s-search__fullpage {
+  .featured {
+    @media (min-width: $screen-sm-min) {
+      display: block;
+    }
+  }
+  .cross-site-link {
     display: block;
   }
 }
 
 .c-header .site-logo {
-  height: 60px;
-  border-left: 1px solid #fff;
-  padding-left: 15px;
-  margin-left: 15px;
-  display: inline-block;
-
+  height: 45px;
+  padding-left: 10px;
+  margin-left: 5px;
   svg {
-    width: 160px;
-    height: 60px;
+    width: 125px;
+    height: 45px;
   }
 
-  @media (max-width: $screen-sm-min) {
-    height: 45px;
-    padding-left: 10px;
-    margin-left: 5px;
-
+  @media (min-width: $screen-sm-min) {
+    height: 60px;
+    border-left: 1px solid #fff;
+    padding-left: 15px;
+    margin-left: 15px;
+    display: inline-block;
+    
     svg {
-      width: 125px;
-      height: 45px;
+      width: 160px;
+      height: 60px;
     }
+    
   }
 }
 
 .s-search__fullpage .c-header .site-logo {
   display: none;
+}
+
+.s-search__fullpage .container .top-right-nav .top-link.cross-site-link {
+  display: block;
 }
