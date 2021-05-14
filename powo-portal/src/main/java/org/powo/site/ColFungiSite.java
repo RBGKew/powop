@@ -26,9 +26,7 @@ public class ColFungiSite extends PowoSite {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
 		return new ImmutableMap.Builder<String, String>()
 				.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 100))
-				.put("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 1))
-				.put("taxon-counts-genus", format(taxonCounts.getGenusCount(), 1))
-				.put("taxon-counts-family", format(taxonCounts.getFamilyCount(), 1)).build();
+				.put("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 1)).build();
 	}
 
 	@Override
