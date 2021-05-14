@@ -23,7 +23,9 @@ public class TaxonTest {
 			TaxonomicStatus.Accepted,
 			TaxonomicStatus.Doubtful,
 			TaxonomicStatus.Artificial_Hybrid,
-			TaxonomicStatus.Unplaced};
+			TaxonomicStatus.Unplaced,
+			TaxonomicStatus.PartiallyAccepted,
+		};
 
 	@Test
 	public void testIsTaxonSynonym() {
@@ -46,7 +48,7 @@ public class TaxonTest {
 		assertFalse("Taxon with blank taxonomic status should not be accepted", taxon.isAccepted());
 		for (TaxonomicStatus status : TaxonomicStatus.values()) {
 			taxon.setTaxonomicStatus(status);
-			if (status == TaxonomicStatus.Accepted) {
+			if (status == TaxonomicStatus.Accepted || status == TaxonomicStatus.PartiallyAccepted) {
 				assertTrue("Taxon with " + status.toString() + " status should be accepted", taxon.isAccepted());
 			} else {
 				assertFalse("Taxon with " + status.toString() + " status should not be accepted", taxon.isAccepted());
