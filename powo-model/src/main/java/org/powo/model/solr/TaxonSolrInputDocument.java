@@ -235,7 +235,10 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private void indexDescriptions() {
 		boolean hasDescriptions = false;
-		if(taxon.looksAccepted()) {
+		// Only index the descriptions if the taxon looks accepted (Accepted, Doubtful or unknown)
+		// or if we don't have the accepted name. This is so that all the information
+		// about a taxon is found on the page for the accepted name, not on the synonyms.
+		if(taxon.looksAccepted() || taxon.getAcceptedNameUsage() == null) {
 			hasDescriptions |= doIndexDescriptions(taxon);
 			for(Taxon synonym : taxon.getSynonymNameUsages()) {
 				hasDescriptions |= doIndexDescriptions(synonym);

@@ -966,6 +966,7 @@ public class Taxon extends SearchableObject {
 				return false;
 			case Accepted:
 			case Doubtful:
+			case PartiallyAccepted:
 			default:
 				return true;
 			}
@@ -981,6 +982,7 @@ public class Taxon extends SearchableObject {
 		} else {
 			switch (getTaxonomicStatus()) {
 			case Accepted:
+			case PartiallyAccepted:
 				return true;
 			case Synonym:
 			case Heterotypic_Synonym:
@@ -1015,6 +1017,7 @@ public class Taxon extends SearchableObject {
 			case Artificial_Hybrid:
 			case Doubtful:
 			case Misapplied:
+			case PartiallyAccepted:
 			default:
 				return false;
 			}
