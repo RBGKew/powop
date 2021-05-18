@@ -10,6 +10,17 @@ body {
   position: relative;
   font-size: 14px;
 }
+a {
+  padding: 3px;
+}
+.btn:focus, .form-control:focus, .ipni-logo:focus, .kew-science-logo:focus, .page-link:focus, a:focus, .ol-control button:focus {
+  outline: 3px solid $kew-focus-outline-yellow;
+  box-shadow: none;
+}
+.tokenfield.focus {
+  outline: none;
+  box-shadow: 0 0 0pt 2pt $kew-focus-outline-yellow!important;
+}
 .c-article {
   a {
     color: #4949a3;

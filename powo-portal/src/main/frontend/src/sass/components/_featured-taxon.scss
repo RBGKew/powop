@@ -20,8 +20,12 @@
     @media (min-width: $screen-md-min) {
       flex-direction: row;
     }
+    a {
+      display: inline-block;
+      width: 100%;
+    }
     a:hover,a:focus {
-      text-decoration: none;
+      text-decoration: none; 
     }
     .taxa {
       @media (min-width: $screen-md-min) {
@@ -91,4 +95,8 @@
     height: 209px;
     margin: 24px 27px 160px 1px;
   }
+}
+
+.tokenfield.focus {
+  outline: 3px solid #ffde02
 }
