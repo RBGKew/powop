@@ -17,7 +17,7 @@ a {
   outline: 3px solid $kew-focus-outline-yellow;
   box-shadow: none;
 }
-.tokenfield.focus {
+.tokenfield.focus, #search-button:focus {
   outline: none;
   box-shadow: 0 0 0pt 2pt $kew-focus-outline-yellow!important;
 }
