@@ -103,9 +103,8 @@
           display: none;
         }
         @media (min-width: $screen-sm-min) {
-          margin-right: 27px;
+          margin-right: 33px;
           text-transform: uppercase;
-          // padding: 3px;
         }
         &.last {
           margin-right: 0;
@@ -136,18 +135,16 @@
     font-size: 24px;
     font-weight: 400;
     line-height: 1.25;
-    margin: 22px 0 22px 20px;
     text-decoration: none;
     min-height: 52px;
-    -webkit-transition: background-color .35s ease;
-    transition: background-color .35s ease;
+    padding: 16px 20px;
     @media (min-width: $screen-sm-min) {
       text-decoration: none;
       color: $kew-black;
       font-weight: 500;
       font-size: 14px;
       min-height: auto;
-      margin: 0;
+      padding: 0;
       &.current {
         color: $kew-teal;
       }
@@ -187,6 +184,10 @@
 #kew-logo {
   display: flex;
   width: 252px;
+  margin-right: 0;
+  @media (min-width: $screen-sm-min) {
+    margin-right: 10px;
+  }
   #kew-powo-logo-svg {
     text {
       fill: $kew-teal;
