@@ -39,5 +39,9 @@ public class StaticController extends LayoutController {
 	public String searchHelp(Model model) {
 		return "static/search_help";
 	}
+	@RequestMapping(value = "/contact", method = RequestMethod.GET, produces = {"text/html"})
+	public String contact(Model model) {
+		return "static/contact";
+	}
 
 }
