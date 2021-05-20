@@ -704,6 +704,14 @@ public enum DescriptionType {
 		return hierarchy;
 	}
 
+	public DescriptionType getParentType() {
+		var types = this.getTypeHierarchy();
+		if (types.size() <= 1) {
+			return null;
+		}
+		return types.get(types.size() - 2);
+	}
+
 	public String getSearchCategory() {
 		for(String category : searchCategories.keySet()) {
 			if(searchCategories.get(category).contains(this)) {
