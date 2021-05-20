@@ -57,7 +57,7 @@ public class FeaturedTaxon {
       if (!priorityDescriptionTypes.contains(d1.getType()) && priorityDescriptionTypes.contains(d2.getType())) {
         return 1;
       }
-      return 0;
+      return d1.getType().name().compareTo(d2.getType().name());
     });
     return descriptions;
   }

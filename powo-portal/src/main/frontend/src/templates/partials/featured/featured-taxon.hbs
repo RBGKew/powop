@@ -12,11 +12,9 @@
     {{#each descriptions}}
     <div class="featured-taxon__description">
       <strong>
-        {{#if type.parentType}}
-        <span class="featured-taxon__description-type">{{message type.parentType.name}}</span>
-        {{else}}
-        <span class="featured-taxon__description-type">{{message type.name}}</span>
-        {{/if}}
+        {{#each type.typeHierarchy}}
+        <span class="featured-taxon__description-type">{{message name}}</span>
+        {{/each}}
       </strong>
       <span class="featured-taxon__description-content">{{{description}}}</span>
     </div>
