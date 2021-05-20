@@ -37,14 +37,17 @@
       display: flex;
       justify-content: flex-end;
       padding: 15px 0 0;
-      .form-link {
-        border-bottom: 2px solid white;
-        padding-bottom: 1px;
-        text-decoration: none !important; /* override default interaction states */
-        color: $White;
-        &:focus,&:hover {
-          border-bottom-width: 3px;
-          padding-bottom: 0;
+      li {
+        list-style: none;
+        .form-link {
+          border-bottom: 2px solid white;
+          padding-bottom: 1px;
+          text-decoration: none !important; /* override default interaction states */
+          color: $White;
+          &:focus,&:hover {
+            border-bottom-width: 3px;
+            padding-bottom: 0;
+          }
         }
       }
     }
