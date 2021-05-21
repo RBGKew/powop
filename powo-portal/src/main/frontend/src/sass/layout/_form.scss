@@ -19,40 +19,48 @@
  * Form - Inline form, home and results page.
  */
 .s-page {
-  .form-links {
-    display: none;
+  .form-inline--search {
+    margin: 0;
+    position: relative;
+    width: 100%;
   }
-  &.s-search__fullpage {
-    .form-inline--search {
-      margin: 0;
-      position: relative;
-      width: 100%;
-      input {
-        width: 100%;
-      }
-      /*
-      * Links below the search box.
-      */
-      &.form-links {
-      display: flex;
-      justify-content: flex-end;
-      padding: 15px 0 0;
-      li {
-        list-style: none;
-        .form-link {
-          border-bottom: 2px solid white;
-          padding-bottom: 1px;
-          text-decoration: none !important; /* override default interaction states */
-          color: $White;
-          &:focus,&:hover {
-            border-bottom-width: 3px;
-            padding-bottom: 0;
-          }
+  /*
+  * Links below the search box.
+  */
+  .form-links {
+    // display: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 16px 0;
+    @media (min-width: $screen-md-min) {
+      padding: 15px 100px 0;
+    }
+    li {
+      list-style: none;
+      .form-link {
+        border-bottom: 2px solid $kew-black;
+        padding-bottom: 1px;
+        text-decoration: none !important; /* override default interaction states */
+        color: $kew-black;
+        &:focus,&:hover {
+          border-bottom-width: 3px;
+          padding-bottom: 0;
         }
       }
     }
-    }
   }
+  &.s-search__fullpage {
+      input {
+        width: 100%;
+      }
+      .form-links {
+        padding: 15px 0 0;
+        .form-link {
+          color: $White;
+          border-bottom: 2px solid white;
+        }
+      }
+    }
  }
 
 
