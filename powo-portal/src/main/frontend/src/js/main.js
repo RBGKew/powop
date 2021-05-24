@@ -12,7 +12,7 @@ require.config({
         app: 'app',
     },
 
-    packages: ["search", "taxon", "nav"]
+    packages: ["search", "taxon", "static", "nav"]
 });
 
 require(['app']);

@@ -1,6 +1,7 @@
 require([
   'search',
   'taxon',
+  'static',
   'nav'
 ]);
 
