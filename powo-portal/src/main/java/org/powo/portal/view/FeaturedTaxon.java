@@ -38,7 +38,7 @@ public class FeaturedTaxon {
   }
 
   /**
-   * Return the taxon descriptions, sorted to display uses first.
+   * Return the taxon descriptions, sorted to display `priorityDescriptionType` first.
    * @return
    */
   public List<Description> getDescriptions() {
