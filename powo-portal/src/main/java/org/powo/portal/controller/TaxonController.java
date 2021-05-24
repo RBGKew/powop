@@ -74,8 +74,8 @@ public class TaxonController extends LayoutController {
 		model.addAttribute(new Sources(taxon));
 		
 		var bibliography = new Bibliography(taxon);
-		var descriptions = new Descriptions(taxon);
-		var uses = new Descriptions(taxon, true);
+		var descriptions = new Descriptions(taxon, site.primarySource());
+		var uses = new Descriptions(taxon, site.primarySource(), true);
 		var images = new Images(taxon, imageService);
 		var identifications = new Identifications(taxon);
 		var vernacularNames = new VernacularNames(taxon);
