@@ -32,4 +32,10 @@ public interface Site {
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	Optional<Link> crossSiteLink();
+	/**
+	 * The Canonical URL of the homepage of the site.
+	 * Not including any trailing slashes.
+	 * @return the URL
+	 */
+	String canonicalUrl();
 }
