@@ -5,7 +5,8 @@
 </div>
 
 <div class="s-page s-page--home s-theme-home {{concat "s-" siteId}}">
-  {{> partials/page-header}}
+  
+  {{> partials/page-header withSearchBox="true"}}
   <nav class="static-links">
     <ul>
       <li><a href="what-we-do">What we do</a></li>
@@ -20,4 +21,4 @@
   </section>
   {{> partials/footer-links}}
 </div>
-{{> partials/footer }}
+{{> partials/footer initialize="taxon"}}

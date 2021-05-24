@@ -5,7 +5,7 @@
 </div>
 
 <div class="s-page s-page--home s-theme-home {{concat "s-" siteId}}">
-  {{> partials/page-header}}
+  {{> partials/page-header withSearchBox="true"}}
 
     <section class="c-results">
       <main class="container static_text" id="main">
@@ -15,4 +15,4 @@
     {{> partials/footer-links}}
   </div>
 </div>
-{{> partials/footer }}
+{{> partials/footer initialize="taxon"}}
