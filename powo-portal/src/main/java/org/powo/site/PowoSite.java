@@ -98,4 +98,9 @@ public class PowoSite implements Site {
 		return Optional.empty();
 	}
 
+	@Override
+	public String canonicalUrl() {
+		return "http://powo.science.kew.org";
+	}
+
 }

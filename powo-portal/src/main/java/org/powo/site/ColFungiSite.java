@@ -81,4 +81,9 @@ public class ColFungiSite extends PowoSite {
 		Link link = new Link("http://colplanta.org", "Looking for a Colombian plant?");
 		return Optional.of(link);
 	}
+
+	@Override
+	public String canonicalUrl() {
+		return "http://colfungi.org";
+	}
 }
