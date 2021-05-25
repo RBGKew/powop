@@ -1,16 +1,30 @@
 <header class="c-header" role="banner">
   <div class="container">
     <a id="kew-logo" href="/" aria-label="Go to the homepage">{{> (str kewLogo) }}</a>
-
-    <a class="site-logo" href="/" aria-label="Go to homepage">
-      {{> (concat "partials/logo/" siteId) }}
-    </a>
-
-    <p class="featured">
-       Featured: <i><a href="/taxon/urn:lsid:ipni.org:names:77100386-1">Lysimachia arvensis</a></i>
-       <small>Image from Stuppy &amp; Kesseler<br/>©Papadakis Publisher</small>
-    </p>
-
+    <nav class="top-right-nav">
+      <button class="toggle-nav" href="#">
+        {{> svg/burger-icon }}
+      </button>
+      <ul class="active" tabindex="-1">
+        {{#if cross-site-link.present}}
+          <li><a class="top-link cross-site-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a></li>
+        {{/if}}
+        <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>
+        <li class="desktop"><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+        <li class="mobile">
+          <a class="top-link about-toggle" href="#">
+            About {{> svg/more }}
+          </a>
+          <ul class="children">
+             <button class="top-link about-toggle" href="#">{{> svg/back }} Back</button>
+            <li><a class="top-link" href="/what-we-do">{{{message "header_what_we_do"}}}</a></li>
+            <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+            <li><a class="top-link" href="/contact">{{{message "header_contact"}}}</a></li>
+          </ul>
+        </li>
+        <li><a class="top-link last" href="/search-help">{{{message "footer_help"}}}</a></li>
+      </ul>
+    </nav>
     {{#if withSearchBox }}
       {{> partials/search/search-box }}
     {{/if}}

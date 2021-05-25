@@ -1,0 +1,15 @@
+{{#each featured-taxa-sections}}
+  <header>
+  <h2>{{title}}</h2>
+  <div class="view-all">
+    <a href="/?q=">View All</a>
+  </div>
+  </header>
+  <div class="featured-taxa">
+    {{#each featuredTaxa}}
+      <div class="taxa">
+        {{> partials/featured/featured-taxon }}
+      </div>
+    {{/each}}
+  </div>
+{{/each}}

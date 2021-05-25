@@ -7,25 +7,34 @@
     .site-logo {
       display: none;
     }
+    .container {
+    padding-left: 16px;
+    padding-right: 16px;
+      @media (min-width: $screen-md-min) {
+        padding-left: 100px;
+        padding-right: 100px;
+      }
+    }
   }
 
   &.s-page--home,
   &.s-page--error {
-    background-image: url("/img/raster/ColFungi.jpg") !important;
-
+    .c-search {
+      background-image: url("/img/raster/ColFungi.jpg") !important;
+    }
     #kew-upfc-logo-svg {
       path,
       text {
-        fill: #fff;
+        fill: $kew-black;
       }
       #Bar {
-        fill: #fff;
+        fill: $kew-black;
       }
       #Map {
-        fill: $upfc-green;
+        fill: $White;
       }
       #Background {
-        fill: #fff;
+        fill: $upfc-green;
       }
     }
 

@@ -5,18 +5,18 @@
 
 .s-page--home,
 .s-page--error {
-
-  border-color: #FFFFFF;
-  background-image: url('/img/raster/Anagallis_arvensis_06.jpg');
-  background-size: cover;
-  background-attachment: fixed;
-  background-position-x: 25%;
-  background-position-y: 10%;
-  min-height: 100vh;
-  @media (max-width: $screen-sm-min) {
-    min-height: 120vh;
+  .c-search {
+    border-color: #FFFFFF;
+    background-image: url('/img/raster/Anagallis_arvensis_06.jpg');
+    background-size: cover;
+    background-position-x: 25%;
+    background-position-y: 25%;
+    min-height: 80vh;
+    background-repeat: no-repeat;
+    @media (max-width: $screen-sm-min) {
+      min-height: 120vh;
+    }
   }
-
   .s-page-wrapper {
     position: relative;
     min-height: calc(100vh - 30px);
@@ -27,13 +27,13 @@
   }
 
   #kew-logo-svg {
-    width: 200px;
+    width: 400px;
     height: 60px;
-    fill: #fff;
+    fill: $kew-black;
   }
 
   .site-logo {
-    fill: #fff;
+    fill: $kew-black;
   }
 }
 
@@ -46,7 +46,9 @@
     right: 0;
   }
 }
-
+.featured {
+  display: none;
+}
 .c-intro {
   display: none;
 
@@ -63,23 +65,53 @@
     }
   }
 }
-
-.s-search__fullpage {
-  .c-header .container,
-  .c-footer .container {
-    max-width: 100%;
-    padding-left: 30px;
-    padding-right: 30px;
+.c-header .container,
+.c-footer .container {
+  max-width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  @media (min-width: $screen-sm-min) {
+    padding-left: 100px;
+    padding-right: 100px;
   }
-
+}
+.s-search__fullpage {
   .c-intro {
     display: block;
   }
+  .front-page-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    padding: 0 16px;
+    @media (min-width: $screen-sm-min) {
+      padding: 0 100px;
+    }
+    .central {
+      flex-direction: column;
+      max-width: 718px;
+      margin: auto;
+      p {
+        padding-bottom: 40px;
+        margin: 0
+      }
+    }
+    .featured {
+      @media (min-width: $screen-sm-min) {
+        display: block;
+        color: $White;
+        align-self: flex-end;
+      }
+      display: none;
+      a {
+        color: $White
+      }
+    };
+  }
 
   .form-inline--search {
-    width: 90%;
     @media (min-width: $screen-lg) { width: 740px; }
-    margin: 0 auto;
+      margin: 0 auto;
   }
 
   .site-logo {
@@ -110,5 +142,18 @@
     top: 40%;
     left: 0;
     transform: translateY(-50%);
+  }
+}
+
+// Hide featured taxa on search results page
+.featured-taxa-sections {
+  display: none;
+}
+.s-search__fullpage {
+  .featured-taxa-sections {
+    display: none;
+    @media (min-width: $screen-sm-min) {
+      display: block;
+    }
   }
 }

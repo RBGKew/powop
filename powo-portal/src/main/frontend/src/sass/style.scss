@@ -96,6 +96,7 @@ $border-grey: 1px solid #CCCCCC;
 @import "core/functions";
 @import "core/helpers";
 @import "core/mixins";
+@import "core/variables";
 
 @import "layout/grid";
 @import "layout/form";
@@ -112,6 +113,7 @@ $border-grey: 1px solid #CCCCCC;
 
 @import "components/card";
 @import "components/collapse";
+@import "components/featured-taxon";
 @import "components/map";
 @import "components/results";
 @import "components/article";

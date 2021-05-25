@@ -28,6 +28,16 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
+	public String siteIdCapitlized() {
+		return "UPB";
+	}
+	
+	@Override
+	public String kewLogoPath() {
+		return "svg/kew-upb-logo.svg";
+	}
+
+	@Override
 	public DefaultQueryOption defaultQuery() {
 		return new SourceFilter("UsefulPlantsofBoyacaProject");
 	}

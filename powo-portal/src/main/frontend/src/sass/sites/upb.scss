@@ -3,12 +3,15 @@
 
   &.s-page--home,
   &.s-page--error {
-    background-image: url('/img/raster/upb.jpg');
+    .c-search {
+      background-image: url('/img/raster/upb.jpg');
+    }
 
     #upb-logo-svg {
       width: 200px;
       height: 60px;
       fill: #232323;
+      width: 252px;
     }
 
     .site-logo {

@@ -11,6 +11,8 @@ import com.google.common.collect.ImmutableMap;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.portal.view.FeaturedTaxaSection;
+import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
 
@@ -23,14 +25,18 @@ public class ColPlantASite extends PowoSite {
 	public Map<String, String> getFormattedTaxonCounts() {
 		var taxonCounts = taxonCountsService.get(defaultQuery());
 		return new ImmutableMap.Builder<String, String>()
-			.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 1000))
-			.put("taxon-counts-species", format(imageService.count(), 100))
-			.build();
+				.put("taxon-counts-total", format(taxonCounts.getTotalCount(), 1000))
+				.put("taxon-counts-species", format(taxonCounts.getSpeciesCount(), 100)).build();
 	}
 
 	@Override
 	public String siteId() {
 		return "colplanta";
+	}
+
+	@Override
+	public String siteIdCapitlized() {
+		return "ColPlantA";
 	}
 
 	@Override
@@ -68,7 +74,7 @@ public class ColPlantASite extends PowoSite {
 		return String.format("%s %s | Colombian Plants made Accessible", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
 	}
-	
+
 	@Override
 	public String favicon() {
 		return "upfc-favicon.ico";
@@ -76,7 +82,17 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public Optional<Link> crossSiteLink() {
-		Link link = new Link("http://colfungi.org", "Looking for Colombian fungi?");
+		Link link = new Link("http://colfungi.org", "ColFungi");
 		return Optional.of(link);
+	}
+
+	@Override
+	public List<FeaturedTaxaSection> featuredTaxaSections() {
+		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"));
+		var passifloraEdulis = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:321964-2"));
+		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"));
+
+		return List.of(new FeaturedTaxaSection("Featured plants",
+				List.of(cochlospermumOrinocense, passifloraEdulis, epidendrumRadicans)));
 	}
 }
