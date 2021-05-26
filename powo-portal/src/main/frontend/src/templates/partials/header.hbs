@@ -14,11 +14,11 @@
   <!-- Share meta -->
   <meta property="og:site_name" content="Plants of the World Online" />
   <meta property="og:type" content="website" />
-  {{#if taxon }}<meta property="og:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
+  {{#if taxon }}<meta property="og:url" content="{{ canonicalUrl }}/taxon/{{taxon.identifier}}" />{{/if}}
   <meta property="og:title" content="{{title}}" />
   {{#if summary}}<meta property="og:description" content="{{stripHTML summary}}" />{{/if}}
   {{#if images.headerImage }}<meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />{{/if}}
-  {{#if taxon }}<meta name="twitter:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
+  {{#if taxon }}<meta name="twitter:url" content="{{ canonicalUrl }}/taxon/{{taxon.identifier}}" />{{/if}}
   <meta name="twitter:title" content="{{title}}" />
   {{#if summary}}<meta name="twitter:description" content="{{stripHTML summary}}" />{{/if}}
 

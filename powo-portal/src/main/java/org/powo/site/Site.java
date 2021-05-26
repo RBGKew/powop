@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.powo.model.Taxon;
+import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
@@ -35,5 +36,12 @@ public interface Site {
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	Optional<Link> crossSiteLink();
+	/**
+	 * The Canonical URL of the homepage of the site.
+	 * Not including any trailing slashes.
+	 * @return the URL
+	 */
+	String canonicalUrl();
 	List<FeaturedTaxaSection> featuredTaxaSections();
+	Organisation primarySource();
 }

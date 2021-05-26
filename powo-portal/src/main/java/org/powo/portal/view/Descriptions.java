@@ -100,13 +100,19 @@ public class Descriptions {
 	private boolean isUses;
 	private List<DescriptionsBySource> descriptionsBySource;
 	private Set<DescriptionType> descriptionTypes;
+	private Organisation primarySource;
 
 	public Descriptions(Taxon taxon) {
-		this(taxon, false);
+		this(taxon, null, false);
 	}
 
-	public Descriptions(Taxon taxon, boolean isUses) {
+	public Descriptions(Taxon taxon, Organisation primarySource) {
+		this(taxon, primarySource, false);
+	}
+
+	public Descriptions(Taxon taxon, Organisation primarySource, boolean isUses) {
 		this.taxon = taxon;
+		this.primarySource = primarySource;
 		this.isUses = isUses;
 		if(isUses) {
 			this.descriptionTypes = DescriptionType.getAll(DescriptionType.use);
@@ -114,6 +120,8 @@ public class Descriptions {
 			this.descriptionTypes = DescriptionType.getAllExcept(DescriptionType.use);
 		}
 	}
+
+
 
 	@JsonSerialize(contentUsing = BaseSerializer.class)
 	public List<Taxon> getSynonymsIncluded() {
@@ -140,10 +148,17 @@ public class Descriptions {
 				for(Taxon synonym : taxon.getSynonymNameUsages()) {
 					partitionBySource(synonym);
 				}
-				Collections.sort(descriptionsBySource);
+				descriptionsBySource.sort((dbs1, dbs2) -> {
+					if (dbs1.getSource() == primarySource) {
+						return -1;
+					}
+					if (dbs2.getSource() == primarySource) {
+						return 1;
+					}
+					return dbs1.compareTo(dbs2);
+				});
 			}
 		}
-
 		return descriptionsBySource;
 	}
 
