@@ -1,6 +1,8 @@
 package org.powo.portal.view;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 
@@ -38,7 +40,9 @@ public class FeaturedTaxon {
   }
 
   /**
-   * Return the taxon descriptions, sorted to display `priorityDescriptionType` first.
+   * Return the taxon descriptions, sorted to display `priorityDescriptionType`
+   * first.
+   * 
    * @return
    */
   public List<Description> getDescriptions() {
@@ -47,19 +51,19 @@ public class FeaturedTaxon {
     }
     var descriptions = Lists.newArrayList(taxon.getDescriptions());
     if (priorityDescriptionType == null) {
-      return descriptions;
+      return descriptions.stream()
+      .sorted(Comparator.comparing((Description d) -> d.getType().name()))
+      .collect(Collectors.toList());
     }
     var priorityDescriptionTypes = DescriptionType.getAll(priorityDescriptionType);
-    descriptions.sort((Description d1, Description d2) -> {
-      if (priorityDescriptionTypes.contains(d1.getType()) && !priorityDescriptionTypes.contains(d2.getType())) {
-        return -1;
-      }
-      if (!priorityDescriptionTypes.contains(d1.getType()) && priorityDescriptionTypes.contains(d2.getType())) {
-        return 1;
-      }
-      return d1.getType().name().compareTo(d2.getType().name());
-    });
-    return descriptions;
+    /**
+     * The first comparison is reversed, because items where contains() -> TRUE go to the end of the list,
+     * but we want them to be at the start.
+     */
+    return descriptions.stream()
+        .sorted(Comparator.comparing((Description d) -> priorityDescriptionTypes.contains(d.getType())).reversed()
+            .thenComparing((Description d) -> d.getType().name()))
+        .collect(Collectors.toList());
   }
 
 }
