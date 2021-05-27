@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableMap;
 
 import org.powo.api.OrganisationService;
 import org.powo.model.Taxon;
+import org.powo.model.constants.DescriptionType;
 import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
@@ -100,9 +101,9 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
-		var auriculariaAuriculaJudae = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:102281"));
-		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"));
-		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"));
+		var auriculariaAuriculaJudae = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:102281"), DescriptionType.use);
+		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"), DescriptionType.use);
+		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"), DescriptionType.use);
 
 		return List.of(new FeaturedTaxaSection("Featured fungi",
 				List.of(auriculariaAuriculaJudae, auriculariaFuscosuccinea, macrolepiotaColombiana)));

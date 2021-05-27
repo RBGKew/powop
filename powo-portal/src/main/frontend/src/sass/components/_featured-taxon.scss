@@ -73,7 +73,7 @@
 
   .featured-taxon__description-type {
     &:after {
-      content: ", ";
+      content: " > ";
     }
 
     &:last-child:after {
