@@ -14,13 +14,16 @@
     }
   }
 }
-
 /*
  * Form - Inline form, home and results page.
  */
 .s-page {
   .form-inline--search {
-    margin: 0;
+    &.input-group {
+      .input-group-btn {
+        width: 54px;
+      }
+    }
     position: relative;
     width: 100%;
   }
@@ -39,10 +42,10 @@
       list-style: none;
       color: $White;
       .form-link {
-        border-bottom: 2px solid $kew-black;
+        border-bottom: 2px solid $White;
         padding-bottom: 1px;
         text-decoration: none !important; /* override default interaction states */
-        color: $kew-black;
+        color: $White;
         svg {
           fill: $White;
         }
@@ -59,10 +62,6 @@
       }
       .form-links {
         padding: 15px 0 0;
-        .form-link {
-          color: $White;
-          border-bottom: 2px solid white;
-        }
       }
     }
  }
