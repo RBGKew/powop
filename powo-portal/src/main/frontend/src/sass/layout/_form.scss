@@ -37,11 +37,15 @@
     }
     li {
       list-style: none;
+      color: $White;
       .form-link {
         border-bottom: 2px solid $kew-black;
         padding-bottom: 1px;
         text-decoration: none !important; /* override default interaction states */
         color: $kew-black;
+        svg {
+          fill: $White;
+        }
         &:focus,&:hover {
           border-bottom-width: 3px;
           padding-bottom: 0;

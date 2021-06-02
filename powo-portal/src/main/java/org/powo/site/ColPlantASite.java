@@ -82,8 +82,13 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public Optional<Link> crossSiteLink() {
-		Link link = new Link("http://colfungi.org", "Looking for a Colombian fungi?");
+		Link link = new Link("http://colfungi.org", "Visit ColFungi");
 		return Optional.of(link);
+	}
+
+	@Override
+	public String crossSiteType() {
+		return "fungi";
 	}
 
 	@Override

@@ -34,6 +34,7 @@ public interface Site {
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
+	String crossSiteType();
 	Optional<Link> crossSiteLink();
 	List<FeaturedTaxaSection> featuredTaxaSections();
 }
