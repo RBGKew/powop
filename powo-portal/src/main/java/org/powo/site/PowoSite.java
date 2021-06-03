@@ -13,6 +13,7 @@ import org.powo.api.DescriptionService;
 import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
+import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.PowoDefaultQuery;
 import org.powo.portal.service.TaxonCountsService;
@@ -117,6 +118,11 @@ public class PowoSite implements Site {
 		var digitalisPurpurea = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:802077-1"));
 
 		return List.of(new FeaturedTaxaSection("Featured plants", List.of(passifloraLindeniana, delonixRegia, digitalisPurpurea)));
+	}
+
+	@Override
+	public Organisation primarySource() {
+		return null;
 	}
 
 }

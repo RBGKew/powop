@@ -8,18 +8,26 @@ import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
+import org.powo.api.OrganisationService;
 import org.powo.model.Taxon;
+import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("ColFungiSite")
 public class ColFungiSite extends PowoSite {
 
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
+
+	private String organisationIdentifier = "CatalogodeHongosUtilesdeColombia";
+
+	@Autowired
+	public OrganisationService organisationService;
 
 	@Override
 	public Map<String, String> getFormattedTaxonCounts() {
@@ -46,12 +54,12 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("CatalogodeHongosUtilesdeColombia");
+		return new SourceFilter(organisationIdentifier);
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "CatalogodeHongosUtilesdeColombia";
+		return organisationIdentifier;
 	}
 
 	@Override
@@ -94,5 +102,10 @@ public class ColFungiSite extends PowoSite {
 
 		return List.of(new FeaturedTaxaSection("Featured fungi",
 				List.of(auriculariaAuriculaJudae, auriculariaFuscosuccinea, macrolepiotaColombiana)));
+	}
+
+	@Override
+	public Organisation primarySource() {
+		return organisationService.find(organisationIdentifier);
 	}
 }
