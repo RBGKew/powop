@@ -9,7 +9,6 @@ define(function(require) {
   var filters = require('./filters');
   var results = require('./results');
   require('libs/bootstrap-tokenfield.js');
-  require('libs/bootstrap-cookie-consent.js');
 
   function setView(event) {
     $(this).parent().parent().find('.selected_background').removeClass('selected_background');
