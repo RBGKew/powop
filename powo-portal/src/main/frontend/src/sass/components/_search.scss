@@ -20,9 +20,6 @@
     border-top-left-radius: 26px;
     border-bottom-left-radius: 26px;
     border: 1px solid $kew-dark-grey;
-    &:focus {
-      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
-    }
     &:focus-within {
       box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
     }
