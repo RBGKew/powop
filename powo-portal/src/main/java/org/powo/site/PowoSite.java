@@ -56,6 +56,11 @@ public class PowoSite implements Site {
 	}
 
 	@Override
+	public String oneTrustID() {
+		return "powo";
+	}
+
+	@Override
 	public String siteIdCapitlized() {
 		return "POWO";
 	}

@@ -43,6 +43,11 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	@Override
+	public String oneTrustID() {
+		return "colfungi";
+	}
+
+	@Override
 	public String siteIdCapitlized() {
 		return "ColFungi";
 	}

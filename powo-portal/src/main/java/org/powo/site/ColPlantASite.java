@@ -35,6 +35,11 @@ public class ColPlantASite extends PowoSite {
 	}
 
 	@Override
+	public String oneTrustID() {
+		return "colplanta";
+	}
+
+	@Override
 	public String siteIdCapitlized() {
 		return "ColPlantA";
 	}

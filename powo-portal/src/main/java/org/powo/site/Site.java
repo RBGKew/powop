@@ -30,6 +30,7 @@ public interface Site {
 	String suggesterFilter();
 	Locale defaultLocale();
 	String siteId();
+	String oneTrustID();
 	String siteIdCapitlized();
 	String kewLogoPath();
 	String indexPageTitle();
