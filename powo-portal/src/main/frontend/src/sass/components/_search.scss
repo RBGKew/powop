@@ -16,10 +16,13 @@
 
   .tokenfield {
     font-size: 16px;
-    background-color: #fff;
+    background-color: $White;
     border-top-left-radius: 26px;
     border-bottom-left-radius: 26px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
+    border: 1px solid $kew-dark-grey;
+    &:focus-within {
+      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
+    }
     .token {
       color: #000;
       height: auto;
@@ -32,7 +35,7 @@
     }
 
     &.form-control {
-      padding: 8px 0 7px 12px;
+      padding: 6px 0 6px 12px;
     }
   }
 
@@ -92,6 +95,7 @@
   border-top-right-radius: 26px;
   border-bottom-right-radius: 26px;
   width: 57px;
+  height: 48px;
   &:hover,&:focus {
     background-color: scale-color($kew-teal, $lightness: -25%);
   }
