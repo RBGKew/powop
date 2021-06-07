@@ -1,7 +1,6 @@
 define(function(require) {
 
   var $ = require('jquery');
-  var pubsub = require('libs/pubsub');
   var filters = require('search/filters');
   require('libs/bootstrap');
 
