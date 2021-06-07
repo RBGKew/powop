@@ -87,7 +87,7 @@
     <section id="descriptions" class="c-article-section">
       <h2>
 
-      <button class="btn collapser no-outline-offset c-article-section__title"
+      <button class="btn collapser c-article-section__title"
          role="button"
          data-toggle="collapse"
          data-target="#descriptions-main"
@@ -112,7 +112,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser no-outline-offset{{#unless @first}} {{/unless}}"
+                <button class="btn collapser{{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
@@ -149,7 +149,7 @@
     {{#with uses}}
     <section id="uses" class="c-article-section">
       <h2>
-        <button class="btn collapser no-outline-offset c-article-section__title"
+        <button class="btn collapser c-article-section__title"
            role="button"
            data-toggle="collapse"
            data-target="#uses-main"
@@ -173,7 +173,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser no-outline-offset {{#unless @first}} {{/unless}}"
+                <button class="btn collapser {{#unless @first}} {{/unless}}"
                    role="button"
                    data-toggle="collapse"
                    data-target="#uses-{{source.abbreviation}}-{{@index}}"
@@ -207,7 +207,7 @@
     {{#with images}}
     <section id="image-gallery" class="c-article-section">
       <h2>
-        <button class="btn collapser no-outline-offset c-article-section__title"
+        <button class="btn collapser c-article-section__title"
            role="button"
            data-toggle="collapse"
            data-target="#gallery-main"
@@ -243,7 +243,7 @@
     {{#with distributions}}
     <section id="distribution-map" class="c-article-section">
       <h2>
-        <button class="btn collapser no-outline-offset c-article-section__title"
+        <button class="btn collapser c-article-section__title"
            role="button"
            data-toggle="collapse"
            data-target="#distribution-main"
@@ -266,7 +266,7 @@
             <div id="c-map">
             </div>
 
-            <button class="btn collapser no-outline-offset"
+            <button class="btn collapser"
                role="button"
                data-toggle="collapse"
                data-target="#distribution-listing"
@@ -481,7 +481,7 @@
             {{#with identifications}}
             <div>
               <h4>
-                <button class="btn collapser no-outline-offset"
+                <button class="btn collapser"
                    role="button"
                    data-toggle="collapse"
                    data-target="#determinations"

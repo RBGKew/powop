@@ -1,23 +1,7 @@
 //
 // Article
 // --------------------------------------------------
-.html--overflow-hidden {
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-body {
-  position: relative;
-  font-size: 14px;
-}
-.btn:focus, .form-control:focus, .ipni-logo:focus, .kew-science-logo:focus, .page-link:focus, a:focus, .ol-control button:focus, .toggle-nav:focus, .about-toggle:focus, .mobile-menu:focus, .to-top:focus {
-  outline: 3px solid $kew-focus-outline-yellow;
-  box-shadow: none;
-  outline-offset: 3px;
-  &.no-outline-offset {
-    outline-offset: 0;
-  }
-}
+
 .tokenfield.focus, #search-button:focus {
   outline: none;
   box-shadow: 0 0 0pt 2px $kew-focus-outline-yellow!important;
