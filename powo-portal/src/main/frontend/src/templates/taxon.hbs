@@ -44,40 +44,40 @@
     <div class="c-article-nav collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav navbar-nav--article nav-item">
         {{#if descriptions}}
-        <li><a class="no-outline-offset" href="#descriptions">Descriptions</a></li>
+        <li><a href="#descriptions">Descriptions</a></li>
         {{/if}}
 
         {{#if uses}}
-        <li><a class="no-outline-offset" href="#uses">Uses</a></li>
+        <li><a href="#uses">Uses</a></li>
         {{/if}}
 
         {{#if images}}
-        <li><a class="no-outline-offset" href="#image-gallery">Images</a></li>
+        <li><a href="#image-gallery">Images</a></li>
         {{/if}}
 
         {{#if distributions}}
-        <li><a class="no-outline-offset" href="#distribution-map">Distribution</a></li>
+        <li><a href="#distribution-map">Distribution</a></li>
         {{/if}}
 
         {{#if children}}
-        <li><a class="no-outline-offset" href="#children">Accepted {{childRank taxon}}</a></li>
+        <li><a href="#children">Accepted {{childRank taxon}}</a></li>
         {{/if}}
 
         {{#if synonyms}}
-        <li><a class="no-outline-offset" href="#synonyms">Synonyms</a></li>
+        <li><a href="#synonyms">Synonyms</a></li>
         {{/if}}
 
         {{#if vernacularNames}}
-        <li><a class="no-outline-offset" href="#vernacular-names">Common Names</a></li>
+        <li><a href="#vernacular-names">Common Names</a></li>
         {{/if}}
 
-        <li><a class="no-outline-offset" href="#other-data">Other Data</a></li>
+        <li><a href="#other-data">Other Data</a></li>
 
         {{#if bibliography}}
-        <li><a class="no-outline-offset" href="#bibliography">Bibliography</a></li>
+        <li><a href="#bibliography">Bibliography</a></li>
         {{/if}}
 
-        <li><a class="no-outline-offset" href="#sources">Sources</a></li>
+        <li><a href="#sources">Sources</a></li>
       </ul>
       <button class="glyphicon glyphicon-arrow-up to-top"></button>
     </div>
@@ -112,7 +112,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                <button class="btn collapser {{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
