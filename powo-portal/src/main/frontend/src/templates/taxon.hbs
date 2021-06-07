@@ -79,7 +79,7 @@
 
         <li><a href="#sources">Sources</a></li>
       </ul>
-      <span class="glyphicon glyphicon-arrow-up to-top"></span>
+      <button class="glyphicon glyphicon-arrow-up to-top"></button>
     </div>
   </nav>
     <div class="container">
@@ -112,7 +112,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                <button class="btn collapser {{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
@@ -173,7 +173,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                <button class="btn collapser {{#unless @first}} {{/unless}}"
                    role="button"
                    data-toggle="collapse"
                    data-target="#uses-{{source.abbreviation}}-{{@index}}"
