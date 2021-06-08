@@ -72,8 +72,14 @@ public class Identifications {
 				id.date = identification.getDateIdentified().toString(DateTimeFormat.mediumDate());
 			}
 
-			if (id.url != null && id.url.lastIndexOf('/') != -1) {
-				id.barcode = id.url.substring(id.url.lastIndexOf('/') + 1);
+			if (id.url != null) {
+				if (id.url.lastIndexOf("imi=") != -1) {
+					// IMI barcode
+					id.barcode = "IMI " + id.url.substring(id.url.lastIndexOf("imi=") + 1);
+				} else if (id.url.lastIndexOf('/') != -1) {
+					// Herbcat and Herbtrack barcodes
+					id.barcode = id.url.substring(id.url.lastIndexOf('/') + 1);
+				}
 			}
 
 			if (!taxon.equals(identification.getTaxon())) {
