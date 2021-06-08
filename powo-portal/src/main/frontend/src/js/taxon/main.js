@@ -1,13 +1,12 @@
 define(function(require) {
 
   var $ = require('jquery');
+  var bibliography = require('./bibliography')
   var map = require('./map');
   var filters = require('../search/filters');
-  var pubsub = require('libs/pubsub');
   require('libs/bootstrap');
   require('libs/magnific-popup');
 
-  var bibliographyTmpl = require('templates/partials/taxon/bibliography.js');
 
   var initialize = function() {
 
@@ -114,48 +113,11 @@ define(function(require) {
       $(location.hash + ' .container').addClass('in');
     }
 
-    // bibliography sorting
-    $('#sort-bibliography-by-citation').on('click', function(e) {
-      sortBibliography(e, ['bibliographicCitation'], ['asc']);
-      $(this).addClass('selected_background');
-    });
-
-    $('#sort-bibliography-by-newest-first').on('click', function(e) {
-      sortBibliography(e, ['date', 'bibliographicCitation'], ['desc', 'asc']);
-      $(this).addClass('selected_background');
-    });
-
-    $('#sort-bibliography-by-oldest-first').on('click', function(e) {
-      sortBibliography(e, ['date', 'bibliographicCitation'], ['asc', 'asc']);
-      $(this).addClass('selected_background');
-    });
+    bibliography.initialize()
 
     if($('#c-map').length) {
       map.initialize();
     }
-  }
-
-  function sortBibliography(e, fields, order) {
-    e.preventDefault();
-    var sorted = {}
-    if(bibliography.accepted) {
-      sorted['accepted'] = _.orderBy(bibliography.accepted, fields, order);
-    }
-
-    if(bibliography.notAccepted) {
-      sorted['notAccepted'] = _.orderBy(bibliography.notAccepted, fields, order);
-    }
-
-    if(bibliography.liturature) {
-      sorted['liturature'] = _.mapValues(bibliography.liturature, function(obj) {
-        return _.orderBy(obj, fields, order);
-      })
-    }
-
-    $('.bibliography-dropdown a').removeClass('selected_background');
-    $('#bibliography-citations').html(bibliographyTmpl({
-      bibliography: sorted
-    }));
   }
 
   return {

@@ -22,6 +22,11 @@ public class LayoutController {
     return site.siteId();
   }
 
+  @ModelAttribute("canonicalUrl")
+  protected String canonicalUrl() {
+    return site.canonicalUrl();
+  }
+
   @ModelAttribute("siteIdCapitlized")
   protected String siteIdCapitlized() {
     return site.siteIdCapitlized();

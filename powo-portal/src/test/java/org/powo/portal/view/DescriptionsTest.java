@@ -3,6 +3,7 @@ package org.powo.portal.view;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.contains;
 import static org.powo.model.constants.DescriptionType.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.powo.model.registry.Organisation;
 import org.powo.model.constants.TaxonomicStatus;
 import org.junit.Before;
 import org.junit.Test;
-import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Descriptions.DescriptionsBySource;
 import org.powo.portal.view.Descriptions.DescriptionsByType;
 
@@ -80,6 +80,44 @@ public class DescriptionsTest {
 	}
 
 	@Test
+	public void testBySourceWithPrimarySource() {
+		Description d2 = new Description();
+		Organisation o2 = new Organisation();
+
+		o2.setAbbreviation("FTEA");
+		o2.setTitle("Flora of Tropical East Africa");
+
+		d1.setType(DescriptionType.morphologyGeneralHabit);
+		d1.setId(1L);
+		d1.setDescription("Perenial herb");
+
+		d2.setType(DescriptionType.morphologyLeaf);
+		d2.setId(3L);
+		d2.setDescription("Basal leaves");
+		d2.setAuthority(o2);
+
+		taxon.setDescriptions(ImmutableSet.<Description>of(d1, d2));
+
+		Descriptions ds = new Descriptions(taxon, o1);
+		Collection<DescriptionsBySource> dbs = ds.getBySource();
+		assertEquals(2, dbs.size());
+		List<String> abbreviations = new ArrayList<>();
+		for(DescriptionsBySource d : dbs) {
+			abbreviations.add(d.source.getAbbreviation());
+		}
+		assertThat(abbreviations, contains("FWTA", "FTEA"));
+
+		ds = new Descriptions(taxon, o2);
+		dbs = ds.getBySource();
+		assertEquals(2, dbs.size());
+		abbreviations = new ArrayList<>();
+		for(DescriptionsBySource d : dbs) {
+			abbreviations.add(d.source.getAbbreviation());
+		}
+		assertThat(abbreviations, contains("FTEA", "FWTA"));
+	}
+
+	@Test
 	public void testDescriptionTypeFiltering() {
 		Description d2 = new Description();
 
@@ -92,7 +130,7 @@ public class DescriptionsTest {
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(d1, d2));
 
-		Descriptions ds = new Descriptions(taxon, true);
+		Descriptions ds = new Descriptions(taxon, null, true);
 	}
 
 	@Test
@@ -102,7 +140,7 @@ public class DescriptionsTest {
 
 		taxon.setDescriptions(ImmutableSet.<Description>of(d1));
 
-		Descriptions uses = new Descriptions(taxon, true);
+		Descriptions uses = new Descriptions(taxon, null, true);
 		for(DescriptionsBySource dbs : uses.getBySource()) {
 			for(DescriptionsByType dbt : dbs.byType) {
 				assertEquals(DescriptionType.useAnimalFoodBees, dbt.type);
