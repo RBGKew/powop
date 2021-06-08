@@ -110,6 +110,11 @@ public class PowoSite implements Site {
 	}
 
 	@Override
+	public String crossSiteType() {
+		return "";
+	}
+
+	@Override
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
 		// TODO: move this into application.properties when we have Spring profiles per site
 		var passifloraLindeniana = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:164286-1"));

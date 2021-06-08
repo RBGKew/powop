@@ -88,7 +88,7 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public String crossSiteType() {
-		return "plants";
+		return "plant";
 	}
 
 	@Override
