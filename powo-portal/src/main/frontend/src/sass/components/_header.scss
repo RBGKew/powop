@@ -16,7 +16,6 @@
     .top-right-nav {
       content: '';
       margin-left: auto;
-      order: 3;
       ul {
         background: $kew-teal;
         display: block;
@@ -218,9 +217,6 @@
       display: block;
     }
   }
-  .cross-site-link {
-    display: block;
-  }
 }
 
 .c-header .site-logo {
@@ -249,8 +245,4 @@
 
 .s-search__fullpage .c-header .site-logo {
   display: none;
-}
-
-.s-search__fullpage .container .top-right-nav .top-link.cross-site-link {
-  display: block;
 }

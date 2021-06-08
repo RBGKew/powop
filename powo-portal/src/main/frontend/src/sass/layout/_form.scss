@@ -14,41 +14,58 @@
     }
   }
 }
-
 /*
  * Form - Inline form, home and results page.
  */
-.form-inline--search {
-  margin: 0;
-  position: relative;
-  width: 100%;
-  input {
+.s-page {
+  .form-inline--search {
+    &.input-group {
+      .input-group-btn {
+        width: 54px;
+      }
+    }
+    position: relative;
     width: 100%;
   }
-
   /*
   * Links below the search box.
   */
-  &.form-links {
-   display: flex;
-   justify-content: flex-end;
-
-   .form-link {
-     border-bottom: 2px solid white;
-     padding-bottom: 1px;
-     text-decoration: none !important; /* override default interaction states */
-
-     &:focus,&:hover {
-       border-bottom-width: 3px;
-       padding-bottom: 0;
-     }
-   }
-
-   .divider {
-     margin: 0 0.75rem;
-   }
+  .form-links {
+    // display: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 16px 0;
+    @media (min-width: $screen-md-min) {
+      padding: 15px 100px 0;
+    }
+    li {
+      list-style: none;
+      color: $White;
+      .form-link {
+        border-bottom: 2px solid $White;
+        padding-bottom: 1px;
+        text-decoration: none !important; /* override default interaction states */
+        color: $White;
+        svg {
+          fill: $White;
+        }
+        &:focus,&:hover {
+          border-bottom-width: 3px;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+  &.s-search__fullpage {
+      input {
+        width: 100%;
+      }
+      .form-links {
+        padding: 15px 0 0;
+      }
+    }
  }
-}
+
 
 /*
  * Form - Inline form, advanced modal.

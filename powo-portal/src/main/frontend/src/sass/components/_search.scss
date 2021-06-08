@@ -68,9 +68,12 @@
 
 .c-header .form-inline--search {
     display: flex;
-    order: 2;
+    &.input-group {
+      @media (min-width: $screen-lg-min) {
+        margin-left: 18px;
+      }
+    }
     @media (max-width: $screen-lg-min) {
-      order: 3;
       margin-top: 16px;
       .input-group-btn {
         width: 54px;
@@ -80,8 +83,8 @@
     box-shadow: none;
   }
 
-  @media (min-width: $screen-hg-min) { width: 650px; }
-  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 500px; }
+  @media (min-width: $screen-hg-min) { width: 500px; }
+  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 350px; }
 }
 
 .loading {

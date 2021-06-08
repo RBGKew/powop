@@ -6,9 +6,6 @@
         {{> svg/burger-icon }}
       </button>
       <ul class="active" tabindex="-1">
-        {{#if cross-site-link.present}}
-          <li><a class="top-link cross-site-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a></li>
-        {{/if}}
         <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>
         <li class="desktop"><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
         <li class="mobile">
