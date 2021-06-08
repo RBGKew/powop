@@ -1,14 +1,9 @@
 //
 // Article
 // --------------------------------------------------
-.html--overflow-hidden {
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-body {
-  position: relative;
-  font-size: 14px;
+.tokenfield.focus, #search-button:focus {
+  outline: none;
+  box-shadow: 0 0 0pt 2px $kew-focus-outline-yellow!important;
 }
 .c-article {
   a {
@@ -299,8 +294,7 @@ li {
   z-index: 1;
   position: sticky;
   top: 0;
-  overflow-y: auto;
-  @media (min-width: $screen-md-min) {
+    @media (min-width: $screen-md-min) {
     display: block;
   }
   .navbar-nav--article {
