@@ -25,7 +25,7 @@
       li {
         display: inline-block;
         width: 167px;
-        padding: 19px;
+        padding: 17px;
         &.active {
           background-color: $kew-medium-teal;
         }
@@ -48,7 +48,19 @@
       margin: 63px 0;
     }
     h2 {
-      margin-top: 32px;
+      line-height: 36px;
+      font-size: 30px;
+      font-weight: 400;
+    }
+    h3 {
+      line-height: 32px;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    h4 {
+      line-height: 28px;
+      font-size: 20px;
+      font-weight: 400;
     }
     a {
       color: $kew-black;
