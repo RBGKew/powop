@@ -106,9 +106,9 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
-		var auriculariaAuriculaJudae = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:102281"), DescriptionType.use);
-		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"), DescriptionType.use);
-		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"), DescriptionType.use);
+		var auriculariaAuriculaJudae = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:102281"), messageSource);
+		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"), messageSource);
+		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"), messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured fungi",
 				List.of(auriculariaAuriculaJudae, auriculariaFuscosuccinea, macrolepiotaColombiana)));

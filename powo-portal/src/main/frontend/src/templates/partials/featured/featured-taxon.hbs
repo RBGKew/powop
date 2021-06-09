@@ -8,16 +8,7 @@
   </div>
   <div class="featured-taxon__rank">{{taxon.taxonRank}}</div>
   <div class="featured-taxon__name">{{taxon.scientificName}} {{taxon.scientificNameAuthorship}}</div>
-  <div class="featured-taxon__descriptions">
-    {{#each descriptions}}
-    <div class="featured-taxon__description">
-      <strong>
-        {{#each type.typeHierarchy}}
-        <span class="featured-taxon__description-type">{{message name}}</span>
-        {{/each}}
-      </strong>
-      <span class="featured-taxon__description-content">{{{description}}}</span>
-    </div>
-    {{/each}}
+  <div class="featured-taxon__summary">
+    {{summary}}
   </div>
 </a>

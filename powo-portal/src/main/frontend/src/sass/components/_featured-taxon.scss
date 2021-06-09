@@ -55,35 +55,6 @@
     margin-bottom: 9px;
   }
 
-  /**
-  * The defined height here combined with the line-height
-  * on `featured-taxon__description` means that we will
-  * show up to 3 descriptions per featured taxon.
-  *
-  * The description will be truncated to prevent it taking up
-  * multiple lines.
-  */
-  .featured-taxon__descriptions {
-    height: 7.5rem;
-    overflow-y: hidden;
-  }
-
-  .featured-taxon__description {
-    line-height: 2.5rem;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .featured-taxon__description-type {
-    &:after {
-      content: " > ";
-    }
-
-    &:last-child:after {
-      content: ":";
-    }
-  }
   .photo-placeholder {
     width: 371px;
     height: 209px;
