@@ -21,6 +21,7 @@ import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 @Component("PowoSite")
@@ -37,6 +38,9 @@ public class PowoSite implements Site {
 
 	@Autowired
 	TaxonService taxonService;
+
+	@Autowired
+	MessageSource messageSource;
 
 	private static final List<String> suggesters = Arrays.asList("location", "characteristic", "scientific-name", "common-name");
 
@@ -122,9 +126,9 @@ public class PowoSite implements Site {
 	
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
 		// TODO: move this into application.properties when we have Spring profiles per site
-		var passifloraLindeniana = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:164286-1"));
-		var delonixRegia = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:491231-1"));
-		var digitalisPurpurea = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:802077-1"));
+		var passifloraLindeniana = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:164286-1"), messageSource);
+		var delonixRegia = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:491231-1"), messageSource);
+		var digitalisPurpurea = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:802077-1"), messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured plants", List.of(passifloraLindeniana, delonixRegia, digitalisPurpurea)));
 	}
