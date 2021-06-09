@@ -72,9 +72,7 @@ public class Identifications {
 				id.date = identification.getDateIdentified().toString(DateTimeFormat.mediumDate());
 			}
 
-			if (id.url != null && id.url.lastIndexOf('/') != -1) {
-				id.barcode = id.url.substring(id.url.lastIndexOf('/') + 1);
-			}
+			id.barcode = this.extractBarcode(id.url);
 
 			if (!taxon.equals(identification.getTaxon())) {
 				id.identifiedAs = helper.taxonLinkWithoutAuthor(identification.getTaxon(), null).toString();
@@ -83,5 +81,20 @@ public class Identifications {
 			log.debug("Adding {} from {}", id.barcode, identification.getTaxon().getIdentifier());
 			identifications.add(id);
 		}
+	}
+
+	private String extractBarcode(String identificationUrl) {
+		if (identificationUrl == null) {
+			return null;
+		}
+		if (identificationUrl.lastIndexOf("imi=") != -1) {
+			// IMI barcode
+			return "IMI " + identificationUrl.substring(identificationUrl.lastIndexOf("imi=") + 4);
+		}
+		if (identificationUrl.lastIndexOf('/') != -1) {
+			// Herbcat and Herbtrack barcodes
+			return identificationUrl.substring(identificationUrl.lastIndexOf('/') + 1);
+		}
+		return null;
 	}
 }
