@@ -16,10 +16,13 @@
 
   .tokenfield {
     font-size: 16px;
-    background-color: #fff;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-
+    background-color: $White;
+    border-top-left-radius: 26px;
+    border-bottom-left-radius: 26px;
+    border: 1px solid $kew-dark-grey;
+    &:focus-within {
+      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
+    }
     .token {
       color: #000;
       height: auto;
@@ -32,7 +35,7 @@
     }
 
     &.form-control {
-      padding: 8px 0 7px 12px;
+      padding: 6px 0 6px 12px;
     }
   }
 
@@ -59,42 +62,29 @@
 
   .glyphicon-search {
     padding: 10px 0px;
+    right: 2px
   }
 }
 
 .c-header .form-inline--search {
-  margin-top: 6px;
-  width: 100%;
-  float: right;
-
+    display: flex;
+    &.input-group {
+      @media (min-width: $screen-lg-min) {
+        margin-left: 18px;
+      }
+    }
+    @media (max-width: $screen-lg-min) {
+      margin-top: 16px;
+      .input-group-btn {
+        width: 54px;
+      }
+    }
   .form-control {
     box-shadow: none;
   }
 
-  @media (min-width: $screen-hg-min) { width: 850px; }
-  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 670px; }
-}
-
-.s-page--taxon .c-header .form-inline--search {
-  width: 300px;
-  margin-top: 13px;
-  border: 0px solid #e7e7e7;
-  border-bottom-width: 5px;
-  display: none;
-
-  @media (min-width: $screen-sm-min) { display: table; }
-  @media (min-width: $screen-lg-min) { width: 400px; }
-}
-
-.s-search__fullpage .c-search {
-  @media (min-width: $screen-sm-max) {
-    position: absolute;
-    top: 40%;
-    left: 5%;
-    width: 90%;
-    transform: translateY(-50%);
-    z-index: 50;
-  }
+  @media (min-width: $screen-hg-min) { width: 500px; }
+  @media (min-width: 1200px) and (max-width: $screen-hg-min) { width: 350px; }
 }
 
 .loading {
@@ -105,17 +95,11 @@
 #search-button {
   background-color: $kew-teal;
   color: white;
-
+  border-top-right-radius: 26px;
+  border-bottom-right-radius: 26px;
+  width: 57px;
+  height: 48px;
   &:hover,&:focus {
     background-color: scale-color($kew-teal, $lightness: -25%);
-  }
-}
-
-.s-page--taxon {
-  #search_box {
-    .tokenfield {
-      border: 1px solid $kew-medium-grey;
-      padding: 6px 0 7px 12px;
-    }
   }
 }

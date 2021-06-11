@@ -6,47 +6,109 @@
   padding-top: 20vh;
   text-align: center;
 }
-
-.static_text {
-  min-height: 80vh;
-  background-color: #fff;
-  color: #000;
-
-  a {
-    color: #0645AD;
-    text-decoration: underline;
-  }
-
-  .column_list li:first-child {
-    font-weight: bold;
-  }
-
-  ul.column_list {
-    list-style-type: none;
-    display:inline-block;
-    vertical-align:top;
-  }
-
-  p {
-    padding-left: 20px;
-  }
-
-  blockquote {
-    font-size: inherit;
-  }
-
-  .partner-image {
-    display: inline-block;
-    margin-right: 1rem;
-    > img {
-      max-height: 100px;
-      max-width: 300px;
+.s-page {
+  .static-links {
+    display: none;
+    @media (min-width: $screen-sm-min) {
+      display: flex; 
+    }
+    display: none;
+    background-color: $kew-teal;
+    text-align: center;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        display: inline-block;
+        width: 167px;
+        padding: 17px;
+        &.active {
+          background-color: $kew-medium-teal;
+        }
+      }
     }
   }
+  .static_text {
+    min-height: 80vh;
+    color: $kew-black;
+    max-width: 650px;
+    line-height: 24px;
+    font-weight: 300;
+    margin-bottom: 63px;
+    h1 {
+      text-align: center;
+      color: $kew-teal;
+      font-size: 50px;
+      font-weight: 300;
+      line-height: 1.16;
+      margin: 63px 0;
+    }
+    h2 {
+      line-height: 36px;
+      font-size: 30px;
+      font-weight: 400;
+    }
+    h3 {
+      line-height: 32px;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    h4 {
+      line-height: 28px;
+      font-size: 20px;
+      font-weight: 400;
+    }
+    a {
+      color: $kew-black;
+      border-bottom: 1px solid $kew-black;
+      text-decoration: none;
+      &:hover {
+        border-bottom-width: 2px;
+      }
+    }
 
-  .partners-image-block {
-    display: block;
-    max-width: 1000px;
-    width: 100%;
+    .column_list li:first-child {
+      font-weight: bold;
+    }
+
+    ul.column_list {
+      list-style-type: none;
+      display:inline-block;
+      vertical-align:top;
+    }
+
+    blockquote {
+      font-size: inherit;
+    }
+
+    .main-partner-image {
+      display: inline-block;
+      margin-bottom: 2rem;
+      margin-right: 2rem;
+      > img {
+        max-height: 100px;
+        max-width: 300px;
+      }
+    }
+
+    .partner-images {
+      > img {
+        display: inline-block;
+        margin-bottom: 2rem;
+        margin-right: 2rem;
+        max-height: 100px;
+        max-width: 100px;
+      }
+    }
+
+    .partners-image-block {
+      display: block;
+      max-width: 1000px;
+      width: 100%;
+    }
   }
 }

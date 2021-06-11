@@ -1,0 +1,23 @@
+{{> partials/header title="Plants of the World Online | Kew Science"}}
+
+<div id="svgs" style="display:none">
+{{> (concat "svg/" siteId ".svg")}}
+</div>
+
+<div class="s-page s-page--home s-theme-home {{concat "s-" siteId}}">
+  {{> partials/page-header withSearchBox="true"}}
+  <nav class="static-links">
+    <ul>
+      <li><a href="about">About {{ siteIdCapitlized }}</a></li>
+      <li><a href="what-we-do">What we do</a></li>
+      <li class="active"><a href="contact">Contact</a></li>
+    </ul>
+  </nav>
+  <section class="c-results">
+    <main class="container static_text" id="main">
+      {{> (concat "partials/contact/" siteId) }}
+    </main>
+  </section>
+  {{> partials/footer-links}}
+</div>
+{{> partials/footer initialize="static"}}

@@ -1,0 +1,69 @@
+.featured-taxa-sections {
+  margin-bottom: 40px;
+  padding: 0 100px;
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 49px;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 22px;
+    h2 {
+      margin: 0;
+    }
+  }
+  .featured-taxa {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    @media (min-width: $screen-md-min) {
+      flex-direction: row;
+    }
+    a {
+      display: inline-block;
+      width: 100%;
+    }
+    a:hover,a:focus {
+      text-decoration: none; 
+    }
+    .taxa {
+      @media (min-width: $screen-md-min) {
+        width: 30%;
+      }
+      width: 100%;
+    }
+  }
+
+  .featured-taxon__image {
+    height: 210px;
+    overflow: hidden;
+    > img {
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  .featured-taxon__rank {
+    color: $kew-teal;
+    font-weight: 900;
+    margin: 14px 0;
+  }
+
+  .featured-taxon__name {
+    font-size: 20px;
+    margin-bottom: 9px;
+  }
+
+  .photo-placeholder {
+    width: 371px;
+    height: 209px;
+    margin: 24px 27px 160px 1px;
+    background-color: #f4f3f1;
+  }
+  .photo {
+    width: 371px;
+    height: 209px;
+    margin: 24px 27px 160px 1px;
+  }
+}

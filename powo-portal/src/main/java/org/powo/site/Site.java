@@ -2,12 +2,15 @@ package org.powo.site;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import org.powo.model.Taxon;
+import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
+import org.powo.portal.view.FeaturedTaxaSection;
+import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
-import org.springframework.ui.Model;
 
 /*
  * Allow running the portal in one of a predefined set of configurations
@@ -21,16 +24,25 @@ import org.springframework.ui.Model;
  *  - Available suggesters
  */
 public interface Site {
-	public void populateTaxonModel(Taxon taxon, Model model);
-	public void populateIndexModel(Model model);
-	public void populateStaticModel(Model model);
-	public DefaultQueryOption defaultQuery();
-	public List<String> getSuggesters();
-	public String suggesterFilter();
-	public Locale defaultLocale();
+	Map<String,String> getFormattedTaxonCounts();
+	DefaultQueryOption defaultQuery();
+	List<String> getSuggesters();
+	String suggesterFilter();
+	Locale defaultLocale();
+	String siteId();
+	String siteIdCapitlized();
+	String kewLogoPath();
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
+	String crossSiteType();
 	Optional<Link> crossSiteLink();
-	Long taxaCount();
+	/**
+	 * The Canonical URL of the homepage of the site.
+	 * Not including any trailing slashes.
+	 * @return the URL
+	 */
+	String canonicalUrl();
+	List<FeaturedTaxaSection> featuredTaxaSections();
+	Organisation primarySource();
 }

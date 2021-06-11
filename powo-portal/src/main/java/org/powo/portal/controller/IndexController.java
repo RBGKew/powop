@@ -16,9 +16,6 @@
  */
 package org.powo.portal.controller;
 
-import org.powo.site.Site;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +23,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/")
-public class IndexController {
-
-	@Autowired
-	@Qualifier("currentSite")
-	Site site;
+public class IndexController extends LayoutController {
 
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String index(Model model) {
-		site.populateIndexModel(model);
 		model.addAttribute("title", site.indexPageTitle());
-		model.addAttribute("favicon", site.favicon());
 		model.addAttribute("cross-site-link", site.crossSiteLink());
+		model.addAttribute("cross-site-type", site.crossSiteType());
+		model.addAttribute("featured-taxa-sections", site.featuredTaxaSections());
+		var taxonCounts = site.getFormattedTaxonCounts();
+		for (var key : taxonCounts.keySet()) {
+			model.addAttribute(key, taxonCounts.get(key));
+		}
 		return "index";
 	}
 }

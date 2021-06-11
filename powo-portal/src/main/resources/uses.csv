@@ -18,8 +18,10 @@ use:environmentalUse:bioindicator,Bioindicator,as %s,a bioindicator
 use:environmentalUse:boundaryBarrierSupportPlants,Boundary Barrier Support Plants,as %s,Boundry Barrier Support
 use:environmentalUse:companionPlants,Companion Plants,as %s,a companion plant
 use:environmentalUse:erosionControl,Erosion Control,for  %s,Erosion control
+use:environmentalUse:fertilityImprovers,Fertility Improvers,as %s,a fertility improver
 use:environmentalUse:firebreaks,Firebreaks,as %s,a firebreak
 use:environmentalUse:indicatorPlants,Indicator Plants,as %s,an indicator plant
+use:environmentalUse:monitoring,Environmental Monitoring,for %s,environmental monitoring
 use:environmentalUse:ornamentals,Ornamentals,as %s,an ornamental plant
 use:environmentalUse:otherEnvironmentalUses,Other Environmental Uses,has %s,Environmental Uses
 use:environmentalUse:pollutionControl,Pollution Control,for  %s,Pollution Control
@@ -30,6 +32,7 @@ use:environmentalUse:unspecifiedEnvironmentalUses,Unspecified Environmental Uses
 use:food,Food,for %s,food
 use:food:beverages,Beverages,for %s, food
 use:food:cereals,Cereals,for %s,Cereals
+use:food:fermentingAgents,Fermenting Agents,as %s,a fermenting agent
 use:food:foodAdditives,Food Additives,as %s,a Food Additive
 use:food:fruitsDessertFruits,Fruits Dessert Fruits,for %s,dessert
 use:food:gumsMucilagesResins,Gums Mucilages Resins,as %s,a gum or resin
@@ -56,6 +59,7 @@ use:materials,Materials,as %s,a material
 use:materials:alcohols,Alcohols,to %s,make alcohol
 use:materials:caneRattanBambooReedWickerEtc,Cane Rattan Bamboo Reed Wicker Etc,for %s,"canes, rattan, bamboo, reeds or wicker"
 use:materials:corkCorkSubstitutes,Cork Cork Substitutes,for %s,cork
+use:materials:cosmetics,Cosmetics,to %s,make cosmetic products
 use:materials:essentialOils,Essential Oils,to %s,make essential oils
 use:materials:fibres,Fibres,for %s,fibres
 use:materials:gumsResins,Gums Resins,as %s,a gum or resin
@@ -70,10 +74,12 @@ use:materials:wood,Wood,for %s,wood
 use:medicines,Medicines,as %s,a medicine
 use:medicines:abnormalities,Abnormalities,to treat %s,abnormalities
 use:medicines:antifertiliyAgent,Antifertiliy Agent,as %s,an antifertility agent
+use:medicines:antioxidant,Antioxidant,as %s,an antioxidant
 use:medicines:bloodSystemDisorders,Blood System Disorders,to treat %s,blood system disorders
 use:medicines:circulatorySystemDisorders,Circulatory System Disorders,to treat %s,Circulatory System Disorders
 use:medicines:digestiveSystemDisorders,Digestive System Disorders,to treat %s,Digestive System Disorders
 use:medicines:endocrineSystemDisorders,Endocrine System Disorders,to treat %s,Endocrine System Disorders
+use:medicines:fever,Fever,to treat %s,fever
 use:medicines:genitourinarySystemDisorders,Genitourinary System Disorders,to treat %s,Genitourinary System Disorders
 use:medicines:illDefinedSymptoms,Ill-Defined Symptoms,to treat %s,Ill-Defined Symptoms
 use:medicines:immuneSystemDisorders,Immune System Disorders,to treat %s,Immune System Disorders
@@ -100,14 +106,18 @@ use:poisons:animalDiseaseControl,Animal Disease Control,to control %s,animal dis
 use:poisons:animalPestControl,Animal Pest Control,to control %s,animal pests
 use:poisons:anthelmintic,Anthelmintic,as an %s agent %s,Anthelmintic
 use:poisons:antibacterial,Antibacterial,as %s agent,Antibacterial
+use:poisons:antifungal,Antifungal,as an %s agent,antifungal
 use:poisons:antiprotozoal,Antiprotozoal,as %s agent,Antiprotozoal 
 use:poisons:antiviral,Antiviral,as %s agent,Antiviral
+use:poisons:arthropoda,Arthropoda Poison,as a poison for %s,arthropoda
 use:poisons:fishing,Fishing,as a poison for %s,fishing
 use:poisons:fishPoison,Fish Poison,as a poison for %s,fish
 use:poisons:homicide,Homicide,as a poison for %s,homicide
+use:poisons:housePestControl,House Pest Control,as a poison for %s,house pest control
 use:poisons:hunting,Hunting,as a poison for %s,hunting
 use:poisons:infanticide,Infanticide,as a poison %s,a poison
 use:poisons:insecticidal,Insecticidal,as an %s,insecticide
+use:poisons:livestockPestControl,Livestock Pest Control,as a poison for %s,livestock pest control
 use:poisons:mammalianPoison,Mammalian Poison,as a poison for %s,mammals
 use:poisons:otherPoisonType,Other Poison Type,as %s,a poison
 use:poisons:otherUsesOfPoisons,Other Uses Of Poisons,as %s,a poison
@@ -116,6 +126,7 @@ use:poisons:plantPestControl,Plant Pest Control,to control %s,plant pest
 use:poisons:poisonousPropertyNotActivelyUsed,Poisonous Property Not Actively Used,as %s,a poison
 use:poisons:reptilePoison,Reptile Poison,to poison %s,reptiles
 use:poisons:suicide,Suicide,as %s,a poison
+use:poisons:unspecifiedMicrobes,as a poison for %s,unspecified microbes
 use:poisons:unspecifiedPoisonType,Unspecified Poison Type,as %s,a poison
 use:socialUse,Social,has %s,Social uses
 use:socialUse:adulterants,Adulterants,as  %s,An Adulterant

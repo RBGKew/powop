@@ -116,7 +116,9 @@ define(function(require) {
   }
 
   var getFilters = function() {
-    return tokenfield.tokenfield('getTokens');
+    if (tokenfield) {
+      return tokenfield.tokenfield('getTokens');
+    }
   }
 
   var getParam = function(key) {
@@ -190,7 +192,9 @@ define(function(require) {
   }
 
   var refresh = function() {
-    tokenfield.tokenfield('update');
+    if (tokenfield) {
+      tokenfield.tokenfield('update');
+    }
   }
 
   var getTokenfield = function() {

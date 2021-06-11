@@ -3,7 +3,7 @@
   <h3>Accepted by</h3>
   <ul>
     {{#each this}}
-    <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
+    <li id="{{identifier}}" class="offset bibliographic-citation">{{{bibliographicCitation}}}</li>
     {{/each}}
   </ul>
   {{/with}}
@@ -12,7 +12,7 @@
   <h3>Not accepted by</h3>
   <ul>
     {{#each this}}
-    <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}{{#if taxonRemarks}} [{{taxonRemarks}}]{{/if}}</li>
+    <li id="{{identifier}}" class="offset bibliographic-citation">{{{bibliographicCitation}}}{{#if taxonRemarks}} [{{taxonRemarks}}]{{/if}}</li>
     {{/each}}
   </ul>
   {{/with}}
@@ -23,7 +23,7 @@
   <h4>{{@key}}</h4>
   <ul>
     {{#each this}}
-    <li id="{{identifier}}" class="offset">{{{bibliographicCitation}}}</li>
+    <li id="{{identifier}}" class="offset bibliographic-citation">{{{bibliographicCitation}}}</li>
     {{/each}}
   </ul>
   {{/each}}

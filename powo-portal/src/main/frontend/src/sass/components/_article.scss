@@ -2,10 +2,6 @@
 // Article
 // --------------------------------------------------
 
-body {
-  position: relative;
-}
-
 .c-article {
   a {
     color: #4949a3;
@@ -130,7 +126,6 @@ body {
     }
   }
   h3 {
-    display: inline;
     .btn {
       font-size: 20px;
       font-weight: 700;
@@ -295,8 +290,7 @@ li {
   z-index: 1;
   position: sticky;
   top: 0;
-  overflow-y: auto;
-  @media (min-width: $screen-md-min) {
+    @media (min-width: $screen-md-min) {
     display: block;
   }
   .navbar-nav--article {

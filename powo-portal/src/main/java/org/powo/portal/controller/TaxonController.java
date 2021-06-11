@@ -16,14 +16,27 @@
  */
 package org.powo.portal.controller;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
 import org.powo.common.IdUtil;
 import org.powo.model.Taxon;
+import org.powo.portal.view.Bibliography;
+import org.powo.portal.view.Descriptions;
+import org.powo.portal.view.Distributions;
+import org.powo.portal.view.Identifications;
+import org.powo.portal.view.Images;
+import org.powo.portal.view.MeasurementOrFacts;
+import org.powo.portal.view.ScientificNames;
+import org.powo.portal.view.Sources;
+import org.powo.portal.view.Summary;
+import org.powo.portal.view.VernacularNames;
 import org.powo.site.Site;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/taxon")
-public class TaxonController {
+public class TaxonController extends LayoutController {
 
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(TaxonController.class);
@@ -44,12 +57,71 @@ public class TaxonController {
 	@Autowired
 	TaxonService service;
 
+	@Autowired
+	ImageService imageService;
+
+	@Autowired
+	MessageSource messageSource;
+
 	@RequestMapping(path = {"/urn:lsid:ipni.org:names:{identifier}", "/{identifier}"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
 	public String show(@PathVariable String identifier, Model model) {
-		Taxon taxon = service.load(IdUtil.fqName(identifier), "object-page");
-		site.populateTaxonModel(taxon, model);
+		var taxon = service.load(IdUtil.fqName(identifier), "object-page");
+
+		model.addAttribute(taxon);
 		model.addAttribute("title", site.taxonPageTitle(taxon));
-		model.addAttribute("favicon", site.favicon());
+		model.addAttribute("color-theme", bodyClass(taxon));
+		model.addAttribute("summary", new Summary(taxon, messageSource).build());
+		model.addAttribute(new Sources(taxon));
+		
+		var bibliography = new Bibliography(taxon);
+		var descriptions = new Descriptions(taxon, site.primarySource());
+		var uses = new Descriptions(taxon, site.primarySource(), true);
+		var images = new Images(taxon, imageService);
+		var identifications = new Identifications(taxon);
+		var vernacularNames = new VernacularNames(taxon);
+		if (!descriptions.getBySource().isEmpty()) {
+			model.addAttribute("descriptions", descriptions);
+		}
+		if (!bibliography.isEmpty()) {
+			model.addAttribute(bibliography);
+		}
+		if (!uses.getBySource().isEmpty()) {
+			model.addAttribute("uses", uses);
+		}
+		if (!taxon.getSynonymNameUsages().isEmpty()) {
+			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
+		}
+		if (!taxon.getChildNameUsages().isEmpty()) {
+			model.addAttribute("children", new ScientificNames(taxon.getChildNameUsages()));
+		}
+		if (!taxon.getMeasurementsOrFacts().isEmpty()) {
+			model.addAttribute(new MeasurementOrFacts(taxon));
+		}
+		if (!taxon.getDistribution().isEmpty()) {
+			model.addAttribute(new Distributions(taxon));
+		}
+		if (!vernacularNames.getNames().isEmpty()) {
+			model.addAttribute(vernacularNames);
+		}
+		if (!identifications.getIdentifications().isEmpty()) {
+			model.addAttribute(identifications);
+		}
+		if (!images.getAll().isEmpty()) {
+			model.addAttribute(images);
+		}
+
 		return "taxon";
+	}
+
+	private String bodyClass(Taxon taxon) {
+		if (taxon.looksAccepted()) {
+			if (taxon.getTaxonRank() == null || taxon.getTaxonRank().isInfraspecific()) {
+				return "s-theme-Infraspecific";
+			} else {
+				return String.format("s-theme-%s", WordUtils.capitalizeFully(taxon.getTaxonRank().toString()));
+			}
+		} else {
+			return "s-theme-Synonym";
+		}
 	}
 }

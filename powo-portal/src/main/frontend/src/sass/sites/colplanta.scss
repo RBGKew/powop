@@ -1,20 +1,42 @@
 .s-colplanta {
-
+  &.s-search__top {
+    .form-links {
+      li {
+        color: $kew-black;
+        .form-link {
+          color: $kew-black;
+          border-bottom: 2px solid $kew-black;
+          svg {
+            fill: $kew-black
+          }
+        }
+      }
+    }
+  }
   .featured { display: none; }
 
   .c-header {
     .site-logo {
       display: none;
     }
+    .container {
+      padding-left: 16px;
+      padding-right: 16px;
+        @media (min-width: $screen-md-min) {
+          padding-left: 100px;
+          padding-right: 100px;
+        }
+      }
   }
 
   &.s-page--home,
   &.s-page--error {
-    background-image: url('/img/raster/ColPlantA.jpg') !important;
-    
+    .c-search {
+      background-image: url('/img/raster/ColPlantA.jpg') !important;
+    }
     &.s-search__fullpage {
       .site-logo {
-        fill: #fff;
+        fill: $kew-black;
         height: 70px;
       }
     }

@@ -1,7 +1,9 @@
 package org.powo.site;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.powo.model.Taxon;
@@ -9,7 +11,6 @@ import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 @Component("UPBSite")
 public class UPBSite extends PowoSite {
@@ -17,30 +18,25 @@ public class UPBSite extends PowoSite {
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
 	@Override
-	public void populateTaxonModel(Taxon taxon, Model model) {
-		super.populateTaxonModel(taxon, model);
-		model.addAttribute("siteClass", "s-upb");
-		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/upb");
-		model.addAttribute("site-logo-svg", "svg/upb.svg");
+	public Map<String, String> getFormattedTaxonCounts() {
+		return new HashMap<>();
 	}
 
 	@Override
-	public void populateIndexModel(Model model) {
-		model.addAttribute("siteClass", "s-upb");
-		model.addAttribute("intro", "partials/intro/upb");
-		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("site-logo", "partials/logo/upb");
-		model.addAttribute("site-logo-svg", "svg/upb.svg");
+	public String siteId() {
+		return "upb";
 	}
 
 	@Override
-	public void populateStaticModel(Model model) {
-		model.addAttribute("siteClass", "s-upb");
-		model.addAttribute("kew-logo", "svg/kew-science-big-logo.svg");
-		model.addAttribute("site-logo-svg", "svg/upb.svg");
-		model.addAttribute("site-logo", "partials/logo/upb");
+	public String siteIdCapitlized() {
+		return "UPB";
 	}
+	
+	@Override
+	public String kewLogoPath() {
+		return "svg/kew-upb-logo.svg";
+	}
+
 	@Override
 	public DefaultQueryOption defaultQuery() {
 		return new SourceFilter("UsefulPlantsofBoyacaProject");
@@ -75,5 +71,10 @@ public class UPBSite extends PowoSite {
 	@Override
 	public Optional<Link> crossSiteLink() {
 		return Optional.empty();
+	}
+
+	@Override
+	public String crossSiteType() {
+		return "";
 	}
 }

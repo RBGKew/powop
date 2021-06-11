@@ -39,7 +39,7 @@ $.loadSubtasks('src/tasks/', $);
 */
 gulp.task('copy', gulp.series('copy:fonts', 'copy:svgs'));
 gulp.task('images', gulp.series('images:minify', "images:icons"));
-gulp.task('clean', gulp.series('clean:css', 'clean:js', 'clean:templates'));
+gulp.task('clean', gulp.series('clean:css', 'clean:js', 'clean:templates', 'clean:images'));
 
 /*
 *  Full build
@@ -62,10 +62,13 @@ gulp.task('scripts', gulp.series('js', 'rev'));
 /*
 * Watch Task
 */
-const PORT = argv.backendPort || 10080
+const PORT = argv.port || 3000
+const BACKEND_PORT = argv.backendPort || 10080
 gulp.task('browsersync', function() {
   browserSync.init({
-    proxy: "localhost:" + PORT
+    port: PORT,
+    proxy: "localhost:" + BACKEND_PORT,
+    logLevel: "debug"
   });
 })
 

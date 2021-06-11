@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ExceptionHandlerController {
+public class ExceptionHandlerController extends LayoutController {
 
 	@Autowired
 	@Qualifier("currentSite")
@@ -19,14 +19,12 @@ public class ExceptionHandlerController {
 
 	@RequestMapping(value = "/not-found-error", method = RequestMethod.GET, produces = {"text/html"})
 	public String notFoundError(HttpServletResponse response, Model model) {
-		site.populateStaticModel(model);
 		response.setStatus(404);
 		return "/not_found_error";
 	}
 
 	@RequestMapping(value = "/generic-error", method = RequestMethod.GET, produces = {"text/html"})
 	public String error(HttpServletResponse response, Model model) {
-		site.populateStaticModel(model);
 		response.setStatus(500);
 		return "/generic_error";
 	}

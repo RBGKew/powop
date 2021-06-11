@@ -1,10 +1,10 @@
 {{> partials/header}}
 
 <div id="svgs" style="display:none">
-{{> (lookup '.' 'site-logo-svg') }}
+{{> (concat "svg/" siteId ".svg")}}
 </div>
 
-<div id="{{taxon.identifier}}" class="s-page s-page--taxon {{ siteClass }}">
+<div id="{{taxon.identifier}}" class="s-page s-page--taxon {{concat "s-" siteId}}">
   {{> partials/page-header withSearchBox="true" }}
 
   <main class="c-article" id="main">
@@ -79,7 +79,7 @@
 
         <li><a href="#sources">Sources</a></li>
       </ul>
-      <span class="glyphicon glyphicon-arrow-up to-top"></span>
+      <button class="glyphicon glyphicon-arrow-up to-top"></button>
     </div>
   </nav>
     <div class="container">
@@ -112,7 +112,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                <button class="btn collapser {{#unless @first}} {{/unless}}"
                  role="button"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
@@ -173,7 +173,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser{{#unless @first}} {{/unless}}"
+                <button class="btn collapser {{#unless @first}} {{/unless}}"
                    role="button"
                    data-toggle="collapse"
                    data-target="#uses-{{source.abbreviation}}-{{@index}}"
@@ -473,10 +473,10 @@
           <div class="c-article-section__content">
             <h3>{{nameAndAuthor taxon}} appears in other Kew resources:</h3>
             {{#if taxon.plantae }}
-            <div><h4><a href="{{taxon.uri}}">IPNI - The International Plant Names Index</a></h4></div>
+            <div><h4><a target="_blank" href="{{taxon.uri}}">IPNI - The International Plant Names Index</a></h4></div>
             {{/if}}
             {{#if taxon.fungi }}
-            <div><h4><a href="{{taxon.uri}}">IF - Index Fungorum</a></h4></div>
+            <div><h4><a target="_blank" href="{{taxon.uri}}">IF - Index Fungorum</a></h4></div>
             {{/if}}
             {{#with identifications}}
             <div>
@@ -557,9 +557,9 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="sort-bibliography">
-                <li><a id="sort-bibliography-by-newest-first" class="selected_background" href="#">Newest first</a></li>
+                <li><a id="sort-bibliography-by-citation" class="selected_background" href="#" href="#">Alphabetically</a></li>
+                <li><a id="sort-bibliography-by-newest-first">Newest first</a></li>
                 <li><a id="sort-bibliography-by-oldest-first" href="#">Oldest first</a></li>
-                <li><a id="sort-bibliography-by-citation" href="#">Alphabetically</a></li>
               </ul>
             </div>
           </aside>

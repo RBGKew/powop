@@ -3,8 +3,6 @@
  */
 
 #kew-upfc-logo-svg {
-  margin-top: 15px;
-
   path,
   text {
     fill: #000;
@@ -13,7 +11,7 @@
     fill: #000;
   }
   #Map {
-    fill: #fff;
+    fill: $White;
   }
   #Background {
     fill: $upfc-green;
