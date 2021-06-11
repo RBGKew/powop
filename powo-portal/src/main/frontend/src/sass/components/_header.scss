@@ -180,8 +180,11 @@
     float: right;
   }
 }
-
+a#kew-logo {
+  text-decoration: none;
+}
 #kew-logo {
+  display: -webkit-flex; 
   display: flex;
   width: 252px;
   margin-right: 0;
