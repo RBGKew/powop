@@ -6,3 +6,8 @@
     outline-offset: 3px;
   }
 }   
+
+.tokenfield.focus, #search-button:focus {
+  outline: none;
+  box-shadow: 0 0 0pt 2px $kew-focus-outline-yellow!important;
+}

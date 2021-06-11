@@ -12,7 +12,7 @@
   position: absolute;
   font-size: 20px;
   border: none;
-  background: $White;
+  background: transparent;
   @media (max-width: $screen-xs-max) {
     position: unset;
     margin: auto;

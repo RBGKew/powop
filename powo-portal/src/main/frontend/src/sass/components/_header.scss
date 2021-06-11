@@ -28,6 +28,7 @@
         height: 100vh;
         padding: 6px 0;
         z-index: 3;
+        outline: 0;
         @media (min-width: $screen-sm-min) {
           position: unset;
           height: auto;
@@ -179,8 +180,11 @@
     float: right;
   }
 }
-
+a#kew-logo {
+  text-decoration: none;
+}
 #kew-logo {
+  display: -webkit-flex; 
   display: flex;
   width: 252px;
   margin-right: 0;
