@@ -2,6 +2,7 @@ define(function(require) {
 
   var $ = require('jquery');
   var filters = require('search/filters');
+  var date = require('./date');
   require('libs/bootstrap');
 
   var initialize = function() {
@@ -27,6 +28,9 @@ define(function(require) {
       $('#search_box')
         .removeClass('focused');
     })
+
+    $( ".full-year" ).append( date.fullYear );
+    $( ".full-date" ).append( date.fullDate );
   }
 
   return {
