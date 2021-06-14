@@ -24,11 +24,12 @@ public class CDNImageHelper {
 	private String CDNKey;
 	private String CDNPrefix;
 
-	private String[] SecureDomains = {"cloudfront.com", "googleapis.com"};
+	private String[] secureDomains;
 
-	public CDNImageHelper(@Value("${cdn.key}") String key, @Value("${cdn.prefix}") String prefix) {
+	public CDNImageHelper(@Value("${cdn.key}") String key, @Value("${cdn.prefix}") String prefix, @Value("${images.securedomains}") String[] secureDomains) {
 		this.CDNKey = key;
 		this.CDNPrefix = prefix;
+		this.secureDomains = secureDomains;
 	}
 
 	public String getThumbnailUrl(Image img) {
@@ -52,8 +53,7 @@ public class CDNImageHelper {
 	}
 
 	public String getCDNUrl(Image img, int size) {
-		int id = Integer.parseInt(
-				img.getIdentifier().substring(img.getIdentifier().lastIndexOf(':') + 1, img.getIdentifier().length()));
+		var id = img.getIdentifier().substring(img.getIdentifier().lastIndexOf(':') + 1, img.getIdentifier().length());
 
 		return String.format("%s/%s.jpg",
 				CDNPrefix,
@@ -67,7 +67,7 @@ public class CDNImageHelper {
 	 */
 	private String getSecureUrl(Image img, String size) {
 		var uri = URI.create(String.format("%s_%s.jpg", img.getAccessUri(), size));
-		boolean hasSecureDomain = Arrays.stream(SecureDomains).anyMatch(d -> uri.getHost().contains(d));
+		boolean hasSecureDomain = Arrays.stream(secureDomains).anyMatch(d -> uri.getHost().contains(d));
 		if (!hasSecureDomain) {
 			return uri.toString();
 		}

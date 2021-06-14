@@ -29,7 +29,8 @@ public class ImageHelperTest extends AbstractHelperTest {
 
 	@Override
 	protected Handlebars newHandlebars() {
-		CDNImageHelper cdn = new CDNImageHelper("test", "https://cdn.com");
+		String[] secureDomains = {"cdn.com"};
+		CDNImageHelper cdn = new CDNImageHelper("test", "https://cdn.com", secureDomains);
 		Handlebars handlebars = super.newHandlebars();
 		handlebars.registerHelpers(new ImageHelper(cdn));
 		return handlebars;

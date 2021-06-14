@@ -9,14 +9,15 @@ public class CDNImageHelperTest {
   
   private String testKey = "test_cdn_key";
   private String testPrefix = "//testcdn.com/powo";
+  private String[] secureDomains = {"cloudfront.net", "googleapis.com"};
 
   @Test
   /**
    * Test that the URL protocol is not changed if a URL uses a domain that isn't in the whitelisted
-   * CDNImageHelper.SecureDomains array.
+   * CDNImageHelper.secureDomains array.
    */
   public void testGetInsecureUrls() {
-    var helper = new CDNImageHelper(testKey, testPrefix);
+    var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
 
     var image = new Image();
     image.setIdentifier("urn:not-a-cdn.com:1");
@@ -31,10 +32,10 @@ public class CDNImageHelperTest {
   @Test
   /**
    * Test that the URL protocol is removed (to leave "//") if a URL uses a domain that
-   * IS in the whitelisted SecureDomains array.
+   * IS in the whitelisted secureDomains array.
    */
   public void testGetGoogleCloudUrl() {
-    var helper = new CDNImageHelper(testKey, testPrefix);
+    var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
 
     var image = new Image();
     image.setIdentifier("urn:kew.org:fwta:media:9");
@@ -52,7 +53,7 @@ public class CDNImageHelperTest {
    * choose which protocol to use when accessing the image.
    */
   public void testGetCDNUrl() {
-    var helper = new CDNImageHelper(testKey, testPrefix);
+    var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
 
     var image = new Image();
     image.setIdentifier("urn:kew.org:dam:595377");
