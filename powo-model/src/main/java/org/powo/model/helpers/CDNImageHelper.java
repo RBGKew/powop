@@ -57,13 +57,14 @@ public class CDNImageHelper {
 	}
 
 	/**
-	 * Convert an HTTP URL to an HTTPS URL if the domain matches a known list of
-	 * CDNs.
+	 * Convert an HTTP URL to a "//" URL, if the domain matches a known list of
+	 * CDNs. This will cause the browser to use the protocol that matches the
+	 * site URL. Therefore, it will use HTTPS if the site was loaded over HTTPS.
 	 */
 	private String getSecureUrl(Image img, String sizeSuffix) {
 		String url = String.format(sizeSuffix, img.getAccessUri());
 		if (url.contains("googleapis") || url.contains("cloudfront")) {
-			return url.replaceFirst("^http:", "https:");
+			return url.replaceFirst("^http:", "");
 		}
 		return url;
 	}
