@@ -30,7 +30,7 @@ public class CDNImageHelper {
 		if(hasCDNImage(img)) {
 			return getCDNUrl(img, 400);
 		} else {
-			return String.format("%s_thumbnail.jpg", img.getAccessUri());
+			return getSecureUrl(img, "%s_thumbnail.jpg");
 		}
 	}
 
@@ -38,7 +38,7 @@ public class CDNImageHelper {
 		if(hasCDNImage(img)) {
 			return getCDNUrl(img, 1600);
 		} else {
-			return String.format("%s_fullsize.jpg", img.getAccessUri());
+			return getSecureUrl(img, "%s_fullsize.jpg");
 		}
 	}
 
@@ -54,5 +54,17 @@ public class CDNImageHelper {
 		return String.format("%s/%s.jpg",
 				CDNPrefix,
 				DigestUtils.md5DigestAsHex((id + "-" + size + "-" + CDNKey).getBytes()));
+	}
+
+	/**
+	 * Convert an HTTP URL to an HTTPS URL if the domain matches a known list of
+	 * CDNs.
+	 */
+	private String getSecureUrl(Image img, String sizeSuffix) {
+		String url = String.format(sizeSuffix, img.getAccessUri());
+		if (url.contains("googleapis") || url.contains("cloudfront")) {
+			return url.replaceFirst("^http:", "https:");
+		}
+		return url;
 	}
 }
