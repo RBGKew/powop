@@ -33,6 +33,9 @@
   &.s-page--error {
     .c-search {
       background-image: url('/img/raster/ColPlantA.jpg') !important;
+      @media (max-width: $screen-sm-min) {
+        background-image: url('/img/raster/ColPlantA_mobile.jpg') !important;
+      }
     }
     &.s-search__fullpage {
       .site-logo {
