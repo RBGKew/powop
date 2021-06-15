@@ -17,3 +17,16 @@
     fill: $upfc-green;
   }
 }
+
+/* These sites don't have a large title on the
+   homepage, so make the intro text larger */
+.s-colplanta,.s-colfungi,.s-upb {
+  .c-intro {
+    p {
+      font-size: 24px;
+      @media (min-width: $screen-sm-min) {
+        font-size: 30px;
+      }
+    }
+  }
+}
