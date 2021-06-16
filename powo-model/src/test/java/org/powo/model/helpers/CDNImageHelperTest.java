@@ -13,19 +13,19 @@ public class CDNImageHelperTest {
 
   @Test
   /**
-   * Test that the URL protocol is not changed if a URL is invalid.
+   * Test that the URL protocol is not changed if the URL is invalid.
    */
   public void testGetInvalidUrls() {
     var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
 
     var image = new Image();
-    image.setIdentifier("urn:not-a-cdn.com:1");
-    image.setAccessUri("http://example.com/this is an invalid url");
+    image.setIdentifier("urn:kew.org:fwta:media:9");
+    image.setAccessUri("http://storage.googleapis.com/inga\\invalid");
 
     var thumbnailUrl = helper.getThumbnailUrl(image);
     var fullsizeUrl = helper.getFullsizeUrl(image);
-    assertEquals("http://example.com/this is an invalid url_thumbnail.jpg", thumbnailUrl);
-    assertEquals("http://example.com/this is an invalid url_fullsize.jpg", fullsizeUrl);
+    assertEquals("http://storage.googleapis.com/inga\\invalid_thumbnail.jpg", thumbnailUrl);
+    assertEquals("http://storage.googleapis.com/inga\\invalid_fullsize.jpg", fullsizeUrl);
   }
 
   @Test
@@ -82,6 +82,23 @@ public class CDNImageHelperTest {
     assertEquals("//testcdn.com/powo/c7f13a5a80759296d7e615a27c2691c7.jpg", thumbnailUrl);
     // MD5 hash of "595377-1600-test_cdn_key"
     assertEquals("//testcdn.com/powo/5a94756062158da7a62a24e2666ecd17.jpg", fullsizeUrl);
+  }
+
+  @Test
+  /**
+   * Test that URLs are fixed if they contain spaces.
+   */
+  public void testGetUrlsWithSpaces() {
+    var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
+
+    var image = new Image();
+    image.setIdentifier("urn:kew.org:fwta:media:9");
+    image.setAccessUri("http://storage.googleapis.com/inga alba");
+
+    var thumbnailUrl = helper.getThumbnailUrl(image);
+    var fullsizeUrl = helper.getFullsizeUrl(image);
+    assertEquals("//storage.googleapis.com/inga%20alba_thumbnail.jpg", thumbnailUrl);
+    assertEquals("//storage.googleapis.com/inga%20alba_fullsize.jpg", fullsizeUrl);
   }
 
 }

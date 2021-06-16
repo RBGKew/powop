@@ -70,14 +70,16 @@ public class CDNImageHelper {
 	 * URL. Therefore, it will use HTTPS if the site was loaded over HTTPS.
 	 */
 	private String getSecureUrl(Image img, String size) {
-		var url = String.format("%s_%s.jpg", img.getAccessUri(), size);
+		var url = String.format("%s_%s.jpg", img.getAccessUri(), size).replaceAll(" ", "%20");
 		try {
 			var uri = URI.create(url);
 			boolean hasSecureDomain = Arrays.stream(secureDomains).anyMatch(d -> uri.getHost().contains(d));
 			if (!hasSecureDomain) {
 				return uri.toString();
 			}
-			return "//" + uri.getAuthority() + uri.getPath();
+			// Use rawAuthority and rawPath to prevent the URI components being decoded (which we don't want).
+			// E.G. we want to return "//example.com/image%20url.jpg", not "//example.com/image url.jpg"
+			return "//" + uri.getRawAuthority() + uri.getRawPath();
 		} catch (IllegalArgumentException e) {
 			logger.error("Error getting secure URL from " + url + ": " + e.getMessage());
 		}
