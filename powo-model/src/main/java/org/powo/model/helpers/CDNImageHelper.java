@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Arrays;
 
 import org.powo.model.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
@@ -25,6 +27,8 @@ public class CDNImageHelper {
 	private String CDNPrefix;
 
 	private String[] secureDomains;
+
+	private Logger logger = LoggerFactory.getLogger(CDNImageHelper.class);
 
 	public CDNImageHelper(@Value("${cdn.key}") String key, @Value("${cdn.prefix}") String prefix, @Value("${images.securedomains}") String[] secureDomains) {
 		this.CDNKey = key;
@@ -66,11 +70,17 @@ public class CDNImageHelper {
 	 * URL. Therefore, it will use HTTPS if the site was loaded over HTTPS.
 	 */
 	private String getSecureUrl(Image img, String size) {
-		var uri = URI.create(String.format("%s_%s.jpg", img.getAccessUri(), size));
-		boolean hasSecureDomain = Arrays.stream(secureDomains).anyMatch(d -> uri.getHost().contains(d));
-		if (!hasSecureDomain) {
-			return uri.toString();
+		var url = String.format("%s_%s.jpg", img.getAccessUri(), size);
+		try {
+			var uri = URI.create(url);
+			boolean hasSecureDomain = Arrays.stream(secureDomains).anyMatch(d -> uri.getHost().contains(d));
+			if (!hasSecureDomain) {
+				return uri.toString();
+			}
+			return "//" + uri.getAuthority() + uri.getPath();
+		} catch (IllegalArgumentException e) {
+			logger.error("Error getting secure URL from " + url + ": " + e.getMessage());
 		}
-		return "//" + uri.getAuthority() + uri.getPath();
+		return url;
 	}
 }
