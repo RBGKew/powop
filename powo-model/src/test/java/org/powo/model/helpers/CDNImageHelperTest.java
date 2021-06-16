@@ -13,6 +13,23 @@ public class CDNImageHelperTest {
 
   @Test
   /**
+   * Test that the URL protocol is not changed if a URL is invalid.
+   */
+  public void testGetInvalidUrls() {
+    var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
+
+    var image = new Image();
+    image.setIdentifier("urn:not-a-cdn.com:1");
+    image.setAccessUri("http://example.com/this is an invalid url");
+
+    var thumbnailUrl = helper.getThumbnailUrl(image);
+    var fullsizeUrl = helper.getFullsizeUrl(image);
+    assertEquals("http://example.com/this is an invalid url_thumbnail.jpg", thumbnailUrl);
+    assertEquals("http://example.com/this is an invalid url_fullsize.jpg", fullsizeUrl);
+  }
+
+  @Test
+  /**
    * Test that the URL protocol is not changed if a URL uses a domain that isn't in the whitelisted
    * CDNImageHelper.secureDomains array.
    */
