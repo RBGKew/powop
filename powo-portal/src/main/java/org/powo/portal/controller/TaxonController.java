@@ -67,15 +67,17 @@ public class TaxonController extends LayoutController {
 	@Autowired
 	MessageSource messageSource;
 
-	@Value("#{${site.redirects}}")
-	Map<String, String> siteRedirects;
+	@Value("#{${site.redirectkeys}}")
+	Map<String, String> siteRedirectKeys;
 
-	@RequestMapping(path = {"/{identifier}"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
-	public String show(@PathVariable String identifier, @RequestParam(required = false, value = "site") String siteRedirect, Model model) {
-		if (siteRedirect != null) {
-			var target = siteRedirects.get(siteRedirect);
+	@RequestMapping(path = { "/{identifier}" }, method = RequestMethod.GET, produces = { "text/html", "*/*" })
+	public String show(@PathVariable String identifier,
+			@RequestParam(required = false, value = "site") String siteRedirectKey, Model model) {
+		if (siteRedirectKey != null) {
+			var target = siteRedirectKeys.get(siteRedirectKey);
 			if (target != null) {
-				model.asMap().clear(); // Clear the model, as otherwise the attributes are added to the HTTP query parameters
+				// Clear the model, as otherwise the attributes are added to the HTTP query parameters
+				model.asMap().clear();
 				return "redirect:" + target + "/taxon/" + identifier;
 			}
 		}
@@ -86,7 +88,7 @@ public class TaxonController extends LayoutController {
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("summary", new Summary(taxon, messageSource).build());
 		model.addAttribute(new Sources(taxon));
-		
+
 		var bibliography = new Bibliography(taxon);
 		var descriptions = new Descriptions(taxon, site.primarySource());
 		var uses = new Descriptions(taxon, site.primarySource(), true);
