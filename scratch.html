@@ -1,0 +1,253 @@
+<html lang="en" id="html">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liara Skara</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="styles.css">
+  <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
+  <style>
+    /* master styles */
+
+html {
+  height: 100%;
+}
+
+.contactForm {
+  flex: 0%;
+  margin: 0px 0px;
+  width: 21%;
+  position: absolute;
+  margin: 90px 0px 0px 10.5px;
+  left: 0px;
+  /* max-width: 100%; */
+  /* opacity: 0.39; */
+}
+
+.name,
+.email,
+.subject {
+  position: relative;
+  width: 279px;
+  height: 45px;
+  padding: 9px 15px 15px 15px;
+  margin-left: 39.9px;
+  font-size: 12px;
+}
+
+.message {
+  position: relative;
+  width: 279px;
+  height: 141px;
+  padding: 9px 15px 15px 15px;
+  margin-left: 39.9px;
+  font-size: 12px;
+}
+
+ ::placeholder {
+  margin-top: 0px;
+  font-size: 12px;
+}
+
+.fas.fa-exclamation-circle {
+  color: red;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  visibility: hidden;
+  top: 15px;
+  right: 60px;
+}
+
+.form-control {
+  position: relative;
+}
+
+.form-control.error input {
+  border-color: red;
+}
+
+.form-control.error i.fas.fas.fa-exclamation-circle {
+  visibility: visible;
+  color: red;
+}
+
+.form-control.error small {
+  color: red;
+  visibility: visible;
+}
+
+small {
+  position: absolute;
+  left: 66px;
+  visibility: hidden;
+  top: 27px;
+}
+
+#submitButton {
+  margin: 9px 0px 0px 42px;
+  width: 277.2px;
+  height: 63px;
+}
+  </style>
+</head>
+
+<body id="bodyContactpage">
+  <form method="POST" class="contactForm" id="form">
+
+    <!-- <div class="backgroundImg" style="background-image: url('Images/LiaraEyesOpen.png');"> -->
+    <div class="form-control">
+      <input class="name" id="namecontact" type="text" placeholder="Name"/><br>
+      <i class="fas fa-exclamation-circle" id="exclamation1"></i>
+      <small class="small" id="small1">Error mesagge</small>
+    </div>
+    <div class="form-control">
+      <input class="email" id="email" type="email" placeholder="E-mail"/><br>
+      <i class="fas fa-exclamation-circle" id="exclamation2"></i>
+      <small class="small" id="small2">Error mesagge</small>
+    </div>
+    <div class="form-control">
+      <input class="subject" type="text" placeholder="Subject" /><br>
+      <i class="fas fa-exclamation-circle" id="exclamation3"></i>
+      <small class="small" id="small3">Error mesagge</small>
+    </div>
+    <div class="form-control">
+      <textarea class="message" id="message" name="" id="" cols="30" rows="10" placeholder="Message" required></textarea><br>
+      <i class="fas fa-exclamation-circle" id="exclamation4"></i>
+      <small class="small" id="small4">Error mesagge</small>
+    </div>
+    <button id="submitButton" type="submit">
+      <span>Launch</span>
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </button>   
+</form>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase.js"></script>
+<script>
+  var firebaseConfig = {
+  apiKey: " /* anominzed by editor */ ",
+  authDomain: " /* anominzed by editor */ ",
+  databaseURL: " /* anominzed by editor */ ",
+  projectId: " /* anominzed by editor */ ",
+  storageBucket: " /* anominzed by editor */ ",
+  messagingSenderId: " /* anominzed by editor */ ",
+  appId: " /* anominzed by editor */ ",
+  measurementId: " /* anominzed by editor */ "
+};
+// Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+
+//Reference contactInfo collections
+// let contactInfo = firebase.database().ref("infos");
+
+// Listen for a submit
+const contactForm = document.querySelector(".contactForm")
+console.log('cf', contactForm)
+contactForm.addEventListener("submit", submitForm);
+
+function submitForm(e) {
+	console.log('form submit')
+
+  e.preventDefault();
+
+  checkInputs(); //val
+
+  //Get input values
+  let name = document.querySelector(".name").value;
+  let email = document.querySelector(".email").value;
+  let message = document.querySelector(".message").value;
+  console.log(name, email, message);
+
+  saveContactInfo(name, email, message);
+
+  //Refresh after submit
+  document.querySelector(".contactForm").reset();
+
+  //Call send email function
+  sendEmail(name, email, message);
+}
+
+
+const form = document.getElementById('form'); //Val
+const namecontact = document.getElementById('namecontact'); //Val
+const email = document.getElementById('email'); //Val
+const message = document.getElementById('message'); //Val
+
+//form validaton
+function checkInputs() {
+  //Get the values from the inputs
+  const nameValue = namecontact.value.trim();
+  const emailValue = email.value.trim();
+  const messageValue = message.value.trim();
+  console.log('values', nameValue, emailValue, messageValue)
+
+  if (nameValue === '') {
+    setErrorFor(namecontact, "Name cannot be blank");
+  }
+  if (emailValue === '') {
+    setErrorFor(email, "Email cannot be blank");
+  } else if (!isEmail(emailValue)) {
+    setErrorFor(email, 'Email is not valid')
+  }
+
+  if (messageValue === '') {
+    setErrorFor(message, "Message cannot be blank");
+  }
+}
+
+function setErrorFor(input, errorMessage) {
+	console.log('set error', input, errorMessage)
+  const formControl = input.parentElement; //.form-control
+  const smalls = formControl.getElementsByClassName('small');
+
+  for (const small of smalls) {
+    small.innerText = errorMessage;
+  }
+
+  //add error message inside small
+
+
+  // add error class
+  formControl.className = 'form-control error';
+}
+
+function isEmail(email) {
+  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+}
+
+
+//Save infos to Firebase
+function saveContactInfo(name, email, message) {
+  let newContactInfo = contactInfo.push();
+
+  newContactInfo.set({
+    contactname: name,
+    email: email,
+    message: message,
+  });
+}
+
+function showSucces() {
+  alert("succesfully sent")
+}
+
+//Send Email function
+function sendEmail(name, email, message) {
+console.log('send email', name, email, message)
+  Email.send({
+    Host: "smtp.gmail.com",
+    Username: "liaraskara@gmail.com",
+    To: "liaraskara@gmail.com",
+    From: "liaraskara@gmail.com",
+    Subject: `${name} sent you a message`,
+    Body: `Name: ${name} <br/> Email: ${email} <br/> Message: ${message}`,
+  }).then((message) => showSucces());
+}
+  </script>
+</script>
+</body>
+
+</html>
