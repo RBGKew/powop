@@ -84,21 +84,4 @@ public class CDNImageHelperTest {
     assertEquals("//testcdn.com/powo/5a94756062158da7a62a24e2666ecd17.jpg", fullsizeUrl);
   }
 
-  @Test
-  /**
-   * Test that URLs are fixed if they contain spaces.
-   */
-  public void testGetUrlsWithSpaces() {
-    var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
-
-    var image = new Image();
-    image.setIdentifier("urn:kew.org:fwta:media:9");
-    image.setAccessUri("http://storage.googleapis.com/inga alba");
-
-    var thumbnailUrl = helper.getThumbnailUrl(image);
-    var fullsizeUrl = helper.getFullsizeUrl(image);
-    assertEquals("//storage.googleapis.com/inga%20alba_thumbnail.jpg", thumbnailUrl);
-    assertEquals("//storage.googleapis.com/inga%20alba_fullsize.jpg", fullsizeUrl);
-  }
-
 }

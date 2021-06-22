@@ -1,4 +1,4 @@
-package org.powo.job.mapping;
+package org.powo.job.dwc;
 
 import com.google.common.base.MoreObjects;
 

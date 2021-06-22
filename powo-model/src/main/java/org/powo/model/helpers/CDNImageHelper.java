@@ -70,7 +70,7 @@ public class CDNImageHelper {
 	 * URL. Therefore, it will use HTTPS if the site was loaded over HTTPS.
 	 */
 	private String getSecureUrl(Image img, String size) {
-		var url = String.format("%s_%s.jpg", img.getAccessUri(), size).replaceAll(" ", "%20");
+		var url = String.format("%s_%s.jpg", img.getAccessUri(), size);
 		try {
 			var uri = URI.create(url);
 			boolean hasSecureDomain = Arrays.stream(secureDomains).anyMatch(d -> uri.getHost().contains(d));

@@ -1,4 +1,4 @@
-package org.powo.job.mapping;
+package org.powo.job.dwc.image;
 
 import static org.junit.Assert.assertEquals;
 import static org.easymock.EasyMock.*;
@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Test;
-import org.powo.common.HtmlSanitizer;
+import org.powo.job.dwc.TestCase;
 import org.powo.job.dwc.description.FieldSetMapper;
 import org.powo.model.Description;
 import org.powo.model.Reference;
@@ -22,7 +22,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.validation.BindException;
 
-public class DescriptionFieldMappingTest {
+public class DescriptionFieldSetMapperTest {
 
 	private static final TestCase[] simpleTestCases = {
 			new TestCase("http://purl.org/dc/terms/audience", "Audience").sets("Audience").on("audience"),

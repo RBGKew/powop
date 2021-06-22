@@ -1,4 +1,4 @@
-package org.powo.job.mapping;
+package org.powo.job.dwc.image;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -11,7 +11,7 @@ import java.util.SortedSet;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.powo.job.dwc.image.FieldSetMapper;
+import org.powo.job.dwc.TestCase;
 import org.powo.model.Image;
 import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.MediaFormat;
@@ -23,7 +23,7 @@ import org.springframework.validation.BindException;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
-public class ImageFieldMappingTest {
+public class ImageFieldSetMapperTest {
 
 	private static final TestCase[] simpleTestCases = {
 			// Standard DC terms
@@ -76,5 +76,17 @@ public class ImageFieldMappingTest {
 			assertEquals(test.expected, PropertyUtils.getSimpleProperty(image, test.propertyName));
 		}
 	}
+
+	@Test
+  public void testFixUri() {
+    var validUri = "http://example.com/image/inga%20alba.jpg";
+    assertEquals(validUri, mapper.fixAccessUri(validUri));
+
+    var invalidUri = "http://example.com/image/inga alba.jpg";
+    assertEquals(validUri, mapper.fixAccessUri(invalidUri));
+
+    var missingProtocolUri = "example.com/image/inga alba.jpg";
+    assertEquals("http://example.com/image/inga%20alba.jpg", mapper.fixAccessUri(missingProtocolUri));
+  }
 
 }
