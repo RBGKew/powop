@@ -1,6 +1,11 @@
 package org.powo.model.helpers;
 
+import java.net.URI;
+import java.util.Arrays;
+
 import org.powo.model.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
@@ -21,24 +26,29 @@ public class CDNImageHelper {
 	private String CDNKey;
 	private String CDNPrefix;
 
-	public CDNImageHelper(@Value("${cdn.key}") String key, @Value("${cdn.prefix}") String prefix) {
+	private String[] secureDomains;
+
+	private Logger logger = LoggerFactory.getLogger(CDNImageHelper.class);
+
+	public CDNImageHelper(@Value("${cdn.key}") String key, @Value("${cdn.prefix}") String prefix, @Value("${images.securedomains}") String[] secureDomains) {
 		this.CDNKey = key;
 		this.CDNPrefix = prefix;
+		this.secureDomains = secureDomains;
 	}
 
 	public String getThumbnailUrl(Image img) {
-		if(hasCDNImage(img)) {
+		if (hasCDNImage(img)) {
 			return getCDNUrl(img, 400);
 		} else {
-			return String.format("%s_thumbnail.jpg", img.getAccessUri());
+			return getSecureUrl(img, "thumbnail");
 		}
 	}
 
 	public String getFullsizeUrl(Image img) {
-		if(hasCDNImage(img)) {
+		if (hasCDNImage(img)) {
 			return getCDNUrl(img, 1600);
 		} else {
-			return String.format("%s_fullsize.jpg", img.getAccessUri());
+			return getSecureUrl(img, "fullsize");
 		}
 	}
 
@@ -47,12 +57,30 @@ public class CDNImageHelper {
 	}
 
 	public String getCDNUrl(Image img, int size) {
-		int id = Integer.parseInt(img.getIdentifier().substring(
-				img.getIdentifier().lastIndexOf(':') + 1,
-				img.getIdentifier().length()));
+		var id = img.getIdentifier().substring(img.getIdentifier().lastIndexOf(':') + 1, img.getIdentifier().length());
 
 		return String.format("%s/%s.jpg",
 				CDNPrefix,
 				DigestUtils.md5DigestAsHex((id + "-" + size + "-" + CDNKey).getBytes()));
+	}
+
+	/**
+	 * Convert an HTTP URL to a "//" URL, if the domain matches a known list of
+	 * CDNs. This will cause the browser to use the protocol that matches the site
+	 * URL. Therefore, it will use HTTPS if the site was loaded over HTTPS.
+	 */
+	private String getSecureUrl(Image img, String size) {
+		var url = String.format("%s_%s.jpg", img.getAccessUri(), size);
+		try {
+			var uri = URI.create(url);
+			boolean hasSecureDomain = Arrays.stream(secureDomains).anyMatch(d -> uri.getHost().contains(d));
+			if (!hasSecureDomain) {
+				return uri.toString();
+			}
+			return "//" + uri.getAuthority() + uri.getPath();
+		} catch (IllegalArgumentException e) {
+			logger.error("Error getting secure URL from " + url + ": " + e.getMessage());
+		}
+		return url;
 	}
 }
