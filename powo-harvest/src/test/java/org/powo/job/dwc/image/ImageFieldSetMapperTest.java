@@ -43,7 +43,10 @@ public class ImageFieldSetMapperTest {
 			new TestCase("http://rs.tdwg.org/ac/terms/caption", "Caption").sets("Caption").on("caption"),
 			new TestCase("http://rs.tdwg.org/ac/terms/providerManagedID", "PMID").sets("PMID").on("providerManagedId"),
 			new TestCase("http://rs.tdwg.org/ac/terms/subjectPart", "floralDiagram").sets(ImmutableSet.<DescriptionType>of(DescriptionType.floralDiagram)).on("subjectPart"),
-			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "http://blargedy.com/").sets("http://blargedy.com/").on("accessUri"),
+			// Audubon term accessURI: parsing and fixing invalid URLs
+			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "http://example.com/image/inga%20alba.jpg").sets("http://example.com/image/inga%20alba.jpg").on("accessUri"),
+			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "http://example.com/image/inga alba.jpg").sets("http://example.com/image/inga%20alba.jpg").on("accessUri"),
+			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "example.com/image/inga alba.jpg").sets("http://example.com/image/inga%20alba.jpg").on("accessUri"),
 
 			// Adobe XMP terms
 			new TestCase("http://ns.adobe.com/xap/1.0/Rating", "1.0").sets(1.0).on("rating"),
@@ -76,17 +79,5 @@ public class ImageFieldSetMapperTest {
 			assertEquals(test.expected, PropertyUtils.getSimpleProperty(image, test.propertyName));
 		}
 	}
-
-	@Test
-  public void testFixUri() {
-    var validUri = "http://example.com/image/inga%20alba.jpg";
-    assertEquals(validUri, mapper.fixAccessUri(validUri));
-
-    var invalidUri = "http://example.com/image/inga alba.jpg";
-    assertEquals(validUri, mapper.fixAccessUri(invalidUri));
-
-    var missingProtocolUri = "example.com/image/inga alba.jpg";
-    assertEquals("http://example.com/image/inga%20alba.jpg", mapper.fixAccessUri(missingProtocolUri));
-  }
 
 }

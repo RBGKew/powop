@@ -222,7 +222,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 	/**
 	 * Decode and re-encode the provided URI, to ensure it is valid.
 	 */
-	String fixAccessUri(String accessUri) {
+	private String fixAccessUri(String accessUri) {
 		try {
 			var url = parseUrl(accessUri);
 			var uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(),
