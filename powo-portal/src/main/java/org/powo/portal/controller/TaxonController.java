@@ -16,6 +16,8 @@
  */
 package org.powo.portal.controller;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.text.WordUtils;
 import org.powo.api.ImageService;
 import org.powo.api.TaxonService;
@@ -36,12 +38,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/taxon")
@@ -63,8 +67,20 @@ public class TaxonController extends LayoutController {
 	@Autowired
 	MessageSource messageSource;
 
-	@RequestMapping(path = {"/urn:lsid:ipni.org:names:{identifier}", "/{identifier}"}, method = RequestMethod.GET, produces = {"text/html", "*/*"})
-	public String show(@PathVariable String identifier, Model model) {
+	@Value("#{${site.redirectkeys}}")
+	Map<String, String> siteRedirectKeys;
+
+	@GetMapping(path = { "/{identifier}" })
+	public String show(@PathVariable String identifier,
+			@RequestParam(required = false, value = "site") String siteRedirectKey, Model model) {
+		if (siteRedirectKey != null) {
+			var target = siteRedirectKeys.get(siteRedirectKey);
+			if (target != null) {
+				// Clear the model, as otherwise the attributes are added to the HTTP query parameters
+				model.asMap().clear();
+				return "redirect:" + target + "/taxon/" + identifier;
+			}
+		}
 		var taxon = service.load(IdUtil.fqName(identifier), "object-page");
 
 		model.addAttribute(taxon);
@@ -72,7 +88,7 @@ public class TaxonController extends LayoutController {
 		model.addAttribute("color-theme", bodyClass(taxon));
 		model.addAttribute("summary", new Summary(taxon, messageSource).build());
 		model.addAttribute(new Sources(taxon));
-		
+
 		var bibliography = new Bibliography(taxon);
 		var descriptions = new Descriptions(taxon, site.primarySource());
 		var uses = new Descriptions(taxon, site.primarySource(), true);
