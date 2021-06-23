@@ -77,7 +77,9 @@ public class CDNImageHelper {
 			if (!hasSecureDomain) {
 				return uri.toString();
 			}
-			return "//" + uri.getAuthority() + uri.getPath();
+			// Use rawAuthority and rawPath to prevent the URI components being decoded (which we don't want).
+			// E.G. we want to return "//example.com/image%20url.jpg", not "//example.com/image url.jpg"
+			return "//" + uri.getRawAuthority() + uri.getRawPath();
 		} catch (IllegalArgumentException e) {
 			logger.error("Error getting secure URL from " + url + ": " + e.getMessage());
 		}

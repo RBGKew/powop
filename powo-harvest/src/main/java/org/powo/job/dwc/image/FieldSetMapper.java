@@ -16,6 +16,13 @@
  */
 package org.powo.job.dwc.image;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -131,11 +138,13 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				}
 				break;
 			case accessURI:
-				if(imageServer == null){
-					object.setAccessUri(value);
+				String uri;
+				if (imageServer == null) {
+					uri = value;
 				} else {
-					object.setAccessUri(imageServer + value);
+					uri = imageServer + value;
 				}
+				object.setAccessUri(fixAccessUri(uri));
 				break;
 			case subtype:
 				object.setSubType(HtmlSanitizer.sanitize(value));
@@ -207,6 +216,37 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 				object.setPixelYDimension(conversionService.convert(value, Integer.class));
 				break;
 			}
+		}
+	}
+
+	/**
+	 * Decode and re-encode the provided URI, to ensure it is valid.
+	 */
+	private String fixAccessUri(String accessUri) {
+		try {
+			var url = parseUrl(accessUri);
+			// The URI constructor is used to correctly encode the URL components (which is not done by url.toURI()).
+			var uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(),
+					url.getQuery(), url.getRef());
+			return uri.toString();
+		} catch (MalformedURLException | URISyntaxException | UnsupportedEncodingException | IllegalArgumentException e) {
+			logger.error("Error parsing Image accessUri from " + accessUri + ": " + e.getMessage());
+		}
+		return accessUri;
+	}
+
+	/**
+	 * Attempt to parse a URL, prepending "http://" if the first attempt fails and
+	 * the protocol is missing.
+	 */
+	private URL parseUrl(String accessUri) throws MalformedURLException, UnsupportedEncodingException {
+		try {
+			return new URL(URLDecoder.decode(accessUri, StandardCharsets.UTF_8.toString()));
+		} catch (MalformedURLException e) {
+			if (!accessUri.startsWith("http://")) {
+				return new URL(URLDecoder.decode("http://" + accessUri, StandardCharsets.UTF_8.toString()));
+			}
+			throw e;
 		}
 	}
 }

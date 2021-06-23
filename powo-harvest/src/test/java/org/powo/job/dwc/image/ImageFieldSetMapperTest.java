@@ -1,4 +1,4 @@
-package org.powo.job.mapping;
+package org.powo.job.dwc.image;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -11,7 +11,7 @@ import java.util.SortedSet;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.powo.job.dwc.image.FieldSetMapper;
+import org.powo.job.dwc.TestCase;
 import org.powo.model.Image;
 import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.MediaFormat;
@@ -23,7 +23,7 @@ import org.springframework.validation.BindException;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
-public class ImageFieldMappingTest {
+public class ImageFieldSetMapperTest {
 
 	private static final TestCase[] simpleTestCases = {
 			// Standard DC terms
@@ -43,7 +43,10 @@ public class ImageFieldMappingTest {
 			new TestCase("http://rs.tdwg.org/ac/terms/caption", "Caption").sets("Caption").on("caption"),
 			new TestCase("http://rs.tdwg.org/ac/terms/providerManagedID", "PMID").sets("PMID").on("providerManagedId"),
 			new TestCase("http://rs.tdwg.org/ac/terms/subjectPart", "floralDiagram").sets(ImmutableSet.<DescriptionType>of(DescriptionType.floralDiagram)).on("subjectPart"),
-			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "http://blargedy.com/").sets("http://blargedy.com/").on("accessUri"),
+			// Audubon term accessURI: parsing and fixing invalid URLs
+			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "http://example.com/image/inga%20alba.jpg").sets("http://example.com/image/inga%20alba.jpg").on("accessUri"),
+			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "http://example.com/image/inga alba.jpg").sets("http://example.com/image/inga%20alba.jpg").on("accessUri"),
+			new TestCase("http://rs.tdwg.org/ac/terms/accessURI", "example.com/image/inga alba.jpg").sets("http://example.com/image/inga%20alba.jpg").on("accessUri"),
 
 			// Adobe XMP terms
 			new TestCase("http://ns.adobe.com/xap/1.0/Rating", "1.0").sets(1.0).on("rating"),
