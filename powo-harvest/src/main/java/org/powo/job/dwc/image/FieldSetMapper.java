@@ -225,6 +225,7 @@ public class FieldSetMapper extends NonOwnedFieldSetMapper<Image> {
 	private String fixAccessUri(String accessUri) {
 		try {
 			var url = parseUrl(accessUri);
+			// The URI constructor is used to correctly encode the URL components (which is not done by url.toURI()).
 			var uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(),
 					url.getQuery(), url.getRef());
 			return uri.toString();
