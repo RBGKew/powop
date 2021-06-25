@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class StaticController extends LayoutController {
@@ -32,6 +34,11 @@ public class StaticController extends LayoutController {
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
 	public String about(Model model) {
+		var yearFormat = new SimpleDateFormat("YYYY");
+		var dateFormat = new SimpleDateFormat("dd MM YYYY");
+		var date = new Date();
+		model.addAttribute("citationYear", yearFormat.format(date));
+		model.addAttribute("citationDate", dateFormat.format(date));
 		return "static/about";
 	}
 
