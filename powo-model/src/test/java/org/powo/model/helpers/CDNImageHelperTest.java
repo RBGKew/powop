@@ -13,19 +13,19 @@ public class CDNImageHelperTest {
 
   @Test
   /**
-   * Test that the URL protocol is not changed if a URL is invalid.
+   * Test that the URL protocol is not changed if the URL is invalid.
    */
   public void testGetInvalidUrls() {
     var helper = new CDNImageHelper(testKey, testPrefix, secureDomains);
 
     var image = new Image();
-    image.setIdentifier("urn:not-a-cdn.com:1");
-    image.setAccessUri("http://example.com/this is an invalid url");
+    image.setIdentifier("urn:kew.org:fwta:media:9");
+    image.setAccessUri("http://storage.googleapis.com/inga\\invalid");
 
     var thumbnailUrl = helper.getThumbnailUrl(image);
     var fullsizeUrl = helper.getFullsizeUrl(image);
-    assertEquals("http://example.com/this is an invalid url_thumbnail.jpg", thumbnailUrl);
-    assertEquals("http://example.com/this is an invalid url_fullsize.jpg", fullsizeUrl);
+    assertEquals("http://storage.googleapis.com/inga\\invalid_thumbnail.jpg", thumbnailUrl);
+    assertEquals("http://storage.googleapis.com/inga\\invalid_fullsize.jpg", fullsizeUrl);
   }
 
   @Test
