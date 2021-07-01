@@ -32,13 +32,18 @@ public class StaticController extends LayoutController {
     return "static/what_we_do";
   }
 
-	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
-	public String about(Model model) {
+	@RequestMapping(value = "/cite-us", method = RequestMethod.GET, produces = {"text/html"})
+  public String citeUs(Model model) {
 		var yearFormat = new SimpleDateFormat("YYYY");
 		var dateFormat = new SimpleDateFormat("dd MMMMM YYYY");
 		var date = new Date();
 		model.addAttribute("citationYear", yearFormat.format(date));
 		model.addAttribute("citationDate", dateFormat.format(date));
+    return "static/cite_us";
+  }
+
+	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
+	public String about(Model model) {
 		return "static/about";
 	}
 
