@@ -35,7 +35,7 @@ public class StaticController extends LayoutController {
 	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})
 	public String about(Model model) {
 		var yearFormat = new SimpleDateFormat("YYYY");
-		var dateFormat = new SimpleDateFormat("dd MM YYYY");
+		var dateFormat = new SimpleDateFormat("dd MMMMM YYYY");
 		var date = new Date();
 		model.addAttribute("citationYear", yearFormat.format(date));
 		model.addAttribute("citationDate", dateFormat.format(date));
