@@ -50,9 +50,11 @@ define(function(require) {
   window.addEventListener('popstate', syncWithUrl);
   
   function syncWithUrl() {
-    filters.deserialize(window.location.search, false);
-    filters.refresh();
-    results.update(filters.serialize());
+    if (!window.location.hash === "#main") {
+      filters.deserialize(window.location.search, false);
+      filters.refresh();
+      results.update(filters.serialize());
+    }
   }
 
   var initialize = function() {
