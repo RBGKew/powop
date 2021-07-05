@@ -35,8 +35,8 @@ define(function(require) {
       $('#search_box').detach().appendTo('.c-header .container');
       // below three lines are needed because the front page and the search page are the same page and we need to change which is main on both "pages" for accessibility
       $( ".front-page" ).remove();
-      $(".search-results").attr('id', 'main');
-      $(".search-results").attr('role', 'main');
+      $(".c-search").attr('id', 'main');
+      $(".c-search").attr('role', 'main');
       filters.refresh();
     }
   }
@@ -50,9 +50,11 @@ define(function(require) {
   window.addEventListener('popstate', syncWithUrl);
   
   function syncWithUrl() {
-    filters.deserialize(window.location.search, false);
-    filters.refresh();
-    results.update(filters.serialize());
+    if (!window.location.hash === "#main") {
+      filters.deserialize(window.location.search, false);
+      filters.refresh();
+      results.update(filters.serialize());
+    }
   }
 
   var initialize = function() {
