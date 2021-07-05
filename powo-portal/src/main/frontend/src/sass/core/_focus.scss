@@ -1,11 +1,18 @@
-.btn:focus, .form-control:focus, .ipni-logo:focus, .kew-science-logo:focus, .page-link:focus, a:focus, .ol-control button:focus, .toggle-nav:focus, .about-toggle:focus, .mobile-menu:focus, .to-top:focus {
-  outline: 3px solid $kew-focus-outline-yellow;
-  box-shadow: none;
-  outline-offset: 0;
-  &.top-link, &.footer-link {
-    outline-offset: 3px;
+*,
+button,
+input,
+.form-control,
+.btn:focus,  
+a {
+  &:focus {
+    outline: 3px solid $kew-focus-outline-yellow;
+    outline-offset: 0;
+    box-shadow: none;
+    &.top-link, &.footer-link {
+      outline-offset: 3px;
+    }
   }
-}   
+}
 
 .tokenfield.focus, #search-button:focus {
   outline: none;
