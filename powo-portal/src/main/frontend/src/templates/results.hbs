@@ -1,0 +1,44 @@
+{{> partials/header }}
+<div id="svgs" style="display:none">
+  {{> svg/leaf.svg }}
+  {{> svg/mushroom.svg }}
+  {{> svg/chevron.svg }}
+  {{> (concat "svg/" siteId ".svg")}}
+</div>
+<div class="s-page s-page--home s-search__top {{concat " s-" siteId}} invisible">
+  <div class="s-page-wrapper">
+    {{> partials/page-header }}
+    <div class="c-search">
+        <div class="central">
+          <div class="c-intro">
+            {{> (concat "partials/intro/" siteId) }}
+          </div>
+          <main id="main" class="front-page" tabindex="-1">
+            {{> partials/result/results-container }}
+          </main>
+          {{#if cross-site-link.present}}
+            <nav class="form-inline--search form-links">
+              <ul>
+                  <li>
+                    Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
+                  </li>
+              </ul>
+            </nav>
+          {{/if}}
+        </div>
+        <aside class="featured">
+          {{> (concat "partials/featured/featured-" siteId)}}
+        </aside>
+    </div>
+    <aside class="featured-taxa-sections">
+      {{> partials/featured/featured-taxa-sections}}
+    </div>
+    {{> partials/footer-links}}
+  </div>
+</div>
+<script>
+  window.siteData = {
+    basePageTitle: "{{ title }}"
+  }
+</script>
+{{> partials/footer initialize="search"}}
