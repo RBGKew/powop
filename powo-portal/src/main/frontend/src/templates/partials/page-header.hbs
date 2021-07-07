@@ -6,9 +6,6 @@
         {{> svg/burger-icon }}
       </button>
       <ul class="active" tabindex="-1">
-        {{#if cross-site-link.present}}
-          <li><a class="top-link cross-site-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}}</a></li>
-        {{/if}}
         <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>
         <li class="desktop"><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
         <li class="mobile">
@@ -19,6 +16,7 @@
              <button class="top-link about-toggle" href="#">{{> svg/back }} Back</button>
              <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
               <li><a class="top-link" href="/what-we-do">{{{message "header_what_we_do"}}}</a></li>
+              <li><a class="top-link" href="/cite-us">{{{message "header_cite_us"}}}</a></li>
               <li><a class="top-link" href="/contact">{{{message "header_contact"}}}</a></li>
           </ul>
         </li>

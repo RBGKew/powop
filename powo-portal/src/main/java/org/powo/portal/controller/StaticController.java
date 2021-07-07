@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class StaticController extends LayoutController {
@@ -28,6 +30,16 @@ public class StaticController extends LayoutController {
 	@RequestMapping(value = "/what-we-do", method = RequestMethod.GET, produces = {"text/html"})
   public String whatWeDo(Model model) {
     return "static/what_we_do";
+  }
+
+	@RequestMapping(value = "/cite-us", method = RequestMethod.GET, produces = {"text/html"})
+  public String citeUs(Model model) {
+		var yearFormat = new SimpleDateFormat("YYYY");
+		var dateFormat = new SimpleDateFormat("dd MMMMM YYYY");
+		var date = new Date();
+		model.addAttribute("citationYear", yearFormat.format(date));
+		model.addAttribute("citationDate", dateFormat.format(date));
+    return "static/cite_us";
   }
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET, produces = {"text/html"})

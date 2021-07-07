@@ -18,6 +18,15 @@
           <main id="main" class="front-page" tabindex="-1">
             {{> partials/search/search-box }}
           </main>
+          {{#if cross-site-link.present}}
+            <nav class="form-inline--search form-links">
+              <ul>
+                  <li>
+                    Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
+                  </li>
+              </ul>
+            </nav>
+          {{/if}}
         </div>
         <aside class="featured">
           {{> (concat "partials/featured/featured-" siteId)}}

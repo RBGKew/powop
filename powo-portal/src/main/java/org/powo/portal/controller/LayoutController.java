@@ -26,6 +26,10 @@ public class LayoutController {
   protected String oneTrustID() {
     return site.oneTrustID();
   }
+  @ModelAttribute("canonicalUrl")
+  protected String canonicalUrl() {
+    return site.canonicalUrl();
+  }
 
   @ModelAttribute("siteIdCapitlized")
   protected String siteIdCapitlized() {

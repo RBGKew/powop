@@ -290,6 +290,7 @@ public enum DescriptionType {
 	useEnvironmentalUseFertilityImprovers("use:environmentalUse:fertilityImprovers"),
 	useEnvironmentalUseFirebreaks("use:environmentalUse:firebreaks"),
 	useEnvironmentalUseIndicatorPlants("use:environmentalUse:indicatorPlants"),
+	useEnvironmentalUseMonitoring("use:environmentalUse:monitoring"),
 	useEnvironmentalUseOrnamentals("use:environmentalUse:ornamentals"),
 	useEnvironmentalUseOtherEnvironmentalUses("use:environmentalUse:otherEnvironmentalUses"),
 	useEnvironmentalUsePollutionControl("use:environmentalUse:pollutionControl"),

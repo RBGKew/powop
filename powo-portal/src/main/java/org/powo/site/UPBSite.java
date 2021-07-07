@@ -77,4 +77,9 @@ public class UPBSite extends PowoSite {
 	public Optional<Link> crossSiteLink() {
 		return Optional.empty();
 	}
+
+	@Override
+	public String crossSiteType() {
+		return "";
+	}
 }

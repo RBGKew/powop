@@ -4,18 +4,18 @@
   }
 }
 .to-top {
-  display: block;
-  top: 32px;
+  display: none;
+  top: 29px;
   right: 0;
   z-index: 99;
   cursor: pointer;
   position: absolute;
   font-size: 20px;
+  border: none;
+  background: transparent;
   @media (max-width: $screen-xs-max) {
     position: unset;
-    top:unset;
-    right: unset;
-    text-align: center;
+    margin: auto;
   }
 }
 

@@ -87,15 +87,20 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public Optional<Link> crossSiteLink() {
-		Link link = new Link("http://colfungi.org", "ColFungi");
+		Link link = new Link("http://colfungi.org", "Visit ColFungi");
 		return Optional.of(link);
 	}
 
 	@Override
+	public String crossSiteType() {
+		return "fungi";
+	}
+
+	@Override
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
-		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"));
-		var passifloraEdulis = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:321964-2"));
-		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"));
+		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"), messageSource);
+		var passifloraEdulis = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:321964-2"), messageSource);
+		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"), messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured plants",
 				List.of(cochlospermumOrinocense, passifloraEdulis, epidendrumRadicans)));

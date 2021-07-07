@@ -21,6 +21,7 @@ use:environmentalUse:erosionControl,Erosion Control,for  %s,Erosion control
 use:environmentalUse:fertilityImprovers,Fertility Improvers,as %s,a fertility improver
 use:environmentalUse:firebreaks,Firebreaks,as %s,a firebreak
 use:environmentalUse:indicatorPlants,Indicator Plants,as %s,an indicator plant
+use:environmentalUse:monitoring,Environmental Monitoring,for %s,environmental monitoring
 use:environmentalUse:ornamentals,Ornamentals,as %s,an ornamental plant
 use:environmentalUse:otherEnvironmentalUses,Other Environmental Uses,has %s,Environmental Uses
 use:environmentalUse:pollutionControl,Pollution Control,for  %s,Pollution Control

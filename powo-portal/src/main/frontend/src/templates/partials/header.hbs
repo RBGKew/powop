@@ -3,10 +3,7 @@
 <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   {{ gaTracking }}
-  <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="{{oneTrustID}}" ></script>
-  <script type="text/javascript">
-  function OptanonWrapper() { }
-  </script>
+  {{ oneTrust }}
 	<title>{{title}}</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="initial-scale=1.0">
@@ -18,11 +15,11 @@
   <!-- Share meta -->
   <meta property="og:site_name" content="Plants of the World Online" />
   <meta property="og:type" content="website" />
-  {{#if taxon }}<meta property="og:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
-  <meta property="og:title" content="{{stripHTML summary}}" />
+  {{#if taxon }}<meta property="og:url" content="{{ canonicalUrl }}/taxon/{{taxon.identifier}}" />{{/if}}
+  <meta property="og:title" content="{{title}}" />
   {{#if summary}}<meta property="og:description" content="{{stripHTML summary}}" />{{/if}}
   {{#if images.headerImage }}<meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />{{/if}}
-  {{#if taxon }}<meta name="twitter:url" content="http://powo.science.kew.org/taxon/{{taxon.identifier}}" />{{/if}}
+  {{#if taxon }}<meta name="twitter:url" content="{{ canonicalUrl }}/taxon/{{taxon.identifier}}" />{{/if}}
   <meta name="twitter:title" content="{{title}}" />
   {{#if summary}}<meta name="twitter:description" content="{{stripHTML summary}}" />{{/if}}
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
