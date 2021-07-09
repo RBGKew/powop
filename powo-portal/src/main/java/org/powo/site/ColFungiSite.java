@@ -45,7 +45,7 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public String oneTrustID() {
-		return "colfungi";
+		return "04b96383-6665-429f-8fb0-fc62e2c4fbe2";
 	}
 
 	@Override
