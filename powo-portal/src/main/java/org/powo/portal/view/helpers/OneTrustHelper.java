@@ -33,7 +33,7 @@ public class OneTrustHelper {
           "</script>");
 		}
     else {
-      return "test";
+      return "";
     }
 	}
 }
