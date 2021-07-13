@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.google.common.base.Strings;
 
 public class OneTrustHelper {
-
-	@Value("${environment.type}")
+  
+  @Value("${environment.type:#{null}}")
 	String type;
 
   @Autowired
