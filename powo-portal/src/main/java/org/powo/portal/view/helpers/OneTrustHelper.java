@@ -5,6 +5,7 @@ import org.powo.site.Site;
 import com.github.jknack.handlebars.Handlebars;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import com.google.common.base.Strings;
 
 public class OneTrustHelper {
 
@@ -23,7 +24,10 @@ public class OneTrustHelper {
   }
 
 	public CharSequence oneTrustScript() {
-		if(type.equals(typeProd)) {
+    if(Strings.isNullOrEmpty(type)) {
+			return "";
+		}
+		else if(type.equals(typeProd)) {
 			return "";
 		} else if(type.equals(typeUAT)) {
 			return new Handlebars.SafeString(
