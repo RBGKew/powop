@@ -28,6 +28,11 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
+	public String oneTrustID() {
+		return "upb";
+	}
+
+	@Override
 	public String siteIdCapitlized() {
 		return "UPB";
 	}
