@@ -14,7 +14,6 @@ public class ResultsController extends LayoutController {
 		model.addAttribute("title", site.indexPageTitle());
 		model.addAttribute("cross-site-link", site.crossSiteLink());
 		model.addAttribute("cross-site-type", site.crossSiteType());
-		model.addAttribute("featured-taxa-sections", site.featuredTaxaSections());
 		var taxonCounts = site.getFormattedTaxonCounts();
 		for (var key : taxonCounts.keySet()) {
 			model.addAttribute(key, taxonCounts.get(key));
