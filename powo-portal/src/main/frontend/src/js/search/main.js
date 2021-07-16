@@ -44,6 +44,8 @@ define(function(require) {
   }
 
   var initialize = function() {
+
+    
     filters.initialize();
     // populate results based on existing query string
     if(window.location.search.length > 1) {

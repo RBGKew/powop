@@ -13,9 +13,9 @@ define(function(require) {
     window.location = 'results?q=' + e.attrs.value;
   });
 
-  // $(document).on('click', '#search-button', function(e) {
-  //   window.location = 'results/?q=' + $('.token-input').val();
-  // })
+  $(document).on('click', '#search-button', function(e) {
+    window.location = 'results/?q=' + $('.token-input').val();
+  })
     
     
   $('.tokenfield input')

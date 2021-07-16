@@ -49,8 +49,6 @@
 .featured {
   display: none;
 }
-.c-intro {
-  display: none;
 
   small {
     display: block;
@@ -76,9 +74,6 @@
   }
 }
 .s-search__fullpage {
-  .c-intro {
-    display: block;
-  }
   .front-page-container {
     display: flex;
     flex-direction: column;
