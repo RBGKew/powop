@@ -126,7 +126,7 @@ use:poisons:plantPestControl,Plant Pest Control,to control %s,plant pest
 use:poisons:poisonousPropertyNotActivelyUsed,Poisonous Property Not Actively Used,as %s,a poison
 use:poisons:reptilePoison,Reptile Poison,to poison %s,reptiles
 use:poisons:suicide,Suicide,as %s,a poison
-use:poisons:unspecifiedMicrobes,as a poison for %s,unspecified microbes
+use:poisons:unspecifiedMicrobes,Unspecified Microbe Poison,as a poison for %s,unspecified microbes
 use:poisons:unspecifiedPoisonType,Unspecified Poison Type,as %s,a poison
 use:socialUse,Social,has %s,Social uses
 use:socialUse:adulterants,Adulterants,as  %s,An Adulterant
