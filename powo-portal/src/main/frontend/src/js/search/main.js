@@ -47,12 +47,11 @@ define(function(require) {
 
     
     filters.initialize();
-    
+
     // populate results based on existing query string
     results.initialize();
     filters.refresh();
     filters.deserialize(window.location.search, false);
-    results.initialize();
     results.update(filters.serialize());
 
     $(document)
