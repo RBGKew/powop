@@ -19,7 +19,9 @@ define(function(require) {
 
   $(document).on('click', '#search-button', function(e) {
     e.preventDefault();
-    window.location = '../results?q=' + $('.token-input').val();
+    if ($('.token-input').val()) {
+      window.location = '../results?q=' + $('.token-input').val();
+    }
   })
 
   $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
