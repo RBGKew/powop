@@ -36,11 +36,9 @@ define(function(require) {
   window.addEventListener('popstate', syncWithUrl);
   
   function syncWithUrl() {
-    if (!window.location.hash === "#main") {
-      filters.deserialize(window.location.search, false);
-      filters.refresh();
-      results.update(filters.serialize());
-    }
+    filters.deserialize(window.location.search, false);
+    filters.refresh();
+    results.update(filters.serialize());
   }
 
   var initialize = function() {

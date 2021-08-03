@@ -30,7 +30,7 @@ define(function(require) {
 
   var prepare = function() {
     if(_.isEmpty($('.c-results-outer'))) {
-      $('.c-search').append(resultsContainerTmpl());
+      $('.results-grid').append(resultsContainerTmpl());
     }
   }
 
