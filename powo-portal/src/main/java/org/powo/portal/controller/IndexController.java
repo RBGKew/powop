@@ -16,8 +16,6 @@
  */
 package org.powo.portal.controller;
 
-import com.google.common.base.Strings;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +32,7 @@ public class IndexController extends LayoutController {
 		@RequestParam(name = "q", required = false) String query,
 		@RequestParam(name = "f", required = false) String filterQuery
 	) {
-		if (!Strings.isNullOrEmpty(query) || !Strings.isNullOrEmpty(filterQuery)) {
+		if (query != null || filterQuery != null) {
 			model.asMap().clear();
 			model.addAttribute("q", query);
 			model.addAttribute("f", filterQuery);
