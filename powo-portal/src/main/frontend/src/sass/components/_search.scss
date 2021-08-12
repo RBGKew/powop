@@ -42,19 +42,34 @@
   .tt-input {
     font-size: 16px;
   }
-
-  .suggestion-category {
-    color: #ccc;
-    float: right;
-
-    &.glyphicon {
-      padding-top: 8px;
+  .tt-menu {
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+    padding-bottom: 12px;
+    .tt-suggestion {
+      color: $kew-black;
+      line-height: 24px;
+      height: 48px;
+      padding: 12px 24px;
+      &::first-letter {
+        text-transform: uppercase;
+      }
     }
-
-    @media (max-width: $screen-sm-min) {
-      display: none;
+    .suggestion-category {
+      color: $kew-teal;
+      float: right;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: bold;
+      line-height: 1.29;
+      letter-spacing: 0.5px;
+      @media (max-width: $screen-sm-min) {
+        display: none;
+      }
     }
-  }
+  } 
+
+
 
   input.token-input {
     background-color: transparent;
