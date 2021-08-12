@@ -3,13 +3,12 @@ package org.powo.portal.view.helpers;
 import org.springframework.beans.factory.annotation.Value;
 import org.powo.site.Site;
 import com.github.jknack.handlebars.Handlebars;
-import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 public class SeoHelper {
 
-	@Value("${environment.type:#{null}}")
+	@Value("${environment.type:dev}")
 	String type;
 
 	@Autowired
@@ -20,9 +19,7 @@ public class SeoHelper {
 	String typeUAT = "uat";
 
 	public CharSequence seoNoIndexTag() {
-		if(Strings.isNullOrEmpty(type)) {
-        return "";
-      } else if(type.equals(typeProd)) {
+		  if(type.equals(typeProd)) {
           return "";
       } else if(type.equals(typeUAT)) {
         return new Handlebars.SafeString(

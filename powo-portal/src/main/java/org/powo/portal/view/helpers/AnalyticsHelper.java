@@ -12,7 +12,7 @@ public class AnalyticsHelper {
 	@Value("${google.analytics.code:#{null}}")
 	String code;
 
-	@Value("${environment.type:#{null}}")
+	@Value("${environment.type:dev}")
 	String type;
 
 	@Autowired
@@ -23,9 +23,7 @@ public class AnalyticsHelper {
 	String typeUAT = "uat";
 
 	public CharSequence gaNoScript() {
-		if(Strings.isNullOrEmpty(type)) {
-			return "";
-		} else if(type.equals(typeProd)) {
+		if(type.equals(typeProd)) {
 			return new Handlebars.SafeString(
 				"<noscript><iframe src='//www.googletagmanager.com/ns.html?id=" + code + "' " +
 				"height='0' width='0' style='display:none;visibility:hidden'></iframe></noscript>");
