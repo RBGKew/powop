@@ -7,7 +7,7 @@ import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class NoIndexHelper {
+public class SeoHelper {
 
 	@Value("${environment.type:#{null}}")
 	String type;
@@ -19,7 +19,7 @@ public class NoIndexHelper {
 	String typeProd = "prod";
 	String typeUAT = "uat";
 
-	public CharSequence noIndexScript() {
+	public CharSequence seoNoIndexTag() {
 		if(Strings.isNullOrEmpty(type)) {
         return "";
       } else if(type.equals(typeProd)) {
