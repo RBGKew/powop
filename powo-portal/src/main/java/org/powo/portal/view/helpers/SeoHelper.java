@@ -9,19 +9,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class SeoHelper {
 
 	@Value("${environment.type:dev}")
-	String type;
+	private String environment;
 
 	@Autowired
 	@Qualifier("currentSite")
 	Site site;
 
-	String typeProd = "prod";
-	String typeUAT = "uat";
+	private String typeProd = "prod";
+	private String typeUAT = "uat";
 
 	public CharSequence seoNoIndexTag() {
-		  if(type.equals(typeProd)) {
+		  if(environment.equals(typeProd)) {
           return "";
-      } else if(type.equals(typeUAT)) {
+      } else if(environment.equals(typeUAT)) {
         return new Handlebars.SafeString(
           "<meta name='robots' content='noindex'>");
       } else	{

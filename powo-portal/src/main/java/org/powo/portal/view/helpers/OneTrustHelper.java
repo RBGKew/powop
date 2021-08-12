@@ -9,23 +9,23 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class OneTrustHelper {
 
 	@Value("${environment.type:dev}")
-	String type;
+	private String environment;
 
 	@Autowired
 	@Qualifier("currentSite")
 	Site site;
 
-	String typeProd = "prod";
-	String typeUAT = "uat";
+	private String typeProd = "prod";
+	private String typeUAT = "uat";
 
 	protected String oneTrustID() {
 		return site.oneTrustID();
 	}
 
 	public CharSequence oneTrustScript() {
-		if(type.equals(typeProd)) {
+		if(environment.equals(typeProd)) {
 			return "";
-		} else if(type.equals(typeUAT)) {
+		} else if(environment.equals(typeUAT)) {
 			return new Handlebars.SafeString(
 				"<script src='https://cdn.cookielaw.org/scripttemplates/otSDKStub.js'  type='text/javascript' charset='UTF-8' data-domain-script='" + oneTrustID() + "-test' ></script>" +
 				"<script type='text/javascript'>" +
