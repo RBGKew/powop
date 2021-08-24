@@ -54,6 +54,12 @@
       &::first-letter {
         text-transform: uppercase;
       }
+      &.tt-cursor {
+        &:first-of-type {
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }  
+      }
     }
     .suggestion-category {
       color: $kew-teal;
