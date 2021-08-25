@@ -27,10 +27,14 @@ define(function(require) {
 
   function suggesterToGlyphicon(suggester) {
     switch(suggester) {
+      case 'common-name':
+        return 'common name';
+      case 'scientific-name':
+        return 'scientific name';
       case 'location':
-        return 'glyphicon-globe';
+        return 'location';
       case 'characteristic':
-        return 'glyphicon-grain';
+        return 'characteristic';
     }
   }
 
