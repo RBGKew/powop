@@ -46,19 +46,13 @@
     padding-bottom: 12px;
     margin-top: 15px;
     padding-top: 12px;
+    overflow: hidden;
     .tt-suggestion {
       color: $kew-black;
       line-height: 24px;
-      height: 48px;
       padding: 12px 24px;
       &::first-letter {
         text-transform: uppercase;
-      }
-      &.tt-cursor {
-        &:first-of-type {
-          border-top-left-radius: 8px;
-          border-top-right-radius: 8px;
-        }  
       }
     }
     .suggestion-category {
@@ -69,9 +63,6 @@
       font-weight: bold;
       line-height: 1.29;
       letter-spacing: 0.5px;
-      @media (max-width: $screen-sm-min) {
-        display: none;
-      }
     }
   } 
 
