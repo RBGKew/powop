@@ -20,9 +20,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.powo.api.ImageService;
-import org.powo.api.TaxonService;
 import org.powo.common.IdUtil;
 import org.powo.model.Taxon;
+import org.powo.portal.service.SiteTaxonService;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
@@ -59,7 +59,7 @@ public class TaxonController extends LayoutController {
 	Site site;
 
 	@Autowired
-	TaxonService service;
+	SiteTaxonService service;
 
 	@Autowired
 	ImageService imageService;
@@ -81,7 +81,7 @@ public class TaxonController extends LayoutController {
 				return "redirect:" + target + "/taxon/" + identifier;
 			}
 		}
-		var taxon = service.load(IdUtil.fqName(identifier), "object-page");
+		var taxon = service.load(IdUtil.fqName(identifier));
 
 		model.addAttribute(taxon);
 		model.addAttribute("title", site.taxonPageTitle(taxon));
@@ -107,8 +107,9 @@ public class TaxonController extends LayoutController {
 		if (!taxon.getSynonymNameUsages().isEmpty()) {
 			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
 		}
-		if (!taxon.getChildNameUsages().isEmpty()) {
-			model.addAttribute("children", new ScientificNames(taxon.getChildNameUsages()));
+		var childNameUsages = service.getChildNameUsages(taxon);
+		if (!childNameUsages.isEmpty()) {
+			model.addAttribute("children", new ScientificNames(childNameUsages));
 		}
 		if (!taxon.getMeasurementsOrFacts().isEmpty()) {
 			model.addAttribute(new MeasurementOrFacts(taxon));

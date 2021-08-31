@@ -1,7 +1,11 @@
 package org.powo.portal.service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.powo.api.TaxonService;
 import org.powo.model.Taxon;
-import org.powo.service.impl.TaxonServiceImpl;
+import org.powo.model.exception.NotFoundException;
 import org.powo.site.Site;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,19 +13,25 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class SiteTaxonService extends TaxonServiceImpl {
+public class SiteTaxonService {
 
   @Autowired
   @Qualifier("currentSite")
   Site site;
 
-  public Taxon load(String identifier, String fetch) {
-    var taxon = super.load(identifier, fetch);
-    if (site.hasTaxon(taxon)) {
+  @Autowired
+  TaxonService taxonService;
+
+  public Taxon load(String identifier) {
+    var taxon = taxonService.load(identifier, "object-page");
+    if (!site.hasTaxon(taxon)) {
       throw new NotFoundException(Taxon.class, identifier);
     }
-    taxon.setChildNameUsages(taxon.getChildNameUsages().stream().filter(t -> site.hasTaxon(t)).collect(Collectors.toSet());
     return taxon;
+  }
+
+  public Set<Taxon> getChildNameUsages(Taxon taxon) {
+    return taxon.getChildNameUsages().stream().filter(t -> site.hasTaxon(t)).collect(Collectors.toSet());
   }
 
 }

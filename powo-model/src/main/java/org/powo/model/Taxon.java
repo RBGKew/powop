@@ -287,7 +287,7 @@ public class Taxon extends SearchableObject {
 
 
 	/**
-	 * @param newImages
+	 * @param newAuthorities
 	 *            Set the organisations associated with this taxon
 	 */
 	public void setAuthorities(Set<Organisation> newAuthorities) {
