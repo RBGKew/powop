@@ -110,6 +110,12 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	@JsonIgnore
 	private Set<Annotation> annotations;
 
+	@Override
+	@JsonIgnore(false)
+	public String getIdentifier() {
+		return identifier;
+	}
+
 	@JsonIgnore
 	public Set<Annotation> getAnnotations() {
 		return annotations;

@@ -226,6 +226,7 @@ public class Taxon extends SearchableObject {
 	}
 
 	@Override
+	@JsonIgnore(false)
 	@JsonProperty("fqId")
 	public String getIdentifier() {
 		return super.getIdentifier();

@@ -17,6 +17,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.batch.core.BatchStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -65,6 +66,8 @@ public class JobConfiguration extends Base {
 	}
 
 	@NotNull
+	@Override
+	@JsonIgnore(false)
 	public String getIdentifier() {
 		return identifier;
 	}

@@ -140,4 +140,10 @@ public class JobList extends Base {
 		setNextRun(nextAvailableDate);
 		setStatus(JobListStatus.Completed);
 	}
+
+	@Override
+	@JsonIgnore(false)
+	public String getIdentifier() {
+		return identifier;
+	}
 }

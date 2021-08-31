@@ -60,9 +60,8 @@ public class JobConfigurationsDeserializer extends StdDeserializer<List<JobConfi
 				}
 
 				if (job == null) {
-					var jobConfiguration = new JobConfiguration();
-					jobConfiguration.setIdentifier(identifier);
-					jobs.add(jobConfiguration);
+					job = new JobConfiguration();
+					job.setIdentifier(identifier);
 				}
 
 				jobs.add(job);

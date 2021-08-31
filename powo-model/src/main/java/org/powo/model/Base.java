@@ -35,7 +35,6 @@ public abstract class Base implements Serializable, Identifiable, SecuredObject 
 
 	private static final long serialVersionUID = 4778611345983453363L;
 
-	@JsonIgnore
 	protected String identifier;
 
 	@Override
@@ -78,6 +77,11 @@ public abstract class Base implements Serializable, Identifiable, SecuredObject 
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.identifier);
+	}
+
+	@JsonIgnore
+	public String getIdentifier() {
+		return identifier;
 	}
 
 }
