@@ -17,6 +17,8 @@ public class UPBSite extends PowoSite {
 
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
+	private String organisationIdentifier = "UsefulPlantsofBoyacaProject";
+
 	@Override
 	public Map<String, String> getFormattedTaxonCounts() {
 		return new HashMap<>();
@@ -44,12 +46,12 @@ public class UPBSite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("UsefulPlantsofBoyacaProject");
+		return new SourceFilter(organisationIdentifier);
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "UsefulPlantsofBoyacaProject";
+		return organisationIdentifier;
 	}
 
 	@Override
@@ -81,5 +83,10 @@ public class UPBSite extends PowoSite {
 	@Override
 	public String crossSiteType() {
 		return "";
+	}
+
+	@Override
+	public boolean hasTaxon(Taxon taxon) {
+		return taxon.getAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }

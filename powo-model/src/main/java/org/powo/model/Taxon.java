@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -44,6 +46,7 @@ import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
 import org.powo.model.constants.TaxonomicStatus;
 import org.powo.model.marshall.json.TaxonSerializer;
+import org.powo.model.registry.Organisation;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -163,6 +166,9 @@ public class Taxon extends SearchableObject {
 	private Set<Taxon> synonymNameUsages = new HashSet<Taxon>();
 
 	@JsonIgnore
+	private Set<Organisation> authorities = new HashSet<Organisation>();
+
+	@JsonIgnore
 	private List<Image> images = new ArrayList<Image>();
 
 	@JsonIgnore
@@ -226,6 +232,26 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
+	 * @return a set of organisations that have provided data on a taxon
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "taxon_organisation", 
+		joinColumns = {@JoinColumn(name = "taxon_id")}, 
+		inverseJoinColumns = {@JoinColumn(name = "organisation_id")}
+	)
+	public Set<Organisation> getAuthorities() {
+		return authorities;
+	}
+
+	public void addAuthority(Organisation organisation) {
+		var hasAuthority = authorities.stream().anyMatch(o -> o.getId() == organisation.getId());
+		if (!hasAuthority) {
+			authorities.add(organisation);
+		}
+	}
+
+	/**
 	 * @return a list of images of the taxon
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxa")
@@ -258,6 +284,16 @@ public class Taxon extends SearchableObject {
 	public void setDescriptions(Set<Description> newDescriptions) {
 		this.descriptions = newDescriptions;
 	}
+
+
+	/**
+	 * @param newImages
+	 *            Set the organisations associated with this taxon
+	 */
+	public void setAuthorities(Set<Organisation> newAuthorities) {
+		this.authorities = newAuthorities;
+	}
+
 
 	/**
 	 * @param newImages

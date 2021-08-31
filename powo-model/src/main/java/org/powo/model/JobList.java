@@ -56,8 +56,6 @@ public class JobList extends Base {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String identifier;
-
 	@NotBlank
 	private String description;
 

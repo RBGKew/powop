@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import org.powo.model.Taxon;
+import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Component;
 public class ColPlantASite extends PowoSite {
 
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
+
+	private String organisationIdentifier = "CatalogodePlantasyLiquenesdeColombia";
 
 	@Override
 	public Map<String, String> getFormattedTaxonCounts() {
@@ -51,12 +54,12 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter("CatalogodePlantasyLiquenesdeColombia");
+		return new SourceFilter(organisationIdentifier);
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return "CatalogodePlantasyLiquenesdeColombia";
+		return organisationIdentifier;
 	}
 
 	@Override
@@ -104,5 +107,10 @@ public class ColPlantASite extends PowoSite {
 
 		return List.of(new FeaturedTaxaSection("Featured plants",
 				List.of(cochlospermumOrinocense, passifloraEdulis, epidendrumRadicans)));
+	}
+
+	@Override
+	public boolean hasTaxon(Taxon taxon) {
+		return taxon.getAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }

@@ -29,13 +29,13 @@ public class OrganisationControllerIntegrationTest extends AbstractControllerTes
 	@Test
 	public void testValidCreate() throws Exception {
 		Organisation org = Organisation.builder()
-				.identifier("blarg")
 				.description("blargedy blarg blarg")
 				.abbreviation("BLG")
 				.subject("stuff")
 				.title("Blarg")
 				.bibliographicCitation("1983 Blarg L.")
 				.build();
+		org.setIdentifier("blarg");
 
 		mvc.perform(post("/api/1/organisation")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -47,12 +47,12 @@ public class OrganisationControllerIntegrationTest extends AbstractControllerTes
 	@Test
 	public void testInvalidCreate() throws Exception {
 		Organisation org = Organisation.builder()
-				.identifier("blarg")
 				.description("blargedy blarg blarg")
 				.subject("stuff")
 				.title("Blarg")
 				.bibliographicCitation("1983 Blarg L.")
 				.build();
+		org.setIdentifier("blarg");
 
 		mvc.perform(post("/api/1/organisation")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)

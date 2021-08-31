@@ -92,11 +92,13 @@ public class Resource extends Base {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private JobConfiguration jobConfiguration;
 
-	@NotEmpty
-	@NaturalId
-	protected String identifier;
-
 	public Resource() {
 		setIdentifier(UUID.randomUUID().toString());
+	}
+
+	@NotEmpty
+	@NaturalId
+	public String getIdentifier() {
+		return identifier;
 	}
 }

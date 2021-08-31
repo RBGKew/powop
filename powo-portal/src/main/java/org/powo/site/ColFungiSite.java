@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableMap;
 
 import org.powo.api.OrganisationService;
 import org.powo.model.Taxon;
-import org.powo.model.constants.DescriptionType;
 import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
@@ -122,5 +121,10 @@ public class ColFungiSite extends PowoSite {
 	@Override
 	public Organisation primarySource() {
 		return organisationService.find(organisationIdentifier);
+	}
+
+	@Override
+	public boolean hasTaxon(Taxon taxon) {
+		return taxon.getAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }

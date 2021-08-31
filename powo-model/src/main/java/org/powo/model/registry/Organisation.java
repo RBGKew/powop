@@ -98,8 +98,6 @@ public class Organisation extends Base implements Comparable<Organisation> {
 
 	private String creator;
 
-	protected String identifier;
-
 	@OneToMany(mappedBy = "organisation", fetch = FetchType.EAGER)
 	@Cascade({ CascadeType.ALL })
 	@Fetch(FetchMode.SELECT)
@@ -127,4 +125,5 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	public int compareTo(Organisation o) {
 		return Ordering.natural().nullsLast().compare(getTitle(), o.getTitle());
 	}
+
 }

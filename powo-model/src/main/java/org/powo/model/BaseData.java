@@ -86,14 +86,6 @@ public abstract class BaseData extends Base implements Annotated {
 
 	/**
 	 *
-	 * @param identifier  Set the unique identifier of the object
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	/**
-	 *
 	 * @return the primary authority
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
