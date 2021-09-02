@@ -58,6 +58,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
 
 /**
  * Schema definition: http://tdwg.github.io/dwc/terms/index.html#Taxon
@@ -245,10 +246,14 @@ public class Taxon extends SearchableObject {
 		return authorities;
 	}
 
-	public void addAuthority(Organisation organisation) {
-		var hasAuthority = authorities.stream().anyMatch(o -> o.getId() == organisation.getId());
-		if (!hasAuthority) {
-			authorities.add(organisation);
+	public void addAuthorityToTaxonAndRelatedTaxa(Organisation organisation) {
+		// Add this organisation to the current name, parent name, accepted name, and basionym,
+		// as this organisation has contributed data that applies to all 4 taxa.
+		var allRelatedTaxa = Lists.newArrayList(this, getParentNameUsage(), getAcceptedNameUsage(), getOriginalNameUsage());
+		for (var taxon : allRelatedTaxa) {
+			if (taxon != null) {
+				taxon.getAuthorities().add(organisation);
+			}
 		}
 	}
 

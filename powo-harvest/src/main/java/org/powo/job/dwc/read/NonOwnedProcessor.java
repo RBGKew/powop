@@ -65,7 +65,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 			super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
 		}
 		if (taxon != null) {
-			taxon.addAuthority(getSource());
+			taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 		}
 
 		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
