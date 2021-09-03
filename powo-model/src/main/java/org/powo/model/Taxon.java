@@ -247,13 +247,13 @@ public class Taxon extends SearchableObject {
 	}
 
 	public void addAuthorityToTaxonAndRelatedTaxa(Organisation organisation) {
-		// Add this organisation to the current name, parent name, accepted name, and basionym,
-		// as this organisation has contributed data that applies to all 4 taxa.
-		var allRelatedTaxa = Lists.newArrayList(this, getParentNameUsage(), getAcceptedNameUsage(), getOriginalNameUsage());
-		for (var taxon : allRelatedTaxa) {
-			if (taxon != null) {
-				taxon.getAuthorities().add(organisation);
-			}
+		authorities.add(organisation);
+		// If this name is a synonym, add the organisation to the accepted taxonomy.
+		if (getAcceptedNameUsage() != null) {
+			getAcceptedNameUsage().addAuthorityToTaxonAndRelatedTaxa(organisation);
+		} else if (isAccepted()) {
+			// If this name is accepted also add the organisation to its parent.
+			getParentNameUsage().addAuthorityToTaxonAndRelatedTaxa(organisation);
 		}
 	}
 
@@ -992,8 +992,7 @@ public class Taxon extends SearchableObject {
 
 	@Transient
 	public boolean looksAccepted() {
-		//we want doubtful names to look like an accepted name, 
-		//but not show up in an accepted names search, or say that the name is accepted.
+		// This method controls if a taxon displays a complete profile, like an accepted name.
 		if (getTaxonomicStatus() == null) {
 			return true;
 		} else {
@@ -1017,8 +1016,7 @@ public class Taxon extends SearchableObject {
 
 	@Transient
 	public boolean isAccepted() {
-		//we want doubtful names to look like an accepted name, 
-		//but not show up in an accepted names search, or say that the name is accepted.
+		// This method controls if a taxon appears in an accepted names search and is displayed as accepted.
 		if (getTaxonomicStatus() == null) {
 			return false;
 		} else {
