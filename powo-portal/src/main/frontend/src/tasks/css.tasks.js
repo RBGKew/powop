@@ -18,8 +18,8 @@ module.exports = function (gulp, $) {
 
   gulp.task('css', function() {
     return gulp.src(['src/sass/style.scss'])
-      .pipe($.sass()
-            .on('error', $.sass.logError)
+      .pipe($.gsass()
+            .on('error', $.gsass.logError)
       )
       .pipe($.autoprefixer({
         browsers: ['last 2 versions'],
