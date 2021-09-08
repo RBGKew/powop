@@ -67,15 +67,21 @@ public class ReferenceProcessingTest {
 	/**
 	 * Test that the reference processor links a new reference to its associated taxon, and stores the reference in
 	 * its bound objects.
+	 * 
+	 * Also checks that the Organisation associated to the Processor is added to the taxon authorities.
 	 */
 	@Test
 	public void testProcessNewReference() throws Exception {
 		var reference = new Reference();
 
+		var prevAuthority = new Organisation();
+		prevAuthority.setIdentifier("prev authority");
+
 		var taxon = new Taxon();
 		taxon.setId(0L);
 		taxon.setIdentifier("identifier");
 		taxon.setFamily("Araceae");
+		taxon.setAuthorities(Sets.newHashSet(prevAuthority));
 
 		reference.getTaxa().add(taxon);
 		reference.setType(ReferenceType.publication);
@@ -89,7 +95,7 @@ public class ReferenceProcessingTest {
 		EasyMock.verify(referenceService, sourceService, taxonService);
 		assertEquals(Sets.newHashSet(taxon), reference.getTaxa());
 		assertEquals(referenceValidator.lookupBound(reference), reference);
-		assertEquals(Sets.newHashSet(source), taxon.getAuthorities());
+		assertEquals(Sets.newHashSet(source, prevAuthority), taxon.getAuthorities());
 	}
 
 	/**

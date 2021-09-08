@@ -34,4 +34,8 @@ public class SiteTaxonService {
     return taxon.getChildNameUsages().stream().filter(t -> site.hasTaxon(t)).collect(Collectors.toSet());
   }
 
+  public Set<Taxon> getSynonymNameUsages(Taxon taxon) {
+    return taxon.getSynonymNameUsages().stream().filter(t -> site.hasTaxon(t)).collect(Collectors.toSet());
+  }
+
 }

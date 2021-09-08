@@ -104,8 +104,9 @@ public class TaxonController extends LayoutController {
 		if (!uses.getBySource().isEmpty()) {
 			model.addAttribute("uses", uses);
 		}
-		if (!taxon.getSynonymNameUsages().isEmpty()) {
-			model.addAttribute("synonyms", new ScientificNames(taxon.getSynonymNameUsages()));
+		var synonymNameUsages = service.getSynonymNameUsages(taxon);
+		if (!synonymNameUsages.isEmpty()) {
+			model.addAttribute("synonyms", new ScientificNames(synonymNameUsages));
 		}
 		var childNameUsages = service.getChildNameUsages(taxon);
 		if (!childNameUsages.isEmpty()) {

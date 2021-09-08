@@ -251,7 +251,7 @@ public class Taxon extends SearchableObject {
 		// If this name is a synonym, add the organisation to the accepted taxonomy.
 		if (getAcceptedNameUsage() != null) {
 			getAcceptedNameUsage().addAuthorityToTaxonAndRelatedTaxa(organisation);
-		} else if (isAccepted()) {
+		} else if (isAccepted() && getParentNameUsage() != null) {
 			// If this name is accepted also add the organisation to its parent.
 			getParentNameUsage().addAuthorityToTaxonAndRelatedTaxa(organisation);
 		}

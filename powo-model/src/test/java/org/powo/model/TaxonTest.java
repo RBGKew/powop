@@ -5,7 +5,10 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.collect.Sets;
+
 import org.powo.model.constants.TaxonomicStatus;
+import org.powo.model.registry.Organisation;
 import org.junit.Test;
 import org.powo.model.Taxon;
 
@@ -69,5 +72,75 @@ public class TaxonTest {
 				assertFalse("Taxon with " + status.toString() + " status should not appear accepted", taxon.looksAccepted());
 			}
 		}
+	}
+
+	@Test
+	public void testAddAuthorityToTaxonAndRelatedTaxa() {
+		var authority = new Organisation();
+
+		var taxon = new Taxon();
+		taxon.addAuthorityToTaxonAndRelatedTaxa(authority);
+
+		assertEquals(Sets.newHashSet(authority), taxon.getAuthorities());
+	}
+
+	@Test
+	public void testAddAuthorityToTaxonAndRelatedTaxaAccepted() {
+		var authority = new Organisation();
+
+		var parent = new Taxon();
+		var synonym = new Taxon();
+
+		var taxon = new Taxon();
+		taxon.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		taxon.setSynonymNameUsages(Sets.newHashSet(synonym));
+		taxon.setParentNameUsage(parent);
+		taxon.addAuthorityToTaxonAndRelatedTaxa(authority);
+
+		assertEquals(Sets.newHashSet(authority), taxon.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), parent.getAuthorities());
+		assertEquals(Sets.newHashSet(), synonym.getAuthorities());
+	}
+
+	@Test
+	public void testAddAuthorityToTaxonAndRelatedTaxaSynonym() {
+		var authority = new Organisation();
+
+		var accepted = new Taxon();
+		accepted.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		var acceptedParent = new Taxon();
+		accepted.setParentNameUsage(acceptedParent);
+
+		var synonymParent = new Taxon();
+
+		var synonym = new Taxon();
+		synonym.setAcceptedNameUsage(accepted);
+		synonym.setParentNameUsage(synonymParent);
+		synonym.addAuthorityToTaxonAndRelatedTaxa(authority);
+
+		assertEquals(Sets.newHashSet(authority), synonym.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), accepted.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), acceptedParent.getAuthorities());
+		assertEquals(Sets.newHashSet(), synonymParent.getAuthorities());
+	}
+
+	@Test
+	public void testAddAuthorityToTaxonAndRelatedTaxaRecursive() {
+		var authority = new Organisation();
+
+		var species = new Taxon();
+		species.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		var genus = new Taxon();
+		genus.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		var family = new Taxon();
+		
+		species.setParentNameUsage(genus);
+		genus.setParentNameUsage(family);
+
+		species.addAuthorityToTaxonAndRelatedTaxa(authority);
+
+		assertEquals(Sets.newHashSet(authority), species.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), genus.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), family.getAuthorities());
 	}
 }
