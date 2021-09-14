@@ -59,6 +59,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * Schema definition: http://tdwg.github.io/dwc/terms/index.html#Taxon
@@ -244,6 +245,18 @@ public class Taxon extends SearchableObject {
 	)
 	public Set<Organisation> getAuthorities() {
 		return authorities;
+	}
+
+	/**
+	 * Return the authorities associated to this name, and if it is a synonym,
+	 * the authorities associated to its accepted name.
+	 */
+	public Set<Organisation> getAllAuthorities() {
+		var allAuthorities = Sets.newHashSet(authorities);
+		if (getAcceptedNameUsage() != null) {
+			allAuthorities.addAll(getAcceptedNameUsage().getAuthorities());
+		}
+		return allAuthorities;
 	}
 
 	public void addAuthorityToTaxonAndRelatedTaxa(Organisation organisation) {

@@ -111,6 +111,6 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
-		return taxon.getAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		return taxon.getAllAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }
