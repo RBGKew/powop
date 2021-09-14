@@ -10,7 +10,6 @@ import com.google.common.collect.Sets;
 import org.powo.model.constants.TaxonomicStatus;
 import org.powo.model.registry.Organisation;
 import org.junit.Test;
-import org.powo.model.Taxon;
 
 public class TaxonTest {
 
@@ -91,15 +90,19 @@ public class TaxonTest {
 		var parent = new Taxon();
 		var synonym = new Taxon();
 
-		var taxon = new Taxon();
-		taxon.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		taxon.setSynonymNameUsages(Sets.newHashSet(synonym));
-		taxon.setParentNameUsage(parent);
-		taxon.addAuthorityToTaxonAndRelatedTaxa(authority);
+		var accepted = new Taxon();
+		accepted.setTaxonomicStatus(TaxonomicStatus.Accepted);
+		accepted.setSynonymNameUsages(Sets.newHashSet(synonym));
+		synonym.setAcceptedNameUsage(accepted);
+		accepted.setParentNameUsage(parent);
+		accepted.addAuthorityToTaxonAndRelatedTaxa(authority);
 
-		assertEquals(Sets.newHashSet(authority), taxon.getAuthorities());
-		assertEquals(Sets.newHashSet(authority), parent.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), accepted.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), accepted.getCombinedAuthorities());
 		assertEquals(Sets.newHashSet(), synonym.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), synonym.getCombinedAuthorities());
+		assertEquals(Sets.newHashSet(authority), parent.getAuthorities());
+
 	}
 
 	@Test
@@ -115,11 +118,14 @@ public class TaxonTest {
 
 		var synonym = new Taxon();
 		synonym.setAcceptedNameUsage(accepted);
+		accepted.setSynonymNameUsages(Sets.newHashSet(synonym));
 		synonym.setParentNameUsage(synonymParent);
 		synonym.addAuthorityToTaxonAndRelatedTaxa(authority);
 
 		assertEquals(Sets.newHashSet(authority), synonym.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), synonym.getCombinedAuthorities());
 		assertEquals(Sets.newHashSet(authority), accepted.getAuthorities());
+		assertEquals(Sets.newHashSet(authority), accepted.getCombinedAuthorities());
 		assertEquals(Sets.newHashSet(authority), acceptedParent.getAuthorities());
 		assertEquals(Sets.newHashSet(), synonymParent.getAuthorities());
 	}

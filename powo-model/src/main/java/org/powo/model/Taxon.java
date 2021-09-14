@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -248,15 +247,14 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
-	 * Return the authorities associated to this name, and if it is a synonym,
-	 * the authorities associated to its accepted name.
+	 * Authorities are aggregated to accepted taxa (see addAuthorityToTaxonAndRelatedTaxa below).
+	 * If this taxon has an accepted name, return those authorities. Otherwise return the current set.
 	 */
-	public Set<Organisation> getAllAuthorities() {
-		var allAuthorities = Sets.newHashSet(authorities);
+	public Set<Organisation> getCombinedAuthorities() {
 		if (getAcceptedNameUsage() != null) {
-			allAuthorities.addAll(getAcceptedNameUsage().getAuthorities());
+			return getAcceptedNameUsage().getAuthorities();
 		}
-		return allAuthorities;
+		return authorities;
 	}
 
 	public void addAuthorityToTaxonAndRelatedTaxa(Organisation organisation) {

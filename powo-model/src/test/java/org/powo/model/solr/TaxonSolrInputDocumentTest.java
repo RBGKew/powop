@@ -395,11 +395,39 @@ public class TaxonSolrInputDocumentTest {
 		var taxon = new Taxon();
 		taxon.setAuthority(taxonAuthority);
 		taxon.setReferences(references);
+		var authorities = Sets.newHashSet(taxonAuthority, taxonAuthority, referenceAuthority);
+		taxon.setAuthorities(authorities);
 		taxon.setKingdom("Plantae");
 		var doc = new TaxonSolrInputDocument(taxon).build();
 
 		var expectedSources = Sets.newHashSet("ColPlantA");
 		var expectedContext = Sets.newHashSet("ColPlantA", "Plantae");
+
+		assertEquals(expectedSources, doc.getFieldValues("searchable.sources_ss"));
+		assertEquals(expectedContext, doc.getFieldValues("searchable.context_ss"));
+	}
+
+	@Test
+	public void testCombinedSources() {
+		var acceptedAuthority = new Organisation();
+		acceptedAuthority.setIdentifier("WorldChecklist");
+
+		var accepted = new Taxon();
+		accepted.setAuthorities(Sets.newHashSet(acceptedAuthority));
+
+		var taxonAuthority = new Organisation();
+		taxonAuthority.setIdentifier("ColPlantA");
+
+		var taxon = new Taxon();
+		taxon.setAuthority(taxonAuthority);
+		taxon.setAuthorities(Sets.newHashSet(taxonAuthority));
+		taxon.setKingdom("Plantae");
+		taxon.setAcceptedNameUsage(accepted);
+
+		var doc = new TaxonSolrInputDocument(taxon).build();
+
+		var expectedSources = Sets.newHashSet("ColPlantA", "WorldChecklist");
+		var expectedContext = Sets.newHashSet("ColPlantA", "WorldChecklist", "Plantae");
 
 		assertEquals(expectedSources, doc.getFieldValues("searchable.sources_ss"));
 		assertEquals(expectedContext, doc.getFieldValues("searchable.context_ss"));
