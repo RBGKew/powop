@@ -66,7 +66,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		super(taxon);
 		super.build();
 		this.taxon = taxon;
-		this.sources = taxon.getCombinedAuthorities().stream().map(o -> o.getIdentifier()).collect(Collectors.toSet());
+		this.sources = taxon.getAcceptedNameAuthorities().stream().map(o -> o.getIdentifier()).collect(Collectors.toSet());
 		if(ctx != null) {
 			this.imageService = ctx.getBean(ImageService.class);
 			this.cdn = ctx.getBean(CDNImageHelper.class);

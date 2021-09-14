@@ -98,9 +98,9 @@ public class TaxonTest {
 		accepted.addAuthorityToTaxonAndRelatedTaxa(authority);
 
 		assertEquals(Sets.newHashSet(authority), accepted.getAuthorities());
-		assertEquals(Sets.newHashSet(authority), accepted.getCombinedAuthorities());
+		assertEquals(Sets.newHashSet(authority), accepted.getAcceptedNameAuthorities());
 		assertEquals(Sets.newHashSet(), synonym.getAuthorities());
-		assertEquals(Sets.newHashSet(authority), synonym.getCombinedAuthorities());
+		assertEquals(Sets.newHashSet(authority), synonym.getAcceptedNameAuthorities());
 		assertEquals(Sets.newHashSet(authority), parent.getAuthorities());
 
 	}
@@ -123,9 +123,9 @@ public class TaxonTest {
 		synonym.addAuthorityToTaxonAndRelatedTaxa(authority);
 
 		assertEquals(Sets.newHashSet(authority), synonym.getAuthorities());
-		assertEquals(Sets.newHashSet(authority), synonym.getCombinedAuthorities());
+		assertEquals(Sets.newHashSet(authority), synonym.getAcceptedNameAuthorities());
 		assertEquals(Sets.newHashSet(authority), accepted.getAuthorities());
-		assertEquals(Sets.newHashSet(authority), accepted.getCombinedAuthorities());
+		assertEquals(Sets.newHashSet(authority), accepted.getAcceptedNameAuthorities());
 		assertEquals(Sets.newHashSet(authority), acceptedParent.getAuthorities());
 		assertEquals(Sets.newHashSet(), synonymParent.getAuthorities());
 	}

@@ -125,6 +125,6 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
-		return taxon.getCombinedAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }
