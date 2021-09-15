@@ -20,6 +20,7 @@ import static org.gbif.ecat.voc.EstablishmentMeans.Introduced;
 import static org.gbif.ecat.voc.EstablishmentMeans.Native;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -47,6 +48,7 @@ import org.hibernate.annotations.Where;
 import org.powo.model.constants.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Sets;
 
 /**
  * @see http://rs.gbif.org/extension/gbif/1.0/distribution.xml
@@ -121,6 +123,19 @@ public class Distribution extends OwnedEntity {
 	@Enumerated(value = EnumType.STRING)
 	public Location getLocation() {
 		return location;
+	}
+
+	/**
+	 * Get the location associated to this distribution, its parents and its children.
+	 */
+	@Transient
+	public SortedSet<Location> getLocationTree() {
+		var locations = Sets.<Location>newTreeSet();
+		var location = getLocation();
+		locations.add(location);
+		locations.addAll(location.getAllChildren());
+		locations.addAll(location.getAllParents());
+		return locations;
 	}
 
 	/**

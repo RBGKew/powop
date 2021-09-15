@@ -113,7 +113,17 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
-		return taxon.getAcceptedNameAuthorities().stream()
+		// Return true if the ColPlantA organisation is in the taxon authorities
+		var organisationMatch = taxon.getAcceptedNameAuthorities().stream()
 				.anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		if (organisationMatch) {
+			return true;
+		}
+		// Return false if the taxon is not a plant
+		if (!(taxon.getKingdom().toLowerCase().equals("plantae"))) {
+			return false;
+		}
+		// Return true if the taxon is a plant and is found in Colombia
+		return taxon.getLocations().stream().anyMatch(l -> l.getName().equals("Colombia"));
 	}
 }

@@ -282,43 +282,14 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	 */
 	private Set<String> indexDistributions() {
 		sid.addField("taxon.distribution_not_empty_b", !taxon.getDistribution().isEmpty());
-		TreeSet<String> locationNames = new TreeSet<>();
-		TreeSet<String> locationCodes = new TreeSet<>();
-		for(Distribution d : taxon.getDistribution()) {
-			locationNames.add(d.getLocation().getName());
-			locationCodes.add(d.getLocation().getCode());
-
-			indexChildLocations(locationNames, locationCodes, d.getLocation().getChildren());
-			indexParentLocations(locationNames, locationCodes, d.getLocation().getParent());
-		}
+		var locations = taxon.getLocations();
+		var locationNames = locations.stream().map(l -> l.getName()).collect(Collectors.toCollection(TreeSet::new));
 
 		for(String name : locationNames) {
 			sid.addField("taxon.distribution_ss_lower", name);
 		}
 
 		return locationNames;
-	}
-
-	private void indexParentLocations(Set<String> names, Set<String> codes, Location parent) {
-		if(parent == null) {
-			return;
-		}
-
-		names.add(parent.getName());
-		codes.add(parent.getCode());
-		indexParentLocations(names, codes, parent.getParent());
-	}
-
-	private void indexChildLocations(Set<String> names, Set<String> codes, Set<Location> locations) {
-		if(locations == null) {
-			return;
-		}
-
-		for(Location location : locations) {
-			names.add(location.getName());
-			codes.add(location.getCode());
-			indexChildLocations(names, codes, location.getChildren());
-		}
 	}
 
 	private void indexRank(Rank rank, String property) {

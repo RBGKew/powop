@@ -4,7 +4,8 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.powo.model.solr.DefaultQueryOption;
 
 /**
- * This filter ensures that only plants are shown on Plants of the World Online
+ * This class allows arbitrary filters to be added to a query. It is used by ColPlantASite
+ * to create a filter that includes taxa that have the ColPlantA organisation OR are plants found in Colombia.
  */
 public class CustomDefaultQuery implements DefaultQueryOption {
 

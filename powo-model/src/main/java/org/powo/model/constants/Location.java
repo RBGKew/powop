@@ -27,6 +27,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 
+import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
 import com.vividsolutions.jts.geom.Polygon;
@@ -1217,8 +1218,42 @@ public enum Location {
 		return parent;
 	}
 
+	/**
+	 * Get all the parents linked to this location by travelling up
+	 * the location tree.
+	 */
+	public Set<Location> getAllParents() {
+		var parents = Sets.<Location>newTreeSet();
+		var parent = getParent();
+		while (parent != null) {
+			parents.add(parent);
+			parent = parent.getParent();
+		}
+		return parents;
+	}
+
 	public Set<Location> getChildren() {
 		return children;
+	}
+
+	/**
+	 * Get all the children linked to this location by recursing down
+	 * the location tree.
+	 */
+	public Set<Location> getAllChildren() {
+		var allChildren = Sets.<Location>newTreeSet();
+		var children = getChildren();
+		// If there are no children, return an empty set.
+		if (children == null || children.size() == 0) {
+			return allChildren;
+		}
+		// Otherwise add the children, then iterate through
+		// them and recursively add their children.
+		allChildren.addAll(children);
+		for (var child : children) {
+			allChildren.addAll(child.getAllChildren());
+		}
+		return allChildren;
 	}
 
 	public boolean isChildOf(Location location) {
