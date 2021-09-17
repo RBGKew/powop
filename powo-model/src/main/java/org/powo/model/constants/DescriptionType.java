@@ -327,6 +327,7 @@ public enum DescriptionType {
 	useFuelTinder("use:fuel:tinder"),
 	useFuelUnspecifiedFuelType("use:fuel:unspecifiedFuelType"),
 	useGeneSources("use:geneSources"),
+	useInvertebrateFood("use:invertebrateFood"),
 	useMaterials("use:materials"),
 	useMaterialsAlcohols("use:materials:alcohols"),
 	useMaterialsCaneRattanBambooReedWickerEtc("use:materials:caneRattanBambooReedWickerEtc"),
