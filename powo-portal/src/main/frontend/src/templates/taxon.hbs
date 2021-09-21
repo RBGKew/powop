@@ -22,7 +22,9 @@
           {{/with}}
         </div>
         {{#with images.headerImage }}
-        <a href="{{fullsizeUrl this}}" class="c-gallery-header" style="background-image: url('{{fullsizeUrl this}}');"></a>
+          <a href="{{ fullsizeUrl this }}" class="c-gallery-header">
+            <img src="{{ fullsizeUrl this }}" alt="{{ this.title }}" />
+          </a>
         {{/with}}
       </div>
     </header>
