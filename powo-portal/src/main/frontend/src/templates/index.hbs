@@ -8,10 +8,9 @@
 <div class="s-page s-page--home s-search__fullpage {{concat " s-" siteId}}">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
-
     <div class="c-search autocomplete-form">
-      <div class="front-page-container">
-        <div class="central">
+      <div class="central">
+        <div class="central-items">
           <div class="c-intro">
             {{> (concat "partials/intro/" siteId) }}
           </div>
@@ -28,10 +27,12 @@
             </nav>
           {{/if}}
         </div>
-        <aside class="featured">
+      </div>
+      <aside>
+        <div class="featured">
           {{> (concat "partials/featured/featured-" siteId)}}
-        </aside>
-      </div><!-- End Container -->
+        </div>
+      </aside>
     </div>
     <aside class="featured-taxa-sections">
       {{> partials/featured/featured-taxa-sections}}
