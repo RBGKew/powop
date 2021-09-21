@@ -20,6 +20,10 @@ public class ImageHelper {
 		this.cdn = cdn;
 	}
 
+	public CharSequence headerImage(Image image) {
+		return imageTag(image);
+	}
+
 	public CharSequence fullsizeImage(Image image, Taxon taxon, Options options) {
 		return link(image, taxon, "fullsize", options);
 	}
@@ -61,6 +65,16 @@ public class ImageHelper {
 					generateCaption(image, taxon, options).replace('"', '\''),
 					imgTag);
 		}
+
+		return new Handlebars.SafeString(imgTag);
+	}
+
+	private CharSequence imageTag(Image image) {
+
+		String imgTag = String.format("<img src=\"%s\" alt=\"%s\"/>",
+				imageUrl(image, "fullsize"),
+				image.getTitle() == null ? "" : image.getTitle().replace('"', '\''));
+
 
 		return new Handlebars.SafeString(imgTag);
 	}
