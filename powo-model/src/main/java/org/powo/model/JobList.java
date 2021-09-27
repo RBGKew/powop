@@ -56,8 +56,6 @@ public class JobList extends Base {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String identifier;
-
 	@NotBlank
 	private String description;
 
@@ -141,5 +139,11 @@ public class JobList extends Base {
 
 		setNextRun(nextAvailableDate);
 		setStatus(JobListStatus.Completed);
+	}
+
+	@Override
+	@JsonIgnore(false)
+	public String getIdentifier() {
+		return identifier;
 	}
 }

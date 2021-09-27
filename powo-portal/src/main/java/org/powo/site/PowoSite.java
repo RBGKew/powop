@@ -143,4 +143,9 @@ public class PowoSite implements Site {
 		return null;
 	}
 
+	@Override
+	public boolean hasTaxon(Taxon taxon) {
+		return taxon.getKingdom().toLowerCase().equals("plantae");
+	}
+
 }

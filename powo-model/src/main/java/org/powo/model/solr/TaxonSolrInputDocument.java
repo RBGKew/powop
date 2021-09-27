@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.solr.common.SolrInputDocument;
@@ -65,7 +66,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		super(taxon);
 		super.build();
 		this.taxon = taxon;
-		this.sources = new HashSet<>();
+		this.sources = taxon.getAcceptedNameAuthorities().stream().map(o -> o.getIdentifier()).collect(Collectors.toSet());
 		if(ctx != null) {
 			this.imageService = ctx.getBean(ImageService.class);
 			this.cdn = ctx.getBean(CDNImageHelper.class);
@@ -118,7 +119,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexImages();
 		addSuggestionWeight();
 		
-		addReferencesToSources();
 		indexSources();
 		indexContext();
 
@@ -142,12 +142,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		}
 
 		deduplicateField(sid, "searchable.sources_ss");
-	}
-
-	private void addReferencesToSources() {
-		for (var r : taxon.getReferences()) {
-			addSource(r);
-		}
 	}
 
 	private void buildSortField() {
@@ -206,10 +200,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			}
 		}
 
-		for(Image img : taxon.getImages()) {
-			addSource(img);
-		}
-
 		sid.addField("taxon.images_not_empty_b", !images.isEmpty());
 	}
 
@@ -228,8 +218,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			} else {
 				sid.addField("taxon.fact_" + typeName + "_ss", m.getMeasurementValue());
 			}
-
-			addSource(m);
 		}
 	}
 
@@ -263,7 +251,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 				}
 			}
 			sid.addField("taxon.description_t", htmlStripped);
-			addSource(d);
 		}
 
 		return hasDescriptions;
@@ -279,7 +266,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 			indexChildLocations(locationNames, locationCodes, d.getLocation().getChildren());
 			indexParentLocations(locationNames, locationCodes, d.getLocation().getParent());
-			addSource(d);
 		}
 
 		for(String name : locationNames) {
@@ -326,13 +312,6 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		sid.addField("taxon.vernacular_names_not_empty_b", !taxon.getVernacularNames().isEmpty());
 		for(VernacularName v : taxon.getVernacularNames()) {
 			sid.addField("taxon.vernacular_names_t", v.getVernacularName());
-			addSource(v);
-		}
-	}
-
-	private void addSource(BaseData d) {
-		if(d.getAuthority() != null) {
-			sources.add(d.getAuthority().getIdentifier());
 		}
 	}
 }
