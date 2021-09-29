@@ -17,6 +17,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.batch.core.BatchStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -34,7 +35,6 @@ import lombok.Singular;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder(alphabetic=true)
 public class JobConfiguration extends Base {
@@ -46,10 +46,6 @@ public class JobConfiguration extends Base {
 	private Long id;
 
 	private String jobName;
-
-	@Builder.Default
-	@NotNull
-	private String identifier = UUID.randomUUID().toString();
 
 	private Long lastJobExecution;
 
@@ -64,4 +60,16 @@ public class JobConfiguration extends Base {
 	private BatchStatus jobStatus;
 
 	private String jobExitCode;
+
+	public JobConfiguration() {
+		setIdentifier(UUID.randomUUID().toString());
+	}
+
+	@NotNull
+	@Override
+	@JsonIgnore(false)
+	public String getIdentifier() {
+		return identifier;
+	}
+
 }

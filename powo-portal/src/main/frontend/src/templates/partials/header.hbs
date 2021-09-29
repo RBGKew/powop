@@ -2,8 +2,10 @@
 <!--[if IE 9 ]> <html class="no-js lt-ie10" lang="en"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  {{ gaTracking }}
+  <!-- OneTrust must come first -->
   {{ oneTrustScript }}
+  {{ gaTracking }}
+  {{ seoNoIndexTag }}
 	<title>{{title}}</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="initial-scale=1.0">

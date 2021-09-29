@@ -46,4 +46,9 @@ public interface Site {
 	String canonicalUrl();
 	List<FeaturedTaxaSection> featuredTaxaSections();
 	Organisation primarySource();
+	/**
+	 * Return true if the provided taxon should be
+	 * displayed on this site, false otherwise.
+	 */
+	boolean hasTaxon(Taxon taxon);
 }

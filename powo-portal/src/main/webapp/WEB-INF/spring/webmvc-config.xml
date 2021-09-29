@@ -68,6 +68,7 @@
 				<bean class="org.powo.portal.view.helpers.AssetHelper" />
 				<bean class="org.powo.portal.view.helpers.OneTrustHelper" />
 				<bean class="org.powo.portal.view.helpers.AnalyticsHelper" />
+				<bean class="org.powo.portal.view.helpers.SeoHelper" />
 				<bean class="org.powo.portal.view.helpers.TextHelper" />
 			</list>
 		</property>

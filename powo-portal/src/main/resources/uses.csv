@@ -55,6 +55,8 @@ use:fuel:nonWoodyFuel,Non Woody Fuel,for %s,fuel
 use:fuel:petroleumSubstitutesAlcoholsEtc,Petroleum Substitutes Alcohols Etc,as %s,a petrol substitute
 use:fuel:tinder,Tinder,for %s,tinder
 use:fuel:unspecifiedFuelType,Unspecified Fuel Type,for %s,fuel
+use:geneSources,Gene Sources,as %s,a source of genetic material
+use:invertebrateFood,Invertebrate Food,as %s,invertebrate food
 use:materials,Materials,as %s,a material
 use:materials:alcohols,Alcohols,to %s,make alcohol
 use:materials:caneRattanBambooReedWickerEtc,Cane Rattan Bamboo Reed Wicker Etc,for %s,"canes, rattan, bamboo, reeds or wicker"
