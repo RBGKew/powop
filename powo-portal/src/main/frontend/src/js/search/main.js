@@ -26,20 +26,6 @@ define(function(require) {
     event.preventDefault();
     filters.setSort($(this).attr("id"));
   }
-
-  function transformToSearchLayout() {
-    // transform page to search style page
-    if($('.s-page').hasClass('s-search__fullpage')) {
-      results.initialize();
-      $('.s-page').removeClass('s-search__fullpage').addClass("s-search__top");;
-      $('#search_box').detach().appendTo('.c-header .container');
-      // below three lines are needed because the front page and the search page are the same page and we need to change which is main on both "pages" for accessibility
-      $( ".front-page" ).remove();
-      $(".search-results").attr('id', 'main');
-      $(".search-results").attr('role', 'main');
-      filters.refresh();
-    }
-  }
   
   var is_hashed = false;
 
@@ -56,14 +42,15 @@ define(function(require) {
   }
 
   var initialize = function() {
+
+    
     filters.initialize();
+
     // populate results based on existing query string
-    if(window.location.search.length > 1) {
-      transformToSearchLayout();
-      filters.deserialize(window.location.search, false);
-      results.initialize();
-      results.update(filters.serialize());
-    }
+    results.initialize();
+    filters.refresh();
+    filters.deserialize(window.location.search, false);
+    results.update(filters.serialize());
 
     $(document)
       .on('click', '.facet', toggleFacet)
@@ -79,8 +66,8 @@ define(function(require) {
 
   // event listeners for updating search results based on filters
   pubsub.subscribe('search.updated', function() {
-    transformToSearchLayout();
-
+    results.initialize();
+    filters.refresh();
     results.update(filters.serialize());
     history.pushState(null, null, '?' + filters.serialize());
   });

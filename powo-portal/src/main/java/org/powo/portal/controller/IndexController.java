@@ -20,13 +20,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
 public class IndexController extends LayoutController {
 
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
-	public String index(Model model) {
+	public String index(
+		Model model,
+		@RequestParam(name = "q", required = false) String query,
+		@RequestParam(name = "f", required = false) String filterQuery
+	) {
+		if (query != null || filterQuery != null) {
+			model.asMap().clear();
+			model.addAttribute("q", query);
+			model.addAttribute("f", filterQuery);
+			return "redirect:/results";			
+		}
+
 		model.addAttribute("title", site.indexPageTitle());
 		model.addAttribute("cross-site-link", site.crossSiteLink());
 		model.addAttribute("cross-site-type", site.crossSiteType());

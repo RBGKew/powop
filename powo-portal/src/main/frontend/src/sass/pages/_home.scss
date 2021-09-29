@@ -46,12 +46,7 @@
     right: 0;
   }
 }
-.featured {
-  display: none;
-}
 .c-intro {
-  display: none;
-
   small {
     display: block;
     margin-bottom: 3.5rem;
@@ -143,11 +138,6 @@
     left: 0;
     transform: translateY(-50%);
   }
-}
-
-// Hide featured taxa on search results page
-.featured-taxa-sections {
-  display: none;
 }
 .s-search__fullpage {
   .featured-taxa-sections {

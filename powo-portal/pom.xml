@@ -195,6 +195,12 @@
 						<resource>
 							<directory>src/main/resources</directory>
 						</resource>
+						<resource>
+							<directory>src/main/frontend/dist</directory>
+							<include>rev-manifest.json</include>
+							<!-- targetPath must be as follows for the file to be in the classpath -->
+							<targetPath>WEB-INF/classes</targetPath>
+						</resource>
 					</webResources>
 					<encoding />
 				</configuration>

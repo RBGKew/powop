@@ -9,7 +9,7 @@ module.exports = function (gulp, $) {
       .pipe($.rev())
       .pipe(gulp.dest('dist'))
       .pipe($.rev.manifest())
-      .pipe(gulp.dest('../resources/'));
+      .pipe(gulp.dest('dist'));
   });
 
 }

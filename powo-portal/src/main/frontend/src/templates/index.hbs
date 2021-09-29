@@ -5,7 +5,7 @@
   {{> svg/chevron.svg }}
   {{> (concat "svg/" siteId ".svg")}}
 </div>
-<div class="s-page s-page--home s-search__fullpage {{concat " s-" siteId}} invisible">
+<div class="s-page s-page--home s-search__fullpage {{concat " s-" siteId}}">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
 
@@ -44,4 +44,4 @@
     basePageTitle: "{{ title }}"
   }
 </script>
-{{> partials/footer initialize="search"}}
+{{> partials/footer initialize="static"}}
