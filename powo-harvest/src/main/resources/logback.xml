@@ -15,6 +15,7 @@
   <logger name="org.powo.job" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.model" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.hibernate.SQL" level="INFO" />
+  <logger name="org.hibernate.stat" level="DEBUG" />
   <logger name="org.hibernate.orm.deprecation" level="ERROR" />
   <logger name="org.springframework.batch.core.job" level="INFO" />
   <logger name="liquibase" level="ERROR"/>

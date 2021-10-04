@@ -75,6 +75,7 @@
         hibernate.dialect=${hibernate.dialect}
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
+        hibernate.generate_statistics=true
         hibernate.jdbc.time_zone=UTC
         hibernate.jdbc.batch_size=5000
       </value>
