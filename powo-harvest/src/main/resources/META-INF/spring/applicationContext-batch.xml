@@ -26,7 +26,7 @@
     <property name="taskExecutor" ref="poolTaskExecutor" />
   </bean>
 
-  <task:executor id="poolTaskExecutor" pool-size="600" rejection-policy="CALLER_RUNS"/>
+  <task:executor id="poolTaskExecutor" pool-size="4" rejection-policy="CALLER_RUNS"/>
 
   <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
     <property name="dataSource" ref="dataSource"/>
