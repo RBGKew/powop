@@ -67,9 +67,9 @@
     </batch:listeners>
   </batch:job>
 
-  <bean id="itemReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
+  <bean id="itemReader" class="org.springframework.batch.item.database.HibernatePagingItemReader" scope="step">
     <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="#{jobParameters['query.string']}" />
+    <property name="saveState" value="false"></property>
   </bean>
 
   <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
