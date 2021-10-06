@@ -65,7 +65,7 @@ services:
       - harvester
       - portal
     ports:
-      - "10080:80"
+      - "10081:80"
     mem_limit: 50M
     volumes:
       - ./powo-portal/src/main/frontend/dist/css:/www/data/css
