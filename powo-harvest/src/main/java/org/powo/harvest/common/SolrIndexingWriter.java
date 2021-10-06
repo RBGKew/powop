@@ -24,7 +24,7 @@ import org.powo.persistence.hibernate.SolrIndexingInterceptor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
-public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWriter<Long> {
+public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWriter<Searchable> {
 
 	private Class type;
 
@@ -49,12 +49,17 @@ public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWrite
 		solrIndexingInterceptor.indexObject(searchable);
 	}
 
-	public void write(List<? extends Long> identifiers) throws Exception {
-		List<Searchable> searchables = new ArrayList<Searchable>();
-		for (Long l : identifiers) {
-			searchables.add((Searchable)currentSession().load(type, l));
+	// @Override
+	// public void write(List<? extends Taxon> identifiers) throws Exception {
+	// 	var searchables = new ArrayList<Searchable>();
+	// 	for (var l : identifiers) {
+	// 		searchables.add(l);
+	// 	}
+	// 	solrIndexingInterceptor.indexObjects(searchables);
+	// }
 
-		}
-		solrIndexingInterceptor.indexObjects(searchables);
+	@Override
+	public void write(List<? extends Searchable> items) throws Exception {
+		solrIndexingInterceptor.indexObjects(items);
 	}
 }
