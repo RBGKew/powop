@@ -117,6 +117,7 @@ define(function(require) {
       $(location.hash + ' .container').addClass('in');
     }
 
+    descriptions.initialize()
     bibliography.initialize()
 
     if($('#c-map').length) {
