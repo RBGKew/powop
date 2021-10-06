@@ -22,7 +22,7 @@
       -->
       <!-- <batch:tasklet task-executor="poolTaskExecutor"> -->
       <batch:tasklet>
-        <batch:chunk reader="itemReader" processor="itemProcessor" writer="itemIndexer" commit-interval="1000" />
+        <batch:chunk reader="itemReader" processor="itemProcessor" writer="itemIndexer" commit-interval="100" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="optimizeIndex"/>
       <batch:listeners>
@@ -85,14 +85,14 @@
     would happen in the writer. I think this is because it's such a pain to get entities loaded properly, but if we can
     get an ItemProcessor doing the conversion from T -> SolrInputDocument then I think we'd be OK.
     -->
-    <!-- <property name="queryString" value="select t from Taxon t" /> -->
+    <!-- <property name="queryString" value="select t.id from Taxon t" /> -->
     <!-- <property name="queryString" value="from Taxon t join fetch t.authority join fetch t.authorities" /> -->
     <!-- <property name="queryString" value="select t.id, i.id, i.title, i.accessUri from Taxon as t join fetch t.images as i" /> -->
     <!-- <property name="queryString" value="#{jobParameters['query.string']}" /> -->
   </bean>
 
-  <bean id="itemProcessor" class="org.powo.harvest.common.TaxonToSolrInputDocumentItemProcessor" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
+  <bean id="itemProcessor" class="org.powo.harvest.common.TaxonIdToLoadedTaxonProcessor" scope="step">
+    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
