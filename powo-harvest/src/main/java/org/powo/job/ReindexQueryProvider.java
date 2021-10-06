@@ -18,7 +18,7 @@ public class ReindexQueryProvider implements HibernateQueryProvider<Taxon> {
   @Override
   public Query<Taxon> createQuery() {
     log.info("creating query");
-    var query = session.createQuery("select t from Taxon t", Taxon.class);    
+    var query = session.createQuery("select t.id from Taxon t", Taxon.class);    
     query.setHint("org.hibernate.readOnly", true);
     return query;
   }
