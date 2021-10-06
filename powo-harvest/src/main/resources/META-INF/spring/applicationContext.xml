@@ -104,6 +104,14 @@
     </property>
   </bean>
 
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="packagesToScan" value="org.powo.model" />
+    <property name="jpaVendorAdapter">
+      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+    </property>
+  </bean>
+
   <bean id="solrClient" class="org.apache.solr.client.solrj.impl.HttpSolrClient">
     <constructor-arg value="${solr.url}"/>
   </bean>
@@ -114,8 +122,7 @@
     <property name="dropFirst" value="${liquibase.drop.database.first}"/>
   </bean>
 
-  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-    destroy-method="close">
+  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
     <property name="driverClassName" value="${jdbc.driver.classname}" />
     <property name="url" value="${jdbc.driver.url}" />
     <property name="username" value="${jdbc.driver.username}" />

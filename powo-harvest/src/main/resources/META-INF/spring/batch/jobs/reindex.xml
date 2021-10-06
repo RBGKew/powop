@@ -85,10 +85,16 @@
     would happen in the writer. I think this is because it's such a pain to get entities loaded properly, but if we can
     get an ItemProcessor doing the conversion from T -> SolrInputDocument then I think we'd be OK.
     -->
-    <!-- <property name="queryString" value="select t.id from Taxon t" /> -->
+    <!-- <property name="queryProvider" ref="reindexQueryProvider"></property> -->
     <!-- <property name="queryString" value="from Taxon t join fetch t.authority join fetch t.authorities" /> -->
     <!-- <property name="queryString" value="select t.id, i.id, i.title, i.accessUri from Taxon as t join fetch t.images as i" /> -->
     <!-- <property name="queryString" value="#{jobParameters['query.string']}" /> -->
+  </bean>
+  
+  <bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader" scope="step">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+    <property name="saveState" value="false"></property>
+    <property name="queryProvider" ref="reindexJpaQueryProvider"></property>
   </bean>
 
   <bean id="itemProcessor" class="org.powo.harvest.common.TaxonIdToLoadedTaxonProcessor" scope="step">
