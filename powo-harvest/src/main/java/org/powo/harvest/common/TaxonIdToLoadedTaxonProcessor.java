@@ -7,24 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.powo.model.Taxon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.powo.api.TaxonService;
 
-@Component
-public class TaxonToSolrInputDocumentItemProcessor implements ItemProcessor<Taxon, SolrInputDocument> {
+public class TaxonIdToLoadedTaxonProcessor implements ItemProcessor<Long, Taxon> {
+  private final Logger log = LoggerFactory.getLogger(TaxonIdToLoadedTaxonProcessor.class);
   
-  @Autowired
-  private ApplicationContext ctx;
+	private TaxonService taxonService;
 
-  // todo: this does not work
-  // @Autowired
-  // private SessionFactory sessionFactory;
+	public void setTaxonService(TaxonService taxonService) {
+		this.taxonService = taxonService;
+	}
 
   @Override
-  public SolrInputDocument process(Taxon item) throws Exception {
+  public Taxon process(Long id) throws Exception {
     // todo: what we would like to do is have either:
     // - all properties necessary loaded by this time
     // - most properties loaded and ABLE to load other properties required
     // currently this is not working because of LazyInitializationException - at this stage there is no session
     // - try and load a session properly? either using SessionFactory or HibernateDaoSupport
-    return item.toSolrInputDocument(ctx);
+    return taxonService.load(id, "taxon-page");
   }
 }
