@@ -57,7 +57,7 @@ import org.springframework.context.annotation.Scope;
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
 ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
-	private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
+	private Logger log = LoggerFactory.getLogger(DarwinCoreProcessor.class);
 
 	private Validator validator;
 
@@ -126,7 +126,7 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	protected Resource getResource() {
 		if (resource == null && resourceService != null) {
 			resource = resourceService.find(resourceIdentifier);
-			logger.debug("Found resource: {}", resource);
+			log.debug("Found resource: {}", resource);
 		}
 
 		return resource;
@@ -183,6 +183,7 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	@Override
 	public void afterWrite(List<? extends T> items) {
+		log.info("after write - {} annotations", items.size());
 		chunkAnnotations.forEach(a -> annotationService.save(a));
 		chunkAnnotations = new ArrayList<>();
 	}
