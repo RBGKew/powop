@@ -15,11 +15,6 @@
   <batch:job id="ReIndex">
     <batch:step id="reIndex">
       <batch:description>Re-index some or all of the database</batch:description>
-      <!-- 
-      todo: adding a task-executor does make things run faster but doesn't fix underlying issues
-      with how the data access is structured. it's at least worth trying to fix the underlying issues
-      before throwing more threads at the problem.
-      -->
       <batch:tasklet task-executor="poolTaskExecutor">
         <batch:chunk reader="itemReader" writer="itemIndexer" commit-interval="1000" />
       </batch:tasklet>
@@ -77,17 +72,6 @@
     <property name="saveState" value="false"></property>
     <property name="useStatelessSession" value="true"></property>
     <property name="queryString" value="#{jobParameters['query.string']}" />
-    
-    <!-- 
-    todo: if we don't end up needing the full queryProvider specified above, it might be worth just using the queryString
-    below. the main difference from before is that it used to be "select t.id from Taxon t" and then loading of the entity
-    would happen in the writer. I think this is because it's such a pain to get entities loaded properly, but if we can
-    get an ItemProcessor doing the conversion from T -> SolrInputDocument then I think we'd be OK.
-    -->
-    <!-- <property name="queryProvider" ref="reindexQueryProvider"></property> -->
-    <!-- <property name="queryString" value="from Taxon t join fetch t.authority join fetch t.authorities" /> -->
-    <!-- <property name="queryString" value="select t.id, i.id, i.title, i.accessUri from Taxon as t join fetch t.images as i" /> -->
-    <!-- <property name="queryString" value="#{jobParameters['query.string']}" /> -->
   </bean>
   
   <bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader" scope="step">
