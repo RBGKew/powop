@@ -20,9 +20,8 @@
       with how the data access is structured. it's at least worth trying to fix the underlying issues
       before throwing more threads at the problem.
       -->
-      <!-- <batch:tasklet task-executor="poolTaskExecutor"> -->
-      <batch:tasklet>
-        <batch:chunk reader="itemReader" processor="itemProcessor" writer="itemIndexer" commit-interval="100" />
+      <batch:tasklet task-executor="poolTaskExecutor">
+        <batch:chunk reader="itemReader" writer="itemIndexer" commit-interval="1000" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="optimizeIndex"/>
       <batch:listeners>
