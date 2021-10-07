@@ -74,16 +74,6 @@
     <property name="queryString" value="#{jobParameters['query.string']}" />
   </bean>
   
-  <bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader" scope="step">
-    <property name="entityManagerFactory" ref="entityManagerFactory" />
-    <property name="saveState" value="false"></property>
-    <property name="queryProvider" ref="reindexJpaQueryProvider"></property>
-  </bean>
-
-  <bean id="itemProcessor" class="org.powo.harvest.common.TaxonIdToLoadedTaxonProcessor" scope="step">
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
   <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="#{jobParameters['query.type']}" />
     <property name="sessionFactory" ref="sessionFactory" />
