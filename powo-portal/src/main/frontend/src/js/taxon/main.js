@@ -1,6 +1,7 @@
 define(function(require) {
 
   var $ = require('jquery');
+  var descriptions = require('./descriptions')
   var bibliography = require('./bibliography')
   var map = require('./map');
   var filters = require('../search/filters');
@@ -116,6 +117,7 @@ define(function(require) {
       $(location.hash + ' .container').addClass('in');
     }
 
+    descriptions.initialize()
     bibliography.initialize()
 
     if($('#c-map').length) {
