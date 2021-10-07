@@ -73,7 +73,7 @@
     <property name="useStatelessSession" value="true"></property>
     <property name="queryString" value="#{jobParameters['query.string']}" />
   </bean>
-  
+
   <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
     <property name="type" value="#{jobParameters['query.type']}" />
     <property name="sessionFactory" ref="sessionFactory" />
