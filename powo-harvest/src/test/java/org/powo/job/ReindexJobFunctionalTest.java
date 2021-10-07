@@ -1,4 +1,4 @@
-package org.powo.job.common;
+package org.powo.job;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
