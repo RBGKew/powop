@@ -48,23 +48,11 @@ public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWrite
 		this.solrIndexingInterceptor = solrIndexingInterceptor;
 	}
 
-	public void index(Long identifier, Class type) {
-		Searchable searchable = (Searchable)currentSession().load(type, identifier);
-		solrIndexingInterceptor.indexObject(searchable);
-	}
-
-	// @Override
-	// public void write(List<? extends Taxon> identifiers) throws Exception {
-	// 	var searchables = new ArrayList<Searchable>();
-	// 	for (var l : identifiers) {
-	// 		searchables.add(l);
-	// 	}
-	// 	solrIndexingInterceptor.indexObjects(searchables);
-	// }
-
 	@Override
 	public void write(List<? extends Long> items) throws Exception {
-		var searchables = items.stream().map(i -> (Searchable) currentSession().load(type, i)).collect(Collectors.toList());
+		var searchables = items.stream()
+			.map(i -> (Searchable) currentSession().load(type, i))
+			.collect(Collectors.toList());
 		solrIndexingInterceptor.indexObjects(searchables);
 	}
 }
