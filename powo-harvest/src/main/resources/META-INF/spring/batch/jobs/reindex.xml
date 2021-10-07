@@ -75,7 +75,7 @@
   <bean id="itemReader" class="org.springframework.batch.item.database.HibernatePagingItemReader" scope="step">
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="saveState" value="false"></property>
-    <property name="useStatelessSession" value="false"></property>
+    <property name="useStatelessSession" value="true"></property>
     <property name="queryString" value="select t.id from Taxon t" />
     
     <!-- 
