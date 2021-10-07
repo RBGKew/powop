@@ -76,7 +76,7 @@
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="saveState" value="false"></property>
     <property name="useStatelessSession" value="true"></property>
-    <property name="queryString" value="select t.id from Taxon t" />
+    <property name="queryString" value="#{jobParameters['query.string']}" />
     
     <!-- 
     todo: if we don't end up needing the full queryProvider specified above, it might be worth just using the queryString
