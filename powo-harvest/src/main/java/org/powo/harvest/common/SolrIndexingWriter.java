@@ -50,6 +50,9 @@ public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWrite
 
 	@Override
 	public void write(List<? extends Long> items) throws Exception {
+		// Loading all data required for indexing the Taxon before this step is not feasible due to the volume of data 
+		// (and relationships). Therefore this method receives a Taxon id and loads it directly. This enables lazy loading of
+		// relationships, which doesn't work if you try and move the loading earlier e.g. into the reader/processor.
 		var searchables = items.stream()
 			.map(i -> (Searchable) currentSession().load(type, i))
 			.collect(Collectors.toList());
