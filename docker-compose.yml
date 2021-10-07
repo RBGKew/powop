@@ -51,8 +51,6 @@ services:
     mem_limit: 2G
     ports:
       - 8001:8000
-    volumes:
-      - ./powo-harvest/target/powo-harvest.war:/usr/local/tomcat/webapps/ROOT.war
 
   ingress:
     image: eu.gcr.io/powop-1349/ingress:latest
