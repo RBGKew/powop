@@ -62,14 +62,6 @@ import com.google.common.collect.Sets;
 
 /**
  * Schema definition: http://tdwg.github.io/dwc/terms/index.html#Taxon
- * 
- 	authoritie0_ - getAuthority() 					- many Taxon to one Organisation
-	synonymnam0_ - getSynonymNameUsages()		- one Taxon to many Taxon
-	descriptio0_ - getDescriptions()				- one Taxon to many Description
-	distributi0_ - getDistributions()				- one Taxon to many Distribution
-	vernacular0_ - getVernacularName()			- one Taxon to many Taxon
-	measuremen0_ - getMeasurementsOrFacts() - one Taxon to many MeasurementOrFact
-	images0_		 - getImages()							- many Taxon to many Images
  */
 @Entity
 @JsonInclude(Include.NON_EMPTY)
