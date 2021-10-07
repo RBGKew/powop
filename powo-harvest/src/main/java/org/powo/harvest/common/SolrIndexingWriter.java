@@ -18,8 +18,6 @@ package org.powo.harvest.common;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.powo.model.Searchable;
 import org.powo.persistence.hibernate.SolrIndexingInterceptor;
 import org.slf4j.Logger;
@@ -55,7 +53,7 @@ public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWrite
 		// relationships, which doesn't work if you try and move the loading earlier e.g. into the reader/processor.
 		var searchables = new ArrayList<Searchable>();
 
-		for (Long l : identifiers) {
+		for (var l : identifiers) {
 			searchables.add((Searchable) currentSession().load(type, l));
 		}
 	
