@@ -78,6 +78,8 @@
         hibernate.generate_statistics=true
         hibernate.jdbc.time_zone=UTC
         hibernate.jdbc.batch_size=5000
+        hibernate.order_inserts=true
+        hibernate.order_updates=true
       </value>
     </property>
     <property name="annotatedPackages" value="org.powo.model" />
