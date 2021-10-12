@@ -6,6 +6,13 @@
     </encoder>
   </appender>
 
+  <appender name="sqlFile" class="ch.qos.logback.core.FileAppender">
+    <file>/tmp/harvest-sql.log</file>
+    <encoder>
+      <pattern>%-5p | %t | %logger{1} | %m%n</pattern>
+    </encoder>
+  </appender>
+
   <root level="${SYSTEM_LOG_LEVEL:-WARN}">
     <appender-ref ref="stdout"/>
   </root>
@@ -14,8 +21,10 @@
   <logger name="org.powo.harvest" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.job" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.model" level="${HARVESTER_LOG_LEVEL:-INFO}" />
-  <logger name="org.hibernate.SQL" level="INFO" />
-  <logger name="org.hibernate.stat" level="DEBUG" />
+  <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+    <appender-ref ref="sqlFile" />
+  </logger>
+  <logger name="org.hibernate.stat" level="INFO" />
   <logger name="org.hibernate.orm.deprecation" level="ERROR" />
   <logger name="org.springframework.batch.core.job" level="INFO" />
   <logger name="liquibase" level="ERROR"/>
