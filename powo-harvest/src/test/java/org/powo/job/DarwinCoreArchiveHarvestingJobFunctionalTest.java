@@ -7,6 +7,8 @@ import org.powo.model.registry.Organisation;
 import org.powo.model.registry.Resource;
 import org.powo.persistence.dao.OrganisationDao;
 import org.powo.persistence.dao.ResourceDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
   "/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml" 
 })
 public class DarwinCoreArchiveHarvestingJobFunctionalTest {
+  private static final Logger log = LoggerFactory.getLogger(DarwinCoreArchiveHarvestingJobFunctionalTest.class);
+
   @Autowired
   private JobLauncherTestUtils jobLauncher;
 
