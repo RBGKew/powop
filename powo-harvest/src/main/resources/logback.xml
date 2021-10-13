@@ -21,4 +21,5 @@
   <logger name="org.hibernate.orm.deprecation" level="ERROR" />
   <logger name="org.springframework.batch.core.job" level="INFO" />
   <logger name="liquibase" level="ERROR"/>
+  <logger name="liquibase.changelog.ChangeSet" level="INFO"/>
 </configuration>
