@@ -41,6 +41,7 @@ import org.powo.model.constants.ResourceType;
 import org.powo.model.marshall.json.OrganisationDeserialiser;
 import org.powo.model.marshall.json.OrganisationSerializer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -92,11 +93,15 @@ public class Resource extends Base {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private JobConfiguration jobConfiguration;
 
-	@NotEmpty
-	@NaturalId
-	protected String identifier;
-
 	public Resource() {
 		setIdentifier(UUID.randomUUID().toString());
+	}
+
+	@Override
+	@NotEmpty
+	@NaturalId
+	@JsonIgnore(false)
+	public String getIdentifier() {
+		return identifier;
 	}
 }

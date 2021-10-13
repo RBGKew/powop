@@ -46,6 +46,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			validate(t);
 			chunkAnnotations.add(createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info));
 			t.setAuthority(getSource());
+			t.addAuthorityToTaxonAndRelatedTaxa(getSource());
 			t.setResource(getResource());
 
 			// don't try saving any linked taxa. This must be done by the linking processor
@@ -57,6 +58,7 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			return t;
 		} else {
 			checkAuthority(RecordType.Taxon, t, persisted.getAuthority());
+			persisted.addAuthorityToTaxonAndRelatedTaxa(getSource());
 			if (skipUnmodified
 					&& ((persisted.getModified() != null && t.getModified() != null) && !persisted
 							.getModified().isBefore(t.getModified()))) {

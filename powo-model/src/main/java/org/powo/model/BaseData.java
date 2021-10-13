@@ -78,18 +78,11 @@ public abstract class BaseData extends Base implements Annotated {
 	 *
 	 * @return The unique identifier of the object
 	 */
-	@NaturalId
+	@Override
 	@NotEmpty
+	@NaturalId
 	public String getIdentifier() {
 		return identifier;
-	}
-
-	/**
-	 *
-	 * @param identifier  Set the unique identifier of the object
-	 */
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
 	}
 
 	/**

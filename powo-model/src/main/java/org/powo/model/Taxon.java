@@ -30,6 +30,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -44,6 +45,7 @@ import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
 import org.powo.model.constants.TaxonomicStatus;
 import org.powo.model.marshall.json.TaxonSerializer;
+import org.powo.model.registry.Organisation;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -55,6 +57,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * Schema definition: http://tdwg.github.io/dwc/terms/index.html#Taxon
@@ -163,6 +167,9 @@ public class Taxon extends SearchableObject {
 	private Set<Taxon> synonymNameUsages = new HashSet<Taxon>();
 
 	@JsonIgnore
+	private Set<Organisation> authorities = new HashSet<Organisation>();
+
+	@JsonIgnore
 	private List<Image> images = new ArrayList<Image>();
 
 	@JsonIgnore
@@ -220,9 +227,47 @@ public class Taxon extends SearchableObject {
 	}
 
 	@Override
+	@JsonIgnore(false)
 	@JsonProperty("fqId")
 	public String getIdentifier() {
 		return super.getIdentifier();
+	}
+
+	/**
+	 * @return a set of organisations that have provided data on a taxon
+	 */
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "taxon_organisation", 
+		joinColumns = {@JoinColumn(name = "taxon_id")}, 
+		inverseJoinColumns = {@JoinColumn(name = "organisation_id")}
+	)
+	public Set<Organisation> getAuthorities() {
+		return authorities;
+	}
+
+	/**
+	 * Authorities are aggregated to accepted taxa (see addAuthorityToTaxonAndRelatedTaxa below).
+	 * If this taxon has an accepted name, return those authorities. Otherwise return the current set.
+	 */
+	@Transient
+	@JsonIgnore
+	public Set<Organisation> getAcceptedNameAuthorities() {
+		if (getAcceptedNameUsage() != null) {
+			return getAcceptedNameUsage().getAuthorities();
+		}
+		return authorities;
+	}
+
+	public void addAuthorityToTaxonAndRelatedTaxa(Organisation organisation) {
+		authorities.add(organisation);
+		// If this name is a synonym, add the organisation to the accepted taxonomy.
+		if (getAcceptedNameUsage() != null) {
+			getAcceptedNameUsage().addAuthorityToTaxonAndRelatedTaxa(organisation);
+		} else if (isAccepted() && getParentNameUsage() != null) {
+			// If this name is accepted also add the organisation to its parent.
+			getParentNameUsage().addAuthorityToTaxonAndRelatedTaxa(organisation);
+		}
 	}
 
 	/**
@@ -258,6 +303,16 @@ public class Taxon extends SearchableObject {
 	public void setDescriptions(Set<Description> newDescriptions) {
 		this.descriptions = newDescriptions;
 	}
+
+
+	/**
+	 * @param newAuthorities
+	 *            Set the organisations associated with this taxon
+	 */
+	public void setAuthorities(Set<Organisation> newAuthorities) {
+		this.authorities = newAuthorities;
+	}
+
 
 	/**
 	 * @param newImages
@@ -950,8 +1005,7 @@ public class Taxon extends SearchableObject {
 
 	@Transient
 	public boolean looksAccepted() {
-		//we want doubtful names to look like an accepted name, 
-		//but not show up in an accepted names search, or say that the name is accepted.
+		// This method controls if a taxon displays a complete profile, like an accepted name.
 		if (getTaxonomicStatus() == null) {
 			return true;
 		} else {
@@ -975,8 +1029,7 @@ public class Taxon extends SearchableObject {
 
 	@Transient
 	public boolean isAccepted() {
-		//we want doubtful names to look like an accepted name, 
-		//but not show up in an accepted names search, or say that the name is accepted.
+		// This method controls if a taxon appears in an accepted names search and is displayed as accepted.
 		if (getTaxonomicStatus() == null) {
 			return false;
 		} else {

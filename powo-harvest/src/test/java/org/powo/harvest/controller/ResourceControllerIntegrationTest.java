@@ -88,12 +88,12 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 	@Test
 	public void createResource() throws Exception {
 		Resource resource = Resource.builder()
-				.identifier("creation-test")
 				.resourceType(ResourceType.DwC_Archive)
 				.uri("http://blargedy.org/test.zip")
 				.title("Creation Test")
 				.organisation(org)
 				.build();
+		resource.setIdentifier("creation-test");
 
 		mvc.perform(post("/api/1/resource")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -106,11 +106,11 @@ public class ResourceControllerIntegrationTest extends AbstractControllerTest {
 	@Test
 	public void invalidUri() throws Exception {
 		Resource resource = Resource.builder()
-				.identifier("creation-test")
 				.resourceType(ResourceType.DwC_Archive)
 				.title("Creation Test")
 				.organisation(org)
 				.build();
+		resource.setIdentifier("creation-test");
 
 		// No URI
 		mvc.perform(post("/api/1/resource")

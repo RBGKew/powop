@@ -24,9 +24,10 @@ public class SummaryUses {
 	
 	private PhraseUtilities phraseUtils;
 	
-	private DescriptionType[] supertypes = {DescriptionType.usePoisons, DescriptionType.useAnimalFood, DescriptionType.useFood,
-			DescriptionType.useFuel, DescriptionType.useMedicines, DescriptionType.useEnvironmentalUse,
-			DescriptionType.useSocialUse, DescriptionType.useWeedImpact};
+	private DescriptionType[] supertypes = { DescriptionType.usePoisons, DescriptionType.useAnimalFood,
+			DescriptionType.useInvertebrateFood, DescriptionType.useFood, DescriptionType.useFuel,
+			DescriptionType.useMedicines, DescriptionType.useEnvironmentalUse, DescriptionType.useSocialUse,
+			DescriptionType.useWeedImpact };
 
 	
 	private String usesByPreposition(){

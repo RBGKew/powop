@@ -17,6 +17,7 @@ var argv = require('yargs').argv;
 */
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
+var sassLib = require("sass");
 
 /*
 * Load all the plugins into the variable $
@@ -24,7 +25,13 @@ var browserSync = require('browser-sync');
 var $ = require('gulp-load-plugins')({
   pattern: '*',
   rename: {
-    'gulp-handlebars': 'ghb'
+    'gulp-handlebars': 'ghb',
+    "gulp-sass": "gsass"
+  },
+  postRequireTransforms: {
+    gsass: function(sass) {
+      return sass(sassLib);
+    }
   }
 });
 

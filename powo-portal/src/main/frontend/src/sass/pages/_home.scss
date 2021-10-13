@@ -11,8 +11,8 @@
     background-size: cover;
     background-position-x: 25%;
     background-position-y: 25%;
-    min-height: 80vh;
     background-repeat: no-repeat;
+    min-height: 80vh;
     @media (max-width: $screen-sm-min) {
       min-height: 120vh;
     }
@@ -74,28 +74,30 @@
   .c-intro {
     display: block;
   }
-  .front-page-container {
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
+  .central {
     padding: 0 16px;
     @media (min-width: $screen-sm-min) {
       padding: 0 100px;
     }
-    .central {
-      flex-direction: column;
-      max-width: 865px;
-      margin: auto;
-      p {
-        padding-bottom: 35px;
-        margin: 0
-      }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    p {
+      padding-bottom: 35px;
+      margin: 0
     }
+  }
+  aside {
+    align-items: center;
+    display: flex;
+    padding-right: 100px;
+    justify-content: flex-end;
     .featured {
       @media (min-width: $screen-sm-min) {
         display: block;
         color: $White;
-        align-self: flex-end;
+        
       }
       display: none;
       a {

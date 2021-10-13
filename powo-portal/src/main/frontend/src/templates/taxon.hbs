@@ -22,7 +22,9 @@
           {{/with}}
         </div>
         {{#with images.headerImage }}
-        <a href="{{fullsizeUrl this}}" class="c-gallery-header" style="background-image: url('{{fullsizeUrl this}}');"></a>
+          <a href="{{ fullsizeUrl this }}" class="c-gallery-header">
+            <img src="{{ fullsizeUrl this }}" alt="{{ this.title }}" />
+          </a>
         {{/with}}
       </div>
     </header>
@@ -122,7 +124,7 @@
               </h3>
               <small>{{bracketedSourceLink source}}</small>
               <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
-                {{#if conceptSource}}<p>{{conceptSource}}</p>{{/if}}
+                {{#if conceptSource}}<p class="descriptions-concept-source">{{conceptSource}}</p>{{/if}}
                 <dl class="c-article-desc-table">
                   {{#each byType}}
                     <dt>

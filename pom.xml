@@ -583,14 +583,28 @@
 				<version>2.2</version>
 				<scope>provided</scope>
 			</dependency>
+			<!--
+			gnu.trove:trove is a dependency of org.gbif:ecat-common. However, the ecat-common POM references a repository that
+			no longer works (as it does not use HTTPS). To fix this, trove is excluded from ecat-common and included as an 
+			explicit dependency.
+			!-->
+			<dependency>
+				<groupId>gnu.trove</groupId>
+				<artifactId>trove</artifactId>
+				<version>2.1.0</version>
+			</dependency>
 			<dependency>
 				<groupId>org.gbif</groupId>
 				<artifactId>ecat-common</artifactId>
 				<version>1.6</version>
 				<exclusions>
 					<exclusion>
-						<artifactId>lucene-analyzers</artifactId>
+						<groupId>gnu.trove</groupId>
+						<artifactId>trove</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.apache.lucene</groupId>
+						<artifactId>lucene-analyzers</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -818,11 +832,11 @@
 		<repository>
 			<id>maven</id>
 			<name>Maven Central Repository</name>
-			<url>http://repo1.maven.org/maven2/</url>
+			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
 		<repository>
 			<id>gbif-all</id>
-			<url>http://repository.gbif.org/content/groups/gbif</url>
+			<url>https://repository.gbif.org/content/groups/gbif</url>
 		</repository>
 		<repository>
 			<id>osgeo</id>
@@ -849,15 +863,6 @@
 		<repository>
 			<id>kew.external</id>
 			<url>http://www.kew.org/bi-downloads/maven</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/libs-milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>

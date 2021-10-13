@@ -189,14 +189,6 @@ public class Annotation extends Base implements Searchable {
 		this.value = value;
 	}
 
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	public void setIdentifier(String newIdentifier) {
-		this.identifier = newIdentifier;
-	}
-
 	@Override
 	public SolrInputDocument toSolrInputDocument(ApplicationContext ctx) {
 		SolrInputDocument sid = new SolrInputDocument();
