@@ -11,16 +11,13 @@
   @include container-fixed;
 
   @media (min-width: $screen-sm-min) {
-    max-width: $container-sm;
+    width: $container-sm;
   }
   @media (min-width: $screen-md-min) {
-    max-width: $container-md;
+    width: $container-md;
   }
   @media (min-width: $screen-lg-min) {
-    max-width: $container-lg;
-  }
-  @media (min-width: $screen-hg-min) {
-    max-width: $container-hg;
+    width: $container-lg;
   }
 }
 
@@ -41,6 +38,16 @@
 
 .row {
   @include make-row;
+}
+
+.row-no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 
 
