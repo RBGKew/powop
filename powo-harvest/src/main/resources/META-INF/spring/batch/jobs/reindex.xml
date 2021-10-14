@@ -15,8 +15,9 @@
   <batch:job id="ReIndex">
     <batch:step id="reIndex">
       <batch:description>Re-index some or all of the database</batch:description>
-      <batch:tasklet task-executor="poolTaskExecutor">
-        <batch:chunk reader="itemReader" writer="itemIndexer" commit-interval="1000" />
+      <!-- <batch:tasklet task-executor="poolTaskExecutor"> -->
+      <batch:tasklet>
+        <batch:chunk reader="jpaItemReader" processor="processor" writer="loggingWriter" commit-interval="1000" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="optimizeIndex"/>
       <batch:listeners>
@@ -80,6 +81,24 @@
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
+
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="packagesToScan" value="org.powo.model" />
+    <property name="jpaVendorAdapter">
+      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+    </property>
+  </bean>
+  
+  <bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader" scope="step">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+    <property name="pageSize" value="1000"></property>
+    <property name="queryString" value="from Taxon t join fetch t.authority"></property>
+  </bean>
+
+  <bean id="processor" class="org.powo.job.TaxonToSolrInputDocumentProcessor" scope="step" />
+
+  <bean id="loggingWriter" class="org.powo.job.LoggingWriter" scope="step" />
 
   <bean id="solrDocumentItemReader" class="org.powo.harvest.common.SolrDocumentItemReader" scope="step">
     <property name="searchableObjectService" ref="searchableObjectServiceImpl" />
