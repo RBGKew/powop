@@ -58,7 +58,7 @@ public class ImageHelper {
 		if(modal) {
 			imgTag = String.format("<a href=\"%s\" title=\"%s\">%s</a>",
 					imageUrl(image, "fullsize"),
-					generateCaption(image, taxon, options).replace('"', '\''),
+					image.getTitle() == null ? "" : image.getTitle().replace('"', '\''),
 					imgTag);
 		}
 
