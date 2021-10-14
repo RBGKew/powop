@@ -20,7 +20,6 @@ public class TaxonToSolrInputDocumentProcessor implements ItemProcessor<Taxon, S
 
   @Override
   public SolrInputDocument process(Taxon item) throws Exception {
-    log.info("processing item {}", item.getId());
     return item.toSolrInputDocument(context);
   }
 }
