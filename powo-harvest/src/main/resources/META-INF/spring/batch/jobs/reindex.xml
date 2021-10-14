@@ -93,7 +93,8 @@
   <bean id="jpaItemReader" class="org.springframework.batch.item.database.JpaPagingItemReader" scope="step">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
     <property name="pageSize" value="1000"></property>
-    <property name="queryString" value="from Taxon t join fetch t.authority"></property>
+    <!-- <property name="queryString" value="from Taxon t join fetch t.authority join fetch t.acceptedNameUsage where t.identifier = 'urn:lsid:indexfungorum.org:names:808884'"></property> -->
+    <property name="queryString" value="from Taxon t join fetch t.authority join fetch t.acceptedNameUsage"></property>
   </bean>
 
   <bean id="processor" class="org.powo.job.TaxonToSolrInputDocumentProcessor" scope="step" />
