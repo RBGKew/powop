@@ -13,7 +13,9 @@ public class LoggingWriter implements ItemWriter<Object> {
 
   @Override
   public void write(List<? extends Object> items) throws Exception {
-    log.info("writing items");
-    items.forEach(i -> log.info("wrote {}", i));
+    log.info("writing {} items", items.size());
+    if (items.size() > 0) {
+      log.info("first item in chunk {}", items.get(0));
+    }
   }
 }
