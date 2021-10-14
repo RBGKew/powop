@@ -17,7 +17,7 @@
       <batch:description>Re-index some or all of the database</batch:description>
       <!-- <batch:tasklet task-executor="poolTaskExecutor"> -->
       <batch:tasklet>
-        <batch:chunk reader="jpaItemReader" processor="processor" writer="loggingWriter" commit-interval="1000" />
+        <batch:chunk reader="jpaItemReader" processor="processor" writer="solrDocumentWriter" commit-interval="1000" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="optimizeIndex"/>
       <batch:listeners>
@@ -97,6 +97,8 @@
   </bean>
 
   <bean id="processor" class="org.powo.job.TaxonToSolrInputDocumentProcessor" scope="step" />
+  
+  <bean id="solrDocumentWriter" class="org.powo.job.SolrDocumentWriter" scope="step" />
 
   <bean id="loggingWriter" class="org.powo.job.LoggingWriter" scope="step" />
 
