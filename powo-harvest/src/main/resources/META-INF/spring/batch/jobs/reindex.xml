@@ -72,6 +72,7 @@
     <property name="saveState" value="false"></property>
     <property name="useStatelessSession" value="true"></property>
     <property name="queryString" value="#{jobParameters['query.string']}" />
+    <property name="pageSize" value="1000"></property>
   </bean>
 
   <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
