@@ -38,3 +38,5 @@ select taxon0_.id, organisati1_.id from Taxon taxon0_ left outer join Organisati
 ```
 
 Rest still same - if this works I am happy with that as a next step. Even if just the first query works I am happy with that.
+
+Both the above queries work WITHOUT out of memory error when running `hibernateTest.xml` job!
