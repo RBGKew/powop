@@ -34,4 +34,22 @@ public class TestController {
     log.info("launched job");
     return Map.of("message", "success");
   }
+
+  @GetMapping("/test-reindex")
+  public Map<String, String> testReindex() throws Exception {
+    log.info("testing job");
+    var job = jobLocator.getJob("ReIndex");
+    log.info("found job {}", job);
+    var params = new JobParametersBuilder()
+      .addDate("runid", new Date())
+      .addString("query.string", "select t.id from Taxon t")
+      .addString("query.type", "org.powo.model.Taxon")
+      .addString("resource.identifier", "reindex")
+      .addString("solr.selectedFacets", "base.class_s=org.powo.model.Taxon")
+      .toJobParameters();
+    log.info("made job params {}", params);
+    jobLauncher.run(job, params);
+    log.info("launched job");
+    return Map.of("message", "success");
+  }
 }
