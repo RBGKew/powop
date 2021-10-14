@@ -1,0 +1,37 @@
+package org.powo.harvest.controller;
+
+import java.util.Date;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.configuration.JobLocator;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TestController {
+  private static final Logger log = LoggerFactory.getLogger(TestController.class);
+  
+  @Autowired
+  private JobLocator jobLocator;
+
+  @Autowired 
+  private JobLauncher jobLauncher;
+
+  @GetMapping("/testjob")
+  public Map<String, String> testJob() throws Exception {
+    log.info("testing job");
+    var job = jobLocator.getJob("hibernateTest");
+    log.info("found job {}", job);
+    var params = new JobParametersBuilder().addDate("runid", new Date()).toJobParameters();
+    log.info("made job params {}", params);
+    jobLauncher.run(job, params);
+    log.info("launched job");
+    return Map.of("message", "success");
+  }
+}
