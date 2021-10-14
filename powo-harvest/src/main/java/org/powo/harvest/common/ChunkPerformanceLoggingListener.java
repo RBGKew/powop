@@ -33,12 +33,12 @@ public class ChunkPerformanceLoggingListener implements ChunkListener, StepExecu
 
 	private Logger logger = LoggerFactory.getLogger(ChunkPerformanceLoggingListener.class);
 
-	private AtomicInteger chunkCount2 = new AtomicInteger(1);
+	private AtomicInteger chunkCount = new AtomicInteger(1);
 	private Map<Integer, Long> chunkTimes = new ConcurrentHashMap<>();
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
-		var chunkTimingId = chunkCount2.getAndIncrement();
+		var chunkTimingId = chunkCount.getAndIncrement();
 		context.setAttribute("chunkTimingId", chunkTimingId);
 		chunkTimes.put(chunkTimingId, System.currentTimeMillis());
 	}
@@ -61,7 +61,7 @@ public class ChunkPerformanceLoggingListener implements ChunkListener, StepExecu
 
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
-		chunkCount2.set(1);
+		chunkCount.set(1);
 		chunkTimes.clear();
 	}
 
