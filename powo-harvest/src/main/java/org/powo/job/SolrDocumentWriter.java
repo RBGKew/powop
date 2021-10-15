@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SolrDocumentWriter implements ItemWriter<SolrInputDocument> {
-  private static final Logger logger = LoggerFactory.getLogger(SolrDocumentWriter.class);
+  private static final Logger log = LoggerFactory.getLogger(SolrDocumentWriter.class);
 
   @Autowired
   private SolrClient solrClient;
@@ -25,15 +25,15 @@ public class SolrDocumentWriter implements ItemWriter<SolrInputDocument> {
     try {
       var updateResponse = solrClient.add((List<SolrInputDocument>) documents);
       if (updateResponse.getStatus() != 0) {
-        logger.error("Exception adding solr documents " + updateResponse.toString());
+        log.error("Exception adding solr documents " + updateResponse.toString());
         updateResponse = solrClient.rollback();
       } else {
         updateResponse = solrClient.commit(true, true);
       }
     } catch (SolrServerException | IOException ex) {
-      logger.error(ex.getLocalizedMessage());
+      log.error(ex.getLocalizedMessage());
       for (var ste : ex.getStackTrace()) {
-        logger.error(ste.toString());
+        log.error(ste.toString());
       }
     }
   }
