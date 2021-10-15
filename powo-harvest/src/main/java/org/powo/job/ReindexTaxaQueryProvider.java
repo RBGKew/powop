@@ -13,8 +13,8 @@ public class ReindexTaxaQueryProvider implements JpaQueryProvider {
 
   @Override
   public Query createQuery() {
-    return entityManager.createQuery("from Taxon t join fetch t.authority left join fetch t.acceptedNameUsage")
-      .setHint(QueryHints.READ_ONLY, true);
+    return entityManager.createQuery("from Taxon t join fetch t.authority left join fetch t.acceptedNameUsage");
+      // .setHint(QueryHints.READ_ONLY, true);
   }
 
   @Override
