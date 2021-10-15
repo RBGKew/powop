@@ -1,7 +1,5 @@
 package org.powo.job;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.solr.common.SolrInputDocument;
 import org.powo.model.Taxon;
 import org.slf4j.Logger;
