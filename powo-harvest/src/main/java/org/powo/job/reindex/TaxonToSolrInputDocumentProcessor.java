@@ -1,4 +1,4 @@
-package org.powo.job;
+package org.powo.job.reindex;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.powo.model.Taxon;

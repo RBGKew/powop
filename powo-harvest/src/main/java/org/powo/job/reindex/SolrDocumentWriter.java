@@ -1,4 +1,4 @@
-package org.powo.job;
+package org.powo.job.reindex;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.powo.job;
+package org.powo.job.reindex;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
