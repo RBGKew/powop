@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
+/**
+ * ItemWriter for use during development and debugging which logs information about items to be written
+ */
 @Component
 public class LoggingWriter implements ItemWriter<Object> {
   private static final Logger log = LoggerFactory.getLogger(LoggingWriter.class);
