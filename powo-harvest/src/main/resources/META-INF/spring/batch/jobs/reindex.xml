@@ -67,20 +67,6 @@
     </batch:listeners>
   </batch:job>
 
-  <bean id="itemReader" class="org.springframework.batch.item.database.HibernatePagingItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="saveState" value="false"></property>
-    <property name="useStatelessSession" value="true"></property>
-    <property name="queryString" value="#{jobParameters['query.string']}" />
-    <property name="pageSize" value="1000"></property>
-  </bean>
-
-  <bean id="itemIndexer" class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="#{jobParameters['query.type']}" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
-  </bean>
-
   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
     <property name="dataSource" ref="dataSource" />
     <property name="packagesToScan" value="org.powo.model" />
