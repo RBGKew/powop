@@ -89,13 +89,6 @@
 
   <bean id="loggingWriter" class="org.powo.job.LoggingWriter" scope="step" />
 
-  <bean id="solrDocumentItemReader" class="org.powo.harvest.common.SolrDocumentItemReader" scope="step">
-    <property name="searchableObjectService" ref="searchableObjectServiceImpl" />
-    <property name="queryString" value="#{jobParameters['solr.query.string']}" />
-    <property name="sort" value="#{jobParameters['solr.sort']}" />
-    <property name="selectedFacets" value="#{jobParameters['solr.selectedFacets']}" />
-  </bean>
-
   <bean id="nameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
     <property name="solrClient" ref="solrClient" />
     <property name="suggester" value="scientific-name" />
