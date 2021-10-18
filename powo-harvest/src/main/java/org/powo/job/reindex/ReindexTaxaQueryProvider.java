@@ -23,9 +23,8 @@ public class ReindexTaxaQueryProvider implements JpaQueryProvider {
   public void setEntityManager(EntityManager entityManager) {
     this.entityManager = entityManager;
 
-    // We set the default behaviour to be read only here because setting it as query hint only applies that read only
-    // behaviour to entities loaded in the query. Because there are lots of entities that are loaded lazily as part of
-    // reindexing we want all entities to be read as read only.
+    // We set the default behaviour to be read only here because setting it as a query hint only to entities in that query.
+    // There are entities which are loaded lazily as part of reindexing which we also want to be read only.
     var session = entityManager.unwrap(Session.class);
     session.setDefaultReadOnly(true);
   }
