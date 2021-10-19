@@ -1,0 +1,31 @@
+<archive xmlns="http://rs.tdwg.org/dwc/text/" metadata="eml.xml">
+  <core encoding="utf8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/dwc/terms/Taxon">
+    <files>
+      <location>taxon_if_species_name.txt</location>
+    </files>
+    <id index="0" />
+    <field index="0" term="http://rs.tdwg.org/dwc/terms/taxonID"/>
+    <field index="1" term="http://purl.org/dc/terms/modified"/>
+    <field index="2" term="http://rs.tdwg.org/dwc/terms/verbatimTaxonRank"/>
+    <field index="3" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
+    <field index="4" term="http://rs.tdwg.org/dwc/terms/family"/>
+    <field index="5" term="http://rs.tdwg.org/dwc/terms/genus"/>
+    <field index="6" term="http://rs.tdwg.org/dwc/terms/specificEpithet"/>
+    <field index="7" term="http://rs.tdwg.org/dwc/terms/scientificNameAuthorship"/>
+    <field index="8" term="http://rs.tdwg.org/dwc/terms/nomenclaturalStatus"/>
+    <field index="9" default="Index Fungorum" term="http://purl.org/dc/terms/rightsHolder"/>
+    <field index="10" term="http://rs.tdwg.org/dwc/terms/namePublishedInYear"/>
+    <field index="11" default="ICBN" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode"/>
+    <field index="12" term="http://purl.org/dc/terms/bibliographicCitation" default="Index Fungorum (2016). Published on the Internet http://www.indexfungorum.org" />
+    <field index="13" default="en" term="http://purl.org/dc/terms/language"/>
+    <field index="14" term="http://rs.tdwg.org/dwc/terms/class"/>
+    <field index="15" term="http://rs.tdwg.org/dwc/terms/order"/>
+    <field index="16" term="http://purl.org/dc/terms/references"/>
+    <field index="17" default="http://creativecommons.org/licenses/by-nc-sa/3.0" term="http://purl.org/dc/terms/license"/>
+    <field index="18" default="© Copyright 2016 Index Fungorum Partnership. All rights reserved." term="http://purl.org/dc/terms/rights"/>
+    <field index="19" term="http://rs.tdwg.org/dwc/terms/namePublishedIn"/>
+    <field index="20" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
+    <field index="21" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
+    <field index="22" term="http://rs.tdwg.org/dwc/terms/phylum"/>
+  </core>
+</archive>
