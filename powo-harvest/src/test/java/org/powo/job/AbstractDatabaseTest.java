@@ -50,6 +50,7 @@ public abstract class AbstractDatabaseTest {
     // the following tables are used to generate sequences of IDs but are not actually a `SEQUENCE`
     // as far as MariaDB is concerned. Dropping them puts the database in an inconsistent state so
     // we keep them
+    "batch_job_seq",
     "batch_job_execution_seq",
     "batch_step_execution_seq",
     "hibernate_sequences"
