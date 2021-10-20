@@ -183,7 +183,7 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	@Override
 	public void afterWrite(List<? extends T> items) {
-		log.info("after write - {} annotations", items.size());
+		log.info("after write - {} annotations", chunkAnnotations.size());
 		chunkAnnotations.forEach(a -> annotationService.save(a));
 		chunkAnnotations = new ArrayList<>();
 	}
