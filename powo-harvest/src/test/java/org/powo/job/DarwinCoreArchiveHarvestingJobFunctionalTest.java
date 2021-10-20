@@ -17,47 +17,83 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ 
-  "/META-INF/spring/applicationContext.xml",
-  "/META-INF/spring/applicationContext-batch.xml",
-  "/META-INF/spring/applicationContext-test.xml",
-  "/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml" 
+	"/META-INF/spring/applicationContext-batch-test.xml",
+	"/META-INF/spring/batch/jobs/darwinCoreArchiveHarvesting.xml" 
 })
-public class DarwinCoreArchiveHarvestingJobFunctionalTest {
-  private static final Logger log = LoggerFactory.getLogger(DarwinCoreArchiveHarvestingJobFunctionalTest.class);
+public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDatabaseTest {
+	private static final Logger log = LoggerFactory.getLogger(DarwinCoreArchiveHarvestingJobFunctionalTest.class);
 
-  @Autowired
-  private JobLauncherTestUtils jobLauncher;
+	@Autowired
+	private JobLauncherTestUtils jobLauncher;
 
-  @Autowired
-  private OrganisationDao organisations;
+	@Autowired
+	private OrganisationDao organisations;
 
-  @Autowired
-  private ResourceDao resources;
+	@Autowired
+	private ResourceDao resources;
 
-  @Test
-  public void importNames() throws Exception {
-    var org = new Organisation();
+	@Test
+	public void importNames() throws Exception {
+		var org = new Organisation();
 		org.setIdentifier("Kew-Names-and-Taxonomic-Backbone");
 		org.setAbbreviation("Kew-Names-and-Taxonomic-Backbone");
 		org.setTitle("Kew Backbone");
-    org = organisations.save(org);
+		org = organisations.save(org);
 
-    var resource = new Resource();
-    resource.setOrganisation(org);
-    resource.setUri("http://storage.googleapis.com/powop-content/backbone/if_species_name.zip");
-    resource.setTitle("Index Fungorum");
-    resource.setIdentifier("IF-Species-Names");
-    resource.setResourceType(ResourceType.DwC_Archive);
-    resource = resources.save(resource);
-    
-    var params = new JobParametersBuilder()
-      .addJobParameters(jobLauncher.getUniqueJobParameters())
-      .addString("authority.name", org.getIdentifier())
-      .addString("authority.uri", resource.getUri())
-      .addString("resource.identifier", resource.getIdentifier())
-      .addString("skip.indexing", "true")
-      .addString("taxon.processing.mode", "IMPORT_NAMES")
-      .toJobParameters();
-    jobLauncher.launchJob(params);
-  }
+		var resource = new Resource();
+		resource.setOrganisation(org);
+		resource.setUri("http://storage.googleapis.com/powop-content/backbone/if_species_name.zip");
+		resource.setTitle("IF-Species-Names");
+		resource.setIdentifier("IF-Species-Names");
+		resource.setResourceType(ResourceType.DwC_Archive);
+		resource = resources.save(resource);
+		
+		var params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", resource.getUri())
+			.addString("resource.identifier", resource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.addString("taxon.processing.mode", "IMPORT_NAMES")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+	}
+
+	
+	@Test
+	public void importNamesAndTaxonomy() throws Exception {
+		var org = new Organisation();
+		org.setIdentifier("CatalogodeHongosUtilesdeColombia");
+		org.setAbbreviation("Kew-Names-and-Taxonomic-Backbone");
+		org.setTitle("Kew Backbone");
+		org = organisations.save(org);
+
+		var resource = new Resource();
+		resource.setOrganisation(org);
+		resource.setUri("https://storage.googleapis.com/powop-content/test-data/20211008_colfungi_names.zip");
+		resource.setTitle("ColFungi-Taxonomy");
+		resource.setIdentifier("ColFungi-Taxonomy");
+		resource.setResourceType(ResourceType.DwC_Archive);
+		resource = resources.save(resource);
+		
+		var params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", resource.getUri())
+			.addString("resource.identifier", resource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.addString("taxon.processing.mode", "IMPORT_NAMES")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+		
+		params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", resource.getUri())
+			.addString("resource.identifier", resource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.addString("taxon.processing.mode", "IMPORT_TAXONOMY")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+	}
 }
