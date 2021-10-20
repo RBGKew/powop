@@ -1,0 +1,51 @@
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+         xmlns:dc="http://purl.org/dc/terms/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.0.2/eml.xsd"
+         packageId="null/v0" system="http://gbif.org" scope="system"
+         xml:lang="en">
+
+<dataset>
+  <title xml:lang="en">ColFungi</title>
+<creator>
+    <individualName>
+      <surName></surName>
+    </individualName>
+    <onlineUrl>http://colfungi.org</onlineUrl>
+</creator>
+<metadataProvider>
+    <individualName>
+      <surName></surName>
+    </individualName>
+</metadataProvider>
+<pubDate>
+      	2021-01-20
+</pubDate>
+<language>en</language>
+<abstract>
+  <para>See &lt;a href=&quot;http://colfungi.org/about&quot;&gt;http://colfungi.org/about&lt;/a&gt;</para>
+</abstract>
+      <keywordSet>
+            <keyword>ColFungi</keyword>
+            <keyword>UPFC</keyword>
+            <keyword>Royal Botanic Gardens, Kew</keyword>
+            <keyword>Instituto Humboldt</keyword>
+        <keywordThesaurus> </keywordThesaurus>
+      </keywordSet>
+  <contact>
+    <individualName>
+      <surName></surName>
+    </individualName>
+  </contact>
+</dataset>
+  <additionalMetadata>
+    <metadata>
+      <gbif>
+          <dateStamp>2021-01-20T08:30:07.240+00:00</dateStamp>
+          <hierarchyLevel>dataset</hierarchyLevel>
+            <citation>ColFungi 2021. Published on the Internet at http://colfungi.org</citation>
+          <resourceLogoUrl>http://colfungi.org/favicon.ico</resourceLogoUrl>
+      </gbif>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>
