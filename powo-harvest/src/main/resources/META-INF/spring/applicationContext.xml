@@ -75,6 +75,7 @@
         hibernate.dialect=${hibernate.dialect}
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
+        hibernate.generate_statistics=false
         hibernate.jdbc.time_zone=UTC
         hibernate.jdbc.batch_size=5000
       </value>
@@ -113,8 +114,7 @@
     <property name="dropFirst" value="${liquibase.drop.database.first}"/>
   </bean>
 
-  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-    destroy-method="close">
+  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
     <property name="driverClassName" value="${jdbc.driver.classname}" />
     <property name="url" value="${jdbc.driver.url}" />
     <property name="username" value="${jdbc.driver.username}" />

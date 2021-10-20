@@ -11,11 +11,15 @@
   </root>
 
   <logger name="org.powo" level="${APP_LOG_LEVEL:-INFO}" />
+  <logger name="org.powo.persistence" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.harvest" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.job" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.model" level="${HARVESTER_LOG_LEVEL:-INFO}" />
+  <!-- Set the following two loggers to level="DEBUG" to see SQL statements and performance -->
   <logger name="org.hibernate.SQL" level="INFO" />
+  <logger name="org.hibernate.stat" level="INFO" />
   <logger name="org.hibernate.orm.deprecation" level="ERROR" />
   <logger name="org.springframework.batch.core.job" level="INFO" />
   <logger name="liquibase" level="ERROR"/>
+  <logger name="liquibase.changelog.ChangeSet" level="INFO"/>
 </configuration>
