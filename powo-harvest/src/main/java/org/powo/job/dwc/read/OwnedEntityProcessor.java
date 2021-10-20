@@ -38,61 +38,61 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 	private HashMap<String, T> boundObjects = new HashMap<String, T>();
 
 	@Override
-	public T doProcess(T t) throws Exception {
+	public T doProcess(T ownedEntity) throws Exception {
 		Taxon taxon = null;
-		if(t.getTaxon() != null) {
-			taxon = super.getTaxonService().find(t.getTaxon().getIdentifier());
-			t.setTaxon(taxon);
+		if(ownedEntity.getTaxon() != null) {
+			taxon = super.getTaxonService().find(ownedEntity.getTaxon().getIdentifier());
+			ownedEntity.setTaxon(taxon);
 		}
 
-		super.checkTaxon(getRecordType(), t, t.getTaxon()); // Ensure taxon is not null
+		super.checkTaxon(getRecordType(), ownedEntity, ownedEntity.getTaxon()); // Ensure taxon is not null
 		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 
-		T bound = lookupBound(t);
+		T bound = lookupBound(ownedEntity);
 		if (bound == null) {
-			doValidate(t);
+			doValidate(ownedEntity);
 
 			T persisted = null;
-			if (t.getIdentifier() != null) {
-				persisted = service.find(t.getIdentifier(), "object-with-annotations");
+			if (ownedEntity.getIdentifier() != null) {
+				persisted = service.find(ownedEntity.getIdentifier(), "object-with-annotations");
 			}
 
 			if (persisted != null) {
-				checkAuthority(getRecordType(), t, persisted.getAuthority());
+				checkAuthority(getRecordType(), ownedEntity, persisted.getAuthority());
 
-				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted
-						.getModified().isBefore(t.getModified()))) {
+				if (skipUnmodified && ((persisted.getModified() != null && ownedEntity.getModified() != null) && !persisted
+						.getModified().isBefore(ownedEntity.getModified()))) {
 					// The content hasn't changed, skip it
-					logger.debug("Skipping " + t);
+					logger.debug("Skipping " + ownedEntity);
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 					return persisted;
 				} else {
-					persisted.setTaxon(t.getTaxon());
-					persisted.setAccessRights(t.getAccessRights());
-					persisted.setCreated(t.getCreated());
-					persisted.setLicense(t.getLicense());
-					persisted.setModified(t.getModified());
-					persisted.setRights(t.getRights());
-					persisted.setRightsHolder(t.getRightsHolder());
-					doUpdate(persisted, t);
-					validate(t);
+					persisted.setTaxon(ownedEntity.getTaxon());
+					persisted.setAccessRights(ownedEntity.getAccessRights());
+					persisted.setCreated(ownedEntity.getCreated());
+					persisted.setLicense(ownedEntity.getLicense());
+					persisted.setModified(ownedEntity.getModified());
+					persisted.setRights(ownedEntity.getRights());
+					persisted.setRightsHolder(ownedEntity.getRightsHolder());
+					doUpdate(persisted, ownedEntity);
+					validate(ownedEntity);
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.debug("Updating " + t);
+					logger.debug("Updating " + ownedEntity);
 					return persisted;
 				}
 			} else {
-				doCreate(t);
-				validate(t);
-				bind(t);
-				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
-				t.setAuthority(getSource());
-				t.setResource(getResource());
-				return t;
+				doCreate(ownedEntity);
+				validate(ownedEntity);
+				bind(ownedEntity);
+				chunkAnnotations.add(createAnnotation(ownedEntity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
+				ownedEntity.setAuthority(getSource());
+				ownedEntity.setResource(getResource());
+				return ownedEntity;
 			}
 		} else {
-			logger.debug("Skipping object " + t.getIdentifier());
+			logger.debug("Skipping object " + ownedEntity.getIdentifier());
 			return null;
 		}
 	}
