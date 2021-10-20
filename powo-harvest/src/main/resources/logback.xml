@@ -9,7 +9,7 @@
   <appender name="sqlFile" class="ch.qos.logback.core.FileAppender">
     <file>/tmp/harvest-sql.log</file>
     <encoder>
-      <pattern>%-5p | %t | %logger{1} | %m%n</pattern>
+      <pattern>%d{ISO8601} | %-5p | %t | %logger{1} | %m%n</pattern>
     </encoder>
   </appender>
 
@@ -21,7 +21,7 @@
   <logger name="org.powo.harvest" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.job" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.model" level="${HARVESTER_LOG_LEVEL:-INFO}" />
-  <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+  <logger name="org.hibernate.SQL" level="DEBUG" additivity="true">
     <appender-ref ref="sqlFile" />
   </logger>
   <logger name="org.hibernate.stat" level="INFO" />
