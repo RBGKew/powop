@@ -247,10 +247,11 @@ public class Taxon extends SearchableObject {
 	}
 
 	/**
-	 * Authorities are aggregated to accepted taxa (see addAuthorityToTaxonAndRelatedTaxa below).
+	 * Authorities are aggregated to accepted taxa (see {@link #addAuthorityToTaxonAndRelatedTaxa(Organisation)} below).
 	 * If this taxon has an accepted name, return those authorities. Otherwise return the current set.
 	 */
 	@Transient
+	@JsonIgnore
 	public Set<Organisation> getAcceptedNameAuthorities() {
 		if (getAcceptedNameUsage() != null) {
 			return getAcceptedNameUsage().getAuthorities();

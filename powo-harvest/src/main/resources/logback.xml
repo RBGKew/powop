@@ -18,6 +18,7 @@
   </root>
 
   <logger name="org.powo" level="${APP_LOG_LEVEL:-INFO}" />
+  <logger name="org.powo.persistence" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.harvest" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.job" level="${HARVESTER_LOG_LEVEL:-INFO}" />
   <logger name="org.powo.model" level="${HARVESTER_LOG_LEVEL:-INFO}" />

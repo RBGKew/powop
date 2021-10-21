@@ -317,10 +317,9 @@ li {
 
     > li > a {
       font-size: 13px;
-      padding: ($navbar-padding-vertical * 2) 0;
+      color: #333;
       @media (min-width: $screen-md-min) {
         font-size: 15px;
-        padding: ($navbar-padding-vertical * 2) ($navbar-padding-horizontal);
       }
     }
   }

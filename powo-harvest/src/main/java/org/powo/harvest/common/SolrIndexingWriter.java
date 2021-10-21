@@ -18,13 +18,15 @@ package org.powo.harvest.common;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.powo.model.Searchable;
 import org.powo.persistence.hibernate.SolrIndexingInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWriter<Long> {
+	private final Logger log = LoggerFactory.getLogger(SolrIndexingWriter.class);
 
 	private Class type;
 
@@ -44,17 +46,14 @@ public class SolrIndexingWriter extends HibernateDaoSupport implements ItemWrite
 		this.solrIndexingInterceptor = solrIndexingInterceptor;
 	}
 
-	public void index(Long identifier, Class type) {
-		Searchable searchable = (Searchable)currentSession().load(type, identifier);
-		solrIndexingInterceptor.indexObject(searchable);
-	}
-
+	@Override
 	public void write(List<? extends Long> identifiers) throws Exception {
-		List<Searchable> searchables = new ArrayList<Searchable>();
-		for (Long l : identifiers) {
-			searchables.add((Searchable)currentSession().load(type, l));
+		var searchables = new ArrayList<Searchable>();
 
+		for (var l : identifiers) {
+			searchables.add((Searchable) currentSession().load(type, l));
 		}
+	
 		solrIndexingInterceptor.indexObjects(searchables);
 	}
 }

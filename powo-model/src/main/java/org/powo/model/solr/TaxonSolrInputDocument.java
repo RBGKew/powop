@@ -34,6 +34,7 @@ import org.springframework.context.ApplicationContext;
 import com.google.common.base.CaseFormat;
 
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
+	private static final Logger log = LoggerFactory.getLogger(TaxonSolrInputDocument.class);
 
 	private static final Pattern fieldPattern = Pattern.compile("taxon.(.*)_(s|s_lower|ss_lower|t|b|i)");
 
@@ -74,12 +75,14 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	}
 
 	public SolrInputDocument build() {
+		log.trace("indexRank");
 		indexRank(Rank.FAMILY, "family");
 		indexRank(Rank.Subfamily, "subfamily");
 		indexRank(Rank.GENUS, "genus");
 		indexRank(Rank.Tribe, "tribe");
 		indexRank(Rank.Subtribe, "subtribe");
 
+		log.trace("indexTaxonData");
 		addField(sid, "taxon.identifier_s", taxon.getIdentifier());
 		addField(sid, "taxon.infraspecific_epithet_s_lower", taxon.getInfraspecificEpithet());
 		addField(sid, "taxon.kingdom_s_lower", taxon.getKingdom());
@@ -98,6 +101,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			addField(sid, "taxon.species_s_lower", taxon.getScientificName());
 		}
 
+		log.trace("indexSynonymNameUsages");
 		if(taxon.getSynonymNameUsages() != null && !taxon.getSynonymNameUsages().isEmpty()) {
 			Set<Taxon> synonymList = taxon.getSynonymNameUsages();
 			for(Taxon synonym : synonymList){
@@ -105,6 +109,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			}
 		}
 
+		log.trace("indexAcceptedNameUsage");
 		if(taxon.getAcceptedNameUsage() != null) {
 			addField(sid, "taxon.accepted.identifier_s", taxon.getAcceptedNameUsage().getIdentifier());
 			addField(sid, "taxon.accepted.scientific_name_s_lower", taxon.getAcceptedNameUsage().getScientificName());
@@ -112,14 +117,27 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 			addField(sid, "taxon.accepted.kingdom_s", taxon.getAcceptedNameUsage().getKingdom());
 		}
 
+		log.trace("indexDescriptions");
 		indexDescriptions();
+
+		log.trace("indexDistributions");
 		indexDistributions();
+
+		log.trace("indexVernacularNames");
 		indexVernacularNames();
+
+		log.trace("indexMeasurementOrFacts");
 		indexMeasurementOrFacts();
+
+		log.trace("indexImages");
 		indexImages();
+
 		addSuggestionWeight();
 		
+		log.trace("indexSources");
 		indexSources();
+
+		log.trace("indexContext");
 		indexContext();
 
 		buildSortField();
