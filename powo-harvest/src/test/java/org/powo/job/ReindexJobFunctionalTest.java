@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
   "/META-INF/spring/applicationContext-test.xml",
   "/META-INF/spring/batch/jobs/reindex.xml" 
 })
-public class ReindexJobFunctionalTest {
+public class ReindexJobFunctionalTest extends AbstractDatabaseTest {
   @Autowired
   private JobLauncherTestUtils jobLauncher;
 
@@ -23,8 +23,6 @@ public class ReindexJobFunctionalTest {
   public void loads() throws Exception {
     var params = new JobParametersBuilder()
     .addJobParameters(jobLauncher.getUniqueJobParameters())
-    .addString("query.string", "select t.id from Taxon t")
-    .addString("query.type", "org.powo.model.Taxon")
     .toJobParameters();
     jobLauncher.launchJob(params);
   }
