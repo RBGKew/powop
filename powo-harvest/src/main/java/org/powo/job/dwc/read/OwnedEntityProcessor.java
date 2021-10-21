@@ -45,7 +45,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 			ownedEntity.setTaxon(taxon);
 		}
 
-		super.checkTaxon(getRecordType(), ownedEntity, ownedEntity.getTaxon()); // Ensure taxon is not null
+		super.assertTaxonExists(getRecordType(), ownedEntity, ownedEntity.getTaxon()); // Ensure taxon is not null
 		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 
 		T bound = lookupBound(ownedEntity);

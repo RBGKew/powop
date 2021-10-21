@@ -93,8 +93,8 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 		}
 	}
 
-	protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
-		if(taxon == null) {
+	protected void assertTaxonExists(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
+		if (taxon == null) {
 			throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
 		}
 	}

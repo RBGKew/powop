@@ -62,7 +62,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 
 			((NonOwned)t).getTaxa().clear();
 			((NonOwned)t).getTaxa().add(taxon);
-			super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
+			super.assertTaxonExists(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
 		}
 		if (taxon != null) {
 			taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
