@@ -25,15 +25,13 @@ import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
-public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extends Service<T>> extends DarwinCoreProcessor<T>
-	implements ChunkListener {
+public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService extends Service<T>> extends DarwinCoreProcessor<T> {
 
 	private Logger logger = LoggerFactory.getLogger(OwnedEntityProcessor.class);
 
-	protected SERVICE service;
+	protected TService service;
 
 	private HashMap<String, T> boundObjects = new HashMap<String, T>();
 
