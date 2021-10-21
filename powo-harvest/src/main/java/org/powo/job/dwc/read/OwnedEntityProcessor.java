@@ -19,7 +19,6 @@ package org.powo.job.dwc.read;
 import java.util.HashMap;
 import org.powo.api.Service;
 import org.powo.model.OwnedEntity;
-import org.powo.model.Taxon;
 import org.powo.model.constants.AnnotationCode;
 import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
@@ -37,11 +36,14 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 
 	@Override
 	public T doProcess(T ownedEntity) throws Exception {
-		assertTaxonExists(getRecordType(), ownedEntity, ownedEntity.getTaxon());
+		var taxon = getTaxonService().find(ownedEntity.getTaxon().getIdentifier());
+		assertTaxonExists(getRecordType(), ownedEntity, taxon);
 
-		ownedEntity.getTaxon().addAuthorityToTaxonAndRelatedTaxa(getSource());
+		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
+		
+		ownedEntity.setTaxon(taxon);
 
-		T bound = lookupBound(ownedEntity);
+		var bound = lookupBound(ownedEntity);
 		if (bound == null) {
 			doValidate(ownedEntity);
 

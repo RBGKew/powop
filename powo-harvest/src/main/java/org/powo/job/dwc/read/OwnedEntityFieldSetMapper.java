@@ -56,7 +56,8 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
 			switch (dwcTerm) {
 			case taxonID:
 				if (value != null && !value.isEmpty()) {
-					var taxon = taxonService.find(value);
+					var taxon = new Taxon();
+					taxon.setIdentifier(value);
 					object.setTaxon(taxon);
 				}
 				break;
