@@ -18,6 +18,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+/**
+ * Extend this class to run integration tests which have the database cleared before each run. Differs
+ * from {@link AbstractPersistenceTest} in that it does not provide explicit hooks for setup or helper
+ * methods.
+ * 
+ * When you extend this class database setup occurs as follows:
+ * 
+ * 1 - Application starts up
+ * 2 - Liquibase migrations run
+ * 3 - Existing rows in all tables are deleted 
+ * 4 - Your test method runs 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ 
 	"/META-INF/spring/applicationContext.xml",
@@ -44,7 +56,7 @@ public abstract class AbstractDatabaseTest {
 	}
 
 	private static final Set<String> blacklist = Set.of(
-		// we keep the Liquibase tables so we don't need to migrate every time
+		// we keep the Liquibase tables so we don't need to migrate every time we run a test
 		"databasechangelog", 
 		"databasechangeloglock",
 		// the following tables are used to generate sequences of IDs but are not actually a `SEQUENCE`
