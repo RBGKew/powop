@@ -82,8 +82,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private Resource resource;
 
-	private int chunkCount = 0;
-
 	@Autowired
 	public void setValidator(Validator validator) {
 		this.validator = validator;
