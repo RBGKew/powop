@@ -87,9 +87,14 @@ public class RecordAnnotator implements StepExecutionListener, Tasklet {
 
 		var created = jdbcTemplate.update(queryString, queryParameters);
 
-		if (created > 0) {
-			logger.debug("Marked {} annotations for {}", created, queryParameters);
-		}
+		logger.info(
+			"Checking existing {} records for jobId={} authorityId={} resourceId={}", 
+		 	queryParameters.get("annotatedObjType"), 
+		 	queryParameters.get("jobId"), 
+		 	queryParameters.get("authorityId"), 
+		 	queryParameters.get("resourceId") 
+		);
+		logger.info("Created {} annotations existing {} records", created, queryParameters.get("annotatedObjType"));
 
 		return RepeatStatus.FINISHED;
 	}
