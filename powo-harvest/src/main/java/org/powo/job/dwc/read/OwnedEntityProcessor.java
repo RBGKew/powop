@@ -39,14 +39,9 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 
 	@Override
 	public T doProcess(T ownedEntity) throws Exception {
-		Taxon taxon = null;
-		if(ownedEntity.getTaxon() != null) {
-			taxon = super.getTaxonService().find(ownedEntity.getTaxon().getIdentifier());
-			ownedEntity.setTaxon(taxon);
-		}
+		assertTaxonExists(getRecordType(), ownedEntity, ownedEntity.getTaxon());
 
-		super.assertTaxonExists(getRecordType(), ownedEntity, ownedEntity.getTaxon()); // Ensure taxon is not null
-		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
+		ownedEntity.getTaxon().addAuthorityToTaxonAndRelatedTaxa(getSource());
 
 		T bound = lookupBound(ownedEntity);
 		if (bound == null) {
