@@ -17,4 +17,9 @@
   <changeSet id="2021-08-27_2" author="jds10kg">
     <addUniqueConstraint columnNames="taxon_id, organisation_id" constraintName="taxon_organisation_unique_idx" tableName="taxon_organisation"/>
   </changeSet>
+  <changeSet id="2021-10-21_1" author="mst10kg">
+    <createIndex tableName="resource" indexName="Resource_identifier_IDX" unique="true">
+      <column name="identifier" />
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>
