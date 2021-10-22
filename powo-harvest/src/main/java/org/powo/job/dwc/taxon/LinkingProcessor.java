@@ -33,8 +33,6 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 
 	private TaxonService taxonService;
 
-	private Taxon persistedTaxon;
-
 	@Autowired
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
@@ -45,12 +43,12 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		if (taxon.getIdentifier() == null || taxon.getIdentifier().isEmpty()) {
 			throw new NoIdentifierException(taxon);
 		}
-		persistedTaxon = taxonService.find(taxon.getIdentifier());
+		var persistedTaxon = taxonService.find(taxon.getIdentifier());
 
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
 		} else {
-			linkRecords(taxon);
+			linkRecords(taxon, persistedTaxon);
 			persistedTaxon.setCreated(taxon.getCreated());
 			persistedTaxon.setModified(taxon.getModified());
 			persistedTaxon.setTaxonomicStatus(taxon.getTaxonomicStatus());
@@ -64,7 +62,7 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		return persistedTaxon;
 	}
 
-	private Taxon linkRecords(Taxon taxon) throws Exception {
+	private Taxon linkRecords(Taxon taxon, Taxon persistedTaxon) throws Exception {
 		if (taxon.getParentNameUsage() != null) {
 			logger.debug("setting {} as a child of {}",  taxon.getIdentifier(), taxon.getParentNameUsage().getIdentifier());
 			persistedTaxon.setParentNameUsage(taxonService.find(taxon.getParentNameUsage().getIdentifier()));
