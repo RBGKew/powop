@@ -56,15 +56,11 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
 			switch (dwcTerm) {
 			case taxonID:
 				if (value != null && !value.isEmpty()) {
-					Taxon taxon = taxonService.find(value);
-					if (taxon == null) {
-						logger.error("Cannot find record " + value);
-						throw new CannotFindRecordException(value,value);
-					} else {
-						taxon = new Taxon();
-						taxon.setIdentifier(value);
-						((NonOwned)object).getTaxa().add(taxon);
-					}
+					// we basically want to pass through the identifier to the processor so it can manage data loading
+					var taxon = new Taxon();
+					taxon.setIdentifier(value);
+					var nonOwnedEntity = (NonOwned) object;
+					nonOwnedEntity.getTaxa().add(taxon);
 				}
 				break;
 			default:

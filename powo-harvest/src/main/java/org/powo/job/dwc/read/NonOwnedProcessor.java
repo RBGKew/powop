@@ -33,63 +33,60 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
+public abstract class NonOwnedProcessor<T extends BaseData, TService extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
 	private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
 
 	protected Map<String, T> boundObjects = new HashMap<String, T>();
 
-	protected SERVICE service;
+	protected TService service;
 
 	@Autowired
 	private TaxonPersistedService taxonService;
 
 	/**
-	 * @param nonOwnedEntity an object
+	 * @param entity an object
 	 * @throws Exception if something goes wrong
 	 * @return T an object
 	 */
-	public final T doProcess(final T nonOwnedEntity)
-			throws Exception {
-		logger.debug("Validating " + nonOwnedEntity.getIdentifier());
+	public final T doProcess(final T entity) throws Exception {
+		logger.debug("Validating " + entity.getIdentifier());
 
-		if(doFilter(nonOwnedEntity)) {
+		if (doFilter(entity)) {
 			return null;
 		}
 
-		Taxon taxon = null;
-		if(!((NonOwned)nonOwnedEntity).getTaxa().isEmpty()) {
-			taxon = taxonService.find(((NonOwned)nonOwnedEntity).getTaxa().iterator().next().getIdentifier());
+		var nonOwnedEntity = (NonOwned) entity;
 
-			((NonOwned)nonOwnedEntity).getTaxa().clear();
-			((NonOwned)nonOwnedEntity).getTaxa().add(taxon);
-			super.assertTaxonExists(getRecordType(), nonOwnedEntity, ((NonOwned)nonOwnedEntity).getTaxa().iterator().next());
-		}
-		if (taxon != null) {
-			taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
-		}
+		var taxonIdentifier = nonOwnedEntity.getTaxa().iterator().next().getIdentifier();
+		var taxon = taxonService.find(taxonIdentifier);
+		assertTaxonExists(getRecordType(), entity, taxon);
+		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
+
+		nonOwnedEntity.getTaxa().clear();
+		nonOwnedEntity.getTaxa().add(taxon);
 
 		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
-		T bound = lookupBound(nonOwnedEntity);
+		T bound = lookupBound(entity);
 		if (bound == null) {
 			T persisted = null;
-			if(nonOwnedEntity.getIdentifier() != null) {
-				persisted = retrieveBound(nonOwnedEntity);
+			if(entity.getIdentifier() != null) {
+				persisted = retrieveBound(entity);
 			}
 
 			if (persisted == null) {
-				doPersist(nonOwnedEntity);
-				validate(nonOwnedEntity);
-				bind(nonOwnedEntity);
-				nonOwnedEntity.setAuthority(getSource());
-				nonOwnedEntity.setResource(getResource());
-				chunkAnnotations.add(createAnnotation(nonOwnedEntity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
-				logger.debug("Adding object " + nonOwnedEntity.getIdentifier());
-				return nonOwnedEntity;
+				doPersist(entity);
+				validate(entity);
+				bind(entity);
+				entity.setAuthority(getSource());
+				entity.setResource(getResource());
+				chunkAnnotations.add(createAnnotation(entity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
+				logger.debug("Adding object " + entity.getIdentifier());
+				return entity;
 			} else {
-				checkAuthority(getRecordType(), nonOwnedEntity, persisted.getAuthority());
+				checkAuthority(getRecordType(), entity, persisted.getAuthority());
 				// We've seen this object before, but not in this chunk
-				if (skipUnmodified && ((persisted.getModified() != null && nonOwnedEntity.getModified() != null)
-						&& !persisted.getModified().isBefore(nonOwnedEntity.getModified()))) {
+				if (skipUnmodified && ((persisted.getModified() != null && entity.getModified() != null)
+						&& !persisted.getModified().isBefore(entity.getModified()))) {
 					// Assume the object hasn't changed, but maybe this taxon
 					// should be associated with it
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
@@ -99,7 +96,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 						} else {
 							// Add the taxon to the list of taxa
 							bind(persisted);
-							logger.debug("Updating object " + nonOwnedEntity.getIdentifier());
+							logger.debug("Updating object " + entity.getIdentifier());
 							((NonOwned)persisted).getTaxa().add(taxon);
 						}
 					}
@@ -109,22 +106,22 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 					// appears in the result set, and we'll use this version to
 					// overwrite the existing object
 
-					persisted.setAccessRights(nonOwnedEntity.getAccessRights());
-					persisted.setCreated(nonOwnedEntity.getCreated());
-					persisted.setLicense(nonOwnedEntity.getLicense());
-					persisted.setModified(nonOwnedEntity.getModified());
-					persisted.setRights(nonOwnedEntity.getRights());
-					persisted.setRightsHolder(nonOwnedEntity.getRightsHolder());
-					doUpdate(persisted, nonOwnedEntity);
+					persisted.setAccessRights(entity.getAccessRights());
+					persisted.setCreated(entity.getCreated());
+					persisted.setLicense(entity.getLicense());
+					persisted.setModified(entity.getModified());
+					persisted.setRights(entity.getRights());
+					persisted.setRightsHolder(entity.getRightsHolder());
+					doUpdate(persisted, entity);
 
 					if(taxon != null) {
 						((NonOwned)persisted).getTaxa().add(taxon);
 					}
-					validate(nonOwnedEntity);
+					validate(entity);
 
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.debug("Overwriting object " + nonOwnedEntity.getIdentifier());
+					logger.debug("Overwriting object " + entity.getIdentifier());
 					return persisted;
 				}
 			}
@@ -136,7 +133,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				((NonOwned)bound).getTaxa().add(taxon);
 			}
 			// We've already returned this object once
-			logger.debug("Skipping object " + nonOwnedEntity.getIdentifier());
+			logger.debug("Skipping object " + entity.getIdentifier());
 			return null;
 		}
 	}
