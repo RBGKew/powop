@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * These tests act as a convenient way to run jobs and debug how they work, starting from a fresh database.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ 
 	"/META-INF/spring/applicationContext-batch-test.xml",
@@ -136,6 +139,50 @@ public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDataba
 			.addString("authority.name", org.getIdentifier())
 			.addString("authority.uri", distributionsResource.getUri())
 			.addString("resource.identifier", distributionsResource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+	}
+
+	@Test
+	public void importNamesAndImages() throws Exception {
+		var org = new Organisation();
+		org.setIdentifier("CatalogodeHongosUtilesdeColombia");
+		org.setAbbreviation("Kew-Names-and-Taxonomic-Backbone");
+		org.setTitle("Kew Backbone");
+		org = organisations.save(org);
+
+		var namesResource = new Resource();
+		namesResource.setOrganisation(org);
+		namesResource.setUri("https://storage.googleapis.com/powop-content/test-data/20211022_colfungi_names_1.zip");
+		namesResource.setTitle("ColFungi-Names");
+		namesResource.setIdentifier("ColFungi-Names");
+		namesResource.setResourceType(ResourceType.DwC_Archive);
+		namesResource = resources.save(namesResource);
+
+		var params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", namesResource.getUri())
+			.addString("resource.identifier", namesResource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.addString("taxon.processing.mode", "IMPORT_NAMES")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+		
+		var imagesResource = new Resource();
+		imagesResource.setOrganisation(org);
+		imagesResource.setUri("https://storage.googleapis.com/powop-content/test-data/colfungi_images_safe_1.zip");
+		imagesResource.setTitle("ColFungi-Images");
+		imagesResource.setIdentifier("ColFungi-Images");
+		imagesResource.setResourceType(ResourceType.DwC_Archive);
+		imagesResource = resources.save(imagesResource);
+
+		params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", imagesResource.getUri())
+			.addString("resource.identifier", imagesResource.getIdentifier())
 			.addString("skip.indexing", "true")
 			.toJobParameters();
 		jobLauncher.launchJob(params);
