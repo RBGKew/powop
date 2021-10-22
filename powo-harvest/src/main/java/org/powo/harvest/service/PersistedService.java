@@ -2,6 +2,7 @@ package org.powo.harvest.service;
 
 import org.hibernate.FlushMode;
 import org.hibernate.SessionFactory;
+import org.powo.model.Base;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -17,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * b) The entity is being managed by an application level cache (e.g. Reference in reference.Processor)
  *
  */
-public class PersistedService<T> {
+public class PersistedService<T extends Base> {
 
   @Autowired
   private SessionFactory sessionFactory;
