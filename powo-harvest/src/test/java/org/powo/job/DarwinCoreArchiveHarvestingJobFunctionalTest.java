@@ -70,7 +70,7 @@ public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDataba
 
 		var resource = new Resource();
 		resource.setOrganisation(org);
-		resource.setUri("https://storage.googleapis.com/powop-content/test-data/20211008_colfungi_names.zip");
+		resource.setUri("https://storage.googleapis.com/powop-content/test-data/20211022_colfungi_names_1.zip");
 		resource.setTitle("ColFungi-Taxonomy");
 		resource.setIdentifier("ColFungi-Taxonomy");
 		resource.setResourceType(ResourceType.DwC_Archive);
@@ -97,7 +97,6 @@ public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDataba
 		jobLauncher.launchJob(params);
 	}
 
-	
 	@Test
 	public void importNamesAndDistributions() throws Exception {
 		var org = new Organisation();
@@ -108,7 +107,7 @@ public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDataba
 
 		var namesResource = new Resource();
 		namesResource.setOrganisation(org);
-		namesResource.setUri("https://storage.googleapis.com/powop-content/test-data/20211008_colfungi_names.zip");
+		namesResource.setUri("https://storage.googleapis.com/powop-content/test-data/20211022_colfungi_names_1.zip");
 		namesResource.setTitle("ColFungi-Names");
 		namesResource.setIdentifier("ColFungi-Names");
 		namesResource.setResourceType(ResourceType.DwC_Archive);
@@ -126,7 +125,7 @@ public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDataba
 		
 		var distributionsResource = new Resource();
 		distributionsResource.setOrganisation(org);
-		distributionsResource.setUri("https://storage.googleapis.com/powop-content/colfungi/colfungi_distribution.zip");
+		distributionsResource.setUri("https://storage.googleapis.com/powop-content/test-data/colfungi_distribution_safe_1.zip");
 		distributionsResource.setTitle("ColFungi-Distributions");
 		distributionsResource.setIdentifier("ColFungi-Distributions");
 		distributionsResource.setResourceType(ResourceType.DwC_Archive);
