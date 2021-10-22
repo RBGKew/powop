@@ -55,15 +55,9 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 			return null;
 		}
 
-		var nonOwnedEntity = (NonOwned) entity;
+		var taxon = loadTaxonFromTaxonIdentifier(entity);
 
-		var taxonIdentifier = nonOwnedEntity.getTaxa().iterator().next().getIdentifier();
-		var taxon = taxonService.find(taxonIdentifier);
-		assertTaxonExists(getRecordType(), entity, taxon);
 		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
-
-		nonOwnedEntity.getTaxa().clear();
-		nonOwnedEntity.getTaxa().add(taxon);
 
 		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
 		T bound = lookupBound(entity);
@@ -136,6 +130,27 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 			logger.debug("Skipping object " + entity.getIdentifier());
 			return null;
 		}
+	}
+
+	/**
+	 * The entity received from the {@link NonOwnedFieldSetMapper} has a dummy taxon containing just
+	 * the identifier of the taxon. This method loads that identifier from the database and updates
+	 * the entity so it relates the loaded taxon.
+	 * 
+	 * @throws RequiredFieldException if the taxon is not found in the database
+	 */
+	private Taxon loadTaxonFromTaxonIdentifier(T entity) {
+		var nonOwnedEntity = (NonOwned) entity;
+
+		var taxonIdentifier = nonOwnedEntity.getTaxa().iterator().next().getIdentifier();
+		var taxon = taxonService.find(taxonIdentifier);
+
+		assertTaxonExists(getRecordType(), entity, taxon);
+
+		nonOwnedEntity.getTaxa().clear();
+		nonOwnedEntity.getTaxa().add(taxon);
+
+		return taxon;
 	}
 
 	protected abstract boolean doFilter(T t);
