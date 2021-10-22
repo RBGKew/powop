@@ -96,4 +96,49 @@ public class DarwinCoreArchiveHarvestingJobFunctionalTest extends AbstractDataba
 			.toJobParameters();
 		jobLauncher.launchJob(params);
 	}
+
+	
+	@Test
+	public void importNamesAndDistributions() throws Exception {
+		var org = new Organisation();
+		org.setIdentifier("CatalogodeHongosUtilesdeColombia");
+		org.setAbbreviation("Kew-Names-and-Taxonomic-Backbone");
+		org.setTitle("Kew Backbone");
+		org = organisations.save(org);
+
+		var namesResource = new Resource();
+		namesResource.setOrganisation(org);
+		namesResource.setUri("https://storage.googleapis.com/powop-content/test-data/20211008_colfungi_names.zip");
+		namesResource.setTitle("ColFungi-Names");
+		namesResource.setIdentifier("ColFungi-Names");
+		namesResource.setResourceType(ResourceType.DwC_Archive);
+		namesResource = resources.save(namesResource);
+
+		var params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", namesResource.getUri())
+			.addString("resource.identifier", namesResource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.addString("taxon.processing.mode", "IMPORT_NAMES")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+		
+		var distributionsResource = new Resource();
+		distributionsResource.setOrganisation(org);
+		distributionsResource.setUri("https://storage.googleapis.com/powop-content/colfungi/colfungi_distribution.zip");
+		distributionsResource.setTitle("ColFungi-Distributions");
+		distributionsResource.setIdentifier("ColFungi-Distributions");
+		distributionsResource.setResourceType(ResourceType.DwC_Archive);
+		distributionsResource = resources.save(distributionsResource);
+
+		params = new JobParametersBuilder()
+			.addJobParameters(jobLauncher.getUniqueJobParameters())
+			.addString("authority.name", org.getIdentifier())
+			.addString("authority.uri", distributionsResource.getUri())
+			.addString("resource.identifier", distributionsResource.getIdentifier())
+			.addString("skip.indexing", "true")
+			.toJobParameters();
+		jobLauncher.launchJob(params);
+	}
 }
