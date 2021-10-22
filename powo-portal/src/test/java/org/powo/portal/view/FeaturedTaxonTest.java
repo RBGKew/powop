@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
+import org.gbif.ecat.voc.Rank;
 import org.junit.Test;
 import org.powo.model.Description;
 import org.powo.model.Image;
@@ -50,8 +51,9 @@ public class FeaturedTaxonTest {
     featuredTaxon.setTaxon(taxon);
 
     // Test auto-generated Summary
+    taxon.setTaxonRank(Rank.SPECIES);
     taxon.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		assertEquals("This plant is accepted.", featuredTaxon.getSummary());
+		assertEquals("This species is accepted.", featuredTaxon.getSummary());
 
     // Test curated Summary
     var summaryDescription = new Description();
