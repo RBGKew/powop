@@ -44,52 +44,52 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 	private TaxonPersistedService taxonService;
 
 	/**
-	 * @param t an object
+	 * @param nonOwnedEntity an object
 	 * @throws Exception if something goes wrong
 	 * @return T an object
 	 */
-	public final T doProcess(final T t)
+	public final T doProcess(final T nonOwnedEntity)
 			throws Exception {
-		logger.debug("Validating " + t.getIdentifier());
+		logger.debug("Validating " + nonOwnedEntity.getIdentifier());
 
-		if(doFilter(t)) {
+		if(doFilter(nonOwnedEntity)) {
 			return null;
 		}
 
 		Taxon taxon = null;
-		if(!((NonOwned)t).getTaxa().isEmpty()) {
-			taxon = taxonService.find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
+		if(!((NonOwned)nonOwnedEntity).getTaxa().isEmpty()) {
+			taxon = taxonService.find(((NonOwned)nonOwnedEntity).getTaxa().iterator().next().getIdentifier());
 
-			((NonOwned)t).getTaxa().clear();
-			((NonOwned)t).getTaxa().add(taxon);
-			super.assertTaxonExists(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
+			((NonOwned)nonOwnedEntity).getTaxa().clear();
+			((NonOwned)nonOwnedEntity).getTaxa().add(taxon);
+			super.assertTaxonExists(getRecordType(), nonOwnedEntity, ((NonOwned)nonOwnedEntity).getTaxa().iterator().next());
 		}
 		if (taxon != null) {
 			taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 		}
 
 		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
-		T bound = lookupBound(t);
+		T bound = lookupBound(nonOwnedEntity);
 		if (bound == null) {
 			T persisted = null;
-			if(t.getIdentifier() != null) {
-				persisted = retrieveBound(t);
+			if(nonOwnedEntity.getIdentifier() != null) {
+				persisted = retrieveBound(nonOwnedEntity);
 			}
 
 			if (persisted == null) {
-				doPersist(t);
-				validate(t);
-				bind(t);
-				t.setAuthority(getSource());
-				t.setResource(getResource());
-				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
-				logger.debug("Adding object " + t.getIdentifier());
-				return t;
+				doPersist(nonOwnedEntity);
+				validate(nonOwnedEntity);
+				bind(nonOwnedEntity);
+				nonOwnedEntity.setAuthority(getSource());
+				nonOwnedEntity.setResource(getResource());
+				chunkAnnotations.add(createAnnotation(nonOwnedEntity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
+				logger.debug("Adding object " + nonOwnedEntity.getIdentifier());
+				return nonOwnedEntity;
 			} else {
-				checkAuthority(getRecordType(), t, persisted.getAuthority());
+				checkAuthority(getRecordType(), nonOwnedEntity, persisted.getAuthority());
 				// We've seen this object before, but not in this chunk
-				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null)
-						&& !persisted.getModified().isBefore(t.getModified()))) {
+				if (skipUnmodified && ((persisted.getModified() != null && nonOwnedEntity.getModified() != null)
+						&& !persisted.getModified().isBefore(nonOwnedEntity.getModified()))) {
 					// Assume the object hasn't changed, but maybe this taxon
 					// should be associated with it
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
@@ -99,7 +99,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 						} else {
 							// Add the taxon to the list of taxa
 							bind(persisted);
-							logger.debug("Updating object " + t.getIdentifier());
+							logger.debug("Updating object " + nonOwnedEntity.getIdentifier());
 							((NonOwned)persisted).getTaxa().add(taxon);
 						}
 					}
@@ -109,22 +109,22 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 					// appears in the result set, and we'll use this version to
 					// overwrite the existing object
 
-					persisted.setAccessRights(t.getAccessRights());
-					persisted.setCreated(t.getCreated());
-					persisted.setLicense(t.getLicense());
-					persisted.setModified(t.getModified());
-					persisted.setRights(t.getRights());
-					persisted.setRightsHolder(t.getRightsHolder());
-					doUpdate(persisted, t);
+					persisted.setAccessRights(nonOwnedEntity.getAccessRights());
+					persisted.setCreated(nonOwnedEntity.getCreated());
+					persisted.setLicense(nonOwnedEntity.getLicense());
+					persisted.setModified(nonOwnedEntity.getModified());
+					persisted.setRights(nonOwnedEntity.getRights());
+					persisted.setRightsHolder(nonOwnedEntity.getRightsHolder());
+					doUpdate(persisted, nonOwnedEntity);
 
 					if(taxon != null) {
 						((NonOwned)persisted).getTaxa().add(taxon);
 					}
-					validate(t);
+					validate(nonOwnedEntity);
 
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.debug("Overwriting object " + t.getIdentifier());
+					logger.debug("Overwriting object " + nonOwnedEntity.getIdentifier());
 					return persisted;
 				}
 			}
@@ -136,7 +136,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				((NonOwned)bound).getTaxa().add(taxon);
 			}
 			// We've already returned this object once
-			logger.debug("Skipping object " + t.getIdentifier());
+			logger.debug("Skipping object " + nonOwnedEntity.getIdentifier());
 			return null;
 		}
 	}
