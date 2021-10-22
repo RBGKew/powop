@@ -31,6 +31,9 @@ public class Summary {
 		if (taxon.getTaxonRank() != null) {
 			return taxon.getTaxonRank().toString().toLowerCase();
 		}
+		if (taxon.getKingdom() != null && !taxon.getKingdom().equals("")) {
+			return taxon.getKingdom().toLowerCase();
+		}
 		return "plant";
 	}
 
