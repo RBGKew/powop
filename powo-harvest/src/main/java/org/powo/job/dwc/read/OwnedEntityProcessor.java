@@ -18,7 +18,9 @@ package org.powo.job.dwc.read;
 
 import java.util.HashMap;
 import org.powo.api.Service;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.model.OwnedEntity;
+import org.powo.model.Taxon;
 import org.powo.model.constants.AnnotationCode;
 import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
@@ -36,12 +38,8 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 
 	@Override
 	public T doProcess(T ownedEntity) throws Exception {
-		var taxon = getTaxonService().find(ownedEntity.getTaxon().getIdentifier());
-		assertTaxonExists(getRecordType(), ownedEntity, taxon);
-
+		var taxon = loadTaxonFromTaxonIdentifier(ownedEntity);
 		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
-		
-		ownedEntity.setTaxon(taxon);
 
 		var bound = lookupBound(ownedEntity);
 		if (bound == null) {
@@ -121,4 +119,25 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }
+
+	
+	/**
+	 * The entity received from the {@link OwnedEntityFieldSetMapper} has a dummy {@link Taxon} containing just
+	 * the identifier. This method loads that identifier from the database and updates the entity so it relates
+	 * the loaded taxon.
+	 * 
+	 * @throws CannotFindRecordException if the taxon is not found in the database
+	 */
+	private Taxon loadTaxonFromTaxonIdentifier(T ownedEntity) {
+		var taxonIdentifier = ownedEntity.getTaxon().getIdentifier();
+		var taxon = getTaxonService().find(taxonIdentifier);
+
+		if (taxon == null) {
+			throw new CannotFindRecordException(taxonIdentifier, "<unknown>");
+		}
+
+		ownedEntity.setTaxon(taxon);
+
+		return taxon;
+	}
 }

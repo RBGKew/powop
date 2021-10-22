@@ -28,6 +28,7 @@ import org.powo.api.ResourceService;
 import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.DarwinCoreProcessingException;
 import org.powo.job.dwc.exception.InvalidValuesException;
 import org.powo.job.dwc.exception.RequiredFieldException;
@@ -90,12 +91,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	public void setSkipUnmodified(Boolean skipUnmodified) {
 		if(skipUnmodified != null) {
 			this.skipUnmodified = skipUnmodified;
-		}
-	}
-
-	protected void assertTaxonExists(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
-		if (taxon == null) {
-			throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
 		}
 	}
 

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.powo.api.Service;
 import org.powo.harvest.service.TaxonPersistedService;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -56,7 +57,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 		}
 
 		var taxon = loadTaxonFromTaxonIdentifier(entity);
-
 		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 
 		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
@@ -133,11 +133,11 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 	}
 
 	/**
-	 * The entity received from the {@link NonOwnedFieldSetMapper} has a dummy taxon containing just
-	 * the identifier of the taxon. This method loads that identifier from the database and updates
-	 * the entity so it relates the loaded taxon.
+	 * The entity received from the {@link NonOwnedFieldSetMapper} has a Set<Taxon> containing one dummy {@link Taxon}
+	 * which just has an identifier. This method loads that identifier from the database and updates the entity 
+	 * so it relates the loaded taxon.
 	 * 
-	 * @throws RequiredFieldException if the taxon is not found in the database
+	 * @throws CannotFindRecordException if the taxon is not found in the database
 	 */
 	private Taxon loadTaxonFromTaxonIdentifier(T entity) {
 		var nonOwnedEntity = (NonOwned) entity;
@@ -145,7 +145,9 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 		var taxonIdentifier = nonOwnedEntity.getTaxa().iterator().next().getIdentifier();
 		var taxon = taxonService.find(taxonIdentifier);
 
-		assertTaxonExists(getRecordType(), entity, taxon);
+		if (taxon == null) {
+			throw new CannotFindRecordException(taxonIdentifier, "<unknown>");
+		}
 
 		nonOwnedEntity.getTaxa().clear();
 		nonOwnedEntity.getTaxa().add(taxon);
