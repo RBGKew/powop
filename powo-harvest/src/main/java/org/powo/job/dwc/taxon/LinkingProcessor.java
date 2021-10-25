@@ -47,17 +47,18 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
-		} else {
-			linkRecords(taxon, persistedTaxon);
-			persistedTaxon.setCreated(taxon.getCreated());
-			persistedTaxon.setModified(taxon.getModified());
-			persistedTaxon.setTaxonomicStatus(taxon.getTaxonomicStatus());
-			persistedTaxon.setAuthority(getSource());
-			persistedTaxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
-			persistedTaxon.setClazz(taxon.getClazz());
-			persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
-			chunkAnnotations.add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
 		}
+
+		linkRecords(taxon, persistedTaxon);
+
+		persistedTaxon.setCreated(taxon.getCreated());
+		persistedTaxon.setModified(taxon.getModified());
+		persistedTaxon.setTaxonomicStatus(taxon.getTaxonomicStatus());
+		persistedTaxon.setAuthority(getSource());
+		persistedTaxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
+		persistedTaxon.setClazz(taxon.getClazz());
+		persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
+		chunkAnnotations.add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
 
 		return persistedTaxon;
 	}
