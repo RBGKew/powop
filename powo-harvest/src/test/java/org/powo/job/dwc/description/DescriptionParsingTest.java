@@ -86,6 +86,8 @@ public class DescriptionParsingTest {
 	public final void testRead() throws Exception {
 		expect(conversionService.convert(isA(String.class), isA(TypeDescriptor.class), isA(TypeDescriptor.class))).andReturn(new TreeSet<>(Arrays.asList(DescriptionType.general)));
 		expect(conversionService.convert(isA(String.class), eq(DateTime.class))).andReturn(new DateTime()).anyTimes();
+		replay(conversionService);
+
 		flatFileItemReader.open(new ExecutionContext());
 		flatFileItemReader.read();
 	}
