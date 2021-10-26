@@ -1978,6 +1978,7 @@
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
     <property name="sessionFactory" ref="sessionFactory" />
+    <property name="clearSession" value="true" />
   </bean>
 
   <bean id="deletingWriter" class="org.powo.harvest.common.HibernateDeletingWriter">
