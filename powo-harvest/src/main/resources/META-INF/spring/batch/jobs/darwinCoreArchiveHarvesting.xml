@@ -745,7 +745,6 @@
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
       <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
       <batch:next on="*" to="markTypeAndSpecimenRecords" />
-      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="indexTaxaDecision" />
     </batch:decision>
 
     <batch:step id="markTypeAndSpecimenRecords">
@@ -802,24 +801,6 @@
       <batch:description>Index the types and specimens associated with this job</batch:description>
       <batch:tasklet>
         <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTaxaDecision" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexTaxaDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexTaxa" />
-      <batch:next on="true" to="deleteOldAnnotations" />
-    </batch:decision>
-
-    <batch:step id="indexTaxa">
-      <batch:description>Index the taxa associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="100" />
       </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteOldAnnotations" />
       <batch:listeners>
@@ -1028,24 +1009,6 @@
         <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
-  </bean>
-
-  <bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select t.id from Taxon t join t.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTaxaWriter"  class="org.powo.harvest.common.SolrIndexingWriter">
-    <property name="type" value="org.powo.model.Taxon" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
