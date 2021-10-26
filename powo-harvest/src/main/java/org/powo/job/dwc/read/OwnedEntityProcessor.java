@@ -120,7 +120,6 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 	@Override
 	public void afterChunkError(ChunkContext context) { }
 
-	
 	/**
 	 * The entity received from the {@link OwnedEntityFieldSetMapper} has a dummy {@link Taxon} containing just
 	 * the identifier. This method loads that identifier from the database and updates the entity so it relates
