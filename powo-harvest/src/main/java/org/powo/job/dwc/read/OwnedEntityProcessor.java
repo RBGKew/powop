@@ -132,7 +132,7 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 		var taxon = getTaxonService().find(taxonIdentifier);
 
 		if (taxon == null) {
-			throw new CannotFindRecordException(taxonIdentifier, "<unknown>");
+			throw new CannotFindRecordException(taxonIdentifier);
 		}
 
 		ownedEntity.setTaxon(taxon);

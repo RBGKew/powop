@@ -146,7 +146,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 		var taxon = taxonService.find(taxonIdentifier);
 
 		if (taxon == null) {
-			throw new CannotFindRecordException(taxonIdentifier, "<unknown>");
+			throw new CannotFindRecordException(taxonIdentifier);
 		}
 
 		nonOwnedEntity.getTaxa().clear();
