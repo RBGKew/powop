@@ -74,7 +74,6 @@
     <property name="hibernateProperties">
       <value>
         hibernate.hbm2ddl.auto=validate
-        hibernate.dialect=org.hibernate.spatial.dialect.mysql.MySQL5InnoDBSpatialDialect
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
       </value>
