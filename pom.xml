@@ -914,7 +914,7 @@
 		<profile>
 			<id>integration</id>
 			<properties>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+				<jdbc.driver.classname>org.mariadb.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.username>powo</jdbc.driver.username>
 				<jdbc.driver.password>powo</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:mysql://localhost:23306/powo</jdbc.driver.url>
