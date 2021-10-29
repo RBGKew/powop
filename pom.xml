@@ -54,7 +54,6 @@
 		<liquibase.version>3.6.1</liquibase.version>
 		<logback.version>1.2.2</logback.version>
 		<lucene.version>7.5.0</lucene.version>
-		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skip.global.tests>false</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -283,9 +282,9 @@
 
 			<!-- DB/ORM libraries -->
 			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql-connector.version}</version>
+				<groupId>org.mariadb.jdbc</groupId>
+				<artifactId>mariadb-java-client</artifactId>
+				<version>2.7.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
