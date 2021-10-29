@@ -73,7 +73,7 @@
     <property name="dataSource" ref="dataSource" />
     <property name="hibernateProperties">
       <value>
-        hibernate.hbm2ddl.auto=validate
+        hibernate.hbm2ddl.auto=none
         hibernate.validator.autoregister_listeners=false
         hibernate.default_schema=${liquibase.default.schema.name}
       </value>
