@@ -31,6 +31,7 @@
   <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
     <property name="dataSource" ref="dataSource"/>
     <property name="transactionManager" ref="transactionManager"/>
+    <property name="databaseType" value="MySQL" />
   </bean>
 
   <bean id="jobExplorer"
