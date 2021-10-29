@@ -220,7 +220,8 @@ public class Taxon extends SearchableObject {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taxonSequenceGenerator")
+	@SequenceGenerator(name = "taxonSequenceGenerator", allocationSize = 1000, sequenceName = "seq_taxon")
 	public Long getId() {
 		return id;
 	}

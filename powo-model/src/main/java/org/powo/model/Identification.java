@@ -62,7 +62,8 @@ public class Identification extends OwnedEntity {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "identificationSequenceGenerator")
+	@SequenceGenerator(name = "identificationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_identification")
 	public Long getId() {
 		return id;
 	}
