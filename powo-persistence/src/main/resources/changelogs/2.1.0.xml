@@ -22,4 +22,29 @@
       <column name="identifier" />
     </createIndex>
   </changeSet>
+  <changeSet id="2021-10-29_1" author="mst10kg">
+    <comment>
+      Change sequence generation from lots of custom sequences (and a legacy hibernate_sequences table) to just use hibernate_sequence.
+      This may improve performance by enabling JDBC batching see https://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-identity
+      and also makes the database and model simpler. We use custom sql scripts because the `createSequence` and `dropSequence` change types
+      ✨do not work✨.
+    </comment>
+    <dropTable tableName="hibernate_sequences" />
+    <sql>
+      DROP SEQUENCE seq_vernacularname;
+      DROP SEQUENCE seq_taxon;
+      DROP SEQUENCE seq_annotation;
+      DROP SEQUENCE seq_description;
+      DROP SEQUENCE seq_distribution;
+      DROP SEQUENCE seq_identification;
+      DROP SEQUENCE seq_image;
+      DROP SEQUENCE seq_measurementorfact;
+      DROP SEQUENCE seq_organisation;
+      DROP SEQUENCE seq_reference;
+      DROP SEQUENCE seq_resource;
+    </sql>
+    <sql>
+      CREATE SEQUENCE hibernate_sequence;
+    </sql>
+  </changeSet>
 </databaseChangeLog>
