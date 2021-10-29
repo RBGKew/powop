@@ -67,8 +67,7 @@ public class Resource extends Base {
 	private static final long serialVersionUID = 5676965857186600965L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resourceSequenceGenerator")
-	@SequenceGenerator(name = "resourceSequenceGenerator", allocationSize = 1000, sequenceName = "seq_resource")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@NotNull

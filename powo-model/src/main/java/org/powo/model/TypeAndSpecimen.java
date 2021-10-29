@@ -122,7 +122,7 @@ public class TypeAndSpecimen extends BaseData implements NonOwned, Searchable {
 
 	@Override
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}

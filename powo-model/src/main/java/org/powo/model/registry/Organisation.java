@@ -73,8 +73,7 @@ public class Organisation extends Base implements Comparable<Organisation> {
 	private static final long serialVersionUID = -2463044801110563816L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organisationSequenceGenerator")
-	@SequenceGenerator(name = "organisationSequenceGenerator", allocationSize = 1000, sequenceName = "seq_organisation")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@JsonIgnore
 	private Long id;
 

@@ -98,8 +98,7 @@ public class Distribution extends OwnedEntity {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "distributionSequenceGenerator")
-	@SequenceGenerator(name = "distributionSequenceGenerator", allocationSize = 1000, sequenceName = "seq_distribution")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}

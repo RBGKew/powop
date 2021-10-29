@@ -85,8 +85,7 @@ public class MeasurementOrFact extends OwnedEntity {
 	private String source;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "measurementOrFactSequenceGenerator")
-	@SequenceGenerator(name = "measurementOrFactSequenceGenerator", allocationSize = 1000, sequenceName = "seq_measurementorfact")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}

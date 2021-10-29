@@ -42,7 +42,7 @@ public class JobConfiguration extends Base {
 	private static final long serialVersionUID = -8150198731653314742L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	private String jobName;

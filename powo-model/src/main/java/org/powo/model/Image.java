@@ -127,8 +127,7 @@ public class Image extends Multimedia {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ImageSequenceGenerator")
-	@SequenceGenerator(name = "ImageSequenceGenerator", allocationSize = 1000, sequenceName = "seq_image")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}

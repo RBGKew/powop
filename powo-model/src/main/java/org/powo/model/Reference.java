@@ -96,8 +96,7 @@ public class Reference extends BaseData implements NonOwned {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "referenceSequenceGenerator")
-	@SequenceGenerator(name = "referenceSequenceGenerator", allocationSize = 1000, sequenceName = "seq_reference")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}
