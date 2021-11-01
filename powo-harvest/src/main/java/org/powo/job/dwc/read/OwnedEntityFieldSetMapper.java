@@ -17,27 +17,16 @@
 package org.powo.job.dwc.read;
 
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.Term;
-import org.powo.api.TaxonService;
 import org.powo.api.job.TermFactory;
-import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.model.OwnedEntity;
 import org.powo.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFieldSetMapper<T> {
 
 	private Logger logger = LoggerFactory.getLogger(OwnedEntityFieldSetMapper.class);
-
-	private TaxonService taxonService;
-
-	@Autowired
-	public final void setTaxonService(final TaxonService newTaxonService) {
-		this.taxonService = newTaxonService;
-	}
 
 	public OwnedEntityFieldSetMapper(Class<T> newType) {
 		super(newType);
@@ -48,23 +37,17 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
 			throws BindException {
 		super.mapField(object, fieldName, value);
 
-		Term term = TermFactory.findTerm(fieldName);
+		var term = TermFactory.findTerm(fieldName);
 
 		// DwcTerms
 		if (term instanceof DwcTerm) {
-			DwcTerm dwcTerm = (DwcTerm) term;
+			var dwcTerm = (DwcTerm) term;
 			switch (dwcTerm) {
 			case taxonID:
 				if (value != null && !value.isEmpty()) {
-					Taxon taxon = taxonService.find(value);
-					if (taxon == null) {
-						logger.error("Cannot find record " + value);
-						throw new CannotFindRecordException(value,value);
-					} else {
-						taxon = new Taxon();
-						taxon.setIdentifier(value);
-						object.setTaxon(taxon);
-					}
+					var taxon = new Taxon();
+					taxon.setIdentifier(value);
+					object.setTaxon(taxon);
 				}
 				break;
 			default:

@@ -33,6 +33,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,7 +46,7 @@ public class JobLauncherImpl implements JobLauncher {
 	private JobStatusNotifier jobStatusNotifier;
 
 	@Autowired
-	public void setJobLauncher(org.springframework.batch.core.launch.JobLauncher jobLauncher) {
+	public void setJobLauncher(@Qualifier("asynchronousJobLauncher") org.springframework.batch.core.launch.JobLauncher jobLauncher) {
 		this.jobLauncher = jobLauncher;
 	}
 

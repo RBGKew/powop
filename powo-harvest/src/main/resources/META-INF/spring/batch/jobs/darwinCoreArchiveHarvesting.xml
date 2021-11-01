@@ -1121,7 +1121,6 @@
   <bean id="descriptionFieldSetMapper" class="org.powo.job.dwc.description.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.description.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.description.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteDescriptionsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
@@ -1219,7 +1218,6 @@
       value="#{jobParameters['prefix']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.image.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
@@ -1322,7 +1320,6 @@
       value="#{jobExecutionContext['dwca.term.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.term.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteTermsReader"
@@ -1429,7 +1426,6 @@
       value="#{jobExecutionContext['dwca.reference.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.reference.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteReferencesReader"
@@ -1519,7 +1515,6 @@
       value="#{jobExecutionContext['dwca.identifier.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.identifier.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteIdentifiersReader"
@@ -1606,7 +1601,6 @@
       value="#{jobExecutionContext['dwca.distribution.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.distribution.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteDistributionReader"
@@ -1693,7 +1687,6 @@
       value="#{jobExecutionContext['dwca.measurementOrFact.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.measurementOrFact.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteMeasurementOrFactReader"
@@ -1781,7 +1774,6 @@
       value="#{jobExecutionContext['dwca.vernacularName.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.vernacularName.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteVernacularNameReader"
@@ -1874,7 +1866,6 @@
       value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.typeAndSpecimen.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteTypeAndSpecimenReader"
@@ -1965,7 +1956,6 @@
   <bean id="identificationFieldSetMapper" class="org.powo.job.dwc.identification.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.identification.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.identification.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
   </bean>
 
   <bean id="deleteIdentificationReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
@@ -1988,6 +1978,7 @@
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
     <property name="sessionFactory" ref="sessionFactory" />
+    <property name="clearSession" value="true" />
   </bean>
 
   <bean id="deletingWriter" class="org.powo.harvest.common.HibernateDeletingWriter">

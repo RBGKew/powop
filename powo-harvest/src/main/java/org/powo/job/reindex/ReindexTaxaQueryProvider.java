@@ -3,6 +3,7 @@ package org.powo.job.reindex;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +25,10 @@ public class ReindexTaxaQueryProvider implements JpaQueryProvider {
     this.entityManager = entityManager;
 
     // We set the default behaviour to be read only here because setting it as a query hint only to entities in that query.
-    // There are entities which are loaded lazily as part of reindexing which we also want to be read only.
+    // There are entities which are loaded lazily as part of reindexing which we also want to be read only. We can also set
+		// the FlushMode to manual since we do not write anything to the database in this step.
     var session = entityManager.unwrap(Session.class);
     session.setDefaultReadOnly(true);
+		session.setHibernateFlushMode(FlushMode.MANUAL);
   }
 }
