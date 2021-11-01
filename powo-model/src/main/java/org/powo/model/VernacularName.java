@@ -118,8 +118,7 @@ public class VernacularName extends OwnedEntity {
 
 	@Override
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vernacularNameSequenceGenerator")
-	@SequenceGenerator(name = "vernacularNameSequenceGenerator", allocationSize = 1000, sequenceName = "seq_vernacularname")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}

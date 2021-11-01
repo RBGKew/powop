@@ -18,6 +18,8 @@
   <!-- Set the following two loggers to level="DEBUG" to see SQL statements and performance -->
   <logger name="org.hibernate.SQL" level="INFO" />
   <logger name="org.hibernate.stat" level="INFO" />
+  <!-- Set the following logger to level="DEBUG" to verify JDBC batching is happening -->
+  <logger name="org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl" level="INFO" />
   <logger name="org.hibernate.orm.deprecation" level="ERROR" />
   <logger name="org.springframework.batch.core.job" level="INFO" />
   <logger name="liquibase" level="ERROR"/>

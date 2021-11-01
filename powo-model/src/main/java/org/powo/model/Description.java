@@ -36,6 +36,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -95,7 +96,8 @@ public class Description extends OwnedEntity {
 	 * @return Get the identifier for this object.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "descriptionSequenceGenerator")
+	@SequenceGenerator(name = "descriptionSequenceGenerator", allocationSize = 1000, sequenceName = "seq_description")
 	public Long getId() {
 		return id;
 	}
