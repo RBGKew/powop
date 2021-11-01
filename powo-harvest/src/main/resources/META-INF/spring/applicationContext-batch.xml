@@ -14,13 +14,6 @@
 
   <bean id="bufferedReaderFactory" class="org.powo.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
-  <!-- Read write job launcher which runs the job in the current thread meaning
-    : that the jms poller will block until the job completes -->
-
-  <!-- bean id="synchronousJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-    <property name="jobRepository" ref="jobRepository" />
-  </bean-->
-
   <bean id="asynchronousJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
     <property name="jobRepository" ref="jobRepository" />
     <property name="taskExecutor" ref="poolTaskExecutor" />
@@ -31,6 +24,7 @@
   <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
     <property name="dataSource" ref="dataSource"/>
     <property name="transactionManager" ref="transactionManager"/>
+    <!-- We set the databaseType as MySQL as MariaDB is not recognised by our version of Spring Batch 4.0.0.RELEASE -->
     <property name="databaseType" value="MySQL" />
   </bean>
 
