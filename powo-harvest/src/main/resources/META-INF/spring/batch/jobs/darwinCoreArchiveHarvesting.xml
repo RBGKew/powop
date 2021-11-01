@@ -149,25 +149,12 @@
       <batch:tasklet>
         <batch:chunk reader="deleteTaxaReader"  writer="taxonDeletingWriter" commit-interval="100"/>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexNamesSuggesterDecision" />
+      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexNamesSuggesterDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexNamesSuggester" />
-      <batch:next on="true" to="checkDescriptionProcessingMode" />
-    </batch:decision>
-
-    <batch:step id="indexNamesSuggester">
-      <batch:description>Build the scientific-names suggester index</batch:description>
-      <batch:tasklet ref="nameSuggesterIndexingTasklet" />
-      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
     </batch:step>
 
     <!--================= Description processing steps ======================-->
@@ -219,25 +206,12 @@
       <batch:tasklet>
         <batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"  commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexDescriptionsSuggesterDecision" />
+      <batch:next on="COMPLETED" to="checkTermProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexDescriptionsSuggesterDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexDescriptionsSuggester" />
-      <batch:next on="true" to="checkTermProcessingMode" />
-    </batch:decision>
-
-    <batch:step id="indexDescriptionsSuggester">
-      <batch:description>Build the characteristic suggester index</batch:description>
-      <batch:tasklet ref="descriptionSuggesterIndexingTasklet" />
-      <batch:next on="COMPLETED" to="checkTermProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
     </batch:step>
 
     <!--================= Term processing steps ======================-->
@@ -285,25 +259,13 @@
       <batch:tasklet>
         <batch:chunk reader="deleteTermsReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTerms" />
+      <batch:next on="COMPLETED" to="checkImageProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
-    <batch:step id="indexTerms">
-      <batch:description>Index the terms associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTermsReader" writer="indexTermsWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkImageProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
 
     <!--================= Image processing steps ======================-->
     <batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
@@ -338,29 +300,12 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexAssociatedImagesDecision" />
+      <batch:next on="COMPLETED" to="deleteAbsentImages" />
       <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="imageFieldSetMapper" />
         <batch:listener ref="imageProcessor" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexAssociatedImagesDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="markAssociatedTaxaForIndexing" />
-      <batch:next on="true" to="deleteAbsentImages" />
-    </batch:decision>
-
-    <batch:step id="markAssociatedTaxaForIndexing">
-      <batch:description>Mark the taxa who need to be re-indexed due to image 'bubble-up'</batch:description>
-      <batch:tasklet ref="markAssociatedTaxaForIndexingTasklet" />
-      <batch:next on="COMPLETED" to="deleteAbsentImages" />
-      <batch:listeners>
-        <batch:listener ref="markAssociatedTaxaForIndexingTasklet" />
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
@@ -720,7 +665,7 @@
       <batch:tasklet>
         <batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexCommonNameSuggesterDecision" />
+      <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
@@ -728,24 +673,10 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:decision decider="skipIndexDecider" id="indexCommonNameSuggesterDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexCommonNameSuggester" />
-      <batch:next on="true" to="checkTypeAndSpecimenProcessingMode" />
-    </batch:decision>
-
-    <batch:step id="indexCommonNameSuggester">
-      <batch:description>Build the common-name suggester index</batch:description>
-      <batch:tasklet ref="commonNameSuggesterIndexingTasklet" />
-      <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-    </batch:step>
-
     <!--==================== TypeAndSpecimen processing steps ====================-->
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
       <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
       <batch:next on="*" to="markTypeAndSpecimenRecords" />
-      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="indexTaxaDecision" />
     </batch:decision>
 
     <batch:step id="markTypeAndSpecimenRecords">
@@ -790,39 +721,9 @@
       <batch:tasklet>
         <batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter" commit-interval="100" />
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTypesAndSpecimens" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="indexTypesAndSpecimens">
-      <batch:description>Index the types and specimens associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTaxaDecision" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexTaxaDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexTaxa" />
-      <batch:next on="true" to="deleteOldAnnotations" />
-    </batch:decision>
-
-    <batch:step id="indexTaxa">
-      <batch:description>Index the taxa associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="100" />
-      </batch:tasklet>
       <batch:next on="COMPLETED" to="deleteOldAnnotations" />
       <batch:listeners>
+        <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
@@ -1030,24 +931,6 @@
     </property>
   </bean>
 
-  <bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select t.id from Taxon t join t.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTaxaWriter"  class="org.powo.harvest.common.SolrIndexingWriter">
-    <property name="type" value="org.powo.model.Taxon" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
-  </bean>
-
   <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
     scope="step">
     <property name="sessionFactory" ref="sessionFactory" />
@@ -1057,11 +940,6 @@
         <entry key="authorityIdentifier" value="#{jobParameters['authority.name']}"/>
       </map>
     </property>
-  </bean>
-
-  <bean id="nameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrClient" />
-    <property name="suggester" value="scientific-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- Descriptions -->
@@ -1135,11 +1013,6 @@
     </property>
   </bean>
 
-  <bean id="descriptionSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrClient" />
-    <property name="suggester" value="characteristic" /><!-- Must match name of suggester defined in solrconfig.xml -->
-  </bean>
-
   <!-- Images -->
 
   <bean id="imageProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -1156,12 +1029,6 @@
     <property name="authorityName" value="#{jobParameters['authority.name']}"/>
     <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
     <property name="annotatedObjectType" value="Image"/>
-  </bean>
-
-  <bean id="markAssociatedTaxaForIndexingTasklet" class="org.powo.job.dwc.read.AncestorImageAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
   </bean>
 
   <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1230,24 +1097,6 @@
           value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
-  </bean>
-
-  <bean id="indexImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i.id from Image i join i.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexImagesWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.powo.model.Image" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Terms -->
@@ -1335,24 +1184,6 @@
           value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
-  </bean>
-
-  <bean id="indexTermsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i.id from Concept i join i.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTermsWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.powo.model.Concept" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- References -->
@@ -1791,11 +1622,6 @@
     </property>
   </bean>
 
-  <bean id="commonNameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrClient" />
-    <property name="suggester" value="common-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
-  </bean>
-
   <!-- TypeAndSpecimen -->
 
   <bean id="markTypeAndSpecimenRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
@@ -1881,24 +1707,6 @@
           value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
       </map>
     </property>
-  </bean>
-
-  <bean id="indexTypesAndSpecimensReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i.id from TypeAndSpecimen i join i.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTypesAndSpecimensWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.powo.model.TypeAndSpecimen" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Identification -->
@@ -1987,10 +1795,5 @@
 
   <bean id="taxonDeletingWriter" class="org.powo.job.dwc.taxon.TaxonDeletingWriter">
     <property name="sessionFactory" ref="sessionFactory" />
-  </bean>
-
-  <bean id="skipIndexDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
-    <property name="processingModeKey" value="skip.indexing" />
-    <property name="defaultProcessingMode" value="false" />
   </bean>
 </beans>
