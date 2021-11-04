@@ -52,3 +52,16 @@ JOIN batch_job_instance ji ON j.JOB_INSTANCE_ID = ji.JOB_INSTANCE_ID
 JOIN batch_job_execution_params p ON p.JOB_EXECUTION_ID = j.JOB_EXECUTION_ID AND p.KEY_NAME = "resource.identifier"
 ORDER BY TIMEDIFF(j.END_TIME, j.START_TIME) DESC, TIMEDIFF(s.END_TIME, s.START_TIME) DESC;
 ```
+
+## Testing performance changes
+
+Because of the volume of data and number of moving parts testing performance changes can be quite involved. It also depends on what you are testing. I recommend the following stages for tests that update the database:
+
+1. Test using an integration test and verify that the changes (e.g. fewer SQL statements) are happening as you expect - see `DarwinCoreArchiveHarvestingJobFunctionalTest.java` for examples of this
+2. If you are unsure whether there might be changes in behaviour then test locally using `docker compose` - to ensure behaviour remains the same
+3. Test on UAT cluster using minimal deployment and a minimal set of jobs. This stage is important to test the changes on the infrastructure / OS that the application actually runs on. You want to run enough jobs to see if there is an improvement but not all jobs because that can take ages!
+4. Test on UAT cluster using minimal deployment and the full workload. This stage gives a better understanding of how the changes affect the whole harvesting process.
+
+> See `powop-infrastructure/powo/values-harvest-test.yaml` for a minimal deployment that can be spun up without disrupting UAT
+
+If these stages have shown an overall improvement the changes should be good to go to production once POWO functionality has been tested to ensure everything is working properly.
