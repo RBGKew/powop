@@ -54,7 +54,6 @@ ItemReadListener<Base>, ItemWriteListener<Base> {
 	}
 
 	public final void onProcessError(final Base item, final Exception e) {
-		logger.error("Process Error " + e.getMessage(), e);
 		Annotation annotation = new Annotation();
 		try {
 			annotation.setRecordType(RecordType.valueOf(item.getClass().getSimpleName()));
@@ -63,12 +62,14 @@ ItemReadListener<Base>, ItemWriteListener<Base> {
 		}
 		annotation.setJobId(stepExecution.getJobExecutionId());
 		if (e instanceof DarwinCoreProcessingException) {
+			logger.error("DarwinCoreProcessing error " + e.getMessage());
 			DarwinCoreProcessingException dwcpe = (DarwinCoreProcessingException) e;
 			logger.debug(dwcpe.getCode() + " | " + dwcpe.getMessage());
 			annotation.setCode(dwcpe.getCode());
 			annotation.setValue(dwcpe.getValue());
 			annotation.setType(dwcpe.getType());
 		} else {
+			logger.error("Process error " + e.getMessage(), e);
 			annotation.setCode(AnnotationCode.BadData);//TODO Replace with generic 'Something went wrong'
 			annotation.setValue(stepExecution.getStepName() + " for " +
 					item == null ? " unparsed item" : item.getIdentifier());
