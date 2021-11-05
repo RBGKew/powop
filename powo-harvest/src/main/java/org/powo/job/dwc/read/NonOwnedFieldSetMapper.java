@@ -16,8 +16,11 @@
  */
 package org.powo.job.dwc.read;
 
+import com.google.common.base.Strings;
+
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
+import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -45,13 +48,15 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
 			DwcTerm dwcTerm = (DwcTerm) term;
 			switch (dwcTerm) {
 			case taxonID:
-				if (value != null && !value.isEmpty()) {
-					// we basically want to pass through the identifier to the NonOwnedProcessor so it can manage data loading
-					var taxon = new Taxon();
-					taxon.setIdentifier(value);
-					var nonOwnedEntity = (NonOwned) object;
-					nonOwnedEntity.getTaxa().add(taxon);
+				if (Strings.isNullOrEmpty(value)) {
+					throw new RequiredFieldException("Missing taxon identifier", object);
 				}
+				
+				// we basically want to pass through the identifier to the NonOwnedProcessor so it can manage data loading
+				var taxon = new Taxon();
+				taxon.setIdentifier(value);
+				var nonOwnedEntity = (NonOwned) object;
+				nonOwnedEntity.getTaxa().add(taxon);
 				break;
 			default:
 				break;
