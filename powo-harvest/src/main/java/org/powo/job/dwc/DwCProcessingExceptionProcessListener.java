@@ -123,40 +123,52 @@ ItemReadListener<Base>, ItemWriteListener<Base> {
 	}
 
 	public final void onReadError(final Exception e) {
-		logger.error("Read Error " + e.getMessage());
 		if (e instanceof FlatFileParseException) {
-			FlatFileParseException ffpe = (FlatFileParseException) e;
-			StringBuffer message = new StringBuffer();
-			message.append(ffpe.getMessage());
-			final Annotation annotation = new Annotation();
-			if (ffpe.getCause() != null) {
-				message.append(" " + ffpe.getCause().getMessage());
-				logger.debug("FlatFileParseException | " + ffpe.getMessage()
-						+ " Cause " + ffpe.getCause().getMessage());
-				if (ffpe.getCause().getClass()
-						.equals(CannotFindRecordException.class)) {
-					annotation.setCode(AnnotationCode.BadIdentifier);
-					CannotFindRecordException cfre = (CannotFindRecordException) ffpe
-							.getCause();
-					annotation.setValue(cfre.getValue());
-				} else if (ffpe.getCause().getClass()
-						.equals(BindException.class)) {
-					annotation.setCode(AnnotationCode.BadField);
-					BindException be = (BindException) ffpe.getCause();
-					annotation.setValue(be.getFieldError().getField());
-				} else {
-					annotation.setCode(AnnotationCode.BadRecord);
-				}
+			var parseException = (FlatFileParseException) e;
+
+			if (parseException.getCause() != null) {
+				logger.error("Read error at line {} - {}", parseException.getLineNumber(), parseException.getCause().getMessage());
 			} else {
-				logger.debug("FlatFileParseException | " + ffpe.getMessage());
+				logger.error(parseException.getMessage());
 			}
 
-			annotation.setJobId(stepExecution.getJobExecutionId());
-			annotation.setRecordType(getRecordType());
-			annotation.setType(AnnotationType.Error);
-			annotation.setText(message.toString());
+			var annotation = buildAnnotation(parseException);
 			super.annotate(annotation);
 		}
+	}
+	
+	private Annotation buildAnnotation(FlatFileParseException parseException) {		
+		var annotation = new Annotation();
+
+		var message = new StringBuffer();
+		message.append(parseException.getMessage());
+		
+		if (parseException.getCause() != null) {
+			message.append(" " + parseException.getCause().getMessage());
+			logger.debug("FlatFileParseException | " + parseException.getMessage()
+					+ " Cause " + parseException.getCause().getMessage());
+			if (parseException.getCause().getClass()
+					.equals(CannotFindRecordException.class)) {
+				annotation.setCode(AnnotationCode.BadIdentifier);
+				CannotFindRecordException cfre = (CannotFindRecordException) parseException
+						.getCause();
+				annotation.setValue(cfre.getValue());
+			} else if (parseException.getCause().getClass()
+					.equals(BindException.class)) {
+				annotation.setCode(AnnotationCode.BadField);
+				BindException be = (BindException) parseException.getCause();
+				annotation.setValue(be.getFieldError().getField());
+			} else {
+				annotation.setCode(AnnotationCode.BadRecord);
+			}
+		}
+
+		annotation.setJobId(stepExecution.getJobExecutionId());
+		annotation.setRecordType(getRecordType());
+		annotation.setType(AnnotationType.Error);
+		annotation.setText(message.toString());
+
+		return annotation;
 	}
 
 	@Override
