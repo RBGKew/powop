@@ -16,10 +16,14 @@
  */
 package org.powo.job.dwc.read;
 
+import com.google.common.base.Strings;
+
 import org.gbif.dwc.terms.DwcTerm;
 import org.powo.api.job.TermFactory;
+import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.model.OwnedEntity;
 import org.powo.model.Taxon;
+import org.powo.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -44,11 +48,13 @@ public class OwnedEntityFieldSetMapper<T extends OwnedEntity> extends BaseDataFi
 			var dwcTerm = (DwcTerm) term;
 			switch (dwcTerm) {
 			case taxonID:
-				if (value != null && !value.isEmpty()) {
-					var taxon = new Taxon();
-					taxon.setIdentifier(value);
-					object.setTaxon(taxon);
+				if (Strings.isNullOrEmpty(value)) {
+					throw new RequiredFieldException("Missing taxon identifier", object);
 				}
+
+				var taxon = new Taxon();
+				taxon.setIdentifier(value);
+				object.setTaxon(taxon);
 				break;
 			default:
 				break;
