@@ -2,7 +2,7 @@
 <configuration>
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{ISO8601} | %-5p | %t | %logger{1} | %m%n</pattern>
+      <pattern>%d{ISO8601} | %-5p | %t | %-40.40logger{39} | %m%n</pattern>
     </encoder>
   </appender>
 
