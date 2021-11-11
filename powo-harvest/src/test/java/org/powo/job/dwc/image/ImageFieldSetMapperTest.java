@@ -12,6 +12,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.job.dwc.TestCase;
+import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.model.Image;
 import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.MediaFormat;
@@ -80,4 +81,27 @@ public class ImageFieldSetMapperTest {
 		}
 	}
 
+	@Test(expected = RequiredFieldException.class)
+	public void testThrowsExceptionWhenTaxonIdentifierNull() throws Exception {				
+		var image = new Image();
+		
+		mapper.mapField(image, "http://rs.tdwg.org/dwc/terms/taxonID", null);
+	}
+
+	@Test(expected = RequiredFieldException.class)
+	public void testThrowsExceptionWhenTaxonIdentifierEmpty() throws Exception {				
+		var image = new Image();
+		
+		mapper.mapField(image, "http://rs.tdwg.org/dwc/terms/taxonID", "");
+	}
+
+	@Test
+	public void testAddsTemporaryTaxonWithIdentifier() throws Exception {				
+		var image = new Image();
+		
+		mapper.mapField(image, "http://rs.tdwg.org/dwc/terms/taxonID", "urn:lsid:ipni.org:names:30000475-2");
+
+		assertEquals(1, image.getTaxa().size());
+		assertEquals("urn:lsid:ipni.org:names:30000475-2", image.getTaxa().iterator().next().getIdentifier());
+	}
 }

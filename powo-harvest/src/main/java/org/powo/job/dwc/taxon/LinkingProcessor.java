@@ -48,7 +48,7 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		var persistedTaxon = taxonService.find(taxon.getIdentifier());
 
 		if (persistedTaxon == null) {
-			throw new CannotFindRecordException(taxon.getIdentifier(), taxon.toString());
+			throw new CannotFindRecordException(taxon.getIdentifier());
 		}
 
 		linkRecords(taxon, persistedTaxon);

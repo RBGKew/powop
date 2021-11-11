@@ -64,8 +64,7 @@ public abstract class AbstractDatabaseTest {
 		// we keep them
 		"batch_job_seq",
 		"batch_job_execution_seq",
-		"batch_step_execution_seq",
-		"hibernate_sequences"
+		"batch_step_execution_seq"
 	);
 
 	private String[] tableNames() throws MetaDataAccessException {
