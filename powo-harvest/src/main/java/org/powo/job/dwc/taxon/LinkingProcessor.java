@@ -60,7 +60,6 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		persistedTaxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 		persistedTaxon.setClazz(taxon.getClazz());
 		persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
-		chunkAnnotations.add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
 
 		return persistedTaxon;
 	}

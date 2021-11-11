@@ -44,7 +44,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 		if (persisted == null) {
 			// Taxon is new
 			validate(t);
-			chunkAnnotations.add(createAnnotation(t, RecordType.Taxon, AnnotationCode.Create, AnnotationType.Info));
 			t.setAuthority(getSource());
 			t.addAuthorityToTaxonAndRelatedTaxa(getSource());
 			t.setResource(getResource());
@@ -62,7 +61,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 			if (skipUnmodified
 					&& ((persisted.getModified() != null && t.getModified() != null) && !persisted
 							.getModified().isBefore(t.getModified()))) {
-				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 			} else {
 				persisted.setAccessRights(t.getAccessRights());
 				persisted.setCreated(t.getCreated());
@@ -96,8 +94,6 @@ public class Processor extends DarwinCoreProcessor<Taxon> implements ChunkListen
 				persisted.setTaxonRank(t.getTaxonRank());
 				persisted.setUri(t.getUri());
 				validate(t);
-
-				replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 			}
 
 			logger.debug("Overwriting taxon {}", persisted);

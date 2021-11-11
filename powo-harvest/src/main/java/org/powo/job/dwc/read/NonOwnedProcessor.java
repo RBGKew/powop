@@ -73,7 +73,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 				bind(entity);
 				entity.setAuthority(getSource());
 				entity.setResource(getResource());
-				chunkAnnotations.add(createAnnotation(entity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
 				logger.debug("Adding object " + entity.getIdentifier());
 				return entity;
 			} else {
@@ -83,7 +82,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 						&& !persisted.getModified().isBefore(entity.getModified()))) {
 					// Assume the object hasn't changed, but maybe this taxon
 					// should be associated with it
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 					if(taxon != null) {
 						if (((NonOwned)persisted).getTaxa().contains(taxon)) {
 							// do nothing
@@ -114,7 +112,6 @@ public abstract class NonOwnedProcessor<T extends BaseData, TService extends Ser
 					validate(entity);
 
 					bind(persisted);
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 					logger.debug("Overwriting object " + entity.getIdentifier());
 					return persisted;
 				}

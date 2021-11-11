@@ -44,15 +44,6 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 	@Autowired
 	private PersistedService<Taxon> taxonService;
 
-	private AnnotationService annotationService;
-
-	private Map<String, Annotation> boundAnnotations = new HashMap<String,Annotation>();
-
-	@Autowired
-	public void setAnnotationService(AnnotationService annotationService) {
-		this.annotationService = annotationService;
-	}
-
 	/**
 	 * @param taxon a taxon object
 	 * @throws Exception if something goes wrong
@@ -67,42 +58,11 @@ public class SkippingProcessor extends AuthorityAware implements ChunkListener, 
 		if (persistedTaxon == null) {
 			throw new CannotFindRecordException(taxon.getIdentifier());
 		}
-
-		Annotation annotation = resolveAnnotation(RecordType.Taxon,persistedTaxon.getId(), getStepExecution().getJobExecutionId());
-
-		if (annotation == null) {
-			annotation = this.createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Skipped, AnnotationType.Info);
-			bindAnnotation(annotation);
-		} else {
-			if (annotation.getCode().equals(AnnotationCode.Skipped)) {
-				throw new TaxonAlreadyProcessedException(taxon);
-			}
-
-			annotation.setType(AnnotationType.Info);
-			annotation.setCode(AnnotationCode.Skipped);
-			logger.debug(persistedTaxon.getIdentifier() + " was skipped");
-		}
-		return annotation;
-	}
-
-	private Annotation resolveAnnotation(RecordType recordType, Long taxonId, Long jobExecutionId) {
-		String key = taxonId + ":" + jobExecutionId;
-		if (boundAnnotations.containsKey(key)) {
-			Annotation annotation = boundAnnotations.get(taxonId + ":" + jobExecutionId);
-			logger.debug("Found annotation with identifier " + taxonId + ":" + jobExecutionId + " from cache returning annotation with id " + annotation.getIdentifier());
-			return annotation;
-		} else {
-			return annotationService.findAnnotation(recordType,taxonId, jobExecutionId);
-		}
-	}
-
-	private void bindAnnotation(Annotation annotation) {
-		boundAnnotations.put(annotation.getAnnotatedObj().getId() + ":" + getStepExecution().getJobExecutionId(), annotation);
+		return null;
 	}
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
-		boundAnnotations = new HashMap<String,Annotation>();
 	}
 
 	@Override

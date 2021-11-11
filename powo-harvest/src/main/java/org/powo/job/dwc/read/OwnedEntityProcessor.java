@@ -58,7 +58,6 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 					// The content hasn't changed, skip it
 					logger.debug("Skipping " + ownedEntity);
 					bind(persisted);
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 					return persisted;
 				} else {
 					persisted.setTaxon(ownedEntity.getTaxon());
@@ -71,7 +70,6 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 					doUpdate(persisted, ownedEntity);
 					validate(ownedEntity);
 					bind(persisted);
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
 					logger.debug("Updating " + ownedEntity);
 					return persisted;
 				}
@@ -79,7 +77,6 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService exten
 				doCreate(ownedEntity);
 				validate(ownedEntity);
 				bind(ownedEntity);
-				chunkAnnotations.add(createAnnotation(ownedEntity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
 				ownedEntity.setAuthority(getSource());
 				ownedEntity.setResource(getResource());
 				return ownedEntity;

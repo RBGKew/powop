@@ -110,7 +110,6 @@ public class Processor extends OwnedEntityProcessor<Distribution, DistributionSe
 				if (r == null) {
 					r = new Reference();
 					r.setIdentifier(value);
-					chunkAnnotations.add(super.createAnnotation(r, RecordType.Reference, AnnotationCode.Create, AnnotationType.Info));
 					r.setAuthority(getSource());
 				}
 				boundReferences.put(value, r);
