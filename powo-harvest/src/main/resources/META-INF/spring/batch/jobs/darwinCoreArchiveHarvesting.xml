@@ -629,18 +629,6 @@
     <property name="defaultValues" value="#{jobExecutionContext['dwca.description.defaultValues']}" />
   </bean>
 
-  <bean id="deleteDescriptionsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select d from Description d join d.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
   <!-- Images -->
 
   <bean id="imageProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -708,18 +696,6 @@
       value="#{jobExecutionContext['dwca.image.defaultValues']}" />
   </bean>
 
-  <bean id="deleteImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select i from Image i join i.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
   <!-- Terms -->
 
   <bean id="termProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -783,21 +759,6 @@
       value="#{jobExecutionContext['dwca.term.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.term.defaultValues']}" />
-  </bean>
-
-  <bean id="deleteTermsReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i from Concept i join i.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- References -->
@@ -864,21 +825,6 @@
       value="#{jobExecutionContext['dwca.reference.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.reference.defaultValues']}" />
-  </bean>
-
-  <bean id="deleteReferencesReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select r from Reference r join r.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- Identifiers -->
@@ -948,20 +894,6 @@
       value="#{jobExecutionContext['dwca.identifier.defaultValues']}" />
   </bean>
 
-  <bean id="deleteIdentifiersReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i from Identifier i join i.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
   <!-- Distribution -->
 
   <bean id="distributionProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -1025,19 +957,6 @@
       value="#{jobExecutionContext['dwca.distribution.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.distribution.defaultValues']}" />
-  </bean>
-
-  <bean id="deleteDistributionReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select d from Distribution d join d.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- MeasurementOrFact -->
@@ -1106,21 +1025,6 @@
       value="#{jobExecutionContext['dwca.measurementOrFact.defaultValues']}" />
   </bean>
 
-  <bean id="deleteMeasurementOrFactReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select m from MeasurementOrFact m join m.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
   <!-- VernacularName -->
 
   <bean id="vernacularNameProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -1185,21 +1089,6 @@
       value="#{jobExecutionContext['dwca.vernacularName.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.vernacularName.defaultValues']}" />
-  </bean>
-
-  <bean id="deleteVernacularNameReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select v from VernacularName v join v.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- TypeAndSpecimen -->
@@ -1267,21 +1156,6 @@
       value="#{jobExecutionContext['dwca.typeAndSpecimen.defaultValues']}" />
   </bean>
 
-  <bean id="deleteTypeAndSpecimenReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select t from TypeAndSpecimen t join t.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
   <!-- Identification -->
 
   <bean id="identificationProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -1333,17 +1207,6 @@
     <property name="defaultValues" value="#{jobExecutionContext['dwca.identification.defaultValues']}" />
   </bean>
 
-  <bean id="deleteIdentificationReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select v from Identification v join v.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
   <!-- Writing -->
   <bean id="processingExceptionProcessListener"
     class="org.powo.job.dwc.DwCProcessingExceptionProcessListener"
@@ -1354,13 +1217,5 @@
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
     <property name="sessionFactory" ref="sessionFactory" />
     <property name="clearSession" value="true" />
-  </bean>
-
-  <bean id="deletingWriter" class="org.powo.harvest.common.HibernateDeletingWriter">
-    <property name="sessionFactory" ref="sessionFactory" />
-  </bean>
-
-  <bean id="taxonDeletingWriter" class="org.powo.job.dwc.taxon.TaxonDeletingWriter">
-    <property name="sessionFactory" ref="sessionFactory" />
   </bean>
 </beans>
