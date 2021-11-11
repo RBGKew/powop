@@ -131,13 +131,12 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 		Set<ConstraintViolation<T>> violations = validator.validate(t);
 		if(!violations.isEmpty()) {
 			StepExecution stepExecution = this.getStepExecution();
-			RecordType recordType = DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
 			StringBuffer stringBuffer = new StringBuffer(t.getClass() + " has ");
 			stringBuffer.append(violations.size()).append(" constraint violations:");
 			for(ConstraintViolation<T> violation : violations) {
 				stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
 			}
-			throw new InvalidValuesException(stringBuffer.toString(), recordType,  stepExecution.getReadCount());
+			throw new InvalidValuesException(stringBuffer.toString(), RecordType.forClass(t.getClass()),  stepExecution.getReadCount());
 		}
 	}
 
