@@ -448,6 +448,10 @@
       </batch:listeners>
     </batch:step>
 
+    <batch:listeners>
+      <batch:listener ref="compositeJobListener" />
+      <batch:listener ref="jobSequenceListener"/>
+    </batch:listeners>
   </batch:job>
 <!-- End batch definitions -->
 
