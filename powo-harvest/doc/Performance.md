@@ -53,6 +53,13 @@ JOIN batch_job_execution_params p ON p.JOB_EXECUTION_ID = j.JOB_EXECUTION_ID AND
 ORDER BY TIMEDIFF(j.END_TIME, j.START_TIME) DESC, TIMEDIFF(s.END_TIME, s.START_TIME) DESC;
 ```
 
+To see the total time in hours spent running jobs (assuming there is only one run of each job):
+
+```sql
+SELECT SUM(ABS(TIME_TO_SEC(TIMEDIFF(j.START_TIME, j.END_TIME)))) / 60 / 60 AS job_time
+FROM batch_job_execution j;
+```
+
 ## Testing performance changes
 
 Because of the volume of data and number of moving parts testing performance changes can be quite involved. It also depends on what you are testing. I recommend the following stages for tests that update the database:
