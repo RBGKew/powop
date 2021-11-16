@@ -129,10 +129,6 @@
 			<artifactId>joda-time</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.spotify</groupId>
-			<artifactId>docker-maven-plugin</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.github.jknack</groupId>
 			<artifactId>handlebars-springmvc</artifactId>
 		</dependency>
