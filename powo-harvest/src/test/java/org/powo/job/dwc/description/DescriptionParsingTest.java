@@ -43,8 +43,6 @@ public class DescriptionParsingTest {
 
 	private Resource content = new ClassPathResource("/__files/dwc/description.txt");
 
-	private TaxonService taxonService = null;
-
 	private ConversionService conversionService = null;
 
 	private FlatFileItemReader<Description> flatFileItemReader = new FlatFileItemReader<Description>();
@@ -64,14 +62,12 @@ public class DescriptionParsingTest {
 		tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_TAB);
 		tokenizer.setNames(names);
 
-		taxonService = createMock(TaxonService.class);
 		conversionService = createMock(ConversionService.class);
 
 		FieldSetMapper fieldSetMapper = new FieldSetMapper();
 		fieldSetMapper.setConversionService(conversionService);
 		fieldSetMapper.setFieldNames(names);
 		fieldSetMapper.setDefaultValues(new HashMap<String, String>());
-		fieldSetMapper.setTaxonService(taxonService);
 		DefaultLineMapper<Description> lineMapper = new DefaultLineMapper<Description>();
 		lineMapper.setFieldSetMapper(fieldSetMapper);
 		lineMapper.setLineTokenizer(tokenizer);
@@ -90,9 +86,8 @@ public class DescriptionParsingTest {
 	public final void testRead() throws Exception {
 		expect(conversionService.convert(isA(String.class), isA(TypeDescriptor.class), isA(TypeDescriptor.class))).andReturn(new TreeSet<>(Arrays.asList(DescriptionType.general)));
 		expect(conversionService.convert(isA(String.class), eq(DateTime.class))).andReturn(new DateTime()).anyTimes();
-		expect(taxonService.find(isA(String.class))).andReturn(new Taxon()).anyTimes();
-		expect(taxonService.find(isA(String.class), eq("taxon-with-content"))).andReturn(new Taxon()).anyTimes();
-		replay(taxonService,conversionService);
+		replay(conversionService);
+
 		flatFileItemReader.open(new ExecutionContext());
 		flatFileItemReader.read();
 	}

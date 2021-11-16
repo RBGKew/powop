@@ -28,6 +28,7 @@ import org.powo.api.ResourceService;
 import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.DarwinCoreProcessingException;
 import org.powo.job.dwc.exception.InvalidValuesException;
 import org.powo.job.dwc.exception.RequiredFieldException;
@@ -57,7 +58,7 @@ import org.springframework.context.annotation.Scope;
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
 ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
-	private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
+	private Logger log = LoggerFactory.getLogger(DarwinCoreProcessor.class);
 
 	private Validator validator;
 
@@ -82,8 +83,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private Resource resource;
 
-	private int chunkCount = 0;
-
 	@Autowired
 	public void setValidator(Validator validator) {
 		this.validator = validator;
@@ -92,12 +91,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	public void setSkipUnmodified(Boolean skipUnmodified) {
 		if(skipUnmodified != null) {
 			this.skipUnmodified = skipUnmodified;
-		}
-	}
-
-	protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
-		if(taxon == null) {
-			throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
 		}
 	}
 
@@ -126,7 +119,7 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	protected Resource getResource() {
 		if (resource == null && resourceService != null) {
 			resource = resourceService.find(resourceIdentifier);
-			logger.debug("Found resource: {}", resource);
+			log.debug("Found resource: {}", resource);
 		}
 
 		return resource;

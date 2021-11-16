@@ -21,37 +21,48 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ChunkPerformanceLoggingListener implements ChunkListener, StepExecutionListener {
 
-	private int chunkCount = 0;
-	private long startMillis;
 	private Logger logger = LoggerFactory.getLogger(ChunkPerformanceLoggingListener.class);
+
+	private AtomicInteger chunkCount = new AtomicInteger(1);
+	private Map<Integer, Long> chunkTimes = new ConcurrentHashMap<>();
 
 	@Override
 	public void beforeChunk(ChunkContext context) {
-		startMillis = System.currentTimeMillis();
+		var chunkTimingId = chunkCount.getAndIncrement();
+		context.setAttribute("chunkTimingId", chunkTimingId);
+		chunkTimes.put(chunkTimingId, System.currentTimeMillis());
 	}
 
 	@Override
 	public void afterChunk(ChunkContext context) {
-		chunkCount++;
-		var millis = System.currentTimeMillis() - startMillis;
-		logger.info("Processed chunk " + chunkCount + " in " + millis + "ms");
+		var chunkTimingId = (Integer) context.getAttribute("chunkTimingId");
+		var startMillis = chunkTimes.get(chunkTimingId);
+		var millis = System.currentTimeMillis() - startMillis;		
+		logger.info("[{}] chunk {} processed in {}ms", context.getStepContext().getStepName(),  chunkTimingId, millis);
 	}
 
 	@Override
 	public void afterChunkError(ChunkContext context) {
-		chunkCount++;
+		var chunkTimingId = (Integer) context.getAttribute("chunkTimingId");
+		var startMillis = chunkTimes.get(chunkTimingId);
 		var millis = System.currentTimeMillis() - startMillis;
-		logger.info("Chunk " + chunkCount + " errored after " + millis + "ms");
+		logger.error("[{}] chunk {} errored in {}ms", context.getStepContext().getStepName(),  chunkTimingId, millis);
 	}
 
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
-		chunkCount = 0;
+		chunkCount.set(1);
+		chunkTimes.clear();
 	}
 
 	@Override

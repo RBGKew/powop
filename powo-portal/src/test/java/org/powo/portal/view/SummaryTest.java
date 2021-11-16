@@ -10,6 +10,7 @@ import org.powo.model.Distribution;
 import org.powo.model.Taxon;
 import org.powo.model.constants.Location;
 import org.powo.model.constants.TaxonomicStatus;
+import org.gbif.ecat.voc.Rank;
 import org.junit.Test;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -42,8 +43,9 @@ public class SummaryTest {
 	@Test
 	public void taxonAcceptedSummary() {
 		Taxon tax = new Taxon();
+		tax.setTaxonRank(Rank.SPECIES);
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
-		assertEquals("This plant is accepted.", new Summary(tax, messageSource).build());
+		assertEquals("This species is accepted.", new Summary(tax, messageSource).build());
 	}
 
 	@Test
@@ -57,7 +59,7 @@ public class SummaryTest {
 	public void taxonArtificialHybridSummary() {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Artificial_Hybrid);
-		assertEquals("This plant is an artifical hybrid.", new Summary(tax, messageSource).build());
+		assertEquals("This taxon is an artifical hybrid.", new Summary(tax, messageSource).build());
 	}
 
 	@Test
@@ -103,7 +105,7 @@ public class SummaryTest {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
 		tax.setTaxonRemarks("Andaman Is., Thailand to W. Malesia.");
-		assertEquals("This plant is accepted, and its native range is Andaman Islands, Thailand to W. Malesia.",
+		assertEquals("This taxon is accepted, and its native range is Andaman Islands, Thailand to W. Malesia.",
 				new Summary(tax, messageSource).build());
 	}
 
@@ -112,7 +114,7 @@ public class SummaryTest {
 		Taxon tax = new Taxon();
 		tax.setTaxonomicStatus(TaxonomicStatus.Accepted);
 		tax.setTaxonRemarks("(Guatamala) ? (?)");
-		assertEquals("This plant is accepted, and its native range is likely to be (Guatamala) ?.",
+		assertEquals("This taxon is accepted, and its native range is likely to be (Guatamala) ?.",
 				new Summary(tax, messageSource).build());
 	}
 

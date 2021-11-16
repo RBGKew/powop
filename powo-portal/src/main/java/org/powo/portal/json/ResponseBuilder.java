@@ -71,7 +71,7 @@ public class ResponseBuilder {
 
 		if(!getBool(document, "taxon.is_accepted_b") && document.containsKey("taxon.accepted.identifier_s")) {
 			SearchResult synonym = SearchResult.builder()
-					.fqId(getStr(document, "taxon.identifier_s"))
+					.fqId(getStr(document, "taxon.accepted.identifier_s"))
 					.url("/taxon/" + document.get("taxon.accepted.identifier_s"))
 					.name(getStr(document, "taxon.accepted.scientific_name_s_lower"))
 					.accepted(true)

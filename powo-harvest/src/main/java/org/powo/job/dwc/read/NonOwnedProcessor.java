@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.powo.api.Service;
 import org.powo.harvest.service.TaxonPersistedService;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
@@ -33,63 +34,53 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
+public abstract class NonOwnedProcessor<T extends BaseData, TService extends Service<T>> extends DarwinCoreProcessor<T> implements ChunkListener {
 	private Logger logger = LoggerFactory.getLogger(NonOwnedProcessor.class);
 
 	protected Map<String, T> boundObjects = new HashMap<String, T>();
 
-	protected SERVICE service;
+	protected TService service;
 
 	@Autowired
 	private TaxonPersistedService taxonService;
 
 	/**
-	 * @param t an object
+	 * @param entity an object
 	 * @throws Exception if something goes wrong
 	 * @return T an object
 	 */
-	public final T doProcess(final T t)
-			throws Exception {
-		logger.debug("Validating " + t.getIdentifier());
+	public final T doProcess(final T entity) throws Exception {
+		logger.debug("Validating " + entity.getIdentifier());
 
-		if(doFilter(t)) {
+		if (doFilter(entity)) {
 			return null;
 		}
 
-		Taxon taxon = null;
-		if(!((NonOwned)t).getTaxa().isEmpty()) {
-			taxon = taxonService.find(((NonOwned)t).getTaxa().iterator().next().getIdentifier());
-
-			((NonOwned)t).getTaxa().clear();
-			((NonOwned)t).getTaxa().add(taxon);
-			super.checkTaxon(getRecordType(), t, ((NonOwned)t).getTaxa().iterator().next());
-		}
-		if (taxon != null) {
-			taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
-		}
+		var taxon = loadTaxonFromTaxonIdentifier(entity);
+		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 
 		//TODO Simplify this lookup (abstract away whether it is retrieved from chuck of 'bound items' or DB)
-		T bound = lookupBound(t);
+		T bound = lookupBound(entity);
 		if (bound == null) {
 			T persisted = null;
-			if(t.getIdentifier() != null) {
-				persisted = retrieveBound(t);
+			if(entity.getIdentifier() != null) {
+				persisted = retrieveBound(entity);
 			}
 
 			if (persisted == null) {
-				doPersist(t);
-				validate(t);
-				bind(t);
-				t.setAuthority(getSource());
-				t.setResource(getResource());
-				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
-				logger.debug("Adding object " + t.getIdentifier());
-				return t;
+				doPersist(entity);
+				validate(entity);
+				bind(entity);
+				entity.setAuthority(getSource());
+				entity.setResource(getResource());
+				chunkAnnotations.add(createAnnotation(entity, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
+				logger.debug("Adding object " + entity.getIdentifier());
+				return entity;
 			} else {
-				checkAuthority(getRecordType(), t, persisted.getAuthority());
+				checkAuthority(getRecordType(), entity, persisted.getAuthority());
 				// We've seen this object before, but not in this chunk
-				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null)
-						&& !persisted.getModified().isBefore(t.getModified()))) {
+				if (skipUnmodified && ((persisted.getModified() != null && entity.getModified() != null)
+						&& !persisted.getModified().isBefore(entity.getModified()))) {
 					// Assume the object hasn't changed, but maybe this taxon
 					// should be associated with it
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
@@ -99,7 +90,7 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 						} else {
 							// Add the taxon to the list of taxa
 							bind(persisted);
-							logger.debug("Updating object " + t.getIdentifier());
+							logger.debug("Updating object " + entity.getIdentifier());
 							((NonOwned)persisted).getTaxa().add(taxon);
 						}
 					}
@@ -109,22 +100,22 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 					// appears in the result set, and we'll use this version to
 					// overwrite the existing object
 
-					persisted.setAccessRights(t.getAccessRights());
-					persisted.setCreated(t.getCreated());
-					persisted.setLicense(t.getLicense());
-					persisted.setModified(t.getModified());
-					persisted.setRights(t.getRights());
-					persisted.setRightsHolder(t.getRightsHolder());
-					doUpdate(persisted, t);
+					persisted.setAccessRights(entity.getAccessRights());
+					persisted.setCreated(entity.getCreated());
+					persisted.setLicense(entity.getLicense());
+					persisted.setModified(entity.getModified());
+					persisted.setRights(entity.getRights());
+					persisted.setRightsHolder(entity.getRightsHolder());
+					doUpdate(persisted, entity);
 
 					if(taxon != null) {
 						((NonOwned)persisted).getTaxa().add(taxon);
 					}
-					validate(t);
+					validate(entity);
 
 					bind(persisted);
 					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.debug("Overwriting object " + t.getIdentifier());
+					logger.debug("Overwriting object " + entity.getIdentifier());
 					return persisted;
 				}
 			}
@@ -136,9 +127,32 @@ public abstract class NonOwnedProcessor<T extends BaseData, SERVICE extends Serv
 				((NonOwned)bound).getTaxa().add(taxon);
 			}
 			// We've already returned this object once
-			logger.debug("Skipping object " + t.getIdentifier());
+			logger.debug("Skipping object " + entity.getIdentifier());
 			return null;
 		}
+	}
+
+	/**
+	 * The entity received from the {@link NonOwnedFieldSetMapper} has a Set<Taxon> containing one dummy {@link Taxon}
+	 * which just has an identifier. This method loads that identifier from the database and updates the entity 
+	 * so it relates the loaded taxon.
+	 * 
+	 * @throws CannotFindRecordException if the taxon is not found in the database
+	 */
+	private Taxon loadTaxonFromTaxonIdentifier(T entity) {
+		var nonOwnedEntity = (NonOwned) entity;
+
+		var taxonIdentifier = nonOwnedEntity.getTaxa().iterator().next().getIdentifier();
+		var taxon = taxonService.find(taxonIdentifier);
+
+		if (taxon == null) {
+			throw new CannotFindRecordException(taxonIdentifier);
+		}
+
+		nonOwnedEntity.getTaxa().clear();
+		nonOwnedEntity.getTaxa().add(taxon);
+
+		return taxon;
 	}
 
 	protected abstract boolean doFilter(T t);

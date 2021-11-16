@@ -63,7 +63,7 @@ services:
       - harvester
       - portal
     ports:
-      - "10080:80"
+      - "10081:80"
     mem_limit: 50M
     volumes:
       - ./powo-portal/src/main/frontend/dist/css:/www/data/css
@@ -100,7 +100,7 @@ services:
     environment:
       - CDN_KEY
       - JPDA_OPTS=-agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
-      - SITE_VARIANT=ColPlantASite
+      - SITE_VARIANT=ColFungiSite
     command:
       - catalina.sh
       - jpda

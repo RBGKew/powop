@@ -16,31 +16,24 @@
  */
 package org.powo.job.dwc.read;
 
+import com.google.common.base.Strings;
+
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
-import org.powo.api.TaxonService;
-import org.powo.job.dwc.exception.CannotFindRecordException;
+import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.model.BaseData;
 import org.powo.model.NonOwned;
 import org.powo.model.Taxon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 
 public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSetMapper<T> {
 
 	private Logger logger = LoggerFactory.getLogger(NonOwnedFieldSetMapper.class);
 
-	private TaxonService taxonService;
-
 	public NonOwnedFieldSetMapper(Class<T> newType) {
 		super(newType);
-	}
-
-	@Autowired
-	public final void setTaxonService(final TaxonService newTaxonService) {
-		this.taxonService = newTaxonService;
 	}
 
 	@Override
@@ -55,17 +48,15 @@ public class NonOwnedFieldSetMapper<T extends BaseData> extends BaseDataFieldSet
 			DwcTerm dwcTerm = (DwcTerm) term;
 			switch (dwcTerm) {
 			case taxonID:
-				if (value != null && !value.isEmpty()) {
-					Taxon taxon = taxonService.find(value);
-					if (taxon == null) {
-						logger.error("Cannot find record " + value);
-						throw new CannotFindRecordException(value,value);
-					} else {
-						taxon = new Taxon();
-						taxon.setIdentifier(value);
-						((NonOwned)object).getTaxa().add(taxon);
-					}
+				if (Strings.isNullOrEmpty(value)) {
+					throw new RequiredFieldException("Missing taxon identifier", object);
 				}
+				
+				// we basically want to pass through the identifier to the NonOwnedProcessor so it can manage data loading
+				var taxon = new Taxon();
+				taxon.setIdentifier(value);
+				var nonOwnedEntity = (NonOwned) object;
+				nonOwnedEntity.getTaxa().add(taxon);
 				break;
 			default:
 				break;

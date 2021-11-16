@@ -14,23 +14,18 @@
 
   <bean id="bufferedReaderFactory" class="org.powo.harvest.common.BOMIgnoringBufferedReaderFactory"/>
 
-  <!-- Read write job launcher which runs the job in the current thread meaning
-    : that the jms poller will block until the job completes -->
-
-  <!-- bean id="synchronousJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-    <property name="jobRepository" ref="jobRepository" />
-  </bean-->
-
   <bean id="asynchronousJobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
     <property name="jobRepository" ref="jobRepository" />
     <property name="taskExecutor" ref="poolTaskExecutor" />
   </bean>
 
-  <task:executor id="poolTaskExecutor" pool-size="600" rejection-policy="CALLER_RUNS"/>
+  <task:executor id="poolTaskExecutor" pool-size="8" rejection-policy="CALLER_RUNS"/>
 
   <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
     <property name="dataSource" ref="dataSource"/>
     <property name="transactionManager" ref="transactionManager"/>
+    <!-- We set the databaseType as MySQL as MariaDB is not recognised by our version of Spring Batch 4.0.0.RELEASE -->
+    <property name="databaseType" value="MySQL" />
   </bean>
 
   <bean id="jobExplorer"
@@ -55,7 +50,7 @@
 
   <bean id="stepStatusListener" class="org.powo.harvest.common.StepStatusListener"/>
 
-  <bean id="chunkPerformanceLoggingListener" class="org.powo.harvest.common.ChunkPerformanceLoggingListener"/>
+  <bean id="chunkPerformanceLoggingListener" class="org.powo.harvest.common.ChunkPerformanceLoggingListener" scope="step" />
 
   <bean id="compositeJobListener" class="org.powo.harvest.common.CompositeJobStatusListener">
     <property name="jobListeners">

@@ -43,8 +43,6 @@ public class ReferenceParsingTest {
 
 	private Resource content = new ClassPathResource("/__files/dwc/reference.txt");
 
-	private TaxonService taxonService = null;
-
 	private FlatFileItemReader<Reference> flatFileItemReader = new FlatFileItemReader<>();
 
 	@Before
@@ -76,13 +74,10 @@ public class ReferenceParsingTest {
 		factoryBean.afterPropertiesSet();
 		ConversionService conversionService = factoryBean.getObject();
 
-		taxonService = EasyMock.createMock(TaxonService.class);
-
 		FieldSetMapper fieldSetMapper = new FieldSetMapper();
 		fieldSetMapper.setFieldNames(names);
 		fieldSetMapper.setConversionService(conversionService);
 		fieldSetMapper.setDefaultValues(new HashMap<>());
-		fieldSetMapper.setTaxonService(taxonService);
 		DefaultLineMapper<Reference> lineMapper = new DefaultLineMapper<>();
 		lineMapper.setFieldSetMapper(fieldSetMapper);
 		lineMapper.setLineTokenizer(tokenizer);
@@ -99,8 +94,6 @@ public class ReferenceParsingTest {
 	 */
 	@Test
 	public final void testRead() throws Exception {
-		EasyMock.expect(taxonService.find(EasyMock.isA(String.class))).andReturn(new Taxon()).anyTimes();
-		EasyMock.replay(taxonService);
 		flatFileItemReader.open(new ExecutionContext());
 		flatFileItemReader.read();
 	}

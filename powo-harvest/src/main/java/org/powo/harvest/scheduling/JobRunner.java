@@ -27,7 +27,7 @@ public class JobRunner {
 	@Autowired
 	private JobListService jobListService;
 
-	@Scheduled(cron="0 * * * * *")
+	@Scheduled(fixedRate = 5000)
 	protected void run() {
 		jobListService.runAvailable();
 	}
