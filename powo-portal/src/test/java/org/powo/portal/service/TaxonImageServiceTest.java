@@ -31,7 +31,7 @@ public class TaxonImageServiceTest {
 	public void init() {
 		imageService = createMock(ImageService.class);
 		cdnImageHelper = createMock(CDNImageHelper.class);
-		taxonImageService = new TaxonImageService(imageService, cdnImageHelper);
+		taxonImageService = new TaxonImageService(imageService, cdnImageHelper, null);
 	}
 
 	@Test

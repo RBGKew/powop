@@ -19,15 +19,18 @@ import lombok.RequiredArgsConstructor;
 public class TaxonImageService {
 	private final ImageService imageService;
 	private final CDNImageHelper cdnImageHelper;
+	private final ImageCaptionService captionService;
 
 	public TaxonImageSet getTaxonImageSet(Taxon taxon) {
 		var imageSet = new TaxonImageSet();
 		var images = taxon.looksAccepted() ? availableImages(taxon) : List.<Image>of();
 
-		imageSet.setImages(images.stream().map(i -> toTaxonImage(i)).collect(Collectors.toList()));
+		imageSet.setImages(
+			images.stream().map(i -> toTaxonImage(i, taxon)).collect(Collectors.toList())
+		);
 
 		if (images.size() > 0) {
-			imageSet.setHeaderImage(toTaxonImage(images.get(0)));
+			imageSet.setHeaderImage(toTaxonImage(images.get(0), taxon));
 		}
 
 		for (var img : images) {
@@ -53,10 +56,11 @@ public class TaxonImageService {
 		return images;
 	}
 
-	private TaxonImage toTaxonImage(Image image) {
+	private TaxonImage toTaxonImage(Image image, Taxon taxon) {
 		return TaxonImage.builder()
 			.fullsizeUrl(cdnImageHelper.getFullsizeUrl(image))
 			.thumbnailUrl(cdnImageHelper.getThumbnailUrl(image))
+			.caption(captionService.getFullCaption(image, taxon))
 			.build();
 	}
 }
