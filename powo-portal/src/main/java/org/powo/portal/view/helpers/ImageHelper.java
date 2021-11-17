@@ -28,11 +28,11 @@ public class ImageHelper {
 		return link(image, taxon, "thumbnail", options);
 	}
 
-	public CharSequence fullsizeUrl(Image image) {
+	public CharSequence imageToFullsizeUrl(Image image) {
 		return cdn.getFullsizeUrl(image);
 	}
 
-	public CharSequence thumbnailUrl(Image image) {
+	public CharSequence imageToThumbnailUrl(Image image) {
 		return cdn.getThumbnailUrl(image);
 	}
 
