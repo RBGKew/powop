@@ -8,4 +8,5 @@ import lombok.Data;
 public class TaxonImage {
 	private String fullsizeUrl;
 	private String thumbnailUrl;
+	private String caption;
 }
