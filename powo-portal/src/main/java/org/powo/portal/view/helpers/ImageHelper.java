@@ -20,49 +20,12 @@ public class ImageHelper {
 		this.cdn = cdn;
 	}
 
-	public CharSequence fullsizeImage(Image image, Taxon taxon, Options options) {
-		return link(image, taxon, "fullsize", options);
-	}
-
-	public CharSequence thumbnailImage(Image image, Taxon taxon, Options options) {
-		return link(image, taxon, "thumbnail", options);
-	}
-
 	public CharSequence imageToFullsizeUrl(Image image) {
 		return cdn.getFullsizeUrl(image);
 	}
 
 	public CharSequence imageToThumbnailUrl(Image image) {
 		return cdn.getThumbnailUrl(image);
-	}
-
-	public String imageUrl(Image image, String type) {
-		if(type.equals("thumbnail")) {
-			return cdn.getThumbnailUrl(image);
-		} else {
-			return cdn.getFullsizeUrl(image);
-		}
-	}
-
-	private CharSequence link(Image image, Taxon taxon, String type, Options options) {
-		boolean modal = options.hash("lightbox", true);
-		String figureClass = options.hash("figure-class");
-		String imgTag = String.format("<img src=\"%s\" alt=\"%s\"/>",
-				imageUrl(image, type),
-				image.getTitle() == null ? "" : image.getTitle().replace('"', '\''));
-
-		if(figureClass != null) {
-			imgTag = String.format("<figure class=\"%s\">%s</figure>", figureClass, imgTag);
-		}
-
-		if(modal) {
-			imgTag = String.format("<a href=\"%s\" title=\"%s\">%s</a>",
-					imageUrl(image, "fullsize"),
-					image.getTitle() == null ? "" : image.getTitle().replace('"', '\''),
-					imgTag);
-		}
-
-		return new Handlebars.SafeString(imgTag);
 	}
 
 	private String generateCaption(Image image, Taxon taxon, Options options) {
