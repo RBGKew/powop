@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.powo.api.ImageService;
-import org.powo.model.Image;
-import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
 
 import lombok.Data;
@@ -19,4 +16,8 @@ public class TaxonImageSet {
 	private List<TaxonImage> images = new ArrayList<>();
 	private Set<Organisation> sources = new HashSet<>();
 	private TaxonImage headerImage;
+
+	public int imageCount() {
+		return images.size();
+	}
 }
