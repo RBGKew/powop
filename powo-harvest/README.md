@@ -24,3 +24,7 @@ The `Reindex` job uses the data from the database to populate a Solr index.
 ## Managing jobs
 
 What jobs are run and in which order is determined by the `JobConfiguration` and `JobList` entities in the database. This is most often loaded at harvest time by the `powo-builder` but can also be managed on the dashboard at `localhost:10081/admin/#/jobs`.
+
+## Performance
+
+See [Performance](./doc/Performance.md) for details about keeping the Harvester running fast.
