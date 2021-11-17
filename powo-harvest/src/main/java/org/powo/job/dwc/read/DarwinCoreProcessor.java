@@ -68,13 +68,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private int itemsRead;
 
-	private long chunkStart;
-
-	protected List<Annotation> chunkAnnotations = new ArrayList<>();
-
-	@Autowired
-	private AnnotationService annotationService;
-
 	@Autowired
 	private ResourceService resourceService;
 
@@ -125,22 +118,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 		return resource;
 	}
 
-	protected Annotation createAnnotation(final BaseData object, RecordType recordType, AnnotationCode code, AnnotationType annotationType) {
-		Annotation annotation = super.createAnnotation(object, recordType, code, annotationType);
-		annotation.setResource(object.getResource());
-		return annotation;
-	}
-
-	protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {
-		for(Annotation a : annotated.getAnnotations()) {
-			if(getStepExecution().getJobExecutionId().equals(a.getJobId())) {
-				a.setType(type);
-				a.setCode(code);
-				break;
-			}
-		}
-	}
-
 	@Autowired
 	public void setTaxonService(TaxonService taxonService) {
 		this.taxonService = taxonService;
@@ -154,13 +131,12 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 		Set<ConstraintViolation<T>> violations = validator.validate(t);
 		if(!violations.isEmpty()) {
 			StepExecution stepExecution = this.getStepExecution();
-			RecordType recordType = DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
 			StringBuffer stringBuffer = new StringBuffer(t.getClass() + " has ");
 			stringBuffer.append(violations.size()).append(" constraint violations:");
 			for(ConstraintViolation<T> violation : violations) {
 				stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
 			}
-			throw new InvalidValuesException(stringBuffer.toString(), recordType,  stepExecution.getReadCount());
+			throw new InvalidValuesException(stringBuffer.toString(), RecordType.forClass(t.getClass()),  stepExecution.getReadCount());
 		}
 	}
 
@@ -176,11 +152,8 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	@Override
 	public void afterWrite(List<? extends T> items) {
-		chunkAnnotations.forEach(a -> annotationService.save(a));
-		chunkAnnotations = new ArrayList<>();
 	}
 
 	@Override
 	public void onWriteError(Exception exception, List<? extends T> items) { }
-
 }

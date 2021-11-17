@@ -101,25 +101,4 @@ public class AuthorityAware implements StepExecutionListener {
 	public final StepExecution getStepExecution() {
 		return stepExecution;
 	}
-
-	/**
-	 *
-	 * @param object The type of object
-	 * @param recordType The record type
-	 * @param code the code of the annotation
-	 * @param annotationType the type of annotation
-	 * @return an annotation
-	 */
-	protected final Annotation createAnnotation(final Base object,
-			final RecordType recordType, final AnnotationCode code,
-			final AnnotationType annotationType) {
-		Annotation annotation = new Annotation();
-		annotation.setAnnotatedObj(object);
-		annotation.setType(annotationType);
-		annotation.setJobId(getStepExecution().getJobExecutionId());
-		annotation.setCode(code);
-		annotation.setRecordType(recordType);
-		annotation.setAuthority(getSource());
-		return annotation;
-	}
 }

@@ -138,10 +138,6 @@ public class Processor extends NonOwnedProcessor<Concept, ConceptService> implem
 				if (r == null) {
 					r = new Reference();
 					r.setIdentifier(value);
-					Annotation annotation = super.createAnnotation(r,
-							RecordType.Reference, AnnotationCode.Create,
-							AnnotationType.Info);
-					r.getAnnotations().add(annotation);
 					r.setAuthority(getSource());
 				}
 				boundReferences.put(value, r);
@@ -162,10 +158,6 @@ public class Processor extends NonOwnedProcessor<Concept, ConceptService> implem
 				if (i == null) {
 					i = new Image();
 					i.setIdentifier(value);
-					Annotation annotation = super.createAnnotation(i,
-							RecordType.Image, AnnotationCode.Create,
-							AnnotationType.Info);
-					i.getAnnotations().add(annotation);
 					i.setAuthority(getSource());
 				}
 				boundImages.put(value, i);

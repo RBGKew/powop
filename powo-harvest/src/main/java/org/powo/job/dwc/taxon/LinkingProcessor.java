@@ -22,15 +22,12 @@ import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.NoIdentifierException;
 import org.powo.job.dwc.read.DarwinCoreProcessor;
 import org.powo.model.Taxon;
-import org.powo.model.constants.AnnotationCode;
-import org.powo.model.constants.AnnotationType;
-import org.powo.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
-	private Logger logger = LoggerFactory.getLogger(CheckingProcessor.class);
+	private Logger logger = LoggerFactory.getLogger(LinkingProcessor.class);
 
 	/**
 	 * We use a {@link TaxonPersistedService} here rather than {@link TaxonService} so that changes to
@@ -60,7 +57,6 @@ public class LinkingProcessor extends DarwinCoreProcessor<Taxon> {
 		persistedTaxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 		persistedTaxon.setClazz(taxon.getClazz());
 		persistedTaxon.setBibliographicCitation(taxon.getBibliographicCitation());
-		chunkAnnotations.add(createAnnotation(persistedTaxon, RecordType.Taxon, AnnotationCode.Update, AnnotationType.Info));
 
 		return persistedTaxon;
 	}
