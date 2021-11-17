@@ -1,6 +1,5 @@
 package org.powo.portal.service;
 
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.powo.api.ImageService;
@@ -25,13 +24,15 @@ import java.util.Set;
 public class TaxonImageServiceTest {
 	private ImageService imageService;
 	private CDNImageHelper cdnImageHelper;
+	private ImageCaptionService imageCaptionService;
 	private TaxonImageService taxonImageService;
 
 	@Before
 	public void init() {
 		imageService = createMock(ImageService.class);
 		cdnImageHelper = createMock(CDNImageHelper.class);
-		taxonImageService = new TaxonImageService(imageService, cdnImageHelper, null);
+		imageCaptionService = createMock(ImageCaptionService.class);
+		taxonImageService = new TaxonImageService(imageService, cdnImageHelper, imageCaptionService);
 	}
 
 	@Test
@@ -55,9 +56,10 @@ public class TaxonImageServiceTest {
 			new Image(), new Image(), new Image()			
 		);
 		taxon.setImages(images);
-		expect(cdnImageHelper.getFullsizeUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		expect(cdnImageHelper.getThumbnailUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		replay(cdnImageHelper);
+		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
+		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
+		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
+		replay(cdnImageHelper, imageCaptionService);
 
 		var imageSet = taxonImageService.getTaxonImageSet(taxon);
 
@@ -77,10 +79,11 @@ public class TaxonImageServiceTest {
 			new Image(), new Image(), new Image()
 		);
 
+		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
 		expect(imageService.getTopImages(eq(taxon), anyInt())).andReturn(topImages);
-		expect(cdnImageHelper.getFullsizeUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		expect(cdnImageHelper.getThumbnailUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		replay(cdnImageHelper, imageService);
+		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
+		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
+		replay(cdnImageHelper, imageService, imageCaptionService);
 
 		var imageSet = taxonImageService.getTaxonImageSet(taxon);
 
@@ -103,9 +106,10 @@ public class TaxonImageServiceTest {
 		synonym.setImages(synonymImages);
 		taxon.setSynonymNameUsages(Set.of(synonym));
 
-		expect(cdnImageHelper.getFullsizeUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		expect(cdnImageHelper.getThumbnailUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		replay(cdnImageHelper);
+		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
+		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
+		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
+		replay(cdnImageHelper, imageCaptionService);
 
 		var imageSet = taxonImageService.getTaxonImageSet(taxon);
 
@@ -127,10 +131,11 @@ public class TaxonImageServiceTest {
 		image3.setAuthority(org1);
 		taxon.setImages(List.of(image1, image2, image3));
 
+		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
 		expect(imageService.getTopImages(eq(taxon), anyInt())).andReturn(List.of());
-		expect(cdnImageHelper.getFullsizeUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		expect(cdnImageHelper.getThumbnailUrl(anyObject(Image.class))).andReturn("").anyTimes();
-		replay(cdnImageHelper, imageService);
+		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
+		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
+		replay(cdnImageHelper, imageService, imageCaptionService);
 
 		var imageSet = taxonImageService.getTaxonImageSet(taxon);
 
