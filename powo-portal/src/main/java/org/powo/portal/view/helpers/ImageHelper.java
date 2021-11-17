@@ -27,40 +27,4 @@ public class ImageHelper {
 	public CharSequence imageToThumbnailUrl(Image image) {
 		return cdn.getThumbnailUrl(image);
 	}
-
-	private String generateCaption(Image image, Taxon taxon, Options options) {
-		StringBuffer caption = new StringBuffer();
-
-
-		caption.append(Strings.nullToEmpty(image.getTitle()));
-
-		if(!Strings.isNullOrEmpty(image.getCaption())) {
-			caption.append(" - ");
-		}
-		caption.append(Strings.nullToEmpty(image.getCaption()));
-
-		caption.append("<small>");
-		String owner = image.getOwner();
-		String creator = image.getCreator();
-		String source = image.getSource();
-
-		if (taxon != null && image.getTaxon() != null && !taxon.equals(image.getTaxon())) {
-			NameHelper nh = new NameHelper();
-			caption.append(nh.taxonLinkWithoutAuthor(image.getTaxon(), options));
-			caption.append(" | ");
-		}
-
-		if(!Strings.isNullOrEmpty(owner) && Strings.isNullOrEmpty(creator)) {
-			caption.append(owner);
-		} else if(!Strings.isNullOrEmpty(creator) && Strings.isNullOrEmpty(owner)) {
-			caption.append(creator);
-		} else if(!Strings.isNullOrEmpty(creator) && !Strings.isNullOrEmpty(owner)) {
-			caption.append(creator);
-		} else {
-			caption.append(Strings.nullToEmpty(source));
-		}
-		caption.append("</small>");
-
-		return caption.toString();
-	}
 }
