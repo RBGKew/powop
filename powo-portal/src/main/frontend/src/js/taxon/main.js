@@ -73,6 +73,9 @@ define(function(require) {
     $('.c-gallery').magnificPopup({
       delegate: 'a',
       type: 'image',
+      image: {
+        titleSrc: "data-caption",
+      },
       gallery: { enabled: true }
     });
 

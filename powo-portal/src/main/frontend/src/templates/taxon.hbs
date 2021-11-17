@@ -21,9 +21,9 @@
             </div>
           {{/with}}
         </div>
-        {{#with images.headerImage }}
-          <a href="{{ fullsizeUrl this }}" class="c-gallery-header">
-            <img src="{{ fullsizeUrl this }}" alt="{{ this.title }}" />
+        {{#with imageSet.headerImage }}
+          <a href="{{ fullsizeUrl }}" class="c-gallery-header" data-caption="{{ caption }}" role="button">
+            <img src="{{ fullsizeUrl }}" alt="" />
           </a>
         {{/with}}
       </div>
@@ -53,7 +53,7 @@
         <li><a href="#uses">Uses</a></li>
         {{/if}}
 
-        {{#if images}}
+        {{#if imageSet}}
         <li><a href="#image-gallery">Images</a></li>
         {{/if}}
 
@@ -206,7 +206,7 @@
     </section>
     {{/with}}
 
-    {{#with images}}
+    {{#with imageSet}}
     <section id="image-gallery" class="c-article-section">
       <h2>
         <button class="btn collapser c-article-section__title"
@@ -231,8 +231,12 @@
           <div class="c-article-section__content">
 
             <div class="c-gallery clearfix">
-              {{#each all}}
-              {{thumbnailImage this @root.taxon figure-class="c-gallery__img"}}
+              {{#each imageSet.images }}
+                <a data-mfp-src="{{ fullsizeUrl }}" href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}">
+                  <figure>
+                    <img src="{{ thumbnailUrl }}" alt="">
+                  </figure>
+                </a>
               {{/each}}
             </div>
 
