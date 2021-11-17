@@ -9,7 +9,6 @@ import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.portal.view.FeaturedTaxaSection;
-import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
 
 /*
