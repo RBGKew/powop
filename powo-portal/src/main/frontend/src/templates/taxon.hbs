@@ -22,7 +22,7 @@
           {{/with}}
         </div>
         {{#with imageSet.headerImage }}
-          <a href="{{ fullsizeUrl }}" class="c-gallery-header" data-caption="{{ caption }}" role="button">
+          <a href="#" class="c-gallery-header" role="button" aria-label="Open image gallery">
             <img src="{{ fullsizeUrl }}" alt="" />
           </a>
         {{/with}}
@@ -234,7 +234,7 @@
 
             <div class="c-gallery clearfix">
               {{#each imageSet.images }}
-                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false">
+                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false" aria-label="Open image gallery">
                   <img src="{{ thumbnailUrl }}" alt="">
                 </a>
               {{/each}}
