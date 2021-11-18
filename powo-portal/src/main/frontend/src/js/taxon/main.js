@@ -63,13 +63,6 @@ define(function(require) {
         .removeClass('focused');
     })
 
-    // initialize popup for header image
-    $('.c-gallery-header').on('click', function(e) {
-      $('.c-gallery').magnificPopup('open');
-      e.preventDefault();
-    });
-
-    // initialize popups for image gallery
     initGalleryBehaviour();
 
     // Accomodate fixed header when jumping to anchor links
@@ -92,9 +85,18 @@ define(function(require) {
         $(galleryItem.el || galleryItem).attr("aria-expanded", expanded);
       }
 
-      $('.c-gallery').magnificPopup({
-        delegate: 'a',
-        type: 'image',
+      var headerImage = $(".c-gallery-header");
+
+      headerImage.on("click", function (e) {
+        $(".c-gallery").magnificPopup("open");
+        toggleAriaExpanded(this, true);
+        e.preventDefault();
+      });
+
+      // see https://dimsemenov.com/plugins/magnific-popup/documentation.html for MagnificPopup documentation
+      $(".c-gallery").magnificPopup({
+        delegate: "a",
+        type: "image",
         image: {
           titleSrc: "data-caption",
         },
@@ -104,13 +106,20 @@ define(function(require) {
             this.items.forEach(function (item) {
               toggleAriaExpanded(item, false);
             });
+            toggleAriaExpanded(headerImage, false);
           },
           change: function () {
-            this.items.forEach(function (item) {
-              toggleAriaExpanded(item, this.currItem === item);
-            }.bind(this));
-          }
-        }
+            this.items.forEach(
+              function (item) {
+                toggleAriaExpanded(item, this.currItem === item);
+              }.bind(this)
+            );
+            console.log(this.currItem, headerImage);
+            var currSrc = this.currItem.src;
+            var headerImgSrc = headerImage.find("img").attr("src")
+            toggleAriaExpanded(headerImage, currSrc === headerImgSrc);
+          },
+        },
       });
     }
 
