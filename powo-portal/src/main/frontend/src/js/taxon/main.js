@@ -3,6 +3,7 @@ define(function(require) {
   var $ = require('jquery');
   var descriptions = require('./descriptions')
   var bibliography = require('./bibliography')
+  var gallery = require('./gallery')
   var map = require('./map');
   var filters = require('../search/filters');
   require('libs/bootstrap');
@@ -63,7 +64,7 @@ define(function(require) {
         .removeClass('focused');
     })
 
-    initGalleryBehaviour();
+    gallery.initialize();
 
     // Accomodate fixed header when jumping to anchor links
     $('nav a').on('click', function() {
@@ -77,51 +78,6 @@ define(function(require) {
       }
     });
     navToggle();
-
-    function initGalleryBehaviour() {
-      function toggleAriaExpanded(galleryItem, expanded) {
-        // the galleryItem from magnificPopup.items can either be a custom object with a jQuery
-        // `el` or it can be a DOM element, so we need to handle it accordingly
-        $(galleryItem.el || galleryItem).attr("aria-expanded", expanded);
-      }
-
-      var headerImage = $(".c-gallery-header");
-
-      headerImage.on("click", function (e) {
-        $(".c-gallery").magnificPopup("open");
-        toggleAriaExpanded(this, true);
-        e.preventDefault();
-      });
-
-      // see https://dimsemenov.com/plugins/magnific-popup/documentation.html for MagnificPopup documentation
-      $(".c-gallery").magnificPopup({
-        delegate: "a",
-        type: "image",
-        image: {
-          titleSrc: "data-caption",
-        },
-        gallery: { enabled: true },
-        callbacks: {
-          close: function () {
-            this.items.forEach(function (item) {
-              toggleAriaExpanded(item, false);
-            });
-            toggleAriaExpanded(headerImage, false);
-          },
-          change: function () {
-            this.items.forEach(
-              function (item) {
-                toggleAriaExpanded(item, this.currItem === item);
-              }.bind(this)
-            );
-            console.log(this.currItem, headerImage);
-            var currSrc = this.currItem.src;
-            var headerImgSrc = headerImage.find("img").attr("src")
-            toggleAriaExpanded(headerImage, currSrc === headerImgSrc);
-          },
-        },
-      });
-    }
 
     function navToggle() {
         // opens taxon nav when return  key is pressed
