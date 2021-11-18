@@ -234,10 +234,8 @@
 
             <div class="c-gallery clearfix">
               {{#each imageSet.images }}
-                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}">
-                  <figure>
-                    <img src="{{ thumbnailUrl }}" alt="">
-                  </figure>
+                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false">
+                  <img src="{{ thumbnailUrl }}" alt="">
                 </a>
               {{/each}}
             </div>
