@@ -56,7 +56,7 @@ public class TaxonImageServiceTest {
 			new Image(), new Image(), new Image()			
 		);
 		taxon.setImages(images);
-		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
+		expect(imageCaptionService.getHtmlCaption(anyObject(), anyObject())).andReturn("").anyTimes();
 		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
 		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
 		replay(cdnImageHelper, imageCaptionService);
@@ -79,7 +79,7 @@ public class TaxonImageServiceTest {
 			new Image(), new Image(), new Image()
 		);
 
-		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
+		expect(imageCaptionService.getHtmlCaption(anyObject(), anyObject())).andReturn("").anyTimes();
 		expect(imageService.getTopImages(eq(taxon), anyInt())).andReturn(topImages);
 		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
 		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
@@ -106,7 +106,7 @@ public class TaxonImageServiceTest {
 		synonym.setImages(synonymImages);
 		taxon.setSynonymNameUsages(Set.of(synonym));
 
-		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
+		expect(imageCaptionService.getHtmlCaption(anyObject(), anyObject())).andReturn("").anyTimes();
 		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
 		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();
 		replay(cdnImageHelper, imageCaptionService);
@@ -131,7 +131,7 @@ public class TaxonImageServiceTest {
 		image3.setAuthority(org1);
 		taxon.setImages(List.of(image1, image2, image3));
 
-		expect(imageCaptionService.getFullCaption(anyObject(), anyObject())).andReturn("").anyTimes();
+		expect(imageCaptionService.getHtmlCaption(anyObject(), anyObject())).andReturn("").anyTimes();
 		expect(imageService.getTopImages(eq(taxon), anyInt())).andReturn(List.of());
 		expect(cdnImageHelper.getFullsizeUrl(anyObject())).andReturn("").anyTimes();
 		expect(cdnImageHelper.getThumbnailUrl(anyObject())).andReturn("").anyTimes();

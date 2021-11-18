@@ -60,7 +60,7 @@ public class TaxonImageService {
 		return TaxonImage.builder()
 			.fullsizeUrl(cdnImageHelper.getFullsizeUrl(image))
 			.thumbnailUrl(cdnImageHelper.getThumbnailUrl(image))
-			.caption(captionService.getFullCaption(image, taxon))
+			.caption(captionService.getHtmlCaption(image, taxon))
 			.build();
 	}
 }
