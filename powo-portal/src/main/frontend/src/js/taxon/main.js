@@ -70,14 +70,7 @@ define(function(require) {
     });
 
     // initialize popups for image gallery
-    $('.c-gallery').magnificPopup({
-      delegate: 'a',
-      type: 'image',
-      image: {
-        titleSrc: "data-caption",
-      },
-      gallery: { enabled: true }
-    });
+    initGalleryBehaviour();
 
     // Accomodate fixed header when jumping to anchor links
     $('nav a').on('click', function() {
@@ -91,6 +84,35 @@ define(function(require) {
       }
     });
     navToggle();
+
+    function initGalleryBehaviour() {
+      function toggleAriaExpanded(galleryItem, expanded) {
+        // the galleryItem from magnificPopup.items can either be a custom object with a jQuery
+        // `el` or it can be a DOM element, so we need to handle it accordingly
+        $(galleryItem.el || galleryItem).attr("aria-expanded", expanded);
+      }
+
+      $('.c-gallery').magnificPopup({
+        delegate: 'a',
+        type: 'image',
+        image: {
+          titleSrc: "data-caption",
+        },
+        gallery: { enabled: true },
+        callbacks: {
+          close: function () {
+            this.items.forEach(function (item) {
+              toggleAriaExpanded(item, false);
+            });
+          },
+          change: function () {
+            this.items.forEach(function (item) {
+              toggleAriaExpanded(item, this.currItem === item);
+            }.bind(this));
+          }
+        }
+      });
+    }
 
     function navToggle() {
         // opens taxon nav when return  key is pressed
