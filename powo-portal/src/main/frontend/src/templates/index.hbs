@@ -18,13 +18,13 @@
             {{> partials/search/search-box }}
           </main>
           {{#if cross-site-link.present}}
-            <nav class="form-inline--search form-links">
+            <div class="form-inline--search form-links">
               <ul>
                   <li>
                     Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
                   </li>
               </ul>
-            </nav>
+            </div>
           {{/if}}
         </div>
       </div>
@@ -34,7 +34,7 @@
         </div>
       </aside>
     </div>
-    <aside class="featured-taxa-sections">
+    <div class="featured-taxa-sections">
       {{> partials/featured/featured-taxa-sections}}
     </div>
     {{> partials/footer-links}}
