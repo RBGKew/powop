@@ -28,4 +28,8 @@ public enum RecordType {
 	TypeAndSpecimen,
 	Concept,
 	Identification;
+
+	public static RecordType forClass(Class<?> clazz) {
+		return valueOf(clazz.getSimpleName());
+	}
 }

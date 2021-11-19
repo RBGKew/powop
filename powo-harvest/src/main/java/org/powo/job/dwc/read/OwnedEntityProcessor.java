@@ -18,6 +18,7 @@ package org.powo.job.dwc.read;
 
 import java.util.HashMap;
 import org.powo.api.Service;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.model.OwnedEntity;
 import org.powo.model.Taxon;
 import org.powo.model.constants.AnnotationCode;
@@ -25,74 +26,63 @@ import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
-public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extends Service<T>> extends DarwinCoreProcessor<T>
-	implements ChunkListener {
+public abstract class OwnedEntityProcessor<T extends OwnedEntity, TService extends Service<T>> extends DarwinCoreProcessor<T> {
 
 	private Logger logger = LoggerFactory.getLogger(OwnedEntityProcessor.class);
 
-	protected SERVICE service;
+	protected TService service;
 
 	private HashMap<String, T> boundObjects = new HashMap<String, T>();
 
 	@Override
-	public T doProcess(T t) throws Exception {
-		Taxon taxon = null;
-		if(t.getTaxon() != null) {
-			taxon = super.getTaxonService().find(t.getTaxon().getIdentifier());
-			t.setTaxon(taxon);
-		}
-
-		super.checkTaxon(getRecordType(), t, t.getTaxon()); // Ensure taxon is not null
+	public T doProcess(T ownedEntity) throws Exception {
+		var taxon = loadTaxonFromTaxonIdentifier(ownedEntity);
 		taxon.addAuthorityToTaxonAndRelatedTaxa(getSource());
 
-		T bound = lookupBound(t);
+		var bound = lookupBound(ownedEntity);
 		if (bound == null) {
-			doValidate(t);
+			doValidate(ownedEntity);
 
 			T persisted = null;
-			if (t.getIdentifier() != null) {
-				persisted = service.find(t.getIdentifier(), "object-with-annotations");
+			if (ownedEntity.getIdentifier() != null) {
+				persisted = service.find(ownedEntity.getIdentifier(), "object-with-annotations");
 			}
 
 			if (persisted != null) {
-				checkAuthority(getRecordType(), t, persisted.getAuthority());
+				checkAuthority(getRecordType(), ownedEntity, persisted.getAuthority());
 
-				if (skipUnmodified && ((persisted.getModified() != null && t.getModified() != null) && !persisted
-						.getModified().isBefore(t.getModified()))) {
+				if (skipUnmodified && ((persisted.getModified() != null && ownedEntity.getModified() != null) && !persisted
+						.getModified().isBefore(ownedEntity.getModified()))) {
 					// The content hasn't changed, skip it
-					logger.debug("Skipping " + t);
+					logger.debug("Skipping " + ownedEntity);
 					bind(persisted);
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Skipped);
 					return persisted;
 				} else {
-					persisted.setTaxon(t.getTaxon());
-					persisted.setAccessRights(t.getAccessRights());
-					persisted.setCreated(t.getCreated());
-					persisted.setLicense(t.getLicense());
-					persisted.setModified(t.getModified());
-					persisted.setRights(t.getRights());
-					persisted.setRightsHolder(t.getRightsHolder());
-					doUpdate(persisted, t);
-					validate(t);
+					persisted.setTaxon(ownedEntity.getTaxon());
+					persisted.setAccessRights(ownedEntity.getAccessRights());
+					persisted.setCreated(ownedEntity.getCreated());
+					persisted.setLicense(ownedEntity.getLicense());
+					persisted.setModified(ownedEntity.getModified());
+					persisted.setRights(ownedEntity.getRights());
+					persisted.setRightsHolder(ownedEntity.getRightsHolder());
+					doUpdate(persisted, ownedEntity);
+					validate(ownedEntity);
 					bind(persisted);
-					replaceAnnotation(persisted, AnnotationType.Info, AnnotationCode.Update);
-					logger.debug("Updating " + t);
+					logger.debug("Updating " + ownedEntity);
 					return persisted;
 				}
 			} else {
-				doCreate(t);
-				validate(t);
-				bind(t);
-				chunkAnnotations.add(createAnnotation(t, getRecordType(), AnnotationCode.Create, AnnotationType.Info));
-				t.setAuthority(getSource());
-				t.setResource(getResource());
-				return t;
+				doCreate(ownedEntity);
+				validate(ownedEntity);
+				bind(ownedEntity);
+				ownedEntity.setAuthority(getSource());
+				ownedEntity.setResource(getResource());
+				return ownedEntity;
 			}
 		} else {
-			logger.debug("Skipping object " + t.getIdentifier());
+			logger.debug("Skipping object " + ownedEntity.getIdentifier());
 			return null;
 		}
 	}
@@ -126,4 +116,24 @@ public abstract class OwnedEntityProcessor<T extends OwnedEntity, SERVICE extend
 
 	@Override
 	public void afterChunkError(ChunkContext context) { }
+
+	/**
+	 * The entity received from the {@link OwnedEntityFieldSetMapper} has a dummy {@link Taxon} containing just
+	 * the identifier. This method loads that identifier from the database and updates the entity so it relates
+	 * the loaded taxon.
+	 * 
+	 * @throws CannotFindRecordException if the taxon is not found in the database
+	 */
+	private Taxon loadTaxonFromTaxonIdentifier(T ownedEntity) {
+		var taxonIdentifier = ownedEntity.getTaxon().getIdentifier();
+		var taxon = getTaxonService().find(taxonIdentifier);
+
+		if (taxon == null) {
+			throw new CannotFindRecordException(taxonIdentifier);
+		}
+
+		ownedEntity.setTaxon(taxon);
+
+		return taxon;
+	}
 }

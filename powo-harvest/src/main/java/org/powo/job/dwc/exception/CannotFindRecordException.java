@@ -40,6 +40,10 @@ public class CannotFindRecordException extends TaxonProcessingException {
 		super("Cannot find a taxon " + title + " with identifier " + identifier, AnnotationCode.BadIdentifier, identifier);
 	}
 
+	public CannotFindRecordException(final String identifier) {
+		super("Cannot find a taxon with identifier " + identifier, AnnotationCode.BadIdentifier, identifier);
+	}
+
 	@Override
 	public final AnnotationType getType() {
 		return AnnotationType.Error;

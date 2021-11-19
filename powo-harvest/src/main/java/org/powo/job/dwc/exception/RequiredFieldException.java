@@ -16,6 +16,7 @@
  */
 package org.powo.job.dwc.exception;
 
+import org.powo.model.BaseData;
 import org.powo.model.constants.AnnotationCode;
 import org.powo.model.constants.AnnotationType;
 import org.powo.model.constants.RecordType;
@@ -40,6 +41,14 @@ public class RequiredFieldException extends DarwinCoreProcessingException {
 	 */
 	public RequiredFieldException(final String msg, final RecordType recordType, final Integer lineNumber) {
 		super(msg, AnnotationCode.BadField, recordType, lineNumber.toString());
+	}
+
+	/**
+	 * @param msg the message
+	 * @param object the object missing a required field
+	 */
+	public RequiredFieldException(final String msg, final BaseData object) {
+		super(msg, AnnotationCode.BadField, RecordType.forClass(object.getClass()), object.getIdentifier());
 	}
 
 	@Override

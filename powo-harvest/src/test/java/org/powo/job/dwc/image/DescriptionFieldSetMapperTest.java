@@ -1,6 +1,7 @@
 package org.powo.job.dwc.image;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.easymock.EasyMock.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +16,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Test;
 import org.powo.job.dwc.TestCase;
 import org.powo.job.dwc.description.FieldSetMapper;
+import org.powo.job.dwc.exception.RequiredFieldException;
 import org.powo.model.Description;
 import org.powo.model.Reference;
 import org.powo.model.constants.DescriptionType;
@@ -80,5 +82,29 @@ public class DescriptionFieldSetMapperTest {
 			ids.add(reference.getIdentifier());
 		}
 		assertEquals(ids, Arrays.asList("Reference 1", "Reference 2"));
+	}
+
+	@Test(expected = RequiredFieldException.class)
+	public void testThrowsExceptionWhenTaxonIdentifierNull() throws Exception {				
+		var description = new Description();
+		
+		mapper.mapField(description, "http://rs.tdwg.org/dwc/terms/taxonID", null);
+	}
+
+	@Test(expected = RequiredFieldException.class)
+	public void testThrowsExceptionWhenTaxonIdentifierEmpty() throws Exception {				
+		var description = new Description();
+		
+		mapper.mapField(description, "http://rs.tdwg.org/dwc/terms/taxonID", "");
+	}
+
+	@Test
+	public void testAddsTemporaryTaxonWithIdentifier() throws Exception {				
+		var description = new Description();
+		
+		mapper.mapField(description, "http://rs.tdwg.org/dwc/terms/taxonID", "urn:lsid:ipni.org:names:30000475-2");
+
+		assertNotNull(description.getTaxon());
+		assertEquals("urn:lsid:ipni.org:names:30000475-2", description.getTaxon().getIdentifier());
 	}
 }

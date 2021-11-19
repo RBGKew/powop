@@ -50,6 +50,7 @@ $pagination-active-border: #ccc;
 $pagination-disabled-border: #fff;
 
 // Nav styling
+$navbar-default-color: #262626;
 $nav-link-padding: 10px 10px !default;
 $nav-link-hover-bg: transparent;
 $nav-disabled-link-color: transparent;
@@ -87,6 +88,7 @@ $border-grey: 1px solid #CCCCCC;
 @import 'vendor/accoutrement-layout/sass/layout';
 
 @import "vendor/bootstrap";
+@import "vendor/bootstrap-legacy";
 @import "vendor/magnific-popup";
 @import "vendor/openlayers";
 

@@ -83,7 +83,7 @@ public class ImageDaoImpl extends DaoImpl<Image> implements ImageDao {
 			if(!rootImgs.isEmpty()) q.setParameter("rootImgs", rootImgs);
 		} else {
 			// we don't want to add anything to species and below
-			q = getSession().createQuery("from Image where 1=0");
+			return List.of();
 		}
 
 		q.setMaxResults(n);

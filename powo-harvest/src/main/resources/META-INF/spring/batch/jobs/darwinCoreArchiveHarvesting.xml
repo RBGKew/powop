@@ -29,7 +29,6 @@
       <batch:tasklet ref="getDWCArchiveTasklet" />
       <batch:next on="NOT_MODIFIED" to="cleanupResourcesNotModified" />
       <batch:next on="COMPLETED" to="unpackDWCArchive" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
@@ -59,7 +58,7 @@
     <batch:step id="readArchiveMetadata">
       <batch:description>Read the metadata from the archive and figure out how to interpret the files</batch:description>
       <batch:tasklet ref="readDWCArchiveMetadataTasklet" />
-      <batch:next on="COMPLETED" to="markExistingTaxa" />
+      <batch:next on="COMPLETED" to="checkTaxonProcessingMode" />
       <batch:listeners>
         <batch:listener ref="dwcArchiveMetadataReader" />
         <batch:listener ref="stepStatusListener" />
@@ -68,40 +67,13 @@
     </batch:step>
 
     <!--================= Taxon processing steps ======================-->
-    <batch:step id="markExistingTaxa">
-      <batch:description>Mark any existing taxa associated with this resource</batch:description>
-      <batch:tasklet ref="markTaxonRecordsByResourceTasklet"/>
-      <batch:next on="COMPLETED" to="checkTaxonProcessingMode"/>
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-    </batch:step>
 
     <batch:decision decider="taxonProcessingModeDecider" id="checkTaxonProcessingMode">
       <!-- SKIP_TAXA is default -->
-      <batch:next on="*" to="skipCoreFile" />
+      <batch:next on="*" to="checkDescriptionProcessingMode" />
       <batch:next on="IMPORT_NAMES" to="importCoreFile" />
       <batch:next on="IMPORT_TAXONOMY" to="importLinksOnly" />
     </batch:decision>
-
-    <batch:step id="skipCoreFile">
-      <batch:description>Process the core file containing the taxa but only check the taxa, don't modify or create taxa</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="taxonReader" processor="taxonSkippingProcessor" writer="itemWriter" commit-interval="100" skip-limit="10000">
-          <batch:skippable-exception-classes>
-            <batch:include class="org.powo.job.dwc.exception.DarwinCoreProcessingException" />
-            <batch:include class="org.springframework.batch.item.file.FlatFileParseException" />
-          </batch:skippable-exception-classes>
-        </batch:chunk>
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-      <batch:listeners>
-        <batch:listener ref="taxonSkippingProcessor" />
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="taxonFieldSetMapper" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
 
     <batch:step id="importCoreFile">
       <batch:description>Process the core file containing the taxa, creating and modifying where neccessary</batch:description>
@@ -113,8 +85,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentTaxa" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="taxonFieldSetMapper" />
@@ -135,7 +106,6 @@
         </batch:chunk>
       </batch:tasklet>
       <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="taxonFieldSetMapper" />
@@ -144,53 +114,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentTaxa">
-      <batch:description>Delete the taxa which appear in the database, but not in the archive</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteTaxaReader"  writer="taxonDeletingWriter" commit-interval="100"/>
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexNamesSuggesterDecision" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexNamesSuggesterDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexNamesSuggester" />
-      <batch:next on="true" to="checkDescriptionProcessingMode" />
-    </batch:decision>
-
-    <batch:step id="indexNamesSuggester">
-      <batch:description>Build the scientific-names suggester index</batch:description>
-      <batch:tasklet ref="nameSuggesterIndexingTasklet" />
-      <batch:next on="COMPLETED" to="checkDescriptionProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-    </batch:step>
-
     <!--================= Description processing steps ======================-->
     <batch:decision decider="descriptionProcessingModeDecider" id="checkDescriptionProcessingMode">
       <!-- IMPORT_DESCRIPTIONS is the default -->
-      <batch:next on="*" to="markDescriptionRecords" />
+      <batch:next on="*" to="processDescriptionDecision" />
       <batch:next on="SKIP_DESCRIPTIONS" to="checkTermProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markDescriptionRecords">
-      <batch:description>Mark the description records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markDescriptionRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processDescriptionDecision" />
-      <batch:listeners>
-        <batch:listener ref="markDescriptionRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processDescriptionDecider" id="processDescriptionDecision">
       <batch:next on="true" to="processDescriptionFile" />
-      <batch:next on="false" to="deleteAbsentDescriptions" />
+      <batch:next on="false" to="checkTermProcessingMode" />
     </batch:decision>
 
     <batch:step id="processDescriptionFile">
@@ -203,8 +136,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentDescriptions" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkTermProcessingMode" />
       <batch:listeners>
         <batch:listener ref="descriptionFieldSetMapper" />
         <batch:listener ref="descriptionProcessor" />
@@ -214,52 +146,18 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentDescriptions">
-      <batch:description>Delete descriptions related to this resource which exist in the database but not in the archive</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteDescriptionsReader" writer="deletingWriter"  commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexDescriptionsSuggesterDecision" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexDescriptionsSuggesterDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexDescriptionsSuggester" />
-      <batch:next on="true" to="checkTermProcessingMode" />
-    </batch:decision>
-
-    <batch:step id="indexDescriptionsSuggester">
-      <batch:description>Build the characteristic suggester index</batch:description>
-      <batch:tasklet ref="descriptionSuggesterIndexingTasklet" />
-      <batch:next on="COMPLETED" to="checkTermProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-    </batch:step>
-
     <!--================= Term processing steps ======================-->
     <batch:decision decider="termProcessingModeDecider" id="checkTermProcessingMode">
       <!-- IMPORT_TERMS is the default -->
-      <batch:next on="IMPORT_TERMS" to="markTermRecords" />
+      <batch:next on="IMPORT_TERMS" to="processTermsDecision" />
       <batch:next on="SKIP_TERMS" to="checkImageProcessingMode" />
     </batch:decision>
-    <batch:step id="markTermRecords">
-      <batch:description>Mark the term records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markTermRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processTermsDecision" />
-      <batch:listeners>
-        <batch:listener ref="markTermRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
+
     <batch:decision decider="processTermsDecider" id="processTermsDecision">
       <batch:next on="true" to="processTermFile" />
-      <batch:next on="false" to="deleteAbsentTerms" />
+      <batch:next on="false" to="checkImageProcessingMode" />
     </batch:decision>
+
     <batch:step id="processTermFile">
       <batch:description>Process the extension file containing the terms</batch:description>
       <batch:tasklet>
@@ -270,8 +168,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentTerms" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkImageProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="termFieldSetMapper" />
@@ -280,52 +177,17 @@
         <batch:listener ref="chunkPerformanceLoggingListener" />
       </batch:listeners>
     </batch:step>
-    <batch:step id="deleteAbsentTerms">
-      <batch:description>Delete the terms which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteTermsReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTerms" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-    <batch:step id="indexTerms">
-      <batch:description>Index the terms associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTermsReader" writer="indexTermsWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkImageProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
 
     <!--================= Image processing steps ======================-->
     <batch:decision decider="imageProcessingModeDecider" id="checkImageProcessingMode">
       <!-- IMPORT_IMAGES is the default  -->
-      <batch:next on="*" to="markImageRecords" />
+      <batch:next on="*" to="processImagesDecision" />
       <batch:next on="SKIP_IMAGES" to="checkReferenceProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markImageRecords">
-      <batch:description>Mark the image records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markImageRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processImagesDecision" />
-      <batch:listeners>
-        <batch:listener ref="markImageRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processImageDecider" id="processImagesDecision">
       <batch:next on="true" to="processImageFile" />
-      <batch:next on="false" to="deleteAbsentImages" />
+      <batch:next on="false" to="checkReferenceProcessingMode" />
     </batch:decision>
 
     <batch:step id="processImageFile">
@@ -338,8 +200,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexAssociatedImagesDecision" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
       <batch:listeners>
         <batch:listener ref="processingExceptionProcessListener" />
         <batch:listener ref="imageFieldSetMapper" />
@@ -349,56 +210,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:decision decider="skipIndexDecider" id="indexAssociatedImagesDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="markAssociatedTaxaForIndexing" />
-      <batch:next on="true" to="deleteAbsentImages" />
-    </batch:decision>
-
-    <batch:step id="markAssociatedTaxaForIndexing">
-      <batch:description>Mark the taxa who need to be re-indexed due to image 'bubble-up'</batch:description>
-      <batch:tasklet ref="markAssociatedTaxaForIndexingTasklet" />
-      <batch:next on="COMPLETED" to="deleteAbsentImages" />
-      <batch:listeners>
-        <batch:listener ref="markAssociatedTaxaForIndexingTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="deleteAbsentImages">
-      <batch:description>Delete the images which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteImagesReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkReferenceProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <!--==================== References processing steps ====================-->
     <batch:decision decider="referenceProcessingModeDecider" id="checkReferenceProcessingMode">
       <!-- IMPORT_REFERENCES is the default -->
-      <batch:next on="*" to="markReferenceRecords" />
+      <batch:next on="*" to="processReferencesDecision" />
       <batch:next on="SKIP_REFERENCES" to="checkIdentifierProcessingMode" />
     </batch:decision>
-    <batch:step id="markReferenceRecords">
-      <batch:description>Mark the reference records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markReferenceRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processReferencesDecision" />
-      <batch:listeners>
-        <batch:listener ref="markReferenceRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
 
     <batch:decision decider="processReferenceDecider" id="processReferencesDecision">
       <batch:next on="true" to="processReferenceFile" />
-      <batch:next on="false" to="deleteAbsentReferences" />
+      <batch:next on="false" to="checkIdentifierProcessingMode" />
     </batch:decision>
 
     <batch:step id="processReferenceFile">
@@ -411,8 +232,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentReferences" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkIdentifierProcessingMode" />
       <batch:listeners>
         <batch:listener ref="referenceFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -422,41 +242,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentReferences">
-      <batch:description>Delete the references which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteReferencesReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkIdentifierProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-
     <!--==================== Identifier processing steps ====================-->
     <batch:decision decider="identifierProcessingModeDecider" id="checkIdentifierProcessingMode">
       <!-- IMPORT_IDENTIFIERS is the default -->
-      <batch:next on="*" to="markIdentifierRecords" />
+      <batch:next on="*" to="processIdentifiersDecision" />
       <batch:next on="SKIP_IDENTIFIERS" to="checkIdentificationProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markIdentifierRecords">
-      <batch:description>Mark the identifier records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markIdentifierRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processIdentifiersDecision" />
-      <batch:listeners>
-        <batch:listener ref="markIdentifierRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processIdentifierDecider" id="processIdentifiersDecision">
       <batch:next on="true" to="processIdentifierFile" />
-      <batch:next on="false" to="deleteAbsentIdentifiers" />
+      <batch:next on="false" to="checkIdentificationProcessingMode" />
     </batch:decision>
 
     <batch:step id="processIdentifierFile">
@@ -469,8 +264,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentIdentifiers" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkIdentificationProcessingMode" />
       <batch:listeners>
         <batch:listener ref="identifierFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -480,40 +274,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentIdentifiers">
-      <batch:description>Delete the identifiers which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteIdentifiersReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkIdentificationProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-
     <!--==================== Identification processing steps ====================-->
     <batch:decision decider="identificationProcessingModeDecider" id="checkIdentificationProcessingMode">
       <!-- IMPORT_IDENTIFIERS is the default -->
-      <batch:next on="*" to="markIdentificationRecords" />
+      <batch:next on="*" to="processIdentificationDecision" />
       <batch:next on="SKIP_IDENTIFICATIONS" to="checkDistributionProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markIdentificationRecords">
-      <batch:tasklet ref="markIdentificationRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processIdentificationDecision" />
-      <batch:listeners>
-        <batch:listener ref="markIdentificationRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processIdentificationDecider" id="processIdentificationDecision">
       <batch:next on="true" to="processIdentificationFile" />
-      <batch:next on="false" to="deleteAbsentIdentifications" />
+      <batch:next on="false" to="checkDistributionProcessingMode" />
     </batch:decision>
 
     <batch:step id="processIdentificationFile">
@@ -531,8 +301,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentIdentifications" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkDistributionProcessingMode" />
       <batch:listeners>
         <batch:listener ref="identificationFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -542,40 +311,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentIdentifications">
-      <batch:description>Delete the identifications which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteIdentificationReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkDistributionProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <!--==================== Distribution processing steps ====================-->
     <batch:decision decider="distributionProcessingModeDecider" id="checkDistributionProcessingMode">
       <!-- IMPORT_DISTRIBUTION is the default -->
-      <batch:next on="*" to="markDistributionRecords" />
+      <batch:next on="*" to="processDistributionDecision" />
       <batch:next on="SKIP_DISTRIBUTION" to="checkMeasurementOrFactProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markDistributionRecords">
-      <batch:description>Mark the distribution records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markDistributionRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processDistributionDecision" />
-      <batch:listeners>
-        <batch:listener ref="markDistributionRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processDistributionDecider" id="processDistributionDecision">
       <batch:next on="true" to="processDistributionFile" />
-      <batch:next on="false" to="deleteAbsentDistribution" />
+      <batch:next on="false" to="checkMeasurementOrFactProcessingMode" />
     </batch:decision>
 
     <batch:step id="processDistributionFile">
@@ -588,8 +333,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentDistribution" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkMeasurementOrFactProcessingMode" />
       <batch:listeners>
         <batch:listener ref="distributionFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -599,41 +343,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentDistribution">
-      <batch:description>Delete the distribution which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteDistributionReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkMeasurementOrFactProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-
     <!--==================== Measurement or Fact processing steps ====================-->
     <batch:decision decider="measurementOrFactProcessingModeDecider" id="checkMeasurementOrFactProcessingMode">
       <!-- IMPORT_MEASUREMENT_OR_FACT is the default -->
-      <batch:next on="*" to="markMeasurementOrFactRecords" />
+      <batch:next on="*" to="processMeasurementOrFactDecision" />
       <batch:next on="SKIP_MEASUREMENT_OR_FACT" to="checkVernacularNameProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markMeasurementOrFactRecords">
-      <batch:description>Mark the measurement or fact records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markMeasurementOrFactRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processMeasurementOrFactDecision" />
-      <batch:listeners>
-        <batch:listener ref="markMeasurementOrFactRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processMeasurementOrFactDecider" id="processMeasurementOrFactDecision">
       <batch:next on="true" to="processMeasurementOrFactFile" />
-      <batch:next on="false" to="deleteAbsentMeasurementOrFacts" />
+      <batch:next on="false" to="checkVernacularNameProcessingMode" />
     </batch:decision>
 
     <batch:step id="processMeasurementOrFactFile">
@@ -646,8 +365,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentMeasurementOrFacts" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkVernacularNameProcessingMode" />
       <batch:listeners>
         <batch:listener ref="measurementOrFactFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -657,41 +375,16 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentMeasurementOrFacts">
-      <batch:description>Delete the measurement or facts which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteMeasurementOrFactReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="checkVernacularNameProcessingMode" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-
     <!--==================== Vernacular Name processing steps ====================-->
     <batch:decision decider="vernacularNameProcessingModeDecider" id="checkVernacularNameProcessingMode">
       <!-- IMPORT_VERNACULAR_NAME is the default -->
-      <batch:next on="*" to="markVernacularNameRecords" />
+      <batch:next on="*" to="processVernacularNameDecision" />
       <batch:next on="SKIP_VERNACULAR_NAME" to="checkTypeAndSpecimenProcessingMode" />
     </batch:decision>
 
-    <batch:step id="markVernacularNameRecords">
-      <batch:description>Mark the vernacular name records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markVernacularNameRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processVernacularNameDecision" />
-      <batch:listeners>
-        <batch:listener ref="markVernacularNameRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:decision decider="processVernacularNameDecider" id="processVernacularNameDecision">
       <batch:next on="true" to="processVernacularNameFile" />
-      <batch:next on="false" to="deleteAbsentVernacularNames" />
+      <batch:next on="false" to="checkTypeAndSpecimenProcessingMode" />
     </batch:decision>
 
     <batch:step id="processVernacularNameFile">
@@ -704,8 +397,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentVernacularNames" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
       <batch:listeners>
         <batch:listener ref="vernacularNameFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -715,53 +407,15 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentVernacularNames">
-      <batch:description>Delete the vernacular names which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteVernacularNameReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexCommonNameSuggesterDecision" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexCommonNameSuggesterDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexCommonNameSuggester" />
-      <batch:next on="true" to="checkTypeAndSpecimenProcessingMode" />
-    </batch:decision>
-
-    <batch:step id="indexCommonNameSuggester">
-      <batch:description>Build the common-name suggester index</batch:description>
-      <batch:tasklet ref="commonNameSuggesterIndexingTasklet" />
-      <batch:next on="COMPLETED" to="checkTypeAndSpecimenProcessingMode" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
-    </batch:step>
-
     <!--==================== TypeAndSpecimen processing steps ====================-->
     <batch:decision decider="typeAndSpecimenProcessingModeDecider" id="checkTypeAndSpecimenProcessingMode">
       <!-- IMPORT_TYPE_AND_SPECIMEN is the default -->
-      <batch:next on="*" to="markTypeAndSpecimenRecords" />
-      <batch:next on="SKIP_TYPE_AND_SPECIMEN" to="indexTaxaDecision" />
+      <batch:next on="*" to="processTypeAndSpecimenDecision" />
     </batch:decision>
-
-    <batch:step id="markTypeAndSpecimenRecords">
-      <batch:description>Mark the type and specimen records we expect to be present in this archive (based on what we have previously harvested)</batch:description>
-      <batch:tasklet ref="markTypeAndSpecimenRecordsTasklet" />
-      <batch:next on="COMPLETED" to="processTypeAndSpecimenDecision" />
-      <batch:listeners>
-        <batch:listener ref="markTypeAndSpecimenRecordsTasklet" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
 
     <batch:decision decider="processTypeAndSpecimenDecider" id="processTypeAndSpecimenDecision">
       <batch:next on="true" to="processTypeAndSpecimenFile" />
-      <batch:next on="false" to="deleteAbsentTypeAndSpecimens" />
+      <batch:next on="false" to="cleanupResources" />
     </batch:decision>
 
     <batch:step id="processTypeAndSpecimenFile">
@@ -774,8 +428,7 @@
           </batch:skippable-exception-classes>
         </batch:chunk>
       </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteAbsentTypeAndSpecimens" />
-      <batch:next on="FAILED" to="deleteOldAnnotationsFailed"/>
+      <batch:next on="COMPLETED" to="cleanupResources" />
       <batch:listeners>
         <batch:listener ref="typeAndSpecimenFieldSetMapper" />
         <batch:listener ref="processingExceptionProcessListener" />
@@ -785,87 +438,10 @@
       </batch:listeners>
     </batch:step>
 
-    <batch:step id="deleteAbsentTypeAndSpecimens">
-      <batch:description>Delete the types and specimens which we expected to be present in the archive but which were absent</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteTypeAndSpecimenReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTypesAndSpecimens" />
-      <batch:listeners>
-        <batch:listener ref="processingExceptionProcessListener" />
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="indexTypesAndSpecimens">
-      <batch:description>Index the types and specimens associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTypesAndSpecimensReader" writer="indexTypesAndSpecimensWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="indexTaxaDecision" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:decision decider="skipIndexDecider" id="indexTaxaDecision">
-      <!-- Defaults to false -->
-      <batch:next on="false" to="indexTaxa" />
-      <batch:next on="true" to="deleteOldAnnotations" />
-    </batch:decision>
-
-    <batch:step id="indexTaxa">
-      <batch:description>Index the taxa associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="indexTaxaReader" writer="indexTaxaWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="deleteOldAnnotations" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="deleteOldAnnotations">
-      <batch:description>Delete the annotations no longer associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="cleanupResources" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
     <batch:step id="cleanupResources">
       <batch:description>Cleanup the resources</batch:description>
       <batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
       <batch:end on="COMPLETED" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="deleteOldAnnotationsFailed">
-      <batch:description>Delete the annotations no longer associated with this job</batch:description>
-      <batch:tasklet>
-        <batch:chunk reader="deleteAnnotationsReader" writer="deletingWriter" commit-interval="100" />
-      </batch:tasklet>
-      <batch:next on="COMPLETED" to="cleanupResourcesFailed" />
-      <batch:listeners>
-        <batch:listener ref="stepStatusListener" />
-        <batch:listener ref="chunkPerformanceLoggingListener" />
-      </batch:listeners>
-    </batch:step>
-
-    <batch:step id="cleanupResourcesFailed">
-      <batch:description>Cleanup the resources</batch:description>
-      <batch:tasklet ref="dwcArchiveResourceDeletingTasklet" />
-      <batch:end on="COMPLETED" exit-code="FAILED" />
       <batch:listeners>
         <batch:listener ref="stepStatusListener" />
         <batch:listener ref="chunkPerformanceLoggingListener" />
@@ -951,13 +527,6 @@
     <property name="defaultProcessingMode" value="SKIP_TAXA" />
   </bean>
 
-  <bean id="markTaxonRecordsByResourceTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Taxon"/>
-  </bean>
-
   <bean id="taxonReader" class="org.springframework.batch.item.file.FlatFileItemReader"
     scope="step">
     <property name="encoding" value="#{jobExecutionContext['dwca.core.encoding']}" />
@@ -980,10 +549,6 @@
   </bean>
   
   <bean id="taxonLinkingProcessor" class="org.powo.job.dwc.taxon.LinkingProcessor" scope="step">
-    <property name="sourceName" value="#{jobParameters['authority.name']}" />
-  </bean>
-
-  <bean id="taxonSkippingProcessor" class="org.powo.job.dwc.taxon.SkippingProcessor" scope="step">
     <property name="sourceName" value="#{jobParameters['authority.name']}" />
   </bean>
 
@@ -1016,54 +581,6 @@
     <property name="defaultValues" value="#{jobExecutionContext['dwca.core.defaultValues']}" />
   </bean>
 
-  <bean id="deleteTaxaReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select t.id from Taxon t join t.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTaxaReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select t.id from Taxon t join t.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTaxaWriter"  class="org.powo.harvest.common.SolrIndexingWriter">
-    <property name="type" value="org.powo.model.Taxon" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
-  </bean>
-
-  <bean id="deleteAnnotationsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select a from Annotation a join a.authority auth where a.jobId not in (select r.jobId from Resource r join r.organisation org where org.identifier = :authorityIdentifier) and auth.identifier = :authorityIdentifier" />
-    <property name="parameterValues">
-      <map>
-        <entry key="authorityIdentifier" value="#{jobParameters['authority.name']}"/>
-      </map>
-    </property>
-  </bean>
-
-  <bean id="nameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrClient" />
-    <property name="suggester" value="scientific-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
-  </bean>
-
   <!-- Descriptions -->
 
   <bean id="descriptionProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
@@ -1073,13 +590,6 @@
 
   <bean id="processDescriptionDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.description.file" />
-  </bean>
-
-  <bean id="markDescriptionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Description" />
   </bean>
 
   <bean id="descriptionReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
@@ -1121,24 +631,6 @@
   <bean id="descriptionFieldSetMapper" class="org.powo.job.dwc.description.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.description.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.description.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteDescriptionsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select d from Description d join d.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="descriptionSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrClient" />
-    <property name="suggester" value="characteristic" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- Images -->
@@ -1150,19 +642,6 @@
 
   <bean id="processImageDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.image.file" />
-  </bean>
-
-  <bean id="markImageRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Image"/>
-  </bean>
-
-  <bean id="markAssociatedTaxaForIndexingTasklet" class="org.powo.job.dwc.read.AncestorImageAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
   </bean>
 
   <bean id="imageReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1219,37 +698,6 @@
       value="#{jobParameters['prefix']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.image.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select i from Image i join i.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexImagesReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i.id from Image i join i.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexImagesWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.powo.model.Image" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Terms -->
@@ -1261,13 +709,6 @@
 
   <bean id="processTermsDecider" class="org.powo.job.dwc.ExtensionProcessingDecider">
     <property name="processingModeKey" value="dwca.term.file" />
-  </bean>
-
-  <bean id="markTermRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Concept"/>
   </bean>
 
   <bean id="termReader" class="org.springframework.batch.item.file.FlatFileItemReader"
@@ -1322,50 +763,9 @@
       value="#{jobExecutionContext['dwca.term.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.term.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteTermsReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i from Concept i join i.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTermsReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i.id from Concept i join i.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTermsWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.powo.model.Concept" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- References -->
-
-  <bean id="markReferenceRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Reference"/>
-  </bean>
 
   <bean id="referenceProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="reference.processing.mode" />
@@ -1429,32 +829,9 @@
       value="#{jobExecutionContext['dwca.reference.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.reference.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteReferencesReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select r from Reference r join r.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- Identifiers -->
-
-  <bean id="markIdentifierRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Identifier" />
-  </bean>
 
   <bean id="identifierProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="identifier.processing.mode" />
@@ -1519,31 +896,9 @@
       value="#{jobExecutionContext['dwca.identifier.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.identifier.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteIdentifiersReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i from Identifier i join i.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- Distribution -->
-
-  <bean id="markDistributionRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Distribution" />
-  </bean>
 
   <bean id="distributionProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="distribution.processing.mode" />
@@ -1606,30 +961,9 @@
       value="#{jobExecutionContext['dwca.distribution.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.distribution.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteDistributionReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select d from Distribution d join d.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- MeasurementOrFact -->
-
-  <bean id="markMeasurementOrFactRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="MeasurementOrFact" />
-  </bean>
 
   <bean id="measurementOrFactProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="measurementOrFact.processing.mode" />
@@ -1693,31 +1027,9 @@
       value="#{jobExecutionContext['dwca.measurementOrFact.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.measurementOrFact.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteMeasurementOrFactReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select m from MeasurementOrFact m join m.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- VernacularName -->
-  <bean id="markVernacularNameRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="VernacularName" />
-  </bean>
 
   <bean id="vernacularNameProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="vernacularName.processing.mode" />
@@ -1781,37 +1093,9 @@
       value="#{jobExecutionContext['dwca.vernacularName.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.vernacularName.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteVernacularNameReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select v from VernacularName v join v.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="commonNameSuggesterIndexingTasklet" class="org.powo.harvest.common.SolrSuggesterIndexingTasklet">
-    <property name="solrClient" ref="solrClient" />
-    <property name="suggester" value="common-name" /><!-- Must match name of suggester defined in solrconfig.xml -->
   </bean>
 
   <!-- TypeAndSpecimen -->
-
-  <bean id="markTypeAndSpecimenRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="TypeAndSpecimen"/>
-  </bean>
 
   <bean id="typeAndSpecimenProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="typeAndSpecimen.processing.mode" />
@@ -1874,49 +1158,9 @@
       value="#{jobExecutionContext['dwca.typeAndSpecimen.fieldNames']}" />
     <property name="defaultValues"
       value="#{jobExecutionContext['dwca.typeAndSpecimen.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteTypeAndSpecimenReader"
-    class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select t from TypeAndSpecimen t join t.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code"
-          value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTypesAndSpecimensReader" class="org.springframework.batch.item.database.HibernateCursorItemReader"
-    scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString"
-      value="select i.id from TypeAndSpecimen i join i.annotations a where a.jobId = :jobId" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-      </map>
-    </property>
-  </bean>
-
-  <bean id="indexTypesAndSpecimensWriter"  class="org.powo.harvest.common.SolrIndexingWriter" scope="step">
-    <property name="type" value="org.powo.model.TypeAndSpecimen" />
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="solrIndexingInterceptor" ref="solrIndexingInterceptor" />
   </bean>
 
   <!-- Identification -->
-  <bean id="markIdentificationRecordsTasklet" class="org.powo.job.dwc.read.RecordAnnotator" scope="step">
-    <property name="dataSource" ref="dataSource" />
-    <property name="authorityName" value="#{jobParameters['authority.name']}"/>
-    <property name="resourceIdentifier" value="#{jobParameters['resource.identifier']}"/>
-    <property name="annotatedObjectType" value="Identification" />
-  </bean>
 
   <bean id="identificationProcessingModeDecider" class="org.powo.job.ConfigurableProcessingModeDecider">
     <property name="processingModeKey" value="identification.processing.mode" />
@@ -1965,18 +1209,6 @@
   <bean id="identificationFieldSetMapper" class="org.powo.job.dwc.identification.FieldSetMapper" scope="step">
     <property name="fieldNames" value="#{jobExecutionContext['dwca.identification.fieldNames']}" />
     <property name="defaultValues" value="#{jobExecutionContext['dwca.identification.defaultValues']}" />
-    <property name="taxonService" ref="taxonServiceImpl" />
-  </bean>
-
-  <bean id="deleteIdentificationReader" class="org.springframework.batch.item.database.HibernateCursorItemReader" scope="step">
-    <property name="sessionFactory" ref="sessionFactory" />
-    <property name="queryString" value="select v from Identification v join v.annotations a where a.jobId = :jobId and a.code = :code" />
-    <property name="parameterValues">
-      <map>
-        <entry key="jobId" value="#{jobExecutionContext['job.execution.id']}" />
-        <entry key="code" value="#{T(org.powo.model.constants.AnnotationCode).Absent}" />
-      </map>
-    </property>
   </bean>
 
   <!-- Writing -->
@@ -1988,18 +1220,6 @@
 
   <bean id="itemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
     <property name="sessionFactory" ref="sessionFactory" />
-  </bean>
-
-  <bean id="deletingWriter" class="org.powo.harvest.common.HibernateDeletingWriter">
-    <property name="sessionFactory" ref="sessionFactory" />
-  </bean>
-
-  <bean id="taxonDeletingWriter" class="org.powo.job.dwc.taxon.TaxonDeletingWriter">
-    <property name="sessionFactory" ref="sessionFactory" />
-  </bean>
-
-  <bean id="skipIndexDecider" class="org.powo.job.dwc.ConfigurableProcessingModeDecider">
-    <property name="processingModeKey" value="skip.indexing" />
-    <property name="defaultProcessingMode" value="false" />
+    <property name="clearSession" value="true" />
   </bean>
 </beans>

@@ -54,7 +54,6 @@
 		<liquibase.version>3.6.1</liquibase.version>
 		<logback.version>1.2.2</logback.version>
 		<lucene.version>7.5.0</lucene.version>
-		<mysql-connector.version>5.1.15</mysql-connector.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skip.global.tests>false</skip.global.tests>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -283,9 +282,9 @@
 
 			<!-- DB/ORM libraries -->
 			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql-connector.version}</version>
+				<groupId>org.mariadb.jdbc</groupId>
+				<artifactId>mariadb-java-client</artifactId>
+				<version>2.7.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -629,11 +628,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.5</version>
-			</dependency>
-			<dependency>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.11</version>
@@ -705,24 +699,6 @@
 						<formats>
 							<format>xml</format>
 						</formats>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>sql-maven-plugin</artifactId>
-					<version>1.5</version>
-					<dependencies>
-						<dependency>
-							<groupId>mysql</groupId>
-							<artifactId>mysql-connector-java</artifactId>
-							<version>${mysql-connector.version}</version>
-						</dependency>
-					</dependencies>
-					<configuration>
-						<driver>com.mysql.jdbc.Driver</driver>
-						<url>jdbc:mysql://127.0.0.1:13306/powo</url>
-						<username>powo</username>
-						<password>powo</password>
 					</configuration>
 				</plugin>
 
@@ -915,7 +891,7 @@
 		<profile>
 			<id>integration</id>
 			<properties>
-				<jdbc.driver.classname>com.mysql.jdbc.Driver</jdbc.driver.classname>
+				<jdbc.driver.classname>org.mariadb.jdbc.Driver</jdbc.driver.classname>
 				<jdbc.driver.username>powo</jdbc.driver.username>
 				<jdbc.driver.password>powo</jdbc.driver.password>
 				<jdbc.driver.url>jdbc:mysql://localhost:23306/powo</jdbc.driver.url>

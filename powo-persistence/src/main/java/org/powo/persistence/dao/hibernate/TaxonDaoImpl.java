@@ -88,8 +88,6 @@ public class TaxonDaoImpl extends DaoImpl<Taxon> implements TaxonDao {
 				new Fetch("vernacularNames.authority", FetchMode.SELECT),
 				new Fetch("measurementsOrFacts", FetchMode.SELECT),
 				new Fetch("measurementsOrFacts.authority", FetchMode.SELECT),
-				new Fetch("trees", FetchMode.SELECT),
-				new Fetch("trees.authority", FetchMode.SELECT),
 				new Fetch("uri", FetchMode.SELECT),
 				new Fetch("typesAndSpecimens", FetchMode.SELECT),
 				new Fetch("typesAndSpecimens.authority", FetchMode.SELECT)});

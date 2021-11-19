@@ -28,6 +28,7 @@ import org.powo.api.ResourceService;
 import org.powo.api.TaxonService;
 import org.powo.harvest.common.AuthorityAware;
 import org.powo.job.dwc.DwCProcessingExceptionProcessListener;
+import org.powo.job.dwc.exception.CannotFindRecordException;
 import org.powo.job.dwc.exception.DarwinCoreProcessingException;
 import org.powo.job.dwc.exception.InvalidValuesException;
 import org.powo.job.dwc.exception.RequiredFieldException;
@@ -57,7 +58,7 @@ import org.springframework.context.annotation.Scope;
 public abstract class DarwinCoreProcessor<T extends BaseData> extends AuthorityAware implements
 ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
-	private Logger logger = LoggerFactory.getLogger(DarwinCoreProcessor.class);
+	private Logger log = LoggerFactory.getLogger(DarwinCoreProcessor.class);
 
 	private Validator validator;
 
@@ -67,13 +68,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	private int itemsRead;
 
-	private long chunkStart;
-
-	protected List<Annotation> chunkAnnotations = new ArrayList<>();
-
-	@Autowired
-	private AnnotationService annotationService;
-
 	@Autowired
 	private ResourceService resourceService;
 
@@ -81,8 +75,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	private String resourceIdentifier;
 
 	private Resource resource;
-
-	private int chunkCount = 0;
 
 	@Autowired
 	public void setValidator(Validator validator) {
@@ -92,12 +84,6 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	public void setSkipUnmodified(Boolean skipUnmodified) {
 		if(skipUnmodified != null) {
 			this.skipUnmodified = skipUnmodified;
-		}
-	}
-
-	protected void checkTaxon(RecordType recordType, Base record, Taxon taxon) throws DarwinCoreProcessingException {
-		if(taxon == null) {
-			throw new RequiredFieldException(record + " at line + " + getLineNumber() +  " has no Taxon set", recordType, getStepExecution().getReadCount());
 		}
 	}
 
@@ -126,26 +112,10 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 	protected Resource getResource() {
 		if (resource == null && resourceService != null) {
 			resource = resourceService.find(resourceIdentifier);
-			logger.debug("Found resource: {}", resource);
+			log.debug("Found resource: {}", resource);
 		}
 
 		return resource;
-	}
-
-	protected Annotation createAnnotation(final BaseData object, RecordType recordType, AnnotationCode code, AnnotationType annotationType) {
-		Annotation annotation = super.createAnnotation(object, recordType, code, annotationType);
-		annotation.setResource(object.getResource());
-		return annotation;
-	}
-
-	protected void replaceAnnotation(Annotated annotated, AnnotationType type, AnnotationCode code) {
-		for(Annotation a : annotated.getAnnotations()) {
-			if(getStepExecution().getJobExecutionId().equals(a.getJobId())) {
-				a.setType(type);
-				a.setCode(code);
-				break;
-			}
-		}
 	}
 
 	@Autowired
@@ -161,13 +131,12 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 		Set<ConstraintViolation<T>> violations = validator.validate(t);
 		if(!violations.isEmpty()) {
 			StepExecution stepExecution = this.getStepExecution();
-			RecordType recordType = DwCProcessingExceptionProcessListener.stepNameToRecordType(stepExecution.getStepName());
 			StringBuffer stringBuffer = new StringBuffer(t.getClass() + " has ");
 			stringBuffer.append(violations.size()).append(" constraint violations:");
 			for(ConstraintViolation<T> violation : violations) {
 				stringBuffer.append(violation.getPropertyPath() +  " " + violation.getMessage());
 			}
-			throw new InvalidValuesException(stringBuffer.toString(), recordType,  stepExecution.getReadCount());
+			throw new InvalidValuesException(stringBuffer.toString(), RecordType.forClass(t.getClass()),  stepExecution.getReadCount());
 		}
 	}
 
@@ -183,11 +152,8 @@ ItemProcessor<T, T>, ChunkListener, ItemWriteListener<T> {
 
 	@Override
 	public void afterWrite(List<? extends T> items) {
-		chunkAnnotations.forEach(a -> annotationService.save(a));
-		chunkAnnotations = new ArrayList<>();
 	}
 
 	@Override
 	public void onWriteError(Exception exception, List<? extends T> items) { }
-
 }

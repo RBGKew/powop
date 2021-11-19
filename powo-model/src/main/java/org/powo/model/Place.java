@@ -38,6 +38,7 @@ import org.powo.model.marshall.json.ShapeDeserializer;
 import org.powo.model.marshall.json.ShapeSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.support.DatabaseType;
 import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -85,9 +86,9 @@ public class Place extends SearchableObject {
 
 	private Set<Annotation> annotations = new HashSet<Annotation>();
 
-
+	DatabaseType x;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return id;
 	}

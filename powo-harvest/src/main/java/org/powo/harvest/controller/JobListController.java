@@ -61,14 +61,14 @@ public class JobListController {
 		return new ResponseEntity<>(jobList, HttpStatus.CREATED);
 	}
 
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<JobList> getJobList(@PathVariable Long id) {
-		return new ResponseEntity<>(jobListService.find(id), HttpStatus.OK);
+	@GetMapping(path = "/{identifier}")
+	public ResponseEntity<JobList> getJobList(@PathVariable String identifier) {
+		return new ResponseEntity<>(jobListService.find(identifier), HttpStatus.OK);
 	}
 
-	@PostMapping(path = "/{id}")
+	@PostMapping(path = "/{identifier}")
 	public ResponseEntity<JobList> updateJobList(
-			@PathVariable Long id,
+			@PathVariable String identifier,
 			@Valid @RequestBody JobList jobList,
 			BindingResult result) {
 
@@ -84,9 +84,9 @@ public class JobListController {
 		return new ResponseEntity<>(jobList, HttpStatus.OK);
 	}
 
-	@DeleteMapping(path= "/{id}")
-	public ResponseEntity<String> deleteJobList(@PathVariable Long id) {
-		jobListService.deleteById(id);
+	@DeleteMapping(path = "/{identifier}")
+	public ResponseEntity<String> deleteJobList(@PathVariable String identifier) {
+		jobListService.delete(identifier);
 
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
