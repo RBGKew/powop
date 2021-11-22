@@ -10,9 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Component;
-
-@Component
+/**
+ * Custom filter that adds simple CORS headers to every request.
+ * CORS has been implemented in this way because attempts to enable
+ * it through Spring MVC (both in XML and by adding components) have not worked.
+ */
 public class CORSFilter implements Filter {
 
     @Override

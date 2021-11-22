@@ -41,6 +41,7 @@
     <filter-name>openSessionInViewFilter</filter-name>
     <filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
   </filter>
+  <!-- Custom CORS Filter because enabling through Spring MVC does not seem to work -->
   <filter>
     <filter-name>corsFilter</filter-name>
     <filter-class>org.powo.portal.CORSFilter</filter-class>
