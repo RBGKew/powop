@@ -8,35 +8,33 @@
 <div class="s-page s-page--home s-search__fullpage {{concat " s-" siteId}}">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
-    <div class="c-search autocomplete-form">
-      <div class="central">
-        <div class="central-items">
-          <div class="c-intro">
-            {{> (concat "partials/intro/" siteId) }}
-          </div>
-          <main id="main" class="front-page" tabindex="-1">
-            {{> partials/search/search-box }}
-          </main>
-          {{#if cross-site-link.present}}
-            <div class="form-inline--search form-links">
-              <ul>
-                  <li>
-                    Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
-                  </li>
-              </ul>
+    <main class="c-search autocomplete-form">
+      <div class="home__search-hero">
+        <div class="central">
+          <div class="central-items">
+            <div class="c-intro">
+              {{> (concat "partials/intro/" siteId) }}
             </div>
-          {{/if}}
+            <div id="div" class="front-page" tabindex="-1">
+              {{> partials/search/search-box }}
+            </div>
+            {{#if cross-site-link.present}}
+              <div class="form-inline--search form-links">
+                <ul>
+                    <li>
+                      Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
+                    </li>
+                </ul>
+              </div>
+            {{/if}}
+          </div>
         </div>
+        {{> (concat "partials/featured/featured-image-description-" siteId)}}        
       </div>
-      <aside>
-        <div class="featured">
-          {{> (concat "partials/featured/featured-" siteId)}}
-        </div>
-      </aside>
-    </div>
-    <div class="featured-taxa-sections">
-      {{> partials/featured/featured-taxa-sections}}
-    </div>
+      <div class="featured-taxa-sections">
+        {{> partials/featured/featured-taxa-sections}}
+      </div>
+    </main>
     {{> partials/footer-links}}
   </div>
 </div>
