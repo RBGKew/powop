@@ -70,7 +70,7 @@ gulp.task('scripts', gulp.series('js', 'rev'));
 * Watch Task
 */
 const PORT = argv.port || 3000
-const BACKEND_PORT = argv.backendPort || 10080
+const BACKEND_PORT = argv.backendPort || 10081
 gulp.task('browsersync', function() {
   browserSync.init({
     port: PORT,
@@ -85,12 +85,12 @@ const reload = (done) => {
 }
 
 gulp.task('watch', gulp.parallel('browsersync', function() {
-  gulp.watch('src/sass/**/*.scss', gulp.series('css', reload));
+  gulp.watch('src/sass/**/*.scss', gulp.series('css:dev', reload));
   gulp.watch([
     'src/js/**/*.js',
     'src/templates/**/*.hbs',
     '!src/js/templates/**/*.js'
-  ], gulp.series('js', reload));
+  ], gulp.series('js:dev', reload));
   console.log("Watching 'src/sass', 'src/js' and 'src/templates'...");
 }));
 
