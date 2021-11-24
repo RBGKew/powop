@@ -115,16 +115,6 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public Optional<Link> crossSiteLink() {
-		return Optional.empty();
-	}
-
-	@Override
-	public String crossSiteType() {
-		return "";
-	}
-
-	@Override
 	public String canonicalUrl() {
 		return "http://powo.science.kew.org";
 	}

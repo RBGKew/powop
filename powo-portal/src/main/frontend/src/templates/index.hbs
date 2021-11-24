@@ -15,18 +15,12 @@
             <div class="c-intro">
               {{> (concat "partials/intro/" siteId) }}
             </div>
-            <div class="front-page" tabindex="-1">
+            <div class="home__search-container" tabindex="-1">
               {{> partials/search/search-box }}
             </div>
-            {{#if cross-site-link.present}}
-              <div class="form-inline--search form-links">
-                <ul>
-                    <li>
-                      Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
-                    </li>
-                </ul>
-              </div>
-            {{/if}}
+            <div class="form-inline--search">
+              {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
+            </div>
           </div>
         </div>
         {{> (concat "partials/featured/featured-image-description-" siteId)}}        

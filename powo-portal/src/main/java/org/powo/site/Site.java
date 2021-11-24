@@ -36,8 +36,6 @@ public interface Site {
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
-	String crossSiteType();
-	Optional<Link> crossSiteLink();
 	/**
 	 * The Canonical URL of the homepage of the site.
 	 * Not including any trailing slashes.

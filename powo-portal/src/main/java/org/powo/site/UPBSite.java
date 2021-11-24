@@ -76,16 +76,6 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
-	public Optional<Link> crossSiteLink() {
-		return Optional.empty();
-	}
-
-	@Override
-	public String crossSiteType() {
-		return "";
-	}
-
-	@Override
 	public boolean hasTaxon(Taxon taxon) {
 		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
