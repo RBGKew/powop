@@ -6,13 +6,6 @@
 .s-page--home,
 .s-page--error {
   .home__hero-content {
-    border-color: #FFFFFF;
-    background-image: url('/img/raster/Anagallis_arvensis_06.jpg');
-    background-size: cover;
-    background-position-x: 25%;
-    background-position-y: 25%;
-    background-repeat: no-repeat;
-    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -100,6 +93,10 @@
     width: 300px;
     height: 145px;
   }
+}
+
+.home__search-container {
+  margin-bottom: 16px;
 }
 
 .home__featured-image-description {

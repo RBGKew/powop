@@ -1,0 +1,22 @@
+.cross-site-help {
+  color: white;
+  text-align: right;
+}
+
+.cross-site-help__link {
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 2px 0 white;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 3px 0 white;
+  }
+
+  & > svg {
+    fill: white;
+  }
+}

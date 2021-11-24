@@ -12,8 +12,6 @@ public class ResultsController extends LayoutController {
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String results(Model model) {
 		model.addAttribute("title", site.indexPageTitle());
-		model.addAttribute("cross-site-link", site.crossSiteLink());
-		model.addAttribute("cross-site-type", site.crossSiteType());
 		var taxonCounts = site.getFormattedTaxonCounts();
 		for (var key : taxonCounts.keySet()) {
 			model.addAttribute(key, taxonCounts.get(key));

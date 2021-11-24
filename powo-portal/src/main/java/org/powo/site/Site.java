@@ -10,7 +10,6 @@ import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
-import org.powo.portal.view.components.Link;
 
 /*
  * Allow running the portal in one of a predefined set of configurations
@@ -36,8 +35,6 @@ public interface Site {
 	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
-	String crossSiteType();
-	Optional<Link> crossSiteLink();
 	/**
 	 * The Canonical URL of the homepage of the site.
 	 * Not including any trailing slashes.

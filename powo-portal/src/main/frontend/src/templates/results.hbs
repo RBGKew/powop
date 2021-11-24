@@ -8,16 +8,10 @@
 <div class="s-page s-page--home s-search__top {{concat " s-" siteId}}">
   <div class="s-page-wrapper">
     {{> partials/page-header withSearchBox="true"}}
-    <div class="c-search results-grid">
-      {{#if cross-site-link.present}}
-      <nav class="form-inline--search form-links">
-        <ul>
-            <li>
-              Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
-            </li>
-        </ul>
-      </nav>
-      {{/if}}
+    <div class="main-content results-grid">
+      <div class="results__cross-site-help container">
+        {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
+      </div>
       <!-- results loaded in results js/results -->
     </div>
     {{> partials/footer-links}}
