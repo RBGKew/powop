@@ -9,7 +9,9 @@
   <div class="s-page-wrapper">
     {{> partials/page-header withSearchBox="true"}}
     <div class="main-content results-grid">
-      {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
+      <div class="results__cross-site-help container">
+        {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
+      </div>
       <!-- results loaded in results js/results -->
     </div>
     {{> partials/footer-links}}
