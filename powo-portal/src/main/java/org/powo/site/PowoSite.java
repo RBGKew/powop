@@ -19,7 +19,6 @@ import org.powo.persistence.solr.PowoDefaultQuery;
 import org.powo.portal.service.TaxonCountsService;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
-import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;

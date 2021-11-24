@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
-import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
 
 @Component("UPBSite")
