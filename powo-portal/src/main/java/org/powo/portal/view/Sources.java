@@ -16,7 +16,7 @@ import com.google.common.collect.Streams;
 
 public class Sources {
 
-	public class License {
+	public static class License {
 		public String license;
 		public String rights;
 		public String key;
@@ -45,7 +45,7 @@ public class Sources {
 		}
 	}
 
-	public class Source implements Comparable<Source> {
+	public static class Source implements Comparable<Source> {
 		public Set<License> licenses;
 		public Organisation organisation;
 
