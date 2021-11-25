@@ -579,14 +579,14 @@
         <div class="row">
           <div class="c-article-section__content">
             {{#each sources.sorted}}
-            <p class="source-{{organisation.abbreviation}}">
+            <p id="source-{{organisation.abbreviation}}">
             <strong>{{organisation.title}}</strong><br/>
             {{#if organisation.bibliographicCitation}}
             {{organisation.bibliographicCitation}}<br/>
             {{/if}}
             {{#each licenses}}
               {{#if notBlank}}
-                <small class="source-{{organisation.abbreviation}} text-muted offset">{{{rights}}} {{license}}</small><br/>
+                <small class="text-muted offset">{{{rights}}} {{license}}</small><br/>
               {{/if}}
             {{/each}}
             </p>
