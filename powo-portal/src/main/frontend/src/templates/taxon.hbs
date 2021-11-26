@@ -21,9 +21,9 @@
             </div>
           {{/with}}
         </div>
-        {{#with images.headerImage }}
-          <a href="{{ fullsizeUrl this }}" class="c-gallery-header">
-            <img src="{{ fullsizeUrl this }}" alt="{{ this.title }}" />
+        {{#with imageSet.headerImage }}
+          <a href="#" class="c-gallery-header" role="button" aria-label="Open image gallery">
+            <img src="{{ fullsizeUrl }}" alt="" />
           </a>
         {{/with}}
       </div>
@@ -53,7 +53,7 @@
         <li><a href="#uses">Uses</a></li>
         {{/if}}
 
-        {{#if images}}
+        {{#if imageSet}}
         <li><a href="#image-gallery">Images</a></li>
         {{/if}}
 
@@ -202,7 +202,7 @@
     </section>
     {{/with}}
 
-    {{#with images}}
+    {{#with imageSet}}
     <section id="image-gallery" class="c-article-section">
       <h2>
         <button class="btn collapser c-article-section__title"
@@ -216,6 +216,8 @@
       <div id="gallery-main" class="container collapse in">
         <div class="row">
           <aside class="c-article-section__aside">
+            <p>Includes {{imageCount}} images</p>
+            <p class="sr-only">Please check description above for more details.</p>
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
@@ -226,8 +228,10 @@
           <div class="c-article-section__content">
 
             <div class="c-gallery clearfix">
-              {{#each all}}
-              {{thumbnailImage this @root.taxon figure-class="c-gallery__img"}}
+              {{#each imageSet.images }}
+                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false" aria-label="Open image gallery">
+                  <img src="{{ thumbnailUrl }}" alt="">
+                </a>
               {{/each}}
             </div>
 
