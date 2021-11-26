@@ -3,6 +3,7 @@ define(function(require) {
   var $ = require('jquery');
   var descriptions = require('./descriptions')
   var bibliography = require('./bibliography')
+  var gallery = require('./gallery')
   var map = require('./map');
   var filters = require('../search/filters');
   require('libs/bootstrap');
@@ -63,18 +64,7 @@ define(function(require) {
         .removeClass('focused');
     })
 
-    // initialize popup for header image
-    $('.c-gallery-header').on('click', function(e) {
-      $('.c-gallery').magnificPopup('open');
-      e.preventDefault();
-    });
-
-    // initialize popups for image gallery
-    $('.c-gallery').magnificPopup({
-      delegate: 'a',
-      type: 'image',
-      gallery: { enabled: true }
-    });
+    gallery.initialize();
 
     // Accomodate fixed header when jumping to anchor links
     $('nav a').on('click', function() {

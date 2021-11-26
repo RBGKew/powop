@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
+import com.google.common.collect.Sets;
+
 import org.gbif.ecat.voc.Rank;
 import org.junit.Test;
 import org.powo.model.Description;
@@ -14,8 +16,6 @@ import org.powo.model.constants.DescriptionType;
 import org.powo.model.constants.TaxonomicStatus;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-
-import jersey.repackaged.com.google.common.collect.Sets;
 
 public class FeaturedTaxonTest {
 

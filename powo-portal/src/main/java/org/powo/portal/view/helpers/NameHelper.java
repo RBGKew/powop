@@ -3,13 +3,15 @@ package org.powo.portal.view.helpers;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.powo.model.Taxon;
+import org.springframework.stereotype.Component;
 import org.gbif.ecat.voc.Rank;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 
+@Component
 public class NameHelper {
 
 	private static final String[] ranks = {
