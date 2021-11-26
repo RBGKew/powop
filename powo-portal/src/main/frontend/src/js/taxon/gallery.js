@@ -29,6 +29,7 @@ define(function (require) {
       image: {
         titleSrc: "data-caption",
       },
+      closeMarkup: '<button aria-label="Close gallery" type="button" class="mfp-close">&#215;</button>',
       gallery: { enabled: true },
       callbacks: {
         close: function () {
