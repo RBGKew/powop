@@ -578,19 +578,23 @@
       <div id="sources-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
-            {{#each sources.sorted}}
-            <p id="source-{{organisation.abbreviation}}">
-            <strong>{{organisation.title}}</strong><br/>
-            {{#if organisation.bibliographicCitation}}
-            {{organisation.bibliographicCitation}}<br/>
-            {{/if}}
-            {{#each licenses}}
-              {{#if notBlank}}
-                <small class="text-muted offset">{{{rights}}} {{license}}</small><br/>
-              {{/if}}
-            {{/each}}
-            </p>
-            {{/each}}
+            <ul class="list-unstyled">
+              {{#each sources.sorted}}
+              <li id="source-{{organisation.abbreviation}}">
+                <h3 class="taxon__sources-header"><strong>{{organisation.title}}</strong></h3>
+                <p>
+                {{#if organisation.bibliographicCitation}}
+                {{organisation.bibliographicCitation}}<br/>
+                {{/if}}
+                {{#each licenses}}
+                  {{#if notBlank}}
+                    <small class="text-muted offset">{{{rights}}} {{license}}</small><br/>
+                  {{/if}}
+                {{/each}}
+                </p>
+              </li>
+              {{/each}}
+            </ul>
           </div>
         </div>
       </div>
