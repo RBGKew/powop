@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.github.jknack.handlebars.Options;
 
+import org.apache.commons.text.WordUtils;
 import org.powo.common.HtmlSanitizer;
 
 public class TextHelper {
@@ -21,4 +22,7 @@ public class TextHelper {
 		return prefix + String.join("", params);
 	}
 
+	public String capitalise(Object value) {
+		return WordUtils.capitalizeFully(value == null ? null : value.toString());
+	}
 }
