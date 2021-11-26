@@ -20,7 +20,7 @@
   {{#if taxon }}<meta property="og:url" content="{{ canonicalUrl }}/taxon/{{taxon.identifier}}" />{{/if}}
   <meta property="og:title" content="{{title}}" />
   {{#if summary}}<meta property="og:description" content="{{stripHTML summary}}" />{{/if}}
-  {{#if images.headerImage }}<meta property="og:image" content="{{fullsizeUrl images.headerImage}}" />{{/if}}
+  {{#if imageSet.headerImage }}<meta property="og:image" content="{{ imageSet.headerImage.fullsizeUrl }}" />{{/if}}
   {{#if taxon }}<meta name="twitter:url" content="{{ canonicalUrl }}/taxon/{{taxon.identifier}}" />{{/if}}
   <meta name="twitter:title" content="{{title}}" />
   {{#if summary}}<meta name="twitter:description" content="{{stripHTML summary}}" />{{/if}}
