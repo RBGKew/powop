@@ -113,12 +113,25 @@
 }
 
 
+// Use to fix the offset when linking to sections on a page e.g. #about-the-authors
+// based on https://css-tricks.com/hash-tag-links-padding/
+@mixin linked-section-offset($offset) {
+  display: block;
+  content: " ";
+  margin-top: -$offset;
+  height: $offset;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 // Component - Article Section
 .c-article-section {
-  padding: 0 2em 0;
   border-bottom: 1px solid #EEEEEE;
+  
   h2 {
-    display: inline;
+    &::before {
+      @include linked-section-offset(45px);
+    }
     .btn {
       font-size: 26px;
       font-weight: 700;
@@ -162,12 +175,6 @@
       &:active {
         box-shadow: none; 
       }
-  }
-  @media (min-width: $screen-md-min) {
-    padding: 2em 0;
-  }
-  @media (max-width: $screen-sm-min) {
-    padding: 0 0.5em 0 0;
   }
 }
 

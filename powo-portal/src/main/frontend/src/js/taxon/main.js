@@ -47,12 +47,6 @@ define(function(require) {
   // this targets the Map on the taxon page that is created with open layers
   $('.c-map canvas.ol-unselectable').attr('aria-label', 'Distribution Map');
 
-  $('.navbar--article').on('click', function(e) {
-    e.preventDefault();
-	$('body').css('overflow', 'auto');
-  });
-    
-    
   $('.tokenfield input')
     .on('focus', function() {
       $('#search_box')
@@ -76,17 +70,6 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
-    // Accomodate fixed header when jumping to anchor links
-    $('nav a').on('click', function() {
-      var target = $(this.hash);
-      var headerHeight = $(".c-article-nav").height(); // Get fixed header height
-
-      if (target.length) {
-        $('html,body').animate({
-          scrollTop: target.offset().top - headerHeight + 5
-        }, 'fast', 'swing');
-      }
-    });
     navToggle();
 
     function navToggle() {
