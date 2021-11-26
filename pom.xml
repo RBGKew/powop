@@ -628,12 +628,6 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.11</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.github.jknack</groupId>
 				<artifactId>handlebars</artifactId>
 				<version>${handlebars.version}</version>

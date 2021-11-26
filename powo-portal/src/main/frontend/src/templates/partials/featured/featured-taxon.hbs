@@ -1,7 +1,7 @@
 <a href="/taxon/{{ taxon.identifier }}">
   <div class="featured-taxon__image">
     {{#if featuredImage}}
-      <img class="photo" src={{imageUrl featuredImage "thumbnail" }}>
+      <img class="photo" src="{{imageToThumbnailUrl featuredImage}}" alt="">
     {{else}}
       <div class="photo-placeholder"></div>
     {{/if}}
