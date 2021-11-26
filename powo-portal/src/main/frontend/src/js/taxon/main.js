@@ -70,18 +70,18 @@ define(function(require) {
       gallery: { enabled: true }
     });
 
-    navToggle();
+    initInternalPageNavigationBehaviour();
 
-    function navToggle() {
-        // opens taxon nav when return  key is pressed
-      $(".mobile-menu").keypress(function (e) {
-          if (e.keyCode === 13) {
-            $('.navbar-collapse').collapse('toggle')
-          }
+    function initInternalPageNavigationBehaviour() {
+      // opens taxon nav when return key is pressed
+      $(".mobile-menu").on("keypress", function (e) {
+        if (e.key === 13) {
+          $('.navbar-collapse').collapse('toggle')
+        }
       });
       
       // hides taxon nav when clicked
-      $('.navbar-nav>li>a').on('click', function(){
+      $('.navbar-nav>li>a').on('click', function () {
         $('.navbar-collapse').collapse('hide');
       });
     }
