@@ -169,10 +169,6 @@
 			<groupId>org.gbif</groupId>
 			<artifactId>dwc-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.spotify</groupId>
-			<artifactId>docker-maven-plugin</artifactId>
-		</dependency>
 			<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

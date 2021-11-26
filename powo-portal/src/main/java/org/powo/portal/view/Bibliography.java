@@ -86,7 +86,7 @@ public class Bibliography {
 			liturature = null;
 		}
 
-		logger.debug("Constructed Bibliography:{}", this.toString());
+		logger.trace("Constructed Bibliography:{}", this.toString());
 	}
 
 	private String classify(Reference reference) {
@@ -105,7 +105,7 @@ public class Bibliography {
 			classification = "Literature";
 		}
 
-		logger.debug("Classifying: {} as [{}]", reference, classification);
+		logger.trace("Classifying: {} as [{}]", reference, classification);
 		return classification;
 	}
 
