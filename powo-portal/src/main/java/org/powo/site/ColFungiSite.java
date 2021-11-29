@@ -13,6 +13,8 @@ import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.persistence.solr.SourceOrKingdomAndLocationQuery;
+import org.powo.persistence.solr.SourceOrKingdomAndLocationSuggesterFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
@@ -59,12 +61,13 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter(organisationIdentifier);
+		return new SourceOrKingdomAndLocationQuery(
+				organisationIdentifier, "Fungi", "Colombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return organisationIdentifier;
+		return new SourceOrKingdomAndLocationSuggesterFilter(organisationIdentifier, "Fungi", "Colombia").toString();
 	}
 
 	@Override
@@ -110,9 +113,12 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
-		var lobariellaPallida = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:548106"), messageSource);
-		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"), messageSource);
-		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"), messageSource);
+		var lobariellaPallida = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:548106"),
+				messageSource);
+		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"),
+				messageSource);
+		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"),
+				messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured fungi",
 				List.of(lobariellaPallida, auriculariaFuscosuccinea, macrolepiotaColombiana)));
@@ -125,6 +131,7 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
-		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		return taxon.getAcceptedNameAuthorities().stream()
+				.anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }

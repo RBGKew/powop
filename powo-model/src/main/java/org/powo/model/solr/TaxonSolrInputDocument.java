@@ -53,6 +53,8 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private Set<String> sources;
 
+	private Set<String> context = new TreeSet<>();
+
 	private Taxon taxon;
 
 	private ImageService imageService;
@@ -121,7 +123,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexDescriptions();
 
 		log.trace("indexDistributions");
-		var extraContext = indexDistributions();
+		indexDistributions();
 
 		log.trace("indexVernacularNames");
 		indexVernacularNames();
@@ -138,19 +140,19 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		indexSources();
 
 		log.trace("indexContext");
-		indexContext(extraContext);
+		indexContext();
 
 		buildSortField();
 
 		return sid;
 	}
 
-	private void indexContext(Set<String> extraContext) {
+	private void indexContext() {
 		for (String source : sources) {
 			sid.addField("searchable.context_ss", normalized(source));
 		}
-		for (String context : extraContext) {
-			sid.addField("searchable.context_ss", context);
+		for (String c : context) {
+			sid.addField("searchable.context_ss", c);
 		}
 		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
 
@@ -280,16 +282,15 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	/**
 	 * Return the aggregated set of location codes to use in the searchable.context_ss property.
 	 */
-	private Set<String> indexDistributions() {
+	private void indexDistributions() {
 		sid.addField("taxon.distribution_not_empty_b", !taxon.getDistribution().isEmpty());
 		var locations = taxon.getLocations();
 		var locationNames = locations.stream().map(l -> l.getName()).collect(Collectors.toCollection(TreeSet::new));
 
 		for(String name : locationNames) {
 			sid.addField("taxon.distribution_ss_lower", name);
+			context.add("distribution:" + name);
 		}
-
-		return locationNames;
 	}
 
 	private void indexRank(Rank rank, String property) {

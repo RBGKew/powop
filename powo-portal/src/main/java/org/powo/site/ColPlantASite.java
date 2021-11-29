@@ -10,7 +10,8 @@ import com.google.common.collect.ImmutableMap;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
-import org.powo.persistence.solr.CustomDefaultQuery;
+import org.powo.persistence.solr.SourceOrKingdomAndLocationQuery;
+import org.powo.persistence.solr.SourceOrKingdomAndLocationSuggesterFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
@@ -53,14 +54,13 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new CustomDefaultQuery(
-			"(taxon.kingdom_s_lower:Plantae AND taxon.distribution_ss_lower:Colombia) OR searchable.sources_ss:" + organisationIdentifier
-		);
+		return new SourceOrKingdomAndLocationQuery(
+				organisationIdentifier, "Plantae", "Colombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return organisationIdentifier + " OR (Plantae AND Colombia)";
+		return new SourceOrKingdomAndLocationSuggesterFilter(organisationIdentifier, "Fungi", "Colombia").toString();
 	}
 
 	@Override
@@ -105,7 +105,8 @@ public class ColPlantASite extends PowoSite {
 		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"),
 				messageSource);
 		var passifloraEdulis = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:321964-2"), messageSource);
-		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"), messageSource);
+		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"),
+				messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured plants",
 				List.of(cochlospermumOrinocense, passifloraEdulis, epidendrumRadicans)));
