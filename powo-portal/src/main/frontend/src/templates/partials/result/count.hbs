@@ -2,7 +2,14 @@
   {{#if totalResults}}
     {{totalResults}}
     results
-    <div class="sr-only" aria-live="polite">Sorted {{sortDescription}}</div>
+    <span class="sr-only" aria-live="polite">Sorted {{sortDescription}}</span>
+    {{#if filterDescriptions}}
+    <span class="sr-only" aria-live="polite">Filtered by 
+      {{#each filterDescriptions}}
+        {{this}}{{#unless @last}}, {{/unless}}
+      {{/each}}
+    </span>
+    {{/if}}
   {{else}}
     no results
   {{/if}}

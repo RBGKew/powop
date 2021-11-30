@@ -61,17 +61,26 @@ define(function(require) {
     });
   };
 
-  const sortDescriptionMap = {
+  const sortDescriptions = {
     "relevance": "by relevance",
     "name_asc": "alphabetically ascending",
     "name_desc": "alphabetically descending",
   };
+  const filterDescriptions = {
+    "accepted_names": "accepted names only",
+    "has_images": "has images",
+    "family_f": "families",
+    "genus_f": "genera",
+    "species_f": "species",
+    "infraspecific_f": "infraspecifics",
+  };
   function resultsCountData(resultsJson) {
-    // f: "species_f,infraspecific_f"
-    // sort: "name_asc"
+    // Filters returned in the format: "species_f,infraspecific_f"
+    const filters = (resultsJson.f || "").split(",").filter(f => f.length > 0);
     return {
       totalResults: resultsJson.totalResults,
-      sortDescription: sortDescriptionMap[resultsJson.sort]
+      sortDescription: sortDescriptions[resultsJson.sort],
+      filterDescriptions: filters.map(f => filterDescriptions[f])
     };
   }
 
