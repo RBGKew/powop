@@ -53,13 +53,27 @@ define(function(require) {
       $('.total-results').removeClass('hidden');
       $('.loading').addClass('hidden');
       $('.filters').replaceWith(filtersTmpl(json));
-      $('.results-count').replaceWith(countTmpl(json));
+      $(".results-count").replaceWith(countTmpl(resultsCountData(json)));
       $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
       pageTitle.updatePageTitle(window.siteData, filters.filters());
       filters.refresh();
     });
   };
+
+  const sortDescriptionMap = {
+    "relevance": "by relevance",
+    "name_asc": "alphabetically ascending",
+    "name_desc": "alphabetically descending",
+  };
+  function resultsCountData(resultsJson) {
+    // f: "species_f,infraspecific_f"
+    // sort: "name_asc"
+    return {
+      totalResults: resultsJson.totalResults,
+      sortDescription: sortDescriptionMap[resultsJson.sort]
+    };
+  }
 
   var initialize = function(initialToken) {
     $('body')
