@@ -9,9 +9,9 @@ import java.util.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import org.powo.model.Taxon;
-import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
-import org.powo.persistence.solr.SourceFilter;
+import org.powo.persistence.solr.ColombianSiteQuery;
+import org.powo.persistence.solr.ColombianSiteSuggesterFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
@@ -54,12 +54,13 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter(organisationIdentifier);
+		return new ColombianSiteQuery(
+				organisationIdentifier, "Plantae", "Colombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return organisationIdentifier;
+		return new ColombianSiteSuggesterFilter(organisationIdentifier, "Fungi", "Colombia").toString();
 	}
 
 	@Override
@@ -101,9 +102,11 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
-		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"), messageSource);
+		var cochlospermumOrinocense = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:111532-1"),
+				messageSource);
 		var passifloraEdulis = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:321964-2"), messageSource);
-		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"), messageSource);
+		var epidendrumRadicans = new FeaturedTaxon(taxonService.find("urn:lsid:ipni.org:names:632612-1"),
+				messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured plants",
 				List.of(cochlospermumOrinocense, passifloraEdulis, epidendrumRadicans)));
@@ -111,6 +114,17 @@ public class ColPlantASite extends PowoSite {
 
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
-		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		// Return true if the ColPlantA organisation is in the taxon authorities
+		var organisationMatch = taxon.getAcceptedNameAuthorities().stream()
+				.anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		if (organisationMatch) {
+			return true;
+		}
+		// Return false if the taxon is not a plant
+		if (!(taxon.getKingdom().toLowerCase().equals("plantae"))) {
+			return false;
+		}
+		// Return true if the taxon is a plant and is found in Colombia
+		return taxon.getLocations().stream().anyMatch(l -> l.getName().equals("Colombia"));
 	}
 }
