@@ -13,8 +13,8 @@ import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
-import org.powo.persistence.solr.SourceOrKingdomAndLocationQuery;
-import org.powo.persistence.solr.SourceOrKingdomAndLocationSuggesterFilter;
+import org.powo.persistence.solr.ColombianSiteQuery;
+import org.powo.persistence.solr.ColombianSiteSuggesterFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
 import org.powo.portal.view.components.Link;
@@ -61,13 +61,13 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceOrKingdomAndLocationQuery(
+		return new ColombianSiteQuery(
 				organisationIdentifier, "Fungi", "Colombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return new SourceOrKingdomAndLocationSuggesterFilter(organisationIdentifier, "Fungi", "Colombia").toString();
+		return new ColombianSiteSuggesterFilter(organisationIdentifier, "Fungi", "Colombia").toString();
 	}
 
 	@Override

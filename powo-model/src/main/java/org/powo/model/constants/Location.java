@@ -27,7 +27,6 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 
-import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
 import com.vividsolutions.jts.geom.Polygon;
@@ -1223,7 +1222,7 @@ public enum Location {
 	 * the location tree.
 	 */
 	public Set<Location> getAllParents() {
-		var parents = Sets.<Location>newTreeSet();
+		var parents = new HashSet<Location>();
 		var parent = getParent();
 		while (parent != null) {
 			parents.add(parent);
@@ -1241,7 +1240,7 @@ public enum Location {
 	 * the location tree.
 	 */
 	public Set<Location> getAllChildren() {
-		var allChildren = Sets.<Location>newTreeSet();
+		var allChildren = new HashSet<Location>();
 		var children = getChildren();
 		// If there are no children, return an empty set.
 		if (children == null || children.size() == 0) {

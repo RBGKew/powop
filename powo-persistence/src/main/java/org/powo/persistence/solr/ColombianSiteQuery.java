@@ -8,11 +8,11 @@ import org.powo.model.solr.DefaultQueryOption;
  * that are associated to the appropriate organisation (ColPlantA or ColFungi),
  * or are Plantae/Fungi found in Colombia.
  */
-public class SourceOrKingdomAndLocationQuery implements DefaultQueryOption {
+public class ColombianSiteQuery implements DefaultQueryOption {
 
 	private String customQuery;
 
-	public SourceOrKingdomAndLocationQuery(String organisationIdentifier, String kingdom, String location) {
+	public ColombianSiteQuery(String organisationIdentifier, String kingdom, String location) {
 		this.customQuery = "(taxon.kingdom_s_lower:" + kingdom + " AND taxon.distribution_ss_lower:" + location
 				+ ") OR searchable.sources_ss:" + organisationIdentifier;
 	}

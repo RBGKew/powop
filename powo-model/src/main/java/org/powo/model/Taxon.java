@@ -460,7 +460,7 @@ public class Taxon extends SearchableObject {
 	 */
 	@Transient
 	public Set<Location> getLocations() {
-		var locations = Sets.<Location>newTreeSet();
+		var locations = new HashSet<Location>();
 		for (var distribution : getDistribution()) {
 			locations.addAll(distribution.getLocationTree());
 		}

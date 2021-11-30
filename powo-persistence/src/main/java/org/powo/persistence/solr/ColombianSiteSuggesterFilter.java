@@ -5,11 +5,11 @@ package org.powo.persistence.solr;
  * that are associated to the appropriate organisation (ColPlantA or ColFungi),
  * or are Plantae/Fungi found in Colombia.
  */
-public class SourceOrKingdomAndLocationSuggesterFilter {
+public class ColombianSiteSuggesterFilter {
     
     String filterQuery;
 
-    public SourceOrKingdomAndLocationSuggesterFilter(String organisationIdentifier, String kingdom, String location) {
+    public ColombianSiteSuggesterFilter(String organisationIdentifier, String kingdom, String location) {
         filterQuery = organisationIdentifier + " OR (" + kingdom + " AND distribution:" + location + ")";
     }
 

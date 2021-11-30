@@ -2,36 +2,31 @@ package org.powo.model.solr;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import com.google.common.base.CaseFormat;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.gbif.ecat.voc.Rank;
 import org.powo.api.ImageService;
 import org.powo.common.HtmlSanitizer;
-import org.powo.model.BaseData;
 import org.powo.model.Description;
-import org.powo.model.Distribution;
 import org.powo.model.Image;
 import org.powo.model.MeasurementOrFact;
-import org.powo.model.Reference;
 import org.powo.model.Taxon;
 import org.powo.model.VernacularName;
 import org.powo.model.constants.DescriptionType;
-import org.powo.model.constants.Location;
 import org.powo.model.helpers.CDNImageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-
-import com.google.common.base.CaseFormat;
 
 public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	private static final Logger log = LoggerFactory.getLogger(TaxonSolrInputDocument.class);
@@ -53,7 +48,9 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 
 	private Set<String> sources;
 
-	private Set<String> context = new TreeSet<>();
+	// Stores extra strings to add to the searchable.context_ss field -
+	// the only field that can be used to filter suggester results.
+	private Set<String> additionalSuggesterContext = new HashSet<>();
 
 	private Taxon taxon;
 
@@ -151,7 +148,7 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 		for (String source : sources) {
 			sid.addField("searchable.context_ss", normalized(source));
 		}
-		for (String c : context) {
+		for (String c : additionalSuggesterContext) {
 			sid.addField("searchable.context_ss", c);
 		}
 		sid.addField("searchable.context_ss", normalized(taxon.getKingdom()));
@@ -285,11 +282,11 @@ public class TaxonSolrInputDocument extends BaseSolrInputDocument {
 	private void indexDistributions() {
 		sid.addField("taxon.distribution_not_empty_b", !taxon.getDistribution().isEmpty());
 		var locations = taxon.getLocations();
-		var locationNames = locations.stream().map(l -> l.getName()).collect(Collectors.toCollection(TreeSet::new));
+		var locationNames = locations.stream().map(l -> l.getName()).collect(Collectors.toSet());
 
-		for(String name : locationNames) {
+		for(var name : locationNames) {
 			sid.addField("taxon.distribution_ss_lower", name);
-			context.add("distribution:" + name);
+			additionalSuggesterContext.add("distribution:" + name);
 		}
 	}
 

@@ -20,7 +20,6 @@ import static org.gbif.ecat.voc.EstablishmentMeans.Introduced;
 import static org.gbif.ecat.voc.EstablishmentMeans.Native;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -129,8 +128,8 @@ public class Distribution extends OwnedEntity {
 	 * Get the location associated to this distribution, its parents and its children.
 	 */
 	@Transient
-	public SortedSet<Location> getLocationTree() {
-		var locations = Sets.<Location>newTreeSet();
+	public Set<Location> getLocationTree() {
+		var locations = new HashSet<Location>();
 		var location = getLocation();
 		locations.add(location);
 		locations.addAll(location.getAllChildren());
