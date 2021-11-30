@@ -2,11 +2,13 @@
   {{#if totalResults}}
     {{totalResults}}
     results
-    <span class="sr-only" aria-live="polite">Sorted {{sortDescription}}</span>
+    <span class="sr-only" aria-live="polite">Sorted {{sortDescription}}
     {{#if filterDescriptions}}
-    <span class="sr-only" aria-live="polite">Filtered by 
+      Filtered by 
       {{#each filterDescriptions}}
-        {{this}}{{#unless @last}}, {{/unless}}
+        {{#if @last}}and{{/if}}
+        {{this}}
+        {{#unless @last}}, {{/unless}}
       {{/each}}
     </span>
     {{/if}}
