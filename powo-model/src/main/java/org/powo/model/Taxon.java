@@ -43,6 +43,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.gbif.ecat.voc.NomenclaturalCode;
 import org.gbif.ecat.voc.NomenclaturalStatus;
 import org.gbif.ecat.voc.Rank;
+import org.powo.model.constants.Location;
 import org.powo.model.constants.TaxonomicStatus;
 import org.powo.model.marshall.json.TaxonSerializer;
 import org.powo.model.registry.Organisation;
@@ -451,6 +452,19 @@ public class Taxon extends SearchableObject {
 	@Cascade({ CascadeType.ALL })
 	public Set<Distribution> getDistribution() {
 		return distribution;
+	}
+
+	/**
+	 * Get all the locations associated to this taxon through its distribution information,
+	 * including parent and child locations.
+	 */
+	@Transient
+	public Set<Location> getLocations() {
+		var locations = new HashSet<Location>();
+		for (var distribution : getDistribution()) {
+			locations.addAll(distribution.getLocationTree());
+		}
+		return locations;
 	}
 
 	/**
