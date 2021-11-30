@@ -47,6 +47,7 @@ import org.hibernate.annotations.Where;
 import org.powo.model.constants.Location;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Sets;
 
 /**
  * @see http://rs.gbif.org/extension/gbif/1.0/distribution.xml
@@ -121,6 +122,19 @@ public class Distribution extends OwnedEntity {
 	@Enumerated(value = EnumType.STRING)
 	public Location getLocation() {
 		return location;
+	}
+
+	/**
+	 * Get the location associated to this distribution, its parents and its children.
+	 */
+	@Transient
+	public Set<Location> getLocationTree() {
+		var locations = new HashSet<Location>();
+		var location = getLocation();
+		locations.add(location);
+		locations.addAll(location.getAllChildren());
+		locations.addAll(location.getAllParents());
+		return locations;
 	}
 
 	/**
