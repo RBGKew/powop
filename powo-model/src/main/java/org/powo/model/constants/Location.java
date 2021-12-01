@@ -1217,8 +1217,42 @@ public enum Location {
 		return parent;
 	}
 
+	/**
+	 * Get all the parents linked to this location by travelling up
+	 * the location tree.
+	 */
+	public Set<Location> getAllParents() {
+		var parents = new HashSet<Location>();
+		var parent = getParent();
+		while (parent != null) {
+			parents.add(parent);
+			parent = parent.getParent();
+		}
+		return parents;
+	}
+
 	public Set<Location> getChildren() {
 		return children;
+	}
+
+	/**
+	 * Get all the children linked to this location by recursing down
+	 * the location tree.
+	 */
+	public Set<Location> getAllChildren() {
+		var allChildren = new HashSet<Location>();
+		var children = getChildren();
+		// If there are no children, return an empty set.
+		if (children == null || children.size() == 0) {
+			return allChildren;
+		}
+		// Otherwise add the children, then iterate through
+		// them and recursively add their children.
+		allChildren.addAll(children);
+		for (var child : children) {
+			allChildren.addAll(child.getAllChildren());
+		}
+		return allChildren;
 	}
 
 	public boolean isChildOf(Location location) {
