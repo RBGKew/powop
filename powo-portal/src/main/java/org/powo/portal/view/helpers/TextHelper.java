@@ -23,6 +23,9 @@ public class TextHelper {
 	}
 
 	public String capitalise(Object value) {
-		return WordUtils.capitalizeFully(value == null ? null : value.toString());
+		if (value == null) {
+			return null;
+		}
+		return WordUtils.capitalizeFully(value.toString());
 	}
 }
