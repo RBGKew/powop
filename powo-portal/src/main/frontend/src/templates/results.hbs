@@ -9,15 +9,9 @@
   <div class="s-page-wrapper">
     {{> partials/page-header withSearchBox="true"}}
     <div class="main-content results-grid">
-      {{#if cross-site-link.present}}
-      <div class="form-inline--search form-links">
-        <ul>
-            <li>
-              Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
-            </li>
-        </ul>
+      <div class="results__cross-site-help container">
+        {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
       </div>
-      {{/if}}
       <!-- results loaded in results js/results -->
     </div>
     {{> partials/footer-links}}

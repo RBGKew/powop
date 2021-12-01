@@ -14,7 +14,6 @@ import org.powo.persistence.solr.ColombianSiteQuery;
 import org.powo.persistence.solr.ColombianSiteSuggesterFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
-import org.powo.portal.view.components.Link;
 import org.springframework.stereotype.Component;
 
 @Component("ColPlantASite")
@@ -87,17 +86,6 @@ public class ColPlantASite extends PowoSite {
 	@Override
 	public String favicon() {
 		return "upfc-favicon.ico";
-	}
-
-	@Override
-	public Optional<Link> crossSiteLink() {
-		Link link = new Link("http://colfungi.org", "Visit ColFungi");
-		return Optional.of(link);
-	}
-
-	@Override
-	public String crossSiteType() {
-		return "fungi";
 	}
 
 	@Override
