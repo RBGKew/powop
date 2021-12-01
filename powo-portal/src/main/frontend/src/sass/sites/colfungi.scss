@@ -1,4 +1,8 @@
 .s-colfungi {
+  .main-content {
+    background-image: url("/img/raster/ColFungi.jpg") !important;
+  }
+
   .featured {
     display: none;
   }
@@ -19,9 +23,6 @@
 
   &.s-page--home,
   &.s-page--error {
-    .c-search {
-      background-image: url("/img/raster/ColFungi.jpg") !important;
-    }
     #kew-upfc-logo-svg {
       path,
       text {
