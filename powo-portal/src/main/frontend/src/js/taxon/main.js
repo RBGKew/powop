@@ -48,12 +48,6 @@ define(function(require) {
   // this targets the Map on the taxon page that is created with open layers
   $('.c-map canvas.ol-unselectable').attr('aria-label', 'Distribution Map');
 
-  $('.navbar--article').on('click', function(e) {
-    e.preventDefault();
-	$('body').css('overflow', 'auto');
-  });
-    
-    
   $('.tokenfield input')
     .on('focus', function() {
       $('#search_box')
@@ -66,29 +60,18 @@ define(function(require) {
 
     gallery.initialize();
 
-    // Accomodate fixed header when jumping to anchor links
-    $('nav a').on('click', function() {
-      var target = $(this.hash);
-      var headerHeight = $(".c-article-nav").height(); // Get fixed header height
+    initInternalPageNavigationBehaviour();
 
-      if (target.length) {
-        $('html,body').animate({
-          scrollTop: target.offset().top - headerHeight + 5
-        }, 'fast', 'swing');
-      }
-    });
-    navToggle();
-
-    function navToggle() {
-        // opens taxon nav when return  key is pressed
-      $(".mobile-menu").keypress(function (e) {
-          if (e.keyCode === 13) {
-            $('.navbar-collapse').collapse('toggle')
-          }
+    function initInternalPageNavigationBehaviour() {
+      // opens taxon nav when return key is pressed
+      $(".mobile-menu").on("keypress", function (e) {
+        if (e.key === 13) {
+          $('.navbar-collapse').collapse('toggle')
+        }
       });
       
       // hides taxon nav when clicked
-      $('.navbar-nav>li>a').on('click', function(){
+      $('.navbar-nav>li>a').on('click', function () {
         $('.navbar-collapse').collapse('hide');
       });
     }

@@ -30,17 +30,10 @@
     </header>
     
   <nav class="navbar navbar-default navbar--article navbar-expand-lg">
-    <button class="navbar-toggler mobile-menu" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler mobile-menu" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Internal page navigation">
       On this page
-      <svg class="pull-right" width="14px" height="8px" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
-          <title>Iconography/16x16/Arrow/Down/Black</title>
-          <desc>Created with Sketch.</desc>
-          <g id="Module-World-location" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g transform="translate(-1.000000, -4.000000)" fill="#262626">
-                  <path d="M1,5.04434791 C1,4.77632278 1.10299816,4.50929775 1.3079945,4.30527862 C1.71798718,3.89824046 2.38397529,3.89824046 2.79496795,4.30527862 L7.999875,9.47776354 L13.2047821,4.30527862 C13.6157747,3.89824046 14.2807628,3.89824046 14.6917555,4.30527862 C15.1027482,4.71331687 15.1027482,5.37537894 14.6917555,5.7824171 L8.74386172,11.6939713 C8.33286906,12.1020096 7.66688095,12.1020096 7.25688827,11.6939713 L1.3079945,5.7824171 C1.10299816,5.57939807 1,5.31237303 1,5.04434791 Z"></path>
-              </g>
-          </g>
+      <svg class="pull-right" width="14" height="8" viewBox="0 0 14 8" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 1.044C0 .776.103.51.308.305a1.058 1.058 0 0 1 1.487 0L7 5.478 12.205.305a1.058 1.058 0 0 1 1.487 0c.41.408.41 1.07 0 1.477L7.744 7.694a1.056 1.056 0 0 1-1.487 0L.308 1.782A1.035 1.035 0 0 1 0 1.044Z" fill="#262626" fill-rule="evenodd"/>
       </svg>
     </button>
     <div class="c-article-nav collapse navbar-collapse" id="navbarSupportedContent">
@@ -81,7 +74,7 @@
 
         <li><a href="#sources">Sources</a></li>
       </ul>
-      <button class="glyphicon glyphicon-arrow-up to-top"></button>
+      <button aria-label="Back to top of page" class="glyphicon glyphicon-arrow-up to-top"></button>
     </div>
   </nav>
     <div class="container">
@@ -582,19 +575,23 @@
       <div id="sources-main" class="container collapse in">
         <div class="row">
           <div class="c-article-section__content">
-            {{#each sources.sorted}}
-            <p class="source-{{organisation.abbreviation}}">
-            <strong>{{organisation.title}}</strong><br/>
-            {{#if organisation.bibliographicCitation}}
-            {{organisation.bibliographicCitation}}<br/>
-            {{/if}}
-            {{#each licenses}}
-              {{#if notBlank}}
-                <small class="source-{{organisation.abbreviation}} text-muted offset">{{{rights}}} {{license}}</small><br/>
-              {{/if}}
-            {{/each}}
-            </p>
-            {{/each}}
+            <ul class="list-unstyled">
+              {{#each sources.sorted}}
+              <li id="source-{{organisation.abbreviation}}">
+                <h3 class="taxon__sources-header"><strong>{{organisation.title}}</strong></h3>
+                <p>
+                {{#if organisation.bibliographicCitation}}
+                {{organisation.bibliographicCitation}}<br/>
+                {{/if}}
+                {{#each licenses}}
+                  {{#if notBlank}}
+                    <small class="text-muted offset">{{{rights}}} {{license}}</small><br/>
+                  {{/if}}
+                {{/each}}
+                </p>
+              </li>
+              {{/each}}
+            </ul>
           </div>
         </div>
       </div>
