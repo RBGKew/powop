@@ -46,7 +46,7 @@ define(function(require) {
   }
 
   // this targets the Map on the taxon page that is created with open layers
-  $('.ol-unselectable').attr('aria-label', 'Distribution Map');
+  $('.c-map canvas.ol-unselectable').attr('aria-label', 'Distribution Map');
 
   $('.navbar--article').on('click', function(e) {
     e.preventDefault();

@@ -7,7 +7,7 @@ define(['handlebars'], function(Handlebars) {
   }
 
   Handlebars.registerHelper('thumbnailImage', function(image, options) {
-    return new Handlebars.SafeString('<img src="' + image.thumbnail + '" alt="'+ clean(image.caption) + '" itemprop="thumbnail"/>');
+    return new Handlebars.SafeString('<img src="' + image.thumbnail + '" alt="'+ clean(image.caption) + '" />');
   });
 
   Handlebars.registerHelper('fullsizeImage', function(image, options) {

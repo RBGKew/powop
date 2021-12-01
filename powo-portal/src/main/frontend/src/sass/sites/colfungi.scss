@@ -23,22 +23,6 @@
 
   &.s-page--home,
   &.s-page--error {
-    #kew-upfc-logo-svg {
-      path,
-      text {
-        fill: $kew-black;
-      }
-      #Bar {
-        fill: $kew-black;
-      }
-      #Map {
-        fill: $White;
-      }
-      #Background {
-        fill: $upfc-green;
-      }
-    }
-
     &.s-search__fullpage {
       .site-logo {
         height: 70px;
