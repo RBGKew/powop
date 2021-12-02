@@ -1,0 +1,12 @@
+<dl class="taxon-classification">
+  {{#each this.higherClassification}}
+    {{#if @last}}
+      {{! Last element is the taxon being viewed, we show it in the h1 below this }}
+    {{else}}
+      <div class="taxon-classification__item">
+        <dt>{{capitalise (str this.taxonRank)}}: </dt>
+        <dd>{{taxonLink this}}</dd>
+      </div>
+    {{/if}}
+  {{/each}}
+</dl>

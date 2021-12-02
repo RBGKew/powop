@@ -8,18 +8,17 @@
   {{> partials/page-header withSearchBox="true" }}
 
   <main role="main" class="c-article" id="main">
-    <header class="c-article-header">
+    <div class="c-article-header">
       <div class="container">
         <div class="c-summary">
-          {{classification taxon}}
-          {{#with summary}}
-            <div class="details">
-              {{{this}}}
-              {{#with taxon.acceptedNameUsage }}
-                {{taxonLink this}}
-              {{/with}}
-            </div>
-          {{/with}}
+          {{> partials/taxon/classification taxon}}          
+          <h1 class="c-summary__heading">{{taxonNameAndAuthor taxon}}</h1>
+          <div class="details">
+            {{{summary}}}
+            {{#if taxon.acceptedNameUsage }}
+              {{taxonLink taxon.acceptedNameUsage}}
+            {{/if}}
+          </div>
         </div>
         {{#with imageSet.headerImage }}
           <a href="#" class="c-gallery-header" role="button" aria-label="Open image gallery">
@@ -27,7 +26,7 @@
           </a>
         {{/with}}
       </div>
-    </header>
+    </div>
     
   <nav class="navbar navbar-default navbar--article navbar-expand-lg">
     <button class="navbar-toggler mobile-menu" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Internal page navigation">
