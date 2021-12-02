@@ -76,11 +76,15 @@ define(function(require) {
   };
   function resultsCountData(resultsJson) {
     // Filters returned in the format: "species_f,infraspecific_f"
-    const filters = (resultsJson.f || "").split(",").filter(f => f.length > 0);
+    const filters = (resultsJson.f || "").split(",").filter(function (f) {
+      return f.length > 0;
+    });
     return {
       totalResults: resultsJson.totalResults,
       sortDescription: sortDescriptions[resultsJson.sort],
-      filterDescriptions: filters.map(f => filterDescriptions[f])
+      filterDescriptions: filters.map(function (f) {
+        return filterDescriptions[f];
+      }),
     };
   }
 
