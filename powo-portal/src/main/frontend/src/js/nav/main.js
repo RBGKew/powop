@@ -12,13 +12,17 @@ define(function (require) {
     );
   }
 
-  function updateAriaExpanded() {
+  function updateAccessibilityAttributes() {
     $(".toggle-nav").attr("aria-expanded", expanded);
+    $(".toggle-nav .icon").attr(
+      "aria-label",
+      expanded ? "Close navigation" : "Open navigation"
+    );
   }
 
   $(function () {
     updateIcon();
-    updateAriaExpanded();
+    updateAccessibilityAttributes();
 
     $(".toggle-nav").on("click", function (e) {
       e.preventDefault();
@@ -26,13 +30,13 @@ define(function (require) {
       expanded = !expanded;
 
       updateIcon();
-      updateAriaExpanded();
+      updateAccessibilityAttributes();
 
       $(this).toggleClass("active");
       $(".top-right-nav ul").toggleClass("active");
       $("html").toggleClass("html--overflow-hidden");
 
-      updateAriaExpanded();
+      updateAccessibilityAttributes();
     });
     $(".about-toggle").on("click", function (e) {
       $(".children").toggleClass("open");
