@@ -3,6 +3,7 @@ package org.powo.site;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -77,5 +78,10 @@ public class UPBSite extends PowoSite {
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
 		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+	}
+
+	@Override
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "upb");
 	}
 }
