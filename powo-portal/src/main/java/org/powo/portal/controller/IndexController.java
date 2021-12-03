@@ -16,8 +16,6 @@
  */
 package org.powo.portal.controller;
 
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -45,7 +43,7 @@ public class IndexController extends LayoutController {
 			return "redirect:/results";			
 		}
 		
-		model.addAttribute("title", messages.getMessage("site.home.title", null, Locale.getDefault()));
+		model.addAttribute("title", messages.getMessage("site.home.title", null, site.defaultLocale()));
 		model.addAttribute("featured-taxa-sections", site.featuredTaxaSections());
 		var taxonCounts = site.getFormattedTaxonCounts();
 		for (var key : taxonCounts.keySet()) {

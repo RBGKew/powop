@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -57,12 +56,6 @@ public class UPBSite extends PowoSite {
 	@Override
 	public List<String> getSuggesters() {
 		return suggesters;
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Useful Plants of Boyacá", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
 	}
 
 	@Override

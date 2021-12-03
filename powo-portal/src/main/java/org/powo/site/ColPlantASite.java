@@ -4,12 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
 import org.powo.model.Taxon;
-import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
@@ -69,12 +67,6 @@ public class ColPlantASite extends PowoSite {
 	@Override
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "colplanta");
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Colombian Plants made Accessible", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
 	}
 
 	@Override

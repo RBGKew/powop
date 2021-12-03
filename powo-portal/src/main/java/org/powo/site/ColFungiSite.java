@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -74,12 +73,6 @@ public class ColFungiSite extends PowoSite {
 	@Override
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "colfungi");
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Colombian Fungi made accessible", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -95,12 +94,6 @@ public class PowoSite implements Site {
 	@Override
 	public Locale defaultLocale() {
 		return new Locale("en", "uk", "powo");
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
 	}
 
 	@Override

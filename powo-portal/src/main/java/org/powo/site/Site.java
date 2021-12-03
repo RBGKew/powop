@@ -3,7 +3,6 @@ package org.powo.site;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
@@ -31,7 +30,6 @@ public interface Site {
 	String oneTrustID();
 	String siteIdCapitlized();
 	String kewLogoPath();
-	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	/**
 	 * The Canonical URL of the homepage of the site.

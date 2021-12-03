@@ -1,7 +1,5 @@
 package org.powo.portal.controller;
 
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,7 @@ public class ResultsController extends LayoutController {
 
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String results(Model model) {
-		model.addAttribute("title", messages.getMessage("site.results.title", null, Locale.getDefault()));
+		model.addAttribute("title", messages.getMessage("site.results.title", null, site.defaultLocale()));
 		var taxonCounts = site.getFormattedTaxonCounts();
 		for (var key : taxonCounts.keySet()) {
 			model.addAttribute(key, taxonCounts.get(key));
