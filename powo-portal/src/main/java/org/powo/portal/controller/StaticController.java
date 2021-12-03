@@ -17,18 +17,10 @@ public class StaticController extends LayoutController {
 	@Qualifier("currentSite")
 	Site site;
 
-	@RequestMapping(value = "/privacy", method = RequestMethod.GET, produces = {"text/html"})
-	public String privacyPolicy(Model model) {
-		return "static/privacy";
-	}
-
-	@RequestMapping(value = "/terms-and-conditions", method = RequestMethod.GET, produces = {"text/html"})
-	public String termsAndConditions(Model model) {
-		return "static/terms_and_conditions";
-	}
 
 	@RequestMapping(value = "/what-we-do", method = RequestMethod.GET, produces = {"text/html"})
   public String whatWeDo(Model model) {
+		model.addAttribute("title", messages.getMessage("site.privacy.title", null, site.defaultLocale()));
     return "static/what_we_do";
   }
 
