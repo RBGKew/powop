@@ -40,11 +40,6 @@ public class ColPlantASite extends PowoSite {
 	}
 
 	@Override
-	public String siteIdCapitlized() {
-		return "ColPlantA";
-	}
-
-	@Override
 	public String kewLogoPath() {
 		return "svg/kew-colplanta-logo.svg";
 	}

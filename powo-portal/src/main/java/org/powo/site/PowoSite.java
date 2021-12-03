@@ -63,11 +63,6 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public String siteIdCapitlized() {
-		return "POWO";
-	}
-
-	@Override
 	public String kewLogoPath() {
 		return "svg/kew-science-big-logo.svg";
 	}

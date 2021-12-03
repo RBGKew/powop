@@ -28,7 +28,6 @@ public interface Site {
 	Locale defaultLocale();
 	String siteId();
 	String oneTrustID();
-	String siteIdCapitlized();
 	String kewLogoPath();
 	String favicon();
 	/**

@@ -46,11 +46,6 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	@Override
-	public String siteIdCapitlized() {
-		return "ColFungi";
-	}
-
-	@Override
 	public String kewLogoPath() {
 		return "svg/kew-colfungi-logo.svg";
 	}
