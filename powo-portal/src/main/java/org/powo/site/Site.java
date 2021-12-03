@@ -31,7 +31,6 @@ public interface Site {
 	String oneTrustID();
 	String siteIdCapitlized();
 	String kewLogoPath();
-	String indexPageTitle();
 	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	/**

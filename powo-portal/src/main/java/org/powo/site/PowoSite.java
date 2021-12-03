@@ -98,11 +98,6 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Plants of the World Online | Kew Science";
-	}
-
-	@Override
 	public String taxonPageTitle(Taxon taxon) {
 		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());

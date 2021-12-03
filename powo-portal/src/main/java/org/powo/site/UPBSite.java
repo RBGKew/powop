@@ -60,11 +60,6 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Useful Plants of Boyacá";
-	}
-
-	@Override
 	public String taxonPageTitle(Taxon taxon) {
 		return String.format("%s %s | Useful Plants of Boyacá", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());

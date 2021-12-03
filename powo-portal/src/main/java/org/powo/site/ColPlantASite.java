@@ -72,11 +72,6 @@ public class ColPlantASite extends PowoSite {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Colombian Plants made Accessible";
-	}
-
-	@Override
 	public String taxonPageTitle(Taxon taxon) {
 		return String.format("%s %s | Colombian Plants made Accessible", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());

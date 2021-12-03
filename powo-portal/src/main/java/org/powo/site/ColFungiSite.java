@@ -77,11 +77,6 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Colombian Fungi made accessible";
-	}
-
-	@Override
 	public String taxonPageTitle(Taxon taxon) {
 		return String.format("%s %s | Colombian Fungi made accessible", taxon.getScientificName(),
 				taxon.getScientificNameAuthorship());
