@@ -100,7 +100,7 @@ services:
     environment:
       - CDN_KEY
       - JPDA_OPTS=-agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
-      - SITE_VARIANT=ColFungiSite
+      - SITE_VARIANT=ColPlantASite
     command:
       - catalina.sh
       - jpda

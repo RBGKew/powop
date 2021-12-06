@@ -21,7 +21,7 @@ public class ColPlantASite extends PowoSite {
 
 	private static final List<String> suggesters = Arrays.asList("scientific-name", "common-name");
 
-	private String organisationIdentifier = "CatalogodePlantasyLiquenesdeColombia";
+	private String organisationIdentifier = "UsefulPlantsandFungiOfColombia";
 
 	@Override
 	public Map<String, String> getFormattedTaxonCounts() {
