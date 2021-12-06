@@ -6,6 +6,9 @@ define(function (require) {
   currentLink.setCurrentLink();
 
   function updateNavigationUi() {
+    $("html").toggleClass("html--overflow-hidden");
+    $(".toggle-nav").toggleClass("active");
+    $(".top-right-nav ul").toggleClass("active");
     $(".toggle-nav > svg > use").attr(
       "xlink:href",
       expanded ? "#closeicon" : "#burgericon"
@@ -31,14 +34,10 @@ define(function (require) {
 
       updateNavigationUi();
       updateAccessibilityAttributes();
-
-      $(this).toggleClass("active");
-      $(".top-right-nav ul").toggleClass("active");
-      $("html").toggleClass("html--overflow-hidden");
     });
     $(".about-toggle").on("click", function (e) {
-      $(".children").toggleClass("open");
       e.preventDefault();
+      $(".children").toggleClass("open");
     });
   });
 });
