@@ -1,7 +1,7 @@
 define(function (require) {
   var $ = require("jquery");
   var currentLink = require("./current-link");
-  var focus = require("./focus");
+  var focus = require("../common/focus");
 
   currentLink.setCurrentLink();
 
