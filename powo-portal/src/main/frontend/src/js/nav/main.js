@@ -1,7 +1,6 @@
 define(function (require) {
   var $ = require("jquery");
   var currentLink = require("./current-link");
-  var expanded = false;
 
   currentLink.setCurrentLink();
 
@@ -24,6 +23,8 @@ define(function (require) {
   }
 
   $(function () {
+    var expanded = false;
+
     updateNavigationUi(expanded);
     updateAccessibilityAttributes(expanded);
 
