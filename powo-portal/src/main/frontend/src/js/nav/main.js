@@ -5,7 +5,7 @@ define(function (require) {
 
   currentLink.setCurrentLink();
 
-  function updateNavigationUi() {
+  function updateNavigationUi(expanded) {
     $("html").toggleClass("html--overflow-hidden");
     $(".toggle-nav").toggleClass("active");
     $(".top-right-nav ul").toggleClass("active");
@@ -15,7 +15,7 @@ define(function (require) {
     );
   }
 
-  function updateAccessibilityAttributes() {
+  function updateAccessibilityAttributes(expanded) {
     $(".toggle-nav").attr("aria-expanded", expanded);
     $(".toggle-nav .icon").attr(
       "aria-label",
@@ -32,8 +32,8 @@ define(function (require) {
 
       expanded = !expanded;
 
-      updateNavigationUi();
-      updateAccessibilityAttributes();
+      updateNavigationUi(expanded);
+      updateAccessibilityAttributes(expanded);
     });
     $(".about-toggle").on("click", function (e) {
       e.preventDefault();
