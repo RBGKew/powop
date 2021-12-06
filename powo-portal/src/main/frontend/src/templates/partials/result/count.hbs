@@ -1,6 +1,17 @@
 <div role="alert" class="results-count">
   {{#if totalResults}}
-    {{totalResults}} results
+    {{totalResults}}
+    results
+    <span class="sr-only" aria-live="polite">Sorted {{sortDescription}}
+    {{#if filterDescriptions}}
+      Filtered by 
+      {{#each filterDescriptions}}
+        {{#if @last}}and{{/if}}
+        {{this}}
+        {{#unless @last}}, {{/unless}}
+      {{/each}}
+    </span>
+    {{/if}}
   {{else}}
     no results
   {{/if}}

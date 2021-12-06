@@ -12,7 +12,10 @@
       <div class="results__cross-site-help container">
         {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
       </div>
-      <!-- results loaded in results js/results -->
+      {{!--
+      results loaded via javascript js/results module
+      see templates/partials/result/results.hbs for template      
+      --}}
     </div>
     {{> partials/footer-links}}
   </div>

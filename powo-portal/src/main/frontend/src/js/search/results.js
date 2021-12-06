@@ -53,13 +53,40 @@ define(function(require) {
       $('.total-results').removeClass('hidden');
       $('.loading').addClass('hidden');
       $('.filters').replaceWith(filtersTmpl(json));
-      $('.results-count').replaceWith(countTmpl(json));
+      $(".results-count").replaceWith(countTmpl(resultsCountData(json)));
       $('.c-results-footer').replaceWith(paginationTmpl(json));
       paginate(json);
       pageTitle.updatePageTitle(window.siteData, filters.filters());
       filters.refresh();
     });
   };
+
+  const sortDescriptions = {
+    "relevance": "by relevance",
+    "name_asc": "alphabetically ascending",
+    "name_desc": "alphabetically descending",
+  };
+  const filterDescriptions = {
+    "accepted_names": "accepted names only",
+    "has_images": "has images",
+    "family_f": "families",
+    "genus_f": "genera",
+    "species_f": "species",
+    "infraspecific_f": "infraspecifics",
+  };
+  function resultsCountData(resultsJson) {
+    // Filters returned in the format: "species_f,infraspecific_f"
+    const filters = (resultsJson.f || "").split(",").filter(function (f) {
+      return f.length > 0;
+    });
+    return {
+      totalResults: resultsJson.totalResults,
+      sortDescription: sortDescriptions[resultsJson.sort],
+      filterDescriptions: filters.map(function (f) {
+        return filterDescriptions[f];
+      }),
+    };
+  }
 
   var initialize = function(initialToken) {
     $('body')
@@ -79,10 +106,12 @@ define(function(require) {
 
   function listView() {
     $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
+    $(".js-view-mode").text("Viewing in list mode");
   }
 
   function gridView() {
     $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
+    $(".js-view-mode").text("Viewing in grid mode");
   }
 
   function setCursor(e) {
