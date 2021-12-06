@@ -1,6 +1,7 @@
 define(function (require) {
   var $ = require("jquery");
   var currentLink = require("./current-link");
+  var focus = require("./focus");
 
   currentLink.setCurrentLink();
 
@@ -24,6 +25,10 @@ define(function (require) {
 
   $(function () {
     var expanded = false;
+    // handler for releasing focus on parent navigation
+    var releaseFocusParent;
+    // handler for releasing focus on child navigation
+    var releaseFocusChild;
 
     updateNavigationUi(expanded);
     updateAccessibilityAttributes(expanded);
@@ -35,10 +40,22 @@ define(function (require) {
 
       updateNavigationUi(expanded);
       updateAccessibilityAttributes(expanded);
+
+      if (releaseFocusParent) {
+        releaseFocusParent();
+      }
+      releaseFocusParent = focus.containFocus($(".top-right-nav")[0]);
     });
+
     $(".about-toggle").on("click", function (e) {
       e.preventDefault();
+
       $(".children").toggleClass("open");
+
+      if (releaseFocusChild) {
+        releaseFocusChild();
+      }
+      releaseFocusChild = focus.containFocus($(".children")[0]);
     });
   });
 });
