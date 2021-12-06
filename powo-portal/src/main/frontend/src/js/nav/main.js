@@ -6,9 +6,9 @@ define(function (require) {
   currentLink.setCurrentLink();
 
   function updateNavigationUi(expanded) {
-    $("html").toggleClass("html--overflow-hidden");
-    $(".toggle-nav").toggleClass("active");
-    $(".top-right-nav ul").toggleClass("active");
+    $("html").toggleClass("html--overflow-hidden", expanded);
+    $(".toggle-nav").toggleClass("active", expanded);
+    $(".top-right-nav ul").toggleClass("active", expanded);
     $(".toggle-nav > svg > use").attr(
       "xlink:href",
       expanded ? "#closeicon" : "#burgericon"
@@ -24,8 +24,8 @@ define(function (require) {
   }
 
   $(function () {
-    updateNavigationUi();
-    updateAccessibilityAttributes();
+    updateNavigationUi(expanded);
+    updateAccessibilityAttributes(expanded);
 
     $(".toggle-nav").on("click", function (e) {
       e.preventDefault();

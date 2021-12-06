@@ -17,29 +17,31 @@
       content: '';
       margin-left: auto;
       ul {
-        background: $kew-teal;
-        display: block;
-        position: absolute;
-        top: 68px;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100vh;
-        padding: 6px 0;
-        z-index: 3;
-        outline: 0;
+        display:none;
         @media (min-width: $screen-sm-min) {
-          position: unset;
-          height: auto;
-          background: transparent;
+          display: block;
         }
+
         &.active {
-          display:none;
+          background: $kew-teal;
+          display: block;
+          position: absolute;
+          top: 68px;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 100vh;
+          padding: 6px 0;
+          z-index: 3;
+          outline: 0;
           @media (min-width: $screen-sm-min) {
-            display: block;
+            position: unset;
+            height: auto;
+            background: transparent;
           }
         }
+
         li {
           float:none;
           display:block;
