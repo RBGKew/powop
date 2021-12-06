@@ -5,7 +5,7 @@ define(function (require) {
 
   currentLink.setCurrentLink();
 
-  function updateIcon() {
+  function updateNavigationUi() {
     $(".toggle-nav > svg > use").attr(
       "xlink:href",
       expanded ? "#closeicon" : "#burgericon"
@@ -21,7 +21,7 @@ define(function (require) {
   }
 
   $(function () {
-    updateIcon();
+    updateNavigationUi();
     updateAccessibilityAttributes();
 
     $(".toggle-nav").on("click", function (e) {
@@ -29,14 +29,12 @@ define(function (require) {
 
       expanded = !expanded;
 
-      updateIcon();
+      updateNavigationUi();
       updateAccessibilityAttributes();
 
       $(this).toggleClass("active");
       $(".top-right-nav ul").toggleClass("active");
       $("html").toggleClass("html--overflow-hidden");
-
-      updateAccessibilityAttributes();
     });
     $(".about-toggle").on("click", function (e) {
       $(".children").toggleClass("open");
