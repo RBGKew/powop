@@ -10,7 +10,7 @@ define(function(require) {
   require('libs/magnific-popup');
 
 
-  var initialize = function() {
+  function initialize() {
 
   // setup search box
   filters.initialize();
@@ -63,15 +63,8 @@ define(function(require) {
     initInternalPageNavigationBehaviour();
 
     function initInternalPageNavigationBehaviour() {
-      // opens taxon nav when return key is pressed
-      $(".mobile-menu").on("keypress", function (e) {
-        if (e.key === 13) {
-          $('.navbar-collapse').collapse('toggle')
-        }
-      });
-      
       // hides taxon nav when clicked
-      $('.navbar-nav>li>a').on('click', function () {
+      $('.navbar-nav > li > a').on('click', function () {
         $('.navbar-collapse').collapse('hide');
       });
     }
