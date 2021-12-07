@@ -43,6 +43,7 @@ define(function (require) {
 
       if (releaseFocusParent) {
         releaseFocusParent();
+        releaseFocusParent = null;
       }
       releaseFocusParent = focus.containFocus($(".top-right-nav")[0]);
     });
@@ -54,6 +55,7 @@ define(function (require) {
 
       if (releaseFocusChild) {
         releaseFocusChild();
+        releaseFocusChild = null;
       }
       releaseFocusChild = focus.containFocus($(".children")[0]);
     });
