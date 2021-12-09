@@ -16,6 +16,8 @@
  */
 package org.powo.portal.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/")
 public class IndexController extends LayoutController {
+	@Autowired
+	private MessageSource messages;
 
 	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
 	public String index(
@@ -38,8 +42,8 @@ public class IndexController extends LayoutController {
 			model.addAttribute("f", filterQuery);
 			return "redirect:/results";			
 		}
-
-		model.addAttribute("title", site.indexPageTitle());
+		
+		model.addAttribute("title", messages.getMessage("site.home.title", null, site.defaultLocale()));
 		model.addAttribute("featured-taxa-sections", site.featuredTaxaSections());
 		var taxonCounts = site.getFormattedTaxonCounts();
 		for (var key : taxonCounts.keySet()) {

@@ -3,8 +3,8 @@ package org.powo.site;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import org.powo.model.Taxon;
 import org.powo.model.solr.DefaultQueryOption;
@@ -34,11 +34,6 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
-	public String siteIdCapitlized() {
-		return "UPB";
-	}
-	
-	@Override
 	public String kewLogoPath() {
 		return "svg/kew-upb-logo.svg";
 	}
@@ -59,17 +54,6 @@ public class UPBSite extends PowoSite {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Useful Plants of Boyacá";
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Useful Plants of Boyacá", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
-	}
-
-	@Override
 	public String favicon() {
 		return "upfc-favicon.ico";
 	}
@@ -77,5 +61,10 @@ public class UPBSite extends PowoSite {
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
 		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+	}
+
+	@Override
+	public Locale defaultLocale() {
+		return new Locale("en", "uk", "upb");
 	}
 }

@@ -1,9 +1,9 @@
 <header class="c-header">
   <div class="container">
-    <a id="kew-logo" href="/" aria-label="Go to the homepage">{{> (str kewLogo) }}</a>
+    <a id="kew-logo" href="/" aria-label="{{ message "site.title" }}-Go to the homepage">{{> (str kewLogo) }}</a>
     <nav class="top-right-nav" aria-label="Site links">
-      <button class="toggle-nav">
-        {{> svg/burger-icon }}
+      <button class="toggle-nav" aria-expanded="false">
+        {{> svg/navigation-icons }}
       </button>
       <ul class="active" tabindex="-1">
         <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>

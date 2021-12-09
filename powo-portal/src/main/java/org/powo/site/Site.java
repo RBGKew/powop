@@ -28,10 +28,7 @@ public interface Site {
 	Locale defaultLocale();
 	String siteId();
 	String oneTrustID();
-	String siteIdCapitlized();
 	String kewLogoPath();
-	String indexPageTitle();
-	String taxonPageTitle(Taxon taxon);
 	String favicon();
 	/**
 	 * The Canonical URL of the homepage of the site.
