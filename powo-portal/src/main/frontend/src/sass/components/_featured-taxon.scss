@@ -1,43 +1,38 @@
 .featured-taxa-sections {
-  margin-bottom: 40px;
-  padding: 0 100px;
+  padding: 0 16px;
+
+  @media (min-width: $screen-sm-min) {
+    padding: 0 100px;
+  }
+
   .featured-taxa-section__header {
     display: flex;
     justify-content: space-between;
     align-content: center;
-    height: 49px;
+    margin: 24px 0;
     flex-direction: row;
     align-items: center;
-    margin-top: 22px;
-    h2 {
+
+    & > h2 {
       margin: 0;
     }
   }
-  .featured-taxa {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    @media (min-width: $screen-md-min) {
-      flex-direction: row;
-    }
-    a {
-      display: inline-block;
-      width: 100%;
-    }
-    a:hover,a:focus {
-      text-decoration: none; 
-    }
-    .taxa {
-      @media (min-width: $screen-md-min) {
-        width: 30%;
-      }
-      width: 100%;
+
+  .featured-taxon {
+    display: block;
+    margin-bottom: 32px;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
     }
   }
 
   .featured-taxon__image-container {
     height: 210px;
     overflow: hidden;
+    margin-bottom: 8px;
     > img {
       object-fit: cover;
       width: 100%;
@@ -47,7 +42,6 @@
   .featured-taxon__image {
     width: 371px;
     height: 209px;
-    margin: 24px 27px 160px 1px;
   }
 
   .featured-taxon__image-placeholder {
@@ -58,11 +52,18 @@
   .featured-taxon__rank {
     color: $kew-teal;
     font-weight: 900;
-    margin: 14px 0;
+    margin-bottom: 8px;
+    text-transform: uppercase;
   }
 
   .featured-taxon__name {
     font-size: 20px;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
+  }
+  
+  .featured-taxon__summary {
+    & > p {
+      margin-bottom: 0;
+    }
   }
 }
