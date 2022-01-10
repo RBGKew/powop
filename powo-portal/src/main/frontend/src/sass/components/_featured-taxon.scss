@@ -35,13 +35,24 @@
     }
   }
 
-  .featured-taxon__image {
+  .featured-taxon__image-container {
     height: 210px;
     overflow: hidden;
     > img {
       object-fit: cover;
       width: 100%;
     }
+  }
+
+  .featured-taxon__image {
+    width: 371px;
+    height: 209px;
+    margin: 24px 27px 160px 1px;
+  }
+
+  .featured-taxon__image-placeholder {
+    height: 209px;
+    background-color: #f4f3f1;
   }
 
   .featured-taxon__rank {
@@ -53,17 +64,5 @@
   .featured-taxon__name {
     font-size: 20px;
     margin-bottom: 9px;
-  }
-
-  .photo-placeholder {
-    width: 371px;
-    height: 209px;
-    margin: 24px 27px 160px 1px;
-    background-color: #f4f3f1;
-  }
-  .photo {
-    width: 371px;
-    height: 209px;
-    margin: 24px 27px 160px 1px;
   }
 }
