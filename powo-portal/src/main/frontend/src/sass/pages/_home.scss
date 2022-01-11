@@ -131,21 +131,8 @@
 
 }
 
-// Section Home
-.s-search-home {
-  width: 100%;
-  @media (min-width: $screen-sm-min) {
-    position: absolute;
-    top: 40%;
-    left: 0;
-    transform: translateY(-50%);
-  }
-}
-.s-search__fullpage {
+.s-page--home {
   .featured-taxa-sections {
-    display: none;
-    @media (min-width: $screen-sm-min) {
-      display: block;
-    }
+    margin-bottom: 40px;
   }
 }

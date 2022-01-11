@@ -6,10 +6,13 @@
     </div>
   </div>
   <div class="featured-taxa">
+    {{!-- We use a .row outside of .container here because we don't want any additional padding on this section --}}
+    <div class="row">
     {{#each featuredTaxa}}
-      <div class="taxa">
+      <div class="col col-md-4">
         {{> partials/featured/featured-taxon }}
       </div>
     {{/each}}
+    </div>
   </div>
 {{/each}}
