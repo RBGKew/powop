@@ -1,26 +1,45 @@
-define(function(require) {
-  var $ = require('jquery');
-  var currentLink = require('./current-link');
+define(function (require) {
+  var $ = require("jquery");
+  var currentLink = require("./current-link");
+  var expanded = false;
 
   currentLink.setCurrentLink();
 
-  burgerIcon = false
-  $(document).ready(function() {
-    $('.toggle-nav').click(function(e) {
+  function updateIcon() {
+    $(".toggle-nav > svg > use").attr(
+      "xlink:href",
+      expanded ? "#closeicon" : "#burgericon"
+    );
+  }
+
+  function updateAccessibilityAttributes() {
+    $(".toggle-nav").attr("aria-expanded", expanded);
+    $(".toggle-nav .icon").attr(
+      "aria-label",
+      expanded ? "Close navigation" : "Open navigation"
+    );
+  }
+
+  $(function () {
+    updateIcon();
+    updateAccessibilityAttributes();
+
+    $(".toggle-nav").on("click", function (e) {
       e.preventDefault();
-      if (burgerIcon) {
-        $(this).find("use").attr("xlink:href", "#burgericon");
-        burgerIcon = false;
-      } else {
-        $(this).find("use").attr("xlink:href", "#closeicon");
-        burgerIcon = true;
-      }
-      $(this).toggleClass('active');
-      $('.top-right-nav ul').toggleClass('active');
-      $('html').toggleClass('html--overflow-hidden');
+
+      expanded = !expanded;
+
+      updateIcon();
+      updateAccessibilityAttributes();
+
+      $(this).toggleClass("active");
+      $(".top-right-nav ul").toggleClass("active");
+      $("html").toggleClass("html--overflow-hidden");
+
+      updateAccessibilityAttributes();
     });
-    $('.about-toggle').click(function(e) {
-      $('.children').toggleClass('open');
+    $(".about-toggle").on("click", function (e) {
+      $(".children").toggleClass("open");
       e.preventDefault();
     });
   });

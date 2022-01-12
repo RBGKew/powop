@@ -2,22 +2,6 @@
  * Shared styles for UPFC sites
  */
 
-#kew-upfc-logo-svg {
-  path,
-  text {
-    fill: #000;
-  }
-  #Bar {
-    fill: #000;
-  }
-  #Map {
-    fill: $White;
-  }
-  #Background {
-    fill: $upfc-green;
-  }
-}
-
 /* These sites don't have a large title on the
    homepage, so make the intro text larger */
 .s-colplanta,.s-colfungi,.s-upb {

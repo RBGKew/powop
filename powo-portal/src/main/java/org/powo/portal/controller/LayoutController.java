@@ -27,11 +27,6 @@ public class LayoutController {
     return site.canonicalUrl();
   }
 
-  @ModelAttribute("siteIdCapitlized")
-  protected String siteIdCapitlized() {
-    return site.siteIdCapitlized();
-  }
-
   @ModelAttribute("favicon")
   protected String favicon() {
     return site.favicon();

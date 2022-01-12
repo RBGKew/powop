@@ -48,3 +48,23 @@ button.mobile-menu.collapsed:before {
     }
   }
 }
+
+.taxon__sources-header {
+  margin-top: 0;
+}
+
+.taxon-classification {
+  margin-bottom: 8px;
+}
+
+.taxon-classification__item {
+  margin-bottom: 8px;
+  & > dt {
+    display: inline-block;
+    font-weight: normal;
+  }
+  
+  & > dd {
+    display: inline-block;
+  }
+}

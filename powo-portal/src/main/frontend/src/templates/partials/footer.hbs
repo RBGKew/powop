@@ -1,6 +1,6 @@
   <script src="/{{{asset "js/all.min.js"}}}"></script>
   {{#if initialize}}
-  <script type="text/javascript">
+  <script>
     require(['jquery', '{{initialize}}'], function($, component) {
       $(document).ready(function() {
         component.initialize();

@@ -1,20 +1,20 @@
-<header class="c-header" role="banner">
+<header class="c-header">
   <div class="container">
-    <a id="kew-logo" href="/" aria-label="Go to the homepage">{{> (str kewLogo) }}</a>
-    <nav class="top-right-nav">
-      <button class="toggle-nav" href="#">
-        {{> svg/burger-icon }}
+    <a id="kew-logo" href="/" aria-label="{{ message "site.title" }}-Go to the homepage">{{> (str kewLogo) }}</a>
+    <nav class="top-right-nav" aria-label="Site links">
+      <button class="toggle-nav" aria-expanded="false">
+        {{> svg/navigation-icons }}
       </button>
       <ul class="active" tabindex="-1">
         <li><a class="top-link" href="/">{{{message "header_home"}}}</a></li>
         <li class="desktop"><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
         <li class="mobile">
-          <a class="top-link about-toggle" href="#">
+          <a class="top-link about-toggle" href="#" role="button">
             About {{> svg/more }}
           </a>
           <ul class="children">
-             <button class="top-link about-toggle" href="#">{{> svg/back }} Back</button>
-             <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
+              <li><button class="top-link about-toggle">{{> svg/back }} Back</button></li>
+              <li><a class="top-link" href="/about">{{{message "footer_about"}}}</a></li>
               <li><a class="top-link" href="/what-we-do">{{{message "header_what_we_do"}}}</a></li>
               <li><a class="top-link" href="/cite-us">{{{message "header_cite_us"}}}</a></li>
               <li><a class="top-link" href="/contact">{{{message "header_contact"}}}</a></li>

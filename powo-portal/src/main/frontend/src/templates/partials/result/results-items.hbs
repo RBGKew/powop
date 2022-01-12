@@ -2,21 +2,25 @@
   <div class="grid grid--lines grid--equal-heights">
     {{#each results}}
     <article class="c-card {{color-theme this}}">
-      <a href="{{url}}">
+      <a href="{{url}}" class="clearfix">
         <div class="c-card__content">
-          <span class="c-card__type">
+          <div class="c-card__type">
             <svg class="results-kingdom" xmlns:xlink="http://www.w3.org/1999/xlink" >
               <use xlink:href="#{{kingdom}}-svg"></use>
             </svg>
             {{rank}}
-          </span>
-          <h2 class="c-card__title">{{nameAndAuthor this}}</h2>
+          </div>
+          <p class="c-card__title">{{nameAndAuthor this}}</p>
+          {{#if synonymOf}}
           <p>
-            {{#if synonymOf}}
-              <b>Synonym of</b>: {{nameAndAuthor synonymOf}}</br>
-            {{/if}}
+            <b>Synonym of</b>: {{nameAndAuthor synonymOf}}
+          </p>
+          {{/if}}
+          {{#if snippet}}
+          <p>
             {{{snippet}}}
           </p>
+          {{/if}}
         </div>
         {{#if images}}
         <div class="c-gallery-thumbs">

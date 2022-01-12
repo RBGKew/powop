@@ -186,9 +186,10 @@ a#kew-logo {
 #kew-logo {
   display: -webkit-flex; 
   display: flex;
-  width: 252px;
+  width: 242px;
   margin-right: 0;
   @media (min-width: $screen-sm-min) {
+    width: 252px;
     margin-right: 10px;
   }
   #kew-powo-logo-svg {

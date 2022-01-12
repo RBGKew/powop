@@ -99,7 +99,6 @@
   color: $navbar-default-color;
   padding: 7px 20px;
   background-color: #fff;
-  margin: 10px 0 0 0;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   border-bottom: 1px solid #ccc;
@@ -206,4 +205,12 @@ override */
 }
 .navbar-nav a {
   z-index: 1;
+}
+
+.results-grid {
+  padding-top: 16px;
+}
+
+.results__cross-site-help {
+  margin-bottom: 16px;
 }

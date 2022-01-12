@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -13,9 +12,10 @@ import org.powo.model.Taxon;
 import org.powo.model.registry.Organisation;
 import org.powo.model.solr.DefaultQueryOption;
 import org.powo.persistence.solr.SourceFilter;
+import org.powo.persistence.solr.ColombianSiteQuery;
+import org.powo.persistence.solr.ColombianSiteSuggesterFilter;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
-import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,23 +48,19 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	@Override
-	public String siteIdCapitlized() {
-		return "ColFungi";
-	}
-
-	@Override
 	public String kewLogoPath() {
 		return "svg/kew-colfungi-logo.svg";
 	}
 
 	@Override
 	public DefaultQueryOption defaultQuery() {
-		return new SourceFilter(organisationIdentifier);
+		return new ColombianSiteQuery(
+				organisationIdentifier, "Fungi", "Colombia");
 	}
 
 	@Override
 	public String suggesterFilter() {
-		return organisationIdentifier;
+		return new ColombianSiteSuggesterFilter(organisationIdentifier, "Fungi", "Colombia").toString();
 	}
 
 	@Override
@@ -78,30 +74,8 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Colombian Fungi made accessible";
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Colombian Fungi made accessible", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
-	}
-
-	@Override
 	public String favicon() {
 		return "upfc-favicon.ico";
-	}
-
-	@Override
-	public Optional<Link> crossSiteLink() {
-		Link link = new Link("http://colplanta.org", "Visit ColPlantA");
-		return Optional.of(link);
-	}
-
-	@Override
-	public String crossSiteType() {
-		return "plant";
 	}
 
 	@Override
@@ -110,9 +84,12 @@ public class ColFungiSite extends PowoSite {
 	}
 
 	public List<FeaturedTaxaSection> featuredTaxaSections() {
-		var lobariellaPallida = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:548106"), messageSource);
-		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"), messageSource);
-		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"), messageSource);
+		var lobariellaPallida = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:548106"),
+				messageSource);
+		var auriculariaFuscosuccinea = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:309392"),
+				messageSource);
+		var macrolepiotaColombiana = new FeaturedTaxon(taxonService.find("urn:lsid:indexfungorum.org:names:318604"),
+				messageSource);
 
 		return List.of(new FeaturedTaxaSection("Featured fungi",
 				List.of(lobariellaPallida, auriculariaFuscosuccinea, macrolepiotaColombiana)));
@@ -125,6 +102,7 @@ public class ColFungiSite extends PowoSite {
 
 	@Override
 	public boolean hasTaxon(Taxon taxon) {
-		return taxon.getAcceptedNameAuthorities().stream().anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
+		return taxon.getAcceptedNameAuthorities().stream()
+				.anyMatch(org -> org.getIdentifier().equals(organisationIdentifier));
 	}
 }

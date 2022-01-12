@@ -16,11 +16,13 @@
  */
 package org.powo.model.geography;
 
+import static org.junit.Assert.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.Ignore;
@@ -65,7 +67,24 @@ public class LocationTest {
 	@Ignore("Re-enabling tests")
 	public final void testGetEnvelopeForSolr() throws Exception {
 		String paraguayWKT = "POLYGON ((-62.64372600000005 -27.588293504882838, -54.24392600000006 -27.588293504882838, -54.24392600000006 -19.296693504882825, -62.64372600000005 -19.296693504882825, -62.64372600000005 -27.588293504882838))";
-		Polygon paraguay = (Polygon)(new WKTReader().read(paraguayWKT));
+		Polygon paraguay = (Polygon) (new WKTReader().read(paraguayWKT));
 		assertThat(Location.PAR.getEnvelopeForSolr(), is(paraguay));
+	}
+
+	@Test
+	public void testGetAllParents() {
+		assertEquals(Set.of(Location.WESTERN_SOUTH_AMERICA, Location.SOUTHERN_AMERICA), Location.CLM.getAllParents());
+		assertEquals(Set.of(Location.SOUTHERN_AMERICA), Location.WESTERN_SOUTH_AMERICA.getAllParents());
+		assertEquals(Set.of(), Location.SOUTHERN_AMERICA.getAllParents());
+	}
+
+	@Test
+	public void testGetAllChildren() {
+		assertEquals(Set.of(), Location.CLM_OO.getAllChildren());
+		assertEquals(Set.of(Location.CLM_OO), Location.CLM.getAllChildren());
+		assertEquals(
+				Set.of(Location.BOL, Location.BOL_OO, Location.CLM, Location.CLM_OO, Location.ECU,
+						Location.ECU_OO, Location.GAL, Location.GAL_OO, Location.PER, Location.PER_OO),
+				Location.WESTERN_SOUTH_AMERICA.getAllChildren());
 	}
 }

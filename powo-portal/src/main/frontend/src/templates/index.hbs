@@ -8,35 +8,27 @@
 <div class="s-page s-page--home s-search__fullpage {{concat " s-" siteId}}">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
-    <div class="c-search autocomplete-form">
-      <div class="central">
-        <div class="central-items">
-          <div class="c-intro">
-            {{> (concat "partials/intro/" siteId) }}
+    <main role="main" id="#main">
+      <div class="main-content home__hero-content">
+        <div class="central">
+          <div class="central-items">
+            <div class="c-intro">
+              {{> (concat "partials/intro/" siteId) }}
+            </div>
+            <div class="home__search-container" tabindex="-1">
+              {{> partials/search/search-box }}
+            </div>
+            <div class="form-inline--search">
+              {{> (concat "partials/cross-site-help/cross-site-help-" siteId) }}
+            </div>
           </div>
-          <main id="main" class="front-page" tabindex="-1">
-            {{> partials/search/search-box }}
-          </main>
-          {{#if cross-site-link.present}}
-            <nav class="form-inline--search form-links">
-              <ul>
-                  <li>
-                    Looking for a Colombian {{ cross-site-type }} instead? <a class="form-link" href="{{cross-site-link.value.href}}">{{cross-site-link.value.text}} {{> svg/external-link }}</a>
-                  </li>
-              </ul>
-            </nav>
-          {{/if}}
         </div>
+        {{> (concat "partials/intro-image-description/" siteId)}}
       </div>
-      <aside>
-        <div class="featured">
-          {{> (concat "partials/featured/featured-" siteId)}}
-        </div>
-      </aside>
-    </div>
-    <aside class="featured-taxa-sections">
-      {{> partials/featured/featured-taxa-sections}}
-    </div>
+      <div class="featured-taxa-sections">
+        {{> partials/featured/featured-taxa-sections}}
+      </div>
+    </main>
     {{> partials/footer-links}}
   </div>
 </div>

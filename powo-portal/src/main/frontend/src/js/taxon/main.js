@@ -3,6 +3,7 @@ define(function(require) {
   var $ = require('jquery');
   var descriptions = require('./descriptions')
   var bibliography = require('./bibliography')
+  var gallery = require('./gallery')
   var map = require('./map');
   var filters = require('../search/filters');
   require('libs/bootstrap');
@@ -45,14 +46,8 @@ define(function(require) {
   }
 
   // this targets the Map on the taxon page that is created with open layers
-  $('.ol-unselectable').attr('aria-label', 'Distribution Map');
+  $('.c-map canvas.ol-unselectable').attr('aria-label', 'Distribution Map');
 
-  $('.navbar--article').on('click', function(e) {
-    e.preventDefault();
-	$('body').css('overflow', 'auto');
-  });
-    
-    
   $('.tokenfield input')
     .on('focus', function() {
       $('#search_box')
@@ -63,42 +58,20 @@ define(function(require) {
         .removeClass('focused');
     })
 
-    // initialize popup for header image
-    $('.c-gallery-header').on('click', function(e) {
-      $('.c-gallery').magnificPopup('open');
-      e.preventDefault();
-    });
+    gallery.initialize();
 
-    // initialize popups for image gallery
-    $('.c-gallery').magnificPopup({
-      delegate: 'a',
-      type: 'image',
-      gallery: { enabled: true }
-    });
+    initInternalPageNavigationBehaviour();
 
-    // Accomodate fixed header when jumping to anchor links
-    $('nav a').on('click', function() {
-      var target = $(this.hash);
-      var headerHeight = $(".c-article-nav").height(); // Get fixed header height
-
-      if (target.length) {
-        $('html,body').animate({
-          scrollTop: target.offset().top - headerHeight + 5
-        }, 'fast', 'swing');
-      }
-    });
-    navToggle();
-
-    function navToggle() {
-        // opens taxon nav when return  key is pressed
-      $(".mobile-menu").keypress(function (e) {
-          if (e.keyCode === 13) {
-            $('.navbar-collapse').collapse('toggle')
-          }
+    function initInternalPageNavigationBehaviour() {
+      // opens taxon nav when return key is pressed
+      $(".mobile-menu").on("keypress", function (e) {
+        if (e.key === 13) {
+          $('.navbar-collapse').collapse('toggle')
+        }
       });
       
       // hides taxon nav when clicked
-      $('.navbar-nav>li>a').on('click', function(){
+      $('.navbar-nav>li>a').on('click', function () {
         $('.navbar-collapse').collapse('hide');
       });
     }

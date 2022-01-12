@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -19,7 +18,6 @@ import org.powo.persistence.solr.PowoDefaultQuery;
 import org.powo.portal.service.TaxonCountsService;
 import org.powo.portal.view.FeaturedTaxaSection;
 import org.powo.portal.view.FeaturedTaxon;
-import org.powo.portal.view.components.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -65,11 +63,6 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public String siteIdCapitlized() {
-		return "POWO";
-	}
-
-	@Override
 	public String kewLogoPath() {
 		return "svg/kew-science-big-logo.svg";
 	}
@@ -99,29 +92,8 @@ public class PowoSite implements Site {
 	}
 
 	@Override
-	public String indexPageTitle() {
-		return "Plants of the World Online | Kew Science";
-	}
-
-	@Override
-	public String taxonPageTitle(Taxon taxon) {
-		return String.format("%s %s | Plants of the World Online | Kew Science", taxon.getScientificName(),
-				taxon.getScientificNameAuthorship());
-	}
-
-	@Override
 	public String favicon() {
 		return "powo-favicon.ico";
-	}
-
-	@Override
-	public Optional<Link> crossSiteLink() {
-		return Optional.empty();
-	}
-
-	@Override
-	public String crossSiteType() {
-		return "";
 	}
 
 	@Override
