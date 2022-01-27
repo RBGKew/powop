@@ -474,7 +474,7 @@
                    data-target="#determinations"
                    aria-expanded="false"
                    >
-                  Herbarium Catalogue ({{count}} records)</button>
+                  Herbarium Catalogue ({{identificationsCount}} records)</button>
               </h4>
               <div id="determinations" class="table-responsive collapse in">
                 <table class="table table-hover">
@@ -485,24 +485,20 @@
                       <th>Identified As</th>
                       <th>Barcode</th>
                       <th>Type Status</th>
+                      <th>Has image?</th>
                     </tr>
                   </thead>
                   <tbody>
                     {{#each identifications}}
-                      <tr
-                        {{#if thumbnail}}
-                        data-toggle="popover"
-                        data-html="true"
-                        data-placement="left"
-                        data-content='<img src="{{thumbnail}}.jpg"/>'
-                        data-trigger="hover"
-                        {{/if}}
-                      >
+                      <tr>
                       <td>{{date}}</td>
                       <td>{{notes}}</td>
                       <td>{{{ identifiedAs }}}</td>
                       <td><a href="{{url}}" target="_blank">{{barcode}}</a></td>
                       <td>{{typeStatus}}</td>
+                      <td>
+                        {{#if hasImage}}Yes{{else}}No{{/if}}
+                      </td>
                     </tr>
                     {{/each}}
                   </tbody>

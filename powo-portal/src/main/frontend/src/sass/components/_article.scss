@@ -208,36 +208,6 @@
   }
 }
 
-#determinations {
-  table {
-    display: table;
-    width: 100%;
-  }
-
-  thead, tbody {
-    float: left;
-    width: 100%;
-  }
-
-  tbody {
-    overflow-y: auto;
-  }
-
-  tr {
-    width: 100%;
-    display: table;
-    text-align: left;
-  }
-
-  th, td {
-    &:nth-child(1) { width: 12% }
-    &:nth-child(2) { width: 40% }
-    &:nth-child(3) { width: 20% }
-    &:nth-child(4) { width: 14% }
-    &:nth-child(5) { width: 14% }
-  }
-}
-
 // Component - Lists
 %unstyled-list {
   margin: 0;
