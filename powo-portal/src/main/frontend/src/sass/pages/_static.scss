@@ -64,10 +64,10 @@
     }
     a {
       color: $kew-black;
-      border-bottom: 1px solid $kew-black;
+      box-shadow: 0 1px 0 $kew-black;
       text-decoration: none;
       &:hover {
-        border-bottom-width: 2px;
+        box-shadow: 0 2px 0 $kew-black;
       }
     }
 
