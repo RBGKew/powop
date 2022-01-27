@@ -121,6 +121,7 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/featured-taxon";
 @import "components/map";
 @import "components/results";
+@import "components/results-footer";
 @import "components/article";
 @import "components/skip";
 
@@ -129,7 +130,6 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/gallery-thumbs";
 
 @import "components/intro";
-@import "components/pagination";
 
 @import "components/spinner";
 @import "components/cross-site-help";
