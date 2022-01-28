@@ -1,5 +1,9 @@
 package org.powo.portal.view;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
+
 import org.joda.time.format.DateTimeFormat;
 import org.powo.model.Identification;
 import org.springframework.util.StringUtils;
@@ -25,6 +29,7 @@ public class IdentificationView {
 		this.barcode = this.extractBarcode(identification.getIdentifiedBy());
 
 		if (identification.getDateIdentified() != null) {
+			// DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
 			this.date = identification.getDateIdentified().toString(DateTimeFormat.mediumDate());
 		}
 	}
