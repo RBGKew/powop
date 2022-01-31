@@ -19,9 +19,6 @@
     background-color: $White;
     border-radius: 26px;
     border: 1px solid $kew-dark-grey;
-    &:focus-within {
-      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.15);
-    }
     .token {
       color: #000;
       height: auto;
@@ -35,6 +32,9 @@
 
     &.form-control {
       padding: 6px 0 6px 12px;
+    }
+    &.focus {
+      @include focus-outline--black();
     }
   }
 
@@ -64,9 +64,7 @@
       line-height: 1.29;
       letter-spacing: 0.5px;
     }
-  } 
-
-
+  }
 
   input.token-input {
     background-color: transparent;
@@ -111,7 +109,8 @@
   border-bottom-right-radius: 26px;
   width: 57px;
   height: 48px;
-  &:hover,&:focus {
+  &:hover, &:focus {
     background-color: scale-color($kew-teal, $lightness: -25%);
+    @include focus-outline--black();
   }
 }

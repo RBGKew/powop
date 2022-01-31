@@ -58,20 +58,6 @@ TODO:
 */
 
 // specific styles - these should be moved out
-.s-page--home {
-  .tokenfield.focus,
-  #search-button:focus {
-    @include focus-outline--yellow();
-  }
-}
-
-.c-header {
-  .tokenfield.focus,
-  #search-button:focus {
-    @include focus-outline--black();
-  }
-}
-
 #grid_view,
 #list_view {
   &:focus {
