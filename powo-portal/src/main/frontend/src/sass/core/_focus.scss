@@ -1,35 +1,30 @@
-// focus styles library - mixins to make
-
 $kew-focus-text-colour: $kew-black;
 $kew-focus-colour-light: $kew-focus-outline-yellow;
 $kew-focus-colour-dark: $kew-black;
 
-@mixin text-focus-styles() {
-  background-color: $kew-focus-colour-light;
-  box-shadow: 0 3px 0 $kew-focus-colour-dark;
-  color: $kew-focus-text-colour;
-  outline: none;
-  text-decoration: none;
-}
-
-@mixin button-focus-styles() {
-}
-
 @mixin double-box-shadow($inner-colour, $outer-colour, $line-width: 3px) {
-  // todo: do we want !important here? Can we somehow pass it in?
   box-shadow: 0 0 0 $line-width $inner-colour,
     0 0 0 ($line-width * 2) $outer-colour !important;
 }
 
-@mixin focus-on-light-bg() {
+@mixin focus-text() {
+  background-color: $kew-focus-colour-light;
+  box-shadow: 0 3px 0 $kew-focus-colour-dark;
+  color: $kew-focus-text-colour!important;
+  outline: none;
+  text-decoration: none;
+}
+
+@mixin focus-outline--yellow() {
   @include double-box-shadow($kew-focus-colour-dark, $kew-focus-colour-light);
   outline: none;
 }
 
-@mixin focus-on-dark-bg() {
+@mixin focus-outline--black() {
   @include double-box-shadow($kew-focus-colour-light, $kew-focus-colour-dark);
   outline: none;
 }
+
 
 /**
 TODO:
@@ -63,6 +58,10 @@ TODO:
 */
 
 // global styles - moved into somewhere sensible?
+a:focus {
+  @include focus-text();
+  color: $kew-focus-text-colour!important;
+}
 
 a,
 button,
@@ -71,33 +70,22 @@ select {
     // We use !important here because these styles are deliberately very low specificity but also
     // need to be present all together for accessibility. For example if the color is different to
     // $kew-black the contrast ratio may not be accessible.
-    background-color: $kew-focus-colour-light !important;
-    box-shadow: 0 3px 0 $kew-focus-colour-dark !important;
-    color: $kew-focus-text-colour !important;
-    outline: none !important;
-    text-decoration: none;
   }
 }
 
 // specific styles - these should be moved out
-
-a.featured-taxon {
-  &:focus {
-    @include focus-on-light-bg();
-    background: unset !important;
-  }
-}
-
 .s-page--home {
   .tokenfield.focus,
   #search-button:focus {
-    @include focus-on-dark-bg();
+    @include focus-outline--yellow();
   }
 }
 
-.tokenfield.focus,
-#search-button:focus {
-  @include focus-on-light-bg();
+.c-header {
+  .tokenfield.focus,
+  #search-button:focus {
+    @include focus-outline--black();
+  }
 }
 
 #grid_view,
@@ -111,8 +99,8 @@ a.featured-taxon {
 
 .c-card a {
   &:focus {
-    @include focus-on-light-bg();
-    background: unset !important;
+    // @include focus-on-light-bg();
+    // background: unset !important;
   }
 }
 
