@@ -27,6 +27,10 @@
     &:focus {
       text-decoration: none;
     }
+    &:focus {
+      background-color: unset;
+      @include focus-outline--black();
+    }
   }
 
   .featured-taxon__image-container {
