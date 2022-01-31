@@ -192,6 +192,11 @@ a#kew-logo {
     width: 252px;
     margin-right: 10px;
   }
+  &:focus {
+    text {
+      fill: $kew-focus-text-colour;
+    }
+  }
   #kew-powo-logo-svg {
     text {
       fill: $kew-teal;
