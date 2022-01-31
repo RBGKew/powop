@@ -170,11 +170,20 @@
   border-right: 1px solid #757575;
 }
 
-.layout-toggle .btn-default:hover, .layout-toggle .btn-default:active, .layout-toggle .btn-default:focus {
-  color: #008285;
-  background-color: transparent;
-  border-color: transparent;
+.layout-toggle {
+  .btn-default {
+    background-color: transparent;
+    background-color: transparent;
+    border-color: transparent;
+    &:hover, &:active {
+      color: $kew-teal;
+    }
+    &:focus {
+      @include focus-outline--black();
+    }
+  }
 }
+
 /* Important is used here because important is used within the bootstrap, so need to be 
 override */
 
