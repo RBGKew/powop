@@ -92,12 +92,13 @@ $border-grey: 1px solid #CCCCCC;
 @import "vendor/bootstrap-tokenfield";
 @import "vendor/tokenfield-typeahead";
 
-@import "core/base";
+
 @import "core/functions";
 @import "core/helpers";
 @import "core/mixins";
 @import "core/variables";
 @import "core/focus";
+@import "core/base";
 
 @import "layout/grid";
 @import "layout/form";

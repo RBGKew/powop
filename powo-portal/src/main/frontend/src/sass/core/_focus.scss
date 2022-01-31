@@ -57,22 +57,6 @@ TODO:
 - remove below styles after checking all of them
 */
 
-// global styles - moved into somewhere sensible?
-a:focus {
-  @include focus-text();
-  color: $kew-focus-text-colour!important;
-}
-
-a,
-button,
-select {
-  &:focus {
-    // We use !important here because these styles are deliberately very low specificity but also
-    // need to be present all together for accessibility. For example if the color is different to
-    // $kew-black the contrast ratio may not be accessible.
-  }
-}
-
 // specific styles - these should be moved out
 .s-page--home {
   .tokenfield.focus,
@@ -119,12 +103,6 @@ select {
 //       outline-offset: 3px;
 //     }
 //   }
-// }
-
-// .tokenfield.focus,
-// #search-button:focus {
-//   outline: none;
-//   box-shadow: 0 0 0pt 2px $kew-focus-outline-yellow !important;
 // }
 
 // .c-gallery a:focus,

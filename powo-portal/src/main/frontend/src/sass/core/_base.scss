@@ -7,3 +7,10 @@ body {
   position: relative;
   font-size: 16px;
 }
+
+a {
+  &:focus {
+    @include focus-text();
+    color: $kew-focus-text-colour !important;
+  }
+}
