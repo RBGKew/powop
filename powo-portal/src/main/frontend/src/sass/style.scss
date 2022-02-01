@@ -1,9 +1,21 @@
 // Colors
-$article-theme-color: #339999;
-$brand-primary: #000000;
+$kew-black: #262626;
 $kew-teal: #008285;
+$kew-medium-teal: #016b70;
+$kew-light-grey: #c8c8c8;
 $kew-medium-grey: #949494;
+$kew-dark-grey: #757575;
+$kew-deep-black: #181818;
+$kew-medium-teal: #016b70;
+$kew-focus-outline-yellow: #FFDE02;
+
 $upfc-green: #3b9e3a;
+
+$White: #fff;
+
+$article-theme-color: #339999;
+// 
+$brand-primary: #000000;
 $text-muted: #757575;
 
 // Font defaults
@@ -34,7 +46,7 @@ $btn-default-border: transparent;
 
 // Pagination
 $pagination-bg: #fff;
-$pagination-border: $kew-medium-grey;
+$pagination-border: $kew-dark-grey;
 
 $pagination-hover-color: #000;
 $pagination-hover-bg: #ccc;
@@ -96,7 +108,6 @@ $border-grey: 1px solid #CCCCCC;
 @import "core/functions";
 @import "core/helpers";
 @import "core/mixins";
-@import "core/variables";
 @import "core/focus";
 @import "core/base";
 
