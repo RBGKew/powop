@@ -40,11 +40,15 @@
   .grid--rows & {
       position: relative;
       width: 100%;
+      
+      > a {
+        padding: 15px 30px;
+      }
 
       .c-card__type {
         position: absolute;
         left: 30px;
-        top: 30px;
+        top: 15px;
       }
 
       .c-card__content {
@@ -61,17 +65,6 @@
       .c-gallery-thumbs__img {
         display:none;
       }
-  }
-
-  .grid--rows & {
-    > a {
-      padding: 15px 30px;
-    }
-
-    .c-card__type {
-      position: absolute;
-      top: 15px;
-    }
   }
 }
 
