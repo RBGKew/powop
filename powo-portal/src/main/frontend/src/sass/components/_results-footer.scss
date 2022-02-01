@@ -3,7 +3,7 @@
   margin-bottom: 40px;
   border-radius: 0px 0px 4px 4px;
   padding: 20px;
-  
+
   @media (min-width: $screen-sm-min) {
     display: flex;
     justify-content: space-between;
@@ -19,6 +19,14 @@
   @media (min-width: $screen-sm-min) {
     margin-bottom: 0;
   }
+
+  // Bootstrap uses high specificity selectors so we must also in order to override
+  .pagination > li > a {
+    &:focus {
+      border-color: $kew-focus-colour-light;
+      @include focus-text();
+    }
+  }
 }
 
 .results-footer__pagination-controls {
@@ -28,7 +36,6 @@
     margin-right: 20px;
   }
 }
-
 .results-footer__page-size {
   display: flex;
   justify-content: center;
