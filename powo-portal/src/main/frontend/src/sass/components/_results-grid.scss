@@ -1,0 +1,31 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  background: white;
+  border-style: solid;
+  border-color: $kew-medium-grey;
+  border-width: 1px 0 0 1px;
+
+  & > .c-card {
+    border-style: solid;
+    border-color: $kew-medium-grey;
+    width: 100%;
+    border-width: 0 1px 1px 0;
+
+    @media (min-width: $screen-sm) {
+      width: 50%;
+    }
+    @media (min-width: $screen-md) {
+      width: 33.3333333333%;
+    }
+    @media (min-width: $screen-lg) {
+      width: 25%;
+    }
+  }
+
+  &--rows {
+    & > article {
+      width: 100%;
+    }
+  }
+}

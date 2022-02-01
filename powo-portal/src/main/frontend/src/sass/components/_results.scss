@@ -3,26 +3,12 @@
  */
 .c-results-outer {
   margin-top: 0;
-  @media (max-width: $screen-xs-max) {
+  @media (min-width: $screen-sm) {
     margin-top: 10px;
-  }
-
-  a {
-    color: #000;
   }
 
   article:last-child {
     border-right: $border-grey;
-  }
-
-  .grid--lines {
-    background-color: #fff;
-    padding: 0;
-    margin: 0;
-    .c-card {
-      border-left: 1px solid $kew-medium-grey;
-      border-bottom: 1px solid $kew-medium-grey;
-    }
   }
 
   .container--lines {

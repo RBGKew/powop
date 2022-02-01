@@ -2,12 +2,7 @@
 * Component - Card
 */
 .c-card {
-
   transition: box-shadow .1s ease-out;
-
-  @media (max-width: $screen-sm-min) {
-    width: 100%;
-  }
 
   &:hover {
     box-shadow: inset 0px 0px 0px 10px rgba(#66CCCC,0.75);
@@ -19,6 +14,11 @@
     height: 100%;
     padding: 30px;
     text-decoration: none;
+    
+    &:focus {
+      @include focus-outline--black();
+      background: unset;
+    }
   }
 
   &__title {
@@ -39,7 +39,6 @@
   */
   .grid--rows & {
       position: relative;
-      width: 100%;
       
       > a {
         padding: 15px 30px;

@@ -105,12 +105,12 @@ define(function(require) {
   }
 
   function listView() {
-    $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
+    $(".grid").addClass("grid--rows");
     $(".js-view-mode").text("Viewing in list mode");
   }
 
   function gridView() {
-    $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
+    $(".grid").removeClass("grid--rows");
     $(".js-view-mode").text("Viewing in grid mode");
   }
 
