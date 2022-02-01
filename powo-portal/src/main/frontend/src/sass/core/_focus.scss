@@ -1,16 +1,21 @@
 $kew-focus-text-colour: $kew-black;
 $kew-focus-colour-light: $kew-focus-outline-yellow;
 $kew-focus-colour-dark: $kew-black;
+$kew-focus-border-width: 3px;
 
-@mixin double-box-shadow($inner-colour, $outer-colour, $line-width: 3px) {
+@mixin double-box-shadow(
+  $inner-colour,
+  $outer-colour,
+  $line-width: $kew-focus-border-width
+) {
   box-shadow: 0 0 0 $line-width $inner-colour,
     0 0 0 ($line-width * 2) $outer-colour !important;
 }
 
 @mixin focus-text() {
   background-color: $kew-focus-colour-light;
-  box-shadow: 0 3px 0 $kew-focus-colour-dark;
-  color: $kew-focus-text-colour!important;
+  box-shadow: 0 $kew-focus-border-width 0 $kew-focus-colour-dark;
+  color: $kew-focus-text-colour !important;
   outline: none;
   text-decoration: none;
 }
@@ -24,7 +29,6 @@ $kew-focus-colour-dark: $kew-black;
   @include double-box-shadow($kew-focus-colour-light, $kew-focus-colour-dark);
   outline: none;
 }
-
 
 /**
 TODO:

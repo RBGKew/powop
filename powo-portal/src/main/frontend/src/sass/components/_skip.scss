@@ -12,7 +12,7 @@
   &:active {
     background: $kew-focus-colour-light;
     color: $kew-focus-colour-dark;
-    border-bottom: 3px solid $kew-focus-colour-dark;
+    border-bottom: $kew-focus-border-width solid $kew-focus-colour-dark;
     display: block;
     width: auto;
     height: auto;
