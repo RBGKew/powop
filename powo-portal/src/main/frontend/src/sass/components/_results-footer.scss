@@ -36,6 +36,7 @@
     margin-right: 20px;
   }
 }
+
 .results-footer__page-size {
   display: flex;
   justify-content: center;
@@ -52,5 +53,9 @@
     padding-right: 0;
     border-radius: 4px;
     border: 1px solid #757575;
+
+    &:focus {
+      @include focus-outline--black();
+    }
   }
 }
