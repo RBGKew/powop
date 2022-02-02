@@ -188,9 +188,14 @@ override */
     background: white;
     margin: 11px 0;
     &:hover {
-      background-color: #fff!important;
-      color: #008285!important;
+      color: $kew-teal;
     }   
+    &:focus {
+      @include focus-text();
+    }
+  }
+  .dropdown-menu > li > a:focus {
+    @include focus-text();
   }
 }
 .navbar-nav a {
