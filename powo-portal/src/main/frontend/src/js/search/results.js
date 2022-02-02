@@ -14,7 +14,7 @@ define(function(require) {
   var itemsTmpl = require('templates/partials/result/results-items.js');
   var paginationTmpl = require('templates/partials/result/results-pagination.js');
   var countTmpl = require('templates/partials/result/count.js');
-  var filtersTmpl = require('templates/partials/result/filters.js');
+  var filtersTmpl = require('templates/partials/result/results-filters.js');
 
   require('helpers/images-helper');
   require('helpers/taxon-helper.js');
