@@ -3,13 +3,16 @@ package org.powo.portal.view;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.Locale;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.powo.model.Identification;
+import org.powo.test.WithLocale;
 
 public class IdentificationViewTest {
 	@Test
-	public void testConstructor() {
+	public void testConstructor() throws Exception {
 		var identification = new Identification();
 		identification.setIdentifiedBy("A");
 		identification.setIdentificationReferences("B");
@@ -24,13 +27,16 @@ public class IdentificationViewTest {
 	}
 
 	@Test
-	public void testConstructorWithDateIdentified() {
+	public void testConstructorWithDateIdentified() throws Exception {
 		var identification = new Identification();
 		identification.setDateIdentified(DateTime.parse("2010-06-30T00:00"));
 
-		var identificationView = new IdentificationView(identification);
+		
+		try (var locale = new WithLocale(Locale.UK)) {
+			var identificationView = new IdentificationView(identification);
 
-		assertEquals("30 Jun 2010", identificationView.getDate());
+			assertEquals("30 Jun 2010", identificationView.getDate());
+		}
 	}
 
 	@Test
