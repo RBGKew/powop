@@ -88,7 +88,10 @@
                     width: 100%;
                     text-align: left;
                     color: $White;
-                    border: none;     
+                    border: none; 
+                    &:focus {
+                      @include focus-text();
+                    }    
                   }
                 }
               }
@@ -99,6 +102,9 @@
       }
       .top-link {
         text-transform: none;
+        &:focus {
+          @include focus-text();
+        }
         &.cross-site-link {
           display: none;
         }
@@ -125,6 +131,11 @@
         transition:color linear 0.15s;
         .hide-svg {
           display: none;
+        }
+        &:focus {
+          @include focus-outline--black();
+          border-radius: 50%;
+          background-color: $kew-focus-colour-light;
         }
       }
     }
