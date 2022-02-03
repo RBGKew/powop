@@ -79,6 +79,9 @@
     width: 50%;
     display: table-cell;
   }
+  &:focus {
+    @include focus-outline--black();
+  }
 
   img {
     height: 100%;
@@ -121,6 +124,9 @@
     }
     button {
       &.collapser {
+        &:focus {
+          @include focus-text();
+        }
         &::before {
           margin-top: 7px;
         }
@@ -280,6 +286,9 @@ li {
       color: #333;
       @media (min-width: $screen-md-min) {
         font-size: 15px;
+      }
+      &:focus {
+        @include focus-text();
       }
     }
   }
