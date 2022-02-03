@@ -221,9 +221,11 @@
 
             <div class="c-gallery clearfix">
               {{#each imageSet.images }}
-                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false" aria-label="Open image gallery">
-                  <img src="{{ thumbnailUrl }}" alt="">
-                </a>
+                <div class="c-gallery__image-container">
+                  <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false" aria-label="Open image gallery">
+                    <img src="{{ thumbnailUrl }}" alt="">
+                  </a>
+                </div>
               {{/each}}
             </div>
 
