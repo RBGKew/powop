@@ -113,6 +113,12 @@
 // Component - Article Section
 .c-article-section {
   border-bottom: 1px solid #EEEEEE;
+
+  .btn.collapser {
+    &:focus {
+      @include focus-text();
+    }
+  }
   
   h2 {
     &::before {
@@ -124,9 +130,6 @@
     }
     button {
       &.collapser {
-        &:focus {
-          @include focus-text();
-        }
         &::before {
           margin-top: 7px;
         }
