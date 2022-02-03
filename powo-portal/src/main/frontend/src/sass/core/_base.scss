@@ -15,9 +15,10 @@ a {
   }
 }
 
-.btn {
-  &:focus {
-    @include focus-text();
+// bootstrap style overrides
+.btn-default {
+  &:active {
+    outline: none;
   }
 }
 
