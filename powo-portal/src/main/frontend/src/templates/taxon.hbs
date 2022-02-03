@@ -105,7 +105,7 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn btn-default collapser {{#unless @first}} {{/unless}}"
+                <button class="btn btn-default collapser {{#unless @first}}collapsed{{/unless}}"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
                  aria-expanded="false">
