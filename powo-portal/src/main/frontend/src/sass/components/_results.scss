@@ -178,14 +178,11 @@ override */
 
 .sort-menu {
   &.open {
-    background-color: #008285!important;
-    background-color: white!important;
     .dropdown-toggle {
-      color: #008285!important;
-      background-color: white!important;
+      color: $kew-teal;
     }
   }
-  button {
+  .dropdown-toggle {
     color: $navbar-default-color;
     border: none;
     background: white;
