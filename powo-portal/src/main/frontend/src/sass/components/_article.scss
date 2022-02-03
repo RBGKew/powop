@@ -150,17 +150,23 @@
     &.collapser {
       white-space: inherit;
       text-align: left; 
-      background: #fff;
       display: inline-flex;
+
+      &::before {
+        font-family: 'Glyphicons Halflings';
+        font-size: 16px;
+        padding-right: 1em;
+        color: #333333; 
+        margin-top: 4px;
+        content: "\e113"; // chevron up
+      }
+      &.collapsed {
         &::before {
-          font-family: 'Glyphicons Halflings';
-          font-size: 16px;
-          padding-right: 1em;
-          content: "\e114";
-          color: #333333; 
-          margin-top: 4px;
+          content: "\e114"; // chevron down
         }
       }
+    }
+
       &:active {
         box-shadow: none; 
       }
