@@ -194,9 +194,6 @@ override */
       @include focus-text();
     }
   }
-  .dropdown-menu > li > a:focus {
-    @include focus-text();
-  }
 }
 .navbar-nav a {
   z-index: 1;

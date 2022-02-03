@@ -14,3 +14,21 @@ a {
     color: $kew-focus-text-colour !important;
   }
 }
+
+.btn {
+  &:focus {
+    @include focus-text();
+  }
+}
+
+.dropdown-menu > li > a {
+  &:focus {
+    @include focus-text();
+  }
+}
+
+.open > .btn.dropdown-toggle {
+  &:focus {
+    @include focus-text();
+  }
+}
