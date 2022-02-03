@@ -115,6 +115,14 @@
         &.last {
           margin-right: 0;
         }
+
+        &.about-toggle {
+          &:focus{
+            svg path {
+              fill: $kew-black; 
+            }
+          }
+        }
       }
       .toggle-nav {
         background-color: $White;
