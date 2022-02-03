@@ -23,8 +23,8 @@
     }
   }
 
-  &--rows {
-    & > article {
+  &.grid--rows {
+    & > .c-card {
       width: 100%;
     }
   }
