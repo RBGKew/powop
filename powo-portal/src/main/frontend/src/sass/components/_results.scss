@@ -201,6 +201,11 @@ override */
       @include focus-text();
     }
   }
+  #sort_dropdown > li > a {
+    &:focus {
+      @include focus-text();
+    }
+  }
 }
 .navbar-nav a {
   z-index: 1;
