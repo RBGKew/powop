@@ -55,6 +55,13 @@
 
     .navbar-toggle {
       margin-right: 0;
+      
+      &:focus {
+        border-color: transparent;
+        border-radius: 50%;
+        background-color: transparent;
+        @include focus-outline--black();
+      }
     }
 
     .navbar-nav {
