@@ -166,6 +166,9 @@
     }
     &:focus {
       @include focus-outline--black();
+      // we use important here because otherwise we have to override some rather obtuse pseudo-selectors
+      // because this button is in a button group
+      border-radius: 50% !important;
     }
   }
 }
