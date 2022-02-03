@@ -5,17 +5,27 @@
 }
 .to-top {
   display: none;
-  top: 29px;
+  top: 9px;
   right: 0;
   z-index: 99;
   cursor: pointer;
-  position: absolute;
   font-size: 20px;
   border: none;
   background: transparent;
-  @media (max-width: $screen-xs-max) {
-    position: unset;
-    margin: auto;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  position: unset;
+  margin: auto;
+  margin-bottom: 8px;
+
+  @media (min-width: $screen-xs) {
+    margin-bottom: 0;
+    position: absolute;
+  }
+  &:focus {
+    @include focus-outline--black();
+    border-radius: 50%;
   }
 }
 
