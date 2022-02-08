@@ -26,12 +26,6 @@ define(function(require) {
     event.preventDefault();
     filters.setSort($(this).attr("id"));
   }
-  
-  var is_hashed = false;
-
-  $(window).on('hashchange', function() {
-      is_hashed = true;
-  });
 
   window.addEventListener('popstate', syncWithUrl);
   
