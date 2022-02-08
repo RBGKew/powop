@@ -5,7 +5,6 @@ define(function(require) {
   var Cookies = require('libs/js.cookie.js');
   var pubsub = require('libs/pubsub');
 
-  var events = require('./events');
   var filters = require('./filters');
   var results = require('./results');
   require('libs/bootstrap-tokenfield.js');
@@ -27,17 +26,7 @@ define(function(require) {
     filters.setSort($(this).attr("id"));
   }
 
-  window.addEventListener('popstate', syncWithUrl);
-  
-  function syncWithUrl() {
-    filters.deserialize(window.location.search, false);
-    filters.refresh();
-    results.update(filters.serialize());
-  }
-
-  var initialize = function() {
-
-    
+  function initialize() {
     filters.initialize();
 
     // populate results based on existing query string
@@ -56,17 +45,42 @@ define(function(require) {
         input.val('');
       });
     $('.s-page').removeClass('invisible');
+
+    window.addEventListener('popstate', syncWithUrl);
+    function syncWithUrl() {
+      filters.deserialize(window.location.search, false);
+      filters.refresh();
+      results.update(filters.serialize());
+    }
+
+    // event listeners for updating search results based on filters
+    pubsub.subscribe('search.updated', function() {
+      results.initialize();
+      filters.refresh();
+      results.update(filters.serialize());
+      history.pushState(null, null, '?' + filters.serialize());
+    });
   };
 
-  // event listeners for updating search results based on filters
-  pubsub.subscribe('search.updated', function() {
-    results.initialize();
-    filters.refresh();
-    results.update(filters.serialize());
-    history.pushState(null, null, '?' + filters.serialize());
-  });
-
   return {
-    initialize: initialize
+    initialize: initialize,
+    /**
+     * Setup search functionality so that triggering a search does a full redirect to the
+     * results page.
+     */
+    initRedirectSearch: function () {
+      filters.initialize();
+      filters.tokenfield().on("tokenfield:createtoken", function (e) {
+        e.preventDefault();
+        window.location = "../results?q=" + e.attrs.value;
+      });
+
+      $(document).on("click", "#search-button", function (e) {
+        e.preventDefault();
+        if ($(".token-input").val()) {
+          window.location = "../results?q=" + $(".token-input").val();
+        }
+      });
+    },
   };
 });

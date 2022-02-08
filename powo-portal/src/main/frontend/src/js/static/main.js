@@ -1,25 +1,13 @@
 define(function(require) {
 
   var $ = require('jquery');
-  var filters = require('search/filters');
+  var search = require('search');
   require('libs/bootstrap');
 
   var initialize = function() {
 
   // setup search box
-  filters.initialize();
-  filters.tokenfield().on('tokenfield:createtoken', function(e) {
-    e.preventDefault();
-    window.location = './results?q=' + e.attrs.value;
-  });
-
-  $(document).on('click', '#search-button', function(e) {
-    e.preventDefault();
-    if ($('.token-input').val()) {
-      window.location = './results?q=' + $('.token-input').val();
-    }
-  })
-    
+  search.initRedirectSearch();
     
   $('.tokenfield input')
     .on('focus', function() {

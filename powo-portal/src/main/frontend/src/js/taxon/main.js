@@ -5,26 +5,14 @@ define(function(require) {
   var bibliography = require('./bibliography')
   var gallery = require('./gallery')
   var map = require('./map');
-  var filters = require('../search/filters');
+  var search = require('search');
   require('libs/bootstrap');
   require('libs/magnific-popup');
 
 
   var initialize = function() {
 
-  // setup search box
-  filters.initialize();
-  filters.tokenfield().on('tokenfield:createtoken', function(e) {
-    e.preventDefault();
-    window.location = '../results?q=' + e.attrs.value;
-  });
-
-  $(document).on('click', '#search-button', function(e) {
-    e.preventDefault();
-    if ($('.token-input').val()) {
-      window.location = '../results?q=' + $('.token-input').val();
-    }
-  })
+  search.initRedirectSearch();
 
   $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
     e.preventDefault();
