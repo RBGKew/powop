@@ -72,13 +72,13 @@ define(function(require) {
       filters.initialize();
       filters.tokenfield().on("tokenfield:createtoken", function (e) {
         e.preventDefault();
-        window.location = "../results?q=" + e.attrs.value;
+        window.location = "/results?q=" + e.attrs.value;
       });
 
       $(document).on("click", "#search-button", function (e) {
         e.preventDefault();
         if ($(".token-input").val()) {
-          window.location = "../results?q=" + $(".token-input").val();
+          window.location = "/results?q=" + $(".token-input").val();
         }
       });
     },
