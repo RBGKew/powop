@@ -13,6 +13,7 @@ define(function(require) {
   var Bloodhound = require('libs/bloodhound');
   var typeahead = require('libs/typeahead');
   var Handlebars = require('handlebars');
+  var tokenfieldAccessibility = require("./tokenfield-accessibility");
   var suggestionTmpl = require('templates/partials/search/suggestion.js');
 
   var tokenfield;
@@ -96,6 +97,7 @@ define(function(require) {
       .on('tokenfield:createdtoken', tokenChanged)
       .on('tokenfield:removedtoken', tokenChanged);
 
+    tokenfieldAccessibility.updateCopyHelper(tokenfield);
     $(window).on('resize', refresh);
   }
 
@@ -111,6 +113,7 @@ define(function(require) {
   };
 
   function tokenChanged() {
+    tokenfieldAccessibility.updateTokenRemoveButtons(tokenfield);
     params = params.clear();
     publishUpdated();
   };
