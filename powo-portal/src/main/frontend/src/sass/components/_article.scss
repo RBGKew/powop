@@ -14,8 +14,11 @@
     padding: .75rem 1.25rem;
     border: 1px solid #008285;
     border-width: 1px 0;
-    width:100%;
+    width: 100%;
     text-align: left;
+    &:focus {
+      @include focus-text();
+    }
     svg {
         right: 29px;
         top: 17px;
@@ -79,6 +82,9 @@
     width: 50%;
     display: table-cell;
   }
+  &:focus {
+    @include focus-outline--black();
+  }
 
   img {
     height: 100%;
@@ -110,6 +116,12 @@
 // Component - Article Section
 .c-article-section {
   border-bottom: 1px solid #EEEEEE;
+
+  .btn.collapser {
+    &:focus {
+      @include focus-text();
+    }
+  }
   
   h2 {
     &::before {
@@ -144,17 +156,23 @@
     &.collapser {
       white-space: inherit;
       text-align: left; 
-      background: #fff;
       display: inline-flex;
+
+      &::before {
+        font-family: 'Glyphicons Halflings';
+        font-size: 16px;
+        padding-right: 1em;
+        color: #333333; 
+        margin-top: 4px;
+        content: "\e113"; // chevron up
+      }
+      &.collapsed {
         &::before {
-          font-family: 'Glyphicons Halflings';
-          font-size: 16px;
-          padding-right: 1em;
-          content: "\e114";
-          color: #333333; 
-          margin-top: 4px;
+          content: "\e114"; // chevron down
         }
       }
+    }
+
       &:active {
         box-shadow: none; 
       }
@@ -260,7 +278,7 @@ li {
     display: block;
   }
   .navbar-nav--article {
-
+    padding-bottom: 8px;
     width: 100%;
 
     @media (min-width: $screen-sm-min) {
@@ -280,6 +298,9 @@ li {
       color: #333;
       @media (min-width: $screen-md-min) {
         font-size: 15px;
+      }
+      &:focus {
+        @include focus-text();
       }
     }
   }

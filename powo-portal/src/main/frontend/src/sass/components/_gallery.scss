@@ -6,13 +6,10 @@
   display: flex;
   flex-wrap: wrap;
   a {
-    width: 33.3%;
-    border-right: 1px solid #FFFFFF;
-    border-bottom: 1px solid #FFFFFF;
-    padding: 3px;
+    display: block;
     overflow: hidden;
     &:focus {
-      outline-offset: -2px;
+      @include focus-outline--black();
     }
     img {
       width: 100%;
@@ -22,4 +19,14 @@
   }
 }
 
+.c-gallery__image-container {
+  width: 33.3%;
+  padding: 3px;
+}
 
+// mfp is the prefix for Magnific Popup which is our gallery library
+.mfp-arrow, .mfp-close {
+  &:focus {
+    @include focus-outline--yellow();
+  }
+}
