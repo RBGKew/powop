@@ -4,6 +4,7 @@ $brand-primary: #000000;
 $kew-teal: #008285;
 $kew-medium-grey: #949494;
 $upfc-green: #3b9e3a;
+$text-muted: #757575;
 
 // Font defaults
 $font-family-sans-serif: 'Roboto', sans-serif;
@@ -25,10 +26,6 @@ $line-height-base: 1.5635;
 // Container sizes
 $container-tablet: 100%;
 $container-desktop: 100%;
-$container-large-desktop: 1300px;
-$container-huge-desktop: 1600px;
-$screen-huge-min: 1700px;
-
 
 // Colors for pill buttons
 $btn-default-color: #333333;
@@ -121,6 +118,7 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/featured-taxon";
 @import "components/map";
 @import "components/results";
+@import "components/results-footer";
 @import "components/article";
 @import "components/skip";
 
@@ -129,7 +127,6 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/gallery-thumbs";
 
 @import "components/intro";
-@import "components/pagination";
 
 @import "components/spinner";
 @import "components/cross-site-help";
