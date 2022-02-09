@@ -36,16 +36,6 @@ define(function(require) {
   // this targets the Map on the taxon page that is created with open layers
   $('.c-map canvas.ol-unselectable').attr('aria-label', 'Distribution Map');
 
-  $('.tokenfield input')
-    .on('focus', function() {
-      $('#search_box')
-        .addClass('focused');
-    })
-    .on('blur', function() {
-      $('#search_box')
-        .removeClass('focused');
-    })
-
     gallery.initialize();
 
     initInternalPageNavigationBehaviour();

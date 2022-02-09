@@ -26,44 +26,54 @@ define(function(require) {
     filters.setSort($(this).attr("id"));
   }
 
-  function initialize() {
-    filters.initialize();
-
-    // populate results based on existing query string
-    results.initialize();
-    filters.refresh();
-    filters.deserialize(window.location.search, false);
-    results.update(filters.serialize());
-
-    $(document)
-      .on('click', '.facet', toggleFacet)
-      .on('click', '.c-results-outer .sort_options', setSort)
-      .on('click', '.c-results-outer .search_view', setView)
-      .on('click', '#search-button', function(e) {
-        var input = $('.token-input');
-        filters.add(input.val());
-        input.val('');
+  function initFocusBehaviour() {
+    $(".tokenfield input")
+      .on("focus", function () {
+        $("#search_box").addClass("focused");
+      })
+      .on("blur", function () {
+        $("#search_box").removeClass("focused");
       });
-    $('.s-page').removeClass('invisible');
-
-    window.addEventListener('popstate', syncWithUrl);
-    function syncWithUrl() {
-      filters.deserialize(window.location.search, false);
-      filters.refresh();
-      results.update(filters.serialize());
-    }
-
-    // event listeners for updating search results based on filters
-    pubsub.subscribe('search.updated', function() {
-      results.initialize();
-      filters.refresh();
-      results.update(filters.serialize());
-      history.pushState(null, null, '?' + filters.serialize());
-    });
-  };
+  }
 
   return {
-    initialize: initialize,
+    initialize: function initialize() {
+      filters.initialize();
+
+      // populate results based on existing query string
+      results.initialize();
+      filters.refresh();
+      filters.deserialize(window.location.search, false);
+      results.update(filters.serialize());
+
+      $(document)
+        .on("click", ".facet", toggleFacet)
+        .on("click", ".c-results-outer .sort_options", setSort)
+        .on("click", ".c-results-outer .search_view", setView)
+        .on("click", "#search-button", function (e) {
+          var input = $(".token-input");
+          filters.add(input.val());
+          input.val("");
+        });
+      $(".s-page").removeClass("invisible");
+
+      window.addEventListener("popstate", syncWithUrl);
+      function syncWithUrl() {
+        filters.deserialize(window.location.search, false);
+        filters.refresh();
+        results.update(filters.serialize());
+      }
+
+      // event listeners for updating search results based on filters
+      pubsub.subscribe("search.updated", function () {
+        results.initialize();
+        filters.refresh();
+        results.update(filters.serialize());
+        history.pushState(null, null, "?" + filters.serialize());
+      });
+
+      initFocusBehaviour();
+    },
     /**
      * Setup search functionality so that triggering a search does a full redirect to the
      * results page.
@@ -81,6 +91,8 @@ define(function(require) {
           window.location = "/results?q=" + $(".token-input").val();
         }
       });
+
+      initFocusBehaviour();
     },
   };
 });
