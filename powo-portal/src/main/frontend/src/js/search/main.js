@@ -37,7 +37,11 @@ define(function(require) {
   }
 
   return {
-    initialize: function initialize() {
+    /**
+     * Setup search functionality so that triggering a search fetches from API and updates markup in place.
+     * Should only be used on the search page.
+     */
+    initFrontendSearch: function initFrontendSearch() {
       filters.initialize();
 
       // populate results based on existing query string
