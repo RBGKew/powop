@@ -26,6 +26,17 @@
       margin-top: 3px;
       margin-bottom: -1px;
 
+      &:focus-within, &.active {
+        @include focus-text();
+        border-color: $kew-focus-colour-light;
+      }
+
+      & > a {
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
       .close {
         color: #000;
       }

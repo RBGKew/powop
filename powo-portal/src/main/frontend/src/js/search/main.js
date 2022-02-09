@@ -47,7 +47,7 @@ define(function(require) {
       // populate results based on existing query string
       results.initialize();
       filters.refresh();
-      filters.deserialize(window.location.search, false);
+      filters.deserialize(window.location.search, true);
       results.update(filters.serialize());
 
       $(document)
