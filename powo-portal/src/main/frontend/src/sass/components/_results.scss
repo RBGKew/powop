@@ -105,9 +105,14 @@
       padding-right: 10px;
       @media(min-width: $screen-sm) and (max-width: $screen-sm-max) { display: none; }
     } 
-    a:hover {
-      color: #008285;
-      background: white;
+    a {
+      &:hover {
+        color: #008285;
+        background: white;
+      }
+      &:focus {
+        @include focus-text();
+      }
     }
   }
 
