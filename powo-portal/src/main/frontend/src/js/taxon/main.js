@@ -12,7 +12,7 @@ define(function(require) {
 
   var initialize = function() {
 
-  search.initRedirectSearch();
+  search.initSearch();
 
   $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
     e.preventDefault();

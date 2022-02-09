@@ -78,7 +78,7 @@ define(function(require) {
      * Setup search functionality so that triggering a search does a full redirect to the
      * results page.
      */
-    initRedirectSearch: function () {
+    initSearch: function () {
       filters.initialize();
       filters.tokenfield().on("tokenfield:createtoken", function (e) {
         e.preventDefault();
