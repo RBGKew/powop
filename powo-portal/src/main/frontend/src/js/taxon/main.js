@@ -32,16 +32,24 @@ define(function(require) {
 
   initToTopBehaviour();
 
+  function setToTopVisibility() {
+    var scrollTop = $(window).scrollTop()
+    var navbarTop = $(".navbar--article").position().top
+    var visible = scrollTop >= navbarTop;
+    $(".to-top")
+      .css("display", visible ? "block" : "none")
+      .attr("aria-hidden", !visible);
+  }
+
   function initToTopBehaviour() {
-    $(window).scroll(function() {
-      if ($(this).scrollTop() >= $('.navbar--article').position().top) {
-        $(".to-top").css("display", "block");
-      } else {
-        $(".to-top").css("display", "none");
-      }
+    setToTopVisibility();
+
+    $(window).on("scroll", function () {
+      setToTopVisibility();
     });
-    $('.to-top').on('click', function(e) {
-      $('html,body').animate({ scrollTop: 0 }, 'fast', 'swing');
+
+    $(".to-top").on("click", function (e) {
+      $("html, body").animate({ scrollTop: 0 }, "fast", "swing");
     });
   }
 
