@@ -6,9 +6,9 @@ define(function(require) {
   var gallery = require('./gallery')
   var map = require('./map');
   var filters = require('../search/filters');
+  var focus = require("../common/focus");
   require('libs/bootstrap');
   require('libs/magnific-popup');
-
 
   function initialize() {
 
@@ -71,9 +71,24 @@ define(function(require) {
     initInternalPageNavigationBehaviour();
 
     function initInternalPageNavigationBehaviour() {
+      var releaseFocus;
+
+      $("#navbarSupportedContent").on("show.bs.collapse", function () {
+        console.log("show.bs.collapse");
+        var navbar = $(".navbar--article")[0];
+        releaseFocus = focus.containFocus(navbar);
+      });
+
+      $("#navbarSupportedContent").on("hide.bs.collapse", function () {
+        console.log("hide.bs.collapse");
+        if (releaseFocus) {
+          releaseFocus();
+        }
+      });
+
       // hides taxon nav when clicked
-      $('.navbar-nav > li > a').on('click', function () {
-        $('.navbar-collapse').collapse('hide');
+      $(".navbar-nav > li > a").on("click", function () {
+        $(".navbar-collapse").collapse("hide");
       });
     }
 
