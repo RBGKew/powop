@@ -5,7 +5,6 @@ define(function(require) {
   var Cookies = require('libs/js.cookie.js');
   var pubsub = require('libs/pubsub');
 
-  var events = require('./events');
   var filters = require('./filters');
   var results = require('./results');
   require('libs/bootstrap-tokenfield.js');
