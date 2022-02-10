@@ -97,4 +97,15 @@ gulp.task('watch', gulp.parallel('browsersync', function() {
 /*
 * Dev Task
 */
-gulp.task('dev', gulp.series('default', 'watch'));
+gulp.task(
+  "dev",
+  gulp.series(
+    "clean",
+    "copy",
+    "images", 
+    "js:dev", 
+    "css:dev",
+    "rev",
+    "watch"
+  )
+);

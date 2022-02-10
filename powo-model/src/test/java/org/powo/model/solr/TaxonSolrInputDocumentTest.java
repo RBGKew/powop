@@ -7,9 +7,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.solr.common.SolrInputDocument;
@@ -205,7 +209,10 @@ public class TaxonSolrInputDocumentTest {
 				"Tristan da Cunha"
 		};
 
-		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
+		var actualLocationNames = doc.getFieldValues(expectedDistributionKeys[0]);
+		var sortedLocationNames = actualLocationNames.stream().sorted().collect(Collectors.toList());
+
+		assertThat(sortedLocationNames, contains(expectedLocationNames));
 	}
 
 	@Test
@@ -239,7 +246,10 @@ public class TaxonSolrInputDocumentTest {
 				"Tristan da Cunha"
 		};
 
-		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
+		var actualLocationNames = doc.getFieldValues(expectedDistributionKeys[0]);
+		var sortedLocationNames = actualLocationNames.stream().sorted().collect(Collectors.toList());
+
+		assertThat(sortedLocationNames, contains(expectedLocationNames));
 	}
 
 	@Test
@@ -261,7 +271,10 @@ public class TaxonSolrInputDocumentTest {
 				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
 		};
 
-		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
+		var actualLocationNames = doc.getFieldValues(expectedDistributionKeys[0]);
+		var sortedLocationNames = actualLocationNames.stream().sorted().collect(Collectors.toList());
+
+		assertThat(sortedLocationNames, contains(expectedLocationNames));
 	}
 
 	@Test
@@ -283,7 +296,10 @@ public class TaxonSolrInputDocumentTest {
 				"Antarctic", "South Sandwich Is.","Subantarctic Islands"
 		};
 
-		assertThat(doc.getFieldValues(expectedDistributionKeys[0]), contains(expectedLocationNames));
+		var actualLocationNames = doc.getFieldValues(expectedDistributionKeys[0]);
+		var sortedLocationNames = actualLocationNames.stream().sorted().collect(Collectors.toList());
+
+		assertThat(sortedLocationNames, contains(expectedLocationNames));
 	}
 
 	@Test

@@ -8,7 +8,7 @@
 <div class="s-page s-page--home s-search__fullpage {{concat " s-" siteId}}">
   <div class="s-page-wrapper">
     {{> partials/page-header}}
-    <main id="#main">
+    <main role="main" id="main">
       <div class="main-content home__hero-content">
         <div class="central">
           <div class="central-items">
@@ -23,7 +23,7 @@
             </div>
           </div>
         </div>
-        {{> (concat "partials/featured/featured-image-description-" siteId)}}        
+        {{> (concat "partials/intro-image-description/" siteId)}}
       </div>
       <div class="featured-taxa-sections">
         {{> partials/featured/featured-taxa-sections}}

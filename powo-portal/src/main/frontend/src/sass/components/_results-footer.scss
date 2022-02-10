@@ -1,0 +1,61 @@
+.results-footer {
+  background: white;
+  margin-bottom: 40px;
+  border-radius: 0px 0px 4px 4px;
+  padding: 20px;
+
+  @media (min-width: $screen-sm-min) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.results-footer__pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  @media (min-width: $screen-sm-min) {
+    margin-bottom: 0;
+  }
+
+  // Bootstrap uses high specificity selectors so we must also in order to override
+  .pagination > li > a {
+    &:focus {
+      border-color: $kew-focus-colour-light;
+      @include focus-text();
+    }
+  }
+}
+
+.results-footer__pagination-controls {
+  margin: 0;
+
+  @media (min-width: $screen-sm-min) {
+    margin-right: 20px;
+  }
+}
+
+.results-footer__page-size {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > label {
+    font-weight: normal;
+    margin-bottom: 0;
+    margin-right: 12px;
+  }
+
+  & > select {
+    padding: 0.5em;
+    padding-right: 0;
+    border-radius: 4px;
+    border: 1px solid #757575;
+
+    &:focus {
+      @include focus-outline--black();
+    }
+  }
+}

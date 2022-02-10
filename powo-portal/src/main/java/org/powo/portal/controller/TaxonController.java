@@ -22,12 +22,12 @@ import org.apache.commons.text.WordUtils;
 import org.powo.api.ImageService;
 import org.powo.common.IdUtil;
 import org.powo.model.Taxon;
+import org.powo.portal.service.IdentificationsViewService;
 import org.powo.portal.service.SiteTaxonService;
 import org.powo.portal.service.TaxonImageService;
 import org.powo.portal.view.Bibliography;
 import org.powo.portal.view.Descriptions;
 import org.powo.portal.view.Distributions;
-import org.powo.portal.view.Identifications;
 import org.powo.portal.view.MeasurementOrFacts;
 import org.powo.portal.view.ScientificNames;
 import org.powo.portal.view.Sources;
@@ -68,6 +68,9 @@ public class TaxonController extends LayoutController {
 	TaxonImageService taxonImageService;
 
 	@Autowired
+	IdentificationsViewService identificationsViewService;
+
+	@Autowired
 	MessageSource messageSource;
 
 	@Value("#{${site.redirectkeys}}")
@@ -103,8 +106,9 @@ public class TaxonController extends LayoutController {
 		var descriptions = new Descriptions(taxon, site.primarySource());
 		var uses = new Descriptions(taxon, site.primarySource(), true);
 		var imageSet = taxonImageService.getTaxonImageSet(taxon);
-		var identifications = new Identifications(taxon);
+		var identifications = identificationsViewService.getIdentifications(taxon);
 		var vernacularNames = new VernacularNames(taxon);
+
 		if (!descriptions.getBySource().isEmpty()) {
 			model.addAttribute("descriptions", descriptions);
 		}
@@ -131,8 +135,9 @@ public class TaxonController extends LayoutController {
 		if (!vernacularNames.getNames().isEmpty()) {
 			model.addAttribute(vernacularNames);
 		}
-		if (!identifications.getIdentifications().isEmpty()) {
-			model.addAttribute(identifications);
+		if (!identifications.isEmpty()) {
+			model.addAttribute("identifications", identifications);
+			model.addAttribute("identificationsCount", identifications.size());
 		}
 		if (!imageSet.getImages().isEmpty()) {
 			model.addAttribute("imageSet", imageSet);

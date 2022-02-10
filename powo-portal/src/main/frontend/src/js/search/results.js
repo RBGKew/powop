@@ -14,7 +14,7 @@ define(function(require) {
   var itemsTmpl = require('templates/partials/result/results-items.js');
   var paginationTmpl = require('templates/partials/result/results-pagination.js');
   var countTmpl = require('templates/partials/result/count.js');
-  var filtersTmpl = require('templates/partials/result/filters.js');
+  var filtersTmpl = require('templates/partials/result/results-filters.js');
 
   require('helpers/images-helper');
   require('helpers/taxon-helper.js');
@@ -105,12 +105,12 @@ define(function(require) {
   }
 
   function listView() {
-    $(".c-results-outer").addClass("grid--rows").removeClass("grid--columns");
+    $(".grid").addClass("grid--rows");
     $(".js-view-mode").text("Viewing in list mode");
   }
 
   function gridView() {
-    $(".c-results-outer").addClass("grid--columns").removeClass("grid--rows");
+    $(".grid").removeClass("grid--rows");
     $(".js-view-mode").text("Viewing in grid mode");
   }
 

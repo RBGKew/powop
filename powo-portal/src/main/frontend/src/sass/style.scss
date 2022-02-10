@@ -1,9 +1,22 @@
 // Colors
-$article-theme-color: #339999;
-$brand-primary: #000000;
+$kew-black: #262626;
 $kew-teal: #008285;
+$kew-medium-teal: #016b70;
+$kew-light-grey: #c8c8c8;
 $kew-medium-grey: #949494;
+$kew-dark-grey: #757575;
+$kew-deep-black: #181818;
+$kew-medium-teal: #016b70;
+$kew-focus-outline-yellow: #FFDE02;
+
 $upfc-green: #3b9e3a;
+
+$White: #fff;
+
+$article-theme-color: #339999;
+// 
+$brand-primary: #000000;
+$text-muted: #757575;
 
 // Font defaults
 $font-family-sans-serif: 'Roboto', sans-serif;
@@ -25,10 +38,6 @@ $line-height-base: 1.5635;
 // Container sizes
 $container-tablet: 100%;
 $container-desktop: 100%;
-$container-large-desktop: 1300px;
-$container-huge-desktop: 1600px;
-$screen-huge-min: 1700px;
-
 
 // Colors for pill buttons
 $btn-default-color: #333333;
@@ -37,7 +46,7 @@ $btn-default-border: transparent;
 
 // Pagination
 $pagination-bg: #fff;
-$pagination-border: $kew-medium-grey;
+$pagination-border: $kew-dark-grey;
 
 $pagination-hover-color: #000;
 $pagination-hover-bg: #ccc;
@@ -51,6 +60,9 @@ $pagination-disabled-border: #fff;
 
 // Nav styling
 $navbar-default-color: #262626;
+$navbar-default-link-color: $kew-black;
+$navbar-default-toggle-icon-bar-bg: $kew-black;
+
 $nav-link-padding: 10px 10px !default;
 $nav-link-hover-bg: transparent;
 $nav-disabled-link-color: transparent;
@@ -95,14 +107,13 @@ $border-grey: 1px solid #CCCCCC;
 @import "vendor/bootstrap-tokenfield";
 @import "vendor/tokenfield-typeahead";
 
-@import "core/base";
+
 @import "core/functions";
 @import "core/helpers";
 @import "core/mixins";
-@import "core/variables";
 @import "core/focus";
+@import "core/base";
 
-@import "layout/grid";
 @import "layout/form";
 @import "layout/content";
 
@@ -121,6 +132,8 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/featured-taxon";
 @import "components/map";
 @import "components/results";
+@import "components/results-grid";
+@import "components/results-footer";
 @import "components/article";
 @import "components/skip";
 
@@ -129,7 +142,6 @@ $border-grey: 1px solid #CCCCCC;
 @import "components/gallery-thumbs";
 
 @import "components/intro";
-@import "components/pagination";
 
 @import "components/spinner";
 @import "components/cross-site-help";

@@ -21,8 +21,10 @@ module.exports = function (gulp, $) {
   gulp.task("css:dev", function () {
     return gulp
       .src(["src/sass/style.scss"])
+      .pipe($.sourcemaps.init())
       .pipe($.gsass().on("error", $.gsass.logError))
       .pipe($.rename({ extname: ".min.css" }))
+      .pipe($.sourcemaps.write())
       .pipe(gulp.dest("dist/css"));
   });
 

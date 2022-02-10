@@ -90,7 +90,10 @@
                     width: 100%;
                     text-align: left;
                     color: $White;
-                    border: none;     
+                    border: none; 
+                    &:focus {
+                      @include focus-text();
+                    }    
                   }
                 }
               }
@@ -101,6 +104,9 @@
       }
       .top-link {
         text-transform: none;
+        &:focus {
+          @include focus-text();
+        }
         &.cross-site-link {
           display: none;
         }
@@ -110,6 +116,14 @@
         }
         &.last {
           margin-right: 0;
+        }
+
+        &.about-toggle {
+          &:focus{
+            svg path {
+              fill: $kew-black; 
+            }
+          }
         }
       }
       .toggle-nav {
@@ -127,6 +141,11 @@
         transition:color linear 0.15s;
         .hide-svg {
           display: none;
+        }
+        &:focus {
+          @include focus-outline--black();
+          border-radius: 50%;
+          background-color: $kew-focus-colour-light;
         }
       }
     }
@@ -188,10 +207,16 @@ a#kew-logo {
 #kew-logo {
   display: -webkit-flex; 
   display: flex;
-  width: 252px;
+  width: 242px;
   margin-right: 0;
   @media (min-width: $screen-sm-min) {
+    width: 252px;
     margin-right: 10px;
+  }
+  &:focus {
+    text {
+      fill: $kew-focus-text-colour;
+    }
   }
   #kew-powo-logo-svg {
     text {
