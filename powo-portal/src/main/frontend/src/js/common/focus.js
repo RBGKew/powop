@@ -1,9 +1,4 @@
 define(function (require) {
-  /** Keycodes for keyboard events */
-  const KEYCODES = {
-    TAB: 9,
-    ESC: 27,
-  };
   /** Selectors for elements that can be focused */
   const FOCUSABLE = [
     "a[href]",
@@ -26,7 +21,7 @@ define(function (require) {
      * to focus the next/previous focusable element.
      */
     function handleKeydown(event) {
-      if (event.keyCode === KEYCODES.TAB) {
+      if (event.key === "Tab") {
         const content = element;
         if (!content) return;
         const focusable = Array.from(content.querySelectorAll(FOCUSABLE));
