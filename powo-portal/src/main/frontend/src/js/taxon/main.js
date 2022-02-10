@@ -36,9 +36,16 @@ define(function(require) {
     var scrollTop = $(window).scrollTop()
     var navbarTop = $(".navbar--article").position().top
     var visible = scrollTop >= navbarTop;
-    $(".to-top")
-      .css("display", visible ? "block" : "none")
-      .attr("aria-hidden", !visible);
+
+    if (visible) {
+      $(".to-top")
+      .css("display", "block")
+      .removeAttr("aria-hidden");
+    } else {
+      $(".to-top")
+      .css("display", "none")
+      .attr("aria-hidden", true);
+    }
   }
 
   function initToTopBehaviour() {
@@ -71,6 +78,7 @@ define(function(require) {
     initInternalPageNavigationBehaviour();
 
     function initInternalPageNavigationBehaviour() {
+      var toggleButton = $(".navbar-collapse");
       var releaseFocus;
 
       $("#navbarSupportedContent").on("show.bs.collapse", function () {
@@ -88,8 +96,14 @@ define(function(require) {
 
       // hides taxon nav when clicked
       $(".navbar-nav > li > a").on("click", function () {
-        $(".navbar-collapse").collapse("hide");
+        toggleButton.collapse("hide");
       });
+
+      $(window).on("keydown", function(e) {
+        if (e.key === "Escape") {
+          toggleButton.collapse("hide");
+        }
+      })
     }
 
     // enable scrollspy on navbar
