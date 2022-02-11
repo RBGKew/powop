@@ -17,17 +17,20 @@ $kew-focus-border-width: 3px;
   box-shadow: 0 $kew-focus-border-width 0 $kew-focus-colour-dark;
   color: $kew-focus-text-colour !important;
   outline: none;
+  -webkit-appearance: none;
   text-decoration: none;
 }
 
 @mixin focus-outline--yellow() {
   @include double-box-shadow($kew-focus-colour-dark, $kew-focus-colour-light);
   outline: none;
+  -webkit-appearance: none;
 }
 
 @mixin focus-outline--black() {
   @include double-box-shadow($kew-focus-colour-light, $kew-focus-colour-dark);
   outline: none;
+  -webkit-appearance: none;
 }
 
 /**
