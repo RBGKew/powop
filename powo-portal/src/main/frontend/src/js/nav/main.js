@@ -13,6 +13,7 @@ define(function (require) {
       "xlink:href",
       expanded ? "#closeicon" : "#burgericon"
     );
+    updateAccessibilityAttributes(expanded);
   }
 
   function updateAccessibilityAttributes(expanded) {
@@ -31,7 +32,6 @@ define(function (require) {
     var releaseFocusChild;
 
     updateNavigationUi(expanded);
-    updateAccessibilityAttributes(expanded);
 
     $(".toggle-nav").on("click", function (e) {
       e.preventDefault();
@@ -39,7 +39,6 @@ define(function (require) {
       expanded = !expanded;
 
       updateNavigationUi(expanded);
-      updateAccessibilityAttributes(expanded);
 
       if (releaseFocusParent) {
         releaseFocusParent();
