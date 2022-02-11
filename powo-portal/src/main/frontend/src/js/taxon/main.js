@@ -5,26 +5,14 @@ define(function(require) {
   var bibliography = require('./bibliography')
   var gallery = require('./gallery')
   var map = require('./map');
-  var filters = require('../search/filters');
+  var search = require('search');
   require('libs/bootstrap');
   require('libs/magnific-popup');
 
 
   var initialize = function() {
 
-  // setup search box
-  filters.initialize();
-  filters.tokenfield().on('tokenfield:createtoken', function(e) {
-    e.preventDefault();
-    window.location = '../results?q=' + e.attrs.value;
-  });
-
-  $(document).on('click', '#search-button', function(e) {
-    e.preventDefault();
-    if ($('.token-input').val()) {
-      window.location = '../results?q=' + $('.token-input').val();
-    }
-  })
+  search.initSearch();
 
   $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
     e.preventDefault();
@@ -47,16 +35,6 @@ define(function(require) {
 
   // this targets the Map on the taxon page that is created with open layers
   $('.c-map canvas.ol-unselectable').attr('aria-label', 'Distribution Map');
-
-  $('.tokenfield input')
-    .on('focus', function() {
-      $('#search_box')
-        .addClass('focused');
-    })
-    .on('blur', function() {
-      $('#search_box')
-        .removeClass('focused');
-    })
 
     gallery.initialize();
 

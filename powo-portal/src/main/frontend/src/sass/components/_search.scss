@@ -19,20 +19,29 @@
     background-color: $White;
     border-radius: 26px;
     border: 1px solid $kew-dark-grey;
+    padding: 6px 0 6px 12px;
     .token {
       color: #000;
       height: auto;
       margin-top: 3px;
       margin-bottom: -1px;
 
+      &:focus-within, &.active {
+        @include focus-text();
+        border-color: $kew-focus-colour-light;
+      }
+
+      & > a {
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
       .close {
         color: #000;
       }
     }
 
-    &.form-control {
-      padding: 6px 0 6px 12px;
-    }
     &.focus {
       @include focus-outline--black();
     }
@@ -109,8 +118,10 @@
   border-bottom-right-radius: 26px;
   width: 57px;
   height: 48px;
-  &:hover, &:focus {
+  &:hover {
     background-color: scale-color($kew-teal, $lightness: -25%);
+  }
+  &:focus {
     @include focus-outline--black();
   }
 }
