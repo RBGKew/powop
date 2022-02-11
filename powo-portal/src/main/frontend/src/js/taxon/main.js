@@ -78,17 +78,15 @@ define(function(require) {
     initInternalPageNavigationBehaviour();
 
     function initInternalPageNavigationBehaviour() {
-      var toggleButton = $(".navbar-collapse");
+      var internalPageNavigation = $("#navbarSupportedContent");
       var releaseFocus;
 
-      $("#navbarSupportedContent").on("show.bs.collapse", function () {
-        console.log("show.bs.collapse");
+      internalPageNavigation.on("show.bs.collapse", function () {
         var navbar = $(".navbar--article")[0];
         releaseFocus = focus.containFocus(navbar);
       });
 
-      $("#navbarSupportedContent").on("hide.bs.collapse", function () {
-        console.log("hide.bs.collapse");
+      internalPageNavigation.on("hide.bs.collapse", function () {
         if (releaseFocus) {
           releaseFocus();
         }
@@ -96,12 +94,12 @@ define(function(require) {
 
       // hides taxon nav when clicked
       $(".navbar-nav > li > a").on("click", function () {
-        toggleButton.collapse("hide");
+        internalPageNavigation.collapse("hide");
       });
 
       $(window).on("keydown", function(e) {
         if (e.key === "Escape") {
-          toggleButton.collapse("hide");
+          internalPageNavigation.collapse("hide");
         }
       })
     }
