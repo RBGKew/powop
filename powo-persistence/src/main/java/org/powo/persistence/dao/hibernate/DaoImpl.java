@@ -164,7 +164,7 @@ public abstract class DaoImpl<T extends Base> implements Dao<T> {
 		if (object == null) {
 			return null;
 		} else if (object instanceof HibernateProxy) {
-			logger.debug("Initializing {}.{}", object.getClass().getName(), association);
+			logger.trace("Initializing {}.{}", object.getClass().getName(), association);
 			((HibernateProxy) object).getHibernateLazyInitializer().initialize();
 			LazyInitializer lazyInitializer = ((HibernateProxy) object).getHibernateLazyInitializer();
 			return lazyInitializer.getImplementation();
