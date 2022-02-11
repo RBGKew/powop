@@ -58,5 +58,11 @@ define(function (require) {
       }
       releaseFocusChild = focus.containFocus($(".children")[0]);
     });
+
+    $(window).on("keydown", function(e) {     
+      if (e.key === "Escape") {
+        updateNavigationUi(false);
+      }
+    })
   });
 });
