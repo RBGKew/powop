@@ -12,8 +12,6 @@ define(function(require) {
 
   function initialize() {
 
-  var initialize = function() {
-
   search.initSearch();
 
   $('.pagination .disabled a, .pagination .active a').on('click', function(e) {
