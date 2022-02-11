@@ -5,10 +5,12 @@ define(function(require) {
   var bibliography = require('./bibliography')
   var gallery = require('./gallery')
   var map = require('./map');
+  var focus = require("../common/focus");
   var search = require('search');
   require('libs/bootstrap');
   require('libs/magnific-popup');
 
+  function initialize() {
 
   var initialize = function() {
 
@@ -20,16 +22,31 @@ define(function(require) {
 
   initToTopBehaviour();
 
+  function setToTopVisibility() {
+    var scrollTop = $(window).scrollTop()
+    var navbarTop = $(".navbar--article").position().top
+    var visible = scrollTop >= navbarTop;
+
+    if (visible) {
+      $(".to-top")
+      .css("display", "block")
+      .removeAttr("aria-hidden");
+    } else {
+      $(".to-top")
+      .css("display", "none")
+      .attr("aria-hidden", true);
+    }
+  }
+
   function initToTopBehaviour() {
-    $(window).scroll(function() {
-      if ($(this).scrollTop() >= $('.navbar--article').position().top) {
-        $(".to-top").css("display", "block");
-      } else {
-        $(".to-top").css("display", "none");
-      }
+    setToTopVisibility();
+
+    $(window).on("scroll", function () {
+      setToTopVisibility();
     });
-    $('.to-top').on('click', function(e) {
-      $('html,body').animate({ scrollTop: 0 }, 'fast', 'swing');
+
+    $(".to-top").on("click", function (e) {
+      $("html, body").animate({ scrollTop: 0 }, "fast", "swing");
     });
   }
 
@@ -41,16 +58,35 @@ define(function(require) {
     initInternalPageNavigationBehaviour();
 
     function initInternalPageNavigationBehaviour() {
-      // opens taxon nav when return key is pressed
-      $(".mobile-menu").on("keypress", function (e) {
-        if (e.key === 13) {
-          $('.navbar-collapse').collapse('toggle')
+      var internalPageNavigation = $("#navbarSupportedContent");
+      var releaseFocus;
+
+      internalPageNavigation.on("show.bs.collapse", function () {
+        var navbar = $(".navbar--article")[0];
+        releaseFocus = focus.containFocus(navbar);
+      });
+
+      internalPageNavigation.on("hide.bs.collapse", function () {
+        if (releaseFocus) {
+          releaseFocus();
+        }
+      });
+
+      // hides taxon nav when clicked
+      $(".navbar-nav > li > a").on("click", function () {
+        internalPageNavigation.collapse("hide");
+      });
+
+      $(window).on("keydown", function(e) {
+        if (e.key === "Escape") {
+          internalPageNavigation.collapse("hide");
         }
       });
       
-      // hides taxon nav when clicked
-      $('.navbar-nav>li>a').on('click', function () {
-        $('.navbar-collapse').collapse('hide');
+      $(window).on("resize", function (e) {
+        if (window.innerWidth > 768) {
+          internalPageNavigation.collapse("hide");
+        }
       });
     }
 

@@ -1,18 +1,22 @@
 define(function (require) {
   var $ = require("jquery");
   var currentLink = require("./current-link");
-  var expanded = false;
+  var focus = require("../common/focus");
 
   currentLink.setCurrentLink();
 
-  function updateIcon() {
+  function updateNavigationUi(expanded) {
+    $("html").toggleClass("html--overflow-hidden", expanded);
+    $(".toggle-nav").toggleClass("active", expanded);
+    $(".top-right-nav ul").toggleClass("active", expanded);
     $(".toggle-nav > svg > use").attr(
       "xlink:href",
       expanded ? "#closeicon" : "#burgericon"
     );
+    updateAccessibilityAttributes(expanded);
   }
 
-  function updateAccessibilityAttributes() {
+  function updateAccessibilityAttributes(expanded) {
     $(".toggle-nav").attr("aria-expanded", expanded);
     $(".toggle-nav .icon").attr(
       "aria-label",
@@ -21,26 +25,44 @@ define(function (require) {
   }
 
   $(function () {
-    updateIcon();
-    updateAccessibilityAttributes();
+    var expanded = false;
+    // handler for releasing focus on parent navigation
+    var releaseFocusParent;
+    // handler for releasing focus on child navigation
+    var releaseFocusChild;
+
+    updateNavigationUi(expanded);
 
     $(".toggle-nav").on("click", function (e) {
       e.preventDefault();
 
       expanded = !expanded;
 
-      updateIcon();
-      updateAccessibilityAttributes();
+      updateNavigationUi(expanded);
 
-      $(this).toggleClass("active");
-      $(".top-right-nav ul").toggleClass("active");
-      $("html").toggleClass("html--overflow-hidden");
-
-      updateAccessibilityAttributes();
+      if (releaseFocusParent) {
+        releaseFocusParent();
+        releaseFocusParent = null;
+      }
+      releaseFocusParent = focus.containFocus($(".top-right-nav")[0]);
     });
+
     $(".about-toggle").on("click", function (e) {
-      $(".children").toggleClass("open");
       e.preventDefault();
+
+      $(".children").toggleClass("open");
+
+      if (releaseFocusChild) {
+        releaseFocusChild();
+        releaseFocusChild = null;
+      }
+      releaseFocusChild = focus.containFocus($(".children")[0]);
     });
+
+    $(window).on("keydown", function(e) {     
+      if (e.key === "Escape") {
+        updateNavigationUi(false);
+      }
+    })
   });
 });

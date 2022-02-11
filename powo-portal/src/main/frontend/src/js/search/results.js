@@ -5,7 +5,6 @@ define(function(require) {
   var Cookies = require('libs/js.cookie.js');
   var Handlebars = require('handlebars');
   var filters = require('./filters');
-  var events = require('./events');
   var pageTitle = require("./page-title");
 
   var resultsContainerTmpl = require('templates/partials/result/results-container.js');
