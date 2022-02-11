@@ -84,7 +84,7 @@
       <button class="btn btn-default collapser c-article-section__title"
          data-toggle="collapse"
          data-target="#descriptions-main"
-         aria-expanded="false"
+         aria-expanded="true"
          >
         Descriptions
       </button>
@@ -108,7 +108,7 @@
                 <button class="btn btn-default collapser {{#unless @first}}collapsed{{/unless}}"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
-                 aria-expanded="false">
+                 aria-expanded="{{#if @first}}true{{else}}false{{/if}}">
                 According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
                 </button>
               </h3>
@@ -144,7 +144,7 @@
         <button class="btn btn-default collapser c-article-section__title"
            data-toggle="collapse"
            data-target="#uses-main"
-           aria-expanded="false">
+           aria-expanded="true">
           Uses
         </button>
       </h2>
@@ -164,10 +164,10 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn btn-default collapser {{#unless @first}} {{/unless}}"
+                <button class="btn btn-default collapser {{#unless @first}}collapsed{{/unless}}"
                    data-toggle="collapse"
                    data-target="#uses-{{source.abbreviation}}-{{@index}}"
-                   aria-expanded="false"
+                   aria-expanded="{{#if @first}}true{{else}}false{{/if}}"
                    >
                    According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
                 </button>
@@ -263,7 +263,7 @@
             <button class="btn btn-default collapser"
                data-toggle="collapse"
                data-target="#distribution-listing"
-               aria-expanded="false">
+               aria-expanded="true">
               Full Distribution Listing
             </button>
             <div id="distribution-listing" class="collapse in">
@@ -474,7 +474,7 @@
                 <button class="btn btn-default collapser"
                    data-toggle="collapse"
                    data-target="#determinations"
-                   aria-expanded="false"
+                   aria-expanded="true"
                    >
                   Herbarium Catalogue ({{identificationsCount}} records)</button>
               </h4>
@@ -536,7 +536,7 @@
           {{#if bibliography.hasReferences}}
           <aside class="c-article-section__aside">
             <div class="bibliography-dropdown">
-              <button class="btn btn-default dropdown-toggle" type="button" id="sort-bibliography" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <button class="btn btn-default dropdown-toggle" type="button" id="sort-bibliography" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort
                 <span class="caret"></span>
               </button>
