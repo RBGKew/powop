@@ -101,7 +101,13 @@ define(function(require) {
         if (e.key === "Escape") {
           internalPageNavigation.collapse("hide");
         }
-      })
+      });
+      
+      $(window).on("resize", function (e) {
+        if (window.innerWidth > 768) {
+          internalPageNavigation.collapse("hide");
+        }
+      });
     }
 
     // enable scrollspy on navbar
