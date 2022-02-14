@@ -380,6 +380,7 @@ public enum DescriptionType {
 	usePoisonsAnthelmintic("use:poisons:anthelmintic"),
 	usePoisonsAntibacterial("use:poisons:antibacterial"),
 	usePoisonsAntifungal("use:poisons:antifungal"),
+	usePoisonsAntimicrobial("use:poisons:antimicrobial"),
 	usePoisonsAntiprotozoal("use:poisons:antiprotozoal"),
 	usePoisonsAntiviral("use:poisons:antiviral"),
 	usePoisonsArthropoda("use:poisons:arthropoda"),

@@ -109,6 +109,7 @@ use:poisons:animalPestControl,Animal Pest Control,to control %s,animal pests
 use:poisons:anthelmintic,Anthelmintic,as an %s agent %s,Anthelmintic
 use:poisons:antibacterial,Antibacterial,as %s agent,Antibacterial
 use:poisons:antifungal,Antifungal,as an %s agent,antifungal
+use:poisons:antimicrobial,Antimicrobial,as an %s agent,antimicrobial
 use:poisons:antiprotozoal,Antiprotozoal,as %s agent,Antiprotozoal 
 use:poisons:antiviral,Antiviral,as %s agent,Antiviral
 use:poisons:arthropoda,Arthropoda Poison,as a poison for %s,arthropoda
