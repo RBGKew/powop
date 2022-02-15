@@ -17,49 +17,15 @@ $kew-focus-border-width: 3px;
   box-shadow: 0 $kew-focus-border-width 0 $kew-focus-colour-dark;
   color: $kew-focus-text-colour !important;
   outline: none;
-  -webkit-appearance: none;
   text-decoration: none;
 }
 
 @mixin focus-outline--yellow() {
   @include double-box-shadow($kew-focus-colour-dark, $kew-focus-colour-light);
   outline: none;
-  -webkit-appearance: none;
 }
 
 @mixin focus-outline--black() {
   @include double-box-shadow($kew-focus-colour-light, $kew-focus-colour-dark);
   outline: none;
-  -webkit-appearance: none;
 }
-
-/**
-TODO:
-- figure out where this code should live
-    -> must be up to the declaring / calling code
-    -> this needs to expose mixins and sensible defaults
-- figure out what these mixins should be called
-    -> do we want them to be mixins or classes?
-    -> let's have them as mixins - more straightforward than @extend
-    -> also what are the names for the different kinds?
-        -> in govuk they have 
-              $govuk-focus-text-colour
-              $govuk-focus-colour
-    -> ideas
-        - plain-focus           - focus--color
-        - text-focus            - focus--coloured
-        - focus--text           - focus--bordered
-        - focus--primary
-        - focus--
-- test furiously to find out what we've missed (especially inputs)
-- general:
-  - see if we can remove !important sufficiently
-- buttons:
-  - fix the Sort By button not having anything at all selected
-  - fix non-pill buttons (there are many)
-- inputs
-  -
-- fix logo SVG
-    -> the css for the logo should set the path fill using $kew-focus-text-colour
-- remove below styles after checking all of them
-*/
