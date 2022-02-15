@@ -61,7 +61,6 @@
 		</property>
 		<property name="helperSources">
 			<list>
-				<bean class="org.powo.portal.view.helpers.BibliographyHelper" />
 				<bean class="org.powo.portal.view.helpers.ImageHelper" />
 				<bean class="org.powo.portal.view.helpers.NameHelper" />
 				<bean class="org.powo.portal.view.helpers.FormHelper" />

@@ -4,7 +4,7 @@ define(function (require) {
 
   return {
     initialize: function () {
-      search.initSearch();
+      search.initFrontendSearch();
     },
   };
 });

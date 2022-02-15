@@ -5,31 +5,45 @@
 }
 .to-top {
   display: none;
-  top: 29px;
+  top: 9px;
   right: 0;
   z-index: 99;
   cursor: pointer;
-  position: absolute;
   font-size: 20px;
   border: none;
   background: transparent;
-  @media (max-width: $screen-xs-max) {
-    position: unset;
-    margin: auto;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  position: unset;
+  margin: auto;
+  margin-bottom: 8px;
+
+  @media (min-width: $screen-sm) {
+    margin-bottom: 0;
+    position: absolute;
+  }
+  &:focus {
+    @include focus-outline--black();
+    border-radius: 50%;
   }
 }
 
-.navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:focus, .navbar-default .navbar-nav .active a:hover {
-  color: #008285;
-  background-color: white;
+.navbar-default .navbar-nav .active a {
+  color: $kew-teal;
+  background: white;
+  &:focus {
+    background: $kew-focus-colour-light;
+  }
 }
 
 .navbar-nav--article li:hover {
-  color: #008285;
+  color: $kew-teal;
 }
 .navbar-default .navbar-nav li a:hover {
-  color: #008285;
+  color: $kew-teal;
 }
+
 .navbar {
   border-bottom: 1px solid $kew-medium-grey;
   border-top:none;

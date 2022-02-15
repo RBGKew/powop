@@ -16,7 +16,3 @@ define(function(require) {
     setCurrentLink: setCurrentLink
   }
 });
-
-
-
-

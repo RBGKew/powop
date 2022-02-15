@@ -81,10 +81,10 @@
     <section id="descriptions" class="c-article-section">
       <h2>
 
-      <button class="btn collapser c-article-section__title"
+      <button class="btn btn-default collapser c-article-section__title"
          data-toggle="collapse"
          data-target="#descriptions-main"
-         aria-expanded="false"
+         aria-expanded="true"
          >
         Descriptions
       </button>
@@ -105,14 +105,14 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser {{#unless @first}} {{/unless}}"
+                <button class="btn btn-default collapser {{#unless @first}}collapsed{{/unless}}"
                  data-toggle="collapse"
                  data-target="#descriptions-{{source.abbreviation}}-{{@index}}"
-                 aria-expanded="false">
+                 aria-expanded="{{#if @first}}true{{else}}false{{/if}}">
                 According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
                 </button>
               </h3>
-              <small>{{bracketedSourceLink source}}</small>
+              <small>{{> partials/bibliography/source-link source=source bracketed=true }}</small>
               <div id="descriptions-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#if conceptSource}}<p class="descriptions-concept-source">{{conceptSource}}</p>{{/if}}
                 <dl class="c-article-desc-table">
@@ -141,10 +141,10 @@
     {{#with uses}}
     <section id="uses" class="c-article-section">
       <h2>
-        <button class="btn collapser c-article-section__title"
+        <button class="btn btn-default collapser c-article-section__title"
            data-toggle="collapse"
            data-target="#uses-main"
-           aria-expanded="false">
+           aria-expanded="true">
           Uses
         </button>
       </h2>
@@ -164,14 +164,14 @@
             {{#each bySource}}
             <div class="description">
               <h3>
-                <button class="btn collapser {{#unless @first}} {{/unless}}"
+                <button class="btn btn-default collapser {{#unless @first}}collapsed{{/unless}}"
                    data-toggle="collapse"
                    data-target="#uses-{{source.abbreviation}}-{{@index}}"
-                   aria-expanded="false"
+                   aria-expanded="{{#if @first}}true{{else}}false{{/if}}"
                    >
                    According to {{source.title}}{{#if isFromSynonym}} under the synonym {{asTaxon.scientificName}}{{/if}}
                 </button>
-              </h3><small>{{bracketedSourceLink source}}</small>
+              </h3><small>{{> partials/bibliography/source-link source=source bracketed=true }}</small>
               <dl id="uses-{{source.abbreviation}}-{{@index}}" class="collapse {{#if @first}} in{{/if}}">
                 {{#each byType}}
                   <dt>
@@ -197,7 +197,7 @@
     {{#with imageSet}}
     <section id="image-gallery" class="c-article-section">
       <h2>
-        <button class="btn collapser c-article-section__title"
+        <button class="btn btn-default collapser c-article-section__title"
            data-toggle="collapse"
            data-target="#gallery-main"
            aria-expanded="true"
@@ -213,7 +213,7 @@
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
-              <li>{{sourceLink this}}</li>
+              <li>{{> partials/bibliography/source-link source=this }}</li>
               {{/each}}
             </ul>
           </aside>
@@ -221,9 +221,11 @@
 
             <div class="c-gallery clearfix">
               {{#each imageSet.images }}
-                <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false" aria-label="Open image gallery">
-                  <img src="{{ thumbnailUrl }}" alt="">
-                </a>
+                <div class="c-gallery__image-container">
+                  <a href="{{ fullsizeUrl }}" role="button" data-caption="{{ caption }}" aria-expanded="false" aria-label="Open image gallery">
+                    <img src="{{ thumbnailUrl }}" alt="">
+                  </a>
+                </div>
               {{/each}}
             </div>
 
@@ -236,7 +238,7 @@
     {{#with distributions}}
     <section id="distribution-map" class="c-article-section">
       <h2>
-        <button class="btn collapser c-article-section__title"
+        <button class="btn btn-default collapser c-article-section__title"
            data-toggle="collapse"
            data-target="#distribution-main"
            aria-expanded="true"
@@ -250,7 +252,7 @@
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
-              <li>{{sourceLink this}}</li>
+              <li>{{> partials/bibliography/source-link source=this }}</li>
               {{/each}}
             </ul>
           </aside>
@@ -258,10 +260,10 @@
             <div id="c-map">
             </div>
 
-            <button class="btn collapser"
+            <button class="btn btn-default collapser"
                data-toggle="collapse"
                data-target="#distribution-listing"
-               aria-expanded="false">
+               aria-expanded="true">
               Full Distribution Listing
             </button>
             <div id="distribution-listing" class="collapse in">
@@ -328,7 +330,7 @@
     {{#with children}}
     <section id="children" class="c-article-section">
       <h2>
-        <button class="btn c-article-section__title collapser"
+        <button class="btn btn-default c-article-section__title collapser"
            data-toggle="collapse"
            data-target="#children-main"
            aria-expanded="true"
@@ -344,7 +346,7 @@
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
-              <li>{{sourceLink this}}</li>
+              <li>{{> partials/bibliography/source-link source=this }}</li>
               {{/each}}
             </ul>
           </aside>
@@ -364,7 +366,7 @@
     {{#with synonyms}}
     <section id="synonyms" class="c-article-section">
       <h2>
-        <button class="btn c-article-section__title collapser"
+        <button class="btn btn-default c-article-section__title collapser"
            data-toggle="collapse"
            data-target="#synonyms-main"
            aria-expanded="true"
@@ -380,7 +382,7 @@
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
-              <li>{{sourceLink this}}</li>
+              <li>{{> partials/bibliography/source-link source=this }}</li>
               {{/each}}
             </ul>
           </aside>
@@ -400,7 +402,7 @@
     {{#with vernacularNames}}
     <section id="vernacular-names" class="c-article-section">
       <h2>
-        <button class="btn c-article-section__title collapser"
+        <button class="btn btn-default c-article-section__title collapser"
            data-toggle="collapse"
            data-target="#venacular-names-main"
            aria-expanded="true"
@@ -415,7 +417,7 @@
             <ul class="c-reference-list">
               <li><span class="glyphicon glyphicon-book" aria-hidden="true"></span></li>
               {{#each sources}}
-              <li>{{sourceLink this}}</li>
+              <li>{{> partials/bibliography/source-link source=this }}</li>
               {{/each}}
             </ul>
             {{#with synonymsIncluded}}
@@ -447,7 +449,7 @@
 
     <section id="other-data" class="c-article-section offset">
       <h2>
-        <button class="btn c-article-section__title collapser"
+        <button class="btn btn-default c-article-section__title collapser"
            
            data-toggle="collapse"
            data-target="#other-data-main"
@@ -469,10 +471,10 @@
             {{#with identifications}}
             <div>
               <h4>
-                <button class="btn collapser"
+                <button class="btn btn-default collapser"
                    data-toggle="collapse"
                    data-target="#determinations"
-                   aria-expanded="false"
+                   aria-expanded="true"
                    >
                   Herbarium Catalogue ({{identificationsCount}} records)</button>
               </h4>
@@ -514,7 +516,7 @@
     {{#if bibliography}}
     <section id="bibliography" class="c-article-section">
       <h2>
-        <button class="btn c-article-section__title collapser"
+        <button class="btn btn-default c-article-section__title collapser"
            data-toggle="collapse"
            data-target="#bibliography-main"
            aria-expanded="true"
@@ -534,14 +536,14 @@
           {{#if bibliography.hasReferences}}
           <aside class="c-article-section__aside">
             <div class="bibliography-dropdown">
-              <button class="btn btn-default dropdown-toggle" type="button" id="sort-bibliography" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <button class="btn btn-default dropdown-toggle" type="button" id="sort-bibliography" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="sort-bibliography">
-                <li><a id="sort-bibliography-by-citation" class="selected_background" href="#" href="#">Alphabetically</a></li>
-                <li><a id="sort-bibliography-by-newest-first">Newest first</a></li>
-                <li><a id="sort-bibliography-by-oldest-first" href="#">Oldest first</a></li>
+                <li><a role="button" id="sort-bibliography-by-citation" class="selected_background" href="#" href="#">Alphabetically</a></li>
+                <li><a role="button" id="sort-bibliography-by-newest-first" href="#">Newest first</a></li>
+                <li><a role="button" id="sort-bibliography-by-oldest-first" href="#">Oldest first</a></li>
               </ul>
             </div>
           </aside>
@@ -559,7 +561,7 @@
 
     <section id="sources" class="c-article-section">
       <h2>
-        <button class="btn c-article-section__title collapser"
+        <button class="btn btn-default c-article-section__title collapser"
            data-toggle="collapse"
            data-target="#sources-main"
            aria-expanded="true"
