@@ -164,6 +164,10 @@ morphology:reproductive:seed:hilum,Hilum,Seed
 morphology:reproductive:seed:hypocotyl,Hypocotyl,Seed
 morphology:reproductive:seed:pappus,Pappus,Seed
 morphology:reproductive:seed:testa,Testa,Seed
+morphology:reproductive:seed:storageBehaviour,Storage Behaviour,Seed
+morphology:reproductive:seed:seedWeight,Seed Weight,Seed
+morphology:reproductive:seed:oilContent,Oil Content,Seed
+morphology:reproductive:seed:proteinContent,Protein Content,Seed
 morphology:root,Roots,Appearance
 morphology:stem,Stem,Appearance
 morphology:stem:cladode,Cladodes,Appearance
