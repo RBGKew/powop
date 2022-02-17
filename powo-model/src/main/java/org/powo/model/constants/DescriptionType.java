@@ -223,6 +223,10 @@ public enum DescriptionType {
 	morphologyReproductiveSeedHypocotyl("morphology:reproductive:seed:hypocotyl"),
 	morphologyReproductiveSeedPappus("morphology:reproductive:seed:pappus"),
 	morphologyReproductiveSeedTesta("morphology:reproductive:seed:testa"),
+	morphologyReproductiveSeedStorageBehaviour("morphology:reproductive:seed:storageBehaviour"),
+	morphologyReproductiveSeedSeedWeight("morphology:reproductive:seed:seedWeight"),
+	morphologyReproductiveSeedOilContent("morphology:reproductive:seed:oilContent"),
+	morphologyReproductiveSeedProteinContent("morphology:reproductive:seed:proteinContent"),
 	morphologyRoot("morphology:root"),
 	morphologyStem("morphology:stem"),
 	morphologyStemCladode("morphology:stem:cladode"),
@@ -641,6 +645,10 @@ public enum DescriptionType {
 					morphologyReproductiveSeedHypocotyl,
 					morphologyReproductiveSeedPappus,
 					morphologyReproductiveSeedTesta,
+					morphologyReproductiveSeedStorageBehaviour,
+					morphologyReproductiveSeedSeedWeight,
+					morphologyReproductiveSeedOilContent,
+					morphologyReproductiveSeedProteinContent,
 					lifeStageSeedling))
 			.put("vegitativePropagation", ImmutableSet.<DescriptionType>of(
 					vegetativeMultiplication,
