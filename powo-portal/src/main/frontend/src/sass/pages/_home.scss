@@ -99,6 +99,13 @@
   margin-bottom: 16px;
 }
 
+.home__search-container #search_box {
+  .tokenfield.focus,
+  #search-button:focus {
+    @include focus-outline--yellow();
+  }
+}
+
 .home__featured-image-description {
   align-items: center;
   display: flex;

@@ -33,6 +33,7 @@ module.exports = function (gulp, $) {
 
   function compileDev() {
     return $.requirejs(requireJsConfig())
+      .on("error", e => console.error(e))
       .pipe($.sourcemaps.init({ loadMaps: true }))
       .pipe($.rename({ extname: ".min.js" }))
       .pipe($.sourcemaps.write("maps", { sourceMappingURLPrefix: "/js" }))

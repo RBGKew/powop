@@ -3,28 +3,12 @@
  */
 .c-results-outer {
   margin-top: 0;
-  @media (max-width: $screen-xs-max) {
+  @media (min-width: $screen-sm) {
     margin-top: 10px;
-  }
-
-  a {
-    color: #000;
   }
 
   article:last-child {
     border-right: $border-grey;
-  }
-
-  .grid--lines {
-    background-color: #fff;
-    padding: 0;
-    margin: 0;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    .c-card {
-      border-left: 1px solid $kew-medium-grey;
-      border-bottom: 1px solid $kew-medium-grey;
-    }
   }
 
   .container--lines {
@@ -71,6 +55,13 @@
 
     .navbar-toggle {
       margin-right: 0;
+      
+      &:focus {
+        border-color: transparent;
+        border-radius: 50%;
+        background-color: $kew-focus-colour-light;
+        @include focus-outline--black();
+      }
     }
 
     .navbar-nav {
@@ -114,9 +105,14 @@
       padding-right: 10px;
       @media(min-width: $screen-sm) and (max-width: $screen-sm-max) { display: none; }
     } 
-    a:hover {
-      color: #008285;
-      background: white;
+    a {
+      &:hover {
+        color: #008285;
+        background: white;
+      }
+      &:focus {
+        @include focus-text();
+      }
     }
   }
 
@@ -143,7 +139,6 @@
   .facet.selected, .facet.selected:hover, .facet.selected svg {
     color: #008285;
     fill: #008285;
-    background-color: white;
   }
 
   a:link {
@@ -172,35 +167,49 @@
   border-right: 1px solid #757575;
 }
 
-.grid--columns, .grid--rows {
-  color: #008285;
+.layout-toggle {
+  .btn-default {
+    background-color: transparent;
+    background-color: transparent;
+    border-color: transparent;
+    &:hover, &:active {
+      color: $kew-teal;
+    }
+    &:focus {
+      @include focus-outline--black();
+      background-color: $kew-focus-colour-light;
+      // we use important here because otherwise we have to override some rather obtuse pseudo-selectors
+      // because this button is in a button group
+      border-radius: 50% !important;
+    }
+  }
 }
-.layout-toggle .btn-default:hover, .layout-toggle .btn-default:active, .layout-toggle .btn-default:focus {
-  color: #008285;
-  background-color: transparent;
-  border-color: transparent;
-}
+
 /* Important is used here because important is used within the bootstrap, so need to be 
 override */
 
 .sort-menu {
   &.open {
-    background-color: #008285!important;
-    background-color: white!important;
     .dropdown-toggle {
-      color: #008285!important;
-      background-color: white!important;
+      color: $kew-teal;
     }
   }
-  button {
+  .dropdown-toggle {
     color: $navbar-default-color;
     border: none;
     background: white;
     margin: 11px 0;
     &:hover {
-      background-color: #fff!important;
-      color: #008285!important;
+      color: $kew-teal;
     }   
+    &:focus {
+      @include focus-text();
+    }
+  }
+  #sort_dropdown > li > a {
+    &:focus {
+      @include focus-text();
+    }
   }
 }
 .navbar-nav a {

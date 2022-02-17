@@ -106,9 +106,10 @@ use:medicines:unspecifiedMedicinalDisorders,Unspecified Medicinal Disorders,to t
 use:poisons,Poisons,as %s,a poison
 use:poisons:animalDiseaseControl,Animal Disease Control,to control %s,animal diseases
 use:poisons:animalPestControl,Animal Pest Control,to control %s,animal pests
-use:poisons:anthelmintic,Anthelmintic,as an %s agent %s,Anthelmintic
+use:poisons:anthelmintic,Anthelmintic,as an %s agent,Anthelmintic
 use:poisons:antibacterial,Antibacterial,as %s agent,Antibacterial
 use:poisons:antifungal,Antifungal,as an %s agent,antifungal
+use:poisons:antimicrobial,Antimicrobial,as an %s agent,antimicrobial
 use:poisons:antiprotozoal,Antiprotozoal,as %s agent,Antiprotozoal 
 use:poisons:antiviral,Antiviral,as %s agent,Antiviral
 use:poisons:arthropoda,Arthropoda Poison,as a poison for %s,arthropoda

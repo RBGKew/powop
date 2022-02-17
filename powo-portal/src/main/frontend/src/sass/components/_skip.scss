@@ -1,18 +1,22 @@
 .skip-main {
-  left:-999px;
-  position:absolute;
-  top:auto;
-  width:1px;
-  height:1px;
-  overflow:hidden;
-  z-index:-999;
+  left: -999px;
+  position: absolute;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding-left: 8px;
+  z-index: -999;
   -webkit-clip: rect(1px 1px 1px 1px);
-}
-.skip-main:focus {
-  background-color: #fff;
-  position: static;
-}
-.skip-main:active {
-  background-color: #fff;
-  position: static;
+
+  &:focus,
+  &:active {
+    background: $kew-focus-colour-light;
+    color: $kew-focus-colour-dark;
+    border-bottom: $kew-focus-border-width solid $kew-focus-colour-dark;
+    display: block;
+    width: auto;
+    height: auto;
+    position: static;
+  }
 }

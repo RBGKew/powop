@@ -17,29 +17,31 @@
       content: '';
       margin-left: auto;
       ul {
-        background: $kew-teal;
-        display: block;
-        position: absolute;
-        top: 68px;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100vh;
-        padding: 6px 0;
-        z-index: 3;
-        outline: 0;
+        display:none;
         @media (min-width: $screen-sm-min) {
-          position: unset;
-          height: auto;
-          background: transparent;
+          display: block;
         }
+
         &.active {
-          display:none;
+          background: $kew-teal;
+          display: block;
+          position: absolute;
+          top: 68px;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 100vh;
+          padding: 6px 0;
+          z-index: 3;
+          outline: 0;
           @media (min-width: $screen-sm-min) {
-            display: block;
+            position: unset;
+            height: auto;
+            background: transparent;
           }
         }
+
         li {
           float:none;
           display:block;
@@ -88,7 +90,10 @@
                     width: 100%;
                     text-align: left;
                     color: $White;
-                    border: none;     
+                    border: none; 
+                    &:focus {
+                      @include focus-text();
+                    }    
                   }
                 }
               }
@@ -99,6 +104,9 @@
       }
       .top-link {
         text-transform: none;
+        &:focus {
+          @include focus-text();
+        }
         &.cross-site-link {
           display: none;
         }
@@ -108,6 +116,14 @@
         }
         &.last {
           margin-right: 0;
+        }
+
+        &.about-toggle {
+          &:focus{
+            svg path {
+              fill: $kew-black; 
+            }
+          }
         }
       }
       .toggle-nav {
@@ -125,6 +141,11 @@
         transition:color linear 0.15s;
         .hide-svg {
           display: none;
+        }
+        &:focus {
+          @include focus-outline--black();
+          border-radius: 50%;
+          background-color: $kew-focus-colour-light;
         }
       }
     }
@@ -191,6 +212,11 @@ a#kew-logo {
   @media (min-width: $screen-sm-min) {
     width: 252px;
     margin-right: 10px;
+  }
+  &:focus {
+    text {
+      fill: $kew-focus-text-colour;
+    }
   }
   #kew-powo-logo-svg {
     text {

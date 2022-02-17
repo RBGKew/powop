@@ -1,24 +1,31 @@
-*,
-button,
-input,
-.form-control,
-.btn:focus,  
-a {
-  &:focus {
-    outline: 3px solid $kew-focus-outline-yellow;
-    outline-offset: 0;
-    box-shadow: none;
-    &.top-link, &.footer-link {
-      outline-offset: 3px;
-    }
-  }
+$kew-focus-text-colour: $kew-black;
+$kew-focus-colour-light: $kew-focus-outline-yellow;
+$kew-focus-colour-dark: $kew-black;
+$kew-focus-border-width: 3px;
+
+@mixin double-box-shadow(
+  $inner-colour,
+  $outer-colour,
+  $line-width: $kew-focus-border-width
+) {
+  box-shadow: 0 0 0 $line-width $inner-colour,
+    0 0 0 ($line-width * 2) $outer-colour !important;
 }
 
-.tokenfield.focus, #search-button:focus {
+@mixin focus-text() {
+  background-color: $kew-focus-colour-light;
+  box-shadow: 0 $kew-focus-border-width 0 $kew-focus-colour-dark;
+  color: $kew-focus-text-colour !important;
   outline: none;
-  box-shadow: 0 0 0pt 2px $kew-focus-outline-yellow!important;
+  text-decoration: none;
 }
 
-.c-gallery a:focus, a.c-gallery-header {
-  outline-offset: -2px;
+@mixin focus-outline--yellow() {
+  @include double-box-shadow($kew-focus-colour-dark, $kew-focus-colour-light);
+  outline: none;
+}
+
+@mixin focus-outline--black() {
+  @include double-box-shadow($kew-focus-colour-light, $kew-focus-colour-dark);
+  outline: none;
 }

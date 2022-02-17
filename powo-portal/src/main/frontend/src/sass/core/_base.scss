@@ -7,3 +7,29 @@ body {
   position: relative;
   font-size: 16px;
 }
+
+a {
+  &:focus {
+    @include focus-text();
+    color: $kew-focus-text-colour !important;
+  }
+}
+
+// bootstrap style overrides
+.btn-default {
+  &:active {
+    outline: none;
+  }
+}
+
+.dropdown-menu > li > a {
+  &:focus {
+    @include focus-text();
+  }
+}
+
+.open > .btn.dropdown-toggle {
+  &:focus {
+    @include focus-text();
+  }
+}
