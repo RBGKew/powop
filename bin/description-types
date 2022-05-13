@@ -6,10 +6,12 @@ diagnostic,Diagnostic,Appearance
 distribution,Distribution,distribution
 ecology,Ecology,ecology
 error,Error,N/A
+etymology,Etymology,etymology
 figure,Figures,figure
 floralDiagram,Floral Diagram,Flower
 glossary,Glossary,glossary
 note,Note,note
+recognition,Recognition,recognition
 reference,Reference,reference
 use,Use,use
 vernacular,Vernacular,vernacular
@@ -36,6 +38,7 @@ morphology:general:areole,Areoles,Appearance
 morphology:general:bark,Bark,Appearance
 morphology:general:bud,Buds,Appearance
 morphology:general:colleter,Colleters,Appearance
+morphology:general:colour,Colour,Appearance
 morphology:general:crown,Crown,Appearance
 morphology:general:cystolith,Cystoliths,Appearance
 morphology:general:domatium,Domatia,Appearance
@@ -70,6 +73,7 @@ morphology:leaf:petiole,Petiole,Leaf
 morphology:leaf:phyllode,Phyllodes,Leaf
 morphology:leaf:pinna,Pinnae,Leaf
 morphology:leaf:pinnule,Pinnules,Leaf
+morphology:leaf:pitcher,Pitcher,Leaf
 morphology:leaf:prophyll,Prophyll,Leaf
 morphology:leaf:rachis,Rachis,Leaf
 morphology:leaf:scaleLeaf,Scale leaves,Leaf
@@ -150,6 +154,7 @@ morphology:reproductive:inflorescence:spikelet,Spikelets,Inflorescence
 morphology:reproductive:inflorescence:synflorescence,Synflorescence,Inflorescence
 morphology:reproductive:fruit,Fruits,Fruit
 morphology:reproductive:fruit:calyx,Fruiting calyx,Fruit
+morphology:reproductive:fruit:cupule,Cupule,Fruit
 morphology:reproductive:fruit:infructescence,Infructescences,Fruit
 morphology:reproductive:fruit:pyrene,Pyrene,Fruit
 morphology:reproductive:fruit:vitta,Vittae,Fruit
